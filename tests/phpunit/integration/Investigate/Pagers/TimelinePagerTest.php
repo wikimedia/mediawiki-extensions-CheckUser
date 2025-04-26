@@ -104,7 +104,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideGetEndBody() {
+	public static function provideGetEndBody() {
 		return [
 			'No rows' => [ 0, '' ],
 			'One row' => [ 1, '</ul>' ],

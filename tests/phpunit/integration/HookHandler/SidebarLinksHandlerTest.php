@@ -336,7 +336,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertEquals( $expected, $sidebar );
 	}
 
-	public function provideIpAutoRevealLink() {
+	public static function provideIpAutoRevealLink() {
 		return [
 			'Not added if user cannot auto-reveal' => [
 				'sidebar' => [],

@@ -260,7 +260,7 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function providePageIdField() {
+	public static function providePageIdField() {
 		return [
 			[ 'page' ],
 			[ 'page_id' ],

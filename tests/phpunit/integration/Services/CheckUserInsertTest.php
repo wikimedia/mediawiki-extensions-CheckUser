@@ -571,7 +571,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideLogEntriesForClientHintsSavedWithAccountCreationLogEvent(): array {
+	public static function provideLogEntriesForClientHintsSavedWithAccountCreationLogEvent(): array {
 		return [
 			'account creation as anon' => [
 				new ManualLogEntry( 'newusers', 'create' ), true, true,

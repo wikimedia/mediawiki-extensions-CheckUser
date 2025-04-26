@@ -257,7 +257,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 		);
 	}
 
-	public function provideApplyRemainderAction() {
+	public static function provideApplyRemainderAction() {
 		return [
 			'No remainder actions' => [ 3, 0, 3, 0 ],
 			'One remainder action' => [ 3, 1, 4, 0 ],

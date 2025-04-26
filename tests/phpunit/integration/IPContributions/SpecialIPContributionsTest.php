@@ -132,7 +132,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		}
 	}
 
-	public function provideTargets() {
+	public static function provideTargets() {
 		return [
 			'Empty target' => [ '', 0 ],
 			'Valid IP' => [ '127.0.0.1', 2 ],

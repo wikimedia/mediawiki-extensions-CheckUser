@@ -134,7 +134,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideFormatArticleLink() {
+	public static function provideFormatArticleLink() {
 		return [
 			'Known external namespace is shown' => [
 				'namespace' => NS_TALK,
@@ -173,7 +173,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideFormatDiffHistLinks() {
+	public static function provideFormatDiffHistLinks() {
 		return [
 			'No diff link for a new page' => [ true, false, false ],
 			'No diff link for not a new page, hidden from user' => [ false, true, false ],
@@ -201,7 +201,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideFormatDateLink() {
+	public static function provideFormatDateLink() {
 		return [ [ true ], [ false ] ];
 	}
 
@@ -226,7 +226,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideFormatTopMarkText() {
+	public static function provideFormatTopMarkText() {
 		return [ [ true ], [ false ] ];
 	}
 
@@ -303,7 +303,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideFormatUserLink() {
+	public static function provideFormatUserLink() {
 		return [
 			'Temp account, hidden' => [
 				'expectedStrings' => [ 'empty-username' ],
@@ -372,7 +372,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideFormatFlags() {
+	public static function provideFormatFlags() {
 		return [ [ true ], [ false ] ];
 	}
 
@@ -404,7 +404,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideFormatTags() {
+	public static function provideFormatTags() {
 		return [ [ true ], [ false ] ];
 	}
 
@@ -447,7 +447,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( array_keys( $permissions ), array_keys( $pager->permissions[$externalWiki] ) );
 	}
 
-	public function provideExternalWikiPermissions() {
+	public static function provideExternalWikiPermissions() {
 		return [
 			'Can always reveal IP at external wiki' => [
 				'actions' => [

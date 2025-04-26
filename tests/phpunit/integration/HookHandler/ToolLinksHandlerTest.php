@@ -162,7 +162,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	 * and Special:IPContributions. Since Special:Contributions is publicly
 	 * visible, rights are thoroughly tested from Special:Contributions.
 	 */
-	public function provideOnSpecialContributionsBeforeMainOutput() {
+	public static function provideOnSpecialContributionsBeforeMainOutput() {
 		return [
 			'Not an IP target' => [
 				'tempAccountsEnabled' => true,
@@ -288,7 +288,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$hookHandler->onSpecialContributionsBeforeMainOutput( 1, $mockTarget, $mockSpecialPage );
 	}
 
-	public function provideOnSpecialContributionsBeforeMainOutputArchive() {
+	public static function provideOnSpecialContributionsBeforeMainOutputArchive() {
 		return [
 			'Can see archived contributions on Special:IPContributions' => [
 				'specialPageName' => 'IPContributions',
@@ -389,7 +389,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideOnContributionsToolLinksIPContributionsMessage() {
+	public static function provideOnContributionsToolLinksIPContributionsMessage() {
 		return [
 			'Archive mode' => [
 				'isArchive' => true,
@@ -491,7 +491,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideOnContributionsToolLinksGlobalContributions() {
+	public static function provideOnContributionsToolLinksGlobalContributions() {
 		return [
 			'Link is added on Special:GlobalContributions' => [
 				'pageName' => 'Contributions',

@@ -83,7 +83,7 @@ class ConditionalRegistrationHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideRegisterSpecialGlobalContributions(): array {
+	public static function provideRegisterSpecialGlobalContributions(): array {
 		return [
 			'Page is added when dependencies are loaded and temp accounts are known' => [
 				true, true, false, true,
@@ -126,7 +126,7 @@ class ConditionalRegistrationHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->handler->onApiQuery__moduleManager( $moduleManager );
 	}
 
-	public function provideRegisterGlobalContributionsApi(): iterable {
+	public static function provideRegisterGlobalContributionsApi(): iterable {
 		yield 'module is added when dependencies are loaded and on central wiki' => [
 			true, true, true,
 		];

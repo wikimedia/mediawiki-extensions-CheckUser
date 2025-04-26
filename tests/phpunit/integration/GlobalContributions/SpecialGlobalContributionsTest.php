@@ -201,7 +201,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->assertSame( 1, $timer->getSampleCount() );
 	}
 
-	public function provideTargets() {
+	public static function provideTargets() {
 		return [
 			'Empty target' => [ '', 0 ],
 			'Valid IP' => [ '127.0.0.1', 2 ],
@@ -512,7 +512,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( 'checkuser-global-contributions-no-results-no-global-preference', $html );
 	}
 
-	public function provideGlobalPreferences() {
+	public static function provideGlobalPreferences() {
 		return [
 			'Global preferences not found' => [ false ],
 			'Global preference not present' => [ [] ],

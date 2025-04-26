@@ -45,7 +45,7 @@ class ApiQueryGlobalContributionsTest extends ApiTestCase {
 		] );
 	}
 
-	public function provideNonRegisteredUserNames(): iterable {
+	public static function provideNonRegisteredUserNames(): iterable {
 		yield 'IP address' => [ '127.0.0.1' ];
 		yield 'invalid user name' => [ '#invalid' ];
 	}

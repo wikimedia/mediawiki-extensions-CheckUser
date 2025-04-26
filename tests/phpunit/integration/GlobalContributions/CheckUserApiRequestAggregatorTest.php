@@ -200,7 +200,7 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( [], $results );
 	}
 
-	public function provideWikis() {
+	public static function provideWikis() {
 		return [
 			'No wikis' => [ [] ],
 			'No wikis in the sites table' => [ [ 'unknownWiki' ] ],
