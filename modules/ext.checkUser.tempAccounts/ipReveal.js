@@ -128,7 +128,7 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 				isRevisionLookup( revIds ),
 				isLogLookup( logIds )
 			] );
-		} ).fail( () => {
+		} ).catch( () => {
 			replaceButton( button.$element, false, false );
 		} );
 	} );
@@ -386,7 +386,7 @@ function batchRevealIps( request, $ipRevealButtons ) {
 				}
 			}
 		} );
-	} ).fail( () => {
+	} ).catch( () => {
 		$ipRevealButtons.each( function () {
 			const target = $( this ).data( 'target' );
 

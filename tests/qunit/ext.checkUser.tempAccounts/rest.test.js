@@ -18,8 +18,6 @@ QUnit.module( 'ext.checkUser.tempAccounts.rest', QUnit.newMwEnvironment( {
 function performRevealRequestTest(
 	assert, target, logIds, revIds, expectedUrl, responseCode, responseContent, shouldFail
 ) {
-	// We need the test to wait a small amount of time for the click events to finish.
-	const done = assert.async();
 	server.respond( ( request ) => {
 		if ( request.url.endsWith( expectedUrl ) ) {
 			request.respond(
@@ -39,56 +37,42 @@ function performRevealRequestTest(
 			assert.true( false, 'Unexpected API request to' + request.url );
 		}
 	} );
+
 	// Call the method under test
-	rest.performRevealRequest( '~1', revIds, logIds ).then( ( data ) => {
-		if ( shouldFail ) {
-			assert.true( false, 'Request should have failed' );
-		}
+	const promise = rest.performRevealRequest( '~1', revIds, logIds );
+
+	if ( shouldFail ) {
+		return assert.rejects( promise, 'Request should have failed' );
+	}
+
+	return promise.then( ( data ) => {
 		assert.deepEqual( data, responseContent, 'Response data' );
-		done();
-	} ).fail( () => {
-		if ( !shouldFail ) {
-			assert.true( false, 'Request should have succeeded' );
-		} else {
-			assert.true( true, 'Request failed (expected)' );
-		}
-		done();
 	} );
 }
 
-QUnit.test( 'Test performRevealRequest for 500 response when requesting one IP', ( assert ) => {
-	performRevealRequestTest(
-		assert, '~1', {}, {}, 'checkuser/v0/temporaryaccount/~1?limit=1', 500, '', true
-	);
-} );
+QUnit.test( 'Test performRevealRequest for 500 response when requesting one IP', ( assert ) => performRevealRequestTest(
+	assert, '~1', {}, {}, 'checkuser/v0/temporaryaccount/~1?limit=1', 500, '', true
+) );
 
-QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for rev IDs', ( assert ) => {
-	performRevealRequestTest(
-		assert, '~1', {}, { allIds: [ '1', '2' ] },
-		'checkuser/v0/temporaryaccount/~1/revisions/1|2', 500, '', true
-	);
-} );
+QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for rev IDs', ( assert ) => performRevealRequestTest(
+	assert, '~1', {}, { allIds: [ '1', '2' ] },
+	'checkuser/v0/temporaryaccount/~1/revisions/1|2', 500, '', true
+) );
 
-QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for log IDs', ( assert ) => {
-	performRevealRequestTest(
-		assert, '~1', { allIds: [ '1', '2' ] }, {},
-		'checkuser/v0/temporaryaccount/~1/logs/1|2', 500, '', true
-	);
-} );
+QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for log IDs', ( assert ) => performRevealRequestTest(
+	assert, '~1', { allIds: [ '1', '2' ] }, {},
+	'checkuser/v0/temporaryaccount/~1/logs/1|2', 500, '', true
+) );
 
-QUnit.test( 'Test performRevealRequest for 200 response when requesting one IP', ( assert ) => {
-	performRevealRequestTest(
-		assert, '~1', {}, {}, 'checkuser/v0/temporaryaccount/~1?limit=1', 200,
-		{ test: 'test' }, false
-	);
-} );
+QUnit.test( 'Test performRevealRequest for 200 response when requesting one IP', ( assert ) => performRevealRequestTest(
+	assert, '~1', {}, {}, 'checkuser/v0/temporaryaccount/~1?limit=1', 200,
+	{ test: 'test' }, false
+) );
 
-QUnit.test( 'Test performRevealRequest on bad CSRF token for both attempts', ( assert ) => {
-	performRevealRequestTest(
-		assert, '~1', {}, {}, 'checkuser/v0/temporaryaccount/~1?limit=1', 500,
-		{ errorKey: 'rest-badtoken' }, true
-	);
-} );
+QUnit.test( 'Test performRevealRequest on bad CSRF token for both attempts', ( assert ) => performRevealRequestTest(
+	assert, '~1', {}, {}, 'checkuser/v0/temporaryaccount/~1?limit=1', 500,
+	{ errorKey: 'rest-badtoken' }, true
+) );
 
 QUnit.test( 'Test performFullRevealRequest for only target username', ( assert ) => {
 	server.respond( ( request ) => {
@@ -109,15 +93,10 @@ QUnit.test( 'Test performFullRevealRequest for only target username', ( assert )
 			assert.true( false, 'Unexpected API request to' + request.url );
 		}
 	} );
-	// We need the test to wait a small amount of time for the click events to finish.
-	const done = assert.async();
+
 	// Call the method under test
-	rest.performFullRevealRequest( '~1', {}, {} ).then( ( data ) => {
+	return rest.performFullRevealRequest( '~1', {}, {} ).then( ( data ) => {
 		assert.deepEqual( data, { ips: [ '127.0.0.1', '1.2.3.4' ] }, 'Response data' );
-		done();
-	} ).fail( () => {
-		assert.true( false, 'Request should have succeeded' );
-		done();
 	} );
 } );
 
@@ -155,14 +134,9 @@ QUnit.test( 'Test performFullRevealRequest on bad CSRF token for first attempt',
 			assert.true( false, 'Unexpected API request to' + request.url );
 		}
 	} );
-	// We need the test to wait a small amount of time for the click events to finish.
-	const done = assert.async();
+
 	// Call the method under test
-	rest.performFullRevealRequest( '~1', {}, {} ).then( ( data ) => {
+	return rest.performFullRevealRequest( '~1', {}, {} ).then( ( data ) => {
 		assert.deepEqual( data, { ips: [ '127.0.0.1', '1.2.3.4' ] }, 'Response data' );
-		done();
-	} ).fail( () => {
-		assert.true( false, 'Request should have succeeded' );
-		done();
 	} );
 } );

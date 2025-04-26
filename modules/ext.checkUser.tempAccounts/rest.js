@@ -69,7 +69,7 @@ function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTok
 				}
 			}
 		);
-	} ).fail( ( err, errObject ) => {
+	} ).catch( ( err, errObject ) => {
 		deferred.reject( err, errObject );
 	} );
 	return deferred.promise();
@@ -159,7 +159,7 @@ function performBatchRevealRequestInternal( request, retryOnTokenMismatch ) {
 				}
 			}
 		);
-	} ).fail( ( err, errObject ) => {
+	} ).catch( ( err, errObject ) => {
 		deferred.reject( err, errObject );
 	} );
 

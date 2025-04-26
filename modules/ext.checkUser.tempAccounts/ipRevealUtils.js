@@ -79,7 +79,7 @@ function getAutoRevealStatus() {
 					() => deferred.resolve( false )
 				);
 			}
-		} ).fail( () => {
+		} ).catch( () => {
 			deferred.resolve( false );
 		} );
 	} else {

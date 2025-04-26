@@ -13,8 +13,6 @@
 		"browser": true
 	},
 	"rules": {
-		"compat/compat": "off",
-		"qunit/no-loose-assertions": "warn",
-		"no-jquery/no-done-fail": "warn"
+		"compat/compat": "off"
 	}
 }
