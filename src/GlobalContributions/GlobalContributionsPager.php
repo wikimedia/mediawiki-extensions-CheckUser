@@ -38,6 +38,7 @@ use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Stats\StatsFactory;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Query for all edits from one of:
@@ -302,9 +303,21 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		if ( $this->endOffset ) {
 			$timestampConds[] = $this->mDb->expr( $this->getTimestampField(), '<', $this->endOffset );
 		}
+
+		// Don't display revisions older than the CUDMaxAge to be consistent with what is displayed when
+		// searching for temporary account contributions on an IP address (T388667).
+		$checkUserDataCutoff = ConvertibleTimestamp::time() - $this->getConfig()->get( 'CUDMaxAge' );
 		if ( $this->startOffset ) {
-			$timestampConds[] = $this->mDb->expr( $this->getTimestampField(), '>=', $this->startOffset );
+			$startOffset = max(
+				ConvertibleTimestamp::convert( TS_MW, $this->startOffset ),
+				ConvertibleTimestamp::convert( TS_MW, $checkUserDataCutoff )
+			);
+		} else {
+			$startOffset = $checkUserDataCutoff;
 		}
+		$timestampConds[] = $this->mDb->expr(
+			$this->getTimestampField(), '>=', $this->mDb->timestamp( $startOffset )
+		);
 
 		// Compute a synthetic sequence number for each wiki 0 ... -N,
 		// where 0 is the most recently edited wiki and -N is the least recently edited wiki.

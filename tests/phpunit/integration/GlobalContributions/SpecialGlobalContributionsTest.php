@@ -83,6 +83,10 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	public function addDBDataOnce() {
 		$this->enableAutoCreateTempUser();
 
+		// We don't want to test specifically the CentralAuth implementation of the CentralIdLookup. As such, force it
+		// to be the local provider.
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+
 		// The users must be created now because the actor table will
 		// be altered when the edits are made, and added to the list
 		// of tables that can't be altered again in $dbDataOnceTables.
@@ -117,7 +121,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		);
 
 		// Do one edit at a different time, to test the pagination
-		ConvertibleTimestamp::setFakeTime( '20000101000000' );
+		ConvertibleTimestamp::setFakeTime( '20250206030203' );
 		$this->editPage(
 			'Test page', 'Test Content 3', 'test', NS_MAIN, self::$tempUser2
 		);
@@ -135,13 +139,34 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->editPage(
 			'Test page', 'Test Content 4', 'test', NS_MAIN, self::$tempUser1
 		);
+
 		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
+
+		// Do an edit by a named user which is should have been purged from CheckUser tables.
+		ConvertibleTimestamp::setFakeTime( '20000101000000' );
+		$this->editPage(
+			'Test page', 'Test Content 5', 'test', NS_MAIN, self::$sysop
+		);
+
+		// Assert that the test data was inserted correctly to the cuci_user table, which is read by
+		// Special:GlobalContributions as part of it's queries. If the data isn't right here then tests may
+		// pass using wrong data.
+		$idsInTable = $this->newSelectQueryBuilder()
+			->select( [ 'ciu_central_id' ] )
+			->from( 'cuci_user' )
+			->caller( __METHOD__ )
+			->fetchFieldValues();
+		$this->assertArrayContains(
+			array_map( 'strval', [ self::$sysop->getId(), self::$tempUser1->getId(), self::$tempUser2->getId() ] ),
+			$idsInTable
+		);
 	}
 
 	/**
 	 * @dataProvider provideTargets
 	 */
-	public function testExecuteTarget( $target, $expectedCount ) {
+	public function testExecuteTarget( $targetProvider, $expectedCount ) {
+		$target = $targetProvider();
 		[ $html ] = $this->executeSpecialPage(
 			$target,
 			null,
@@ -203,12 +228,13 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
 	public static function provideTargets() {
 		return [
-			'Empty target' => [ '', 0 ],
-			'Valid IP' => [ '127.0.0.1', 2 ],
-			'Valid IP without contributions' => [ '127.0.0.5', 0 ],
-			'Valid range' => [ '127.0.0.1/24', 3 ],
-			'Temp user' => [ '~check-user-test-2024-01', 0 ],
-			'Nonexistent user' => [ 'Nonexistent', 0 ],
+			'Empty target' => [ static fn () => '', 0 ],
+			'Valid IP' => [ static fn () =>'127.0.0.1', 2 ],
+			'Valid IP without contributions' => [ static fn () =>'127.0.0.5', 0 ],
+			'Valid range' => [ static fn () =>'127.0.0.1/24', 3 ],
+			'Temp user' => [ static fn () => self::$tempUser1->getName(), 2 ],
+			'Nonexistent user' => [ static fn () =>'Nonexistent', 0 ],
+			'Sysop account' => [ static fn () => self::$sysop->getName(), 1 ],
 		];
 	}
 
@@ -258,7 +284,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	public function testExecuteForIPWhenEndTimestampHidesSomeRevisions() {
 		[ $html ] = $this->executeSpecialPage(
 			'127.0.0.1',
-			new FauxRequest( [ 'end' => '2023-03-06' ] ),
+			new FauxRequest( [ 'end' => '2025-02-30' ] ),
 			null,
 			self::$checkuser
 		);
@@ -276,6 +302,23 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
 		// Assert the source wiki from the template is present
 		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
+	}
+
+	public function testExecuteForIPWhenEndTimestampBeforeCheckUserDataPurgeCutoff() {
+		[ $html ] = $this->executeSpecialPage(
+			self::$sysop->getName(),
+			new FauxRequest( [ 'end' => '2023-02-30' ] ),
+			null,
+			self::$checkuser
+		);
+
+		// Assert that the edit from years ago is not displayed, as it should be excluded to be consistent with
+		// the limit of 90 days when searching for temporary account contributions on an IP address.
+		$this->assertStringContainsString( 'mw-pager-body', $html );
+		$this->assertSame(
+			0, substr_count( $html, 'data-mw-revid' ),
+			"Unexpected number of result rows in $html"
+		);
 	}
 
 	public function testNamespaceRestriction() {
