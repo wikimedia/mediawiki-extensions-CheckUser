@@ -43,7 +43,7 @@
 					( data ) => {
 						deferred.resolve( data );
 					}
-				).fail( ( err, errObject ) => {
+				).catch( ( err, errObject ) => {
 					mw.log.error( errObject );
 					let errMessage = errObject.exception;
 					if (
@@ -75,7 +75,7 @@
 						deferred.reject( err, errObject );
 					}
 				} );
-			} ).fail( ( err, errObject ) => {
+			} ).catch( ( err, errObject ) => {
 				mw.log.error( errObject );
 				let errMessage = errObject.exception;
 				if ( errObject.xhr &&

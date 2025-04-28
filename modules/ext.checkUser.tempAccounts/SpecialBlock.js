@@ -71,7 +71,7 @@ function onTargetChange( blockTarget ) {
 		list: 'users',
 		ususers: blockTargetWidget.getValue()
 	} );
-	lastUserRequest.done( ( data ) => {
+	lastUserRequest.then( ( data ) => {
 		if ( data.query.users[ 0 ].userid ) {
 			const revealButton = createButton();
 			const $container = $( '<div>' )
@@ -105,7 +105,7 @@ function onTargetChange( blockTarget ) {
 					$container.empty().append( new OO.ui.LabelWidget( {
 						label: message
 					} ).$element );
-				} ).fail( () => {
+				} ).catch( () => {
 					$container.empty()
 						.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
 						.append( new OO.ui.LabelWidget( {
