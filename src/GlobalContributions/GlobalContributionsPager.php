@@ -177,7 +177,6 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @return array
 	 */
 	private function fetchWikisToQuery() {
-		$cuciDb = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
 		$this->needsToEnableGlobalPreferenceAtWiki = '';
 
 		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
