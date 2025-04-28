@@ -11,6 +11,13 @@
 	>
 		<!-- eslint-disable vue/no-v-html -->
 		<p v-html="expiry"></p>
+		<cdx-message
+			v-if="showExtendError"
+			type="error"
+			:inline="true"
+		>
+			<p>{{ $i18n( 'checkuser-ip-auto-reveal-off-dialog-error-extend-limit' ).text() }}</p>
+		</cdx-message>
 		<template #footer-text>
 			<p>{{ $i18n( 'checkuser-ip-auto-reveal-off-dialog-text-info' ).text() }}</p>
 		</template>
@@ -19,7 +26,7 @@
 
 <script>
 const { ref } = require( 'vue' );
-const { CdxDialog } = require( '@wikimedia/codex' );
+const { CdxDialog, CdxMessage } = require( '@wikimedia/codex' );
 const { setAutoRevealStatus } = require( './../ipRevealUtils.js' );
 const { disableAutoReveal } = require( './../ipReveal.js' );
 
@@ -27,7 +34,8 @@ const { disableAutoReveal } = require( './../ipReveal.js' );
 module.exports = exports = {
 	name: 'IPAutoRevealOffDialog',
 	components: {
-		CdxDialog
+		CdxDialog,
+		CdxMessage
 	},
 	props: {
 		expiryTimestamp: {
@@ -37,6 +45,7 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const open = ref( true );
+		const showExtendError = ref( false );
 
 		const defaultAction = {
 			label: mw.message( 'checkuser-ip-auto-reveal-off-dialog-extend-action' ).text()
@@ -58,9 +67,14 @@ module.exports = exports = {
 				newRelativeExpiryInSeconds = newExpiryInSeconds - Math.round( Date.now() / 1000 );
 			}
 
-			setAutoRevealStatus( newRelativeExpiryInSeconds );
-
-			open.value = false;
+			setAutoRevealStatus( newRelativeExpiryInSeconds ).then(
+				() => {
+					open.value = false;
+				},
+				() => {
+					showExtendError.value = true;
+				}
+			);
 		}
 
 		function onRemove() {
@@ -75,6 +89,7 @@ module.exports = exports = {
 
 		return {
 			open,
+			showExtendError,
 			defaultAction,
 			primaryAction,
 			onExtend,

@@ -4,7 +4,7 @@
 // and fake expiry time 1 hour later.
 const mockNowInSeconds = 1741604813;
 const mockExpiryInSeconds = mockNowInSeconds + 3600;
-const mockSetAutoRevealStatus = jest.fn();
+const mockSetAutoRevealStatus = jest.fn().mockResolvedValue();
 jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () => ( {
 	setAutoRevealStatus: mockSetAutoRevealStatus
 } ) );
@@ -71,6 +71,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 		await nextTick();
 
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'default' );
+		await nextTick();
 
 		expect( mockSetAutoRevealStatus ).toHaveBeenCalled();
 		const calledWith = mockSetAutoRevealStatus.mock.calls[ 0 ][ 0 ];
@@ -78,6 +79,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 		// Check that time is extended by 600 seconds
 		const expectedExpiryInSeconds = mockExpiryInSeconds + 600 - mockNowInSeconds;
 		expect( calledWith ).toBeCloseTo( expectedExpiryInSeconds, 0 );
+		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 	} );
 
 	it( 'calls setAutoRevealStatus with extended time on default action after expiry', async () => {
@@ -85,12 +87,31 @@ describe( 'IP auto-reveal Off dialog', () => {
 		await nextTick();
 
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'default' );
+		await nextTick();
 
 		const expectedExpiryInSeconds = 600;
 
 		// Check that expiry is set to 600 seconds from now
 		expect( mockSetAutoRevealStatus ).toHaveBeenCalledTimes( 1 );
 		expect( mockSetAutoRevealStatus ).toHaveBeenLastCalledWith( expectedExpiryInSeconds );
+		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
+	} );
+
+	it( 'shows error on default action if new expiry is greater than 24 hours', async () => {
+		require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' ).setAutoRevealStatus.mockRejectedValue();
+
+		// Set expiry to a day from now
+		const expiry = String( mockNowInSeconds + 86400 );
+		const wrapper = renderComponent( { expiryTimestamp: expiry } );
+		await nextTick();
+
+		await wrapper.findComponent( CdxDialog ).vm.$emit( 'default' );
+		await nextTick();
+
+		// Check that error message is shown
+		expect( mockSetAutoRevealStatus ).toHaveBeenCalledTimes( 1 );
+		expect( wrapper.find( '.cdx-message' ).exists() ).toBe( true );
+		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( true );
 	} );
 
 	it( 'calls disableAutoReveal and shows notification on off action click', async () => {

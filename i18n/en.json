@@ -317,6 +317,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-title": "IP Auto-reveal is on",
 	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Time remaining: <strong>$1</strong>",
 	"checkuser-ip-auto-reveal-off-dialog-text-info": "For privacy reasons this feature will automatically turn off at the end of the duration.",
+	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "The duration cannot be set to more than 24 hours",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10min",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Turn off",
 	"prefs-checkuser-tempaccount": "Temporary account IP reveal",

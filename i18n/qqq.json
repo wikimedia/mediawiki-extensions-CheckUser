@@ -351,6 +351,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-title": "Title for the dialog that appears when switching IP auto-reveal off",
 	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Text for the dialog that appears when switching off IP auto-reveal.\n\nParameters:\n* $1 - The time left in hours, minutes and seconds",
 	"checkuser-ip-auto-reveal-off-dialog-text-info": "Additional text for the dialog that appears when switching off IP auto-reveal.",
+	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "Error shown in the dialog that appears when switching off IP auto-reveal, when the user attempts to extend the duration to greater than 24 hours",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "Label for a button in the dialog that appears when switching off IP auto-reveal, for extending the duration by 10 minutes",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Label for a button in the dialog that appears when switching off IP auto-reveal",
 	"prefs-checkuser-tempaccount": "Header of the checkuser temp account options on Special:Preferences\n\nThis option enables the revealing of IP addresses for temporary accounts.",

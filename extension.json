@@ -621,6 +621,7 @@
 				"checkuser-ip-auto-reveal-off-dialog-title",
 				"checkuser-ip-auto-reveal-off-dialog-text-expiry",
 				"checkuser-ip-auto-reveal-off-dialog-text-info",
+				"checkuser-ip-auto-reveal-off-dialog-error-extend-limit",
 				"checkuser-ip-auto-reveal-off-dialog-extend-action",
 				"checkuser-ip-auto-reveal-off-dialog-off-action"
 			],
