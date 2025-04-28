@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Brettchenweber",
 			"FF-11",
 			"FF11",
 			"McDutchie",
@@ -29,7 +30,7 @@
 	"apihelp-query+checkuserlog-param-to": "Der Zeitstempel, bei dem die Aufzählung enden soll.",
 	"apihelp-query+checkuserlog-example-1": "Prüfungen von [[User:Example]] anzeigen",
 	"apihelp-query+checkuserlog-example-2": "Zeigt Überprüfungen von 192.0.2.0/24 nach 2011-10-15T23:00:00Z",
-	"apihelp-query+checkuserformattedblockinfo-summary": "Rückgabe von formatierten Details zur Sperre, die die ganze Webseite betreffen, für den aktuellen Benutzer.",
+	"apihelp-query+checkuserformattedblockinfo-summary": "Rückgabe von formatierten Details zu Sperren, die die ganze Webseite betreffen, für den aktuellen Benutzer.",
 	"apihelp-query+globalcontributions-summary": "Zeigt die letzten Bearbeitungen in allen Wikis für einen bestimmten registrierten Benutzer an.",
 	"apihelp-query+globalcontributions-param-target": "Zu suchender Benutzername (darf keine IP-Adresse sein).",
 	"apihelp-query+globalcontributions-param-limit": "Zeilenlimit.",

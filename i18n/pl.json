@@ -326,6 +326,7 @@
 	"checkuser-tempaccount-reveal-ip-missing": "niedostępny",
 	"checkuser-tempaccount-reveal-ip-error": "błąd",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Aby wyświetlić wkład adresy IP kont tymczasowych, zaakceptuj warunki w [[Special:Preferences|swoich preferencjach]].",
+	"checkuser-tempaccount-reveal-blocked-loading": "Ładowanie szczegółów blokady",
 	"checkuser-tempaccount-specialblock-ips": "To jest użytkownik tymczasowy korzystający z {{PLURAL:$1|adresu|adresów}} IP: $2",
 	"checkuser-temporary-account-log-name": "Rejestr checkuser dla kont tymczasowych",
 	"checkuser-temporary-account-log-header": "To jest rejestr:\n# Podglądania adresów IP wykorzystywanych przez konta tymczasowe;\n# Sprawdzania kont tymczasowych powiązanych z adresem lub zakresem IP;\n# Zmiany poziomów dostępu do przeglądania adresów IP wykorzystywanych przez konta tymczasowe.",

@@ -30,6 +30,7 @@
 	"apihelp-query+checkuserlog-param-to": "Het tijdstip waar de opsomming eindigt.",
 	"apihelp-query+checkuserlog-example-1": "Controles van [[User:Example]] weergeven.",
 	"apihelp-query+checkuserlog-example-2": "Controles van 192.0.2.0/24 na 2011-10-15T23:00:00Z weergeven.",
+	"apihelp-query+checkuserformattedblockinfo-summary": "Geef opgemaakte blokkadedetails terug voor sitebrede blokkades die op de huidige gebruiker van toepassing zijn.",
 	"apihelp-query+globalcontributions-summary": "De meest recente bewerkingen op alle wiki’s voor een bepaalde geregistreerde gebruiker weergeven.",
 	"apihelp-query+globalcontributions-param-target": "Gebruikersnaam om op te zoeken (mag geen IP-adres zijn).",
 	"apihelp-query+globalcontributions-param-limit": "Limiet voor rijen.",
