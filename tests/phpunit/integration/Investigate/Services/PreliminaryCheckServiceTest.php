@@ -23,7 +23,7 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
 class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 
 	/**
-	 * @dataProvider preprocessResultsProvider()
+	 * @dataProvider preprocessResultsProvider
 	 */
 	public function testPreprocessResults( $user, $options, $expected ) {
 		$dbRef = $this->createMock( IDatabase::class );
@@ -143,7 +143,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @dataProvider getQueryInfoProvider()
+	 * @dataProvider getQueryInfoProvider
 	 */
 	public function testGetQueryInfo( $users, $options, $expected ) {
 		$registry = $this->createMock( ExtensionRegistry::class );
