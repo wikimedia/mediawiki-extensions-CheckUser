@@ -5,15 +5,7 @@
 		"wikimedia/jquery",
 		"wikimedia/mediawiki"
 	],
-	"parserOptions": {
-		"sourceType": "commonjs"
-	},
 	"rules": {
 		"no-jquery/no-global-selector": "off"
-	},
-	"settings": {
-		"polyfills": [
-			"URLSearchParams"
-		]
 	}
 }
