@@ -100,9 +100,15 @@ function getAutoRevealStatus() {
  * @return {Promise}
  */
 function setAutoRevealStatus( relativeExpiry ) {
+	const nowInSeconds = Math.round( Date.now() / 1000 );
+	const oneDayInSeconds = 86400;
 	const absoluteExpiry = relativeExpiry ?
-		Math.round( Date.now() / 1000 ) + relativeExpiry :
+		nowInSeconds + relativeExpiry :
 		undefined;
+
+	if ( absoluteExpiry > nowInSeconds + oneDayInSeconds ) {
+		return $.Deferred().reject().promise();
+	}
 
 	const api = new mw.Api();
 	return api.postWithToken( 'csrf', {
