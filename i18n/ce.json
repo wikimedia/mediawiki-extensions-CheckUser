@@ -171,6 +171,7 @@
 	"checkuser-investigate-tour-block-desc": "Хьайна блоктоха лууш болу декъашхой къасто аьтто бо, тӀаккха блоктохаран форме гӀой догӀу блоктохар къасто.",
 	"checkuser-investigate-tour-copywikitext-title": "Хаамаш копийан лаьий хьуна?",
 	"checkuser-investigate-tour-copywikitext-desc": "Цкъа тӀетаӀорца дустаран таблица копийина, CUWiki чу схьайаийта. Тидам бе, ахьа гуш дерг бен копеш ца йо, талламийн йерриг агӀонаш йац.",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP гайта",
 	"checkuser-tempaccount-reveal-ip-error": "гӀалат",
 	"checkuser-tempaccount-specialblock-ips": "ХӀара ханна декъашхо ву(йу), рогӀера {{PLURAL:$1|IP|IP адресаш}} лелош: $2.",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|дӀайайина}}",
