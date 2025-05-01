@@ -31,7 +31,8 @@
 			"Robertpontes",
 			"Rodrigo codignoli",
 			"YuriNikolai",
-			555
+			555,
+			"BraunOBruno"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.\nUsuários e edições podem ser obtidos por um IP XFF colocando-se \"/xff\" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNão serão retornadas mais de $3 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.",

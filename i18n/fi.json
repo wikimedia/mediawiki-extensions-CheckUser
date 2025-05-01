@@ -138,7 +138,7 @@
 	"logentry-checkuser-private-event-autocreate-account": "luotiin automaattisesti",
 	"logentry-checkuser-private-event-create-account": "luotiin",
 	"checkuser-rest-access-denied": "Sinulla ei ole oikeutta suorittaa toimintoa",
-	"checkuser-rest-access-denied-blocked-user": "Sinulla ei ole lupaa suorittaa toimintoa, koska tunnuksesi on estetty",
+	"checkuser-rest-access-denied-blocked-user": "Sinulla ei ole oikeutta suorittaa toimintoa, koska tunnuksesi on estetty",
 	"checkuser-link-investigate-label": "Kokeile {{#special:investigate}}",
 	"checkuser-investigateblock": "Estä käyttäjät",
 	"checkuser-investigateblock-target": "Käyttäjätunnukset ja IP-osoitteet",
