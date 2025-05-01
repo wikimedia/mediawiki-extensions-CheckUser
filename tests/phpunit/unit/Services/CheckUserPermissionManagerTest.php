@@ -218,7 +218,7 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 		}
 	}
 
-	public function canAccessGlobalContributionsForIPsDataProvider(): iterable {
+	public static function canAccessGlobalContributionsForIPsDataProvider(): iterable {
 		return [
 			'When the GlobalContributions page does not exist' => [
 				'error' => 'nospecialpagetext',
@@ -324,7 +324,7 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 		}
 	}
 
-	public function canAccessGlobalContributionsDataProvider(): iterable {
+	public static function canAccessGlobalContributionsDataProvider(): iterable {
 		return [
 			'When all conditions are satisfied for a regular user' => [
 				'errorMessage' => '',

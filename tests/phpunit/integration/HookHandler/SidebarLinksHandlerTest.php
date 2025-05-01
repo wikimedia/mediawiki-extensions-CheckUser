@@ -123,7 +123,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertEquals( $expected, $sidebar );
 	}
 
-	public function whenGlobalContributionsLinkShouldNotBeAddedDataProvider(): array {
+	public static function whenGlobalContributionsLinkShouldNotBeAddedDataProvider(): array {
 		return [
 			// Cases when the link is not added
 			//

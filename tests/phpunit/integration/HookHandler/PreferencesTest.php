@@ -215,7 +215,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 		$this->assertEquals( $formerOptions, $modifiedOptions );
 	}
 
-	public function onSaveUserOptionsDataProvider(): array {
+	public static function onSaveUserOptionsDataProvider(): array {
 		return [
 			'When the option is kept enabled' => [
 				'modifiedOptions' => [
