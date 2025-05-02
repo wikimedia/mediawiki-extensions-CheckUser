@@ -3,7 +3,18 @@
 const ipRevealUtils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 const autoRevealPreferenceName = 'checkuser-temporary-account-enable-auto-reveal';
 
-QUnit.module( 'ext.checkUser.tempAccounts.ipRevealUtils', QUnit.newMwEnvironment( {} ) );
+QUnit.module( 'ext.checkUser.tempAccounts.ipRevealUtils', QUnit.newMwEnvironment( {
+	beforeEach() {
+		this.dateNow = sinon.stub( Date, 'now' );
+
+		// Simulate a consistent time in tests.
+		this.mockTime = 1746185208561;
+		this.dateNow.returns( this.mockTime );
+	},
+	afterEach() {
+		this.dateNow.restore();
+	}
+} ) );
 
 QUnit.test( 'Test getRevealedStatus when no value set', ( assert ) => {
 	assert.strictEqual(
@@ -49,7 +60,7 @@ QUnit.test( 'Test getAutoRevealStatus when no value set', function ( assert ) {
 
 QUnit.test( 'Test getAutoRevealStatus with expiry in the past', function ( assert ) {
 	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
-	const pastTimestamp = Math.round( Date.now() / 1000 ) - 100;
+	const pastTimestamp = Math.round( this.mockTime / 1000 ) - 100;
 	const apiMock = this.sandbox.mock( mw.Api.prototype );
 	apiMock.expects( 'get' )
 		.withArgs( {
@@ -81,7 +92,7 @@ QUnit.test( 'Test getAutoRevealStatus with expiry in the past', function ( asser
 
 QUnit.test( 'Test getAutoRevealStatus with expiry in the future', function ( assert ) {
 	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
-	const futureTimestamp = Math.round( Date.now() / 1000 ) + 3600;
+	const futureTimestamp = Math.round( this.mockTime / 1000 ) + 3600;
 	const apiMock = this.sandbox.mock( mw.Api.prototype );
 	apiMock.expects( 'get' )
 		.withArgs( {
@@ -122,7 +133,7 @@ QUnit.test( 'Test getAutoRevealStatus with API failure', function ( assert ) {
 
 QUnit.test( 'Test setAutoRevealStatus (enable)', function ( assert ) {
 	const relativeExpiry = 3600;
-	const expectedExpiry = Math.round( Date.now() / 1000 ) + relativeExpiry;
+	const expectedExpiry = Math.round( this.mockTime / 1000 ) + relativeExpiry;
 	const apiMock = this.sandbox.mock( mw.Api.prototype );
 	apiMock.expects( 'postWithToken' )
 		.withArgs( 'csrf', {
