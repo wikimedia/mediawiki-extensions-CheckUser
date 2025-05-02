@@ -35,6 +35,13 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	use ContributionsRangeTrait;
 	use CheckUserTempUserTestTrait;
 
+	/** Avoid breakage if order changes or other classes are added (e.g., T393178) */
+	private const SOURCEWIKI_EXTERNAL_CLASS_REGEXP = '/' .
+		'\bexternal [^"\']*\bmw-changeslist-sourcewiki\b' .
+		'|' .
+		'\bmw-changeslist-sourcewiki [^"\']*\bexternal\b' .
+		'/';
+
 	private static User $disallowedUser;
 	private static User $checkuser;
 	private static User $sysop;
@@ -255,7 +262,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->assertSame( 3, substr_count( $html, 'data-mw-revid' ) );
 
 		// Assert the source wiki from the template is present
-		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
+		$this->assertMatchesRegularExpression( self::SOURCEWIKI_EXTERNAL_CLASS_REGEXP, $html );
 	}
 
 	public function testExecuteForIPWhenStartTimestampHidesSomeRevisions() {
@@ -278,7 +285,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		);
 
 		// Assert the source wiki from the template is present
-		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
+		$this->assertMatchesRegularExpression( self::SOURCEWIKI_EXTERNAL_CLASS_REGEXP, $html );
 	}
 
 	public function testExecuteForIPWhenEndTimestampHidesSomeRevisions() {
@@ -301,7 +308,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		);
 
 		// Assert the source wiki from the template is present
-		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
+		$this->assertMatchesRegularExpression( self::SOURCEWIKI_EXTERNAL_CLASS_REGEXP, $html );
 	}
 
 	public function testExecuteForIPWhenEndTimestampBeforeCheckUserDataPurgeCutoff() {
