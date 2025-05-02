@@ -44,6 +44,7 @@
 	"checkuser-contribs-log-initiator": "verificações feitas por este usuário",
 	"group-checkuser": "Verificadores",
 	"group-checkuser-member": "verificador{{GENDER:$1||a|(a)}} de contas",
+	"group-temporary-account-viewer": "Visualizadores de IP de contas temporárias",
 	"right-checkuser": "Verificar os endereços de IP e outras informações dos usuários",
 	"right-checkuser-log": "Ver os registros das verificações",
 	"right-checkuser-temporary-account": "Ver endereços IP usados por contas temporárias",
