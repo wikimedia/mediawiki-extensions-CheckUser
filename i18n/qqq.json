@@ -202,6 +202,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Aria label for the image shown in the third step of a multi-step dialog that gives users an overview of temporary accounts. \"Show IP\" is {{msg-mw|Checkuser-tempaccount-reveal-ip-button-label}}.",
 	"checkuser-rest-access-denied": "Error message that is shown by the REST API if a user attempts to perform an action they do not have permission to perform",
 	"checkuser-rest-access-denied-blocked-user": "Error message that is shown by the REST API if a user attempts to perform an action when blocked",
+	"checkuser-rest-userinfo-user-not-found": "Error message shown by the REST API if an invalid user ID is used in the request.",
 	"checkuser-link-investigate-label": "{{doc-important|1=Do not translate the <code><nowiki>{{#special:investigate}}</nowiki></code> code.}}\nLabel for a link to [[Special:Investigate]] from [[Special:CheckUser]].",
 	"checkuser-investigateblock": "{{doc-special|InvestigateBlock}}",
 	"checkuser-investigateblock-target": "{{InvestigateBlockForm}}\nLabel for a section of the form on [[Special:InvestigateBlock]]",

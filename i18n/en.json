@@ -168,6 +168,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Image showing the IP reveal tool after a use, where the IP address associated with the temporary account is shown. The button pressed to see this is labelled with the text 'Show IP' and is shown next to temporary account username.",
 	"checkuser-rest-access-denied": "You do not have permission to perform the action",
 	"checkuser-rest-access-denied-blocked-user": "You do not have permission to perform the action because your account is blocked",
+	"checkuser-rest-userinfo-user-not-found": "Invalid user ID provided.",
 	"checkuser-link-investigate-label": "Try out {{#special:investigate}}",
 	"checkuser-investigateblock": "Block users",
 	"checkuser-investigateblock-target": "Usernames and IP addresses",
