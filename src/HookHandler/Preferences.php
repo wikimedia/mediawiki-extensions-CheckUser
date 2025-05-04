@@ -7,9 +7,10 @@ use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
+use MediaWiki\User\Hook\UserGetDefaultOptionsHook;
 use MediaWiki\User\UserIdentity;
 
-class Preferences implements GetPreferencesHook {
+class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 
 	/** @var string */
 	public const INVESTIGATE_TOUR_SEEN = 'checkuser-investigate-tour-seen';
@@ -40,6 +41,8 @@ class Preferences implements GetPreferencesHook {
 
 	/** @var string User option indicating that a user opted-in to reveal IPs. */
 	public const ENABLE_IP_REVEAL = 'checkuser-temporary-account-enable';
+
+	public const ENABLE_USER_INFO_CARD = 'checkuser-userinfocard-enable';
 
 	private PermissionManager $permissionManager;
 	private TemporaryAccountLoggerFactory $loggerFactory;
@@ -76,6 +79,14 @@ class Preferences implements GetPreferencesHook {
 		];
 
 		$messageLocalizer = RequestContext::getMain();
+
+		$preferences[self::ENABLE_USER_INFO_CARD] = [
+			'type' => 'toggle',
+			'section' => 'rendering/advancedrendering',
+			'label-message' => 'checkuser-userinfocard-enable-preference-description',
+			'help-message' => 'checkuser-userinfocard-enable-preference-help',
+			'canglobal' => true,
+		];
 
 		if (
 			$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' ) &&
@@ -182,5 +193,12 @@ class Preferences implements GetPreferencesHook {
 				$logger->logAccessDisabled( $user );
 			}
 		}
+	}
+
+	/** @inheritDoc */
+	public function onUserGetDefaultOptions( &$defaultOptions ) {
+		$defaultOptions += [
+			self::ENABLE_USER_INFO_CARD => false
+		];
 	}
 }

@@ -498,6 +498,7 @@
 			"SpecialPageBeforeExecute"
 		],
 		"SpecialPage_initList": "ConditionalRegistration",
+		"UserGetDefaultOptions": "preferences",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
 		"UserLogoutComplete": "CheckUserPrivateEvents",
 		"UserMergeAccountFields": "UserMerge",

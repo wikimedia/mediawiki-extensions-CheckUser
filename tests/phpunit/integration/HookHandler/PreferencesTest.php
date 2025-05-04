@@ -13,6 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group CheckUser
+ * @group Database
  * @covers \MediaWiki\CheckUser\HookHandler\Preferences
  */
 class PreferencesTest extends MediaWikiIntegrationTestCase {
@@ -378,5 +379,16 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 				'logAccessDisabled' => false
 			]
 		];
+	}
+
+	public function testDefaultValueForUserInfoCardIsFalse() {
+		$user = $this->getTestUser()->getUser();
+		$this->assertSame(
+			false,
+			$this->getServiceContainer()->getUserOptionsLookup()->getOption(
+				$user,
+				Preferences::ENABLE_USER_INFO_CARD
+			)
+		);
 	}
 }
