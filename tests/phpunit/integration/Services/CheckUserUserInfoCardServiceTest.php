@@ -37,12 +37,14 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		// Run deferred updates, to ensure that globalEditCount gets populated in CentralAuth.
 		$this->runDeferredUpdates();
-		$userImpact = $this->getObjectUnderTest()->getUserInfo( $user );
-		$this->assertSame( 1, $userImpact[ 'totalEditCount' ] );
+		$userInfo = $this->getObjectUnderTest()->getUserInfo( $user );
+		$this->assertSame( 1, $userInfo[ 'totalEditCount' ] );
 		if ( MediaWikiServices::getInstance()->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
 			// TODO: Fix this test so that we assert that the globalEditCount is 1.
-			$this->assertArrayHasKey( 'globalEditCount', $userImpact );
+			$this->assertArrayHasKey( 'globalEditCount', $userInfo );
 		}
+		$this->assertSame( 0, $userInfo[ 'thanksGiven' ] );
+		$this->assertSame( 0, $userInfo[ 'thanksReceived' ] );
 	}
 
 	public function testExecuteInvalidUser() {
