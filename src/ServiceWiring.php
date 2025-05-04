@@ -412,7 +412,8 @@ return [
 			$userImpactLookup,
 			$services->getExtensionRegistry(),
 			$services->getUserOptionsLookup(),
-			$services->getUserRegistrationLookup()
+			$services->getUserRegistrationLookup(),
+			$services->getUserGroupManager()
 		);
 	},
 ];
