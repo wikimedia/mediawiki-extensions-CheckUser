@@ -44,6 +44,7 @@ class CheckUserUserInfoCardService {
 		$userData[ 'totalEditCount' ] = $userImpact->getTotalEditsCount();
 		$userData['thanksGiven'] = $userImpact->getGivenThanksCount();
 		$userData['thanksReceived'] = $userImpact->getReceivedThanksCount();
+		$userData['editCountByDay'] = $userImpact->getEditCountByDay();
 
 		return $userData;
 	}
