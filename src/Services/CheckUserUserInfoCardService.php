@@ -52,12 +52,15 @@ class CheckUserUserInfoCardService {
 	 * @return array array containing aggregated user information
 	 */
 	public function getUserInfo( UserIdentity $user ) {
-		$userInfo = [];
+		$userInfo = $this->getDataFromUserImpact( $user );
+		if ( !$userInfo ) {
+			// There should always be user impact data. If there isn't, there's a problem
+			// relating to fetching data for the account and we should just return the
+			// empty array, instead of adding more data points below.
+			return $userInfo;
+		}
 
-		// Add information retrieved from the UserImpact lookup
-		$userInfo = array_merge( $userInfo, $this->getDataFromUserImpact( $user ) );
-
-		if ( $userInfo && $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
 			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
 		}
