@@ -5,11 +5,9 @@ namespace MediaWiki\CheckUser\HookHandler;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Language\Language;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
 use MediaWiki\User\UserIdentity;
-use MessageLocalizer;
 
 class Preferences implements GetPreferencesHook {
 
@@ -45,8 +43,6 @@ class Preferences implements GetPreferencesHook {
 
 	private PermissionManager $permissionManager;
 	private TemporaryAccountLoggerFactory $loggerFactory;
-	private Language $language;
-	private MessageLocalizer $messageLocalizer;
 	private Config $config;
 
 	public function __construct(
@@ -57,8 +53,6 @@ class Preferences implements GetPreferencesHook {
 		$this->permissionManager = $permissionManager;
 		$this->loggerFactory = $loggerFactory;
 		$this->config = $config;
-		$this->messageLocalizer = RequestContext::getMain();
-		$this->language = RequestContext::getMain()->getLanguage();
 	}
 
 	/**
@@ -81,13 +75,15 @@ class Preferences implements GetPreferencesHook {
 			'type' => 'api',
 		];
 
+		$messageLocalizer = RequestContext::getMain();
+
 		if (
 			$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' ) &&
 			!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account-no-preference' )
 		) {
 			$preferences['checkuser-temporary-account-enable-description'] = [
 				'type' => 'info',
-				'default' => $this->messageLocalizer->msg( 'checkuser-tempaccount-enable-preference-description' )
+				'default' => $messageLocalizer->msg( 'checkuser-tempaccount-enable-preference-description' )
 					->parse(),
 				// The following message is generated here:
 				// * prefs-checkuser-tempaccount
@@ -108,11 +104,11 @@ class Preferences implements GetPreferencesHook {
 		if ( $this->permissionManager->userHasRight( $user, 'checkuser' ) ) {
 			$collapseByDefaultSiteConfig = $this->config->get( 'CheckUserCollapseCheckUserHelperByDefault' );
 
-			$defaultPreferenceMessage = $this->messageLocalizer
+			$defaultPreferenceMessage = $messageLocalizer
 				->msg( 'checkuser-helper-table-collapse-by-default-preference-default' );
-			$alwaysPreferenceMessage = $this->messageLocalizer
+			$alwaysPreferenceMessage = $messageLocalizer
 				->msg( 'checkuser-helper-table-collapse-by-default-preference-always' )->escaped();
-			$neverPreferenceMessage = $this->messageLocalizer
+			$neverPreferenceMessage = $messageLocalizer
 				->msg( 'checkuser-helper-table-collapse-by-default-preference-never' )->escaped();
 			if ( is_int( $collapseByDefaultSiteConfig ) ) {
 				$defaultPreferenceMessage->numParams( $collapseByDefaultSiteConfig );
@@ -150,9 +146,10 @@ class Preferences implements GetPreferencesHook {
 			$rowCountOptions = array_unique( $rowCountOptions );
 			$rowCountOptions = array_map( 'intval', $rowCountOptions );
 
+			$language = RequestContext::getMain()->getLanguage();
 			foreach ( $rowCountOptions as $option ) {
 				$preferences['checkuser-helper-table-collapse-by-default']
-					['options'][$this->language->formatNum( $option )] = $option;
+					['options'][$language->formatNum( $option )] = $option;
 			}
 		}
 	}
