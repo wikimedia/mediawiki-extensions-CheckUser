@@ -21,30 +21,36 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 	}
 
-	public function testExecute() {
-		$checkUserUserInfoCardService = new CheckUserUserInfoCardService(
-			MediaWikiServices::getInstance()->getService( 'GrowthExperimentsUserImpactLookup' )
+	private function getObjectUnderTest(): CheckUserUserInfoCardService {
+		$services = MediaWikiServices::getInstance();
+		return new CheckUserUserInfoCardService(
+			$services->getService( 'GrowthExperimentsUserImpactLookup' ),
+			$services->getExtensionRegistry()
 		);
+	}
+
+	public function testExecute() {
 		$page = $this->getNonexistingTestPage();
 		$user = static::getTestUser()->getUser();
 		$this->assertStatusGood(
 			$this->editPage( $page, 'test', '', NS_MAIN, $user )
 		);
-
-		$userImpact = $checkUserUserInfoCardService->getUserInfo( $user );
+		// Run deferred updates, to ensure that globalEditCount gets populated in CentralAuth.
+		$this->runDeferredUpdates();
+		$userImpact = $this->getObjectUnderTest()->getUserInfo( $user );
 		$this->assertSame( 1, $userImpact[ 'totalEditCount' ] );
+		if ( MediaWikiServices::getInstance()->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			// TODO: Fix this test so that we assert that the globalEditCount is 1.
+			$this->assertArrayHasKey( 'globalEditCount', $userImpact );
+		}
 	}
 
 	public function testExecuteInvalidUser() {
-		$checkUserUserInfoCardService = new CheckUserUserInfoCardService(
-			MediaWikiServices::getInstance()->getService( 'GrowthExperimentsUserImpactLookup' )
-		);
-
 		// User impacts can only be retrieved for registered users
 		$anonUser = $this->getServiceContainer()
 			->getUserFactory()
 			->newAnonymous( '1.2.3.4' );
-		$userImpact = $checkUserUserInfoCardService->getUserInfo( $anonUser );
+		$userImpact = $this->getObjectUnderTest()->getUserInfo( $anonUser );
 		$this->assertSame( [], $userImpact );
 	}
 }

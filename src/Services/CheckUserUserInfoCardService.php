@@ -3,6 +3,8 @@
 namespace MediaWiki\CheckUser\Services;
 
 use GrowthExperiments\UserImpact\UserImpactLookup;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\UserIdentity;
 
 /**
@@ -10,12 +12,17 @@ use MediaWiki\User\UserIdentity;
  */
 class CheckUserUserInfoCardService {
 	private UserImpactLookup $userImpactLookup;
+	private ExtensionRegistry $extensionRegistry;
 
 	/**
 	 * @param UserImpactLookup $userImpactLookup
 	 */
-	public function __construct( UserImpactLookup $userImpactLookup ) {
+	public function __construct(
+		UserImpactLookup $userImpactLookup,
+		ExtensionRegistry $extensionRegistry
+	) {
 		$this->userImpactLookup = $userImpactLookup;
+		$this->extensionRegistry = $extensionRegistry;
 	}
 
 	/**
@@ -27,7 +34,6 @@ class CheckUserUserInfoCardService {
 	 */
 	private function getDataFromUserImpact( UserIdentity $user ) {
 		$userData = [];
-		$userName = $user->getName();
 		$userImpact = $this->userImpactLookup->getUserImpact( $user );
 
 		// Function is not guaranteed to return a UserImpact
@@ -48,9 +54,13 @@ class CheckUserUserInfoCardService {
 	public function getUserInfo( UserIdentity $user ) {
 		$userInfo = [];
 
-		// Add information retreived from the UserImpact lookup
+		// Add information retrieved from the UserImpact lookup
 		$userInfo = array_merge( $userInfo, $this->getDataFromUserImpact( $user ) );
 
+		if ( $userInfo && $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+			$centralAuthUser = CentralAuthUser::getInstance( $user );
+			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
+		}
 		return $userInfo;
 	}
 }

@@ -409,7 +409,8 @@ return [
 			);
 		}
 		return new CheckUserUserInfoCardService(
-			$userImpactLookup
+			$userImpactLookup,
+			$services->getExtensionRegistry()
 		);
 	},
 ];
