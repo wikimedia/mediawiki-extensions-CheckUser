@@ -25,7 +25,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$services = MediaWikiServices::getInstance();
 		return new CheckUserUserInfoCardService(
 			$services->getService( 'GrowthExperimentsUserImpactLookup' ),
-			$services->getExtensionRegistry()
+			$services->getExtensionRegistry(),
+			$services->getUserOptionsLookup(),
+			$services->getUserRegistrationLookup()
 		);
 	}
 
@@ -47,6 +49,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 0, $userInfo[ 'thanksReceived' ] );
 		$this->assertSame( 1, current( $userInfo[ 'editCountByDay' ] ), 'Edit count for the current day is 1' );
 		$this->assertSame( 0, $userInfo['revertedEditCount'] );
+		$this->assertSame( $user->getName(), $userInfo['name'] );
+		$this->assertSame( 'unknown', $userInfo['gender'] );
+		$this->assertArrayHasKey( 'localRegistration', $userInfo );
+		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
 	}
 
 	public function testExecuteInvalidUser() {
