@@ -46,6 +46,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 0, $userInfo[ 'thanksGiven' ] );
 		$this->assertSame( 0, $userInfo[ 'thanksReceived' ] );
 		$this->assertSame( 1, current( $userInfo[ 'editCountByDay' ] ), 'Edit count for the current day is 1' );
+		$this->assertSame( 0, $userInfo['revertedEditCount'] );
 	}
 
 	public function testExecuteInvalidUser() {
