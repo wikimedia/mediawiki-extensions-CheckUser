@@ -354,5 +354,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 enabled {{GENDER:$2|his|her|their}} own access to view protected variables",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 disabled {{GENDER:$2|his|her|their}} own access to view protected variables",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|viewed}} protected variables associated with $3",
-	"ext-ipinfo-global-contributions-url-text": "View global contributions"
+	"ext-ipinfo-global-contributions-url-text": "View global contributions",
+	"checkuser-userinfocard-enable-preference-description": "Enable the [[mw:Help:Extension:CheckUser#UserInfoCard | user info card]]",
+	"checkuser-userinfocard-enable-preference-help": "Show a button next to usernames to open a popover with information about an account."
 }
