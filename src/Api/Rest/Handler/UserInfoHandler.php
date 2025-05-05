@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
+use MediaWiki\Rest\HttpException;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\Response;
 use MediaWiki\Rest\SimpleHandler;
@@ -36,6 +37,10 @@ class UserInfoHandler extends SimpleHandler {
 				new MessageValue( 'checkuser-rest-access-denied' ),
 				401
 			);
+		}
+		$performingUser = $this->userFactory->newFromUserIdentity( $this->getAuthority()->getUser() );
+		if ( $performingUser->pingLimiter( 'checkuser-userinfo' ) ) {
+			throw new HttpException( 'Too many requests to user info data', 429 );
 		}
 		$user = $this->userFactory->newFromId( $id );
 		$user->load();

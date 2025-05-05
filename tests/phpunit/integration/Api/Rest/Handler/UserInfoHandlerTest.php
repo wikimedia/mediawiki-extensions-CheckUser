@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use MediaWiki\CheckUser\Api\Rest\Handler\UserInfoHandler;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\Rest\HttpException;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
@@ -74,6 +75,39 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			$user
 		);
 		$this->assertEquals( json_decode( $response->getBody()->getContents(), true )['totalEditCount'], $editCount );
+	}
+
+	public function testRateLimiting() {
+		$this->mergeMwGlobalArrayValue( 'wgRateLimits', [ 'checkuser-userinfo' => [
+			'user' => [ 1, 86400 ],
+		] ] );
+		$user = $this->getTestUser()->getUser();
+		$this->editPage( 'Test', 'Test', 'Test', NS_MAIN, $user );
+		$editCount = $user->getEditCount();
+		$response = $this->executeHandler(
+			$this->getObjectUnderTest(),
+			new RequestData( [
+				'pathParams' => [ 'id' => $user->getId() ],
+			] ),
+			[],
+			[],
+			[],
+			[],
+			$user
+		);
+		$this->assertEquals( json_decode( $response->getBody()->getContents(), true )['totalEditCount'], $editCount );
+		$this->expectExceptionObject( new HttpException( 'Too many requests to user info data', 429 ) );
+		$this->executeHandler(
+			$this->getObjectUnderTest(),
+			new RequestData( [
+				'pathParams' => [ 'id' => $user->getId() ],
+			] ),
+			[],
+			[],
+			[],
+			[],
+			$user
+		);
 	}
 
 }
