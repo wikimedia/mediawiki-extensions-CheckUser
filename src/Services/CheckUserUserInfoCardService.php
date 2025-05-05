@@ -6,6 +6,7 @@ use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\Registration\UserRegistrationLookup;
+use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserOptionsLookup;
 
@@ -17,23 +18,27 @@ class CheckUserUserInfoCardService {
 	private ExtensionRegistry $extensionRegistry;
 	private UserOptionsLookup $userOptionsLookup;
 	private UserRegistrationLookup $userRegistrationLookup;
+	private UserGroupManager $userGroupManager;
 
 	/**
 	 * @param UserImpactLookup $userImpactLookup
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param UserOptionsLookup $userOptionsLookup
 	 * @param UserRegistrationLookup $userRegistrationLookup
+	 * @param UserGroupManager $userGroupManager
 	 */
 	public function __construct(
 		UserImpactLookup $userImpactLookup,
 		ExtensionRegistry $extensionRegistry,
 		UserOptionsLookup $userOptionsLookup,
-		UserRegistrationLookup $userRegistrationLookup
+		UserRegistrationLookup $userRegistrationLookup,
+		UserGroupManager $userGroupManager
 	) {
 		$this->userImpactLookup = $userImpactLookup;
 		$this->extensionRegistry = $extensionRegistry;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->userRegistrationLookup = $userRegistrationLookup;
+		$this->userGroupManager = $userGroupManager;
 	}
 
 	/**
@@ -56,6 +61,7 @@ class CheckUserUserInfoCardService {
 		$userData['gender'] = $this->userOptionsLookup->getOption( $user, 'gender' );
 		$userData['localRegistration'] = $this->userRegistrationLookup->getRegistration( $user );
 		$userData['firstRegistration'] = $this->userRegistrationLookup->getFirstRegistration( $user );
+		$userData['groups'] = $this->userGroupManager->getUserGroups( $user );
 		$userData['totalEditCount'] = $userImpact->getTotalEditsCount();
 		$userData['thanksGiven'] = $userImpact->getGivenThanksCount();
 		$userData['thanksReceived'] = $userImpact->getReceivedThanksCount();

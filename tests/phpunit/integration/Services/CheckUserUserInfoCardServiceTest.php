@@ -27,13 +27,14 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getService( 'GrowthExperimentsUserImpactLookup' ),
 			$services->getExtensionRegistry(),
 			$services->getUserOptionsLookup(),
-			$services->getUserRegistrationLookup()
+			$services->getUserRegistrationLookup(),
+			$services->getUserGroupManager()
 		);
 	}
 
 	public function testExecute() {
 		$page = $this->getNonexistingTestPage();
-		$user = static::getTestUser()->getUser();
+		$user = $this->getTestSysop()->getUser();
 		$this->assertStatusGood(
 			$this->editPage( $page, 'test', '', NS_MAIN, $user )
 		);
@@ -53,6 +54,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 'unknown', $userInfo['gender'] );
 		$this->assertArrayHasKey( 'localRegistration', $userInfo );
 		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
+		$this->assertSame( [ 'bureaucrat', 'sysop' ], $userInfo['groups'] );
 	}
 
 	public function testExecuteInvalidUser() {
