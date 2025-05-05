@@ -32,7 +32,7 @@ class CheckUserUserInfoCardService {
 	 * @return array Array of data points related to the user pulled from the UserImpact
 	 * 				 or an empty array if no user impact data can be found
 	 */
-	private function getDataFromUserImpact( UserIdentity $user ) {
+	private function getDataFromUserImpact( UserIdentity $user ): array {
 		$userData = [];
 		$userImpact = $this->userImpactLookup->getUserImpact( $user );
 
@@ -41,8 +41,9 @@ class CheckUserUserInfoCardService {
 			return $userData;
 		}
 
-		// TODO: Additional data points from the user impact can be added here as necessary
 		$userData[ 'totalEditCount' ] = $userImpact->getTotalEditsCount();
+		$userData['thanksGiven'] = $userImpact->getGivenThanksCount();
+		$userData['thanksReceived'] = $userImpact->getReceivedThanksCount();
 
 		return $userData;
 	}
