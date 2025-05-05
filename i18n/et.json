@@ -37,7 +37,7 @@
 	"checkuser-cidr-res": "Ühine CIDR:",
 	"checkuser-cidr-affected-ips": "Mõjutatud IP-aadresside arv:",
 	"checkuser-cidr-too-small": "Vahemik on liiga suur",
-	"checkuser-range-outside-limit": "Vahemik $1 väljaspool lubatud piire.",
+	"checkuser-range-outside-limit": "Vahemik $1 on väljaspool lubatud piire.",
 	"checkuser-empty": "Logi ei sisalda üksusi.",
 	"checkuser-nomatch": "Tulemusi ei leitud.",
 	"checkuser-nomatch-edits": "Vasteid ei leitud.\nViimane redigeerimisaeg: $1, $2.",
