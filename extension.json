@@ -221,6 +221,15 @@
 			]
 		}
 	},
+	"RateLimits": {
+		"checkuser-userinfo": {
+			"&can-bypass": true,
+			"user": [
+				100,
+				86400
+			]
+		}
+	},
 	"RestRoutes": [
 		{
 			"path": "/checkuser/v0/userinfo/{id}",
