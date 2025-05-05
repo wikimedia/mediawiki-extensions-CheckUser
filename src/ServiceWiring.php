@@ -410,7 +410,9 @@ return [
 		}
 		return new CheckUserUserInfoCardService(
 			$userImpactLookup,
-			$services->getExtensionRegistry()
+			$services->getExtensionRegistry(),
+			$services->getUserOptionsLookup(),
+			$services->getUserRegistrationLookup()
 		);
 	},
 ];
