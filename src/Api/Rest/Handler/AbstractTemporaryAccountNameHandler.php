@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -24,6 +25,7 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 	use TemporaryAccountAutoRevealTrait;
 
 	protected PreferencesFactory $preferencesFactory;
+	protected TemporaryAccountLoggerFactory $loggerFactory;
 
 	public function __construct(
 		Config $config,
@@ -35,6 +37,7 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		CheckUserPermissionManager $checkUserPermissionsManager,
+		TemporaryAccountLoggerFactory $loggerFactory,
 		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
@@ -49,6 +52,7 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 			$readOnlyMode
 		);
 		$this->preferencesFactory = $preferencesFactory;
+		$this->loggerFactory = $loggerFactory;
 	}
 
 	/**
@@ -68,6 +72,24 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 	 */
 	protected function getLogType(): string {
 		return TemporaryAccountLogger::ACTION_VIEW_IPS;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function makeLog( $identifier ) {
+		if ( $this->isAutoRevealOn() ) {
+			$logger = $this->loggerFactory->getLogger();
+			$performerName = $this->getAuthority()->getUser()->getName();
+
+			$logger->logViewIPsWithAutoReveal(
+				$performerName,
+				$this->urlEncodeTitle( $identifier )
+			);
+			return;
+		}
+
+		parent::makeLog( $identifier );
 	}
 
 	/**

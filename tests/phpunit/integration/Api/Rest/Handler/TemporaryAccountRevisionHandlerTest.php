@@ -2,8 +2,10 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
+use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\Authority;
@@ -22,6 +24,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use StatusValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -32,6 +35,8 @@ use Wikimedia\Rdbms\IReadableDatabase;
  * @group Database
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionHandler
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionTrait
+ * @covers \MediaWiki\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountNameHandler
+ * @covers MediaWiki\CheckUser\Logging\TemporaryAccountLogger
  */
 class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 
@@ -93,6 +98,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 				'blockManager' => $services->getBlockManager(),
 				'revisionStore' => $mockRevisionStore,
 				'checkUserPermissionManager' => $checkUserPermissionManager,
+				'loggerFactory' => $services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				'readOnlyMode' => $services->getReadOnlyMode(),
 			],
 			$options
@@ -221,6 +227,66 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 					'name' => '*Unregistered 1',
 					'ids' => [ 9999, 10 ],
 				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideExecuteLogs
+	 */
+	public function testExecuteLogs(
+		int $jobQueueGroupExpects,
+		int $loggerExpects,
+		bool $autoReveal
+	) {
+		$preferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
+		$preferencesFactory->method( 'getGlobalPreferencesValues' )
+			->willReturn(
+				$autoReveal ?
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => time() + 10000 ] :
+				[]
+			);
+
+		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$jobQueueGroup->expects( $this->exactly( $jobQueueGroupExpects ) )
+			->method( 'push' );
+
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $this->exactly( $loggerExpects ) )
+			->method( 'info' )
+			->with(
+				'{username} viewed IP addresses for {target}',
+				$this->callback( static function ( $context ) {
+					return $context['target'] === '*Unregistered_1';
+				} )
+			);
+		$this->setLogger( 'CheckUser', $logger );
+
+		$data = $this->executeHandlerAndGetBodyData(
+			$this->getTemporaryAccountRevisionHandler( [
+				'preferencesFactory' => $preferencesFactory,
+				'jobQueueGroup' => $jobQueueGroup,
+			] ),
+			$this->getRequestData(),
+			[],
+			[],
+			[],
+			[],
+			$this->getAuthorityForSuccess()
+		);
+	}
+
+	public function provideExecuteLogs() {
+		return [
+			'The correct logger is called when auto-reveal is on' => [
+				'jobQueueGroupExpects' => 0,
+				'loggerExpects' => 1,
+				'autoReveal' => true,
+			],
+			'The correct logger is called when auto-reveal is off' => [
+				'jobQueueGroupExpects' => 1,
+				'loggerExpects' => 0,
+				'autoReveal' => false,
 			],
 		];
 	}

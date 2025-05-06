@@ -70,6 +70,7 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 				'actorStore' => $services->getActorStore(),
 				'blockManager' => $services->getBlockManager(),
 				'checkUserPermissionManager' => $checkUserPermissionManager,
+				'LoggerFactory' => $services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				'readOnlyMode' => $services->getReadOnlyMode(),
 			],
 			$options
