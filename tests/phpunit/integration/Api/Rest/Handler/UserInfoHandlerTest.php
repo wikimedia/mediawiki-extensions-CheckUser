@@ -22,6 +22,13 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	private static Authority $loggedInPerformer;
 	private static Authority $loggedOutPerformer;
 
+	protected function setUp(): void {
+		parent::setUp();
+
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+	}
+
 	private function getObjectUnderTest(): UserInfoHandler {
 		$services = $this->getServiceContainer();
 		return new UserInfoHandler(
