@@ -11,6 +11,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWikiUnitTestCase;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -30,14 +31,15 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 	private function getLookupWithOverrides( $overrides ) {
 		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
 		$extensionRegistry->method( 'isLoaded' )
-			->willReturn( 'true' );
+			->willReturn( true );
 
 		return new CheckUserGlobalContributionsLookup(
 			$overrides['dbProvider'] ?? $this->createMock( IConnectionProvider::class ),
 			$overrides['extensionRegistry'] ?? $extensionRegistry,
 			$overrides['centralIdLookup'] ?? $this->createMock( CentralIdLookup::class ),
 			$overrides['checkUserLookupUtils'] ?? $this->createMock( CheckUserLookupUtils::class ),
-			$overrides['config'] ?? $this->createMock( Config::class )
+			$overrides['config'] ?? $this->createMock( Config::class ),
+			$overrides['revisionStore'] ?? $this->createMock( RevisionStore::class )
 		);
 	}
 
@@ -68,6 +70,19 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 			->with( CheckUserQueryInterface::VIRTUAL_GLOBAL_DB_DOMAIN );
 
 		return $dbProvider;
+	}
+
+	public function testCheckCentralAuthEnabledNotEnabled() {
+		$this->expectException( LogicException::class );
+
+		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$extensionRegistry->method( 'isLoaded' )
+			->willReturn( false );
+
+		$lookup = $this->getLookupWithOverrides( [
+			'extensionRegistry' => $extensionRegistry,
+		] );
+		$lookup->checkCentralAuthEnabled();
 	}
 
 	public function testGetActiveWikisForIP() {
@@ -128,5 +143,19 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 		$this->expectException( InvalidArgumentException::class );
 		$result = $this->getLookupWithOverrides( [] )
 			->getActiveWikis( 'Unknown User', $this->createMock( Authority::class ) );
+	}
+
+	public function testGgetAnonymousUserGlobalContributionCountForIPRangeOutOfBounds() {
+		$this->expectException( LogicException::class );
+
+		// Mock the return from misconfiguration between RangeContributionsCIDRLimit and CheckUserCIDRLimit
+		$checkUserLookupUtils = $this->createMock( CheckUserLookupUtils::class );
+		$checkUserLookupUtils->method( 'getIPTargetExprForColumn' )
+			->willReturn( null );
+
+		$lookup = $this->getLookupWithOverrides( [
+			'checkUserLookupUtils' => $checkUserLookupUtils,
+		] );
+		$result = $lookup->getAnonymousUserGlobalContributionCount( '1.2.3.4/24', [ 'testwiki' ] );
 	}
 }
