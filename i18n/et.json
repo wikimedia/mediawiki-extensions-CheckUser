@@ -52,7 +52,7 @@
 	"checkuser-cidr-tool-links-checkuser": "Kontrolli seda vahemikku",
 	"checkuser-cidr-tool-links-checkuserlog": "Selle vahemiku varasemad kontrollid",
 	"checkuser-cidr-tool-links-prefix": "Tööriistad selle vahemiku kohta:",
-	"checkuser-range-outside-limit": "Vahemik $1 väljaspool lubatud piire.",
+	"checkuser-range-outside-limit": "Vahemik $1 on väljaspool lubatud piire.",
 	"checkuser-empty": "Logi ei sisalda üksusi.",
 	"checkuser-nomatch": "Tulemusi ei leitud.",
 	"checkuser-nomatch-edits": "Vasteid ei leitud.\nViimane redigeerimisaeg: $1, $2.",

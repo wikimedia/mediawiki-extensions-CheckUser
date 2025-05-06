@@ -119,5 +119,10 @@
 	"checkuser-investigate-compare-table-header-username": "Потребителско име",
 	"checkuser-investigate-compare-table-header-activity": "Период от време",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "Потребителски агент"
+	"checkuser-investigate-compare-table-header-useragent": "Потребителски агент",
+	"checkuser-ip-contributions-subtitle": "Показване на резултати от {{PLURAL:$1|последния ден|последните $1 дни}}.",
+	"checkuser-global-contributions": "Търсене на глобални приноси",
+	"checkuser-global-contributions-search-form-wrapper": "Търсене на глобални приноси",
+	"prefs-checkuser-tempaccount": "Показване на IP адреси на временни сметки",
+	"checkuser-tempaccount-enable-preference": "Включване на показването на IP адресите на временните сметки"
 }
