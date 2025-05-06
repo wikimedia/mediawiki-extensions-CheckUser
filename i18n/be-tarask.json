@@ -20,9 +20,10 @@
 	"checkuser-contribs-log-initiator": "праверкі, выкананыя гэтым удзельнікам",
 	"group-checkuser": "Правяраючыя ўдзельнікаў",
 	"group-checkuser-member": "{{GENDER:$1|правяраючы|правяраючая}} ўдзельнікаў",
-	"right-checkuser": "праверка ІР-адрасоў і іншай інфармацыі ўдзельніка",
-	"right-checkuser-log": "прагляд журнала праверкі ўдзельнікаў",
+	"right-checkuser": "Праверка ІР-адрасоў ды іншай інфармацыі ўдзельніка",
+	"right-checkuser-log": "Прагляд журнала праверкі ўдзельнікаў",
 	"right-checkuser-temporary-account": "Прагляд IP-адрэсаў, выкарыстоўваных часовымі ўліковымі запісамі",
+	"right-checkuser-temporary-account-no-preference": "Прагляд IP-адрасоў часовых уліковых запісаў без патрэбы ўключэньня налады",
 	"right-checkuser-temporary-account-log": "Прагляд журналу доступу да IP-адрэсаў часовых уліковых запісаў",
 	"action-checkuser": "праверку ІР-адрасоў і іншай інфармацыі ўдзельніка",
 	"action-checkuser-log": "прагляд журнала праверкі ўдзельнікаў",
@@ -104,5 +105,7 @@
 	"checkuser-investigate-compare-table-header-username": "Імя ўдзельніка",
 	"checkuser-investigate-compare-table-header-activity": "Дыяпазон датаў",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "Агент удзельніка"
+	"checkuser-investigate-compare-table-header-useragent": "Агент удзельніка",
+	"checkuser-global-contributions-link": "глябальны ўнёсак",
+	"checkuser-global-contributions-link-sidebar": "Глябальны ўнёсак"
 }

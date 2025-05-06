@@ -168,6 +168,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Müvəqqəti hesabla əlaqəli IP ünvanının göstərildiyi istifadədən sonra IP aşkarlama alətini göstərən şəkil. Bunu görmək üçün basılan düymə \"IP-ni göstər\" mətni ilə göstərilir və müvəqqəti hesab istifadəçi adının yanında göstərilir.",
 	"checkuser-rest-access-denied": "Bu əməliyyatı yerinə yetirmək üçün icazəniz yoxdur",
 	"checkuser-rest-access-denied-blocked-user": "Hesabınız bloklandığı üçün əməliyyatı yerinə yetirmək icazəniz yoxdur",
+	"checkuser-rest-userinfo-user-not-found": "Yanlış istifadəçi ID daxil edilib.",
 	"checkuser-link-investigate-label": "{{#special:investigate}} sınayın",
 	"checkuser-investigateblock": "İstifadəçiləri blokla",
 	"checkuser-investigateblock-target": "İstifadəçi adları və IP-ünvanları",

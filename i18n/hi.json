@@ -12,6 +12,7 @@
 			"Sfic",
 			"Shyam",
 			"Siddhartha Ghai",
+			"Svartava",
 			"जनक राज भट्ट"
 		]
 	},
@@ -22,7 +23,7 @@
 	"checkuser-contribs": "सदस्य के IP पते जाँचें",
 	"checkuser-contribs-log": "हाल में हुए सदस्य जाँच",
 	"checkuser-contribs-log-initiator": "इस सदस्य द्वारा किए गए सदस्य जाँच",
-	"group-checkuser": "सदस्य जाँचकर्ताएँ",
+	"group-checkuser": "सदस्य जाँचकर्ता",
 	"group-checkuser-member": "{{GENDER:$1|सदस्य जाँचकर्ता}}",
 	"right-checkuser": "सदस्यों के IP पते और दूसरी जानकारी जाँचें",
 	"right-checkuser-log": "Checkuser लॉग देखें",
