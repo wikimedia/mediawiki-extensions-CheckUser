@@ -174,6 +174,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 							'id' => 't-global-contributions',
 							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
+							'tooltip-params' => [ 'Relevant User name' ],
 						],
 					],
 				],
@@ -193,6 +194,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 							'id' => 't-global-contributions',
 							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
+							'tooltip-params' => [ 'Relevant User name' ],
 						],
 						'whatlinkshere' => [
 							'id' => 't-whatlinkshere',
@@ -234,6 +236,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 							'id' => 't-global-contributions',
 							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
+							'tooltip-params' => [ 'Relevant User name' ],
 						],
 						'something-else' => [
 							'id' => 't-something-else',
@@ -279,6 +282,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 							'id' => 't-global-contributions',
 							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
+							'tooltip-params' => [ 'Relevant User name' ],
 						]
 					],
 					'LANGUAGES' => [ 'LANGUAGES array' ]

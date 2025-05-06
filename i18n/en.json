@@ -385,5 +385,6 @@
 	"checkuser-userinfocard-enable-preference-help": "Show a button next to usernames to open a popover with information about an account.",
 	"checkuser-ipinfo-global-contributions-label": "Global Contributions",
 	"checkuser-ipinfo-global-contributions-tooltip": "The number of cross-wiki edits made from this IP address.",
-	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global edit|$1 global edits|0=No global edits}}"
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global edit|$1 global edits|0=No global edits}}",
+	"tooltip-t-global-contributions": "A list of contributions across all wikis by {{GENDER:$1|this user}}"
 }

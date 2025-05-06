@@ -62,7 +62,8 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 		$globalContributionsLink = [
 			'id' => 't-global-contributions',
 			'text' => $skin->msg( 'checkuser-global-contributions-link-sidebar' )->text(),
-			'href' => $targetTitle->getLocalURL()
+			'href' => $targetTitle->getLocalURL(),
+			'tooltip-params' => [ $name ],
 		];
 
 		// Try to insert the Global Contributions link after the 'contributions' key
