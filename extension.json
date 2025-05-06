@@ -537,11 +537,23 @@
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.userInfoCard",
 			"packageFiles": [
 				"init.js",
-				"components/App.vue"
+				"components/App.vue",
+				"stores/UserInfoCardPopover.js",
+				{
+					"name": "components/icons.json",
+					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
+					"callbackParam": [
+						"cdxIconUserAvatar"
+					]
+				}
+			],
+			"messages": [
+				"checkuser-userinfocard-toggle-button-aria-label"
 			],
 			"dependencies": [
 				"mediawiki.api",
 				"mediawiki.base",
+				"pinia",
 				"vue",
 				"@wikimedia/codex",
 				"mediawiki.user",
