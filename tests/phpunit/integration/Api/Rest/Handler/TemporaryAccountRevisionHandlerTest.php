@@ -29,6 +29,7 @@ use StatusValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -237,15 +238,13 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testExecuteLogs(
 		int $jobQueueGroupExpects,
 		int $loggerExpects,
-		bool $autoReveal
+		array $preferences
 	) {
+		ConvertibleTimestamp::setFakeTime( '20230406060708' );
+
 		$preferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
 		$preferencesFactory->method( 'getGlobalPreferencesValues' )
-			->willReturn(
-				$autoReveal ?
-				[ Preferences::ENABLE_IP_AUTO_REVEAL => time() + 10000 ] :
-				[]
-			);
+			->willReturn( $preferences );
 
 		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
 		$jobQueueGroup->expects( $this->exactly( $jobQueueGroupExpects ) )
@@ -274,19 +273,37 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			$this->getAuthorityForSuccess()
 		);
+
+		ConvertibleTimestamp::setFakeTime( false );
 	}
 
 	public function provideExecuteLogs() {
+		ConvertibleTimestamp::setFakeTime( '20230406060708' );
+		$timeNow = ConvertibleTimestamp::time();
+		$validFutureTimestamp = $timeNow + 100;
+		$invalidFutureTimestamp = $timeNow + 9999999;
+		$pastTimestamp = $timeNow - 100;
+		ConvertibleTimestamp::setFakeTime( false );
 		return [
-			'The correct logger is called when auto-reveal is on' => [
+			'The correct logger is called when auto-reveal is on with valid expiry' => [
 				'jobQueueGroupExpects' => 0,
 				'loggerExpects' => 1,
-				'autoReveal' => true,
+				'preferences' => [ Preferences::ENABLE_IP_AUTO_REVEAL => $validFutureTimestamp ],
+			],
+			'The correct logger is called when auto-reveal is on with expiry too far in the future' => [
+				'jobQueueGroupExpects' => 1,
+				'loggerExpects' => 0,
+				'preferences' => [ Preferences::ENABLE_IP_AUTO_REVEAL => $invalidFutureTimestamp ],
+			],
+			'The correct logger is called when auto-reveal is on with expiry in the past' => [
+				'jobQueueGroupExpects' => 1,
+				'loggerExpects' => 0,
+				'preferences' => [ Preferences::ENABLE_IP_AUTO_REVEAL => $pastTimestamp ],
 			],
 			'The correct logger is called when auto-reveal is off' => [
 				'jobQueueGroupExpects' => 1,
 				'loggerExpects' => 0,
-				'autoReveal' => false,
+				'preferences' => [],
 			],
 		];
 	}

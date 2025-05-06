@@ -90,6 +90,39 @@ QUnit.test( 'Test getAutoRevealStatus with expiry in the past', function ( asser
 	} );
 } );
 
+QUnit.test( 'Test getAutoRevealStatus with expiry too far in the future', function ( assert ) {
+	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
+	const oneDayInSeconds = 86400;
+	const invalidExpiry = Math.round( this.mockTime / 1000 ) + oneDayInSeconds + 100;
+	const apiMock = this.sandbox.mock( mw.Api.prototype );
+	apiMock.expects( 'get' )
+		.withArgs( {
+			action: 'query',
+			meta: 'globalpreferences',
+			gprprop: 'preferences'
+		} )
+		.returns( $.Deferred().resolve( {
+			query: {
+				globalpreferences: {
+					preferences: {
+						[ autoRevealPreferenceName ]: invalidExpiry
+					}
+				}
+			}
+		} ) );
+	apiMock.expects( 'postWithToken' )
+		.withArgs( 'csrf', {
+			action: 'globalpreferences',
+			optionname: autoRevealPreferenceName,
+			optionvalue: undefined
+		} )
+		.returns( $.Deferred().resolve() );
+
+	return ipRevealUtils.getAutoRevealStatus().then( ( status ) => {
+		assert.strictEqual( status, false, 'Should return false when expiry is set too far in the future' );
+	} );
+} );
+
 QUnit.test( 'Test getAutoRevealStatus with expiry in the future', function ( assert ) {
 	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
 	const futureTimestamp = Math.round( this.mockTime / 1000 ) + 3600;

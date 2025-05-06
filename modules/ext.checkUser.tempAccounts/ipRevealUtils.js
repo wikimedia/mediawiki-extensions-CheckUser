@@ -43,6 +43,18 @@ function getAutoRevealStatusPreferenceName() {
 }
 
 /**
+ * Check whether the expiry time for auto-reveal mode is valid. A valid expiry is in the future
+ * and less than 1 day in the future.
+ *
+ * @param {number} expiry
+ */
+function isExpiryValid( expiry ) {
+	const nowInSeconds = Date.now() / 1000;
+	const oneDayInSeconds = 86400;
+	return ( expiry > nowInSeconds ) && ( expiry <= ( nowInSeconds + oneDayInSeconds ) );
+}
+
+/**
  * Get the auto-reveal status from the global preference.
  *
  * @return {Promise}
@@ -70,7 +82,7 @@ function getAutoRevealStatus() {
 
 			const autoRevealPreference = preferences[ getAutoRevealStatusPreferenceName() ] || 0;
 			const expiry = Number( autoRevealPreference );
-			if ( expiry > ( Date.now() / 1000 ) ) {
+			if ( isExpiryValid( expiry ) ) {
 				deferred.resolve( expiry );
 			} else {
 				// The expiry time has passed, so remove the row from the database table
@@ -101,12 +113,11 @@ function getAutoRevealStatus() {
  */
 function setAutoRevealStatus( relativeExpiry ) {
 	const nowInSeconds = Math.round( Date.now() / 1000 );
-	const oneDayInSeconds = 86400;
 	const absoluteExpiry = relativeExpiry ?
 		nowInSeconds + relativeExpiry :
 		undefined;
 
-	if ( absoluteExpiry > nowInSeconds + oneDayInSeconds ) {
+	if ( absoluteExpiry && !isExpiryValid( absoluteExpiry ) ) {
 		return $.Deferred().reject().promise();
 	}
 

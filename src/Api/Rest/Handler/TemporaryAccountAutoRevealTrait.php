@@ -20,6 +20,20 @@ trait TemporaryAccountAutoRevealTrait {
 	}
 
 	/**
+	 * Check whether the expiry time for auto-reveal mode is valid. A valid expiry is in the future
+	 * and less than 1 day in the future.
+	 *
+	 * @param int $expiry
+	 * @return bool Expiry is valid
+	 */
+	private function isAutoRevealExpiryValid( $expiry ) {
+		$nowInSeconds = ConvertibleTimestamp::time();
+		$oneDayInSeconds = 86400;
+		return ( $expiry > ConvertibleTimestamp::time() ) &&
+			( $expiry <= ( $nowInSeconds + $oneDayInSeconds ) );
+	}
+
+	/**
 	 * @return bool Auto-reveal mode is on
 	 */
 	protected function isAutoRevealOn() {
@@ -35,7 +49,7 @@ trait TemporaryAccountAutoRevealTrait {
 		);
 		return $globalPreferences &&
 			isset( $globalPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] ) &&
-			$globalPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] > ConvertibleTimestamp::time();
+			$this->isAutoRevealExpiryValid( $globalPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] );
 	}
 
 	/**
