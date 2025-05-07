@@ -36,7 +36,6 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
-use MediaWiki\Xml\Xml;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
@@ -568,7 +567,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			$divClasses[] = 'mw-checkuser-clienthints-enabled-temporary-class';
 		}
 
-		$s .= Xml::openElement(
+		$s .= Html::openElement(
 			'div',
 			[
 				'id' => 'checkuserresults',
