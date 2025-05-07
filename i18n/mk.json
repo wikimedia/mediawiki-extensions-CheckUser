@@ -161,6 +161,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Слика на која е прикажана алатката за откривање на IP по нејзина, каде е прикажана IP-адресата на привремената сметка. Копчето на кое се стиска за да се прикаже ова е означено со „Прикажи IP“ и стои до корисничкото име на привремената сметка.",
 	"checkuser-rest-access-denied": "Немате дозвола да го изведете ова дејство",
 	"checkuser-rest-access-denied-blocked-user": "Немате дозвола да го извршите дејството бидејќи вашата сметка е блокирана",
+	"checkuser-rest-userinfo-user-not-found": "Укажана е неважечка корисничка назнака.",
 	"checkuser-link-investigate-label": "Пробајте го {{#special:investigate}}",
 	"checkuser-investigateblock": "Блокирај корисници",
 	"checkuser-investigateblock-target": "Кориснички имиња и IP-адреси",
@@ -340,5 +341,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 го овозможи {{GENDER:$2|својот|својот|својот}} пристап до гледање на заштитени променливи",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 го оневозможи {{GENDER:$2|својот|својот|својот}} пристап до гледање на заштитени променливи",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 ги {{GENDER:$2|погледа}} заштитените променливи поврзани со $3",
-	"ext-ipinfo-global-contributions-url-text": "Глобални придонеси"
+	"ext-ipinfo-global-contributions-url-text": "Глобални придонеси",
+	"checkuser-userinfocard-enable-preference-description": "Овозможи ја [[mw:Help:Extension:CheckUser#UserInfoCard | корисничката инфокартичка]]",
+	"checkuser-userinfocard-enable-preference-help": "Прикажувај копче до корисничките имиња што ќе отвори отскочник со информации за сметката."
 }

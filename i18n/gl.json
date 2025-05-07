@@ -82,7 +82,7 @@
 	"logentry-checkuser-private-event-autocreate-account": "foi creada automaticamente",
 	"logentry-checkuser-private-event-create-account": "foi creada",
 	"group-checkuser.css": "/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */",
-	"group-checkuser.js": "/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */",
+	"group-checkuser.js": "/* O código JavaScript que se coloque aquí afectará soamente aos verificadores de usuarios */",
 	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 de $2",
 	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "Anterior",
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Seguinte",
