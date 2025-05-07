@@ -392,6 +392,14 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "Aria label for the toggle button that opens the user info card",
 	"checkuser-userinfocard-close-button-aria-label": "Aria label for the close button that closes the user info card",
 	"checkuser-userinfocard-open-menu-aria-label": "Aria label for the button that opens the user info card menu",
+	"checkuser-userinfocard-joined-label": "Label for the joined date",
+	"checkuser-userinfocard-active-wikis-label": "Label for the active wikis list",
+	"checkuser-userinfocard-active-blocks-row": "Row for active and past blocks.\n\nParameters:\n* $1 - the number of active blocks\n* $2 - the number of past blocks",
+	"checkuser-userinfocard-global-edits-row": "Row for global edits.\n\nParameters:\n* $1 - the number of global edits",
+	"checkuser-userinfocard-local-edits-row": "Row for local edits and reverted edits.\n\nParameters:\n* $1 - the number of local edits\n* $2 - the number of reverted edits",
+	"checkuser-userinfocard-new-articles-row": "Row for new articles.\n\nParameters:\n* $1 - the number of new articles",
+	"checkuser-userinfocard-thanks-row": "Row for thanks received and sent.\n\nParameters:\n* $1 - the number of thanks received\n* $2 - the number of thanks sent",
+	"checkuser-userinfocard-checks-row": "Row for checks and last checked.\n\nParameters:\n* $1 - the number of checks\n* $2 - the last checked value",
 	"checkuser-userinfocard-enable-preference-description": "The label for a preference for enabling the user info card feature.",
 	"checkuser-userinfocard-enable-preference-help": "The help text for a preference for enabling the user info card feature."
 }

@@ -547,14 +547,27 @@
 					"callbackParam": [
 						"cdxIconUserAvatar",
 						"cdxIconEllipsis",
-						"cdxIconClose"
+						"cdxIconClose",
+						"cdxIconAlert",
+						"cdxIconEdit",
+						"cdxIconArticles",
+						"cdxIconHeart",
+						"cdxIconSearch"
 					]
 				}
 			],
 			"messages": [
 				"checkuser-userinfocard-toggle-button-aria-label",
 				"checkuser-userinfocard-close-button-aria-label",
-				"checkuser-userinfocard-open-menu-aria-label"
+				"checkuser-userinfocard-open-menu-aria-label",
+				"checkuser-userinfocard-joined-label",
+				"checkuser-userinfocard-active-blocks-row",
+				"checkuser-userinfocard-global-edits-row",
+				"checkuser-userinfocard-local-edits-row",
+				"checkuser-userinfocard-new-articles-row",
+				"checkuser-userinfocard-thanks-row",
+				"checkuser-userinfocard-checks-row",
+				"checkuser-userinfocard-active-wikis-label"
 			],
 			"dependencies": [
 				"mediawiki.api",
