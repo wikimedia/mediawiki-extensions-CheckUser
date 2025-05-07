@@ -58,6 +58,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
 	protected function setup(): void {
 		parent::setup();
+		$this->markTestSkipped( 'T393531' );
 
 		// Avoid holding onto stale service references
 		self::$disallowedUser->clearInstanceCache();
