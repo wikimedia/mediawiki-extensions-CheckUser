@@ -94,10 +94,17 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// to be the local provider.
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
 
+		// Some edits will use fake timestamps to test for pagination etc.
+		// Use relative times to avoid tests from expiring.
+		$oneYearAgoTimestamp = ConvertibleTimestamp::time() - 31536000;
+		$oneMonthAgoTimestamp = ConvertibleTimestamp::time() - 2592000;
+		$oneWeekAgoTimestamp = ConvertibleTimestamp::time() - 604800;
+		$oneDayAgoTimestamp = ConvertibleTimestamp::time() - 86400;
+
 		// The users must be created now because the actor table will
 		// be altered when the edits are made, and added to the list
 		// of tables that can't be altered again in $dbDataOnceTables.
-		ConvertibleTimestamp::setFakeTime( '20250303010203' );
+		ConvertibleTimestamp::setFakeTime( $oneMonthAgoTimestamp );
 		self::$disallowedUser = static::getTestUser()->getUser();
 		self::$suppressedUser = static::getTestUser()->getUser();
 		self::$suppressUser = static::getTestUser( [ 'suppress', 'sysop' ] )->getUser();
@@ -109,16 +116,16 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		self::$checkuserAndSysop = static::getTestUser( [ 'checkuser', 'sysop' ] )->getUser();
 		self::$tempUser1 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~check-user-test-2024-01', new FauxRequest() )->getUser();
+			->create( '~check-user-test-01', new FauxRequest() )->getUser();
 		self::$tempUser2 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~check-user-test-2024-02', new FauxRequest() )->getUser();
+			->create( '~check-user-test-02', new FauxRequest() )->getUser();
 		self::$tempUser3 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~check-user-test-2024-03', new FauxRequest() )->getUser();
+			->create( '~check-user-test-03', new FauxRequest() )->getUser();
 
 		// Named user and 2 temp users edit from the first IP
-		ConvertibleTimestamp::setFakeTime( '20250304030203' );
+		ConvertibleTimestamp::setFakeTime( $oneDayAgoTimestamp );
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
 		$this->editPage(
 			'Test page', 'Test Content 1', 'test', NS_MAIN, self::$sysop
@@ -126,20 +133,18 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->editPage(
 			'Test page', 'Test Content 2', 'test', NS_MAIN, self::$tempUser1
 		);
-
-		// Do one edit at a different time, to test the pagination
-		ConvertibleTimestamp::setFakeTime( '20250206030203' );
-		$this->editPage(
-			'Test page', 'Test Content 3', 'test', NS_MAIN, self::$tempUser2
-		);
-
-		ConvertibleTimestamp::setFakeTime( '20250306030203' );
 		$this->editPage(
 			'Test page for deletion', 'Test Content', 'test', NS_MAIN, self::$tempUser1
 		);
 		$title = Title::newFromText( 'Test page for deletion' );
 		$page = $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $title );
 		$this->deletePage( $page );
+
+		// Do one edit at a different time, to test the pagination
+		ConvertibleTimestamp::setFakeTime( $oneWeekAgoTimestamp );
+		$this->editPage(
+			'Test page', 'Test Content 3', 'test', NS_MAIN, self::$tempUser2
+		);
 
 		// Temp user edits again from a different IP
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
@@ -150,7 +155,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 
 		// Do an edit by a named user which is should have been purged from CheckUser tables.
-		ConvertibleTimestamp::setFakeTime( '20000101000000' );
+		ConvertibleTimestamp::setFakeTime( $oneYearAgoTimestamp );
 		$this->editPage(
 			'Test page', 'Test Content 5', 'test', NS_MAIN, self::$sysop
 		);
@@ -266,9 +271,12 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	}
 
 	public function testExecuteForIPWhenStartTimestampHidesSomeRevisions() {
+		// 2 days ago which should hide the week-old revision but still cover the day-old revisions
+		$startTime = new ConvertibleTimestamp( ConvertibleTimestamp::time() - ( 86400 * 2 ) );
+		$startTime = $startTime->format( 'Y-m-d' );
 		[ $html ] = $this->executeSpecialPage(
 			'127.0.0.1/24',
-			new FauxRequest( [ 'start' => '2025-03-06' ] ),
+			new FauxRequest( [ 'start' => $startTime ] ),
 			null,
 			self::$checkuserAndSysop
 		);
@@ -289,9 +297,12 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	}
 
 	public function testExecuteForIPWhenEndTimestampHidesSomeRevisions() {
+		// 2 days ago, which should hide the day-old revisions and only return the week-old revision
+		$endTime = new ConvertibleTimestamp( ConvertibleTimestamp::time() - ( 86400 * 2 ) );
+		$endTime = $endTime->format( 'Y-m-d' );
 		[ $html ] = $this->executeSpecialPage(
 			'127.0.0.1',
-			new FauxRequest( [ 'end' => '2025-02-30' ] ),
+			new FauxRequest( [ 'end' => $endTime ] ),
 			null,
 			self::$checkuser
 		);
@@ -312,9 +323,13 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	}
 
 	public function testExecuteForIPWhenEndTimestampBeforeCheckUserDataPurgeCutoff() {
+		$CUDMaxAge = $this->getServiceContainer()->getMainConfig()->get( 'CUDMaxAge' );
+		$pastCUDMaxAgeTimestamp = ConvertibleTimestamp::time() - $CUDMaxAge - 1;
+		$endTime = new ConvertibleTimestamp( $pastCUDMaxAgeTimestamp );
+		$endTime = $endTime->format( 'Y-m-d' );
 		[ $html ] = $this->executeSpecialPage(
 			self::$sysop->getName(),
-			new FauxRequest( [ 'end' => '2023-02-30' ] ),
+			new FauxRequest( [ 'end' => $endTime ] ),
 			null,
 			self::$checkuser
 		);
