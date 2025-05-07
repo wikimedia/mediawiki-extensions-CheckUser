@@ -390,6 +390,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "{{Logentry|[[Special:Log/checkuser-temporary-account|view-ips]]}}",
 	"checkuser-ipinfo-global-contributions-url-text": "Link text to user's global contributions list on IPInfo's infobox widget",
 	"checkuser-userinfocard-toggle-button-aria-label": "Aria label for the toggle button that opens the user info card",
+	"checkuser-userinfocard-close-button-aria-label": "Aria label for the close button that closes the user info card",
+	"checkuser-userinfocard-open-menu-aria-label": "Aria label for the button that opens the user info card menu",
 	"checkuser-userinfocard-enable-preference-description": "The label for a preference for enabling the user info card feature.",
 	"checkuser-userinfocard-enable-preference-help": "The help text for a preference for enabling the user info card feature."
 }
