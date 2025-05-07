@@ -133,5 +133,7 @@
 	"checkuser-investigate-compare-table-header-username": "Потребителско име",
 	"checkuser-investigate-compare-table-header-activity": "Период от време",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "Потребителски агент"
+	"checkuser-investigate-compare-table-header-useragent": "Потребителски агент",
+	"prefs-checkuser-tempaccount": "Показване на IP адреси на временни сметки",
+	"checkuser-tempaccount-enable-preference": "Включване на показването на IP адресите на временните сметки"
 }
