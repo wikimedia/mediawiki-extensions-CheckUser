@@ -203,7 +203,8 @@ return [
 			$services->getDBLoadBalancerFactory(),
 			$services->getJobQueueGroup(),
 			$services->getStatsFactory(),
-			$services->getUserLinkRenderer()
+			$services->getUserLinkRenderer(),
+			$services->getMainWANObjectCache()
 		);
 	},
 	'CheckUserApiRequestAggregator' => static function (

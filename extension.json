@@ -380,7 +380,10 @@
 				"ExtensionRegistry",
 				"UserGroupManager",
 				"UserEditTracker",
-				"UserRegistrationLookup"
+				"UserRegistrationLookup",
+				"CentralIdLookup",
+				"MainWANObjectCache",
+				"SpecialPageFactory"
 			]
 		},
 		"GlobalPreferencesHandler": {
@@ -513,6 +516,13 @@
 			"services": [
 				"CheckUserGlobalContributionsLookup"
 			]
+		},
+		"CentralAuthHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\CentralAuthHandler",
+			"services": [
+				"MainWANObjectCache",
+				"SpecialPageFactory"
+			]
 		}
 	},
 	"Hooks": {
@@ -548,13 +558,15 @@
 		],
 		"SpecialPage_initList": "ConditionalRegistration",
 		"SpecialUserRightsChangeableGroups": "groups",
+		"UserGroupsChanged": "groups",
 		"UserGetDefaultOptions": "preferences",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
 		"UserLinkRendererUserLinkPostRender": "UserLinkRendererUserLinkPostRenderHandler",
 		"UserLogoutComplete": "CheckUserPrivateEvents",
 		"UserMergeAccountFields": "UserMerge",
 		"UserToolLinksEdit": "ToolLinks",
-		"IPInfoHandlerRun": "IPInfoHandler"
+		"IPInfoHandlerRun": "IPInfoHandler",
+		"CentralAuthGlobalUserGroupMembershipChanged": "CentralAuthHandler"
 	},
 	"MessagesDirs": {
 		"CheckUser": [

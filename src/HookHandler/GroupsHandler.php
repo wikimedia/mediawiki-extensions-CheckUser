@@ -6,20 +6,30 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\SpecialUserRightsChangeableGroupsHook;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\CentralId\CentralIdLookup;
+use MediaWiki\User\Hook\UserGroupsChangedHook;
 use MediaWiki\User\Registration\UserRegistrationLookup;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
+use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
-class GroupsHandler implements SpecialUserRightsChangeableGroupsHook {
+class GroupsHandler implements
+	SpecialUserRightsChangeableGroupsHook,
+	UserGroupsChangedHook
+	{
 	private Config $config;
 	private IConnectionProvider $dbProvider;
 	private ExtensionRegistry $extensionRegistry;
 	private UserGroupManager $userGroupManager;
 	private UserEditTracker $userEditTracker;
 	private UserRegistrationLookup $userRegistrationLookup;
+	private CentralIdLookup $centralIdLookup;
+	private WANObjectCache $wanCache;
+	private SpecialPageFactory $specialPageFactory;
 
 	public function __construct(
 		Config $config,
@@ -27,7 +37,10 @@ class GroupsHandler implements SpecialUserRightsChangeableGroupsHook {
 		ExtensionRegistry $extensionRegistry,
 		UserGroupManager $userGroupManager,
 		UserEditTracker $userEditTracker,
-		UserRegistrationLookup $userRegistrationLookup
+		UserRegistrationLookup $userRegistrationLookup,
+		CentralIdLookup $centralIdLookup,
+		WANObjectCache $wanCache,
+		SpecialPageFactory $specialPageFactory
 	) {
 		$this->config = $config;
 		$this->dbProvider = $dbProvider;
@@ -35,6 +48,9 @@ class GroupsHandler implements SpecialUserRightsChangeableGroupsHook {
 		$this->userGroupManager = $userGroupManager;
 		$this->userEditTracker = $userEditTracker;
 		$this->userRegistrationLookup = $userRegistrationLookup;
+		$this->centralIdLookup = $centralIdLookup;
+		$this->wanCache = $wanCache;
+		$this->specialPageFactory = $specialPageFactory;
 	}
 
 	/**
@@ -112,5 +128,44 @@ class GroupsHandler implements SpecialUserRightsChangeableGroupsHook {
 
 			$unaddableGroups[$group] = $groupSpec['reason'] ?? 'checkuser-group-requirements';
 		}
+	}
+
+	/**
+	 * Clear user's cached known external wiki permissions on user group change
+	 *
+	 * @inheritDoc
+	 */
+	public function onUserGroupsChanged(
+		$user,
+		$added,
+		$removed,
+		$performer,
+		$reason,
+		$oldUGMs,
+		$newUGMs
+	) {
+		// Do nothing if the user's group memberships didn't change
+		if ( $newUGMs === $oldUGMs ) {
+			return;
+		}
+
+		// Do nothing if Special:GlobalContributions doesn't exist, as it's the sole generator of this data
+		if ( !$this->specialPageFactory->exists( 'GlobalContributions' ) ) {
+			return;
+		}
+
+		// Do nothing if user has no central id, as there will be no permissions cached for them
+		$centralUserId = $this->centralIdLookup->centralIdFromLocalUser( $user );
+		if ( !$centralUserId ) {
+			return;
+		}
+
+		$cacheKey = $this->wanCache->makeGlobalKey(
+			'globalcontributions-ext-permissions',
+			$centralUserId
+		);
+
+		// Clear the cache value if it exists as changing user groups may change the user's stored access permissions
+		$this->wanCache->delete( $cacheKey );
 	}
 }

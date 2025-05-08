@@ -17,6 +17,7 @@ class CheckUserExtensionJsonTest extends ExtensionJsonTestBase {
 	public static function provideHookHandlerNames(): iterable {
 		$extHookHandlers = [
 			'AbuseFilterHandler' => 'Abuse Filter',
+			'CentralAuthHandler' => 'CentralAuth',
 			'GlobalPreferencesHandler' => 'GlobalPreferences',
 			'GlobalBlockingHandler' => 'GlobalBlocking',
 			'UserMerge' => 'UserMerge',

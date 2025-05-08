@@ -36,6 +36,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use OOUI\HtmlSnippet;
 use OOUI\MessageWidget;
+use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
@@ -72,6 +73,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private JobQueueGroup $jobQueueGroup;
 	private StatsFactory $statsFactory;
 	private UserLinkRenderer $userLinkRenderer;
+	private WANObjectCache $wanCache;
 	private array $permissions = [];
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
@@ -108,6 +110,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		JobQueueGroup $jobQueueGroup,
 		StatsFactory $statsFactory,
 		UserLinkRenderer $userLinkRenderer,
+		WANObjectCache $wanCache,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null
@@ -138,6 +141,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
 		$this->statsFactory = $statsFactory;
 		$this->userLinkRenderer = $userLinkRenderer;
+		$this->wanCache = $wanCache;
 	}
 
 	/**
@@ -147,35 +151,82 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @param string[] $wikiIds
 	 */
 	private function getExternalWikiPermissions( $wikiIds ) {
-		$permissions = $this->apiRequestAggregator->execute(
-			$this->getUser(),
-			[
-				'action' => 'query',
-				'prop' => 'info',
-				'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference' .
-					'|deletedtext|deletedhistory|suppressrevision|viewsuppressed',
-				// We need to check against a title, but it doesn't actually matter if the title exists
-				'titles' => 'Test Title',
-				// Using `full` level checks blocks as well
-				'intestactionsdetail' => 'full',
-				'format' => 'json',
-			],
-			$wikiIds,
-			$this->getRequest(),
-			CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH
-		);
-		foreach ( $wikiIds as $wikiId ) {
-			if ( !isset( $permissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
-				// The API lookup failed, so assume the user does not have IP reveal rights.
-				$this->externalApiLookupError = true;
-
-				$this->statsFactory->getCounter( self::API_LOOKUP_ERROR_METRIC_NAME )
-					->increment();
-
-				continue;
-			}
-			$this->permissions[$wikiId] = $permissions[$wikiId]['query']['pages'][0]['actions'];
+		$centralId = $this->centralIdLookup->centralIdFromLocalUser( $this->getUser() );
+		if ( !$centralId ) {
+			// No central permissions to check for, return an empty array without caching it
+			$this->permissions = [];
+			return;
 		}
+
+		$cacheKey = $this->wanCache->makeGlobalKey(
+			'globalcontributions-ext-permissions',
+			$centralId
+		);
+
+		$this->permissions = $this->wanCache->getWithSetCallback(
+			$cacheKey,
+			$this->wanCache::TTL_MONTH,
+			function ( $oldValue, &$ttl ) use ( $wikiIds ) {
+				// If new active wikis are used, the cache value will need to be updated
+				$wikisWithUnknownPermissions = [];
+				if ( is_array( $oldValue ) ) {
+					foreach ( $wikiIds as $wikiId ) {
+						if ( !array_key_exists( $wikiId, $oldValue ) ) {
+							$wikisWithUnknownPermissions[] = $wikiId;
+						}
+					}
+				} else {
+					// Nothing in cache, will need to pull permissions and cache them
+					$wikisWithUnknownPermissions = $wikiIds;
+				}
+
+				if ( !count( $wikisWithUnknownPermissions ) ) {
+					// Don't attempt to re-set this value when it's returned
+					$ttl = $this->wanCache::TTL_UNCACHEABLE;
+					// We still want to check permissions even if it's an empty array so fall back
+					// to that if a cached value hasn't been set yet ($oldValue will be false)
+					if ( is_array( $oldValue ) ) {
+						return $oldValue;
+					}
+					return [];
+				}
+
+				$allPermissions = $this->apiRequestAggregator->execute(
+					$this->getUser(),
+					[
+						'action' => 'query',
+						'prop' => 'info',
+						'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference' .
+							'|deletedtext|deletedhistory|suppressrevision|viewsuppressed',
+						// We need to check against a title, but it doesn't actually matter if the title exists
+						'titles' => 'Test Title',
+						// Using `full` level checks blocks as well
+						'intestactionsdetail' => 'full',
+						'format' => 'json',
+					],
+					$wikisWithUnknownPermissions,
+					$this->getRequest(),
+					CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH
+				);
+
+				$permissions = is_array( $oldValue ) ? $oldValue : [];
+				foreach ( $wikiIds as $wikiId ) {
+					if ( !isset( $allPermissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
+						// The API lookup failed, so assume the user does not have IP reveal rights.
+						$this->externalApiLookupError = true;
+
+						$this->statsFactory->getCounter( self::API_LOOKUP_ERROR_METRIC_NAME )
+							->increment();
+
+						continue;
+					}
+					$permissions[$wikiId] = $allPermissions[$wikiId]['query']['pages'][0]['actions'];
+				}
+				return $permissions;
+			},
+			// Always run the callback
+			[ 'minAsOf' => INF ]
+		);
 	}
 
 	/**
