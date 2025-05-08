@@ -127,6 +127,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 			'text' => $skin->msg( 'checkuser-ip-auto-reveal-link-sidebar' )->text(),
 			'href' => '#',
 			'class' => 'checkuser-ip-auto-reveal',
+			'icon' => 'userAvatar',
 		];
 	}
 
