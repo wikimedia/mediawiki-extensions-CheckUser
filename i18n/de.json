@@ -336,7 +336,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Die Anzeige der IP-Adressen für temporäre Konten ist ausgeschaltet",
 	"checkuser-tempaccount-reveal-blocked-description": "Du hast aus folgendem Grund keine Erlaubnis, diese Funktion zu nutzen:",
 	"checkuser-tempaccount-specialblock-ips": "Dies ist ein temporärer Benutzer, der {{PLURAL:$1|die folgende IP-Adresse|die folgenden IP-Adressen}} nutzt: $2",
-	"checkuser-temporary-account-log-name": "Checkuser temporäres Kontoprotokoll",
+	"checkuser-temporary-account-log-name": "IP-Adressen-Offenlegungs-Logbuch",
 	"checkuser-temporary-account-log-header": "Dies ist das Logbuch von:\n# Anzeigen der IP-Adressen, die von einem temporäre Konto verwendet werden\n# Anzeigen von temporären Konten, die mit einer IP-Adresse oder einem IP-Adressbereich verbunden sind\n# Änderungen an Benutzerzugriffs-Level zum Ansehen von IP-Adressen, die von temporären Konten verwendet werden.",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|seinen|ihren}} eigenen Zugriff, um die IP-Adressen temporärer Konten anzuzeigen",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|deaktivierte}}",
