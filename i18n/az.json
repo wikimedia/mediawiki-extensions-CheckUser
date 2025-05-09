@@ -331,7 +331,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Müvəqqəti hesabın IP aşkarlanması deaktiv edilib",
 	"checkuser-tempaccount-reveal-blocked-description": "Aşağıdakı səbəblərə görə bu funksiyadan istifadə etmək icazəniz yoxdur:",
 	"checkuser-tempaccount-specialblock-ips": "Bu, aşağıdakı {{PLURAL:$1|IP ünvanı|IP ünvanlarını}} istifadə edən müvəqqəti istifadəçidir: $2",
-	"checkuser-temporary-account-log-name": "Təftişçi müvəqqəti hesab jurnalı",
+	"checkuser-temporary-account-log-name": "IP aşkarlama jurnalı",
 	"checkuser-temporary-account-log-header": "Bu aşağıdakıların qeyd olunduğu jurnaldır:\n# Müvəqqəti hesablar tərəfindən istifadə edilən IP ünvanlarını yoxlamaq\n# IP ünvanı və ya diapazonu ilə əlaqəli müvəqqəti hesabları yoxlamaq\n# Müvəqqəti hesablar tərəfindən istifadə edilən IP ünvanlarına baxmaq üçün istifadəçi hüquqlarında edilən dəyişikliklər.",
 	"logentry-checkuser-temporary-account-change-access": "$1 müvəqqəti hesabların IP ünvanına baxmaq üçün {{GENDER:$2|öz}} icazəsini $4",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|deaktiv etdi}}",
