@@ -19,6 +19,7 @@ use MediaWiki\CheckUser\IPContributions\IPContributionsPagerFactory;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\AccountCreationDetailsLookup;
 use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
+use MediaWiki\CheckUser\Services\CheckUserCentralIndexLookup;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
@@ -296,6 +297,13 @@ return [
 	},
 	'CheckUserDataPurger' => static function () {
 		return new CheckUserDataPurger();
+	},
+	'CheckUserCentralIndexLookup' => static function (
+		MediaWikiServices $services
+	) {
+		return new CheckUserCentralIndexLookup(
+			$services->getConnectionProvider()
+		);
 	},
 	'CheckUserCentralIndexManager' => static function (
 		MediaWikiServices $services
