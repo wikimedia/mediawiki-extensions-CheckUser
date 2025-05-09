@@ -273,11 +273,9 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			$this->getAuthorityForSuccess()
 		);
-
-		ConvertibleTimestamp::setFakeTime( false );
 	}
 
-	public function provideExecuteLogs() {
+	public static function provideExecuteLogs() {
 		ConvertibleTimestamp::setFakeTime( '20230406060708' );
 		$timeNow = ConvertibleTimestamp::time();
 		$validFutureTimestamp = $timeNow + 100;
