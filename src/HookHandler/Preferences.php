@@ -81,7 +81,9 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 		$messageLocalizer = RequestContext::getMain();
 
 		$preferences[self::ENABLE_USER_INFO_CARD] = [
-			'type' => 'toggle',
+			// TODO: Change this to 'toggle' when we are ready to make this discoverable
+			// to users (T386439)
+			'type' => 'api',
 			'section' => 'rendering/advancedrendering',
 			'label-message' => 'checkuser-userinfocard-enable-preference-description',
 			'help-message' => 'checkuser-userinfocard-enable-preference-help',
