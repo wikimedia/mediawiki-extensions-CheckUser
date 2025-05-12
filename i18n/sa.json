@@ -3,9 +3,11 @@
 		"authors": [
 			"Ansumang",
 			"NehalDaveND",
-			"Naveen Sankar"
+			"Naveen Sankar",
+			"Svartava"
 		]
 	},
+	"group-checkuser": "सदस्यान्वेषिणः",
 	"checkuser-reason": "कारणम् :",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-period": "कालः :",

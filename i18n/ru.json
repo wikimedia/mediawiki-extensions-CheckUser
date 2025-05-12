@@ -69,6 +69,7 @@
 	"checkuser-week-1": "последняя неделя",
 	"checkuser-week-2": "последние две недели",
 	"checkuser-month": "последние 30 дней",
+	"checkuser-month-2": "последние 60 дней",
 	"checkuser-all": "все",
 	"checkuser-cidr-label": "Найти общий диапазон и затрагиваемые адреса для списка IP",
 	"checkuser-cidr-res": "Общая CIDR:",
