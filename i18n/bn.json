@@ -231,7 +231,7 @@
 	"checkuser-tempaccount-reveal-ip-missing": "অনুপলব্ধ",
 	"checkuser-tempaccount-reveal-ip-error": "ত্রুটি",
 	"checkuser-tempaccount-specialblock-ips": "ইনি একজন অস্থায়ী ব্যবহারকারী যিনি নিম্নলিখিত {{PLURAL:$1|আইপি|আইপিগুলি}} ব্যবহার করছেন: $2",
-	"checkuser-temporary-account-log-name": "ব্যবহারকারী পরীক্ষণ অস্থায়ী অ্যাকাউন্টের লগ",
+	"checkuser-temporary-account-log-name": "আইপি প্রকাশ লগ",
 	"logentry-checkuser-temporary-account-change-access": "$1 অস্থায়ী অ্যাকাউন্টসমূহের আইপি ঠিকানা দেখতে {{GENDER:$2|তার নিজের}} প্রবেশাধিকার $4 করেছেন",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|নিষ্ক্রিয়}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|সক্রিয়}}",

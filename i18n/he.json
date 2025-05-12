@@ -348,5 +348,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|כיבה לעצמו|כיבתה לעצמה}} את הגישה לצפייה במשתנים מוגנים",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|צפה|צפתה}} במשתנים מוגנים שמשויכים לדף $3",
 	"ext-ipinfo-global-contributions-url-text": "הצגת תרומות גלובליות",
+	"checkuser-userinfocard-enable-preference-description": "להפעיל את [[mw:Help:Extension:CheckUser#UserInfoCard|כרטיס פרטי המשתמש]]",
 	"checkuser-userinfocard-enable-preference-help": "הצגת כפתור ליד שמות משתמש לפתיחת חלון קופץ עם מידע על חשבון."
 }

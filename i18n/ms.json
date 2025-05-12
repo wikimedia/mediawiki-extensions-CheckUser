@@ -70,5 +70,6 @@
 	"checkuser-investigate-duration-option-30d": "30 hari lepas",
 	"checkuser-investigate-compare-copy-button-label": "Tunjuk wikiteks",
 	"checkuser-tempaccount-reveal-ip-button-label": "Tunjukkan IP",
-	"checkuser-tempaccount-reveal-ip-missing": "tidak ada"
+	"checkuser-tempaccount-reveal-ip-missing": "tidak ada",
+	"checkuser-userinfocard-enable-preference-description": "Dayakan [[mw:Help:Extension:CheckUser#UserInfoCard|kad maklumat pengguna]]"
 }
