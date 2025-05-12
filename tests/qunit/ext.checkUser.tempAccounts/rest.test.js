@@ -1,6 +1,6 @@
 'use strict';
 
-const rest = require( '../../../modules/ext.checkUser.tempAccounts/rest.js' );
+const rest = require( 'ext.checkUser.tempAccounts/rest.js' );
 
 let server;
 

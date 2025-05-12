@@ -1,6 +1,6 @@
 'use strict';
 
-const createTable = require( '../../../../../modules/ext.checkUser/checkuser/checkUserHelper/createTable.js' );
+const createTable = require( 'ext.checkUser/checkuser/checkUserHelper/createTable.js' );
 
 QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.createTable', QUnit.newMwEnvironment( {
 	beforeEach: function () {

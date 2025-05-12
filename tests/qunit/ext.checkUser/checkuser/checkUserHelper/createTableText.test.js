@@ -1,6 +1,6 @@
 'use strict';
 
-const createTableText = require( '../../../../../modules/ext.checkUser/checkuser/checkUserHelper/createTableText.js' );
+const createTableText = require( 'ext.checkUser/checkuser/checkUserHelper/createTableText.js' );
 
 QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.createTableText' );
 

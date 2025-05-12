@@ -1,8 +1,8 @@
 'use strict';
 
-const specialContributions = require( '../../../modules/ext.checkUser.tempAccounts/SpecialContributions.js' ),
+const specialContributions = require( 'ext.checkUser.tempAccounts/SpecialContributions.js' ),
 	{ waitUntilElementCount } = require( './utils.js' ),
-	ipRevealUtils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
+	ipRevealUtils = require( 'ext.checkUser.tempAccounts/ipRevealUtils.js' );
 
 let server;
 

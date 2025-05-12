@@ -1,6 +1,6 @@
 'use strict';
 
-const generateData = require( '../../../../../modules/ext.checkUser/checkuser/checkUserHelper/generateData.js' );
+const generateData = require( 'ext.checkUser/checkuser/checkUserHelper/generateData.js' );
 
 QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.generateData', QUnit.newMwEnvironment() );
 

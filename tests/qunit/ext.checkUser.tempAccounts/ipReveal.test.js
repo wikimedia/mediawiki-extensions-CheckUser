@@ -1,8 +1,8 @@
 'use strict';
 
-const ipReveal = require( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js' );
+const ipReveal = require( 'ext.checkUser.tempAccounts/ipReveal.js' );
 const { makeTempUserLink, waitUntilElementDisappears } = require( './utils.js' );
-const ipRevealUtils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
+const ipRevealUtils = require( 'ext.checkUser.tempAccounts/ipRevealUtils.js' );
 
 const originalGetAutoRevealStatus = ipRevealUtils.getAutoRevealStatus;
 let server;

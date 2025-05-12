@@ -1,6 +1,6 @@
 'use strict';
 
-const ipRevealUtils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
+const ipRevealUtils = require( 'ext.checkUser.tempAccounts/ipRevealUtils.js' );
 const autoRevealPreferenceName = 'checkuser-temporary-account-enable-auto-reveal';
 
 QUnit.module( 'ext.checkUser.tempAccounts.ipRevealUtils', QUnit.newMwEnvironment( {
