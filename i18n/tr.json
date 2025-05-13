@@ -21,7 +21,8 @@
 			"Suelnur",
 			"Vito Genovese",
 			"Ömer Berkay",
-			"LisafBia"
+			"LisafBia",
+			"Leo"
 		]
 	},
 	"checkuser-summary": "Bu araç bir kullanıcı tarafından kullanılan IP'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.\nAlıcı IP'deki kullanıcı ve değişiklikler, IP'ye \"/xff\" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR $1-32) ve IPv6 (CIDR $2-128) desteklenmektedir.\nPerformans nedenleriyle $3 düzenlemeden fazla geri almayacaktır.",
@@ -202,6 +203,7 @@
 	"checkuser-investigate-tour-block-desc": "Engellemek istediğiniz kullanıcıları seçmenize olanak tanır ve ardından uygun engeli seçmek için engel formuna götürür.",
 	"checkuser-investigate-tour-copywikitext-title": "Verileri kopyalamak ister misiniz?",
 	"checkuser-investigate-tour-copywikitext-desc": "Karşılaştırma tablosunu tek tıklamayla kopyalayın ve CUWiki'ye götürün. Soruşturmanın tüm sayfalarını değil, yalnızca görünür olanları kopyaladığınızı unutmayın.",
+	"checkuser-global-contributions": "Küresel katkıları ara",
 	"checkuser-global-contributions-search-form-wrapper": "Küresel katkıları ara",
 	"prefs-checkuser-tempaccount": "Geçici hesap IP göstermesi",
 	"checkuser-tempaccount-enable-preference": "Geçici hesaplar için IP adreslerinin açıklanmasını etkinleştir",
