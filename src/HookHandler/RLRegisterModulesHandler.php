@@ -62,7 +62,7 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 					'init.js'
 				],
 				'messages' => [
-					'ext-ipinfo-global-contributions-url-text',
+					'checkuser-ipinfo-global-contributions-url-text',
 				]
 			];
 		}

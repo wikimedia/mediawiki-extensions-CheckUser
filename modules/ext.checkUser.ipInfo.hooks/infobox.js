@@ -14,7 +14,7 @@ function addSpecialGlobalContributionsLink( $info, target, pageName ) {
 			.addClass( 'ext-ipinfo-global-contribution-link' )
 			.append( $( '<a>' )
 				.attr( 'href', globalContributionsUrl )
-				.text( mw.msg( 'ext-ipinfo-global-contributions-url-text' ) ) );
+				.text( mw.msg( 'checkuser-ipinfo-global-contributions-url-text' ) ) );
 		$info.find( '[data-property="edits"]' )
 			.append( $globalEdits );
 	}
