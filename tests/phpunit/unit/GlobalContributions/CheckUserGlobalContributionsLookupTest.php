@@ -14,6 +14,7 @@ use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWikiUnitTestCase;
+use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -157,5 +158,49 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 			'checkUserLookupUtils' => $checkUserLookupUtils,
 		] );
 		$result = $lookup->getAnonymousUserGlobalContributionCount( '1.2.3.4/24', [ 'testwiki' ] );
+	}
+
+	public function testGetRevisionSizesShouldDoNothingForEmptyList(): void {
+		$dbProvider = $this->createNoOpMock( IConnectionProvider::class );
+		$lookup = $this->getLookupWithOverrides( [ 'dbProvider' => $dbProvider ] );
+
+		$lookup->getRevisionSizes( 'testwiki', [] );
+	}
+
+	public function testGetRevisionSizesShouldReturnMapOfRevisionSizes(): void {
+		$parentIds = [ 8, 9, 10 ];
+
+		$selectQueryBuilder = $this->createMock( SelectQueryBuilder::class );
+		$selectQueryBuilder->method( 'select' )
+			->with( [ 'rev_id', 'rev_len' ] )
+			->willReturnSelf();
+		$selectQueryBuilder->method( 'from' )
+			->with( 'revision' )
+			->willReturnSelf();
+		$selectQueryBuilder->method( 'where' )
+			->with( [ 'rev_id' => $parentIds ] )
+			->willReturnSelf();
+		$selectQueryBuilder->method( 'caller' )
+			->willReturnSelf();
+		$selectQueryBuilder->method( 'fetchResultSet' )
+			->willReturn( new FakeResultWrapper( [
+				(object)[ 'rev_id' => 8, 'rev_len' => 1000 ],
+				(object)[ 'rev_id' => 9, 'rev_len' => 2000 ],
+			] ) );
+
+		$dbr = $this->createMock( IReadableDatabase::class );
+		$dbr->method( 'newSelectQueryBuilder' )
+			->willReturn( $selectQueryBuilder );
+
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getReplicaDatabase' )
+			->with( 'testwiki' )
+			->willReturn( $dbr );
+
+		$lookup = $this->getLookupWithOverrides( [ 'dbProvider' => $dbProvider ] );
+
+		$parentSizes = $lookup->getRevisionSizes( 'testwiki', $parentIds );
+
+		$this->assertSame( [ 8 => 1000, 9 => 2000, 10 => 0 ], $parentSizes );
 	}
 }

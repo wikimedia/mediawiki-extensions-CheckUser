@@ -171,4 +171,34 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 			return $centralUser->getGlobalEditCount();
 		}
 	}
+
+	/**
+	 * Get the byte length of a list of revisions on the given wiki.
+	 *
+	 * @param string $wikiId
+	 * @param int[] $revisionIds
+	 * @return int[] Map of revision ID to byte length
+	 */
+	public function getRevisionSizes( string $wikiId, array $revisionIds ): array {
+		if ( count( $revisionIds ) === 0 ) {
+			return [];
+		}
+
+		$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
+
+		$res = $dbr->newSelectQueryBuilder()
+			->select( [ 'rev_id', 'rev_len' ] )
+			->from( 'revision' )
+			->where( [ 'rev_id' => $revisionIds ] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+
+		$revisionSizes = array_fill_keys( $revisionIds, 0 );
+
+		foreach ( $res as $row ) {
+			$revisionSizes[$row->rev_id] = (int)$row->rev_len;
+		}
+
+		return $revisionSizes;
+	}
 }

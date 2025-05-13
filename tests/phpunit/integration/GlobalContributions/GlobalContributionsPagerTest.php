@@ -615,18 +615,22 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 *
 	 * @param IResultWrapper[] $resultsByWiki Map of result sets keyed by wiki ID
 	 * @param string[] $paginationParams The pagination parameters to set on the pager
+	 * @param array $expectedParentSizeLookups The expected parent revision IDs to be queried for each wiki
 	 * @param int $expectedCount The expected number of rows in the result set
 	 * @param array|false $expectedPrevQuery The expected query parameters for the 'prev' page,
 	 * or `false` if there is no previous page
 	 * @param array|false $expectedNextQuery The expected query parameters for the 'next' page,
 	 * or `false` if there is no next page
+	 * @param int[] $expectedDiffSizes The expected byte sizes of the shown diffs
 	 */
 	public function testQuery(
 		array $resultsByWiki,
 		array $paginationParams,
+		array $expectedParentSizeLookups,
 		int $expectedCount,
 		$expectedPrevQuery,
-		$expectedNextQuery
+		$expectedNextQuery,
+		array $expectedDiffSizes
 	): void {
 		$wikiIds = array_keys( $resultsByWiki );
 
@@ -634,6 +638,15 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$globalContributionsLookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
 		$globalContributionsLookup->method( 'getActiveWikis' )
 			->willReturn( $wikiIds );
+
+		$parentSizeMap = [];
+		foreach ( $expectedParentSizeLookups as $wikiId => $parentRevIds ) {
+			$parentSizes = array_fill_keys( $parentRevIds, 5 );
+			$parentSizeMap[] = [ $wikiId, $parentRevIds, $parentSizes ];
+		}
+
+		$globalContributionsLookup->method( 'getRevisionSizes' )
+			->willReturnMap( $parentSizeMap );
 
 		$checkUserDb = $this->createMock( IReadableDatabase::class );
 		$dbMap = [
@@ -698,10 +711,15 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		$pagingQueries = $pager->getPagingQueries();
 		$result = $pager->getResult();
+		$body = $pager->getBody();
 
-		$this->assertSame( $expectedCount, $result->numRows() );
-		$this->assertSame( $expectedPrevQuery, $pagingQueries['prev'] );
-		$this->assertSame( $expectedNextQuery, $pagingQueries['next'] );
+		preg_match_all( '/\(rc-change-size: (\d+)\)/', $body, $matches, PREG_SET_ORDER );
+		$diffSizes = array_map( static fn ( array $match ) => (int)$match[1], $matches );
+
+		$this->assertSame( $expectedCount, $result->numRows(), 'Unexpected result row count' );
+		$this->assertSame( $expectedPrevQuery, $pagingQueries['prev'], 'Invalid prev pagination link' );
+		$this->assertSame( $expectedNextQuery, $pagingQueries['next'], 'Invalid next pagination link' );
+		$this->assertSame( $expectedDiffSizes, $diffSizes, 'Mismatched byte counts in diff links' );
 		$this->assertApiLookupErrorCount( 0 );
 	}
 
@@ -721,26 +739,32 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		yield '5 rows, limit=4, first page' => [
 			$testResults,
 			[ 'limit' => 4 ],
+			[ 'testwiki' => [ 1 ], 'otherwiki' => [ 1 ] ],
 			// 4 rows shown + 1 row for the next page link
 			5,
 			false,
-			[ 'offset' => '20250108000000|-1|1', 'limit' => 4 ],
+			[ 'offset' => '20250108000000|-1|2', 'limit' => 4 ],
+			[ 0, 0, 0, 95 ],
 		];
 
 		yield '5 rows, limit=4, second page' => [
 			$testResults,
-			[ 'offset' => '20250108000000|-1|1', 'limit' => 4 ],
+			[ 'offset' => '20250108000000|-1|2', 'limit' => 4 ],
+			[ 'testwiki' => [ 1 ], 'otherwiki' => [ 1 ] ],
 			1,
-			[ 'dir' => 'prev', 'offset' => '20250107000000|0|1', 'limit' => 4 ],
+			[ 'dir' => 'prev', 'offset' => '20250107000000|0|2', 'limit' => 4 ],
 			false,
+			[ 95 ],
 		];
 
 		yield '5 rows, limit=4, backwards from second page' => [
 			$testResults,
-			[ 'dir' => 'prev', 'offset' => '20250107000000|0|1', 'limit' => 4 ],
+			[ 'dir' => 'prev', 'offset' => '20250107000000|0|2', 'limit' => 4 ],
+			[ 'testwiki' => [ 2 ], 'otherwiki' => [ 1 ] ],
 			4,
 			false,
-			[ 'offset' => '20250108000000|-1|1', 'limit' => 4 ],
+			[ 'offset' => '20250108000000|-1|2', 'limit' => 4 ],
+			[ 0, 0, 95, 95 ],
 		];
 
 		$resultsWithIdenticalTimestamps = [
@@ -756,26 +780,32 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		yield '3 rows, identical timestamps, limit=2, first page' => [
 			$resultsWithIdenticalTimestamps,
 			[ 'limit' => 2 ],
+			[ 'testwiki' => [ 1 ], 'otherwiki' => [ 1 ] ],
 			// 2 rows shown + 1 row for the next page link
 			3,
 			false,
-			[ 'offset' => '20250108000000|0|1', 'limit' => 2 ],
+			[ 'offset' => '20250108000000|0|2', 'limit' => 2 ],
+			[ 0, 95 ],
 		];
 
 		yield '3 rows, identical timestamps, limit=2, second page' => [
 			$resultsWithIdenticalTimestamps,
-			[ 'offset' => '20250108000000|0|1', 'limit' => 2 ],
+			[ 'offset' => '20250108000000|0|2', 'limit' => 2 ],
+			[ 'otherwiki' => [ 1 ] ],
 			1,
-			[ 'dir' => 'prev', 'offset' => '20250108000000|-1|1', 'limit' => 2 ],
+			[ 'dir' => 'prev', 'offset' => '20250108000000|-1|2', 'limit' => 2 ],
 			false,
+			[ 95 ],
 		];
 
 		yield '3 rows, identical timestamps, limit=2, backwards from second page' => [
 			$resultsWithIdenticalTimestamps,
-			[ 'dir' => 'prev', 'offset' => '20250108000000|-1|1', 'limit' => 2 ],
+			[ 'dir' => 'prev', 'offset' => '20250108000000|-1|2', 'limit' => 2 ],
+			[ 'testwiki' => [ 1 ] ],
 			2,
 			false,
-			[ 'offset' => '20250108000000|0|1', 'limit' => 2 ],
+			[ 'offset' => '20250108000000|0|2', 'limit' => 2 ],
+			[ 0, 95 ],
 		];
 	}
 
@@ -788,14 +818,14 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 */
 	private static function makeMockResult( array $timestamps ): IResultWrapper {
 		$rows = [];
-		$revId = count( $timestamps );
+		$revId = 1 + count( $timestamps );
 
 		// Sort the timestamps in descending order, since the DB would sort the revisions in the same way.
 		usort( $timestamps, static fn ( string $ts, string $other ): int => $other <=> $ts );
 
 		foreach ( $timestamps as $timestamp ) {
 			$rows[] = (object)[
-				'rev_id' => $revId--,
+				'rev_id' => $revId,
 				'rev_page' => '1',
 				'rev_actor' => '1',
 				'rev_user' => '1',
@@ -804,7 +834,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'rev_minor_edit' => '0',
 				'rev_deleted' => '0',
 				'rev_len' => '100',
-				'rev_parent_id' => '1',
+				'rev_parent_id' => $revId - 1,
 				'rev_sha1' => '',
 				'rev_comment_text' => '',
 				'rev_comment_data' => null,
@@ -816,6 +846,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'cuc_timestamp' => $timestamp,
 				'ts_tags' => null,
 			];
+
+			$revId--;
 		}
 
 		return new FakeResultWrapper( $rows );
