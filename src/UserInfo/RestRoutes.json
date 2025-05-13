@@ -1,0 +1,11 @@
+[
+	{
+		"path": "/checkuser/v0/userinfo/{id}",
+		"method": "POST",
+		"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserInfoHandler",
+		"services": [
+			"CheckUserUserInfoCardService",
+			"UserFactory"
+		]
+	}
+]

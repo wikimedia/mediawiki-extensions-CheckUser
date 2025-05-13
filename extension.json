@@ -230,16 +230,10 @@
 			]
 		}
 	},
+	"ExtensionFunctions": [
+		"MediaWiki\\CheckUser\\Hooks::onExtensionFunctions"
+	],
 	"RestRoutes": [
-		{
-			"path": "/checkuser/v0/userinfo/{id}",
-			"method": "POST",
-			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserInfoHandler",
-			"services": [
-				"CheckUserUserInfoCardService",
-				"UserFactory"
-			]
-		},
 		{
 			"path": "/checkuser/v0/temporaryaccount/{name}",
 			"method": "POST",
