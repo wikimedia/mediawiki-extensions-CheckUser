@@ -339,7 +339,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Розкриття IP-адрес тимчасових облікових записів вимкнено",
 	"checkuser-tempaccount-reveal-blocked-description": "У вас немає дозволу на використання цієї функції з такої причини:",
 	"checkuser-tempaccount-specialblock-ips": "Це тимчасовий користувач, який використовує {{PLURAL:$1|таку IP|такі IP}}: $2",
-	"checkuser-temporary-account-log-name": "Журнал перевірок тимчасових облікових записів",
+	"checkuser-temporary-account-log-name": "Журнал розкриття IP-адрес",
 	"checkuser-temporary-account-log-header": "Це журнал таких записів:\n# Перегляд IP-адрес, використовуваних тимчасовим обліковим записом\n# Перегляд тимчасових облікових записів, пов'язаних з IP-адресою чи діапазоном IP-адрес\n# Зміна рівня доступу користувача до перегляду IP-адрес тимчасових облікових записів",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|собі}} доступ до перегляду IP-адрес тимчасових облікових записів",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|виключив|виключила}}",
@@ -357,5 +357,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|увімкнув|увімкнула}} собі доступ до перегляду захищених змінних",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|вимкнув|вимкнула}} собі доступ до перегляду захищених змінних",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|переглянув|переглянула}} захищені змінні, пов'язані з $3",
-	"ext-ipinfo-global-contributions-url-text": "Переглянути глобальний внесок"
+	"ext-ipinfo-global-contributions-url-text": "Переглянути глобальний внесок",
+	"checkuser-userinfocard-enable-preference-description": "Увімкнути [[mw:Help:Extension:CheckUser#UserInfoCard|картку з інформацією про користувача]]",
+	"checkuser-userinfocard-enable-preference-help": "Показувати поруч з іменами користувачів кнопку, що відкриє спливне вікно з інформацією про обліковий запис."
 }
