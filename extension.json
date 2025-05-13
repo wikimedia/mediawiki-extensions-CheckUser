@@ -477,6 +477,13 @@
 				"CheckUserPermissionManager",
 				"TempUserConfig"
 			]
+		},
+		"UserLinkRendererUserLinkPostRenderHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\UserLinkRendererUserLinkPostRenderHandler",
+			"services": [
+				"UserOptionsLookup",
+				"UserNameUtils"
+			]
 		}
 	},
 	"Hooks": {
@@ -513,6 +520,7 @@
 		"SpecialPage_initList": "ConditionalRegistration",
 		"UserGetDefaultOptions": "preferences",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
+		"UserLinkRendererUserLinkPostRender": "UserLinkRendererUserLinkPostRenderHandler",
 		"UserLogoutComplete": "CheckUserPrivateEvents",
 		"UserMergeAccountFields": "UserMerge",
 		"UserToolLinksEdit": "ToolLinks"
@@ -524,6 +532,22 @@
 		]
 	},
 	"ResourceModules": {
+		"ext.checkUser.userInfoCard": {
+			"localBasePath": "modules/ext.checkUser.userInfoCard",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.userInfoCard",
+			"packageFiles": [
+				"init.js",
+				"components/App.vue"
+			],
+			"dependencies": [
+				"mediawiki.api",
+				"mediawiki.base",
+				"vue",
+				"@wikimedia/codex",
+				"mediawiki.user",
+				"oojs-ui-widgets"
+			]
+		},
 		"ext.checkUser.clientHints": {
 			"localBasePath": "modules/ext.checkUser.clientHints",
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.clientHints",
