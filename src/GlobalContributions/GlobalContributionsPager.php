@@ -75,6 +75,12 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private bool $centralUserExists = true;
 
 	/**
+	 * Map of revision sizes keyed by wiki ID and revision ID.
+	 * @var int[][]
+	 */
+	private array $parentRevisionSizes = [];
+
+	/**
 	 * @var int Number of revisions to return per wiki
 	 */
 	public const REVISION_COUNT_LIMIT = 20;
@@ -435,6 +441,33 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	/**
 	 * @inheritDoc
 	 */
+	protected function doBatchLookups() {
+		parent::doBatchLookups();
+
+		// Fetch parent revision sizes for each revision and wiki (T385377).
+		$parentIdsByWiki = [];
+		foreach ( $this->mResult as $row ) {
+			if ( $row->rev_parent_id &&
+				!isset( $this->parentRevisionSizes[$row->sourcewiki][$row->rev_parent_id] )
+			) {
+				$parentIdsByWiki[$row->sourcewiki][$row->rev_parent_id] = true;
+			}
+
+			$this->parentRevisionSizes[$row->sourcewiki][$row->rev_id] = (int)$row->rev_len;
+			unset( $parentIdsByWiki[$row->sourcewiki][$row->rev_id] );
+		}
+
+		foreach ( $parentIdsByWiki as $wikiId => $parentIds ) {
+			$this->parentRevisionSizes[$wikiId] ??= [];
+			$this->parentRevisionSizes[$wikiId] += $this->globalContributionsLookup->getRevisionSizes(
+				$wikiId, array_keys( $parentIds )
+			);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	protected function getRevisionQuery() {
 		$revQueryBuilder = $this->revisionStore->newSelectQueryBuilder( $this->getDatabase() )
 			->joinPage()
@@ -505,6 +538,13 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		if ( !$this->isFromExternalWiki( $row ) ) {
 			parent::populateAttributes( $row, $attributes );
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getParentRevisionSize( $row ): int {
+		return $this->parentRevisionSizes[$row->sourcewiki][$row->rev_parent_id] ?? 0;
 	}
 
 	/**
