@@ -366,6 +366,12 @@
 	"checkuser-userinfocard-new-articles-row": "New articles: $1",
 	"checkuser-userinfocard-thanks-row": "Thanks received: $1 (given: $2)",
 	"checkuser-userinfocard-checks-row": "Checks: $1 (last checked: $2)",
+	"checkuser-userinfocard-menu-view-contributions": "View user contributions",
+	"checkuser-userinfocard-menu-view-global-account": "View global account information",
+	"checkuser-userinfocard-menu-add-to-watchlist": "Add user page to watchlist",
+	"checkuser-userinfocard-menu-check-ip": "Check user IP addresses",
+	"checkuser-userinfocard-menu-block-user": "Block user",
+	"checkuser-userinfocard-menu-turn-off": "Turn off this feature",
 	"checkuser-userinfocard-enable-preference-description": "Enable the [[mw:Help:Extension:CheckUser#UserInfoCard|user info card]]",
 	"checkuser-userinfocard-enable-preference-help": "Show a button next to usernames to open a popover with information about an account."
 }

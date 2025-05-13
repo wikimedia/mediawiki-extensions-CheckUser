@@ -400,6 +400,12 @@
 	"checkuser-userinfocard-new-articles-row": "Row for new articles.\n\nParameters:\n* $1 - the number of new articles",
 	"checkuser-userinfocard-thanks-row": "Row for thanks received and sent.\n\nParameters:\n* $1 - the number of thanks received\n* $2 - the number of thanks sent",
 	"checkuser-userinfocard-checks-row": "Row for checks and last checked.\n\nParameters:\n* $1 - the number of checks\n* $2 - the last checked value",
+	"checkuser-userinfocard-menu-view-contributions": "Menu item: View user contributions",
+	"checkuser-userinfocard-menu-view-global-account": "Menu item: View global account information",
+	"checkuser-userinfocard-menu-add-to-watchlist": "Menu item: Add user page to watchlist",
+	"checkuser-userinfocard-menu-check-ip": "Menu item: Check user IP addresses",
+	"checkuser-userinfocard-menu-block-user": "Menu item: Block user",
+	"checkuser-userinfocard-menu-turn-off": "Menu item: Turn off this feature",
 	"checkuser-userinfocard-enable-preference-description": "The label for a preference for enabling the user info card feature.",
 	"checkuser-userinfocard-enable-preference-help": "The help text for a preference for enabling the user info card feature."
 }
