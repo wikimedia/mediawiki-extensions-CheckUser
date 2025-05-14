@@ -4,21 +4,36 @@
 		:anchor="store.currentTrigger"
 		placement="bottom-start"
 		:render-in-place="true"
-		:use-close-button="true"
 	>
-		User ID: {{ store.userCard.userId }}
+		<template v-if="!store.loading" #header>
+			<user-card-header
+				:username="store.userCard.username"
+				:user-page-url="store.userCard.userPageUrl"
+				:user-page-exists="store.userCard.userPageExists"
+				@close="store.close()"
+			></user-card-header>
+		</template>
+		<user-card-body
+			v-if="!store.loading"
+			:joined-date="store.userCard.joinedDate"
+			:joined-relative="store.userCard.joinedRelativeTime"
+		></user-card-body>
 	</cdx-popover>
 </template>
 
 <script>
 const { CdxPopover } = require( '@wikimedia/codex' );
 const useUserInfoCardPopoverStore = require( '../stores/UserInfoCardPopover.js' );
+const UserCardBody = require( './UserCardBody.vue' );
+const UserCardHeader = require( './UserCardHeader.vue' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'App',
 	components: {
-		CdxPopover
+		CdxPopover,
+		UserCardHeader,
+		UserCardBody
 	},
 	setup() {
 		const store = useUserInfoCardPopoverStore();

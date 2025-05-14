@@ -356,6 +356,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|viewed}} protected variables associated with $3",
 	"checkuser-ipinfo-global-contributions-url-text": "View global contributions",
 	"checkuser-userinfocard-toggle-button-aria-label": "Open user info card",
+	"checkuser-userinfocard-close-button-aria-label": "Close",
+	"checkuser-userinfocard-open-menu-aria-label": "Open user info card menu",
 	"checkuser-userinfocard-enable-preference-description": "Enable the [[mw:Help:Extension:CheckUser#UserInfoCard|user info card]]",
 	"checkuser-userinfocard-enable-preference-help": "Show a button next to usernames to open a popover with information about an account.",
 	"checkuser-ipinfo-global-contributions-label": "Global Contributions",

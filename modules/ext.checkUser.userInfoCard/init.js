@@ -26,7 +26,7 @@ $( () => {
 					'ext-checkuser-userinfocard-id-', ''
 				).split( ':' );
 				if ( wikiId && userId ) {
-					popoverApp.store.setUserCard( { userId, wikiId } );
+					popoverApp.store.fetchUserInfo( userId, wikiId );
 					popoverApp.store.open( event.target );
 				}
 			}
