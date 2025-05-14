@@ -10,6 +10,7 @@
 				:username="store.userCard.username"
 				:user-page-url="store.userCard.userPageUrl"
 				:user-page-exists="store.userCard.userPageExists"
+				:user-id="store.userCard.userId"
 				@close="store.close()"
 			></user-card-header>
 		</template>

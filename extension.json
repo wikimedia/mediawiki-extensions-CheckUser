@@ -547,6 +547,7 @@
 				"components/App.vue",
 				"components/UserCardBody.vue",
 				"components/UserCardHeader.vue",
+				"components/UserCardMenu.vue",
 				"stores/UserInfoCardPopover.js",
 				{
 					"name": "components/icons.json",
@@ -574,7 +575,13 @@
 				"checkuser-userinfocard-new-articles-row",
 				"checkuser-userinfocard-thanks-row",
 				"checkuser-userinfocard-checks-row",
-				"checkuser-userinfocard-active-wikis-label"
+				"checkuser-userinfocard-active-wikis-label",
+				"checkuser-userinfocard-menu-view-contributions",
+				"checkuser-userinfocard-menu-view-global-account",
+				"checkuser-userinfocard-menu-add-to-watchlist",
+				"checkuser-userinfocard-menu-check-ip",
+				"checkuser-userinfocard-menu-block-user",
+				"checkuser-userinfocard-menu-turn-off"
 			],
 			"dependencies": [
 				"mediawiki.api",

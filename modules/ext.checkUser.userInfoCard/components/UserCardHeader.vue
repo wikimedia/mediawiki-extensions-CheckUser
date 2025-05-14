@@ -12,13 +12,7 @@
 			</div>
 		</div>
 		<div class="ext-checkuser-userinfocard-header-controls">
-			<!-- TODO: T393804 Add menu button -->
-			<cdx-button
-				:aria-label="openMenuAriaLabel"
-				weight="quiet"
-			>
-				<cdx-icon :icon="cdxIconEllipsis"></cdx-icon>
-			</cdx-button>
+			<user-card-menu :user-id="userId"></user-card-menu>
 			<cdx-button
 				:aria-label="closeAriaLabel"
 				weight="quiet"
@@ -32,16 +26,22 @@
 
 <script>
 const { CdxIcon, CdxButton } = require( '@wikimedia/codex' );
-const { cdxIconUserAvatar, cdxIconEllipsis, cdxIconClose } = require( './icons.json' );
+const UserCardMenu = require( './UserCardMenu.vue' );
+const { cdxIconUserAvatar, cdxIconClose } = require( './icons.json' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'UserCardHeader',
 	components: {
 		CdxIcon,
-		CdxButton
+		CdxButton,
+		UserCardMenu
 	},
 	props: {
+		userId: {
+			type: Number,
+			required: true
+		},
 		username: {
 			type: String,
 			required: true
@@ -57,15 +57,12 @@ module.exports = exports = {
 	},
 	emits: [ 'close' ],
 	setup() {
-		const openMenuAriaLabel = mw.msg( 'checkuser-userinfocard-open-menu-aria-label' );
 		const closeAriaLabel = mw.msg( 'checkuser-userinfocard-close-button-aria-label' );
 
 		return {
 			cdxIconUserAvatar,
-			cdxIconEllipsis,
 			cdxIconClose,
-			closeAriaLabel,
-			openMenuAriaLabel
+			closeAriaLabel
 		};
 	}
 };
