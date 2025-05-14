@@ -876,32 +876,41 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$dir = $this->getLanguage()->getDir();
 
 		if ( $this->revisionUserIsDeleted( $row ) ) {
-			$userPageLink = $this->msg( 'empty-username' )->parse();
-			$userTalkLink = $this->msg( 'empty-username' )->parse();
-		} else {
-			$userName = $row->{$this->userNameField};
-
-			$userPageLink = $this->userLinkRenderer->userLink(
-				new UserIdentityValue(
-					$row->rev_user,
-					$userName,
-					$row->sourcewiki
-				),
-				$this->getContext()
-			);
-
-			$userTalkTitle = Title::makeTitle( NS_USER_TALK, $userName );
-			$userTalkLink = $this->getLinkRenderer()->makeExternalLink(
-				$this->getForeignURL(
-					$row->sourcewiki,
-					$userTalkTitle->getPrefixedText()
-				),
-				$this->msg( 'talkpagelinktext' ),
-				$userTalkTitle,
-				'',
-				[ 'class' => 'mw-usertoollinks-talk' ]
-			);
+			// T379894 If the username is hidden, return early a message stating
+			// that the username is unavailable instead of falling through and
+			// end up show "no username available" twice (once for $userPageLink
+			// and once for $userTalkLink).
+			$dir = $this->getLanguage()->getDir();
+			return ' <span class="mw-changeslist-separator"></span> ' .
+				Html::rawElement(
+					'bdi',
+					[ 'dir' => $dir ],
+					$this->msg( 'empty-username' )->parse()
+				);
 		}
+
+		$userName = $row->{$this->userNameField};
+
+		$userPageLink = $this->userLinkRenderer->userLink(
+			new UserIdentityValue(
+				$row->rev_user,
+				$userName,
+				$row->sourcewiki
+			),
+			$this->getContext()
+		);
+
+		$userTalkTitle = Title::makeTitle( NS_USER_TALK, $userName );
+		$userTalkLink = $this->getLinkRenderer()->makeExternalLink(
+			$this->getForeignURL(
+				$row->sourcewiki,
+				$userTalkTitle->getPrefixedText()
+			),
+			$this->msg( 'talkpagelinktext' ),
+			$userTalkTitle,
+			'',
+			[ 'class' => 'mw-usertoollinks-talk' ]
+		);
 
 		return ' <span class="mw-changeslist-separator"></span> ' .
 			Html::rawElement( 'bdi', [ 'dir' => $dir ], $userPageLink ) .
