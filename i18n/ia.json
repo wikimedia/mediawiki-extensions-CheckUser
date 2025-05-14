@@ -338,7 +338,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 ha activate {{GENDER:$2|su}} proprie accesso pro inspectar variabiles protegite",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 ha disactivate {{GENDER:$2|su}} proprie accesso pro inspectar variabiles protegite",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|ha vidite}} le variabiles protegite associate a $3",
-	"ext-ipinfo-global-contributions-url-text": "Vider contributiones global",
+	"checkuser-ipinfo-global-contributions-url-text": "Vider contributiones global",
 	"checkuser-userinfocard-enable-preference-description": "Activar le [[mw:Help:Extension:CheckUser#UserInfoCard|carta de information de usator]]",
 	"checkuser-userinfocard-enable-preference-help": "Monstrar un button al latere del nomines de usator pro aperir un quadro emergente con information sur un conto."
 }

@@ -359,5 +359,5 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|włączył|włączyła|włączył(-a)}} sobie dostęp do wyświetlania chronionych zmiennych",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|wyłączył|wyłączyła|wyłączył(-a)}} sobie dostęp do wyświetlania chronionych zmiennych",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|wyświetlił|wyświetliła|wyświetlił(-a)}} chronione zmienne, związane z $3",
-	"ext-ipinfo-global-contributions-url-text": "Zobacz wkład globalny"
+	"checkuser-ipinfo-global-contributions-url-text": "Zobacz wkład globalny"
 }

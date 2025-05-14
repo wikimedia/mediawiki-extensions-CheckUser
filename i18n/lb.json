@@ -183,5 +183,5 @@
 	"checkuser-tempaccount-reveal-blocked-title": "Detailer vun der Spär weisen",
 	"checkuser-temporary-account-change-access-level-disable-globally": "global {{GENDER:$1|desaktivéiert}}",
 	"checkuser-temporary-account-change-access-level-enable-globally": "global {{GENDER:$1|aktivéiert}}",
-	"ext-ipinfo-global-contributions-url-text": "Global Kontributioune weisen"
+	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen"
 }

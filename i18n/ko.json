@@ -312,5 +312,5 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1님이 {{GENDER:$2|자신}}에게 보호된 변수를 볼 권한을 활성화함",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1님이 {{GENDER:$2|자신}}에게 보호된 변수를 볼 권한을 비활성화함",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1님이 $3 문서와 관련한 보호된 변수를 {{GENDER:$2|조회함}}",
-	"ext-ipinfo-global-contributions-url-text": "전역 기여 보기"
+	"checkuser-ipinfo-global-contributions-url-text": "전역 기여 보기"
 }

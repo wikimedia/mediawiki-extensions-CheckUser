@@ -378,5 +378,5 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 が保護された変数を表示するための{{GENDER:$2|}}アクセスを有効にしました",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 が保護された変数を表示するための{{GENDER:$2|}}アクセスを無効にしました",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 が $3 に関連する保護された変数を{{GENDER:$2|閲覧しました}}",
-	"ext-ipinfo-global-contributions-url-text": "グローバル投稿記録を表示"
+	"checkuser-ipinfo-global-contributions-url-text": "グローバル投稿記録を表示"
 }

@@ -338,7 +338,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 дӀахӀоттийна {{GENDER:$2|шен}} бакъо, ларбина хийцамаш хьажар",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 дӀахӀоттийна {{GENDER:$2|шен}} бакъо, ларбина хийцамаш хьажар",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|хьаьжна}} ларбина хийцамаш $3 боьзна болу.",
-	"ext-ipinfo-global-contributions-url-text": "Хьажа глобалан къинхьегамаш",
+	"checkuser-ipinfo-global-contributions-url-text": "Хьажа глобалан къинхьегамаш",
 	"checkuser-userinfocard-enable-preference-description": "Декъашхочун [[mw:Help:Extension:CheckUser#UserInfoCard|инфо карта дӀахӀоттаде]]",
 	"checkuser-userinfocard-enable-preference-help": "Декъашхойн цӀерашна уллехь нуьйда гайта, хьайн аккаунтах лаьцна информаци йолу кор схьаделла."
 }

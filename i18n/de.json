@@ -354,7 +354,8 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 hat {{GENDER:$2|seinen|ihren|den}} eigenen Zugriff aktiviert, um geschützte Variablen anzuzeigen.",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 hat {{GENDER:$2|seinen|ihren|den}} eigenen Zugriff zum Anzeigen geschützter Variablen deaktiviert",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 hat geschützte Variablen {{GENDER:$2|angezeigt}}, die mit $3 verknüpft sind",
-	"ext-ipinfo-global-contributions-url-text": "Globale Beiträge anzeigen",
+	"checkuser-ipinfo-global-contributions-url-text": "Globale Beiträge anzeigen",
+	"checkuser-userinfocard-toggle-button-aria-label": "Benutzerinfokarte öffnen",
 	"checkuser-userinfocard-enable-preference-description": "Aktiviere die [[mw:Help:Extension:CheckUser#UserInfoCard|Benutzerinfokarte]]",
 	"checkuser-userinfocard-enable-preference-help": "Zeige neben den Benutzernamen eine Schaltfläche an, um ein Popover mit Informationen zu einem Konto zu öffnen."
 }

@@ -257,5 +257,5 @@
 	"log-action-filter-checkuser-temporary-account": "Typ av åtgärd:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Ändra åtkomst",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Visa IP-adresser",
-	"ext-ipinfo-global-contributions-url-text": "Visa globala bidrag"
+	"checkuser-ipinfo-global-contributions-url-text": "Visa globala bidrag"
 }

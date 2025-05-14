@@ -371,5 +371,5 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 a activé {{GENDER:$2|son}} propre accès pour afficher les variables protégées",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 a désactivé {{GENDER:$2|son}} propre accès pour afficher les variables protégées",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 a {{GENDER:$2|vu}} des variables protégées associées à $3",
-	"ext-ipinfo-global-contributions-url-text": "Afficher les contributions globales"
+	"checkuser-ipinfo-global-contributions-url-text": "Afficher les contributions globales"
 }

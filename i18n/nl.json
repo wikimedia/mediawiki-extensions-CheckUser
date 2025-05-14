@@ -352,5 +352,5 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 heeft {{GENDER:$2|zijn|haar|de}} eigen toegang tot het bekijken van beveiligde variabelen ingeschakeld",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 heeft {{GENDER:$2|zijn|haar|de}} eigen toegang tot het bekijken van beveiligde variabelen uitgeschakeld",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|heeft}} de met $3 geassocieerde beveiligde variabelen bekeken",
-	"ext-ipinfo-global-contributions-url-text": "Globale bijdragen bekijken"
+	"checkuser-ipinfo-global-contributions-url-text": "Globale bijdragen bekijken"
 }

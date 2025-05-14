@@ -95,5 +95,5 @@
 	"checkuser-temporary-account-change-access-level-enable-globally": "{{GENDER:$1|gweredekaet}} en un doare hollek",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|en|he}} deus sellet ouzh kontoù berrbad war $3",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|en|he}} deus gweredekaet {{GENDER:$2|e|he}} aotre da welet ar variennoù gwarezet",
-	"ext-ipinfo-global-contributions-url-text": "Gwelet degasadennoù hollek"
+	"checkuser-ipinfo-global-contributions-url-text": "Gwelet degasadennoù hollek"
 }

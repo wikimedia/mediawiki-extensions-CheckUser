@@ -257,7 +257,7 @@
 	"checkuser-tempaccount-reveal-ip-error": "erro",
 	"log-action-filter-checkuser-temporary-account": "Tipo de ação:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Mudança de acesso",
-	"ext-ipinfo-global-contributions-url-text": "Exibir contribuições globais",
+	"checkuser-ipinfo-global-contributions-url-text": "Exibir contribuições globais",
 	"checkuser-userinfocard-enable-preference-description": "Ativar o [[mw:Help:Extension:CheckUser#UserInfoCard|cartão de informações do usuário]]",
 	"checkuser-userinfocard-enable-preference-help": "Mostre um botão ao lado dos nomes de usuário para abrir um popover com informações sobre uma conta."
 }

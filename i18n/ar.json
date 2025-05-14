@@ -356,7 +356,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|مكن}} من الوصول إلى المتغيرات المحمية",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 تم تعطيل وصول {{GENDER:$2|الخاص}} إلى عرض المتغيرات المحمية",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|شاهد}} متغيرا محميا مرتبطًا بـ $3",
-	"ext-ipinfo-global-contributions-url-text": "عرض المساهمات العالمية",
+	"checkuser-ipinfo-global-contributions-url-text": "عرض المساهمات العالمية",
 	"checkuser-userinfocard-enable-preference-description": "تمكين [[mw:Help:Extension:CheckUser#UserInfoCard | بطاقة معلومات المستخدم]]",
 	"checkuser-userinfocard-enable-preference-help": "إظهار زر بجوار أسماء المستخدمين لفتح نافذة منبثقة تحتوي على معلومات حول حساب ما."
 }

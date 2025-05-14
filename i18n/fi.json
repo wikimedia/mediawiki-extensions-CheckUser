@@ -312,7 +312,7 @@
 	"log-action-filter-checkuser-temporary-account": "Toiminnon tyyppi:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Pääsyn muutos",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Pääsy tilapäisen tunnuksen IP-tietoihin",
-	"ext-ipinfo-global-contributions-url-text": "Näytä järjestelmänlaajuiset muokkaukset",
+	"checkuser-ipinfo-global-contributions-url-text": "Näytä järjestelmänlaajuiset muokkaukset",
 	"checkuser-userinfocard-enable-preference-description": "Ota käyttöön [[mw:Help:Extension:CheckUser#UserInfoCard|käyttäjätietokortit]]",
 	"checkuser-userinfocard-enable-preference-help": "Näytä käyttäjänimien vieressä painike, joka avaa tunnuksen tietoja sisältävän laatikon."
 }
