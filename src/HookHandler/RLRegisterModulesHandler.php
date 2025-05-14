@@ -62,6 +62,9 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 					'init.js'
 				],
 				'messages' => [
+					'checkuser-ipinfo-global-contributions-label',
+					'checkuser-ipinfo-global-contributions-tooltip',
+					'checkuser-ipinfo-global-contributions-value',
 					'checkuser-ipinfo-global-contributions-url-text',
 				]
 			];
