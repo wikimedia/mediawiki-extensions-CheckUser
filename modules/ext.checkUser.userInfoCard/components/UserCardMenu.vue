@@ -21,7 +21,7 @@ module.exports = exports = {
 	components: { CdxMenuButton, CdxIcon },
 	props: {
 		userId: {
-			type: Number,
+			type: String,
 			required: true
 		},
 		ariaLabel: {

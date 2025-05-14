@@ -4,15 +4,22 @@
 		:anchor="store.currentTrigger"
 		placement="bottom-start"
 		:render-in-place="true"
+		:use-close-button="!!store.error"
+		class="ext-checkuser-userinfocard-popover"
 	>
-		<template v-if="store.loading">
-			<div class="ext-checkuser-userinfocard-loading-indicator">
-				<cdx-progress-indicator>
-					{{ loadingLabel }}
-				</cdx-progress-indicator>
-			</div>
-		</template>
-		<template v-if="!store.loading" #header>
+		<div
+			v-if="store.loading"
+			class="ext-checkuser-userinfocard-loading-indicator"
+		>
+			<cdx-progress-indicator>
+				{{ loadingLabel }}
+			</cdx-progress-indicator>
+		</div>
+		<user-info-card-error
+			v-if="!store.loading && store.error"
+			:message="store.error"
+		></user-info-card-error>
+		<template v-if="!store.loading && !store.error" #header>
 			<user-card-header
 				:username="store.userCard.username"
 				:user-page-url="store.userCard.userPageUrl"
@@ -22,7 +29,7 @@
 			></user-card-header>
 		</template>
 		<user-card-body
-			v-if="!store.loading"
+			v-if="!store.loading && !store.error"
 			:joined-date="store.userCard.joinedDate"
 			:joined-relative="store.userCard.joinedRelativeTime"
 			:active-blocks="store.userCard.activeBlocksCount"
@@ -45,6 +52,7 @@ const { CdxPopover, CdxProgressIndicator } = require( '@wikimedia/codex' );
 const useUserInfoCardPopoverStore = require( '../stores/UserInfoCardPopover.js' );
 const UserCardBody = require( './UserCardBody.vue' );
 const UserCardHeader = require( './UserCardHeader.vue' );
+const UserInfoCardError = require( './UserInfoCardError.vue' );
 
 // @vue/component
 module.exports = exports = {
@@ -53,7 +61,8 @@ module.exports = exports = {
 		CdxPopover,
 		CdxProgressIndicator,
 		UserCardHeader,
-		UserCardBody
+		UserCardBody,
+		UserInfoCardError
 	},
 	setup() {
 		const store = useUserInfoCardPopoverStore();
@@ -71,9 +80,12 @@ module.exports = exports = {
 </script>
 
 <style>
+.ext-checkuser-userinfocard-popover {
+	min-width: 384px;
+}
+
 .ext-checkuser-userinfocard-loading-indicator {
 	overflow: hidden;
-	min-width: 350px;
 	display: flex;
 	justify-content: center;
 }
