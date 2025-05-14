@@ -16,7 +16,8 @@
 			"Жељко Тодоровић",
 			"Михајло Анђелковић",
 			"Обрадовић Горан",
-			"Сербијана"
+			"Сербијана",
+			"Aca"
 		]
 	},
 	"checkuser-summary": "Ова алатка врши преглед скорашњих измена и проналази корисничке IP адресе или приказује податке о кориснику/изменама поједине IP адресе.\nКорисници и измене IP адресе клијента могу се добавити преко XFF заглавља додавањем ознаке <code>/xff</code> иза IP адресе. Формати IPv4 (CIDR $1-32) и IPv6 (CIDR $2-128) су подржани.\nЗбог перформанси, биће добављено до $3 измена.\nКористите алатку у складу с правилима.",
@@ -262,6 +263,7 @@
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Изаберите опцију",
 	"checkuser-ip-auto-reveal-off-dialog-title": "Приказивање IP адреса укључено",
 	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Преостало време: <strong>$1</strong>",
+	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "Трајање не може бити дуже од 24 часа.",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 мин.",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Искључи",
 	"prefs-checkuser-tempaccount": "Приказ IP адреса привремених налога",
@@ -278,6 +280,8 @@
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|омогућио|омогућила}}",
 	"checkuser-temporary-account-change-access-level-disable-globally": "глобално {{GENDER:$1|онемогућио|онемогућила}}",
 	"checkuser-temporary-account-change-access-level-enable-globally": "глобално {{GENDER:$1|омогућио|омогућила}}",
+	"logentry-checkuser-temporary-account-disable-auto-reveal": "$1 је {{GENDER:$2|онемогућио|онемогућила}} аутоматско откривање IP адреса привремених налога",
+	"logentry-checkuser-temporary-account-enable-auto-reveal": "$1 је {{GENDER:$2|омогућио|омогућила}} аутоматско откривање IP адреса привремених налога до $5",
 	"logentry-checkuser-temporary-account-view-ips": "$1 је {{GENDER:$2|видео|видела}} IP адресу за $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 је {{GENDER:$2|погледао|погледала}} привремене налоге на $3",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 је глобално {{GENDER:$2|погледао|погледала}} привремене налоге на $3",

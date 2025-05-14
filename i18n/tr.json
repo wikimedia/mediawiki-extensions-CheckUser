@@ -21,7 +21,8 @@
 			"Sayginer",
 			"Suelnur",
 			"Vito Genovese",
-			"Ömer Berkay"
+			"Ömer Berkay",
+			"Leo"
 		]
 	},
 	"checkuser-summary": "Bu araç bir kullanıcı tarafından kullanılan IP'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.\nAlıcı IP'deki kullanıcı ve değişiklikler, IP'ye \"/xff\" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR $1-32) ve IPv6 (CIDR $2-128) desteklenmektedir.\nPerformans nedenleriyle $3 düzenlemeden fazla geri almayacaktır.",
@@ -202,6 +203,7 @@
 	"checkuser-investigate-tour-copywikitext-desc": "Karşılaştırma tablosunu tek tıklamayla kopyalayın ve CUWiki'ye götürün. Soruşturmanın tüm sayfalarını değil, yalnızca görünür olanları kopyaladığınızı unutmayın.",
 	"checkuser-global-contributions-link": "küresel değişiklikler",
 	"checkuser-global-contributions-link-sidebar": "Küresel katkılar",
+	"checkuser-global-contributions": "Küresel katkıları ara",
 	"checkuser-global-contributions-subtitle": "Katkıları görüntüleme hakkınız olan tüm vikiler için son $1 {{PLURAL:$1|gün|gün}}den sonuçlar gösteriliyor. Viki başına $2 {{PLURAL:$2|sonuç|sonuç}} ile sınırlıdır.",
 	"checkuser-global-contributions-target-label": "Kullanıcı adı, IP adresi veya aralığı:",
 	"checkuser-global-contributions-search-form-wrapper": "Küresel katkıları ara",

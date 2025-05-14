@@ -356,5 +356,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 habilitó {{GENDER:$2|su}} propio acceso para ver variables protegidas",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 desactivó {{GENDER:$2|su}} propio acceso para ver variables protegidas",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|consultó}} las variables protegidas asociadas con $3",
-	"ext-ipinfo-global-contributions-url-text": "Ver contribuciones globales"
+	"ext-ipinfo-global-contributions-url-text": "Ver contribuciones globales",
+	"checkuser-userinfocard-enable-preference-help": "Muestra un botón junto a los nombres de usuario para abrir una ventana emergente con información sobre una cuenta."
 }

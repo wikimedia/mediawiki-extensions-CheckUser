@@ -148,8 +148,10 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Tallenna asetukset",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "IP-osoitteen paljastaminen",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "IP-paljastusominaisuuden avulla ylläpitäjät, vandalismin torjujat ja kokeneet käyttäjät voivat tarkastella tilapäisen tunnuksen käyttämiä IP-osoitteita.\n\nKäyttäjät, jotka täyttävät pääsyehdot voivat ottaa IP-paljastuksen käyttöön [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|asetuksissaan]]. Kun ominaisuus on otettu käyttöön, ”Näytä IP” -painike näytetään tilapäisten tunnusten vieressä.",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Kuva, jossa näytetään IP-tiedot-työkalu sen jälkeen, kun sitä on käytetty tilapäisen tunnuksen IP-osoitteen paljastamiseen. Tilapäisen tunnuksen käyttäjänimen vieressä näkyy \"Näytä IP\" -painike, jota painamalla IP-osoite paljastettiin.",
 	"checkuser-rest-access-denied": "Sinulla ei ole oikeutta suorittaa toimintoa",
 	"checkuser-rest-access-denied-blocked-user": "Sinulla ei ole oikeutta suorittaa toimintoa, koska tunnuksesi on estetty",
+	"checkuser-rest-userinfo-user-not-found": "Annettu käyttäjä-ID on virheellinen.",
 	"checkuser-link-investigate-label": "Kokeile {{#special:investigate}}",
 	"checkuser-investigateblock": "Estä käyttäjät",
 	"checkuser-investigateblock-target": "Käyttäjätunnukset ja IP-osoitteet",
@@ -302,11 +304,14 @@
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|otti käyttöön}}",
 	"checkuser-temporary-account-change-access-level-disable-globally": "{{GENDER:$1|poisti käytöstä}} järjestelmänlaajuisesti",
 	"checkuser-temporary-account-change-access-level-enable-globally": "{{GENDER:$1|otti käyttöön}} järjestelmänlaajuisesti",
+	"logentry-checkuser-temporary-account-disable-auto-reveal": "$1 {{GENDER:$2|poisti}} automaattisesti käytöstä tilapäisten tunnusten IP-osoitteiden paljastamisen",
+	"logentry-checkuser-temporary-account-enable-auto-reveal": "$1 {{GENDER:$2|otti}} automaattisesti käyttöön tilapäisten tunnusten IP-osoitteiden paljastamisen $5 asti",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|katsoi}} tunnuksen $3 IP-osoitteet",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|katsoi}} IP-osoitteen $3 tilapäiset tunnukset",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|katsoi}} järjestelmänlaajuisesti IP-osoitteen $3 tilapäiset tunnukset",
 	"log-action-filter-checkuser-temporary-account": "Toiminnon tyyppi:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Pääsyn muutos",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Pääsy tilapäisen tunnuksen IP-tietoihin",
-	"ext-ipinfo-global-contributions-url-text": "Näytä järjestelmänlaajuiset muokkaukset"
+	"ext-ipinfo-global-contributions-url-text": "Näytä järjestelmänlaajuiset muokkaukset",
+	"checkuser-userinfocard-enable-preference-help": "Näytä käyttäjänimien vieressä painike, joka avaa tunnuksen tietoja sisältävän laatikon."
 }

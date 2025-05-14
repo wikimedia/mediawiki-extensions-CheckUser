@@ -158,6 +158,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Un imagine que monstra le instrumento de revelation de adresse IP post un uso, ubi le adresse IP associate con le conto temporari es monstrate. Le button premite pro vider isto es etiquettate con le texto ‘Monstrar IP’ e es situate juxta le nomine de usator del conto temporari.",
 	"checkuser-rest-access-denied": "Tu non ha le permission de exequer le action",
 	"checkuser-rest-access-denied-blocked-user": "Tu non ha le permission de exequer le action perque tu conto es blocate",
+	"checkuser-rest-userinfo-user-not-found": "Le ID de usator fornite non es valide.",
 	"checkuser-link-investigate-label": "Essayar {{#special:investigate}}",
 	"checkuser-investigateblock": "Blocar usatores",
 	"checkuser-investigateblock-target": "Nomines de usator e adresses IP",
@@ -301,6 +302,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-title": "Le auto-revelation IP es active",
 	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Tempore restante: <strong>$1</strong>",
 	"checkuser-ip-auto-reveal-off-dialog-text-info": "Pro rationes de privatessa, iste function se disactivara automaticamente al fin del durata.",
+	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "Le durata non pote exceder 24 horas",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10min",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Disactivar",
 	"prefs-checkuser-tempaccount": "Revelar adresses IP de contos temporari",
@@ -336,5 +338,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 ha activate {{GENDER:$2|su}} proprie accesso pro inspectar variabiles protegite",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 ha disactivate {{GENDER:$2|su}} proprie accesso pro inspectar variabiles protegite",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|ha vidite}} le variabiles protegite associate a $3",
-	"ext-ipinfo-global-contributions-url-text": "Vider contributiones global"
+	"ext-ipinfo-global-contributions-url-text": "Vider contributiones global",
+	"checkuser-userinfocard-enable-preference-help": "Monstrar un button al latere del nomines de usator pro aperir un quadro emergente con information sur un conto."
 }
