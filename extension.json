@@ -846,7 +846,8 @@
 				"investigateblock.less",
 				"temporaryaccount.less",
 				"cidr.less",
-				"temporaryaccountonboarding.less"
+				"temporaryaccountonboarding.less",
+				"userInfoCard.less"
 			],
 			"skinStyles": {
 				"minerva": "temporaryaccount.minerva.less"

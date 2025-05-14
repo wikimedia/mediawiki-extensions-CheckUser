@@ -30,6 +30,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 		if ( $this->userOptionsLookup->getBoolOption( $context->getUser(), Preferences::ENABLE_USER_INFO_CARD ) ) {
 			$output = $context->getOutput();
 			$output->addModuleStyles( 'oojs-ui.styles.icons-user' );
+			$output->addModuleStyles( 'ext.checkUser.styles' );
 			$output->addModules( 'ext.checkUser.userInfoCard' );
 			$output->enableOOUI();
 			$wikiId = $targetUser->getWikiId() ?: WikiMap::getCurrentWikiId();
@@ -37,6 +38,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 				'framed' => false,
 				'href' => '#',
 				'icon' => $this->userNameUtils->isTemp( $targetUser->getName() ) ? 'userTemporary' : 'userAvatar',
+				'flags' => [ 'progressive' ],
 				'invisibleLabel' => true,
 				'infusable' => true,
 				'classes' => [
