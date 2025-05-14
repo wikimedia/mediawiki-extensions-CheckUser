@@ -5,6 +5,13 @@
 		placement="bottom-start"
 		:render-in-place="true"
 	>
+		<template v-if="store.loading">
+			<div class="ext-checkuser-userinfocard-loading-indicator">
+				<cdx-progress-indicator>
+					{{ loadingLabel }}
+				</cdx-progress-indicator>
+			</div>
+		</template>
 		<template v-if="!store.loading" #header>
 			<user-card-header
 				:username="store.userCard.username"
@@ -34,7 +41,7 @@
 </template>
 
 <script>
-const { CdxPopover } = require( '@wikimedia/codex' );
+const { CdxPopover, CdxProgressIndicator } = require( '@wikimedia/codex' );
 const useUserInfoCardPopoverStore = require( '../stores/UserInfoCardPopover.js' );
 const UserCardBody = require( './UserCardBody.vue' );
 const UserCardHeader = require( './UserCardHeader.vue' );
@@ -44,14 +51,17 @@ module.exports = exports = {
 	name: 'App',
 	components: {
 		CdxPopover,
+		CdxProgressIndicator,
 		UserCardHeader,
 		UserCardBody
 	},
 	setup() {
 		const store = useUserInfoCardPopoverStore();
+		const loadingLabel = mw.msg( 'checkuser-userinfocard-loading-label' );
 
 		return {
-			store
+			store,
+			loadingLabel
 		};
 	},
 	expose: [
@@ -59,3 +69,12 @@ module.exports = exports = {
 	]
 };
 </script>
+
+<style>
+.ext-checkuser-userinfocard-loading-indicator {
+	overflow: hidden;
+	min-width: 350px;
+	display: flex;
+	justify-content: center;
+}
+</style>

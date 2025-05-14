@@ -574,7 +574,8 @@
 				"checkuser-userinfocard-menu-add-to-watchlist",
 				"checkuser-userinfocard-menu-check-ip",
 				"checkuser-userinfocard-menu-block-user",
-				"checkuser-userinfocard-menu-turn-off"
+				"checkuser-userinfocard-menu-turn-off",
+				"checkuser-userinfocard-loading-label"
 			],
 			"dependencies": [
 				"mediawiki.api",
