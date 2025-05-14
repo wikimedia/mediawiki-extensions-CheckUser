@@ -1,7 +1,6 @@
 <?php
 
 use GlobalPreferences\GlobalPreferencesFactory;
-use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
@@ -411,11 +410,9 @@ return [
 	'CheckUserUserInfoCardService' => static function (
 		MediaWikiServices $services
 	): CheckUserUserInfoCardService {
-		$userImpactLookup = $services->getService( 'GrowthExperimentsUserImpactLookup' );
-		if ( !( $userImpactLookup instanceof UserImpactLookup ) ) {
-			throw new LogicException(
-				'Cannot instantiate CheckUserUserInfoCardService without UserImpactLookup'
-			);
+		$userImpactLookup = null;
+		if ( $services->getExtensionRegistry()->isLoaded( 'GrowthExperiments' ) ) {
+			$userImpactLookup = $services->getService( 'GrowthExperimentsUserImpactLookup' );
 		}
 		return new CheckUserUserInfoCardService(
 			$userImpactLookup,
