@@ -17,6 +17,17 @@
 			v-if="!store.loading"
 			:joined-date="store.userCard.joinedDate"
 			:joined-relative="store.userCard.joinedRelativeTime"
+			:active-blocks="store.userCard.activeBlocksCount"
+			:past-blocks="store.userCard.pastBlocksCount"
+			:global-edits="store.userCard.globalEditCount"
+			:local-edits="store.userCard.localEditCount"
+			:local-edits-reverted="store.userCard.localEditRevertedCount"
+			:new-articles="store.userCard.newArticlesCount"
+			:thanks-received="store.userCard.thanksReceivedCount"
+			:thanks-sent="store.userCard.thanksGivenCount"
+			:checks="store.userCard.checksCount"
+			:last-checked="store.userCard.lastCheckedDate"
+			:active-wikis="store.userCard.activeWikis"
 		></user-card-body>
 	</cdx-popover>
 </template>
