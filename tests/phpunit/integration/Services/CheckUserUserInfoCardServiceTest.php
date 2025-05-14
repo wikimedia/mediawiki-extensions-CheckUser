@@ -14,13 +14,6 @@ use MediaWikiIntegrationTestCase;
  */
 class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
-	protected function setUp(): void {
-		parent::setUp();
-
-		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
-		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
-	}
-
 	private function getObjectUnderTest(): CheckUserUserInfoCardService {
 		$services = MediaWikiServices::getInstance();
 		return new CheckUserUserInfoCardService(
@@ -33,6 +26,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testExecute() {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 		$page = $this->getNonexistingTestPage();
 		$user = $this->getTestSysop()->getUser();
 		$this->assertStatusGood(
@@ -58,11 +53,26 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testExecuteInvalidUser() {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 		// User impacts can only be retrieved for registered users
 		$anonUser = $this->getServiceContainer()
 			->getUserFactory()
 			->newAnonymous( '1.2.3.4' );
 		$userImpact = $this->getObjectUnderTest()->getUserInfo( $anonUser );
 		$this->assertSame( [], $userImpact );
+	}
+
+	public function testLoadingWithoutGrowthExperiments() {
+		$services = $this->getServiceContainer();
+		$services->disableService( 'GrowthExperimentsUserImpactLookup' );
+		$infoCardService = new CheckUserUserInfoCardService(
+			null,
+			$services->getExtensionRegistry(),
+			$services->getUserOptionsLookup(),
+			$services->getUserRegistrationLookup(),
+			$services->getUserGroupManager()
+		);
+		$this->assertSame( [], $infoCardService->getUserInfo( $this->getTestUser()->getUser() ) );
 	}
 }

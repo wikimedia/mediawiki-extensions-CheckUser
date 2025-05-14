@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\RecentChanges\RecentChange;
-use MediaWiki\Registration\ExtensionRegistry;
 
 class Hooks {
 
@@ -24,12 +23,5 @@ class Hooks {
 		/** @var CheckUserInsert $checkUserInsert */
 		$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
 		$checkUserInsert->updateCheckUserData( $rc );
-	}
-
-	public static function onExtensionFunctions() {
-		if ( ExtensionRegistry::getInstance()->isLoaded( 'GrowthExperiments' ) ) {
-			global $wgRestAPIAdditionalRouteFiles;
-			$wgRestAPIAdditionalRouteFiles[] = __DIR__ . '/UserInfo/RestRoutes.json';
-		}
 	}
 }

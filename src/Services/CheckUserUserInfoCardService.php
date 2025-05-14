@@ -14,21 +14,21 @@ use MediaWiki\User\UserOptionsLookup;
  * A service for methods that interact with user info card components
  */
 class CheckUserUserInfoCardService {
-	private UserImpactLookup $userImpactLookup;
+	private ?UserImpactLookup $userImpactLookup;
 	private ExtensionRegistry $extensionRegistry;
 	private UserOptionsLookup $userOptionsLookup;
 	private UserRegistrationLookup $userRegistrationLookup;
 	private UserGroupManager $userGroupManager;
 
 	/**
-	 * @param UserImpactLookup $userImpactLookup
+	 * @param UserImpactLookup|null $userImpactLookup
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param UserOptionsLookup $userOptionsLookup
 	 * @param UserRegistrationLookup $userRegistrationLookup
 	 * @param UserGroupManager $userGroupManager
 	 */
 	public function __construct(
-		UserImpactLookup $userImpactLookup,
+		?UserImpactLookup $userImpactLookup,
 		ExtensionRegistry $extensionRegistry,
 		UserOptionsLookup $userOptionsLookup,
 		UserRegistrationLookup $userRegistrationLookup,
@@ -76,6 +76,12 @@ class CheckUserUserInfoCardService {
 	 * @return array array containing aggregated user information
 	 */
 	public function getUserInfo( UserIdentity $user ) {
+		// GrowthExperiments is unavailable, don't attempt to return any data (T394070)
+		// In the future, we may try to return data that's available without having
+		// the GrowthExperiments impact store available.
+		if ( !$this->userImpactLookup ) {
+			return [];
+		}
 		$userInfo = $this->getDataFromUserImpact( $user );
 		if ( !$userInfo ) {
 			// There should always be user impact data. If there isn't, there's a problem
