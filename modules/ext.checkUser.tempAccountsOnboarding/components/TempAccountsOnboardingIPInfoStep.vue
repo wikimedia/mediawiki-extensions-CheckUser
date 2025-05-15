@@ -116,11 +116,11 @@ module.exports = exports = {
 
 		// Create the success, warning, and error messages for the user.
 		const checkboxFieldMessages = computed( () => ( {
-			error: mw.message(
+			error: mw.msg(
 				'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error', lastOptionsUpdateError.value
-			).text(),
-			warning: mw.message( 'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning' ).text(),
-			success: mw.message( 'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success' ).text()
+			),
+			warning: mw.msg( 'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning' ),
+			success: mw.msg( 'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success' )
 		} ) );
 
 		// Keep a track of the value of the IPInfo preference on the client

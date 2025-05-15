@@ -90,17 +90,17 @@ function onTargetChange( blockTarget ) {
 							.text( ip )
 							.prop( 'outerHTML' )
 						);
-						message = mw.message(
+						message = mw.msg(
 							'checkuser-tempaccount-specialblock-ips',
 							ips.length,
 							mw.language.listToText( ips )
-						).text();
+						);
 						message = new OO.ui.HtmlSnippet( message );
 					} else {
-						message = mw.message(
+						message = mw.msg(
 							'checkuser-tempaccount-no-ip-results',
 							Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
-						).text();
+						);
 					}
 					$container.empty().append( new OO.ui.LabelWidget( {
 						label: message
@@ -109,7 +109,7 @@ function onTargetChange( blockTarget ) {
 					$container.empty()
 						.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
 						.append( new OO.ui.LabelWidget( {
-							label: mw.message( 'checkuser-tempaccount-reveal-ip-error' ).text()
+							label: mw.msg( 'checkuser-tempaccount-reveal-ip-error' )
 						} ).$element );
 				} );
 			} );

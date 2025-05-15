@@ -114,20 +114,20 @@ module.exports = exports = defineComponent( {
 							a.textContent = ip;
 							return a.outerHTML;
 						} );
-						message.value = mw.message(
+						message.value = mw.msg(
 							'checkuser-tempaccount-specialblock-ips',
 							ipLinks.length,
 							mw.language.listToText( ipLinks )
-						).text();
+						);
 					} else {
-						message.value = mw.message(
+						message.value = mw.msg(
 							'checkuser-tempaccount-no-ip-results',
 							Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
-						).text();
+						);
 					}
 				} )
 				.catch( () => {
-					message.value = mw.message( 'checkuser-tempaccount-reveal-ip-error' ).text();
+					message.value = mw.msg( 'checkuser-tempaccount-reveal-ip-error' );
 				} );
 		}
 
@@ -151,14 +151,14 @@ module.exports = exports = defineComponent( {
 							} else {
 								blockDetailsMsg.value = {
 									type: 'success',
-									text: mw.message( 'checkuser-tempaccount-reveal-blocked-missingblock' ).text()
+									text: mw.msg( 'checkuser-tempaccount-reveal-blocked-missingblock' )
 								};
 							}
 						},
 						() => {
 							blockDetailsMsg.value = {
 								type: 'error',
-								text: mw.message( 'checkuser-tempaccount-reveal-blocked-error' ).text()
+								text: mw.msg( 'checkuser-tempaccount-reveal-blocked-error' )
 							};
 						}
 					);

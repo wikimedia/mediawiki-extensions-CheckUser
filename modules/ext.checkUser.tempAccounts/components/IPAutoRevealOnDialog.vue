@@ -49,10 +49,10 @@ module.exports = exports = {
 		const selected = ref( null );
 
 		const defaultAction = {
-			label: mw.message( 'checkuser-ip-auto-reveal-on-dialog-default-action' ).text()
+			label: mw.msg( 'checkuser-ip-auto-reveal-on-dialog-default-action' )
 		};
 		const primaryAction = ref( {
-			label: mw.message( 'checkuser-ip-auto-reveal-on-dialog-primary-action' ).text(),
+			label: mw.msg( 'checkuser-ip-auto-reveal-on-dialog-primary-action' ),
 			actionType: 'progressive',
 			disabled: !selected.value
 		} );

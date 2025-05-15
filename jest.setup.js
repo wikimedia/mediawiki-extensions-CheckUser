@@ -12,6 +12,8 @@ global.mw.message = jest.fn( ( ...messageKeyAndParams ) => ( {
 	parse: () => `(${ messageKeyAndParams.join( ', ' ) })`
 } ) );
 
+global.mw.msg = jest.fn( ( ...messageKeyAndParams ) => `(${ messageKeyAndParams.join( ', ' ) })` );
+
 global.mw.storage = {
 	session: {
 		get: jest.fn(),
