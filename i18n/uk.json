@@ -358,6 +358,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|вимкнув|вимкнула}} собі доступ до перегляду захищених змінних",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|переглянув|переглянула}} захищені змінні, пов'язані з $3",
 	"checkuser-ipinfo-global-contributions-url-text": "Переглянути глобальний внесок",
+	"checkuser-userinfocard-toggle-button-aria-label": "Відкрити інформаційну картку користувача",
 	"checkuser-userinfocard-enable-preference-description": "Увімкнути [[mw:Help:Extension:CheckUser#UserInfoCard|картку з інформацією про користувача]]",
 	"checkuser-userinfocard-enable-preference-help": "Показувати поруч з іменами користувачів кнопку, що відкриє спливне вікно з інформацією про обліковий запис."
 }
