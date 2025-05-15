@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="ext-checkuser-userinfocard-header-controls">
-			<user-card-menu :user-id="userId"></user-card-menu>
+			<user-card-menu :user-id="userId" :username="username"></user-card-menu>
 			<cdx-button
 				:aria-label="closeAriaLabel"
 				weight="quiet"
