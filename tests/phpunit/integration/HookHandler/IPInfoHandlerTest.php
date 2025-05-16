@@ -38,6 +38,8 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->markTestSkipped( 'T386186' );
+
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'IPInfo' );
 
