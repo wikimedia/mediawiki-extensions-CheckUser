@@ -15,7 +15,7 @@ function addSpecialGlobalContributionsLink( $info, info, generateMarkup, target,
 
 		const $globalContributionsCount = $( '<span>' )
 			.addClass( 'ipinfo-widget-value-global-contributions' )
-			.append( mw.message( 'checkuser-ipinfo-global-contributions-value', globalContributionsCount ).escaped() );
+			.text( mw.msg( 'checkuser-ipinfo-global-contributions-value', globalContributionsCount ) );
 		$globalContributions.append( $globalContributionsCount );
 		const globalContributionsUrl = mw.util.getUrl( 'Special:GlobalContributions', { target } );
 		const $globalContributionsLink = $( '<div>' )
