@@ -174,8 +174,9 @@ describe( 'Client Hints', () => {
 		await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
 		await CheckUserPage.submit.click();
 		await expect( await CheckUserPage.getActionsResults ).toExist();
-		// Check that the temporary account auto-creation event appears and that it should be attached to the
-		// public log event in Special:Log (wgNewUserLog is true by default and in CI).
+		// Check that the temporary account auto-creation event appears and that it should be
+		// attached to the public log event in Special:Log (wgNewUserLog is true by default and
+		// in CI).
 		const relevantResultLine = await CheckUserPage.getActionsResults.$( 'li*=was created automatically' );
 		await expect( relevantResultLine ).toExist();
 		// Expect that Client Hints exist for the auto-creation event
