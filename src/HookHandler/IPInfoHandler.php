@@ -4,8 +4,8 @@ namespace MediaWiki\CheckUser\HookHandler;
 
 use LogicException;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
-use MediaWiki\Context\RequestContext;
 use MediaWiki\IPInfo\Hook\IPInfoIPInfoHandlerHook;
+use MediaWiki\Permissions\Authority;
 
 class IPInfoHandler implements IPInfoIPInfoHandlerHook {
 	private CheckUserGlobalContributionsLookup $globalContributionsLookup;
@@ -21,6 +21,7 @@ class IPInfoHandler implements IPInfoIPInfoHandlerHook {
 	 */
 	public function onIPInfoHandlerRun(
 		string $target,
+		Authority $performer,
 		string $dataContext,
 		array &$dataContainer
 	): void {
@@ -30,7 +31,7 @@ class IPInfoHandler implements IPInfoIPInfoHandlerHook {
 		try {
 			$globalContributionsCount = $this->globalContributionsLookup->getGlobalContributionsCount(
 				$target,
-				RequestContext::getMain()->getAuthority()
+				$performer
 			);
 			$dataContainer['ipinfo-source-checkuser'] = [
 				'globalContributionsCount' => $globalContributionsCount
