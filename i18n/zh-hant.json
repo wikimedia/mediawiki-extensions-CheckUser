@@ -311,7 +311,7 @@
 	"checkuser-tempaccount-reveal-ip-missing": "不可用",
 	"checkuser-tempaccount-reveal-ip-error": "錯誤",
 	"checkuser-tempaccount-specialblock-ips": "此為使用以下 {{PLURAL:$1|IP}} 的臨時使用者：$2",
-	"checkuser-temporary-account-log-name": "檢查使用者帳號日誌",
+	"checkuser-temporary-account-log-name": "IP揭示日誌",
 	"checkuser-temporary-account-log-header": "這是一條關於以下內容的日誌：\n# 檢視由臨時帳號使用的 IP 位址\n# 檢視 IP 位址或 IP 範圍關聯的臨時帳號\n# 用於檢視臨時帳號使用 IP 位址的使用者權限層級之更動內容。",
 	"logentry-checkuser-temporary-account-change-access": "$1$4{{GENDER:$2|他|她|他們}}擁有檢視臨時帳號 IP 位址的權限",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|已停用}}",
