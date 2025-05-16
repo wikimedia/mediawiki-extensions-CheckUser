@@ -10,7 +10,7 @@ $( () => {
 	popover.id = 'ext-checkuser-userinfocard-popover';
 	popover.classList.add( 'ext-checkuser-userinfocard-popover' );
 	document.body.appendChild( popover );
-	const popoverApp = Vue.createApp( App ).use( pinia ).mount( popover );
+	const popoverApp = Vue.createMwApp( App ).use( pinia ).mount( popover );
 
 	const buttons = document.querySelectorAll( '.ext-checkuser-userinfocard-button' );
 	buttons.forEach( ( button ) => {
