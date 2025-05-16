@@ -484,6 +484,12 @@
 				"UserOptionsLookup",
 				"UserNameUtils"
 			]
+		},
+		"IPInfoHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\IPInfoHandler",
+			"services": [
+				"CheckUserGlobalContributionsLookup"
+			]
 		}
 	},
 	"Hooks": {
@@ -523,7 +529,8 @@
 		"UserLinkRendererUserLinkPostRender": "UserLinkRendererUserLinkPostRenderHandler",
 		"UserLogoutComplete": "CheckUserPrivateEvents",
 		"UserMergeAccountFields": "UserMerge",
-		"UserToolLinksEdit": "ToolLinks"
+		"UserToolLinksEdit": "ToolLinks",
+		"IPInfoHandlerRun": "IPInfoHandler"
 	},
 	"MessagesDirs": {
 		"CheckUser": [

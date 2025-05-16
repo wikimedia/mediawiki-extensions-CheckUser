@@ -38,8 +38,6 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->markTestSkipped( 'T386186' );
-
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'IPInfo' );
 
@@ -196,15 +194,17 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideTestOnIPInfoHandlerRun */
-	public function testOnIPInfoHandlerRun( $targetProvider, string $context, array $expected ) {
+	public function testOnIPInfoHandlerRun( $targetProvider, $authorityProvider, string $context, array $expected ) {
 		// Test that the isolated hook operates as expected when the handler is run
 		$ipInfoData = [];
 		$target = $targetProvider();
+		$authority = $authorityProvider();
 		$handler = new IPInfoHandler(
 			$this->getServiceContainer()->get( 'CheckUserGlobalContributionsLookup' )
 		);
 		$handler->onIPInfoHandlerRun(
 			$target,
+			$authority,
 			$context,
 			$ipInfoData
 		);
@@ -215,6 +215,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'infobox data context should append data' => [
 				'target' => static fn () => self::$tempUserNoEdits->getName(),
+				'authority' => static fn () => self::$tempUserNoEdits,
 				'context' => 'infobox',
 				'expectedOutput' => [
 					'ipinfo-source-checkuser' => [
@@ -224,6 +225,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'popup data context shouldn\'t append data' => [
 				'target' => static fn () => self::$tempUserNoEdits->getName(),
+				'authority' => static fn () => self::$tempUserNoEdits,
 				'context' => 'popup',
 				'expectedOutput' => []
 			],
