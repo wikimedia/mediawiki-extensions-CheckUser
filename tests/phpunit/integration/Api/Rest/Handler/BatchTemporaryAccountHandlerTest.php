@@ -137,7 +137,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $expectedData, $data );
 	}
 
-	public function provideExecute() {
+	public static function provideExecute() {
 		return [
 			'The correct logger is called when auto-reveal is on' => [
 				'jobQueueGroupExpects' => 0,
