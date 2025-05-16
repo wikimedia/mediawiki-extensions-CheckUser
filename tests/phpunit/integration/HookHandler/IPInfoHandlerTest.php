@@ -9,7 +9,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\IPInfo\Rest\Handler\NoRevisionHandler;
 use MediaWiki\IPInfo\Rest\Handler\RevisionHandler;
 use MediaWiki\Permissions\Authority;
-use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Rest\ResponseInterface;
@@ -78,16 +78,11 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 
 		// User should have permissions to see IPInfo data
 		$userOptionsManager = $services->getUserOptionsManager();
-		$user = $this->getTestUser()->getAuthority();
+		$user = $this->getTestUser()->getUserIdentity();
 		$userOptionsManager->setOption( $user, 'ipinfo-use-agreement', 1 );
 		$userOptionsManager->setOption( $user, 'ipinfo-beta-feature-enable', 1 );
 
-		// Mock permission manager to assume user has correct rights
-		$permissionManager = $this->createMock( PermissionManager::class );
-		$permissionManager->method( 'userHasRight' )
-			->willReturn( true );
-		$permissionManager->method( 'userCan' )
-			->willReturn( true );
+		$performer = new SimpleAuthority( $user, [ 'read', 'ipinfo' ] );
 
 		$requestParams = [
 			'method' => 'POST',
@@ -106,14 +101,13 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			$revisionHandler = RevisionHandler::factory(
 				$services->getService( 'IPInfoInfoManager' ),
 				$services->getRevisionLookup(),
-				$permissionManager,
-				$services->getUserOptionsLookup(),
+				$services->getPermissionManager(),
 				$services->getUserFactory(),
 				$services->getJobQueueGroup(),
 				$services->getLanguageFallback(),
 				$services->getUserIdentityUtils(),
 				$services->get( 'IPInfoTempUserIPLookup' ),
-				$services->getExtensionRegistry(),
+				$services->get( 'IPInfoPermissionManager' ),
 				$services->getReadOnlyMode(),
 				$services->get( 'IPInfoHookRunner' )
 			);
@@ -125,14 +119,13 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			// Otherwise a username was passed through, return the response from NoRevisionHandler
 			$revisionHandler = NoRevisionHandler::factory(
 				$services->getService( 'IPInfoInfoManager' ),
-				$permissionManager,
-				$services->getUserOptionsLookup(),
+				$services->getPermissionManager(),
 				$services->getUserFactory(),
 				$services->getJobQueueGroup(),
 				$services->getLanguageFallback(),
 				$services->getUserIdentityUtils(),
 				$services->get( 'IPInfoTempUserIPLookup' ),
-				$services->getExtensionRegistry(),
+				$services->get( 'IPInfoPermissionManager' ),
 				$services->getReadOnlyMode(),
 				$services->get( 'IPInfoAnonymousUserIPLookup' ),
 				$services->get( 'IPInfoHookRunner' )
@@ -151,12 +144,11 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			[],
 			[],
-			$user
+			$performer
 		);
 	}
 
 	public function testGlobalContributionsCountNotNullFromHookWhenNoEdits() {
-		$this->markTestSkipped( 'T356660' );
 		// Run the endpoint
 		$response = $this->getEndpointResponse( self::$tempUserNoEdits->getName() );
 
@@ -169,7 +161,6 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGlobalContributionsCountAddedFromHook() {
-		$this->markTestSkipped( 'T356660' );
 		// Run the endpoint
 		$response = $this->getEndpointResponse( self::$revRecordByTempUser->getId() );
 
@@ -181,7 +172,6 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGlobalContributionsCountThrowsError() {
-		$this->markTestSkipped( 'T356660' );
 		$lookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
 		$lookup->method( 'getGlobalContributionsCount' )
 			->willThrowException( new LogicException() );
