@@ -572,6 +572,7 @@
 				"components/UserCardHeader.vue",
 				"components/UserCardMenu.vue",
 				"stores/UserInfoCardPopover.js",
+				"components/UserInfoCardError.vue",
 				{
 					"name": "components/icons.json",
 					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
@@ -605,7 +606,10 @@
 				"checkuser-userinfocard-menu-check-ip",
 				"checkuser-userinfocard-menu-block-user",
 				"checkuser-userinfocard-menu-turn-off",
-				"checkuser-userinfocard-loading-label"
+				"checkuser-userinfocard-loading-label",
+				"checkuser-userinfocard-error-title",
+				"checkuser-userinfocard-error-no-data",
+				"checkuser-userinfocard-error-generic"
 			],
 			"dependencies": [
 				"mediawiki.api",

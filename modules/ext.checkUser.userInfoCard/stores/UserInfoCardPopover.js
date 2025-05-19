@@ -8,11 +8,12 @@ const useUserInfoCardPopoverStore = Pinia.defineStore( 'checkuser-userinfocard-p
 		isOpen: false,
 		currentTrigger: null,
 		loading: false,
+		error: null,
 		userCard: {
 			userId: null,
 			wikiId: null,
 			userPageUrl: null,
-			userPageExists: null,
+			userPageExists: false,
 			username: null,
 			joinedDate: null,
 			joinedRelativeTime: null,
@@ -30,17 +31,15 @@ const useUserInfoCardPopoverStore = Pinia.defineStore( 'checkuser-userinfocard-p
 			this.isOpen = false;
 			this.currentTrigger = null;
 		},
-		setUserCard( { userId } ) {
-			this.userCard.userId = userId;
-		},
 		fetchUserInfo( userId, wikiId ) {
 			this.loading = true;
+			this.error = null;
 			const token = mw.user.tokens.get( 'csrfToken' );
 			const rest = new mw.Rest();
 			rest.post( `/checkuser/v0/userinfo/${ userId }`, { token } )
 				.then( ( userInfo ) => {
 					if ( !userInfo ) {
-						throw new Error( 'Invalid user info' );
+						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data' ) );
 					}
 
 					const {
@@ -57,7 +56,7 @@ const useUserInfoCardPopoverStore = Pinia.defineStore( 'checkuser-userinfocard-p
 						userId,
 						wikiId,
 						userPageUrl,
-						userPageExists,
+						userPageExists: !!userPageExists,
 						username: name,
 						joinedDate: firstRegistration ?
 							moment( firstRegistration, 'YYYYMMDDHHmmss' ).format( 'DD MMM YYYY' ) :
@@ -71,8 +70,21 @@ const useUserInfoCardPopoverStore = Pinia.defineStore( 'checkuser-userinfocard-p
 					};
 					this.loading = false;
 				} )
-				.catch( () => {
-					// TODO: T393014 handle errors
+				.catch( ( err, errOptions ) => {
+					// Retrieving the error message from mw.Rest().post()
+					const { xhr } = errOptions || {};
+					const responseJSON = ( xhr && xhr.responseJSON ) || {};
+					const userLang = mw.config.get( 'wgUserLanguage' );
+					if (
+						responseJSON.messageTranslations &&
+						responseJSON.messageTranslations[ userLang ]
+					) {
+						this.error = responseJSON.messageTranslations[ userLang ];
+					} else if ( err.message ) {
+						this.error = err.message;
+					} else {
+						this.error = mw.msg( 'checkuser-userinfocard-error-generic' );
+					}
 					this.loading = false;
 				} );
 		}

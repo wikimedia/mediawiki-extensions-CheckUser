@@ -39,7 +39,7 @@ module.exports = exports = {
 	},
 	props: {
 		userId: {
-			type: Number,
+			type: String,
 			required: true
 		},
 		username: {

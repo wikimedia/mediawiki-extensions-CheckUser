@@ -17,7 +17,8 @@ $( () => {
 		$( button ).on( 'click', ( event ) => {
 			event.preventDefault();
 
-			// fetch wikiId and userId from the classname ext-checkuser-userinfocard-id-$wikiId:$userId
+			// fetch wikiId and userId from the classname
+			// ext-checkuser-userinfocard-id-$wikiId:$userId
 			const idClass = Array.from( button.classList ).find(
 				( cls ) => cls.startsWith( 'ext-checkuser-userinfocard-id-' )
 			);
