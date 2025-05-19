@@ -1,19 +1,18 @@
 <template>
 	<div class="ext-checkuser-userinfocard-body">
 		<p>{{ joinedLabel }}: {{ joinedDate }} ({{ joinedRelative }})</p>
-		<p
+		<info-row-with-links
 			v-for="( row, idx ) in infoRows"
 			:key="idx"
-			class="ext-checkuser-userinfocard-short-paragraph"
-		>
-			<cdx-icon
-				:icon="row.icon"
-				size="small"
-				:class="row.iconClass"
-			></cdx-icon>
-			<!-- TODO: T393946 Add links -->
-			{{ row.text }}
-		</p>
+			:icon="row.icon"
+			:icon-class="row.iconClass"
+			:main-label="row.mainLabel"
+			:main-value="row.mainValue"
+			:main-link="row.mainLink"
+			:suffix-label="row.suffixLabel"
+			:suffix-value="row.suffixValue"
+			:suffix-link="row.suffixLink"
+		></info-row-with-links>
 		<p
 			v-if="activeWikis && activeWikis.length > 0"
 			class="ext-checkuser-userinfocard-active-wikis"
@@ -24,7 +23,6 @@
 </template>
 
 <script>
-const { CdxIcon } = require( '@wikimedia/codex' );
 const {
 	cdxIconAlert,
 	cdxIconEdit,
@@ -32,12 +30,17 @@ const {
 	cdxIconHeart,
 	cdxIconSearch
 } = require( './icons.json' );
+const InfoRowWithLinks = require( './InfoRowWithLinks.vue' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'UserCard',
-	components: { CdxIcon },
+	components: { InfoRowWithLinks },
 	props: {
+		username: {
+			type: String,
+			default: ''
+		},
 		joinedDate: {
 			type: String,
 			default: ''
@@ -93,54 +96,87 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const joinedLabel = mw.msg( 'checkuser-userinfocard-joined-label' );
+		// TODO: T394461 - mount the links for the active wikis once we start receiving from the API
 		const activeWikisLabel = mw.msg( 'checkuser-userinfocard-active-wikis-label' );
+
+		const activeBlocksLink = mw.Title.makeTitle( -1, 'BlockList' ).getUrl(
+			{ wpTarget: props.username, limit: 50, wpFormIdentifier: 'blocklist' }
+		);
+		const pastBlocksLink = mw.Title.makeTitle( -1, 'Log/block' ).getUrl(
+			{ user: props.username }
+		);
+		const globalEditsLink = mw.Title.makeTitle(
+			-1, `GlobalContributions/${ props.username }`
+		).getUrl();
+		const localEditsLink = mw.Title.makeTitle(
+			-1, `Contributions/${ props.username }`
+		).getUrl();
+		const newArticlesLink = mw.Title.makeTitle( -1, 'Contributions' ).getUrl(
+			{ target: props.username, namespace: 'all', newOnly: 1 }
+		);
+		const thanksReceivedLink = mw.Title.makeTitle( -1, 'Log/thanks' ).getUrl(
+			{ user: props.username }
+		);
+		const thanksSentLink = mw.Title.makeTitle( -1, 'Log/thanks' ).getUrl(
+			{ page: props.username }
+		);
+		const checksLink = mw.Title.makeTitle( -1, 'CheckUser' ).getUrl(
+			{ user: props.username }
+		);
 
 		const infoRows = [
 			{
 				icon: cdxIconAlert,
 				iconClass: 'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks',
-				text: mw.msg(
-					'checkuser-userinfocard-active-blocks-row',
-					props.activeBlocks,
-					props.pastBlocks
-				)
+				mainLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-main-label' ),
+				mainValue: props.activeBlocks,
+				mainLink: activeBlocksLink,
+				suffixLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-suffix-label' ),
+				suffixValue: props.pastBlocks,
+				suffixLink: pastBlocksLink
 			},
 			{
 				icon: cdxIconEdit,
 				iconClass: 'ext-checkuser-userinfocard-icon',
-				text: mw.msg( 'checkuser-userinfocard-global-edits-row', props.globalEdits )
+				mainLabel: mw.msg( 'checkuser-userinfocard-global-edits-row-main-label' ),
+				mainValue: props.globalEdits,
+				mainLink: globalEditsLink
 			},
 			{
 				icon: cdxIconEdit,
 				iconClass: 'ext-checkuser-userinfocard-icon',
-				text: mw.msg(
-					'checkuser-userinfocard-local-edits-row',
-					props.localEdits,
-					props.localEditsReverted
-				)
+				mainLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-main-label' ),
+				mainValue: props.localEdits,
+				mainLink: localEditsLink,
+				suffixLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-suffix-label' ),
+				suffixValue: props.localEditsReverted,
+				suffixLink: localEditsLink
 			},
 			{
 				icon: cdxIconArticles,
 				iconClass: 'ext-checkuser-userinfocard-icon',
-				text: mw.msg( 'checkuser-userinfocard-new-articles-row', props.newArticles )
+				mainLabel: mw.msg( 'checkuser-userinfocard-new-articles-row-main-label' ),
+				mainValue: props.newArticles,
+				mainLink: newArticlesLink
 			},
 			{
 				icon: cdxIconHeart,
 				iconClass: 'ext-checkuser-userinfocard-icon',
-				text: mw.msg(
-					'checkuser-userinfocard-thanks-row',
-					props.thanksReceived,
-					props.thanksSent
-				)
+				mainLabel: mw.msg( 'checkuser-userinfocard-thanks-row-main-label' ),
+				mainValue: props.thanksReceived,
+				mainLink: thanksReceivedLink,
+				suffixLabel: mw.msg( 'checkuser-userinfocard-thanks-row-suffix-label' ),
+				suffixValue: props.thanksSent,
+				suffixLink: thanksSentLink
 			},
 			{
 				icon: cdxIconSearch,
 				iconClass: 'ext-checkuser-userinfocard-icon',
-				text: mw.msg(
-					'checkuser-userinfocard-checks-row',
-					props.checks,
-					props.lastChecked
-				)
+				mainLabel: mw.msg( 'checkuser-userinfocard-checks-row-main-label' ),
+				mainValue: props.checks,
+				mainLink: checksLink,
+				suffixLabel: mw.msg( 'checkuser-userinfocard-checks-row-suffix-label' ),
+				suffixValue: props.lastChecked
 			}
 		];
 

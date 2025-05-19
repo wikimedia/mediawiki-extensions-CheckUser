@@ -24,24 +24,42 @@ module.exports = exports = {
 			type: String,
 			required: true
 		},
+		username: {
+			type: String,
+			required: true
+		},
 		ariaLabel: {
 			type: String,
 			default: () => mw.msg( 'checkuser-userinfocard-open-menu-aria-label' )
 		}
 	},
-	setup() {
+	setup( props ) {
 		const selection = ref( null );
+		const contributionsLink = mw.Title.makeTitle(
+			-1, `Contributions/${ props.username }`
+		).getUrl();
+		const globalAccountLink = mw.Title.makeTitle(
+			-1, `CentralAuth/${ props.username }`
+		).getUrl();
+		const checkUserLink = mw.Title.makeTitle( -1, 'CheckUser' ).getUrl(
+			{ user: props.username }
+		);
+		const blockUserLink = mw.Title.makeTitle(
+			-1, `Block/${ props.username }`
+		).getUrl();
+		const turnOffLink = mw.Title.makeTitle(
+			-1, 'Special:Preferences'
+		).getUrl() + '#mw-prefsection-rendering-advancedrendering';
 		const menuItems = [
-			// TODO: T393946 Add proper links
 			{
 				label: mw.msg( 'checkuser-userinfocard-menu-view-contributions' ),
 				value: 'view-contributions',
-				link: '#'
+				link: contributionsLink
 			},
 			{
 				label: mw.msg( 'checkuser-userinfocard-menu-view-global-account' ),
 				value: 'view-global-account',
-				link: '#'
+				link: globalAccountLink
 			},
 			// TODO: T393981 Implement proper add/remove user page to watchlist
 			{
@@ -52,17 +70,17 @@ module.exports = exports = {
 			{
 				label: mw.msg( 'checkuser-userinfocard-menu-check-ip' ),
 				value: 'check-ip',
-				link: '#'
+				link: checkUserLink
 			},
 			{
 				label: mw.msg( 'checkuser-userinfocard-menu-block-user' ),
 				value: 'block-user',
-				link: '#'
+				link: blockUserLink
 			},
 			{
 				label: mw.msg( 'checkuser-userinfocard-menu-turn-off' ),
 				value: 'turn-off',
-				link: mw.util.getUrl( 'Special:Preferences' ) + '#mw-prefsection-rendering'
+				link: turnOffLink
 			}
 		];
 

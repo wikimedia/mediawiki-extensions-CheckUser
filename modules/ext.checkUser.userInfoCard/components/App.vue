@@ -30,6 +30,7 @@
 		</template>
 		<user-card-body
 			v-if="!store.loading && !store.error"
+			:username="store.userCard.username"
 			:joined-date="store.userCard.joinedDate"
 			:joined-relative="store.userCard.joinedRelativeTime"
 			:active-blocks="store.userCard.activeBlocksCount"
