@@ -8,7 +8,7 @@ use MediaWiki\CheckUser\Api\Rest\Handler\BatchTemporaryAccountHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
-use MediaWiki\Preferences\DefaultPreferencesFactory;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
@@ -58,8 +58,13 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 					[ Preferences::ENABLE_IP_AUTO_REVEAL => time() + 10000 ] :
 					[]
 				);
+			$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
+				$preferencesFactory
+			);
 		} else {
-			$preferencesFactory = $this->createMock( DefaultPreferencesFactory::class );
+			$autoRevealLookup = $this->createMock(
+				CheckUserTemporaryAccountAutoRevealLookup::class
+			);
 		}
 
 		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
@@ -84,13 +89,13 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				$services->getMainConfig(),
 				$jobQueueGroup,
 				$services->getPermissionManager(),
-				$preferencesFactory,
 				$services->getUserNameUtils(),
 				$services->getConnectionProvider(),
 				$actorStore,
 				$services->getBlockManager(),
 				$services->getRevisionStore(),
 				$checkUserPermissionManager,
+				$autoRevealLookup,
 				$services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				$services->getReadOnlyMode()
 			] )

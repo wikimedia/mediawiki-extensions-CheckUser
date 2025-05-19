@@ -259,12 +259,12 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"PreferencesFactory",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
 				"BlockManager",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountAutoRevealLookup",
 				"CheckUserTemporaryAccountLoggerFactory",
 				"ReadOnlyMode"
 			]
@@ -295,13 +295,13 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"PreferencesFactory",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
 				"BlockManager",
 				"RevisionStore",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountAutoRevealLookup",
 				"CheckUserTemporaryAccountLoggerFactory",
 				"ReadOnlyMode"
 			]
@@ -314,12 +314,12 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"PreferencesFactory",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
 				"BlockManager",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountAutoRevealLookup",
 				"CheckUserTemporaryAccountLoggerFactory",
 				"ReadOnlyMode"
 			]
@@ -332,13 +332,13 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"PreferencesFactory",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
 				"BlockManager",
 				"RevisionStore",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountAutoRevealLookup",
 				"CheckUserTemporaryAccountLoggerFactory",
 				"ReadOnlyMode"
 			]

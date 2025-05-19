@@ -66,12 +66,14 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'config' => $services->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
-				'preferencesFactory' => $services->getPreferencesFactory(),
 				'userNameUtils' => $userNameUtils,
 				'dbProvider' => $services->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
 				'blockManager' => $services->getBlockManager(),
 				'checkUserPermissionManager' => $checkUserPermissionManager,
+				'autoRevealLookup' => $services->get(
+					'CheckUserTemporaryAccountAutoRevealLookup'
+				),
 				'LoggerFactory' => $services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				'readOnlyMode' => $services->getReadOnlyMode(),
 			],

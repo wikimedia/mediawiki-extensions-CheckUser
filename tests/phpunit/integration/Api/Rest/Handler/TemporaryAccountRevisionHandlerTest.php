@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
@@ -92,13 +93,15 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 				'config' => $services->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
-				'preferencesFactory' => $services->getPreferencesFactory(),
 				'userNameUtils' => $userNameUtils,
 				'dbProvider' => $services->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
 				'blockManager' => $services->getBlockManager(),
 				'revisionStore' => $mockRevisionStore,
 				'checkUserPermissionManager' => $checkUserPermissionManager,
+				'autoRevealLookup' => $services->get(
+					'CheckUserTemporaryAccountAutoRevealLookup'
+				),
 				'loggerFactory' => $services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				'readOnlyMode' => $services->getReadOnlyMode(),
 			],
@@ -246,6 +249,10 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		$preferencesFactory->method( 'getGlobalPreferencesValues' )
 			->willReturn( $preferences );
 
+		$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
+			$preferencesFactory
+		);
+
 		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
 		$jobQueueGroup->expects( $this->exactly( $jobQueueGroupExpects ) )
 			->method( 'push' );
@@ -263,7 +270,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$data = $this->executeHandlerAndGetBodyData(
 			$this->getTemporaryAccountRevisionHandler( [
-				'preferencesFactory' => $preferencesFactory,
+				'autoRevealLookup' => $autoRevealLookup,
 				'jobQueueGroup' => $jobQueueGroup,
 			] ),
 			$this->getRequestData(),

@@ -7,11 +7,11 @@ use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\Config;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\ParamValidator\TypeDef\ArrayDef;
 use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\Preferences\PreferencesFactory;
 use MediaWiki\Rest\Response;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
@@ -26,23 +26,22 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	use TemporaryAccountNameTrait;
 	use TemporaryAccountRevisionTrait;
 	use TemporaryAccountLogTrait;
-	use TemporaryAccountAutoRevealTrait;
 
-	private PreferencesFactory $preferencesFactory;
 	private RevisionStore $revisionStore;
+	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
 	private TemporaryAccountLoggerFactory $loggerFactory;
 
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
-		PreferencesFactory $preferencesFactory,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		RevisionStore $revisionStore,
 		CheckUserPermissionManager $checkUserPermissionsManager,
+		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
 		TemporaryAccountLoggerFactory $loggerFactory,
 		ReadOnlyMode $readOnlyMode
 	) {
@@ -57,8 +56,8 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 			$checkUserPermissionsManager,
 			$readOnlyMode
 		);
-		$this->preferencesFactory = $preferencesFactory;
 		$this->revisionStore = $revisionStore;
+		$this->autoRevealLookup = $autoRevealLookup;
 		$this->loggerFactory = $loggerFactory;
 	}
 
@@ -75,7 +74,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	public function makeLog( $identifier ) {
 		$users = $this->getValidatedBody()['users'] ?? [];
 
-		if ( $this->isAutoRevealOn() ) {
+		if ( $this->autoRevealLookup->isAutoRevealOn( $this->getAuthority() ) ) {
 			$logger = $this->loggerFactory->getLogger();
 			$performerName = $this->getAuthority()->getUser()->getName();
 
@@ -117,7 +116,11 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 			], $dbr );
 		}
 
-		$this->addAutoRevealStatusToResults( $results );
+		if ( $this->autoRevealLookup->isAutoRevealAvailable() ) {
+			$results['autoReveal'] = $this->autoRevealLookup->isAutoRevealOn(
+				$this->getAuthority()
+			);
+		}
 
 		return $results;
 	}
@@ -201,13 +204,6 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	 */
 	protected function getRevisionStore(): RevisionStore {
 		return $this->revisionStore;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function getPreferencesFactory(): PreferencesFactory {
-		return $this->preferencesFactory;
 	}
 
 	/**
