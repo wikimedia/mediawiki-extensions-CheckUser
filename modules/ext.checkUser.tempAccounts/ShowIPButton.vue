@@ -184,7 +184,7 @@ module.exports = exports = defineComponent( {
 </script>
 
 <style lang="less">
-.ext-checkuser-tempaccount-specialblock-ips-link {
+.ext-checkuser-tempaccount-specialblock-ips-link:disabled {
 	padding-right: 0;
 }
 
