@@ -355,6 +355,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 hat {{GENDER:$2|seinen|ihren|den}} eigenen Zugriff zum Anzeigen geschützter Variablen deaktiviert",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 hat geschützte Variablen {{GENDER:$2|angezeigt}}, die mit $3 verknüpft sind",
 	"checkuser-ipinfo-global-contributions-url-text": "Globale Beiträge anzeigen",
+	"checkuser-group-requirements": "Der Benutzer erfüllt die Zugangskriterien nicht",
 	"checkuser-userinfocard-toggle-button-aria-label": "Benutzerinfokarte öffnen",
 	"checkuser-userinfocard-close-button-aria-label": "Schließen",
 	"checkuser-userinfocard-open-menu-aria-label": "Menü der Benutzerinfokarte öffnen",

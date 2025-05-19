@@ -183,5 +183,17 @@
 	"checkuser-tempaccount-reveal-blocked-title": "Detailer vun der Spär weisen",
 	"checkuser-temporary-account-change-access-level-disable-globally": "global {{GENDER:$1|desaktivéiert}}",
 	"checkuser-temporary-account-change-access-level-enable-globally": "global {{GENDER:$1|aktivéiert}}",
-	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen"
+	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen",
+	"checkuser-userinfocard-close-button-aria-label": "Zoumaachen",
+	"checkuser-userinfocard-active-wikis-label": "Aktiv Wikien",
+	"checkuser-userinfocard-active-blocks-row": "Aktiv Spären: $1 (fréier Spären: $2)",
+	"checkuser-userinfocard-global-edits-row": "Global Ännerungen: $1",
+	"checkuser-userinfocard-local-edits-row": "Lokal Ännerungen: $1 (zréckgesat: $2)",
+	"checkuser-userinfocard-new-articles-row": "Nei Artikelen: $1",
+	"checkuser-userinfocard-menu-view-contributions": "Benotzerkontributioune weisen",
+	"checkuser-userinfocard-menu-add-to-watchlist": "Benotzersäit op d'Iwwerwaachungslëscht setzen",
+	"checkuser-userinfocard-menu-block-user": "Benotzer spären",
+	"checkuser-userinfocard-loading-label": "Benotzerinformatioune gi gelueden",
+	"checkuser-ipinfo-global-contributions-label": "Global Kontributiounen",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global Ännerung|$1 global Ännerungen|0=Keng global Ännerungen}}"
 }

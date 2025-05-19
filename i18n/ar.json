@@ -340,7 +340,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "تم إيقاف تشغيل الكشف عن عنوان IP للحساب المؤقت",
 	"checkuser-tempaccount-reveal-blocked-description": "ليس لديك الإذن لاستخدام هذه الميزة، للسبب التالي:",
 	"checkuser-tempaccount-specialblock-ips": "هذا مستخدم مؤقت يستخدم ما يلي {{PLURAL:$1| IP | IPs}}: $2",
-	"checkuser-temporary-account-log-name": "سجل تدقيق المستخدم للحسابات المؤقنة",
+	"checkuser-temporary-account-log-name": "سجل الكشف عن عنوان IP",
 	"checkuser-temporary-account-log-header": "هذا سجل:\n# عرض عناوين IP المستخدمة من قبل حساب مؤقت\n# عرض حسابات مؤقتة مرتبطة بعنوان IP أو مجموعة عناوينIP\n# تغيير مستويات وصول المستخدم لمشاهدة عناوين ip المستخدمة عن طريق حسابات مؤقتا",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|}} وصوله الخاص لعرض عناوين IP للحسابات المؤقتة",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1| عاجز}}",
@@ -357,6 +357,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 تم تعطيل وصول {{GENDER:$2|الخاص}} إلى عرض المتغيرات المحمية",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|شاهد}} متغيرا محميا مرتبطًا بـ $3",
 	"checkuser-ipinfo-global-contributions-url-text": "عرض المساهمات العالمية",
-	"checkuser-userinfocard-enable-preference-description": "تمكين [[mw:Help:Extension:CheckUser#UserInfoCard | بطاقة معلومات المستخدم]]",
+	"checkuser-userinfocard-enable-preference-description": "تمكين [[mw:Help:Extension:CheckUser#UserInfoCard|بطاقة معلومات المستخدم]]",
 	"checkuser-userinfocard-enable-preference-help": "إظهار زر بجوار أسماء المستخدمين لفتح نافذة منبثقة تحتوي على معلومات حول حساب ما."
 }
