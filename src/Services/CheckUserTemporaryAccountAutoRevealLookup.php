@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Services;
 
 use GlobalPreferences\GlobalPreferencesFactory;
+use GlobalPreferences\Storage;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Preferences\PreferencesFactory;
@@ -53,8 +54,9 @@ class CheckUserTemporaryAccountAutoRevealLookup {
 		$globalPreferences = $this->preferencesFactory->getGlobalPreferencesValues(
 			$authority->getUser(),
 			// Load from the database, not the cache, since we're using it for access.
-			true
+			Storage::SKIP_CACHE
 		);
+
 		return $globalPreferences &&
 			isset( $globalPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] ) &&
 			$this->isAutoRevealExpiryValid( $globalPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] );
