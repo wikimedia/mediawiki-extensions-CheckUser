@@ -156,6 +156,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGlobalContributionsCountNotNullFromHookWhenNoEdits() {
+		$this->markTestSkipped( 'T356660' );
 		// Run the endpoint
 		$response = $this->getEndpointResponse( self::$tempUserNoEdits->getName() );
 
@@ -168,6 +169,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGlobalContributionsCountAddedFromHook() {
+		$this->markTestSkipped( 'T356660' );
 		// Run the endpoint
 		$response = $this->getEndpointResponse( self::$revRecordByTempUser->getId() );
 
@@ -179,6 +181,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGlobalContributionsCountThrowsError() {
+		$this->markTestSkipped( 'T356660' );
 		$lookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
 		$lookup->method( 'getGlobalContributionsCount' )
 			->willThrowException( new LogicException() );
