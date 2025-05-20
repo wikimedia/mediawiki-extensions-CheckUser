@@ -481,6 +481,7 @@
 			"services": [
 				"MainConfig",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountAutoRevealLookup",
 				"ExtensionRegistry"
 			]
 		},
@@ -736,6 +737,8 @@
 				"checkuser-tempaccount-reveal-blocked-loading",
 				"checkuser-tempaccount-reveal-blocked-error",
 				"checkuser-tempaccount-reveal-blocked-missingblock",
+				"checkuser-ip-auto-reveal-link-sidebar",
+				"checkuser-ip-auto-reveal-link-sidebar-on",
 				"checkuser-ip-auto-reveal-notification-on",
 				"checkuser-ip-auto-reveal-notification-off",
 				"checkuser-ip-auto-reveal-on-dialog-title",

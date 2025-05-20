@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\SidebarBeforeOutputHook;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -22,15 +23,18 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 
 	private Config $config;
 	private CheckUserPermissionManager $permissionManager;
+	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
 	private ExtensionRegistry $extensionRegistry;
 
 	public function __construct(
 		Config $config,
 		CheckUserPermissionManager $checkUserPermissionManager,
+		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
 		ExtensionRegistry $extensionRegistry
 	) {
 		$this->config = $config;
 		$this->permissionManager = $checkUserPermissionManager;
+		$this->autoRevealLookup = $autoRevealLookup;
 		$this->extensionRegistry = $extensionRegistry;
 	}
 
@@ -121,10 +125,14 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 			'wgCheckUserTemporaryAccountAutoRevealAllowed' => true,
 		] );
 
+		$linkMessageKey = $this->autoRevealLookup->isAutoRevealOn( $skin->getAuthority() ) ?
+			'checkuser-ip-auto-reveal-link-sidebar-on' :
+			'checkuser-ip-auto-reveal-link-sidebar';
+
 		$out->addModules( 'ext.checkUser.tempAccounts' );
 		$sidebar['TOOLBOX'][self::IP_AUTO_REVEAL_KEY] = [
 			'id' => 't-checkuser-ip-auto-reveal',
-			'text' => $skin->msg( 'checkuser-ip-auto-reveal-link-sidebar' )->text(),
+			'text' => $skin->msg( $linkMessageKey )->text(),
 			'href' => '#',
 			'class' => 'checkuser-ip-auto-reveal',
 			'icon' => 'userAvatar',

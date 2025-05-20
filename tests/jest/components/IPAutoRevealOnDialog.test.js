@@ -22,11 +22,21 @@ const IPAutoRevealOnDialog = require( '../../../modules/ext.checkUser.tempAccoun
 const utils = require( '@vue/test-utils' );
 const { CdxDialog, CdxSelect } = require( '@wikimedia/codex' );
 
+const mockSetText = jest.fn();
+const renderComponent = () => {
+	const props = {
+		toolLink: { text: mockSetText }
+	};
+	return utils.mount( IPAutoRevealOnDialog, {
+		props: props
+	} );
+};
+
 describe( 'IP auto-reveal On dialog', () => {
 	let wrapper;
 
 	beforeEach( () => {
-		wrapper = utils.mount( IPAutoRevealOnDialog );
+		wrapper = renderComponent();
 	} );
 
 	it( 'mounts correctly', () => {
@@ -48,6 +58,7 @@ describe( 'IP auto-reveal On dialog', () => {
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
 
 		expect( mockEnableAutoReveal ).toHaveBeenCalledWith( '3600' );
+		expect( mockSetText ).toHaveBeenCalled();
 		expect( mw.notify ).toHaveBeenCalled();
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 	} );
