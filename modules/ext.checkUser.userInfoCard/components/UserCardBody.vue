@@ -120,8 +120,8 @@ module.exports = exports = {
 		const thanksSentLink = mw.Title.makeTitle( -1, 'Log/thanks' ).getUrl(
 			{ page: props.username }
 		);
-		const checksLink = mw.Title.makeTitle( -1, 'CheckUser' ).getUrl(
-			{ user: props.username }
+		const checksLink = mw.Title.makeTitle( -1, 'CheckUserLog' ).getUrl(
+			{ cuSearch: props.username }
 		);
 
 		const infoRows = [
