@@ -37,11 +37,11 @@ const renderComponent = ( slots, props ) => utils.mount( TempAccountsOnboardingD
 async function swipeToRight( contentElement ) {
 	// Start the touch
 	await contentElement.trigger( 'touchstart', {
-		touches: [ { clientX: 100 } ]
+		touches: [ { clientX: 100, clientY: 20 } ]
 	} );
 	// Then finish the touch simulating a move to the right.
 	await contentElement.trigger( 'touchmove', {
-		touches: [ { clientX: 150 } ]
+		touches: [ { clientX: 150, clientY: 15 } ]
 	} );
 }
 
@@ -54,11 +54,28 @@ async function swipeToRight( contentElement ) {
 async function swipeToLeft( contentElement ) {
 	// Start the touch
 	await contentElement.trigger( 'touchstart', {
-		touches: [ { clientX: 100 } ]
+		touches: [ { clientX: 100, clientY: 10 } ]
 	} );
 	// Then finish the touch simulating a move to the left.
 	await contentElement.trigger( 'touchmove', {
-		touches: [ { clientX: 50 } ]
+		touches: [ { clientX: 50, clientY: 20 } ]
+	} );
+}
+
+/**
+ * Simulates a swipe upwards
+ *
+ * @param {*} contentElement The element containing the step content
+ * @return {Promise}
+ */
+async function swipeUp( contentElement ) {
+	// Start the touch
+	await contentElement.trigger( 'touchstart', {
+		touches: [ { clientX: 20, clientY: 100 } ]
+	} );
+	// Then finish the touch simulating a swipe up
+	await contentElement.trigger( 'touchmove', {
+		touches: [ { clientX: 10, clientY: 10 } ]
 	} );
 }
 
@@ -280,6 +297,13 @@ describe( 'Temporary Accounts dialog component', () => {
 		await waitFor( () => !contentElement.find( '.step2' ).exists() );
 
 		// Verify that we are now back on the first step after swiping
+		expect( contentElement.find( '.step1' ).exists() ).toEqual( true );
+		expect( contentElement.find( '.step2' ).exists() ).toEqual( false );
+
+		// Swipe upwards which should have no effect (T385043)
+		await swipeUp( contentElement );
+
+		// Verify that we have not moved step by swiping upwards.
 		expect( contentElement.find( '.step1' ).exists() ).toEqual( true );
 		expect( contentElement.find( '.step2' ).exists() ).toEqual( false );
 	} );
