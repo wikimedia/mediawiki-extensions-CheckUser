@@ -6,10 +6,10 @@ use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\Config;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\Preferences\PreferencesFactory;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\ParamValidator\ParamValidator;
@@ -22,21 +22,20 @@ use Wikimedia\Rdbms\ReadOnlyMode;
 abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAccountHandler {
 
 	use TemporaryAccountNameTrait;
-	use TemporaryAccountAutoRevealTrait;
 
-	protected PreferencesFactory $preferencesFactory;
+	protected CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
 	protected TemporaryAccountLoggerFactory $loggerFactory;
 
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
-		PreferencesFactory $preferencesFactory,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		CheckUserPermissionManager $checkUserPermissionsManager,
+		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
 		TemporaryAccountLoggerFactory $loggerFactory,
 		ReadOnlyMode $readOnlyMode
 	) {
@@ -51,7 +50,7 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 			$checkUserPermissionsManager,
 			$readOnlyMode
 		);
-		$this->preferencesFactory = $preferencesFactory;
+		$this->autoRevealLookup = $autoRevealLookup;
 		$this->loggerFactory = $loggerFactory;
 	}
 
@@ -63,7 +62,12 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 		$actorId = $this->getTemporaryAccountActorId( $identifier );
 
 		$results = $this->getData( $actorId, $dbr );
-		$this->addAutoRevealStatusToResults( $results );
+		if ( $this->autoRevealLookup->isAutoRevealAvailable() ) {
+			$results['autoReveal'] = $this->autoRevealLookup->isAutoRevealOn(
+				$this->getAuthority()
+			);
+		}
+
 		return $results;
 	}
 
@@ -78,7 +82,7 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 	 * @inheritDoc
 	 */
 	public function makeLog( $identifier ) {
-		if ( $this->isAutoRevealOn() ) {
+		if ( $this->autoRevealLookup->isAutoRevealOn( $this->getAuthority() ) ) {
 			$logger = $this->loggerFactory->getLogger();
 			$performerName = $this->getAuthority()->getUser()->getName();
 
@@ -131,13 +135,6 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 	 */
 	protected function getBlockManager(): BlockManager {
 		return $this->blockManager;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function getPreferencesFactory(): PreferencesFactory {
-		return $this->preferencesFactory;
 	}
 
 	/**

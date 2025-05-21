@@ -5,10 +5,10 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\Config;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\Preferences\PreferencesFactory;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
@@ -29,13 +29,13 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandle
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
-		PreferencesFactory $preferencesFactory,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		RevisionStore $revisionStore,
 		CheckUserPermissionManager $checkUserPermissionsManager,
+		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
 		TemporaryAccountLoggerFactory $loggerFactory,
 		ReadOnlyMode $readOnlyMode
 	) {
@@ -43,12 +43,12 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandle
 			$config,
 			$jobQueueGroup,
 			$permissionManager,
-			$preferencesFactory,
 			$userNameUtils,
 			$dbProvider,
 			$actorStore,
 			$blockManager,
 			$checkUserPermissionsManager,
+			$autoRevealLookup,
 			$loggerFactory,
 			$readOnlyMode
 		);

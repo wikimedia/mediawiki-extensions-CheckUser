@@ -25,6 +25,7 @@ use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
@@ -227,6 +228,13 @@ return [
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getMainConfig(),
 			$services->getRevisionStore()
+		);
+	},
+	'CheckUserTemporaryAccountAutoRevealLookup' => static function (
+		MediaWikiServices $services
+	): CheckUserTemporaryAccountAutoRevealLookup {
+		return new CheckUserTemporaryAccountAutoRevealLookup(
+			$services->getPreferencesFactory()
 		);
 	},
 	'CheckUserEventLogger' => static function (
