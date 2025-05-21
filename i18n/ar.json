@@ -347,6 +347,8 @@
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1| ممكّن}}",
 	"checkuser-temporary-account-change-access-level-disable-globally": "عالميا {{GENDER:$1|معطل}}",
 	"checkuser-temporary-account-change-access-level-enable-globally": "عالميا {{GENDER:$1|ممكّن}}",
+	"logentry-checkuser-temporary-account-disable-auto-reveal": "$1 {{GENDER:$2|معطل}} يكشف تلقائيا عن عناوين IP للحسابات المؤقتة",
+	"logentry-checkuser-temporary-account-enable-auto-reveal": "$1 {{GENDER:$2|فعل}} الكشف تلقائيا عن عناوين IP للحسابات المؤقتة حتى $5",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2| تمت المشاهدة}} عناوين IP لـ $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|شاهد}} حسابا مؤقتا على $3",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 عالميا {{GENDER:$2|شاهد}} حسابات مؤقتة على $3",

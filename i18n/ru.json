@@ -41,7 +41,8 @@
 			"Vlad5250",
 			"WindEwriX",
 			"Александр Сигачёв",
-			"Ядерный Трамвай"
+			"Ядерный Трамвай",
+			"MidnightLG"
 		]
 	},
 	"checkuser-summary": "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.\nПравки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив постфикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR $1—32) и 6 (CIDR $2—128).\nИз соображений производительности будут показаны только первые $3 правок.\nИспользуйте эту страницу '''только в соответствии с правилами'''.",
@@ -57,7 +58,7 @@
 	"right-checkuser-temporary-account": "Просмотр IP-адресов, используемых временными учётными записями",
 	"right-checkuser-temporary-account-no-preference": "Просмотр IP-адресов, используемых временными учётными записями, без необходимости включения этой настройки",
 	"right-checkuser-temporary-account-log": "Просмотр журнала доступа к IP-адресам временных учётных записей",
-	"right-checkuser-temporary-account-auto-reveal": "Автоматическое раскрытие IP-адресов, используемых временными учётными записями",
+	"right-checkuser-temporary-account-auto-reveal": "Автоматически отображать IP-адреса, используемых временными учётными записями",
 	"grant-checkuser": "Доступ к данным проверок участников",
 	"grant-checkuser-temporary-account": "Доступ к данным проверок временных учётных записей",
 	"action-checkuser": "проверка IP-адресов и другой информации участников",
@@ -65,7 +66,7 @@
 	"action-checkuser-temporary-account": "просмотр IP-адресов, используемых временными учётными записями",
 	"action-checkuser-temporary-account-no-preference": "просмотр IP-адресов, используемых временными учётными записями",
 	"action-checkuser-temporary-account-log": "просмотр журнала доступа к IP-адресам временных учётных записей",
-	"action-checkuser-temporary-account-auto-reveal": "автоматическое раскрытие IP-адресов, используемых временными учётными записями",
+	"action-checkuser-temporary-account-auto-reveal": "Автоматически отображать IP-адреса, используемых временными учётными записями",
 	"grouppage-checkuser": "{{ns:project}}:Проверка участников",
 	"checkuser-clienthints-name-architecture": "Архитектура",
 	"checkuser-clienthints-name-bitness": "Битность",
@@ -130,7 +131,7 @@
 	"checkuser-helper-client-hints": "Подсказки клиенту",
 	"logentry-checkuser-private-event-autocreate-account": "был создан автоматически",
 	"logentry-checkuser-private-event-create-account": "создан",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Предпочтение успешно обновлено",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Настройки обновлены",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Прежде чем продолжить, нажмите «Сохранить настройки».",
 	"checkuser-link-investigate-label": "Попробовать {{#special:investigate}}",
 	"checkuser-investigateblock": "Заблокированные участники",

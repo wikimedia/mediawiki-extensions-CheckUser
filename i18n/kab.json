@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"ButterflyOfFire"
 		]
 	},
 	"checkuser-investigateblock-warning-confirmaction": "Ma teḥsiḍ tebɣiḍ at xeddemeḍ, ilaq ad rnuḍ amidag deg tankult « {{int:checkuser-investigateblock-confirm-blocks-label}} » ddaw-agi."
