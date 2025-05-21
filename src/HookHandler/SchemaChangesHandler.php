@@ -43,13 +43,6 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		] );
 
 		if ( $dbType === 'mysql' ) {
-			// 1.35
-			$updater->modifyExtensionField(
-				'cu_changes',
-				'cuc_id',
-				"$base/$dbType/patch-cu_changes-cuc_id-unsigned.sql"
-			);
-
 			// 1.38
 			$updater->addExtensionIndex(
 				'cu_changes',
