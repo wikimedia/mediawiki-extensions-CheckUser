@@ -385,5 +385,6 @@
 	"checkuser-userinfocard-enable-preference-help": "Zeige neben den Benutzernamen eine Schaltfläche an, um ein Popover mit Informationen zu einem Konto zu öffnen.",
 	"checkuser-ipinfo-global-contributions-label": "Globale Benutzerbeiträge",
 	"checkuser-ipinfo-global-contributions-tooltip": "Die Anzahl der Wiki-übergreifenden Bearbeitungen, die von dieser IP-Adresse aus vorgenommen wurden.",
-	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globale Bearbeitung|$1 globale Bearbeitungen|0=Keine globale Bearbeitung}}"
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globale Bearbeitung|$1 globale Bearbeitungen|0=Keine globale Bearbeitung}}",
+	"tooltip-t-global-contributions": "Eine Liste der Beiträge in allen Wikis von {{GENDER:$1|diesem Benutzer|dieser Benutzerin}}"
 }

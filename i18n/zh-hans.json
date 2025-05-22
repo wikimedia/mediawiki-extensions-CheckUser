@@ -351,5 +351,6 @@
 	"log-action-filter-checkuser-temporary-account-view-ips": "访问临时账号IP数据",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1已启用{{GENDER:$2|其}}自身查看受保护变量的权限",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1已禁用{{GENDER:$2|其}}自身查看受保护变量的权限",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1{{GENDER:$2|查看}}了与$3相关的受保护变量"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1{{GENDER:$2|查看}}了与$3相关的受保护变量",
+	"tooltip-t-global-contributions": "查看{{GENDER:$1|该用户}}的全域贡献列表"
 }

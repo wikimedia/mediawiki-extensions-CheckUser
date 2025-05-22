@@ -241,8 +241,17 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "প্রবেশাধিকার পরিবর্তন",
 	"log-action-filter-checkuser-temporary-account-view-ips": "আইপি দেখা",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 $3-এর সাথে যুক্ত সুরক্ষিত ভেরিয়েবল {{GENDER:$2|পরিদর্শন করেছেন}}",
+	"checkuser-userinfocard-close-button-aria-label": "বন্ধ করুন",
 	"checkuser-userinfocard-joined-label": "যোগদান করেছেন",
 	"checkuser-userinfocard-active-wikis-label": "সক্রিয় উইকি",
+	"checkuser-userinfocard-active-blocks-row-main-label": "সক্রিয় বাধা",
+	"checkuser-userinfocard-global-edits-row-main-label": "বৈশ্বিক সম্পাদনা",
+	"checkuser-userinfocard-thanks-row-main-label": "ধন্যবাদ পেয়েছেন",
+	"checkuser-userinfocard-menu-view-contributions": "ব্যবহারকারীর অবদান দেখুন",
+	"checkuser-userinfocard-menu-check-ip": "ব্যবহারকারীর আইপি ঠিকানা পরীক্ষা করুন",
 	"checkuser-userinfocard-menu-turn-off": "এই বৈশিষ্ট্যটি বন্ধ করুন",
+	"checkuser-userinfocard-loading-label": "ব্যবহারকারীর তথ্য লোড হচ্ছে",
+	"checkuser-userinfocard-error-generic": "কিছু একটায় ভুল হয়েছে। দয়া করে পরে আবার চেষ্টা করুন।",
+	"checkuser-ipinfo-global-contributions-label": "বৈশ্বিক অবদান",
 	"checkuser-ipinfo-global-contributions-tooltip": "এই আইপি ঠিকানা থেকে করা ক্রস-উইকি সম্পাদনার সংখ্যা।"
 }

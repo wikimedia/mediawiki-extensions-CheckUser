@@ -186,10 +186,18 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen",
 	"checkuser-userinfocard-close-button-aria-label": "Zoumaachen",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv Wikien",
+	"checkuser-userinfocard-active-blocks-row-main-label": "Aktiv Spären",
+	"checkuser-userinfocard-active-blocks-row-suffix-label": "vergaange Spären",
+	"checkuser-userinfocard-global-edits-row-main-label": "Global Ännerungen",
+	"checkuser-userinfocard-local-edits-row-main-label": "Lokal Ännerungen",
+	"checkuser-userinfocard-new-articles-row-main-label": "Nei Artikelen",
+	"checkuser-userinfocard-thanks-row-main-label": "Mercie kritt",
 	"checkuser-userinfocard-menu-view-contributions": "Benotzerkontributioune weisen",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Benotzersäit op d'Iwwerwaachungslëscht setzen",
 	"checkuser-userinfocard-menu-block-user": "Benotzer spären",
 	"checkuser-userinfocard-loading-label": "Benotzerinformatioune gi gelueden",
+	"checkuser-userinfocard-error-title": "Et ass e Feeler geschitt",
+	"checkuser-userinfocard-error-generic": "Et ass eppes schifgaangen. Probéiert wgl. méi spéit nach eng Kéier.",
 	"checkuser-ipinfo-global-contributions-label": "Global Kontributiounen",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global Ännerung|$1 global Ännerungen|0=Keng global Ännerungen}}"
 }
