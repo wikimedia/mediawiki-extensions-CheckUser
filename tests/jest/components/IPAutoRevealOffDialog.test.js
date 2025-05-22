@@ -20,8 +20,12 @@ const { nextTick } = require( 'vue' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog } = require( '@wikimedia/codex' );
 
+const mockSetText = jest.fn();
 const renderComponent = ( props ) => {
-	const defaultProps = { expiryTimestamp: String( mockExpiryInSeconds ) };
+	const defaultProps = {
+		expiryTimestamp: String( mockExpiryInSeconds ),
+		toolLink: { text: mockSetText }
+	};
 	return utils.mount( IPAutoRevealOffDialog, {
 		props: Object.assign( {}, defaultProps, props )
 	} );
@@ -121,6 +125,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
 
 		expect( mockDisableAutoReveal ).toHaveBeenCalled();
+		expect( mockSetText ).toHaveBeenCalled();
 		expect( mw.notify ).toHaveBeenCalled();
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 	} );

@@ -44,7 +44,13 @@ module.exports = exports = {
 		CdxField,
 		CdxSelect
 	},
-	setup() {
+	props: {
+		toolLink: {
+			type: Object,
+			required: true
+		}
+	},
+	setup( props ) {
 		const open = ref( true );
 		const selected = ref( null );
 
@@ -69,6 +75,10 @@ module.exports = exports = {
 		function onSubmit() {
 			enableAutoReveal( selected.value );
 			open.value = false;
+
+			props.toolLink.text(
+				mw.message( 'checkuser-ip-auto-reveal-link-sidebar-on' )
+			);
 
 			mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-on' ), {
 				classes: [ 'ext-checkuser-ip-auto-reveal-notification-on' ],

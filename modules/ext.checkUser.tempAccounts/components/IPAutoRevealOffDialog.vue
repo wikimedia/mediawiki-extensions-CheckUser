@@ -41,6 +41,10 @@ module.exports = exports = {
 		expiryTimestamp: {
 			type: String,
 			required: true
+		},
+		toolLink: {
+			type: Object,
+			required: true
 		}
 	},
 	setup( props ) {
@@ -80,6 +84,10 @@ module.exports = exports = {
 		function onRemove() {
 			disableAutoReveal();
 			open.value = false;
+
+			props.toolLink.text(
+				mw.message( 'checkuser-ip-auto-reveal-link-sidebar' )
+			);
 
 			mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-off' ), {
 				classes: [ 'ext-checkuser-ip-auto-reveal-notification-off' ],

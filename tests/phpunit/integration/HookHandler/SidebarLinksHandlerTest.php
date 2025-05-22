@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\SidebarLinksHandler;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\Config;
 use MediaWiki\Message\Message;
 use MediaWiki\Output\OutputPage;
@@ -36,6 +37,9 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @var (CheckUserPermissionStatus&MockObject) */
 	private CheckUserPermissionStatus $permissionStatus;
 
+	/** (CheckUserTemporaryAccountAutoRevealLookup&MockObject) */
+	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
+
 	/** @var (ExtensionRegistry&MockObject) */
 	private ExtensionRegistry $extensionRegistry;
 
@@ -58,6 +62,9 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->permissionManager = $this->createMock(
 			CheckUserPermissionManager::class
 		);
+		$this->autoRevealLookup = $this->createMock(
+			CheckUserTemporaryAccountAutoRevealLookup::class
+		);
 		$this->extensionRegistry = $this->createMock(
 			ExtensionRegistry::class
 		);
@@ -68,6 +75,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->sut = new SidebarLinksHandler(
 			$this->config,
 			$this->permissionManager,
+			$this->autoRevealLookup,
 			$this->extensionRegistry
 		);
 	}
@@ -312,6 +320,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		array $sidebar,
 		bool $canAutoReveal,
 		bool $globalPreferencesIsLoaded,
+		bool $autoRevealIsOn,
 		array $expected
 	): void {
 		$this->setUserLang( 'qqx' );
@@ -323,6 +332,10 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->permissionManager
 			->method( 'canAutoRevealIPAddresses' )
 			->willReturn( $this->permissionStatus );
+
+		$this->autoRevealLookup
+			->method( 'isAutoRevealOn' )
+			->willReturn( $autoRevealIsOn );
 
 		$this->extensionRegistry
 			->method( 'isLoaded' )
@@ -346,15 +359,17 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'sidebar' => [],
 				'canAutoReveal' => false,
 				'globalPreferencesIsLoaded' => true,
+				'autoRevealIsOn' => false,
 				'expected' => [],
 			],
 			'Not added if GlobalPreferences is not loaded' => [
 				'sidebar' => [],
 				'canAutoReveal' => true,
 				'globalPreferencesIsLoaded' => false,
+				'autoRevealIsOn' => false,
 				'expected' => [],
 			],
-			'Added to existing sidebar toolbox' => [
+			'Added to existing sidebar toolbox, auto-reveal is off' => [
 				'sidebar' => [
 					'TOOLBOX' => [
 						'contributions' => [
@@ -365,6 +380,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				],
 				'canAutoReveal' => true,
 				'globalPreferencesIsLoaded' => true,
+				'autoRevealIsOn' => false,
 				'expected' => [
 					'TOOLBOX' => [
 						'contributions' => [
@@ -381,10 +397,39 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					],
 				],
 			],
-			'Added to sidebar without existing toolbox' => [
+			'Added to existing sidebar toolbox, auto-reveal is on' => [
+				'sidebar' => [
+					'TOOLBOX' => [
+						'contributions' => [
+							'id' => 't-contributions',
+							'text' => 'User contributions'
+						],
+					],
+				],
+				'canAutoReveal' => true,
+				'globalPreferencesIsLoaded' => true,
+				'autoRevealIsOn' => true,
+				'expected' => [
+					'TOOLBOX' => [
+						'contributions' => [
+							'id' => 't-contributions',
+							'text' => 'User contributions'
+						],
+						'checkuser-ip-auto-reveal' => [
+							'id' => 't-checkuser-ip-auto-reveal',
+							'text' => '(checkuser-ip-auto-reveal-link-sidebar-on)',
+							'href' => '#',
+							'class' => 'checkuser-ip-auto-reveal',
+							'icon' => 'userAvatar',
+						],
+					],
+				],
+			],
+			'Added to sidebar without existing toolbox, auto-reveal is off' => [
 				'sidebar' => [],
 				'canAutoReveal' => true,
 				'globalPreferencesIsLoaded' => true,
+				'autoRevealIsOn' => false,
 				'expected' => [
 					'TOOLBOX' => [
 						'checkuser-ip-auto-reveal' => [
