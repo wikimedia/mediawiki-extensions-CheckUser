@@ -30,6 +30,7 @@
 		</template>
 		<user-card-body
 			v-if="!store.loading && !store.error"
+			:user-id="store.userCard.userId"
 			:username="store.userCard.username"
 			:joined-date="store.userCard.joinedDate"
 			:joined-relative="store.userCard.joinedRelativeTime"
@@ -44,6 +45,8 @@
 			:checks="store.userCard.checksCount"
 			:last-checked="store.userCard.lastCheckedDate"
 			:active-wikis="store.userCard.activeWikis"
+			:recent-local-edits="store.userCard.recentLocalEdits"
+			:total-local-edits="store.userCard.totalLocalEdits"
 		></user-card-body>
 	</cdx-popover>
 </template>
