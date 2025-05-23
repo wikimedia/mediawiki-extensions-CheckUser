@@ -252,5 +252,6 @@
 	"checkuser-userinfocard-error-no-data": "Impossibile recuperare le informazioni per questo utente. Riprova più tardi.",
 	"checkuser-userinfocard-error-generic": "Qualcosa è andato storto. Riprova più tardi.",
 	"checkuser-ipinfo-global-contributions-label": "Contributi globali",
-	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modifica globale|$1 modifiche globali|0=Nessuna modifica globale}}"
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modifica globale|$1 modifiche globali|0=Nessuna modifica globale}}",
+	"tooltip-t-global-contributions": "Un elenco dei contributi di {{GENDER:$1|questo utente}} in tutti i wiki"
 }

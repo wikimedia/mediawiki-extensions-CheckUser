@@ -69,7 +69,19 @@
 	"checkuser-investigate-duration-option-2w": "2 minggu lepas",
 	"checkuser-investigate-duration-option-30d": "30 hari lepas",
 	"checkuser-investigate-compare-copy-button-label": "Tunjuk wikiteks",
+	"checkuser-investigate-compare-table-button-checks-label": "Jumlah pemeriksaan",
 	"checkuser-tempaccount-reveal-ip-button-label": "Tunjukkan IP",
 	"checkuser-tempaccount-reveal-ip-missing": "tidak ada",
-	"checkuser-userinfocard-enable-preference-description": "Dayakan [[mw:Help:Extension:CheckUser#UserInfoCard|kad maklumat pengguna]]"
+	"checkuser-userinfocard-joined-label": "Menyertai pada",
+	"checkuser-userinfocard-active-blocks-row-main-label": "Sekatan aktif",
+	"checkuser-userinfocard-global-edits-row-main-label": "Suntingan sejagat",
+	"checkuser-userinfocard-local-edits-row-main-label": "Suntingan tempatan",
+	"checkuser-userinfocard-local-edits-row-suffix-label": "dibalikkan",
+	"checkuser-userinfocard-new-articles-row-main-label": "Rencana baharu",
+	"checkuser-userinfocard-thanks-row-main-label": "Penghargaan diterima",
+	"checkuser-userinfocard-thanks-row-suffix-label": "dihantar",
+	"checkuser-userinfocard-checks-row-main-label": "Jumlah pemeriksaan",
+	"checkuser-userinfocard-checks-row-suffix-label": "Kali terakhir diperiksa",
+	"checkuser-userinfocard-enable-preference-description": "Dayakan [[mw:Help:Extension:CheckUser#UserInfoCard|kad maklumat pengguna]]",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 suntingan sejagat|0=Tiada suntingan sejagat}}"
 }

@@ -177,5 +177,7 @@
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "रद्द करें",
 	"checkuser-ip-auto-reveal-on-dialog-primary-action": "चालू करें",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "बंद करें",
-	"checkuser-tempaccount-reveal-ip-error": "त्रुटि"
+	"checkuser-tempaccount-reveal-ip-error": "त्रुटि",
+	"checkuser-userinfocard-new-articles-row-main-label": "नए लेख",
+	"checkuser-userinfocard-checks-row-main-label": "जाँच"
 }

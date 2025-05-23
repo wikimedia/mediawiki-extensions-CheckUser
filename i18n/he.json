@@ -378,5 +378,6 @@
 	"checkuser-userinfocard-enable-preference-help": "הצגת כפתור ליד שמות משתמש לפתיחת חלון קופץ עם מידע על חשבון.",
 	"checkuser-ipinfo-global-contributions-label": "תרומות גלובליות",
 	"checkuser-ipinfo-global-contributions-tooltip": "מספר העריכות חוצות הוויקי שנעשו מכתובת ה־IP הזאת.",
-	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|עריכה גלובלית אחת|$1 עריכות גלובליות|0=אין עריכות גלובליות}}"
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|עריכה גלובלית אחת|$1 עריכות גלובליות|0=אין עריכות גלובליות}}",
+	"tooltip-t-global-contributions": "רשימת תרומות מכל אתרי הוויקי {{GENDER:$1|המשתמש הזה|המשתמשת הזאת}}"
 }
