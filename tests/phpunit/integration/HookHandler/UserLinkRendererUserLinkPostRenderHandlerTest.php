@@ -47,13 +47,13 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 		$context->setUser( $user );
 		$wikiId = WikiMap::getCurrentWikiId();
 		$userId = $user->getUser()->getId();
-		$expected = "<span id='ooui-php-";
+		$expected = "<span class=\"cdx-button__icon";
 		$html = $this->getServiceContainer()->getUserLinkRenderer()->userLink(
 			$user,
 			$context
 		);
-		$this->assertStringStartsWith( $expected, $html, 'Output does not start with OOUI button' );
-		$expected = "class='ext-checkuser-userinfocard-button ext-checkuser-userinfocard-id-$wikiId:$userId";
+		$this->assertStringContainsString( $expected, $html, 'Output does not contain Codex button' );
+		$expected = "class=\"ext-checkuser-userinfocard-button ext-checkuser-userinfocard-id-$wikiId:$userId";
 		$this->assertStringContainsString( $expected, $html, 'Output does not contain expected CSS classes' );
 	}
 }
