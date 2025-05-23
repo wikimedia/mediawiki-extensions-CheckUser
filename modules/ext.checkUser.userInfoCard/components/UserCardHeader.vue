@@ -68,10 +68,11 @@ module.exports = exports = {
 };
 </script>
 
-<style>
+<style lang="less">
+@import 'mediawiki.skin.variables.less';
+
 .ext-checkuser-userinfocard-header {
-	width: 100%;
-	min-width: 350px;
+	width: @size-full;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -80,24 +81,25 @@ module.exports = exports = {
 .ext-checkuser-userinfocard-header-main {
 	display: flex;
 	align-items: center;
-	gap: 0.5em;
+	gap: @spacing-50;
 }
 
 .ext-checkuser-userinfocard-header-userinfo {
 	display: flex;
 	align-items: center;
-	gap: 0.25em;
+	gap: @spacing-25;
 }
 
 .ext-checkuser-userinfocard-header-username {
-	margin: 0;
-	font-weight: 600;
-	font-size: 1.25em;
+	margin: @spacing-0;
+	font-weight: @font-weight-bold;
+	font-size: @font-size-large;
+	line-height: @line-height-x-small;
 }
 
 .ext-checkuser-userinfocard-header-controls {
 	display: flex;
 	align-items: center;
-	gap: 0.25em;
+	gap: @spacing-25;
 }
 </style>

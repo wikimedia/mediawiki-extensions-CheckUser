@@ -106,7 +106,7 @@ module.exports = exports = {
 @import 'mediawiki.skin.variables.less';
 
 .ext-checkuser-CSparkline {
-	padding: 0 0.5rem;
+	padding: @spacing-0 @spacing-50;
 
 	&__line {
 		stroke: @background-color-progressive--focus;

@@ -83,9 +83,11 @@ module.exports = exports = {
 };
 </script>
 
-<style>
+<style lang="less">
+@import 'mediawiki.skin.variables.less';
+
 .ext-checkuser-userinfocard-popover {
-	min-width: 384px;
+	min-width: @size-2400;
 }
 
 .ext-checkuser-userinfocard-loading-indicator {
