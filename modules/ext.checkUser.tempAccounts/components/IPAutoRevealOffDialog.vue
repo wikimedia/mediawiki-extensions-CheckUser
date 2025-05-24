@@ -52,10 +52,10 @@ module.exports = exports = {
 		const showExtendError = ref( false );
 
 		const defaultAction = {
-			label: mw.message( 'checkuser-ip-auto-reveal-off-dialog-extend-action' ).text()
+			label: mw.msg( 'checkuser-ip-auto-reveal-off-dialog-extend-action' )
 		};
 		const primaryAction = ref( {
-			label: mw.message( 'checkuser-ip-auto-reveal-off-dialog-off-action' ).text(),
+			label: mw.msg( 'checkuser-ip-auto-reveal-off-dialog-off-action' ),
 			actionType: 'progressive'
 		} );
 
