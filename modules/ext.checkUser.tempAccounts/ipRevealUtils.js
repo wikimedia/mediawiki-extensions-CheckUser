@@ -47,6 +47,7 @@ function getAutoRevealStatusPreferenceName() {
  * and less than 1 day in the future.
  *
  * @param {number} expiry
+ * @return {boolean}
  */
 function isExpiryValid( expiry ) {
 	const nowInSeconds = Date.now() / 1000;
@@ -75,7 +76,10 @@ function getAutoRevealStatus() {
 				preferences = {};
 			}
 
-			if ( !Object.prototype.hasOwnProperty.call( preferences, getAutoRevealStatusPreferenceName() ) ) {
+			if ( !Object.prototype.hasOwnProperty.call(
+				preferences,
+				getAutoRevealStatusPreferenceName()
+			) ) {
 				deferred.resolve( false );
 				return;
 			}

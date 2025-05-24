@@ -54,8 +54,12 @@
 				<p>{{ $i18n( 'checkuser-tempaccount-reveal-blocked-description' ).text() }}</p>
 				<!-- Safety: blockDetails is expected to contain HTML parsed by
 				the wikitext parser server-side. -->
-				<!-- eslint-disable-next-line vue/no-v-html -->
-				<div class="ext-checkuser-tempaccount-specialblock-block-details-content" v-html="blockDetails"></div>
+				<!-- eslint-disable vue/no-v-html -->
+				<div
+					class="ext-checkuser-tempaccount-specialblock-block-details-content"
+					v-html="blockDetails"
+				></div>
+				<!-- eslint-enable vue/no-v-html -->
 			</template>
 			<cdx-message v-if="blockDetailsMsg" :type="blockDetailsMsg.type">
 				{{ blockDetailsMsg.text }}
