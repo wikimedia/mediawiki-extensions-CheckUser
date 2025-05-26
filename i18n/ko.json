@@ -280,6 +280,7 @@
 	"checkuser-global-contributions-no-summary-available": "사용 가능한 편집 요약이 없습니다",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "이름공간<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP 자동 표시",
+	"checkuser-ip-auto-reveal-link-sidebar-on": "IP 자동 표시 (켬)",
 	"checkuser-ip-auto-reveal-on-dialog-title": "IP 자동 표시 켜기",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "취소",
 	"checkuser-ip-auto-reveal-on-dialog-primary-action": "켜기",

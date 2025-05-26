@@ -291,6 +291,7 @@
 	"checkuser-global-contributions-no-summary-available": "Necun summario de modification disponibile",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Spatio de nomines<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Auto-revelation IP",
+	"checkuser-ip-auto-reveal-link-sidebar-on": "Auto-revelation IP (active)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Le revelation automatic de adresses IP es activate</strong>",
 	"checkuser-ip-auto-reveal-notification-off": "<strong>Le revelation automatic de adresses IP es disactivate</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "Activar auto-revelation IP",
@@ -369,5 +370,6 @@
 	"checkuser-userinfocard-enable-preference-help": "Monstrar un button al latere del nomines de usator pro aperir un quadro emergente con information sur un conto.",
 	"checkuser-ipinfo-global-contributions-label": "Contributiones global",
 	"checkuser-ipinfo-global-contributions-tooltip": "Le numero de modificationes apportate sur tote le wikis a partir de iste adresse IP.",
-	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modification|$1 modificationes|0=Nulle modification}} global"
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modification|$1 modificationes|0=Nulle modification}} global",
+	"tooltip-t-global-contributions": "Un lista del contributiones de iste usat{{GENDER:$1|or|rice}} sur tote le wikis"
 }
