@@ -31,6 +31,7 @@
 </template>
 
 <script>
+const { computed } = require( 'vue' );
 const {
 	cdxIconAlert,
 	cdxIconEdit,
@@ -146,6 +147,14 @@ module.exports = exports = {
 			{ cuSearch: props.username }
 		);
 
+		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
+		const formattedMaxEdits = mw.language.convertNumber( maxEdits );
+		const formattedNewArticles = computed(
+			() => props.newArticles >= maxEdits ?
+				mw.msg( 'checkuser-userinfocard-new-articles-exceeds-max-to-display', formattedMaxEdits ) :
+				props.newArticles
+		);
+
 		const infoRows = [
 			{
 				icon: cdxIconAlert,
@@ -178,7 +187,7 @@ module.exports = exports = {
 				icon: cdxIconArticles,
 				iconClass: 'ext-checkuser-userinfocard-icon',
 				mainLabel: mw.msg( 'checkuser-userinfocard-new-articles-row-main-label' ),
-				mainValue: props.newArticles,
+				mainValue: formattedNewArticles,
 				mainLink: newArticlesLink
 			},
 			{

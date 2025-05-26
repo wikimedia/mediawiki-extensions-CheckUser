@@ -425,6 +425,7 @@
 	"checkuser-userinfocard-enable-preference-description": "The label for a preference for enabling the user info card feature.",
 	"checkuser-userinfocard-enable-preference-help": "The help text for a preference for enabling the user info card feature.",
 	"checkuser-userinfocard-activity-chart-label": "Label for the edit activity chart section in the user info card.\n\nParameters:\n* $1 - Number of local edits",
+	"checkuser-userinfocard-new-articles-exceeds-max-to-display": "{{optional}}\nDisplayed when the total number of new articles created by the user exceeds a configurable limit (by default 1000).\n\nParameters:\n* $1 - The maximum number of articles that can be displayed. This is followed by a plus sign to indicate that the user has more articles than this created.",
 	"checkuser-ipinfo-global-contributions-label": "Label for global contributions property in IPInfo's infobox widget",
 	"checkuser-ipinfo-global-contributions-tooltip": "Description of the global contributions property in IPInfo's infobox widget",
 	"checkuser-ipinfo-global-contributions-value": "Count of global contributions to be displayed in IPInfo's infobox widget",

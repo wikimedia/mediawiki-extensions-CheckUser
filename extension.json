@@ -517,7 +517,8 @@
 			"class": "MediaWiki\\CheckUser\\HookHandler\\UserLinkRendererUserLinkPostRenderHandler",
 			"services": [
 				"UserOptionsLookup",
-				"UserNameUtils"
+				"UserNameUtils",
+				"MainConfig"
 			]
 		},
 		"IPInfoHandler": {
@@ -642,11 +643,13 @@
 				"checkuser-userinfocard-error-title",
 				"checkuser-userinfocard-error-no-data",
 				"checkuser-userinfocard-error-generic",
-				"checkuser-userinfocard-activity-chart-label"
+				"checkuser-userinfocard-activity-chart-label",
+				"checkuser-userinfocard-new-articles-exceeds-max-to-display"
 			],
 			"dependencies": [
 				"mediawiki.api",
 				"mediawiki.base",
+				"mediawiki.language",
 				"vue",
 				"@wikimedia/codex",
 				"mediawiki.user",

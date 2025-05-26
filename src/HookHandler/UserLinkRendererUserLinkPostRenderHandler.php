@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use IContextSource;
+use MediaWiki\Config\Config;
 use MediaWiki\Html\Html;
 use Mediawiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
 use MediaWiki\User\UserIdentity;
@@ -14,10 +15,16 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 
 	private UserOptionsLookup $userOptionsLookup;
 	private UserNameUtils $userNameUtils;
+	private Config $config;
 
-	public function __construct( UserOptionsLookup $userOptionsLookup, UserNameUtils $userNameUtils ) {
+	public function __construct(
+		UserOptionsLookup $userOptionsLookup,
+		UserNameUtils $userNameUtils,
+		Config $config
+	) {
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->userNameUtils = $userNameUtils;
+		$this->config = $config;
 	}
 
 	public function onUserLinkRendererUserLinkPostRender(
@@ -32,6 +39,12 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 			$output->addModuleStyles( 'oojs-ui.styles.icons-user' );
 			$output->addModuleStyles( 'ext.checkUser.styles' );
 			$output->addModules( 'ext.checkUser.userInfoCard' );
+
+			if ( $this->config->has( 'GEUserImpactMaxEdits' ) ) {
+				$output->addJsConfigVars( [
+					'wgCheckUserGEUserImpactMaxEdits' => $this->config->get( 'GEUserImpactMaxEdits' )
+				] );
+			}
 
 			$wikiId = $targetUser->getWikiId() ?: WikiMap::getCurrentWikiId();
 			$iconClass = $this->userNameUtils->isTemp( $targetUser->getName() ) ? 'userTemporary' : 'userAvatar';

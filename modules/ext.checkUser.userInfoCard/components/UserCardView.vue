@@ -121,7 +121,10 @@ module.exports = exports = {
 						globalEditCount,
 						thanksReceived,
 						thanksGiven,
-						userPageExists
+						userPageExists,
+						newArticlesCount,
+						totalEditCount,
+						revertedEditCount
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -146,6 +149,9 @@ module.exports = exports = {
 					userCard.thanksGivenCount = thanksGiven;
 					userCard.recentLocalEdits = processedData;
 					userCard.totalLocalEdits = totalEdits;
+					userCard.newArticlesCount = newArticlesCount;
+					userCard.localEditCount = totalEditCount;
+					userCard.localEditRevertedCount = revertedEditCount;
 
 					loading.value = false;
 				} )
