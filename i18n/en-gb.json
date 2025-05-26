@@ -1,10 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Piano1forte2"
+			"Piano1forte2",
+			"Wheelygay"
 		]
 	},
-	"checkuser-summary": "This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.\nUsers and edits by a client IP address can be retrieved via XFF headers by appending the IP address with '/xff'. IPv4 (CIDR $1-32) and IPv6 (CIDR $2-128) are supported.\nNo more than $3 edits will be returned for performance reasons.\nUse this in accordance with policy.",
-	"checkuser-email-action": "sent an email to user '$1'",
-	"checkuser-investigateblock-failure": "No users were blocked. To override existing blocks, check: '{{int:checkuser-investigateblock-reblock-label}}'. A block will not be overridden if the new block is identical to the existing block."
+	"checkuser-email-action": "sent an email to user '$1'"
 }

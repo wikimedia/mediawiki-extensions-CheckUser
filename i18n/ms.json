@@ -77,5 +77,6 @@
 	"checkuser-investigate-duration-option-1w": "Minggu lepas",
 	"checkuser-investigate-duration-option-2w": "2 minggu lepas",
 	"checkuser-investigate-duration-option-30d": "30 hari lepas",
-	"checkuser-investigate-compare-copy-button-label": "Tunjuk wikiteks"
+	"checkuser-investigate-compare-copy-button-label": "Tunjuk wikiteks",
+	"checkuser-investigate-compare-table-button-checks-label": "Jumlah pemeriksaan"
 }
