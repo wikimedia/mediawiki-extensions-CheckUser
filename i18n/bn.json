@@ -14,7 +14,8 @@
 			"Wikitanvir",
 			"Zaheen",
 			"আজিজ",
-			"আফতাবুজ্জামান"
+			"আফতাবুজ্জামান",
+			"Nokib Sarkar"
 		]
 	},
 	"checkuser-summary": "এই সরঞ্জামটি সাম্প্রতিক পরিবর্তনসমূহ বিশ্লেষণ করে একজন ব্যবহারকারীর ব্যবহৃত আইপিগুলি নিয়ে আসে কিংবা কোনো একটি আইপির জন্য সম্পাদনা/ব্যবহারকারী উপাত্ত প্রদর্শন করে।\nকোনো ক্লায়েন্ট আইপি-র জন্য ব্যবহারকারী ও সম্পাদনা XFF হেডারসমূহের সাহায্যে নিয়ে আসা যায়; এজন্য আইপির সাথে \"/xff\" যোগ করতে হয়। IPv4 (CIDR $1-32) এবং IPv6 (CIDR $2-128) এই সরঞ্জামে সমর্থিত।\nদক্ষতাজনিত কারণে $3টির বেশি সম্পাদনা নিয়ে আসা হবে না।\nনীতিমালা মেনে এটি ব্যবহার করুন।",
@@ -76,6 +77,7 @@
 	"checkuser-investigate-this-user": "এই ব্যবহারাকারীকে তদন্ত করুন",
 	"checkuser-recent-checks": "এই লক্ষ্যের জন্য পরীক্ষণগুলি",
 	"checkuser-log-checks-by": "চালানো পরীক্ষাগুলি",
+	"checkuser-log-checks-on": "পরীক্ষণের তারিখ",
 	"checkuser-log-link-text": "লগ",
 	"checkuser-logs-link-text": "লগসমূহ",
 	"checkuser-blocked": "বাধাপ্রাপ্ত",
@@ -86,6 +88,8 @@
 	"checkuser-localonly": "কোনো একত্রকীকরণ নেই",
 	"checkuser-massblock": "নির্বাচিত ব্যবহারকারীদের বাধা দিন",
 	"checkuser-massblock-text": "আইপি ঠিকানাগুলির স্বয়ংক্রিয় অবরুদ্ধ সক্রিয়করণ এবং অ্যাকাউন্ট সৃষ্টি নিষ্ক্রিয়করণ সহ, নির্বাচিত অ্যাকাউন্টগুলি অনির্দিষ্টকালের জন্য অবরুদ্ধ করা হবে।\nআইপি ঠিকানাগুলি বেনামী ব্যবহারকারীদের জন্য শুধুমাত্র এক সপ্তাহের জন্য অবরুদ্ধ হবে এবং অ্যাকাউন্ট সৃষ্টি নিষ্ক্রিয় করা হবে।",
+	"checkuser-massblock-commit-accounts": "নির্বাচিত অ্যাকাউন্টগুলি বাধা দিন",
+	"checkuser-massblock-commit-ips": "নির্বাচিত আইপিগুলি বাধা দিন",
 	"checkuser-block-reason-dropdown": "* বাধাদানের সাধারণ কারণ\n** একাধিক অ্যাকাউন্টের অপব্যবহার\n** বহিঃস্থ স্প্যামিং সাইটের লিঙ্ক বারংবার যোগ করা\n** ধ্বংসাত্মক কাজ",
 	"checkuser-centralauth-multilock": "নির্বাচিত অ্যাকাউন্টগুলি বহু তালাবদ্ধ করুন",
 	"checkuser-noreason": "আপনাকে অবশ্যই এই কোয়েরির জন্য একটি কারণ উল্লেখ করতে হবে।",
@@ -224,9 +228,9 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 অস্থায়ী অ্যাকাউন্টসমূহের আইপি ঠিকানা দেখতে {{GENDER:$2|তার নিজের}} প্রবেশাধিকার $4 করেছেন",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|নিষ্ক্রিয়}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|সক্রিয়}}",
-	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 বিশ্বব্যাপী {{GENDER:$2| $3 এ অস্থায়ী অ্যাকাউন্ট দেখা হয়েছে",
+	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 বৈশ্বিকভাবে $3-এ অস্থায়ী অ্যাকাউন্ট {{GENDER:$2|দেখেছেন}}",
 	"log-action-filter-checkuser-temporary-account": "কাজের ধরন:",
 	"log-action-filter-checkuser-temporary-account-change-access": "প্রবেশাধিকার পরিবর্তন",
-	"log-action-filter-checkuser-temporary-account-view-ips": "আইপি দেখা",
+	"log-action-filter-checkuser-temporary-account-view-ips": "অস্থায়ী অ্যাকাউন্টের আইপি উপাত্তে প্রবেশাধিকার",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 $3-এর সাথে যুক্ত সুরক্ষিত ভেরিয়েবল {{GENDER:$2|পরিদর্শন করেছেন}}"
 }

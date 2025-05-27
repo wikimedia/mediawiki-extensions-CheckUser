@@ -242,7 +242,7 @@
 	"checkuser-global-contributions-permission-error-title": "ТӀекхачарехь гӀалат",
 	"checkuser-global-contributions-permission-error-description": "Глобалан къинхьегам хьажа, дехар до, [[Special:GlobalPreferences|хьайн глобалан нисдаран гӀирсан]] чохь болу барт тӀеэца.",
 	"checkuser-global-contributions-search-form-wrapper": "Глобалан къинхьегам лахар",
-	"prefs-checkuser-tempaccount": "Цхьана ханна IP-н аккаунт гучуяккха",
+	"prefs-checkuser-tempaccount": "Цхьана ханна IP-н аккаунт гучуйаккха",
 	"checkuser-tempaccount-enable-preference-description": "ХӀара гӀирс лелош ахь тидам бан беза, ахь иза политикин гурашкахь лелош хиларх.",
 	"checkuser-tempaccount-enable-preference": "Цхьана ханна лелочу аккаунташна IP-адресаш гучудаха аьтто бар",
 	"checkuser-tempaccount-no-ip-results": "ТӀаьххьарчу $1 {{PLURAL:$1|денна}} IP-хаамаш бац хӀокху ханна декъашхочунна",
