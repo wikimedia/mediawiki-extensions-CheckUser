@@ -34,6 +34,8 @@
 	"checkuser-contribs-log-initiator": "bu kullanıcı tarafından yapılan kontroller",
 	"group-checkuser": "Denetçiler",
 	"group-checkuser-member": "{{GENDER:$1|denetçi}}",
+	"group-temporary-account-viewer": "Geçici hesap IP görüntüleyicileri",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|geçici hesap IP görüntüleyicisi}}",
 	"right-checkuser": "Kullanıcıların IP adreslerini ve diğer bilgilerini denetle",
 	"right-checkuser-log": "Denetçi günlüğünü gör",
 	"right-checkuser-temporary-account": "Geçici hesaplar tarafından kullanılan IP adreslerini görüntüleyin",

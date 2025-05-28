@@ -62,5 +62,6 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 zisťuje používateľa s XFF <bdi>$2</bdi>",
 	"logentry-checkuser-private-event-autocreate-account": "bol automaticky vytvorený",
 	"logentry-checkuser-private-event-create-account": "bol vytvorený",
-	"checkuser-investigateblock-warning-confirmaction": "Ak ste si {{GENDER:|istý|istá|istí}}, že to chcete urobiť, zaškrtnite prepínač „{{int:checkuser-investigateblock-confirm-blocks-label}}“ nižšie."
+	"checkuser-investigateblock-warning-confirmaction": "Ak ste si {{GENDER:|istý|istá|istí}}, že to chcete urobiť, zaškrtnite prepínač „{{int:checkuser-investigateblock-confirm-blocks-label}}“ nižšie.",
+	"checkuser-global-contributions-link-sidebar": "Globálne príspevky"
 }
