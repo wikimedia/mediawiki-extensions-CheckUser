@@ -380,7 +380,9 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 a {{GENDER:$2|vu}} des variables protégées associées à $3",
 	"checkuser-ipinfo-global-contributions-url-text": "Afficher les contributions globales",
 	"checkuser-group-requirements": "L'utilisateur ne remplit pas les critères d'accès",
+	"checkuser-userinfocard-toggle-button-aria-label": "Ouvrir la fiche d'information utilisateur",
 	"checkuser-userinfocard-close-button-aria-label": "Fermer",
+	"checkuser-userinfocard-open-menu-aria-label": "Ouvrir le menu de la carte d'informations utilisateur",
 	"checkuser-userinfocard-joined-label": "Rejoint",
 	"checkuser-userinfocard-active-wikis-label": "Wikis actifs",
 	"checkuser-userinfocard-active-blocks-row-main-label": "Blocages actifs",
@@ -400,5 +402,13 @@
 	"checkuser-userinfocard-menu-block-user": "Bloquer l’utilisateur",
 	"checkuser-userinfocard-menu-turn-off": "Désactiver cette fonctionnalité",
 	"checkuser-userinfocard-loading-label": "Chargement des informations utilisateur",
-	"checkuser-userinfocard-error-title": "Une erreur s’est produite"
+	"checkuser-userinfocard-error-title": "Une erreur s’est produite",
+	"checkuser-userinfocard-error-no-data": "Impossible de récupérer les informations de cet utilisateur. Veuillez réessayer ultérieurement.",
+	"checkuser-userinfocard-error-generic": "Quelque chose s’est mal passé. Veuillez réessayer ultérieurement.",
+	"checkuser-userinfocard-enable-preference-description": "Activer la [[mw:Help:Extension:CheckUser#UserInfoCard|carte d'informations utilisateur]]",
+	"checkuser-userinfocard-enable-preference-help": "Afficher un bouton à côté des noms d'utilisateur pour ouvrir une fenêtre contextuelle contenant des informations sur un compte.",
+	"checkuser-ipinfo-global-contributions-label": "Contributions globales",
+	"checkuser-ipinfo-global-contributions-tooltip": "Le nombre de modifications inter-wiki effectuées à partir de cette adresse IP.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1| $1 modification globale| $1 modifications globales|0=Aucune modification globale}}",
+	"tooltip-t-global-contributions": "Liste des contributions de {{GENDER:$1| cet utilisateur|cette utilisatrice}} sur tous les wikis"
 }
