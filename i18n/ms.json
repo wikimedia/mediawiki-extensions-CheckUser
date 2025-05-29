@@ -81,6 +81,7 @@
 	"checkuser-investigate-duration-option-2w": "2 minggu lepas",
 	"checkuser-investigate-duration-option-30d": "30 hari lepas",
 	"checkuser-investigate-compare-copy-button-label": "Tunjuk wikiteks",
+	"checkuser-investigate-compare-table-button-checks-label": "Jumlah pemeriksaan",
 	"checkuser-tempaccount-reveal-ip-button-label": "Tunjukkan IP",
 	"checkuser-tempaccount-reveal-ip-missing": "tidak ada"
 }

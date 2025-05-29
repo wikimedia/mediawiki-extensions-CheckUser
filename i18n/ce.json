@@ -212,7 +212,7 @@
 	"checkuser-investigate-tour-block-desc": "Хьайна блоктоха лууш болу декъашхой къасто аьтто бо, тӀаккха блоктохаран форме гӀой догӀу блоктохар къасто.",
 	"checkuser-investigate-tour-copywikitext-title": "Хаамаш копийан лаьий хьуна?",
 	"checkuser-investigate-tour-copywikitext-desc": "Цкъа тӀетаӀорца дустаран таблица копийина, CUWiki чу схьайаийта. Тидам бе, ахьа гуш дерг бен копеш ца йо, талламийн йерриг агӀонаш йац.",
-	"prefs-checkuser-tempaccount": "Цхьана ханна IP-н аккаунт гучуяккха",
+	"prefs-checkuser-tempaccount": "Цхьана ханна IP-н аккаунт гучуйаккха",
 	"checkuser-tempaccount-enable-preference": "Цхьана ханна лелочу аккаунташна IP-адресаш гучудаха аьтто бар",
 	"checkuser-tempaccount-no-ip-results": "ТӀаьххьарчу $1 {{PLURAL:$1|денна}} IP-хаамаш бац хӀокху ханна декъашхочунна",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP гайта",
