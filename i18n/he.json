@@ -300,6 +300,7 @@
 	"checkuser-global-contributions-no-summary-available": "אין תקציר עריכה זמין",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "מרחב שם<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "חשיפה אוטומטית של כתובות IP",
+	"checkuser-ip-auto-reveal-link-sidebar-on": "חשיפה אוטומטית של כתובת IP (מופעלת)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>חשיפה אוטומטית של IP מופעלת</strong>",
 	"checkuser-ip-auto-reveal-notification-off": "<strong>חשיפה אוטומטית של IP כבויה</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "הפעלת חשיפה אוטומטית של כתובת IP",

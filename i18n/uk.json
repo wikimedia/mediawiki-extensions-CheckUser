@@ -363,6 +363,7 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "Відкрити інформаційну картку користувача",
 	"checkuser-userinfocard-close-button-aria-label": "Закрити",
 	"checkuser-userinfocard-open-menu-aria-label": "Відкрити меню інформаційної картки користувача",
+	"checkuser-userinfocard-joined-label": "Приєдналися",
 	"checkuser-userinfocard-active-wikis-label": "Активні вікі",
 	"checkuser-userinfocard-active-blocks-row-main-label": "Активні блокування",
 	"checkuser-userinfocard-active-blocks-row-suffix-label": "попередні блокування",
@@ -371,6 +372,7 @@
 	"checkuser-userinfocard-local-edits-row-suffix-label": "відкинуто",
 	"checkuser-userinfocard-new-articles-row-main-label": "Нові статті",
 	"checkuser-userinfocard-thanks-row-main-label": "Отримано подяк",
+	"checkuser-userinfocard-thanks-row-suffix-label": "надіслано",
 	"checkuser-userinfocard-checks-row-main-label": "Перевірки",
 	"checkuser-userinfocard-checks-row-suffix-label": "востаннє перевірено",
 	"checkuser-userinfocard-menu-view-contributions": "Переглянути внесок користувача",
@@ -386,6 +388,7 @@
 	"checkuser-userinfocard-enable-preference-description": "Увімкнути [[mw:Help:Extension:CheckUser#UserInfoCard|картку з інформацією про користувача]]",
 	"checkuser-userinfocard-enable-preference-help": "Показувати поруч з іменами користувачів кнопку, що відкриє спливне вікно з інформацією про обліковий запис.",
 	"checkuser-ipinfo-global-contributions-label": "Глобальний внесок",
+	"checkuser-ipinfo-global-contributions-tooltip": "Кількість кросвікі-редагувань, зроблених з цієї IP-адреси.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобальне редагування|$1 глобальні редагування|$1 глобальних редагувань|0=Немає глобальних редагувань}}",
 	"tooltip-t-global-contributions": "Список внесків у всіх вікі від {{GENDER:$1|цього користувача|цієї користувачки}}"
 }
