@@ -1,84 +1,89 @@
 <template>
 	<cdx-popover
-		v-model:open="store.isOpen"
-		:anchor="store.currentTrigger"
+		v-model:open="isOpen"
+		:anchor="currentTrigger"
 		placement="bottom-start"
 		:render-in-place="true"
-		:use-close-button="!!store.error"
 		class="ext-checkuser-userinfocard-popover"
 	>
+		<!-- Empty container for teleported content -->
 		<div
-			v-if="store.loading"
-			class="ext-checkuser-userinfocard-loading-indicator"
-		>
-			<cdx-progress-indicator>
-				{{ loadingLabel }}
-			</cdx-progress-indicator>
-		</div>
-		<user-info-card-error
-			v-if="!store.loading && store.error"
-			:message="store.error"
-		></user-info-card-error>
-		<template v-if="!store.loading && !store.error" #header>
-			<user-card-header
-				:username="store.userCard.username"
-				:user-page-url="store.userCard.userPageUrl"
-				:user-page-exists="store.userCard.userPageExists"
-				:user-id="store.userCard.userId"
-				@close="store.close()"
-			></user-card-header>
-		</template>
-		<user-card-body
-			v-if="!store.loading && !store.error"
-			:user-id="store.userCard.userId"
-			:username="store.userCard.username"
-			:joined-date="store.userCard.joinedDate"
-			:joined-relative="store.userCard.joinedRelativeTime"
-			:active-blocks="store.userCard.activeBlocksCount"
-			:past-blocks="store.userCard.pastBlocksCount"
-			:global-edits="store.userCard.globalEditCount"
-			:local-edits="store.userCard.localEditCount"
-			:local-edits-reverted="store.userCard.localEditRevertedCount"
-			:new-articles="store.userCard.newArticlesCount"
-			:thanks-received="store.userCard.thanksReceivedCount"
-			:thanks-sent="store.userCard.thanksGivenCount"
-			:checks="store.userCard.checksCount"
-			:last-checked="store.userCard.lastCheckedDate"
-			:active-wikis="store.userCard.activeWikis"
-			:recent-local-edits="store.userCard.recentLocalEdits"
-			:total-local-edits="store.userCard.totalLocalEdits"
-		></user-card-body>
+			v-if="isOpen"
+			ref="cardContainer"
+			class="ext-checkuser-userinfocard-container"
+		></div>
 	</cdx-popover>
+
+	<!--
+		Separate cached component, visually attached to popover.
+		CdxPopover mounts/destroys child component, so caching with <keep-alive>
+		only works when the component is mounted outside the popover.
+	-->
+	<keep-alive>
+		<user-card-view
+			v-if="isOpen"
+			:key="componentKey"
+			:user-id="userId"
+			:wiki-id="wikiId"
+			:container="cardContainer"
+			@close="close"
+		></user-card-view>
+	</keep-alive>
 </template>
 
 <script>
-const { CdxPopover, CdxProgressIndicator } = require( '@wikimedia/codex' );
-const useUserInfoCardPopoverStore = require( '../stores/UserInfoCardPopover.js' );
-const UserCardBody = require( './UserCardBody.vue' );
-const UserCardHeader = require( './UserCardHeader.vue' );
-const UserInfoCardError = require( './UserInfoCardError.vue' );
+const { ref, computed } = require( 'vue' );
+const { CdxPopover } = require( '@wikimedia/codex' );
+const UserCardView = require( './UserCardView.vue' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'App',
 	components: {
 		CdxPopover,
-		CdxProgressIndicator,
-		UserCardHeader,
-		UserCardBody,
-		UserInfoCardError
+		UserCardView
 	},
 	setup() {
-		const store = useUserInfoCardPopoverStore();
-		const loadingLabel = mw.msg( 'checkuser-userinfocard-loading-label' );
+		const isOpen = ref( false );
+		const currentTrigger = ref( null );
+		const userId = ref( null );
+		const wikiId = ref( null );
+		const cardContainer = ref( null );
+
+		// Methods
+		function open( target ) {
+			currentTrigger.value = target;
+			isOpen.value = true;
+		}
+
+		function close() {
+			isOpen.value = false;
+			currentTrigger.value = null;
+		}
+
+		function setUserInfo( newUserId, newWikiId ) {
+			userId.value = newUserId;
+			wikiId.value = newWikiId;
+		}
+
+		// Using userId as key to ensure component is cached when user changes
+		const componentKey = computed( () => userId.value || 'default' );
 
 		return {
-			store,
-			loadingLabel
+			isOpen,
+			currentTrigger,
+			userId,
+			wikiId,
+			cardContainer,
+			open,
+			close,
+			setUserInfo,
+			componentKey
 		};
 	},
 	expose: [
-		'store'
+		'open',
+		'setUserInfo'
 	]
 };
 </script>
@@ -90,9 +95,12 @@ module.exports = exports = {
 	min-width: @size-2400;
 }
 
-.ext-checkuser-userinfocard-loading-indicator {
-	overflow: hidden;
-	display: flex;
-	justify-content: center;
+.ext-checkuser-userinfocard-container {
+	display: contents;
+}
+
+// Overwrite cdx-popover__body overflow because of the menu button in the header
+.ext-checkuser-userinfocard-popover .cdx-popover__body {
+	overflow: unset;
 }
 </style>

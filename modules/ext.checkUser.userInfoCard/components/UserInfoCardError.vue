@@ -1,8 +1,5 @@
 <template>
-	<cdx-message
-		type="error"
-		class="ext-checkuser-userinfocard-error"
-	>
+	<cdx-message type="error" class="ext-checkuser-userinfocard-error">
 		<p><strong>{{ strongMessage }}</strong></p>
 		<p>{{ message }}</p>
 	</cdx-message>

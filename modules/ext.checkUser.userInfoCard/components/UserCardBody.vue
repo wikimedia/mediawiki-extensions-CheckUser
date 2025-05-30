@@ -1,6 +1,8 @@
 <template>
 	<div class="ext-checkuser-userinfocard-body">
-		<p>{{ joinedLabel }}: {{ joinedDate }} ({{ joinedRelative }})</p>
+		<p class="ext-checkuser-userinfocard-joined">
+			{{ joinedLabel }}: {{ joinedDate }} ({{ joinedRelative }})
+		</p>
 		<info-row-with-links
 			v-for="( row, idx ) in infoRows"
 			:key="idx"
@@ -215,6 +217,11 @@ module.exports = exports = {
 .ext-checkuser-userinfocard-body {
 	padding: @spacing-0;
 	font-size: @font-size-small;
+}
+
+.ext-checkuser-userinfocard-joined {
+	margin-top: @spacing-0;
+	margin-bottom: @spacing-50;
 }
 
 .ext-checkuser-userinfocard-icon {
