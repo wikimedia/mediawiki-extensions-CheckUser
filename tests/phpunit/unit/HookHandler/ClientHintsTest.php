@@ -144,6 +144,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' => 'js' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+				'CheckUserAlwaysSetClientHintHeaders' => false,
 			] ),
 			$specialPageFactoryMock
 		);
@@ -221,6 +222,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' => [ 'js' ] ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+				'CheckUserAlwaysSetClientHintHeaders' => false,
 			] ),
 			$specialPageFactoryMock
 		);
@@ -255,6 +257,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' => [ 'js', 'header' ] ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+				'CheckUserAlwaysSetClientHintHeaders' => false,
 			] ),
 			$specialPageFactoryMock
 		);
@@ -299,6 +302,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+				'CheckUserAlwaysSetClientHintHeaders' => false,
 			] ),
 			$specialPageFactoryMock
 		);
@@ -306,6 +310,37 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$webResponseMock = $this->createMock( WebResponse::class );
 		$webResponseMock->expects( $this->once() )->method( 'header' )
 			->with( 'Accept-CH: ' );
+		$outputPage = $this->createMock( OutputPage::class );
+		$outputPage->method( 'getTitle' )->willReturn( $title );
+		// We should add ext.checkUser.clientHints to page
+		$outputPage->expects( $this->once() )->method( 'addModules' )
+			->with( 'ext.checkUser.clientHints' );
+		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
+		$requestMock->method( 'response' )->willReturn( $webResponseMock );
+		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
+		$skin = $this->createMock( Skin::class );
+		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
+	}
+
+	public function testClientHintsBeforePageDisplayAlwaysSetHeaders() {
+		$special = $this->createMock( SpecialPage::class );
+		$specialPageFactoryMock = $this->createMock( SpecialPageFactory::class );
+		$specialPageFactoryMock->method( 'getPage' )->willReturn( $special );
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+				'CheckUserAlwaysSetClientHintHeaders' => true,
+			] ),
+			$specialPageFactoryMock
+		);
+		$title = $this->createMock( Title::class );
+		$webResponseMock = $this->createMock( WebResponse::class );
+		$webResponseMock->expects( $this->once() )->method( 'header' )
+			->with( 'Accept-CH: ' . implode( ', ', array_keys( $this->getDefaultClientHintHeaders() ) ) );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
 		// We should add ext.checkUser.clientHints to page
@@ -329,6 +364,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+				'CheckUserAlwaysSetClientHintHeaders' => false,
 			] ),
 			$specialPageFactoryMock
 		);
@@ -357,6 +393,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => false,
+				'CheckUserAlwaysSetClientHintHeaders' => false,
 			] ),
 			$specialPageFactoryMock
 		);
