@@ -36,5 +36,7 @@
 	"logentry-checkuser-private-event-autocreate-account": "په خپلکاره توگه جوړ شو",
 	"logentry-checkuser-private-event-create-account": "جوړ شو",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "تړل",
+	"checkuser-global-contributions-link": "ټوليزې ونډې",
+	"checkuser-global-contributions-link-sidebar": "ټوليزې ونډې",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+۱۰دقيقې"
 }
