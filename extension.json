@@ -203,6 +203,10 @@
 		"CheckUserEnableTempAccountsOnboardingDialog": {
 			"value": true,
 			"description": "Used to control whether the Temporary Accounts onboarding dialog is shown. Used as a temporary configuration value to hide the dialog while it is still being developed."
+		},
+		"CheckUserAlwaysSetClientHintHeaders": {
+			"value": false,
+			"description": "Configuration setting that controls whether to always set client hint headers or not. If set to true, client hints headers will always be set via the Accept-CH HTTP header."
 		}
 	},
 	"DefaultUserOptions": {
