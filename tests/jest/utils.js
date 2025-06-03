@@ -47,7 +47,24 @@ async function waitFor( conditionCheck ) {
 	}
 }
 
+/**
+ * Mocks mw.config.get to return the values for the specified config and throw if
+ * a configuration value not provided is asked for by the code under test.
+ *
+ * @param {Object.<string, any>} mockConfigValues
+ */
+function mockJSConfig( mockConfigValues ) {
+	jest.spyOn( mw.config, 'get' ).mockImplementation( ( actualConfigName ) => {
+		if ( actualConfigName in mockConfigValues ) {
+			return mockConfigValues[ actualConfigName ];
+		} else {
+			throw new Error( 'Did not expect a call to get the value of ' + actualConfigName );
+		}
+	} );
+}
+
 module.exports = {
 	mockApiSaveOption,
-	waitFor
+	waitFor,
+	mockJSConfig
 };

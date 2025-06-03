@@ -7,29 +7,9 @@ jest.mock( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/ico
 
 const App = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/App.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ waitFor } = require( '../utils.js' );
+	{ waitFor, mockJSConfig } = require( '../utils.js' );
 
 const renderComponent = () => utils.mount( App );
-
-/**
- * Mocks mw.config.get to mock the value of the
- * wgCheckUserIPInfoExtensionLoaded JS config.
- *
- * @param {boolean} isIPInfoEnabled
- */
-function mockJSConfig( isIPInfoEnabled ) {
-	jest.spyOn( mw.config, 'get' ).mockImplementation( ( actualConfigName ) => {
-		if ( actualConfigName === 'wgCheckUserIPInfoExtensionLoaded' ) {
-			return isIPInfoEnabled;
-		} else if ( actualConfigName === 'wgCheckUserIPInfoPreferenceChecked' ) {
-			return isIPInfoEnabled;
-		} else if ( actualConfigName === 'wgCheckUserUserHasIPInfoRight' ) {
-			return isIPInfoEnabled;
-		} else {
-			throw new Error( 'Did not expect a call to get the value of ' + actualConfigName );
-		}
-	} );
-}
 
 describe( 'Main app component', () => {
 
@@ -38,7 +18,10 @@ describe( 'Main app component', () => {
 	} );
 
 	it( 'Renders correctly when IPInfo not installed', async () => {
-		mockJSConfig( false );
+		mockJSConfig( {
+			wgCheckUserIPInfoExtensionLoaded: false,
+			wgCheckUserGlobalPreferencesExtensionLoaded: false
+		} );
 
 		const wrapper = renderComponent();
 		expect( wrapper.exists() ).toEqual( true );
@@ -82,7 +65,12 @@ describe( 'Main app component', () => {
 	} );
 
 	it( 'Renders correctly when IPInfo installed', async () => {
-		mockJSConfig( true );
+		mockJSConfig( {
+			wgCheckUserIPInfoExtensionLoaded: true,
+			wgCheckUserIPInfoPreferenceChecked: true,
+			wgCheckUserUserHasIPInfoRight: true,
+			wgCheckUserGlobalPreferencesExtensionLoaded: false
+		} );
 
 		const wrapper = renderComponent();
 		expect( wrapper.exists() ).toEqual( true );

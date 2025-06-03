@@ -38,9 +38,17 @@ module.exports = exports = {
 	setup() {
 		// Parse the message as would be for content in a page, such that two newlines creates a new
 		// paragraph block.
-		const paragraphs = mw.message(
-			'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content'
-		).parse().split( '\n\n' );
+
+		// The step content links to Special:GlobalPreferences if this is installed.
+		let contentMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content';
+		if ( mw.config.get( 'wgCheckUserGlobalPreferencesExtensionLoaded' ) ) {
+			contentMessageKey += '-with-global-preferences';
+		}
+
+		// Uses:
+		// * checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content
+		// * checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-with-global-preferences
+		const paragraphs = mw.message( contentMessageKey ).parse().split( '\n\n' );
 
 		return { paragraphs };
 	}

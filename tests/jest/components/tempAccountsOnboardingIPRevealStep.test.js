@@ -1,10 +1,13 @@
 'use strict';
 
 const TempAccountsOnboardingIPRevealStep = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIPRevealStep.vue' ),
-	utils = require( '@vue/test-utils' );
+	utils = require( '@vue/test-utils' ),
+	{ mockJSConfig } = require( '../utils.js' );
 
 describe( 'First step of temporary accounts onboarding dialog', () => {
-	it( 'renders correctly', () => {
+	it( 'renders correctly when GlobalPreferences not installed', () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: false } );
+
 		const wrapper = utils.mount( TempAccountsOnboardingIPRevealStep );
 		expect( wrapper.exists() ).toEqual( true );
 
@@ -39,6 +42,31 @@ describe( 'First step of temporary accounts onboarding dialog', () => {
 		expect( contentElement.exists() ).toEqual( true );
 		expect( contentElement.text() ).toEqual(
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content)'
+		);
+	} );
+
+	it( 'renders correctly when GlobalPreferences installed', () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
+
+		const wrapper = utils.mount( TempAccountsOnboardingIPRevealStep );
+		expect( wrapper.exists() ).toEqual( true );
+
+		const rootElement = wrapper.find(
+			'.ext-checkuser-temp-account-onboarding-dialog-step'
+		);
+		expect( rootElement.exists() ).toEqual( true );
+
+		// Expect that the step content is specific to GlobalPreferences being installed.
+		const mainBodyElement = rootElement.find(
+			'.ext-checkuser-temp-account-onboarding-dialog-main-body'
+		);
+		expect( mainBodyElement.exists() ).toEqual( true );
+		const contentElement = mainBodyElement.find(
+			'.ext-checkuser-temp-account-onboarding-dialog-content'
+		);
+		expect( contentElement.exists() ).toEqual( true );
+		expect( contentElement.text() ).toEqual(
+			'(checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-with-global-preferences)'
 		);
 	} );
 } );
