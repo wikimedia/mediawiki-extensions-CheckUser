@@ -957,6 +957,7 @@
 			"checkuser": true,
 			"checkuser-log": true,
 			"checkuser-temporary-account-no-preference": true,
+			"checkuser-temporary-account-auto-reveal": true,
 			"checkuser-temporary-account-log": true
 		},
 		"temporary-account-viewer": {
