@@ -12,7 +12,11 @@
 			</div>
 		</div>
 		<div class="ext-checkuser-userinfocard-header-controls">
-			<user-card-menu :user-id="userId" :username="username"></user-card-menu>
+			<user-card-menu
+				:user-id="userId"
+				:username="username"
+				:user-page-watched="userPageWatched"
+			></user-card-menu>
 			<cdx-button
 				:aria-label="closeAriaLabel"
 				weight="quiet"
@@ -53,6 +57,10 @@ module.exports = exports = {
 		userPageExists: {
 			type: Boolean,
 			required: true
+		},
+		userPageWatched: {
+			type: Boolean,
+			default: false
 		}
 	},
 	emits: [ 'close' ],

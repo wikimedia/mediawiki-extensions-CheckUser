@@ -381,6 +381,7 @@
 	"checkuser-userinfocard-menu-view-contributions": "View user contributions",
 	"checkuser-userinfocard-menu-view-global-account": "View global account information",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Add user page to watchlist",
+	"checkuser-userinfocard-menu-remove-from-watchlist": "Remove user page from watchlist",
 	"checkuser-userinfocard-menu-check-ip": "Check user IP addresses",
 	"checkuser-userinfocard-menu-block-user": "Block user",
 	"checkuser-userinfocard-menu-turn-off": "Turn off this feature",

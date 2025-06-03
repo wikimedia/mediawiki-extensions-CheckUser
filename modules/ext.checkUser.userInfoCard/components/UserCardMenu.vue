@@ -11,9 +11,10 @@
 </template>
 
 <script>
-const { ref } = require( 'vue' );
+const { ref, computed } = require( 'vue' );
 const { CdxMenuButton, CdxIcon } = require( '@wikimedia/codex' );
 const { cdxIconEllipsis } = require( './icons.json' );
+const useWatchList = require( '../composables/useWatchList.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -31,10 +32,18 @@ module.exports = exports = {
 		ariaLabel: {
 			type: String,
 			default: () => mw.msg( 'checkuser-userinfocard-open-menu-aria-label' )
+		},
+		userPageWatched: {
+			type: Boolean,
+			default: false
 		}
 	},
 	setup( props ) {
 		const selection = ref( null );
+		const {
+			toggleWatchList,
+			watchListLabel
+		} = useWatchList( props.username, props.userPageWatched );
 		const contributionsLink = mw.Title.makeTitle(
 			-1, `Contributions/${ props.username }`
 		).getUrl();
@@ -50,7 +59,9 @@ module.exports = exports = {
 		const turnOffLink = mw.Title.makeTitle(
 			-1, 'Special:Preferences'
 		).getUrl() + '#mw-prefsection-rendering-advancedrendering';
-		const menuItems = [
+
+		// Computed is necessary for the watchListLabel item
+		const menuItems = computed( () => [
 			{
 				label: mw.msg( 'checkuser-userinfocard-menu-view-contributions' ),
 				value: 'view-contributions',
@@ -61,11 +72,9 @@ module.exports = exports = {
 				value: 'view-global-account',
 				link: globalAccountLink
 			},
-			// TODO: T393981 Implement proper add/remove user page to watchlist
 			{
-				label: mw.msg( 'checkuser-userinfocard-menu-add-to-watchlist' ),
-				value: 'add-watchlist',
-				link: '#'
+				label: watchListLabel.value,
+				value: 'toggle-watchlist'
 			},
 			{
 				label: mw.msg( 'checkuser-userinfocard-menu-check-ip' ),
@@ -82,11 +91,13 @@ module.exports = exports = {
 				value: 'turn-off',
 				link: turnOffLink
 			}
-		];
+		] );
 
 		function onMenuSelect( value ) {
-			const selectedItem = menuItems.find( ( item ) => item.value === value );
-			if ( selectedItem && selectedItem.link ) {
+			const selectedItem = menuItems.value.find( ( item ) => item.value === value );
+			if ( value === 'toggle-watchlist' ) {
+				toggleWatchList();
+			} else if ( selectedItem && selectedItem.link ) {
 				window.location.assign( selectedItem.link );
 			}
 			selection.value = null;

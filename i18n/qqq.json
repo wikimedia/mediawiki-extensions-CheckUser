@@ -415,6 +415,7 @@
 	"checkuser-userinfocard-menu-view-contributions": "Menu item: View user contributions",
 	"checkuser-userinfocard-menu-view-global-account": "Menu item: View global account information",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Menu item: Add user page to watchlist",
+	"checkuser-userinfocard-menu-remove-from-watchlist": "Menu item: Remove user page from watchlist",
 	"checkuser-userinfocard-menu-check-ip": "Menu item: Check user IP addresses",
 	"checkuser-userinfocard-menu-block-user": "Menu item: Block user",
 	"checkuser-userinfocard-menu-turn-off": "Menu item: Turn off this feature",

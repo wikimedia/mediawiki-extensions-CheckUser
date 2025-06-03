@@ -14,6 +14,7 @@
 				:user-page-url="userCard.userPageUrl"
 				:user-page-exists="userCard.userPageExists"
 				:user-id="userCard.userId"
+				:user-page-watched="userCard.userPageWatched"
 				@close="$emit( 'close' )"
 			></user-card-header>
 
@@ -96,7 +97,8 @@ module.exports = exports = {
 			newArticlesCount: 0,
 			checksCount: 0,
 			lastCheckedDate: '',
-			activeWikis: []
+			activeWikis: [],
+			userPageWatched: false
 		} );
 
 		// Methods
@@ -124,7 +126,8 @@ module.exports = exports = {
 						userPageExists,
 						newArticlesCount,
 						totalEditCount,
-						revertedEditCount
+						revertedEditCount,
+						userPageWatched
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -152,6 +155,7 @@ module.exports = exports = {
 					userCard.newArticlesCount = newArticlesCount;
 					userCard.localEditCount = totalEditCount;
 					userCard.localEditRevertedCount = revertedEditCount;
+					userCard.userPageWatched = !!userPageWatched;
 
 					loading.value = false;
 				} )
