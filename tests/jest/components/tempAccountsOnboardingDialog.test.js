@@ -369,7 +369,7 @@ describe( 'Temporary Accounts dialog component', () => {
 		// indicate that the dialog been seen.
 		expect( wrapper.vm.dialogOpen ).toEqual( false );
 		expect( mockSaveOption ).toHaveBeenCalledWith(
-			'checkuser-temporary-accounts-onboarding-dialog-seen', 1
+			'checkuser-temporary-accounts-onboarding-dialog-seen', 1, { global: 'create' }
 		);
 	} );
 
@@ -401,7 +401,7 @@ describe( 'Temporary Accounts dialog component', () => {
 		// indicate that the dialog been seen.
 		expect( wrapper.vm.dialogOpen ).toEqual( false );
 		expect( mockSaveOption ).toHaveBeenCalledWith(
-			'checkuser-temporary-accounts-onboarding-dialog-seen', 1
+			'checkuser-temporary-accounts-onboarding-dialog-seen', 1, { global: 'create' }
 		);
 	} );
 
@@ -449,7 +449,7 @@ describe( 'Temporary Accounts dialog component', () => {
 
 		// Verify that the close caused the dialog seen preference to have been set.
 		expect( mockSaveOption ).toHaveBeenCalledWith(
-			'checkuser-temporary-accounts-onboarding-dialog-seen', 1
+			'checkuser-temporary-accounts-onboarding-dialog-seen', 1, { global: 'create' }
 		);
 	} );
 
