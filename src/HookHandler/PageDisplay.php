@@ -2,14 +2,18 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
+use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
+use MediaWiki\Preferences\PreferencesFactory;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Skin\Skin;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityUtils;
 
 class PageDisplay implements BeforePageDisplayHook {
@@ -19,6 +23,7 @@ class PageDisplay implements BeforePageDisplayHook {
 	private TempUserConfig $tempUserConfig;
 	private ExtensionRegistry $extensionRegistry;
 	private UserIdentityUtils $userIdentityUtils;
+	private PreferencesFactory $preferencesFactory;
 
 	public function __construct(
 		Config $config,
@@ -26,7 +31,8 @@ class PageDisplay implements BeforePageDisplayHook {
 		TempUserConfig $tempUserConfig,
 		UserOptionsLookup $userOptionsLookup,
 		ExtensionRegistry $extensionRegistry,
-		UserIdentityUtils $userIdentityUtils
+		UserIdentityUtils $userIdentityUtils,
+		PreferencesFactory $preferencesFactory
 	) {
 		$this->config = $config;
 		$this->checkUserPermissionManager = $checkUserPermissionManager;
@@ -34,6 +40,7 @@ class PageDisplay implements BeforePageDisplayHook {
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->extensionRegistry = $extensionRegistry;
 		$this->userIdentityUtils = $userIdentityUtils;
+		$this->preferencesFactory = $preferencesFactory;
 	}
 
 	/**
@@ -94,6 +101,34 @@ class PageDisplay implements BeforePageDisplayHook {
 	}
 
 	/**
+	 * Returns whether the 'ipinfo-use-agreement' preference is enabled for the
+	 * given user. If the GlobalPreferences extension is installed, then the global value
+	 * of the preference is returned ignoring any local override.
+	 *
+	 * Assumes that IPInfo is loaded, so caller should check this before calling.
+	 *
+	 * @param UserIdentity $user The user to get the preference value for
+	 * @return bool Whether the preference is enabled
+	 */
+	private function getIPInfoAgreementPreferenceValue( UserIdentity $user ): bool {
+		if (
+			$this->extensionRegistry->isLoaded( 'GlobalPreferences' ) &&
+			$this->preferencesFactory instanceof GlobalPreferencesFactory
+		) {
+			// If GlobalPreferences is installed, then we want to use the value from
+			// there over the local preference. This is because we will set the value globally
+			// in the dialog if that is possible, so want to have it unchecked if locally
+			// enabled but globally disabled.
+			$globalPreferences = $this->preferencesFactory->getGlobalPreferencesValues( $user );
+			if ( $globalPreferences !== false ) {
+				return isset( $globalPreferences[AbstractPreferencesHandler::IPINFO_USE_AGREEMENT] ) &&
+					$globalPreferences[AbstractPreferencesHandler::IPINFO_USE_AGREEMENT];
+			}
+		}
+		return $this->userOptionsLookup->getBoolOption( $user, AbstractPreferencesHandler::IPINFO_USE_AGREEMENT );
+	}
+
+	/**
 	 * Show the temporary accounts onboarding dialog if the user has never seen the dialog before,
 	 * has permissions to reveal IPs (ignoring the preference check) and the user is
 	 * viewing any of the history page, Special:Watchlist, or Special:RecentChanges.
@@ -138,6 +173,8 @@ class PageDisplay implements BeforePageDisplayHook {
 				'wgCheckUserIPInfoExtensionLoaded' => $ipInfoLoaded,
 				'wgCheckUserUserHasIPInfoRight' => $ipInfoLoaded &&
 					$out->getAuthority()->isAllowed( 'ipinfo' ),
+				'wgCheckUserIPInfoPreferenceChecked' => $ipInfoLoaded &&
+					$this->getIPInfoAgreementPreferenceValue( $out->getUser() ),
 			] );
 		}
 	}

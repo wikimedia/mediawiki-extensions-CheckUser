@@ -21,6 +21,10 @@ function mockJSConfig( isIPInfoEnabled ) {
 	jest.spyOn( mw.config, 'get' ).mockImplementation( ( actualConfigName ) => {
 		if ( actualConfigName === 'wgCheckUserIPInfoExtensionLoaded' ) {
 			return isIPInfoEnabled;
+		} else if ( actualConfigName === 'wgCheckUserIPInfoPreferenceChecked' ) {
+			return isIPInfoEnabled;
+		} else if ( actualConfigName === 'wgCheckUserUserHasIPInfoRight' ) {
+			return isIPInfoEnabled;
 		} else {
 			throw new Error( 'Did not expect a call to get the value of ' + actualConfigName );
 		}

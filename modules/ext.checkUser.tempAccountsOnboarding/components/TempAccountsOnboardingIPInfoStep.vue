@@ -78,8 +78,7 @@ module.exports = exports = {
 		if ( mw.storage.session.get( 'mw-checkuser-ipinfo-preference-checked-status' ) ) {
 			initialIPInfoPreferenceValue = mw.storage.session.get( 'mw-checkuser-ipinfo-preference-checked-status' );
 		} else {
-			initialIPInfoPreferenceValue = mw.user.options.get( 'ipinfo-use-agreement' ) !== '0' &&
-				mw.user.options.get( 'ipinfo-use-agreement' ) !== 0;
+			initialIPInfoPreferenceValue = mw.config.get( 'wgCheckUserIPInfoPreferenceChecked' );
 		}
 		const shouldShowIPInfoPreference = !initialIPInfoPreferenceValue &&
 			mw.config.get( 'wgCheckUserUserHasIPInfoRight' );
@@ -144,7 +143,7 @@ module.exports = exports = {
 			ipInfoPreferenceUpdateInProgress.value = true;
 			const newPreferenceValue = ipInfoPreferenceValue.value;
 			const api = new mw.Api();
-			api.saveOption( 'ipinfo-use-agreement', newPreferenceValue ? 1 : 0 ).then(
+			api.saveOption( 'ipinfo-use-agreement', newPreferenceValue ? 1 : 0, { global: 'create' } ).then(
 				() => {
 					ipInfoPreferenceUpdateInProgress.value = false;
 					lastOptionsUpdateError.value = '';

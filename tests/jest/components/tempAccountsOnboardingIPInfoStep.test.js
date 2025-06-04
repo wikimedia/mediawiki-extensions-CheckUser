@@ -7,26 +7,6 @@ const TempAccountsOnboardingIPInfoStep = require( '../../../modules/ext.checkUse
 const renderComponent = () => utils.mount( TempAccountsOnboardingIPInfoStep );
 
 /**
- * Mocks mw.user.options.get to mock the value of the
- * ipinfo-use-agreement preference.
- *
- * @param {string|0} ipInfoPreferenceValue Value of the ipinfo-use-agreement
- *    preference for the test
- */
-function mockUserOptions( ipInfoPreferenceValue ) {
-	jest.spyOn( mw.user.options, 'get' ).mockImplementation( ( actualPreferenceName ) => {
-		if ( actualPreferenceName === 'ipinfo-use-agreement' ) {
-			return ipInfoPreferenceValue;
-		} else {
-			throw new Error(
-				'Did not expect a call to get the value of ' + actualPreferenceName +
-					' for mw.user.options.get'
-			);
-		}
-	} );
-}
-
-/**
  * Mocks mw.storage.session.get to return a specific value when asked for
  * the 'mw-checkuser-ipinfo-preference-checked-status' key.
  *
@@ -48,14 +28,18 @@ function mockIPInfoPreferenceCheckedSessionStorageValue( value ) {
 }
 
 /**
- * Mocks mw.config.get to mock the value of the wgCheckUserUserHasIPInfoRight JS config.
+ * Mocks mw.config.get to mock the value of wgCheckUserUserHasIPInfoRight and
+ * wgCheckUserIPInfoPreferenceChecked.
  *
  * @param {boolean} userHasIPInfoRight
+ * @param {boolean} isIPInfoPreferenceAlreadyChecked
  */
-function mockJSConfig( userHasIPInfoRight ) {
+function mockJSConfig( userHasIPInfoRight, isIPInfoPreferenceAlreadyChecked ) {
 	jest.spyOn( mw.config, 'get' ).mockImplementation( ( actualConfigName ) => {
 		if ( actualConfigName === 'wgCheckUserUserHasIPInfoRight' ) {
 			return userHasIPInfoRight;
+		} else if ( actualConfigName === 'wgCheckUserIPInfoPreferenceChecked' ) {
+			return isIPInfoPreferenceAlreadyChecked;
 		} else {
 			throw new Error( 'Did not expect a call to get the value of ' + actualConfigName );
 		}
@@ -165,8 +149,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 	it( 'Renders correctly for when IPInfo preference was already checked', () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( null );
-		mockUserOptions( '1' );
-		mockJSConfig( true );
+		mockJSConfig( true, true );
 
 		const { rootElement } = commonTestRendersCorrectly();
 
@@ -183,8 +166,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 	it( 'Renders correctly when user does not have "ipinfo" right', () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( null );
-		mockUserOptions( '0' );
-		mockJSConfig( false );
+		mockJSConfig( false, false );
 
 		const { rootElement } = commonTestRendersCorrectly();
 
@@ -201,10 +183,10 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 	it( 'Renders correctly when IPInfo preference was checked previously via the dialog', () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( 'checked' );
-		// Mock mw.user.options to say the preference is unchecked, which can happen
-		// if the user had checked the preference and then moved back to this step.
-		mockUserOptions( '0' );
-		mockJSConfig( true );
+		// Mock wgCheckUserIPInfoPreferenceChecked to say the preference is
+		// unchecked, which can happen if the user had checked the preference
+		// and then moved back to this step.
+		mockJSConfig( true, false );
 
 		const { rootElement } = commonTestRendersCorrectly();
 
@@ -222,10 +204,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 	it( 'Renders correctly for when IPInfo preference is default value', () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( false );
-		// Test using the integer 0, as the default value is the integer 0 for users which do
-		// not have a different value for the preference.
-		mockUserOptions( 0 );
-		mockJSConfig( true );
+		mockJSConfig( true, false );
 
 		const { rootElement } = commonTestRendersCorrectly();
 
@@ -244,8 +223,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 	it( 'Does nothing if IPInfo preference checkbox is checked but not saved', async () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( '' );
-		mockUserOptions( '0' );
-		mockJSConfig( true );
+		mockJSConfig( true, false );
 		const apiSaveOptionMock = mockApiSaveOption( true );
 
 		const { rootElement } = commonTestRendersCorrectly();
@@ -255,15 +233,12 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// Check the preference, but check that no API call is made by doing that. The user
 		// would need to press "Save preference" to make the change
 		ipInfoPreferenceCheckbox.setChecked();
-		expect( apiSaveOptionMock ).toHaveBeenCalledTimes( 0 );
+		expect( apiSaveOptionMock ).toHaveBeenCalledTimes( 0, { global: 'create' } );
 	} );
 
 	it( 'Updates IPInfo preference value after checkbox and submit pressed', async () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( '' );
-		// Test using the string with 0 in it, to test in case the user_properties table has the
-		// preference specifically marked as unchecked.
-		mockUserOptions( '0' );
-		mockJSConfig( true );
+		mockJSConfig( true, false );
 		const apiSaveOptionMock = mockApiSaveOption( true );
 
 		const { rootElement, wrapper } = commonTestRendersCorrectly();
@@ -278,7 +253,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// and check that an API call is made to set the preference.
 		ipInfoPreferenceCheckbox.setChecked();
 		await ipInfoSavePreferenceButton.trigger( 'click' );
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
+		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1, { global: 'create' } );
 
 		// Expect that the preference checkbox has a success message shown to indicate the
 		// preference was updated successfully.
@@ -309,13 +284,12 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		await waitForAndExpectTextToExistInElement(
 			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
 		);
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 0 );
+		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 0, { global: 'create' } );
 	} );
 
 	it( 'Prevents step move if IPInfo preference checked but not saved', async () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( '' );
-		mockUserOptions( 0 );
-		mockJSConfig( true );
+		mockJSConfig( true, false );
 
 		const { rootElement, wrapper } = commonTestRendersCorrectly();
 
@@ -340,8 +314,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 	it( 'Prevents dialog close if IPInfo preference checked but not saved', async () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( '' );
-		mockUserOptions( 0 );
-		mockJSConfig( true );
+		mockJSConfig( true, false );
 
 		const { rootElement, wrapper } = commonTestRendersCorrectly();
 
@@ -366,8 +339,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 	it( 'Displays error message if IPInfo preference check failed', async () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( '' );
-		mockUserOptions( '0' );
-		mockJSConfig( true );
+		mockJSConfig( true, false );
 		const apiSaveOptionMock = mockApiSaveOption(
 			false, { error: { info: 'Wiki is in read only mode' } }
 		);
@@ -390,7 +362,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error' +
 				', Wiki is in read only mode)'
 		);
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
+		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1, { global: 'create' } );
 
 		// Check that if the preference failed to save, the user can still move
 		// forward to another step and/or close the dialog.
@@ -400,8 +372,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 	it( 'Only submits one preference change on race condition', async () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( '' );
-		mockUserOptions( '0' );
-		mockJSConfig( true );
+		mockJSConfig( true, false );
 		// Mock the api.saveOption() method to only resolve when we want it to
 		// so that we can test race-condition handling.
 		const apiSaveOptionMock = jest.fn();
@@ -430,7 +401,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 		// Expect that api.saveOption has only been called once, as the first call is still
 		// not been resolved.
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
+		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1, { global: 'create' } );
 		expect( promisesToResolve ).toHaveLength( 1 );
 
 		promisesToResolve.forEach( ( promiseResolver ) => {
