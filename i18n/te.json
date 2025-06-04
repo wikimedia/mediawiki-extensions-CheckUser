@@ -5,6 +5,7 @@
 			"Dreamy Jazz",
 			"Kiranmayee",
 			"Mpradeep",
+			"Rajadvamshi",
 			"Ravichandra",
 			"Veeven",
 			"వైజాసత్య"
@@ -59,5 +60,8 @@
 	"checkuser-investigate-targets-label": "వాడుకరి పేరు,ఐపీ చిరునామాలు",
 	"checkuser-investigate-reason-label": "కారణం",
 	"checkuser-investigate-tour-block-title": "నిరోధించాలని అనుకుంటున్నారా?",
-	"checkuser-investigate-tour-copywikitext-title": "డేటాను కాపీ చేసుకోవాలనుకుంటున్నారా?"
+	"checkuser-investigate-tour-copywikitext-title": "డేటాను కాపీ చేసుకోవాలనుకుంటున్నారా?",
+	"checkuser-global-contributions-link": "విశ్వ పాలు",
+	"checkuser-global-contributions-link-sidebar": "విశ్వ పాలు",
+	"checkuser-ipinfo-global-contributions-label": "విశ్వ పాలు"
 }

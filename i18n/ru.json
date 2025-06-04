@@ -235,6 +235,13 @@
 	"checkuser-global-contributions": "Поиск глобального вклада",
 	"checkuser-global-contributions-target-label": "Имя участника, IP-адрес или диапазон IP-адресов:",
 	"checkuser-global-contributions-target-placeholder": "Имя пользователя, IP адрес или диапазон",
+	"checkuser-ip-auto-reveal-link-sidebar": "Автопоказ IP",
+	"checkuser-ip-auto-reveal-on-dialog-title": "Включить автоматический показ IP-адресов",
+	"checkuser-ip-auto-reveal-on-dialog-text": "Включение этой функции автоматически раскрывает IP-адреса временных учетных записей на ограниченное время.",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Отмена",
+	"checkuser-ip-auto-reveal-on-dialog-primary-action": "Включить",
+	"checkuser-ip-auto-reveal-on-dialog-select-label": "Срок:",
+	"checkuser-ip-auto-reveal-on-dialog-select-default": "Выбрать срок",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2",
 	"checkuser-temporary-account-change-access-level-disable-globally": "глобально {{GENDER:$1| отключен}}"

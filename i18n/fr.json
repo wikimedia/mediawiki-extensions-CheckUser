@@ -357,6 +357,8 @@
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Pour afficher les adresses IP des comptes temporaires, veuillez accepter l'accord dans [[Special:Preferences|vos préférences]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Chargement des détails du blocage",
 	"checkuser-tempaccount-reveal-blocked-title": "Afficher les détails du blocage",
+	"checkuser-tempaccount-reveal-blocked-missingblock": "Vous avez été empêché de révéler les adresses IP temporaires de votre compte en raison d'un blocage affectant votre compte, qui n'est plus en place. S'il vous plaît, rechargez la page.",
+	"checkuser-tempaccount-reveal-blocked-error": "Une erreur s'est produite lors de la récupération des détails du blocage. Veuillez recharger la page et réessayer.",
 	"checkuser-tempaccount-reveal-blocked-header": "La révélation temporaire de l'adresse IP du compte est désactivée",
 	"checkuser-tempaccount-reveal-blocked-description": "Vous n'êtes pas autorisé à utiliser cette fonctionnalité pour la raison suivante :",
 	"checkuser-tempaccount-specialblock-ips": "Il s’agit d’un utilisateur temporaire utilisant {{PLURAL:$1|l’adresse IP suivante|les adresses IP suivantes}} : $2",
