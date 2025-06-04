@@ -563,6 +563,32 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		}
 	}
 
+	/** @dataProvider provideGetSummaryMessage */
+	public function testGetSummaryMessage( $isCheckUserAPIDisabled, $expectedSummaryMessageKey ) {
+		$this->overrideConfigValue( 'CheckUserDisableCheckUserAPI', $isCheckUserAPIDisabled );
+		$this->assertSame( $expectedSummaryMessageKey, $this->setUpObject( 'checkuser' )->getSummaryMessage() );
+	}
+
+	public static function provideGetSummaryMessage() {
+		return [
+			'When CheckUser API is disabled' => [ true, 'apihelp-query+checkuser-summary-api-disabled' ],
+			'When CheckUser API is enabled' => [ false, 'apihelp-query+checkuser-summary' ],
+		];
+	}
+
+	/** @dataProvider provideIsDeprecated */
+	public function testIsDeprecated( $isCheckUserAPIDisabled ) {
+		$this->overrideConfigValue( 'CheckUserDisableCheckUserAPI', $isCheckUserAPIDisabled );
+		$this->assertSame( $isCheckUserAPIDisabled, $this->setUpObject()->isDeprecated() );
+	}
+
+	public static function provideIsDeprecated() {
+		return [
+			'When CheckUser API is disabled' => [ true ],
+			'When CheckUser API is enabled' => [ false ],
+		];
+	}
+
 	public function testExecuteOnUnrecognisedRequestTypeFromRequestFactory() {
 		$this->expectApiErrorCode( 'invalidmode' );
 		// Create a mock response object to return when the request factory is called

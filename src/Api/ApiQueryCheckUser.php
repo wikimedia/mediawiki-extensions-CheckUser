@@ -128,4 +128,17 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	public function needsToken() {
 		return 'csrf';
 	}
+
+	/** @inheritDoc */
+	protected function getSummaryMessage() {
+		if ( $this->getConfig()->get( 'CheckUserDisableCheckUserAPI' ) ) {
+			return 'apihelp-query+checkuser-summary-api-disabled';
+		}
+		return parent::getSummaryMessage();
+	}
+
+	/** @inheritDoc */
+	public function isDeprecated() {
+		return $this->getConfig()->get( 'CheckUserDisableCheckUserAPI' );
+	}
 }
