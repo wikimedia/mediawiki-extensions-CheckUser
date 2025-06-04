@@ -306,7 +306,7 @@ module.exports = exports = {
 				return;
 			}
 			const api = new mw.Api();
-			api.saveOption( 'checkuser-temporary-accounts-onboarding-dialog-seen', 1 );
+			api.saveOption( 'checkuser-temporary-accounts-onboarding-dialog-seen', 1, { global: 'create' } );
 			dialogOpen.value = false;
 		}
 

@@ -35,6 +35,7 @@ describe( 'Temporary Accounts Onboarding Dialog', () => {
 			action: 'options',
 			optionname: 'checkuser-temporary-accounts-onboarding-dialog-seen',
 			optionvalue: 0,
+			global: 'create',
 			token: bot.editToken,
 			formatversion: 2
 		} );
@@ -95,6 +96,7 @@ describe( 'Temporary Accounts Onboarding Dialog', () => {
 			action: 'options',
 			optionname: 'checkuser-temporary-accounts-onboarding-dialog-seen',
 			optionvalue: 0,
+			global: 'create',
 			token: bot.editToken,
 			formatversion: 2
 		} );
