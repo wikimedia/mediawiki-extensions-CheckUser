@@ -30,6 +30,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	public function execute() {
 		$this->checkUserRightsAny( 'checkuser' );
 
+		if ( $this->getConfig()->get( 'CheckUserDisableCheckUserAPI' ) ) {
+			$this->dieWithError( 'apierror-checkuser-disabled', 'disabled' );
+		}
+
 		$response = $this->responseFactory->newFromRequest( $this );
 		$result = $this->getResult();
 

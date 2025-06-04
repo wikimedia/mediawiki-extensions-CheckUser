@@ -50,6 +50,8 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		parent::setUp();
 		// Set a fake time to avoid the tests breaking due to 'cutimecond' being a relative time.
 		ConvertibleTimestamp::setFakeTime( '20230406060708' );
+		// Make the API be enabled for these tests so that they work.
+		$this->overrideConfigValue( 'CheckUserDisableCheckUserAPI', false );
 	}
 
 	/**
@@ -207,6 +209,16 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 			'No user groups' => [ '', false ],
 			'checkuser right only' => [ 'checkuser-right', true ],
 		];
+	}
+
+	public function testWhenApiIsDisabled() {
+		$this->overrideConfigValue( 'CheckUserDisableCheckUserAPI', true );
+		$this->expectApiErrorCode( 'disabled' );
+		$this->doCheckUserApiRequest(
+			[ 'curequest' => 'userips', 'cutarget' => 'CheckUserAPITestUser1', 'cutimecond' => '-3 months' ],
+			null,
+			$this->getTestUser( [ 'checkuser' ] )->getAuthority()
+		);
 	}
 
 	/** @dataProvider provideExpectedApiResponses */

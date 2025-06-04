@@ -207,6 +207,10 @@
 		"CheckUserAlwaysSetClientHintHeaders": {
 			"value": false,
 			"description": "Configuration setting that controls whether to always set client hint headers or not. If set to true, client hints headers will always be set via the Accept-CH HTTP header."
+		},
+		"CheckUserDisableCheckUserAPI": {
+			"value": true,
+			"description": "Should the 'checkuser' query API be disabled. Disabling the API currently means that all requests to the 'checkuser' query API return with an error indicating that the API is disabled. This configuration setting does not affect the CheckUserLog API."
 		}
 	},
 	"DefaultUserOptions": {
