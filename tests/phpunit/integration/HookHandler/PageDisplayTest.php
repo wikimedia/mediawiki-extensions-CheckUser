@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use ArrayUtils;
+use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Block\Block;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\PageDisplay;
@@ -45,6 +46,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	 * @param bool $isBlockedSitewide Whether the user is sitewide blocked
 	 * @param bool $isOnboardingDialogEnabled Whether the onboarding dialog is enabled in local configuration
 	 * @param bool $isIpInfoAvailable Whether the IPInfo extension is loaded
+	 * @param bool $isGlobalPreferencesAvailable Whether the GlobalPreferences extension is loaded
 	 */
 	public function testOnBeforePageDisplay(
 		?string $specialPageName,
@@ -57,10 +59,14 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		bool $hasIpInfoPermission,
 		bool $isBlockedSitewide,
 		bool $isOnboardingDialogEnabled,
-		bool $isIpInfoAvailable
+		bool $isIpInfoAvailable,
+		bool $isGlobalPreferencesAvailable
 	): void {
 		if ( $isIpInfoAvailable ) {
 			$this->markTestSkippedIfExtensionNotLoaded( 'IPInfo' );
+		}
+		if ( $isGlobalPreferencesAvailable ) {
+			$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
 		}
 
 		if ( $tempAccountsKnown ) {
@@ -114,15 +120,32 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
 		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup( [], $options ) );
 
+		if ( $isGlobalPreferencesAvailable ) {
+			// The GlobalPreferencesFactory::getGlobalPreferencesValues method will cause a read from the database,
+			// so we mock it to avoid accessing the database and slowing these tests.
+			$mockGlobalPreferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
+			$mockGlobalPreferencesFactory->method( 'getGlobalPreferencesValues' )
+				->willReturnCallback( function ( $actualUser ) use ( $testAuthority, $options ) {
+					$this->assertTrue( $testAuthority->getUser()->equals( $actualUser ) );
+
+					return $options;
+				} );
+
+			$this->setService( 'PreferencesFactory', $mockGlobalPreferencesFactory );
+		}
+
 		$context->setAuthority( $testAuthority );
 		$output = $context->getOutput();
 		$output->setContext( $context );
 
 		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
 		$extensionRegistry->method( 'isLoaded' )
-			->willReturnCallback( static function ( $name ) use ( $isIpInfoAvailable ) {
+			->willReturnCallback( static function ( $name ) use ( $isIpInfoAvailable, $isGlobalPreferencesAvailable ) {
 				if ( $name === 'IPInfo' ) {
 					return $isIpInfoAvailable;
+				}
+				if ( $name === 'GlobalPreferences' ) {
+					return $isGlobalPreferencesAvailable;
 				}
 				return false;
 			} );
@@ -181,6 +204,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 					'wgCheckUserIPInfoExtensionLoaded' => $isIpInfoAvailable,
 					'wgCheckUserUserHasIPInfoRight' => $isIpInfoAvailable && $hasIpInfoPermission,
 					'wgCheckUserIPInfoPreferenceChecked' => $isIpInfoAvailable && $hasEnabledIPInfo,
+					'wgCheckUserGlobalPreferencesExtensionLoaded' => $isGlobalPreferencesAvailable,
 				];
 				$expectedModules[] = 'ext.checkUser.tempAccountOnboarding';
 				$expectedModuleStyles[] = 'ext.checkUser.images';
@@ -224,6 +248,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			// whether the onboarding dialog is enabled in local configuration
 			[ true, false ],
 			// whether the IPInfo extension is loaded
+			[ true, false ],
+			// whether the GlobalPreferences extension is loaded
 			[ true, false ]
 		);
 
@@ -240,6 +266,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				$isBlockedSitewide,
 				$isOnboardingDialogEnabled,
 				$isIpInfoAvailable,
+				$isGlobalPreferencesAvailable,
 			] = $params;
 
 			// Special pages can't have actions.
@@ -247,11 +274,11 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				continue;
 			}
 
-			// The presence of IPInfo and related permissions only influence config variables
-			// related to the onboarding dialog, so don't generate permutations involving them
+			// The presence of IPInfo and related permissions, and GlobalPreferences only influences config variables
+			// related to the onboarding dialog. So don't generate permutations involving these
 			// if we do not expect to show the dialog.
 			if ( $hasSeenOnboardingDialog || !$isOnboardingDialogEnabled ) {
-				if ( $isIpInfoAvailable || $hasIpInfoPermission ) {
+				if ( $isIpInfoAvailable || $hasIpInfoPermission || $isGlobalPreferencesAvailable ) {
 					continue;
 				}
 			}
@@ -280,7 +307,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$description = sprintf(
 				'%s%s temporary accounts %s, onboarding dialog %s, IP reveal %s, IPInfo %s, ' .
 				'%s IP reveal permission, %s IP info permission, %s, onboarding dialog %s, ' .
-				'IPInfo extension %s',
+				'IPInfo extension %s, GlobalPreferences extension %s',
 				$specialPageName ? "Special:$specialPageName, " : '',
 				$actionName ? "action=$actionName," : '',
 				$tempAccountsKnown ? 'known' : 'not known',
@@ -291,7 +318,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				$hasIpInfoPermission ? 'with' : 'no',
 				$isBlockedSitewide ? 'blocked sitewide' : 'not blocked',
 				$isOnboardingDialogEnabled ? 'enabled' : 'disabled',
-				$isIpInfoAvailable ? 'loaded' : 'not loaded'
+				$isIpInfoAvailable ? 'loaded' : 'not loaded',
+				$isGlobalPreferencesAvailable ? 'loaded' : 'not loaded'
 			);
 
 			yield $description => $params;

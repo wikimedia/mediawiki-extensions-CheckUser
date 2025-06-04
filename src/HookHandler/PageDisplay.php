@@ -175,6 +175,8 @@ class PageDisplay implements BeforePageDisplayHook {
 					$out->getAuthority()->isAllowed( 'ipinfo' ),
 				'wgCheckUserIPInfoPreferenceChecked' => $ipInfoLoaded &&
 					$this->getIPInfoAgreementPreferenceValue( $out->getUser() ),
+				'wgCheckUserGlobalPreferencesExtensionLoaded' =>
+					$this->extensionRegistry->isLoaded( 'GlobalPreferences' ),
 			] );
 		}
 	}
