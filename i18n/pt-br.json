@@ -32,7 +32,8 @@
 			"Rodrigo codignoli",
 			"YuriNikolai",
 			555,
-			"BraunOBruno"
+			"BraunOBruno",
+			"Matma Rex"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.\nUsuários e edições podem ser obtidos por um IP XFF colocando-se \"/xff\" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNão serão retornadas mais de $3 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.",
@@ -169,8 +170,8 @@
 	"checkuser-investigateblock-notice-talk-page-label": "Deixar um aviso na página de discussão do usuário",
 	"checkuser-investigateblock-notice-position-label": "Posição",
 	"checkuser-investigateblock-notice-text-label": "Wikitexto",
-	"checkuser-investigateblock-notice-append": "Anexar à página",
-	"checkuser-investigateblock-notice-prepend": "Anexar à página",
+	"checkuser-investigateblock-notice-append": "Append to page",
+	"checkuser-investigateblock-notice-prepend": "Prepend to page",
 	"checkuser-investigateblock-notice-replace": "Substituir página",
 	"checkuser-investigateblock-failure": "Nenhum usuário foi bloqueado. Para substituir os blocos existentes, verifique: \"{{int:checkuser-inquiryblock-reblock-label}}\". Um bloco não será substituído se o novo bloco for idêntico ao bloco existente.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|O usuário|Os usuários}} $1 {{PLURAL:$2|está|estão}} agora bloqueado.",

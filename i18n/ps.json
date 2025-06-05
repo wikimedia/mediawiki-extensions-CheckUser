@@ -35,7 +35,7 @@
 	"checkuser-block-failure": "'''په هېڅ کارن بنديز پلي نشو.'''",
 	"checkuser-block-limit": "له حد نه ډېر زيات کارنان ټاکل شوي.",
 	"checkuser-block-noreason": "تاسې بايد د بنديز لگولو يو سبب څرگند کړئ.",
-	"checkuser-search": "پلټل",
+	"checkuser-search": "د کارن يادښت ننوتنې پلټل",
 	"checkuser-search-submit": "پلټل",
 	"checkuser-log-search-target": "موخه:",
 	"checkuser-ipeditcount": "~$1 د ټولو کارنانو نه",
