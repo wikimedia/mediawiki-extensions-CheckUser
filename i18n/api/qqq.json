@@ -9,6 +9,7 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "{{doc-apihelp-summary|query+checkuser}}",
+	"apihelp-query+checkuser-summary-api-disabled": "{{doc-apihelp-summary|query+checkuser}}\n\nThis is used when the CheckUser API has been disabled (e.g. it will return no data when requests are made). Uses {{msg-mw|apihelp-query+checkuser-summary}}.",
 	"apihelp-query+checkuser-param-request": "{{doc-apihelp-param|query+checkuser|request}}",
 	"apihelp-query+checkuser-paramvalue-request-userips": "{{doc-apihelp-paramvalue|query+checkuser|request|userips}}",
 	"apihelp-query+checkuser-paramvalue-request-actions": "{{doc-apihelp-paramvalue|query+checkuser|request|actions}}",
@@ -40,6 +41,7 @@
 	"apierror-checkuser-timelimit": "{{doc-apierror}}\n{{doc-important|Do not translate \"-2 weeks\" or \"2 weeks ago\". It must be in [http://www.php.net/strtotime original format].}}",
 	"apierror-checkuser-invalidmode": "{{doc-apierror}}",
 	"apierror-checkuser-nosuchuser": "{{doc-apierror}}",
+	"apierror-checkuser-disabled": "{{doc-apierror}}",
 	"checkuser-api-help-param-direction": "{{doc-apihelp-param|description=any standard \"dir\" parameter|noseealso=1}}\n\nSee also:\n* {{msg-mw|api-help-param-direction}}",
 	"checkuser-api-help-paramvalue-direction-newer": "{{doc-apihelp-paramvalue|description=any standard \"dir\" parameter|noseealso=1}}\n\nSee also:\n* {{msg-mw|api-help-param-direction}}",
 	"checkuser-api-help-paramvalue-direction-older": "{{doc-apihelp-paramvalue|description=any standard \"dir\" parameter|noseealso=1}}\n\nSee also:\n* {{msg-mw|api-help-param-direction}}",
