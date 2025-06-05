@@ -960,6 +960,8 @@
 			"tests/qunit/ext.checkUser.tempAccounts/SpecialBlock.test.js",
 			"tests/qunit/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
+			"tests/qunit/ext.checkUser.userInfoCard/components/UserCardMenu.test.js",
+			"tests/qunit/ext.checkUser.userInfoCard/composables/useWatchList.test.js",
 			"modules/ext.checkUser.ipInfo.hooks/infobox.js",
 			{
 				"name": "modules/ext.checkUser.tempAccounts/icons.json",
@@ -981,6 +983,7 @@
 			"ext.checkUser",
 			"ext.checkUser.clientHints",
 			"ext.checkUser.tempAccounts",
+			"ext.checkUser.userInfoCard",
 			"sinonjs",
 			"vue",
 			"@wikimedia/codex"

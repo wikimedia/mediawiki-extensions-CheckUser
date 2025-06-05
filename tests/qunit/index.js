@@ -20,3 +20,5 @@ require( './ext.checkUser.tempAccounts/rest.test.js' );
 require( './ext.checkUser.tempAccounts/SpecialBlock.test.js' );
 require( './ext.checkUser.tempAccounts/SpecialContributions.test.js' );
 require( './ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js' );
+require( './ext.checkUser.userInfoCard/components/UserCardMenu.test.js' );
+require( './ext.checkUser.userInfoCard/composables/useWatchList.test.js' );
