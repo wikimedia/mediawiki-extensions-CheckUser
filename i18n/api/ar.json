@@ -13,6 +13,7 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "تحقق من عناوين الأيبي التي يستخدمها اسم مستخدم معين، أو من أسماء المستخدمين التي يستخدمها عنوان أيبي محدد.",
+	"apihelp-query+checkuser-summary-api-disabled": "'''عُطلت واجهة برمجة التطبيقات هذه من مسؤولي الموقع. لن يؤدي الاستعلام عن واجهة برمجة التطبيقات إلى إرجاع أي بيانات.''' {{int:apihelp-query+checkuser-summary}}",
 	"apihelp-query+checkuser-param-request": "نوع طلب تدقيق المستخدم:",
 	"apihelp-query+checkuser-paramvalue-request-userips": "احصل على عنوان الآيبي للمستخدم المستهدف.",
 	"apihelp-query+checkuser-paramvalue-request-actions": "الحصول على إجراءات تنفذ عن طريق عنوان الآيبي المستهدف أو النطاق.",

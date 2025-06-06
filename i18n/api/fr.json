@@ -14,6 +14,7 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "Vérifier quelles adresses IP sont utilisées pour un nom d’utilisateur donné ou quels noms d’utilisateur sont utilisés pour une adresse IP donnée.",
+	"apihelp-query+checkuser-summary-api-disabled": "'''Cette API a été désactivée par les administrateurs du site. Une requête de l'API ne renverra aucune donnée.''' {{int:apihelp-query+checkuser-summary}}",
 	"apihelp-query+checkuser-param-request": "Type de demande CheckUser :",
 	"apihelp-query+checkuser-paramvalue-request-userips": "Obtenir l'adresse IP de l’utilisateur cible.",
 	"apihelp-query+checkuser-paramvalue-request-actions": "Obtenez les actions effectuées par les/l'adresse(s) IP cible(s).",
@@ -45,6 +46,7 @@
 	"apierror-checkuser-timelimit": "Vous devez utiliser une limite de temps correcte (comme « -2 weeks » ou « 2 weeks ago »).",
 	"apierror-checkuser-invalidmode": "Mode de requête non valide",
 	"apierror-checkuser-nosuchuser": "Pas d’utilisateur avec ce nom",
+	"apierror-checkuser-disabled": "L'API de requête « checkuser » a été désactivée par les administrateurs du site.",
 	"checkuser-api-help-param-direction": "Dans quelle direction énumérer :",
 	"checkuser-api-help-paramvalue-direction-newer": "Lister les plus anciens en premier. Note : $1from droit être avant $1to.",
 	"checkuser-api-help-paramvalue-direction-older": "Lister les plus récents en premier (par défaut). Note : $1from doit être après $1to.",

@@ -90,6 +90,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Seguinte",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Pechar",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Que é unha conta temporal?",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base": "A función de revelación de IP permite que a administración, as persoas que loitan contra o vandalismo e os usuarios experimentados coñezan o enderezo IP asociado a unha conta temporal.",
 	"checkuser-investigateblock-confirm-blocks-label": "Confirmar os bloqueos",
 	"checkuser-investigateblock-warning-ips-and-users-in-targets": "Estás a piques de bloquear á vez contas e enderezos IP polo mesmo motivo despois de usares os datos do verificador de usuarios. Isto pode incumprir a política de protección de datos do sitio. Queres facelo?",
 	"checkuser-investigateblock-warning-confirmaction": "Se realmente queres facelo, marca o campo \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" que hai ao final.",

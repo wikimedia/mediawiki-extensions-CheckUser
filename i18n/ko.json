@@ -282,6 +282,7 @@
 	"checkuser-ip-auto-reveal-link-sidebar": "IP 자동 표시",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP 자동 표시 (켬)",
 	"checkuser-ip-auto-reveal-on-dialog-title": "IP 자동 표시 켜기",
+	"checkuser-ip-auto-reveal-on-dialog-text": "이 기능을 켜면 제한된 시간 동안 모든 임시 계정 IP 주소가 자동으로 표시됩니다.",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "취소",
 	"checkuser-ip-auto-reveal-on-dialog-primary-action": "켜기",
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "기간:",
