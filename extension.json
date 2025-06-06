@@ -960,6 +960,7 @@
 			"tests/qunit/ext.checkUser.tempAccounts/SpecialBlock.test.js",
 			"tests/qunit/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
+			"tests/qunit/ext.checkUser.userInfoCard/components/UserCardHeader.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/UserCardMenu.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/composables/useWatchList.test.js",
 			"modules/ext.checkUser.ipInfo.hooks/infobox.js",
