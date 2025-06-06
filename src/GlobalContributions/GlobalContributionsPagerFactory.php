@@ -20,6 +20,7 @@ use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
+use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Stats\StatsFactory;
 
@@ -46,6 +47,7 @@ class GlobalContributionsPagerFactory {
 	private JobQueueGroup $jobQueueGroup;
 	private StatsFactory $statsFactory;
 	private UserLinkRenderer $userLinkRenderer;
+	private WANObjectCache $wanCache;
 
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -66,7 +68,8 @@ class GlobalContributionsPagerFactory {
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
 		StatsFactory $statsFactory,
-		UserLinkRenderer $userLinkRenderer
+		UserLinkRenderer $userLinkRenderer,
+		WANObjectCache $wanCache
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -87,6 +90,7 @@ class GlobalContributionsPagerFactory {
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->statsFactory = $statsFactory;
 		$this->userLinkRenderer = $userLinkRenderer;
+		$this->wanCache = $wanCache;
 	}
 
 	/**
@@ -119,6 +123,7 @@ class GlobalContributionsPagerFactory {
 			$this->jobQueueGroup,
 			$this->statsFactory,
 			$this->userLinkRenderer,
+			$this->wanCache,
 			$context,
 			$options,
 			$target
