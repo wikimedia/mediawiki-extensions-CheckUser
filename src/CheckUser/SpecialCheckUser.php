@@ -471,78 +471,74 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return AbstractCheckUserPager|null
 	 */
 	public function getPager( string $checkType, UserIdentity $userIdentity, string $logType, ?bool $xfor = null ) {
-		switch ( $checkType ) {
-			case self::SUBTYPE_GET_IPS:
-				return new CheckUserGetIPsPager(
-					$this->opts,
-					$userIdentity,
-					$logType,
-					$this->tokenQueryManager,
-					$this->userGroupManager,
-					$this->centralIdLookup,
-					$this->dbProvider,
-					$this->getSpecialPageFactory(),
-					$this->userIdentityLookup,
-					$this->checkUserLogService,
-					$this->userFactory,
-					$this->checkUserLookupUtils,
-					$this->userOptionsLookup,
-					$this->blockStore
-				);
-			case self::SUBTYPE_GET_USERS:
-				return new CheckUserGetUsersPager(
-					$this->opts,
-					$userIdentity,
-					$xfor ?? false,
-					$logType,
-					$this->tokenQueryManager,
-					$this->permissionManager,
-					$this->userGroupManager,
-					$this->centralIdLookup,
-					$this->dbProvider,
-					$this->getSpecialPageFactory(),
-					$this->userIdentityLookup,
-					$this->userFactory,
-					$this->checkUserLogService,
-					$this->checkUserLookupUtils,
-					$this->userEditTracker,
-					$this->checkUserUtilityService,
-					$this->clientHintsLookup,
-					$this->clientHintsFormatter,
-					$this->userOptionsLookup,
-					$this->blockStore,
-					$this->linkBatchFactory
-				);
-			case self::SUBTYPE_GET_ACTIONS:
-				return new CheckUserGetActionsPager(
-					$this->opts,
-					$userIdentity,
-					$xfor,
-					$logType,
-					$this->tokenQueryManager,
-					$this->userGroupManager,
-					$this->centralIdLookup,
-					$this->linkBatchFactory,
-					$this->dbProvider,
-					$this->getSpecialPageFactory(),
-					$this->userIdentityLookup,
-					$this->userFactory,
-					$this->checkUserLookupUtils,
-					$this->checkUserLogService,
-					$this->commentFormatter,
-					$this->userEditTracker,
-					$this->hookRunner,
-					$this->checkUserUtilityService,
-					$this->commentStore,
-					$this->clientHintsLookup,
-					$this->clientHintsFormatter,
-					$this->logFormatterFactory,
-					$this->userOptionsLookup,
-					$this->blockStore
-				);
-			default:
-				return null;
-		}
+		return match ( $checkType ) {
+			self::SUBTYPE_GET_IPS => new CheckUserGetIPsPager(
+				$this->opts,
+				$userIdentity,
+				$logType,
+				$this->tokenQueryManager,
+				$this->userGroupManager,
+				$this->centralIdLookup,
+				$this->dbProvider,
+				$this->getSpecialPageFactory(),
+				$this->userIdentityLookup,
+				$this->checkUserLogService,
+				$this->userFactory,
+				$this->checkUserLookupUtils,
+				$this->userOptionsLookup,
+				$this->blockStore
+			),
+			self::SUBTYPE_GET_USERS => new CheckUserGetUsersPager(
+				$this->opts,
+				$userIdentity,
+				$xfor ?? false,
+				$logType,
+				$this->tokenQueryManager,
+				$this->permissionManager,
+				$this->userGroupManager,
+				$this->centralIdLookup,
+				$this->dbProvider,
+				$this->getSpecialPageFactory(),
+				$this->userIdentityLookup,
+				$this->userFactory,
+				$this->checkUserLogService,
+				$this->checkUserLookupUtils,
+				$this->userEditTracker,
+				$this->checkUserUtilityService,
+				$this->clientHintsLookup,
+				$this->clientHintsFormatter,
+				$this->userOptionsLookup,
+				$this->blockStore,
+				$this->linkBatchFactory
+			),
+			self::SUBTYPE_GET_ACTIONS => new CheckUserGetActionsPager(
+				$this->opts,
+				$userIdentity,
+				$xfor,
+				$logType,
+				$this->tokenQueryManager,
+				$this->userGroupManager,
+				$this->centralIdLookup,
+				$this->linkBatchFactory,
+				$this->dbProvider,
+				$this->getSpecialPageFactory(),
+				$this->userIdentityLookup,
+				$this->userFactory,
+				$this->checkUserLookupUtils,
+				$this->checkUserLogService,
+				$this->commentFormatter,
+				$this->userEditTracker,
+				$this->hookRunner,
+				$this->checkUserUtilityService,
+				$this->commentStore,
+				$this->clientHintsLookup,
+				$this->clientHintsFormatter,
+				$this->logFormatterFactory,
+				$this->userOptionsLookup,
+				$this->blockStore
+			),
+			default => null
+		};
 	}
 
 	/**
