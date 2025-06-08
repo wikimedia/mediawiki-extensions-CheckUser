@@ -28,8 +28,10 @@ module.exports = exports = {
 };
 </script>
 
-<style>
+<style lang="less">
+@import 'mediawiki.skin.variables.less';
+
 .ext-checkuser-userinfocard-error {
-	margin: 1em 0;
+	margin: @spacing-100 @spacing-0;
 }
 </style>

@@ -52,8 +52,10 @@ module.exports = exports = {
 };
 </script>
 
-<style>
-.ext-checkuser-userinfocard-short-paragraph {
-	margin: 0 0 0.15rem;
+<style lang="less">
+@import 'mediawiki.skin.variables.less';
+
+p.ext-checkuser-userinfocard-short-paragraph {
+	margin: @spacing-0 @spacing-0 @spacing-25;
 }
 </style>

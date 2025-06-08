@@ -209,17 +209,16 @@ module.exports = exports = {
 };
 </script>
 
-<style>
-.ext-checkuser-userinfocard-body {
-	padding: 0;
-}
+<style lang="less">
+@import 'mediawiki.skin.variables.less';
 
-p.ext-checkuser-userinfocard-short-paragraph {
-	margin: 0 0 0.15rem;
+.ext-checkuser-userinfocard-body {
+	padding: @spacing-0;
+	font-size: @font-size-small;
 }
 
 .ext-checkuser-userinfocard-icon {
-	margin-right: 0.25rem;
+	margin-right: @spacing-25;
 	color: var(--color-subtle);
 }
 
@@ -228,6 +227,6 @@ p.ext-checkuser-userinfocard-short-paragraph {
 }
 
 p.ext-checkuser-userinfocard-active-wikis {
-	margin-top: 1rem;
+	margin-top: @spacing-100;
 }
 </style>

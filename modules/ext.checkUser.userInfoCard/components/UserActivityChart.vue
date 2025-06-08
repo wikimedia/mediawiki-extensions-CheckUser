@@ -46,8 +46,10 @@ module.exports = exports = {
 };
 </script>
 
-<style>
+<style lang="less">
+@import 'mediawiki.skin.variables.less';
+
 .ext-checkuser-userinfocard-activity-chart {
-	margin-top: 1rem;
+	margin-top: @spacing-100;
 }
 </style>
