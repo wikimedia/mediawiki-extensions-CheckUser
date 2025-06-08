@@ -650,8 +650,7 @@
 				"vue",
 				"@wikimedia/codex",
 				"mediawiki.user",
-				"moment",
-				"oojs-ui-widgets"
+				"moment"
 			]
 		},
 		"ext.checkUser.clientHints": {

@@ -3,12 +3,12 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use IContextSource;
+use MediaWiki\Html\Html;
 use Mediawiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserNameUtils;
 use MediaWiki\User\UserOptionsLookup;
 use MediaWiki\WikiMap\WikiMap;
-use OOUI\ButtonWidget;
 
 class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserLinkPostRenderHook {
 
@@ -32,20 +32,33 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 			$output->addModuleStyles( 'oojs-ui.styles.icons-user' );
 			$output->addModuleStyles( 'ext.checkUser.styles' );
 			$output->addModules( 'ext.checkUser.userInfoCard' );
-			$output->enableOOUI();
+
 			$wikiId = $targetUser->getWikiId() ?: WikiMap::getCurrentWikiId();
-			$prefix .= ( new ButtonWidget( [
-				'framed' => false,
-				'href' => '#',
-				'icon' => $this->userNameUtils->isTemp( $targetUser->getName() ) ? 'userTemporary' : 'userAvatar',
-				'flags' => [ 'progressive' ],
-				'invisibleLabel' => true,
-				'infusable' => true,
-				'classes' => [
-					'ext-checkuser-userinfocard-button', 'ext-checkuser-userinfocard-id-' .
-					$wikiId . ':' . $targetUser->getId()
+			$iconClass = $this->userNameUtils->isTemp( $targetUser->getName() ) ? 'userTemporary' : 'userAvatar';
+			$wikiIdClass = 'ext-checkuser-userinfocard-id-' . $wikiId . ':' . $targetUser->getId();
+
+			// CSS-only Codex icon button
+			$icon = Html::rawElement(
+				'span',
+				[
+					'class' =>
+						'cdx-button__icon ext-checkuser-userinfocard-button__icon ' .
+						"ext-checkuser-userinfocard-button__icon--$iconClass"
+				]
+			);
+			$markup = Html::rawElement(
+				'a',
+				[
+					'href' => '#',
+					'role' => 'button',
+					'aria-label' => $context->msg( 'checkuser-userinfocard-toggle-button-aria-label' )->text(),
+					'class' => "ext-checkuser-userinfocard-button $wikiIdClass cdx-button " .
+						'cdx-button--action-default cdx-button--weight-quiet cdx-button--fake-button ' .
+						'cdx-button--fake-button--enabled cdx-button--icon-only'
 				],
-			] ) )->toString();
+				$icon
+			);
+			$prefix .= $markup;
 		}
 	}
 }
