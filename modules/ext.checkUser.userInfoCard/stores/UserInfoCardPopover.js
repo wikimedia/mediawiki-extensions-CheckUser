@@ -2,6 +2,7 @@
 
 const Pinia = require( 'pinia' );
 const moment = require( 'moment' );
+const { processEditCountByDay } = require( '../util.js' );
 
 const useUserInfoCardPopoverStore = Pinia.defineStore( 'checkuser-userinfocard-popover', {
 	state: () => ( {
@@ -19,7 +20,10 @@ const useUserInfoCardPopoverStore = Pinia.defineStore( 'checkuser-userinfocard-p
 			joinedRelativeTime: null,
 			globalEditCount: null,
 			thanksReceivedCount: null,
-			thanksGivenCount: null
+			thanksGivenCount: null,
+			// Array of objects with `date` and `count` properties
+			recentLocalEdits: [],
+			totalLocalEdits: null
 		}
 	} ),
 	actions: {
@@ -48,10 +52,12 @@ const useUserInfoCardPopoverStore = Pinia.defineStore( 'checkuser-userinfocard-p
 						globalEditCount,
 						thanksReceived,
 						thanksGiven,
-						userPageExists
+						userPageExists,
+						editCountByDay
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
+					const { processedData, totalEdits } = processEditCountByDay( editCountByDay );
 					this.userCard = {
 						userId,
 						wikiId,
@@ -66,7 +72,9 @@ const useUserInfoCardPopoverStore = Pinia.defineStore( 'checkuser-userinfocard-p
 							null,
 						globalEditCount,
 						thanksReceivedCount: thanksReceived,
-						thanksGivenCount: thanksGiven
+						thanksGivenCount: thanksGiven,
+						recentLocalEdits: processedData,
+						totalLocalEdits: totalEdits
 					};
 					this.loading = false;
 				} )

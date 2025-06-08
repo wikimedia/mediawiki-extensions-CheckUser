@@ -19,6 +19,12 @@
 		>
 			{{ activeWikisLabel }}: {{ activeWikis.join( ', ' ) }}
 		</p>
+		<user-activity-chart
+			v-if="recentLocalEdits"
+			:user-id="userId"
+			:recent-local-edits="recentLocalEdits"
+			:total-local-edits="totalLocalEdits"
+		></user-activity-chart>
 	</div>
 </template>
 
@@ -31,12 +37,17 @@ const {
 	cdxIconSearch
 } = require( './icons.json' );
 const InfoRowWithLinks = require( './InfoRowWithLinks.vue' );
+const UserActivityChart = require( './UserActivityChart.vue' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'UserCard',
-	components: { InfoRowWithLinks },
+	components: { InfoRowWithLinks, UserActivityChart },
 	props: {
+		userId: {
+			type: String,
+			required: true
+		},
 		username: {
 			type: String,
 			default: ''
@@ -92,6 +103,15 @@ module.exports = exports = {
 		activeWikis: {
 			type: Array,
 			default: () => []
+		},
+		recentLocalEdits: {
+			// Expected format: [ { date: Date, count: number }, ... ]
+			type: Array,
+			default: () => ( [] )
+		},
+		totalLocalEdits: {
+			type: Number,
+			default: 0
 		}
 	},
 	setup( props ) {

@@ -585,19 +585,23 @@
 	},
 	"ResourceModules": {
 		"ext.checkUser.userInfoCard": {
-			"localBasePath": "modules/ext.checkUser.userInfoCard",
+			"localBasePath": "",
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.userInfoCard",
 			"packageFiles": [
-				"init.js",
-				"components/App.vue",
-				"components/UserCardBody.vue",
-				"components/UserCardHeader.vue",
-				"components/UserCardMenu.vue",
-				"stores/UserInfoCardPopover.js",
-				"components/UserInfoCardError.vue",
-				"components/InfoRowWithLinks.vue",
+				"modules/ext.checkUser.userInfoCard/init.js",
+				"modules/ext.checkUser.userInfoCard/components/App.vue",
+				"modules/ext.checkUser.userInfoCard/components/UserCardBody.vue",
+				"modules/ext.checkUser.userInfoCard/components/UserCardHeader.vue",
+				"modules/ext.checkUser.userInfoCard/components/UserCardMenu.vue",
+				"modules/ext.checkUser.userInfoCard/stores/UserInfoCardPopover.js",
+				"modules/ext.checkUser.userInfoCard/components/UserInfoCardError.vue",
+				"modules/ext.checkUser.userInfoCard/components/InfoRowWithLinks.vue",
+				"modules/ext.checkUser.userInfoCard/components/UserActivityChart.vue",
+				"modules/ext.checkUser.userInfoCard/util.js",
+				"modules/lib/d3/d3.min.js",
+				"modules/vue-components/CSparkline.vue",
 				{
-					"name": "components/icons.json",
+					"name": "modules/ext.checkUser.userInfoCard/components/icons.json",
 					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
 					"callbackParam": [
 						"cdxIconUserAvatar",
@@ -636,7 +640,8 @@
 				"checkuser-userinfocard-loading-label",
 				"checkuser-userinfocard-error-title",
 				"checkuser-userinfocard-error-no-data",
-				"checkuser-userinfocard-error-generic"
+				"checkuser-userinfocard-error-generic",
+				"checkuser-userinfocard-activity-chart-label"
 			],
 			"dependencies": [
 				"mediawiki.api",
@@ -920,6 +925,7 @@
 			]
 		}
 	},
+	"ForeignResourcesDir": "modules/lib",
 	"QUnitTestModule": {
 		"localBasePath": "",
 		"remoteExtPath": "CheckUser",
