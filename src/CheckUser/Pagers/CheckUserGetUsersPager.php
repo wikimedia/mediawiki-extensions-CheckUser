@@ -26,6 +26,7 @@ use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
@@ -48,6 +49,12 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 *   (and checkboxes next to each result line) should be shown. Null if not yet determined.
 	 */
 	private ?bool $shouldShowBlockFieldset = null;
+
+	/**
+	 * @var bool|null Lazy-loaded via ::shouldShowBlockFieldset. Whether the buttons that open
+	 *   a prefilled Special:MassGlobalBlock form should be shown.
+	 */
+	private ?bool $shouldShowMassGlobalBlockButtons = null;
 
 	/** @var array[] */
 	protected $userSets;
@@ -239,36 +246,21 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				);
 				$templateParams['centralAuthLink'] = $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
 			}
-			// Add GlobalBlocking link to CentralWiki
+
+			// Get a link to Special:GlobalBlock if configured, preferably on a central wiki
 			if ( $this->globalBlockingToollink !== false ) {
-				// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
 				$centralGBUrl = WikiMap::getForeignURL(
 					$this->globalBlockingToollink['centralDB'],
+					// Use canonical name instead of local name so that it works
+					// even if the local language is different from central wiki
 					'Special:GlobalBlock'
 				);
-				$spgb = $this->aliases['GlobalBlock'][0];
-				$gblinkAlias = str_replace( '_', ' ', $spgb );
-				if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
-					// If CentralAuth is installed, we can ue the global groups of the CentralUser.
-					$gbUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
-				} elseif ( $centralGBUrl !== false ) {
-					// Case wikimap configured without CentralAuth extension
-					// Get effective Local user groups since there is a wikimap but there is no CA
-					$gbUserGroups = $this->userGroupManager->getUserEffectiveGroups( $this->getUser() );
-				} else {
-					// If CentralAuth is not installed and also if the central Special:GlobalBlock page failed to be
-					// generated, then check that the user has the globalblock right locally instead of the user group
-					// check.
-					$gbUserGroups = [ '' ];
 
-					$gbUserCanDo = $this->permissionManager->userHasRight( $this->getUser(), 'globalblock' );
-					if ( $gbUserCanDo ) {
-						$this->globalBlockingToollink['groups'] = $gbUserGroups;
-					}
-				}
-				// Only load the script for users in the configured global(local) group(s) or
-				// for local user with globalblock permission if there is no WikiMap
-				if ( count( array_intersect( $this->globalBlockingToollink['groups'], $gbUserGroups ) ) ) {
+				if ( $this->canUserSeeGlobalBlockingSpecialPage( $centralGBUrl ) ) {
+					// Use the localised name for the Special:GlobalBlock page as the link text.
+					$spgb = $this->aliases['GlobalBlock'][0];
+					$gblinkAlias = str_replace( '_', ' ', $spgb );
+
 					if ( $centralGBUrl !== false ) {
 						$linkGB = Html::element( 'a',
 							[
@@ -581,6 +573,34 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	}
 
 	/**
+	 * Can the current user see a GlobalBlocking extension special page for globally blocking users
+	 * (i.e. either Special:GlobalBlock or Special:MassGlobalBlock).
+	 *
+	 * This assumes that GlobalBlocking is installed and that $wgCheckUserGBtoollink has been set.
+	 *
+	 * @param string|false $urlToPage Result of {@link WikiMap::getForeignURL} for the global blocking
+	 *   special page
+	 * @return bool
+	 */
+	private function canUserSeeGlobalBlockingSpecialPage( $urlToPage ): bool {
+		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+			// If CentralAuth is installed, we can ue the global groups of the CentralUser to determine if they
+			// meet the requirements of $wgCheckUserGBtoollink.
+			$userGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
+		} elseif ( $urlToPage !== false ) {
+			// If we have a central special page but no CentralAuth, then check if the user has the local groups
+			// needed to meet the requirements in $wgCheckUserGBtoollink.
+			$userGroups = $this->userGroupManager->getUserEffectiveGroups( $this->getUser() );
+		} else {
+			// If CentralAuth is not installed and we have no central special page, then check that the
+			// user has the globalblock right locally as our check.
+			return $this->permissionManager->userHasRight( $this->getUser(), 'globalblock' );
+		}
+
+		return count( array_intersect( $this->globalBlockingToollink['groups'], $userGroups ) ) !== 0;
+	}
+
+	/**
 	 * Should the block fieldset and checkboxes be shown to the user. Has non-trivial side-effects
 	 * (e.g. adding JS modules), but calling this method more than once does not repeat the side-effects.
 	 *
@@ -597,6 +617,10 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		if ( !$this->getNumRows() ) {
 			return false;
 		}
+
+		// The default should be that the user cannot see the fieldset.
+		$this->shouldShowBlockFieldset = false;
+
 		// Add links to the MultiLock tool if the user can use it.
 		$checkUserCAMultiLock = $this->getConfig()->get( 'CheckUserCAMultiLock' );
 		if ( $checkUserCAMultiLock !== false ) {
@@ -615,20 +639,44 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 					'Special:MultiLock'
 				);
 				if ( $centralMLUrl === false ) {
-					throw new ConfigException(
-						"Could not retrieve URL for {$checkUserCAMultiLock['centralDB']}"
-					);
+					// If no central URL could be generated, then use the local version of the special page.
+					$centralMLUrl = SpecialPage::getTitleFor( 'MultiLock' )->getLinkURL();
 				}
 				$this->getOutput()->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
 				$this->getOutput()->addModules( 'ext.checkUser' );
 				// Always show the block form if links to Special:MultiLock are going to be added to the page.
 				$this->shouldShowBlockFieldset = true;
-				return $this->shouldShowBlockFieldset;
 			}
 		}
-		// If the Special:MultiLock links are not being added, then only show the block form if the user can
-		// perform blocks on the local wiki.
-		$this->shouldShowBlockFieldset = $this->canPerformBlocks;
+
+		// Add links to the GlobalBlocking Special:MassGlobalBlock page if the user can use it.
+		if ( $this->globalBlockingToollink !== false ) {
+			$massGlobalBlockUrl = WikiMap::getForeignURL(
+				$this->globalBlockingToollink['centralDB'],
+				// Use canonical name instead of local name so that it works
+				// even if the local language is different from central wiki
+				'Special:MassGlobalBlock'
+			);
+
+			if ( $this->canUserSeeGlobalBlockingSpecialPage( $massGlobalBlockUrl ) ) {
+				if ( $massGlobalBlockUrl === false ) {
+					// If no central URL could be generated, then use the local version of the special page.
+					$massGlobalBlockUrl = SpecialPage::getTitleFor( 'MassGlobalBlock' )->getLinkURL();
+				}
+				$this->getOutput()->addJsConfigVars( 'wgCUMassGlobalBlockUrl', $massGlobalBlockUrl );
+				$this->getOutput()->addModules( 'ext.checkUser' );
+				$this->shouldShowMassGlobalBlockButtons = true;
+				// Always show the block form if links to Special:MassGlobalBlock are going to be added to the page.
+				$this->shouldShowBlockFieldset = true;
+			}
+		}
+
+		// Show the block form if the user can perform blocks on the local wiki.
+		if ( $this->canPerformBlocks ) {
+			$this->getOutput()->addModules( 'ext.checkUser' );
+			$this->shouldShowBlockFieldset = true;
+		}
+
 		return $this->shouldShowBlockFieldset;
 	}
 
@@ -643,20 +691,53 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
 			$fieldset->outerClass = 'mw-checkuser-massblock';
 			if ( $this->canPerformBlocks ) {
+				// If the local block buttons are also displayed with the Special:MassGlobalBlock buttons then we
+				// need to separate them to make it clearer which buttons do what.
+				// If only adding local block buttons then a section is unnecessary.
+				$localBlocksSection = $this->shouldShowMassGlobalBlockButtons ?
+					'checkuser-massblock-localblocks-section' : '';
+
 				$fieldset->addFields( [
 					'block-accounts-button' => [
 						'type' => 'submit',
 						'buttonlabel-message' => 'checkuser-massblock-commit-accounts',
 						'cssclass' => 'mw-checkuser-massblock-accounts-button mw-checkuser-massblock-button',
+						'section' => $localBlocksSection,
 					],
 					'block-ips-button' => [
 						'type' => 'submit',
 						'buttonlabel-message' => 'checkuser-massblock-commit-ips',
 						'cssclass' => 'mw-checkuser-massblock-ips-button mw-checkuser-massblock-button',
+						'section' => $localBlocksSection,
 					],
 				] )->setHeaderHtml( $this->msg( 'checkuser-massblock-text' )->escaped() );
 			} else {
-				$fieldset->setHeaderHtml( $this->msg( 'checkuser-massblock-text-multi-lock-only' )->escaped() );
+				$fieldset->setHeaderHtml(
+					$this->msg( 'checkuser-massblock-text-without-local-block-buttons' )->escaped()
+				);
+			}
+
+			if ( $this->shouldShowMassGlobalBlockButtons ) {
+				// If the Special:MassGlobalBlock buttons are also displayed with the local block buttons then we
+				// need to separate them to make it clearer which buttons do what.
+				// If only adding the Special:MassGlobalBlock buttons then a section is unnecessary.
+				$globalBlocksSection = $this->canPerformBlocks ?
+					'checkuser-massblock-globalblocks-section' : '';
+
+				$fieldset->addFields( [
+					'mass-global-block-accounts-button' => [
+						'type' => 'submit',
+						'buttonlabel-message' => 'checkuser-massglobalblock-commit-accounts',
+						'cssclass' => 'mw-checkuser-massglobalblock-accounts-button mw-checkuser-massblock-button',
+						'section' => $globalBlocksSection,
+					],
+					'mass-global-block-ips-button' => [
+						'type' => 'submit',
+						'buttonlabel-message' => 'checkuser-massglobalblock-commit-ips',
+						'cssclass' => 'mw-checkuser-massglobalblock-ips-button mw-checkuser-massblock-button',
+						'section' => $globalBlocksSection,
+					],
+				] );
 			}
 
 			$s .= $fieldset->setWrapperLegendMsg( 'checkuser-massblock' )

@@ -12,10 +12,14 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplatePar
 use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
+use Wikimedia\ArrayUtils\ArrayUtils;
+use Wikimedia\Parsoid\Utils\DOMCompat;
+use Wikimedia\Parsoid\Utils\DOMUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -449,51 +453,166 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$objectUnderTest->getEndBody();
 	}
 
-	public function testGetEndBodyWhenUserMissingBlockAndLockRights() {
-		$objectUnderTest = $this->setUpObject();
+	/**
+	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
+	 * the HTML inside that Element.
+	 *
+	 * @param string $html The HTML to search through
+	 * @param string $class The CSS class to search for, excluding the "." character
+	 * @return string The HTML inside the given class
+	 */
+	private function assertAndGetByElementClass( string $html, string $class ): string {
+		$specialPageDocument = DOMUtils::parseHTML( $html );
+		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
+		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
+		return DOMCompat::getInnerHTML( $element[0] );
+	}
+
+	/** @dataProvider provideGetEndBodyForBlockFieldset */
+	public function testGetEndBodyForBlockFieldset(
+		bool $hasLocalBlockRights, bool $hasGlobalLockRights, bool $hasGlobalBlockRights
+	) {
+		// Set the centralDB as a non-existent but valid format wiki ID. This will cause the URLs to fallback to
+		// the local URLs which are easier to test.
+		$centralAuthLoaded = $this->getServiceContainer()->getExtensionRegistry()->isLoaded( 'CentralAuth' );
+		if ( $centralAuthLoaded ) {
+			$this->overrideConfigValue(
+				'CheckUserCAMultiLock', [ 'centralDB' => 'otherwiki', 'groups' => [ 'globallock' ] ]
+			);
+		}
+		$this->overrideConfigValue(
+			'CheckUserGBtoollink', [ 'centralDB' => 'otherwiki', 'groups' => [ 'globalblock' ] ]
+		);
+
+		// Make the test user have the necessary groups based on the configured rights they should have.
+		$groups = [ 'checkuser' ];
+		if ( $hasLocalBlockRights ) {
+			$groups[] = 'sysop';
+		}
+		if ( $hasGlobalLockRights ) {
+			$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+			$this->setGroupPermissions( 'globallock', 'centralauth-lock', true );
+			$groups[] = 'globallock';
+		}
+		if ( $hasGlobalBlockRights ) {
+			$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
+			$this->setGroupPermissions( 'globalblock', 'globalblock', true );
+			$groups[] = 'globalblock';
+		}
+
+		$objectUnderTest = $this->setUpObject( null, null, $groups );
+
+		// Add the local groups as global groups to the test user if CentralAuth, as the global lock and block
+		// checks use the global groups.
+		if ( $centralAuthLoaded ) {
+			$localUser = $objectUnderTest->getUser();
+			$centralUser = CentralAuthUser::getInstanceByName( $localUser );
+			$centralUser->register( wfRandomString(), null );
+			$centralUser->attach( WikiMap::getCurrentWikiId() );
+			foreach ( $groups as $group ) {
+				$centralUser->addToGlobalGroup( $group );
+			}
+		}
+
 		// Add one fake result row to the mResult in the object under test.
 		$objectUnderTest->mQueryDone = true;
 		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
 		// We need to set a title for the RequestContext for HTMLForm.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
-		// Assert that both the block fieldset and list toggle are not added.
-		$html = $objectUnderTest->getEndBody();
-		$this->assertStringNotContainsString( 'mw-checkuser-massblock', $html );
-		$this->assertStringNotContainsString( 'mw-checkbox-toggle-controls', $html );
-	}
-
-	public function testGetEndBodyWhenUserHasLocalBlockRights() {
-		$objectUnderTest = $this->setUpObject( null, null, [ 'checkuser', 'sysop' ] );
-		// Set the user language to qqx to find message keys in the HTML
 		$this->setUserLang( 'qqx' );
-		// We need to set a title for the RequestContext for HTMLForm.
-		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
-		// Add one fake result row to the mResult in the object under test.
-		$objectUnderTest->mQueryDone = true;
-		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
+
 		$html = $objectUnderTest->getEndBody();
-		// Assert that the list toggle is added
-		$this->assertStringContainsString( 'mw-checkbox-toggle-controls', $html );
-		// Assert that the block fieldset is added
-		$this->assertStringContainsString( 'mw-checkuser-massblock', $html );
-		// Assert that the fieldset is as expected (contains description, title, and buttons).
-		$this->assertStringContainsString( '(checkuser-massblock-text', $html );
-		$this->assertStringContainsString( '(checkuser-massblock', $html );
-		$this->assertStringContainsString( '(checkuser-massblock-commit-accounts', $html );
-		$this->assertStringContainsString( '(checkuser-massblock-commit-ips', $html );
+		/** @var OutputPage $output */
+		$output = $objectUnderTest->getOutput();
+
+		if ( !$hasLocalBlockRights && !$hasGlobalLockRights && !$hasGlobalBlockRights ) {
+			$this->assertStringNotContainsString( 'mw-checkuser-massblock', $html );
+			$this->assertStringNotContainsString( 'mw-checkbox-toggle-controls', $html );
+			$this->assertStringNotContainsString( '(checkuser-massblock', $html );
+			$fieldsetHtml = $html;
+
+			$this->assertNotContains( 'ext.checkUser', $output->getModules() );
+		} else {
+			$this->assertStringContainsString( 'mw-checkbox-toggle-controls', $html );
+			$this->assertStringContainsString( '(checkuser-massblock-text', $html );
+			$fieldsetHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-massblock' );
+
+			$this->assertContains( 'ext.checkUser', $output->getModules() );
+		}
+
+		// Check that the local block buttons are added if they should be
+		if ( $hasLocalBlockRights ) {
+			$this->assertStringContainsString( '(checkuser-massblock-commit-accounts', $fieldsetHtml );
+			$this->assertStringContainsString( '(checkuser-massblock-commit-ips', $fieldsetHtml );
+
+			// Section title only exists if the global block buttons also displayed
+			if ( $hasGlobalBlockRights ) {
+				$this->assertStringContainsString( '(checkuser-massblock-localblocks-section', $fieldsetHtml );
+			} else {
+				$this->assertStringNotContainsString( '(checkuser-massblock-localblocks-section', $fieldsetHtml );
+			}
+		} else {
+			$this->assertStringNotContainsString( '(checkuser-massblock-commit-accounts', $fieldsetHtml );
+			$this->assertStringNotContainsString( '(checkuser-massblock-commit-ips', $fieldsetHtml );
+
+			if ( $hasGlobalBlockRights || $hasGlobalLockRights ) {
+				$this->assertStringContainsString(
+					'(checkuser-massblock-text-without-local-block-buttons', $fieldsetHtml
+				);
+			}
+		}
+
+		// Check that Special:MassGlobalBlock buttons are added if they should be
+		if ( $hasGlobalBlockRights ) {
+			$this->assertStringContainsString( '(checkuser-massglobalblock-commit-accounts', $fieldsetHtml );
+			$this->assertStringContainsString( '(checkuser-massglobalblock-commit-ips', $fieldsetHtml );
+
+			// Section title only exists if the local block buttons also displayed
+			if ( $hasLocalBlockRights ) {
+				$this->assertStringContainsString( '(checkuser-massblock-globalblocks-section', $fieldsetHtml );
+			} else {
+				$this->assertStringNotContainsString( '(checkuser-massblock-globalblocks-section', $fieldsetHtml );
+			}
+
+			$this->assertArrayContains(
+				[ 'wgCUMassGlobalBlockUrl' => '/wiki/Special:MassGlobalBlock' ],
+				$output->getJsConfigVars()
+			);
+		} else {
+			$this->assertArrayNotHasKey( 'wgCUMassGlobalBlockUrl', $output->getJsConfigVars() );
+			$this->assertStringNotContainsString( '(checkuser-massglobalblock-commit-accounts', $fieldsetHtml );
+			$this->assertStringNotContainsString( '(checkuser-massglobalblock-commit-ips', $fieldsetHtml );
+		}
+
+		// Check that MultiLock URL is set if it should be
+		if ( $hasGlobalLockRights ) {
+			$this->assertArrayContains(
+				[ 'wgCUCAMultiLockCentral' => '/wiki/Special:MultiLock' ],
+				$output->getJsConfigVars()
+			);
+		} else {
+			$this->assertArrayNotHasKey( 'wgCUCAMultiLockCentral', $output->getJsConfigVars() );
+		}
 	}
 
-	public function testGetStartBodyWhenUserMissingBlockAndLockRights() {
-		$objectUnderTest = $this->setUpObject();
-		// Add one fake result row to the mResult in the object under test.
-		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
-		// We need to set a title for the RequestContext for HTMLForm.
-		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
-		// Assert that the list toggle is not added.
-		$html = $objectUnderTest->getStartBody();
-		$this->assertStringNotContainsString( 'mw-checkbox-toggle-controls', $html );
-		// Check that the class for the CheckUser results is added.
-		$this->assertStringContainsString( 'mw-checkuser-get-users-results', $html );
+	public static function provideGetEndBodyForBlockFieldset(): iterable {
+		$testCases = ArrayUtils::cartesianProduct(
+			// Has local block rights
+			[ true, false ],
+			// Has global lock rights
+			[ true, false ],
+			// Has global block rights
+			[ true, false ],
+		);
+
+		foreach ( $testCases as $params ) {
+			yield sprintf(
+				'%s local block rights, %s global lock rights, %s global block rights',
+				$params[0] ? 'has' : 'does not have',
+				$params[1] ? 'has' : 'does not have',
+				$params[2] ? 'has' : 'does not have'
+			) => $params;
+		}
 	}
 
 	public function testGetStartBodyWhenNoResults() {
