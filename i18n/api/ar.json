@@ -45,6 +45,7 @@
 	"apierror-checkuser-timelimit": "تحتاج إلى استخدام الحد الزمني الصحيح (مثل \"-2 weeks\" أو \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "وضع الطلب غير صالح",
 	"apierror-checkuser-nosuchuser": "لا يوجد مستخدم لهذا الاسم",
+	"apierror-checkuser-disabled": "لقد قام مسؤولو الموقع بتعطيل واجهة برمجة تطبيقات الاستعلام \"checkuser\".",
 	"checkuser-api-help-param-direction": "في أي اتجاه يتم الترقيم:",
 	"checkuser-api-help-paramvalue-direction-newer": "قم بإدراج الأقدم أولاً. ملاحظة: يجب أن يكون $1 من قبل $1 إلى.",
 	"checkuser-api-help-paramvalue-direction-older": "قائمة الأحدث أولاً (افتراضي). ملاحظة: يجب أن يكون $1from أحدث من $1to.",
