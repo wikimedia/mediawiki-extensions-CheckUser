@@ -73,6 +73,7 @@
 	"checkuser-search-initiator": "iniciador",
 	"checkuser-search-target": "destino",
 	"checkuser-log-search-target": "Obxectivo:",
+	"checkuser-log-search-initiator": "Iniciador:",
 	"checkuser-log-search-type": "Procurar por:",
 	"checkuser-ipeditcount": "~$1 de todos os usuarios",
 	"checkuser-showmain": "Cambiar ao formulario principal de verificador de usuarios",
@@ -97,5 +98,10 @@
 	"checkuser-investigate-duration-option-1w": "Última semana",
 	"checkuser-investigate-duration-option-2w": "Últimas 2 semanas",
 	"checkuser-investigate-duration-option-30d": "Últimos 30 días",
-	"checkuser-investigate-reason-label": "Motivo"
+	"checkuser-investigate-reason-label": "Motivo",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Non se atopou o wiki",
+	"checkuser-investigate-filters-legend": "Filtros",
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-investigate-compare-table-header-useragent": "Axente de usuario"
 }
