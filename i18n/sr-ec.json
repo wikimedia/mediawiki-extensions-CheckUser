@@ -94,7 +94,6 @@
 	"checkuser-wasblocked": "Раније блокиран",
 	"checkuser-localonly": "Није обједињен",
 	"checkuser-massblock": "Блокирај изабране кориснике",
-	"checkuser-massblock-text-multi-lock-only": "Немате право да блокирате кориснике на овом викију. Али можете закључати изабране налоге користећи везе испод.",
 	"checkuser-massblock-text": "Овде вршите избор налога и IP адреса за блокаду. Након тога искористите доња дугмад да отворите образац {{#special:InvestigateBlock}} да их блокирате.",
 	"checkuser-massblock-commit-accounts": "Блокирај изабране налоге",
 	"checkuser-massblock-commit-ips": "Блокирај изабране IP",

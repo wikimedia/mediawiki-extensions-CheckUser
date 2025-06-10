@@ -83,7 +83,6 @@
 	"checkuser-wasblocked": "Ranije blokiran",
 	"checkuser-localonly": "Nije objedinjen",
 	"checkuser-massblock": "Blokiraj izabrane korisnike",
-	"checkuser-massblock-text-multi-lock-only": "Nemate pravo da blokirate korisnike na ovom vikiju. Ali možete zaključati izabrane naloge koristeći veze ispod.",
 	"checkuser-massblock-text": "Ovde vršite izbor naloga i IP adresa za blokadu. Nakon toga iskoristite donja dugmad da otvorite obrazac {{#special:InvestigateBlock}} da ih blokirate.",
 	"checkuser-massblock-commit-accounts": "Blokiraj izabrane naloge",
 	"checkuser-massblock-commit-ips": "Blokiraj izabrane IP",

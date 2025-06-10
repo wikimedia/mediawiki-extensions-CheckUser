@@ -198,6 +198,7 @@
 	"checkuser-userinfocard-loading-label": "Benotzerinformatioune gi gelueden",
 	"checkuser-userinfocard-error-title": "Et ass e Feeler geschitt",
 	"checkuser-userinfocard-error-generic": "Et ass eppes schifgaangen. Probéiert wgl. méi spéit nach eng Kéier.",
+	"checkuser-userinfocard-activity-chart-label": "Ännerungsaktivitéit iwwer déi lescht 60 Deeg ({{PLURAL:$1|$1 Ännerung|$1 Ännerungen|0=Keng Ännerung}})",
 	"checkuser-ipinfo-global-contributions-label": "Global Kontributiounen",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global Ännerung|$1 global Ännerungen|0=Keng global Ännerungen}}"
 }

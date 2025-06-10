@@ -124,7 +124,6 @@
 	"checkuser-wasblocked": "過去にブロックの記録あり",
 	"checkuser-localonly": "統合されていません",
 	"checkuser-massblock": "選択した利用者をブロック",
-	"checkuser-massblock-text-multi-lock-only": "このウィキで利用者をブロックする権限がありません。以下のリンクを使用して、選択したアカウントをロックすることは可能です。",
 	"checkuser-massblock-text": "上記の結果のチェックボックスを使用して、ブロックするアカウントとIPを選択します。次に、下のボタンを使用して、対象が事前に入力された {{#special:InvestigateBlock}} フォームを開くことができます。",
 	"checkuser-massblock-commit-accounts": "選択したアカウントをブロック",
 	"checkuser-massblock-commit-ips": "選択したIPをブロック",

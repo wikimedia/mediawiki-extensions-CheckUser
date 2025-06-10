@@ -127,7 +127,6 @@
 	"checkuser-wasblocked": "Bloqueado anteriormente",
 	"checkuser-localonly": "No unificada",
 	"checkuser-massblock": "Bloquear usuarios seleccionados",
-	"checkuser-massblock-text-multi-lock-only": "No tienes los permisos necesarios para bloquear usuarios en esta wiki. Puedes deshabilitar las cuentas seleccionadas utilizando el enlace a continuación.",
 	"checkuser-massblock-text": "Utiliza las casillas de verificación en los resultados anteriores para seleccionar las cuentas y direcciones IP que deseas bloquear. Después puedes utilizar los botones de abajo, que abrirán el formulario {{#special:InvestigateBlock}} con los objetivos ya cargados.",
 	"checkuser-massblock-commit-accounts": "Bloquear las cuentas seleccionadas",
 	"checkuser-massblock-commit-ips": "Bloquear las IP seleccionadas",

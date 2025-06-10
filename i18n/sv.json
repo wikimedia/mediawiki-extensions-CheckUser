@@ -100,7 +100,6 @@
 	"checkuser-wasblocked": "Tidigare blockerad",
 	"checkuser-localonly": "Inte sammanslaget",
 	"checkuser-massblock": "Blockera valda användare",
-	"checkuser-massblock-text-multi-lock-only": "Du har inte de behörigheter som krävs för att blockera användare på denna wiki. Du kan fortfarande låsa markerade konton genom att använda länken/länkarna nedan.",
 	"checkuser-massblock-text": "Valda konton kommer blockeras på obestämd tid, med autoblockering aktiverad och kontoskapande avaktiverat.\nIP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapande avaktiverat.",
 	"checkuser-massblock-commit-accounts": "Blockera markerade konton",
 	"checkuser-massblock-commit-ips": "Blockera markerade IP-adresser",

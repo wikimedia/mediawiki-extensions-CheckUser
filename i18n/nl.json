@@ -99,7 +99,6 @@
 	"checkuser-wasblocked": "Eerder geblokkeerd",
 	"checkuser-localonly": "Niet samengevoegd",
 	"checkuser-massblock": "Geselecteerde gebruikers blokkeren",
-	"checkuser-massblock-text-multi-lock-only": "{{#FORMAL:Je hebt niet de rechten die nodig zijn|U beschikt niet over de benodigde rechten}} om gebruikers op deze wiki te blokkeren. {{#FORMAL:Maar met de koppeling(en) hieronder kun je wel|Wel kunt u via de onderstaande koppeling(en)}} de geselecteerde accounts vergrendelen.",
 	"checkuser-massblock-text": "Gebruik de selectievakjes in de bovenstaande resultaten om de accounts en IP-adressen te selecteren die u wilt blokkeren. Vervolgens kunt u de onderstaande knoppen gebruiken. Hiermee wordt het formulier {{#special:InvestigateBlock}} geopend, waarin de doelwitten al zijn ingevuld.",
 	"checkuser-massblock-commit-accounts": "Geselecteerde accounts blokkeren",
 	"checkuser-massblock-commit-ips": "Geselecteerde IP-adressen blokkeren",

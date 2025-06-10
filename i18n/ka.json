@@ -6,6 +6,7 @@
 			"Dawid Deutschland",
 			"Dreamy Jazz",
 			"Malafaya",
+			"Mehman97",
 			"Otogi",
 			"გიორგიმელა"
 		]
@@ -56,5 +57,6 @@
 	"logentry-checkuser-private-event-create-account": "შეიქმნა",
 	"checkuser-global-contributions-link": "გლობალური წვლილი",
 	"checkuser-global-contributions-link-sidebar": "გლობალური წვლილი",
-	"checkuser-global-contributions-results-title": "მომხმარებლის $1 გლობალური წვლილი"
+	"checkuser-global-contributions-results-title": "მომხმარებლის $1 გლობალური წვლილი",
+	"checkuser-ip-auto-reveal-link-sidebar": "IP ავტომატური ჩვენება"
 }

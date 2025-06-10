@@ -110,7 +110,6 @@
 	"checkuser-wasblocked": "曾經被封鎖",
 	"checkuser-localonly": "未統一",
 	"checkuser-massblock": "封鎖已選擇的使用者",
-	"checkuser-massblock-text-multi-lock-only": "您沒有權限來封鎖此 wiki 上的使用者。但您仍可使用下面的連結來鎖定所選帳號。",
 	"checkuser-massblock-text": "使用上面結果裡的勾選框選擇您要封鎖的帳號和 IP。然後您可以使用下面的按鈕來開啟有預先填入目標的{{#special:InvestigateBlock}}表單。",
 	"checkuser-massblock-commit-accounts": "封鎖所選的帳號",
 	"checkuser-massblock-commit-ips": "封鎖所選的 IP",

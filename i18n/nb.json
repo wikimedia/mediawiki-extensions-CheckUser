@@ -90,7 +90,6 @@
 	"checkuser-wasblocked": "Tidligere blokkert",
 	"checkuser-localonly": "Ikke sammenslått",
 	"checkuser-massblock": "Blokker valgte brukere",
-	"checkuser-massblock-text-multi-lock-only": "Du har ikke rettighetene som trengs for å blokkere brukere på denne wikien. Du kan fortsatt låse de valgte kontoene med lenka/lenkene nedenfor.",
 	"checkuser-massblock-text": "Bruk avkrysningsboksene i resultatene ovenfor for å velge kontoer og IP-adresser du ønsker å blokkere. Deretter kan du bruke knappene nedenfor, som vil åpne skjemaet {{#special:InvestigateBlock}} med målene ferdig utfylt.",
 	"checkuser-massblock-commit-accounts": "Blokker de valgte kontoene",
 	"checkuser-massblock-commit-ips": "Blokker de valgte IP-ene",
