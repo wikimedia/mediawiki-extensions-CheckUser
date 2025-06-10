@@ -3,15 +3,16 @@
 $( () => {
 	const Vue = require( 'vue' );
 	const App = require( './components/App.vue' );
-	const Pinia = require( 'pinia' );
-	const pinia = Pinia.createPinia();
 
+	// Create and append the popover container to the DOM
 	const popover = document.createElement( 'div' );
 	popover.id = 'ext-checkuser-userinfocard-popover';
 	popover.classList.add( 'ext-checkuser-userinfocard-popover' );
 	document.body.appendChild( popover );
-	const popoverApp = Vue.createMwApp( App ).use( pinia ).mount( popover );
 
+	const popoverApp = Vue.createMwApp( App ).mount( popover );
+
+	// Set up event listeners for the user info card buttons
 	const buttons = document.querySelectorAll( '.ext-checkuser-userinfocard-button' );
 	buttons.forEach( ( button ) => {
 		$( button ).on( 'click', ( event ) => {
@@ -27,8 +28,9 @@ $( () => {
 					'ext-checkuser-userinfocard-id-', ''
 				).split( ':' );
 				if ( wikiId && userId ) {
-					popoverApp.store.fetchUserInfo( userId, wikiId );
-					popoverApp.store.open( event.target );
+					// Set user info and open the popover
+					popoverApp.setUserInfo( userId, wikiId );
+					popoverApp.open( event.target );
 				}
 			}
 		} );

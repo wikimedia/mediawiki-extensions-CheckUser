@@ -21,7 +21,7 @@ module.exports = exports = {
 	components: { CSparkline },
 	props: {
 		userId: {
-			type: String,
+			type: [ String, Number ],
 			required: true
 		},
 		recentLocalEdits: {

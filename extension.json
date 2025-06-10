@@ -592,8 +592,9 @@
 				"modules/ext.checkUser.userInfoCard/components/App.vue",
 				"modules/ext.checkUser.userInfoCard/components/UserCardBody.vue",
 				"modules/ext.checkUser.userInfoCard/components/UserCardHeader.vue",
+				"modules/ext.checkUser.userInfoCard/components/UserCardLoadingView.vue",
 				"modules/ext.checkUser.userInfoCard/components/UserCardMenu.vue",
-				"modules/ext.checkUser.userInfoCard/stores/UserInfoCardPopover.js",
+				"modules/ext.checkUser.userInfoCard/components/UserCardView.vue",
 				"modules/ext.checkUser.userInfoCard/components/UserInfoCardError.vue",
 				"modules/ext.checkUser.userInfoCard/components/InfoRowWithLinks.vue",
 				"modules/ext.checkUser.userInfoCard/components/UserActivityChart.vue",
@@ -646,7 +647,6 @@
 			"dependencies": [
 				"mediawiki.api",
 				"mediawiki.base",
-				"pinia",
 				"vue",
 				"@wikimedia/codex",
 				"mediawiki.user",

@@ -1,5 +1,5 @@
 <template>
-	<div class="ext-checkuser-userinfocard-header">
+	<header class="ext-checkuser-userinfocard-header cdx-popover__header">
 		<div class="ext-checkuser-userinfocard-header-main">
 			<cdx-icon :icon="cdxIconUserAvatar"></cdx-icon>
 			<div class="ext-checkuser-userinfocard-header-userinfo">
@@ -21,7 +21,7 @@
 				<cdx-icon :icon="cdxIconClose"></cdx-icon>
 			</cdx-button>
 		</div>
-	</div>
+	</header>
 </template>
 
 <script>
@@ -39,7 +39,7 @@ module.exports = exports = {
 	},
 	props: {
 		userId: {
-			type: String,
+			type: [ String, Number ],
 			required: true
 		},
 		username: {
@@ -76,6 +76,7 @@ module.exports = exports = {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	margin-bottom: @spacing-50;
 }
 
 .ext-checkuser-userinfocard-header-main {
