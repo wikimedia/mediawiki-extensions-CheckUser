@@ -94,9 +94,53 @@ QUnit.test( 'container div is rendered only when popover is open', ( assert ) =>
 	} );
 } );
 
+QUnit.test( 'close method closes the popover', ( assert ) => {
+	const wrapper = mountComponent();
+	const triggerElement = document.createElement( 'button' );
+
+	wrapper.vm.open( triggerElement );
+
+	nextTick( () => {
+		const popoverBefore = wrapper.findComponent( { name: 'CdxPopover' } );
+		assert.strictEqual( popoverBefore.props( 'open' ), true, 'Popover is open before calling close()' );
+
+		// Now close it
+		wrapper.vm.close();
+
+		nextTick( () => {
+			const popoverAfter = wrapper.findComponent( { name: 'CdxPopover' } );
+			assert.strictEqual( popoverAfter.props( 'open' ), false, 'Popover is closed after calling close()' );
+			assert.strictEqual( wrapper.vm.currentTrigger, null, 'Current trigger is reset after closing' );
+		} );
+	} );
+} );
+
+QUnit.test( 'isPopoverOpen method returns the correct state', ( assert ) => {
+	const wrapper = mountComponent();
+	const triggerElement = document.createElement( 'button' );
+
+	// Initially closed
+	assert.strictEqual( wrapper.vm.isPopoverOpen(), false, 'isPopoverOpen returns false when popover is closed' );
+
+	wrapper.vm.open( triggerElement );
+
+	nextTick( () => {
+		assert.strictEqual( wrapper.vm.isPopoverOpen(), true, 'isPopoverOpen returns true when popover is open' );
+
+		// Close the popover
+		wrapper.vm.close();
+
+		nextTick( () => {
+			assert.strictEqual( wrapper.vm.isPopoverOpen(), false, 'isPopoverOpen returns false after closing' );
+		} );
+	} );
+} );
+
 QUnit.test( 'exposed methods are available', ( assert ) => {
 	const wrapper = mountComponent();
 
 	assert.true( typeof wrapper.vm.open === 'function', 'open method is exposed' );
+	assert.true( typeof wrapper.vm.close === 'function', 'close method is exposed' );
 	assert.true( typeof wrapper.vm.setUserInfo === 'function', 'setUserInfo method is exposed' );
+	assert.true( typeof wrapper.vm.isPopoverOpen === 'function', 'isPopoverOpen method is exposed' );
 } );

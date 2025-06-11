@@ -66,6 +66,11 @@ module.exports = exports = {
 			wikiId.value = newWikiId;
 		}
 
+		// Expose this function so init.js can see if the popover is open
+		function isPopoverOpen() {
+			return isOpen.value;
+		}
+
 		// Using userId as key to ensure component is cached when user changes
 		const componentKey = computed( () => userId.value || 'default' );
 
@@ -78,12 +83,15 @@ module.exports = exports = {
 			open,
 			close,
 			setUserInfo,
+			isPopoverOpen,
 			componentKey
 		};
 	},
 	expose: [
 		'open',
-		'setUserInfo'
+		'close',
+		'setUserInfo',
+		'isPopoverOpen'
 	]
 };
 </script>
