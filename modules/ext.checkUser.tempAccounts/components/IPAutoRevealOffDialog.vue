@@ -29,6 +29,7 @@ const { ref } = require( 'vue' );
 const { CdxDialog, CdxMessage } = require( '@wikimedia/codex' );
 const { setAutoRevealStatus } = require( './../ipRevealUtils.js' );
 const { disableAutoReveal } = require( './../ipReveal.js' );
+const useInstrument = require( '../useInstrument.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -48,6 +49,8 @@ module.exports = exports = {
 		}
 	},
 	setup( props ) {
+		const logEvent = useInstrument();
+
 		const open = ref( true );
 		const showExtendError = ref( false );
 
@@ -74,6 +77,7 @@ module.exports = exports = {
 			setAutoRevealStatus( newRelativeExpiryInSeconds ).then(
 				() => {
 					open.value = false;
+					logEvent( 'session_extend' );
 				},
 				() => {
 					showExtendError.value = true;
@@ -93,6 +97,8 @@ module.exports = exports = {
 				classes: [ 'ext-checkuser-ip-auto-reveal-notification-off' ],
 				type: 'success'
 			} );
+
+			logEvent( 'session_end' );
 		}
 
 		return {

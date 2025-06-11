@@ -32,6 +32,7 @@
 const { ref } = require( 'vue' );
 const { CdxDialog, CdxField, CdxSelect } = require( '@wikimedia/codex' );
 const { enableAutoReveal } = require( './../ipReveal.js' );
+const useInstrument = require( '../useInstrument.js' );
 
 // The duration messages for the select were translated using PHP's Message::durationParams.
 const durations = require( './../durations.json' );
@@ -51,6 +52,8 @@ module.exports = exports = {
 		}
 	},
 	setup( props ) {
+		const logEvent = useInstrument();
+
 		const open = ref( true );
 		const selected = ref( null );
 
@@ -79,6 +82,8 @@ module.exports = exports = {
 			props.toolLink.text(
 				mw.message( 'checkuser-ip-auto-reveal-link-sidebar-on' )
 			);
+
+			logEvent( 'session_start', { sessionLength: Number( selected.value ) } );
 
 			mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-on' ), {
 				classes: [ 'ext-checkuser-ip-auto-reveal-notification-on' ],

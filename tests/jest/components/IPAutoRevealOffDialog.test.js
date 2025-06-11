@@ -8,6 +8,7 @@ const mockSetAutoRevealStatus = jest.fn().mockResolvedValue();
 jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () => ( {
 	setAutoRevealStatus: mockSetAutoRevealStatus
 } ) );
+jest.mock( '../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 
 // Mock ipReveal methods to check they are called properly
 const mockDisableAutoReveal = jest.fn();
@@ -16,6 +17,7 @@ jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
 } ) );
 
 const IPAutoRevealOffDialog = require( '../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOffDialog.vue' );
+const useInstrument = require( '../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 const { nextTick } = require( 'vue' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog } = require( '@wikimedia/codex' );
@@ -32,7 +34,12 @@ const renderComponent = ( props ) => {
 };
 
 describe( 'IP auto-reveal Off dialog', () => {
+	let logEvent;
+
 	beforeEach( () => {
+		logEvent = jest.fn();
+		useInstrument.mockImplementation( () => logEvent );
+
 		jest.useFakeTimers();
 		jest.spyOn( Date, 'now' ).mockReturnValue( mockNowInSeconds * 1000 );
 	} );
@@ -68,6 +75,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 
 		const updatedExpiryText = wrapper.find( 'p' ).html();
 		expect( updatedExpiryText ).toContain( '0:59:59' );
+		expect( logEvent ).toHaveBeenCalledTimes( 0 );
 	} );
 
 	it( 'calls setAutoRevealStatus with extended time on default action', async () => {
@@ -84,6 +92,8 @@ describe( 'IP auto-reveal Off dialog', () => {
 		const expectedExpiryInSeconds = mockExpiryInSeconds + 600 - mockNowInSeconds;
 		expect( calledWith ).toBeCloseTo( expectedExpiryInSeconds, 0 );
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
+		expect( logEvent ).toHaveBeenCalledTimes( 1 );
+		expect( logEvent ).toHaveBeenCalledWith( 'session_extend' );
 	} );
 
 	it( 'calls setAutoRevealStatus with extended time on default action after expiry', async () => {
@@ -99,6 +109,8 @@ describe( 'IP auto-reveal Off dialog', () => {
 		expect( mockSetAutoRevealStatus ).toHaveBeenCalledTimes( 1 );
 		expect( mockSetAutoRevealStatus ).toHaveBeenLastCalledWith( expectedExpiryInSeconds );
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
+		expect( logEvent ).toHaveBeenCalledTimes( 1 );
+		expect( logEvent ).toHaveBeenCalledWith( 'session_extend' );
 	} );
 
 	it( 'shows error on default action if new expiry is greater than 24 hours', async () => {
@@ -116,6 +128,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 		expect( mockSetAutoRevealStatus ).toHaveBeenCalledTimes( 1 );
 		expect( wrapper.find( '.cdx-message' ).exists() ).toBe( true );
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( true );
+		expect( logEvent ).toHaveBeenCalledTimes( 0 );
 	} );
 
 	it( 'calls disableAutoReveal and shows notification on off action click', async () => {
@@ -128,5 +141,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 		expect( mockSetText ).toHaveBeenCalled();
 		expect( mw.notify ).toHaveBeenCalled();
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
+		expect( logEvent ).toHaveBeenCalledTimes( 1 );
+		expect( logEvent ).toHaveBeenCalledWith( 'session_end' );
 	} );
 } );
