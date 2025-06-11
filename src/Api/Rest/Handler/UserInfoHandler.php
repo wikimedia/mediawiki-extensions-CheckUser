@@ -50,7 +50,7 @@ class UserInfoHandler extends SimpleHandler {
 				404
 			);
 		}
-		$userInfo = $this->userInfoCardService->getUserInfo( $user );
+		$userInfo = $this->userInfoCardService->getUserInfo( $this->getAuthority(), $user );
 
 		return $this->getResponseFactory()->createJson( $userInfo );
 	}
