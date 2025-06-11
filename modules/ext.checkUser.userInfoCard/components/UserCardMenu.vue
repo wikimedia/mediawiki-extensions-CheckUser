@@ -3,7 +3,6 @@
 		v-model:selected="selection"
 		:aria-label="ariaLabel"
 		:menu-items="menuItems"
-		:class="`ext-checkuser-userinfocard-menu-${ userId }`"
 		@update:selected="onMenuSelect"
 	>
 		<cdx-icon :icon="cdxIconEllipsis"></cdx-icon>
@@ -21,10 +20,6 @@ module.exports = exports = {
 	name: 'UserCardMenu',
 	components: { CdxMenuButton, CdxIcon },
 	props: {
-		userId: {
-			type: [ String, Number ],
-			required: true
-		},
 		username: {
 			type: String,
 			required: true

@@ -14,8 +14,7 @@ $( () => {
 
 	// Track the currently active button and user info
 	let activeButton = null;
-	let activeUserId = null;
-	let activeWikiId = null;
+	let activeUsername = null;
 
 	// Set up event listeners for the user info card buttons
 	const buttons = document.querySelectorAll( '.ext-checkuser-userinfocard-button' );
@@ -23,38 +22,30 @@ $( () => {
 		$( button ).on( 'click', ( event ) => {
 			event.preventDefault();
 
-			// fetch wikiId and userId from the classname
-			// ext-checkuser-userinfocard-id-$wikiId:$userId
-			const idClass = Array.from( button.classList ).find(
-				( cls ) => cls.startsWith( 'ext-checkuser-userinfocard-id-' )
-			);
-			if ( idClass ) {
-				const [ wikiId, userId ] = idClass.replace(
-					'ext-checkuser-userinfocard-id-', ''
-				).split( ':' );
-				if ( wikiId && userId ) {
-					const isCurrentlyOpen = popoverApp.isPopoverOpen();
+			const username = button.getAttribute( 'data-username' );
 
-					// Check if this is the same button that's currently active and
-					// the popover is actually open
-					if ( isCurrentlyOpen &&
-						activeButton === button &&
-						activeUserId === userId &&
-						activeWikiId === wikiId ) {
-						// If it's the same button and the popover is open, close it
-						popoverApp.close();
-						activeButton = null;
-						activeUserId = null;
-						activeWikiId = null;
-					} else {
-						// If it's a different button, the popover is closed, or no
-						// button is active, open the popover
-						popoverApp.setUserInfo( userId, wikiId );
-						popoverApp.open( event.target );
-						activeButton = button;
-						activeUserId = userId;
-						activeWikiId = wikiId;
-					}
+			if ( username ) {
+				popoverApp.setUserInfo( username );
+				popoverApp.open( event.target );
+
+				const isCurrentlyOpen = popoverApp.isPopoverOpen();
+
+				// Check if this is the same button that's currently active and
+				// the popover is actually open
+				if ( isCurrentlyOpen &&
+					activeButton === button &&
+					activeUsername === username ) {
+					// If it's the same button and the popover is open, close it
+					popoverApp.close();
+					activeButton = null;
+					activeUsername = null;
+				} else {
+					// If it's a different button, the popover is closed, or no
+					// button is active, open the popover
+					popoverApp.setUserInfo( username );
+					popoverApp.open( event.target );
+					activeButton = button;
+					activeUsername = username;
 				}
 			}
 		} );

@@ -185,9 +185,9 @@ QUnit.test( 'renders UserActivityChart when recentLocalEdits is not empty', ( as
 	const activityChart = wrapper.findComponent( { name: 'UserActivityChart' } );
 	assert.true( activityChart.exists(), 'UserActivityChart exists when recentLocalEdits is not empty' );
 	assert.strictEqual(
-		activityChart.props( 'userId' ),
-		'123',
-		'UserActivityChart has correct userId'
+		activityChart.props( 'username' ),
+		'TestUser',
+		'UserActivityChart has correct username'
 	);
 	assert.deepEqual(
 		activityChart.props( 'recentLocalEdits' ),

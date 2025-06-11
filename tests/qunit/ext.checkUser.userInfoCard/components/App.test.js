@@ -16,7 +16,7 @@ QUnit.module( 'ext.checkUser.userInfoCard.App', QUnit.newMwEnvironment( {
 // Reusable mount helper
 function mountComponent( props = {} ) {
 	const mounted = mount( App, { propsData: props } );
-	mounted.vm.setUserInfo( '123', '1' );
+	mounted.vm.setUserInfo( 'a username' );
 	return mounted;
 }
 
@@ -54,29 +54,32 @@ QUnit.test( 'open method opens the popover with the correct trigger', ( assert )
 QUnit.test( 'setUserInfo method sets the user ID and wiki ID', ( assert ) => {
 	const wrapper = mountComponent();
 
-	wrapper.vm.setUserInfo( '123', '1' );
+	wrapper.vm.setUserInfo( 'username' );
 
-	assert.strictEqual( wrapper.vm.userId, '123', 'User ID is set correctly' );
-	assert.strictEqual( wrapper.vm.wikiId, '1', 'Wiki ID is set correctly' );
+	assert.strictEqual(
+		wrapper.vm.username,
+		'username',
+		'Username is set correctly'
+	);
 } );
 
-QUnit.test( 'componentKey is based on userId', ( assert ) => {
+QUnit.test( 'componentKey is based on username', ( assert ) => {
 	const wrapper = mountComponent();
 
-	wrapper.vm.setUserInfo( null, '1' );
+	wrapper.vm.setUserInfo( null );
 
 	assert.strictEqual(
 		wrapper.vm.componentKey,
 		'default',
-		'Component key is "default" when userId is null'
+		'Component key is "default" when username is null'
 	);
 
-	wrapper.vm.setUserInfo( '123', '1' );
+	wrapper.vm.setUserInfo( 'username' );
 
 	assert.strictEqual(
 		wrapper.vm.componentKey,
-		'123',
-		'Component key is set to userId when userId is not null'
+		'1umww5y',
+		'Component key is based on the username when it is not null'
 	);
 } );
 

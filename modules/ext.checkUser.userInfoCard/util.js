@@ -31,6 +31,36 @@ function processEditCountByDay( editCountByDay ) {
 	return { processedData, totalEdits };
 }
 
+/**
+ * Provides a hash string for a given username suitable to be used for
+ * component IDs. This is required because usernames may contain whitespaces,
+ * but HTML component IDs cannot.
+ *
+ * This function is an adaptation of generateHashId() from Codex.
+ *
+ * @param {?string} username Username to hash
+ * @return {string} The hash as a string
+ */
+function hashUsername( username ) {
+	if ( username === null || username === '' ) {
+		return '';
+	}
+
+	const mask = 4294967295;
+
+	/* eslint-disable no-bitwise */
+	let numericHash = Array.from( username ).reduce(
+		( acc, char ) => acc * 31 + char.charCodeAt( 0 ) & mask,
+		0
+	);
+
+	numericHash = numericHash >>> 0;
+	/* eslint-enable no-bitwise */
+
+	return numericHash.toString( 36 );
+}
+
 module.exports = {
-	processEditCountByDay
+	processEditCountByDay,
+	hashUsername
 };

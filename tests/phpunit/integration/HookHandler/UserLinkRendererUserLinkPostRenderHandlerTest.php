@@ -6,7 +6,6 @@ use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Output\OutputPage;
-use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -45,15 +44,13 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 		$userOptionsManager->saveOptions( $user );
 		$context = RequestContext::getMain();
 		$context->setUser( $user );
-		$wikiId = WikiMap::getCurrentWikiId();
-		$userId = $user->getUser()->getId();
 		$expected = "<span class=\"cdx-button__icon";
 		$html = $this->getServiceContainer()->getUserLinkRenderer()->userLink(
 			$user,
 			$context
 		);
 		$this->assertStringContainsString( $expected, $html, 'Output does not contain Codex button' );
-		$expected = "class=\"ext-checkuser-userinfocard-button ext-checkuser-userinfocard-id-$wikiId:$userId";
+		$expected = "class=\"ext-checkuser-userinfocard-button";
 		$this->assertStringContainsString( $expected, $html, 'Output does not contain expected CSS classes' );
 	}
 }

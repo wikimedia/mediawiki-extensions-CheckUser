@@ -13,7 +13,6 @@
 		</div>
 		<div class="ext-checkuser-userinfocard-header-controls">
 			<user-card-menu
-				:user-id="userId"
 				:username="username"
 				:user-page-watched="userPageWatched"
 			></user-card-menu>
@@ -42,10 +41,6 @@ module.exports = exports = {
 		UserCardMenu
 	},
 	props: {
-		userId: {
-			type: [ String, Number ],
-			required: true
-		},
 		username: {
 			type: String,
 			required: true

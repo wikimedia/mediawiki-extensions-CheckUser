@@ -23,8 +23,7 @@
 		<user-card-view
 			v-if="isOpen"
 			:key="componentKey"
-			:user-id="userId"
-			:wiki-id="wikiId"
+			:username="username"
 			:container="cardContainer"
 			@close="close"
 		></user-card-view>
@@ -34,6 +33,7 @@
 <script>
 const { ref, computed } = require( 'vue' );
 const { CdxPopover } = require( '@wikimedia/codex' );
+const { hashUsername } = require( '../util.js' );
 const UserCardView = require( './UserCardView.vue' );
 
 // @vue/component
@@ -46,8 +46,7 @@ module.exports = exports = {
 	setup() {
 		const isOpen = ref( false );
 		const currentTrigger = ref( null );
-		const userId = ref( null );
-		const wikiId = ref( null );
+		const username = ref( null );
 		const cardContainer = ref( null );
 
 		// Methods
@@ -61,9 +60,8 @@ module.exports = exports = {
 			currentTrigger.value = null;
 		}
 
-		function setUserInfo( newUserId, newWikiId ) {
-			userId.value = newUserId;
-			wikiId.value = newWikiId;
+		function setUserInfo( newUsername ) {
+			username.value = newUsername;
 		}
 
 		// Expose this function so init.js can see if the popover is open
@@ -71,14 +69,18 @@ module.exports = exports = {
 			return isOpen.value;
 		}
 
-		// Using userId as key to ensure component is cached when user changes
-		const componentKey = computed( () => userId.value || 'default' );
+		/**
+		 * Returns a key to be used to identify the component that serves to
+		 * ensure the component is cached when the user changes.
+		 */
+		const componentKey = computed(
+			() => hashUsername( username.value ) || 'default'
+		);
 
 		return {
 			isOpen,
 			currentTrigger,
-			userId,
-			wikiId,
+			username,
 			cardContainer,
 			open,
 			close,

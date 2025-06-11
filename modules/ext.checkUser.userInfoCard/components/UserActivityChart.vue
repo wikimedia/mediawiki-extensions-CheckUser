@@ -1,7 +1,7 @@
 <template>
 	<div class="ext-checkuser-userinfocard-activity-chart">
 		<c-sparkline
-			:id="`user-activity-${ userId }`"
+			:id="componentId"
 			:title="activityChartLabel"
 			:data="recentLocalEdits"
 			:dimensions="{ width: 300, height: 24 }"
@@ -14,13 +14,14 @@
 
 <script>
 const CSparkline = require( '../../vue-components/CSparkline.vue' );
+const { hashUsername } = require( '../util.js' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'UserActivityChart',
 	components: { CSparkline },
 	props: {
-		userId: {
+		username: {
 			type: [ String, Number ],
 			required: true
 		},
@@ -35,12 +36,14 @@ module.exports = exports = {
 		}
 	},
 	setup( props ) {
+		const componentId = `user-activity-${ hashUsername( props.username ) }`;
 		const activityChartLabel = mw.msg(
 			'checkuser-userinfocard-activity-chart-label', props.totalLocalEdits
 		);
 
 		return {
-			activityChartLabel
+			activityChartLabel,
+			componentId
 		};
 	}
 };

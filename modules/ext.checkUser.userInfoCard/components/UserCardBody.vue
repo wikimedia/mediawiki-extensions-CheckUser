@@ -23,7 +23,7 @@
 		</p>
 		<user-activity-chart
 			v-if="recentLocalEdits"
-			:user-id="userId"
+			:username="username"
 			:recent-local-edits="recentLocalEdits"
 			:total-local-edits="totalLocalEdits"
 		></user-activity-chart>
@@ -47,10 +47,6 @@ module.exports = exports = {
 	name: 'UserCard',
 	components: { InfoRowWithLinks, UserActivityChart },
 	props: {
-		userId: {
-			type: String,
-			required: true
-		},
 		username: {
 			type: String,
 			default: ''

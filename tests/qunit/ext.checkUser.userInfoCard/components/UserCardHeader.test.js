@@ -92,11 +92,6 @@ QUnit.test( 'passes the correct props to UserCardMenu', ( assert ) => {
 
 	const userCardMenu = wrapper.findComponent( { name: 'UserCardMenu' } );
 	assert.strictEqual(
-		userCardMenu.props( 'userId' ),
-		'123',
-		'UserCardMenu receives correct userId'
-	);
-	assert.strictEqual(
 		userCardMenu.props( 'username' ),
 		'TestUser',
 		'UserCardMenu receives correct username'

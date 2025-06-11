@@ -251,7 +251,7 @@
 	},
 	"RestRoutes": [
 		{
-			"path": "/checkuser/v0/userinfo/{id}",
+			"path": "/checkuser/v0/userinfo",
 			"method": "POST",
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserInfoHandler",
 			"services": [

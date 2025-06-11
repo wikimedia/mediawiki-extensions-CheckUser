@@ -88,8 +88,7 @@ function mountComponent( props = {} ) {
 
 	return mount( UserCardView, {
 		propsData: {
-			userId: '123',
-			wikiId: '1',
+			username: 'TestUser',
 			container,
 			...props
 		},

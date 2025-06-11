@@ -13,13 +13,11 @@
 				:username="userCard.username"
 				:user-page-url="userCard.userPageUrl"
 				:user-page-exists="userCard.userPageExists"
-				:user-id="userCard.userId"
 				:user-page-watched="userCard.userPageWatched"
 				@close="$emit( 'close' )"
 			></user-card-header>
 
 			<user-card-body
-				:user-id="userCard.userId"
 				:username="userCard.username"
 				:joined-date="userCard.joinedDate"
 				:joined-relative="userCard.joinedRelativeTime"
@@ -59,12 +57,8 @@ module.exports = exports = {
 		UserInfoCardError
 	},
 	props: {
-		userId: {
-			type: [ String, Number ],
-			required: true
-		},
-		wikiId: {
-			type: [ String, Number ],
+		username: {
+			type: [ String ],
 			required: true
 		},
 		container: {
@@ -80,8 +74,6 @@ module.exports = exports = {
 		const loading = ref( false );
 		const error = ref( null );
 		const userCard = reactive( {
-			userId: '0',
-			wikiId: 0,
 			userPageUrl: '',
 			userPageExists: false,
 			username: '',
@@ -103,15 +95,21 @@ module.exports = exports = {
 
 		// Methods
 		function fetchUserInfo() {
-			if ( !props.userId || !props.wikiId ) {
+			if ( !props.username || props.username.trim().length === 0 ) {
 				return;
 			}
 
 			loading.value = true;
 			error.value = null;
+
 			const token = mw.user.tokens.get( 'csrfToken' );
 			const rest = new mw.Rest();
-			rest.post( `/checkuser/v0/userinfo/${ props.userId }`, { token } )
+			const payload = {
+				token,
+				username: props.username
+			};
+
+			rest.post( '/checkuser/v0/userinfo', payload )
 				.then( ( userInfo ) => {
 					if ( !userInfo ) {
 						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data' ) );
@@ -136,8 +134,6 @@ module.exports = exports = {
 					);
 
 					// Update reactive state
-					userCard.userId = props.userId;
-					userCard.wikiId = props.wikiId;
 					userCard.userPageUrl = userPageUrl;
 					userCard.userPageExists = !!userPageExists;
 					userCard.username = name;
@@ -180,12 +176,12 @@ module.exports = exports = {
 
 		// Lifecycle hooks for keep-alive - triggered on every activation
 		onActivated( () => {
-			if ( !userCard.userId && !loading.value ) {
+			if ( !userCard.username && !loading.value ) {
 				fetchUserInfo();
 			}
 		} );
 
-		// Regular Vue lifecycle hook - triggered only once per key (userId)
+		// Regular Vue lifecycle hook - triggered only once per key (username)
 		onMounted( () => {
 			fetchUserInfo();
 		} );

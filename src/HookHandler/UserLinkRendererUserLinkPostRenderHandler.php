@@ -9,7 +9,6 @@ use Mediawiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserNameUtils;
 use MediaWiki\User\UserOptionsLookup;
-use MediaWiki\WikiMap\WikiMap;
 
 class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserLinkPostRenderHook {
 
@@ -46,10 +45,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 				] );
 			}
 
-			$wikiId = $targetUser->getWikiId() ?: WikiMap::getCurrentWikiId();
 			$iconClass = $this->userNameUtils->isTemp( $targetUser->getName() ) ? 'userTemporary' : 'userAvatar';
-			$wikiIdClass = 'ext-checkuser-userinfocard-id-' . $wikiId . ':' . $targetUser->getId();
-
 			// CSS-only Codex icon button
 			$icon = Html::rawElement(
 				'span',
@@ -65,9 +61,10 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 					'href' => '#',
 					'role' => 'button',
 					'aria-label' => $context->msg( 'checkuser-userinfocard-toggle-button-aria-label' )->text(),
-					'class' => "ext-checkuser-userinfocard-button $wikiIdClass cdx-button " .
+					'class' => "ext-checkuser-userinfocard-button cdx-button " .
 						'cdx-button--action-default cdx-button--weight-quiet cdx-button--fake-button ' .
-						'cdx-button--fake-button--enabled cdx-button--icon-only'
+						'cdx-button--fake-button--enabled cdx-button--icon-only',
+					'data-username' => $targetUser->getName()
 				],
 				$icon
 			);

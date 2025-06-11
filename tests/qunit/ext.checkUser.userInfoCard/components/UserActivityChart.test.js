@@ -20,7 +20,7 @@ const sampleRecentEdits = [
 function mountComponent( props = {} ) {
 	return mount( UserActivityChart, {
 		propsData: {
-			userId: '123',
+			username: 'username',
 			recentLocalEdits: sampleRecentEdits,
 			totalLocalEdits: 15,
 			...props
@@ -46,7 +46,7 @@ QUnit.test( 'uses CSparkline component with correct props', ( assert ) => {
 
 	assert.strictEqual(
 		sparkline.props( 'id' ),
-		'user-activity-123',
+		'user-activity-1umww5y',
 		'CSparkline has correct id'
 	);
 
