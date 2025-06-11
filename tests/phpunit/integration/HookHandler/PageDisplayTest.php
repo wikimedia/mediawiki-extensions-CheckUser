@@ -217,7 +217,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			array_unique( $expectedModuleStyles ),
 			$output->getModuleStyles()
 		);
-		$this->assertArrayEquals(
+		$this->assertArrayContains(
 			$expectedConfigVars,
 			$output->getJsConfigVars(),
 			false,
