@@ -384,6 +384,7 @@
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Remove user page from watchlist",
 	"checkuser-userinfocard-menu-check-ip": "Check user IP addresses",
 	"checkuser-userinfocard-menu-block-user": "Block user",
+	"checkuser-userinfocard-menu-provide-feedback": "Provide feedback",
 	"checkuser-userinfocard-menu-turn-off": "Turn off this feature",
 	"checkuser-userinfocard-loading-label": "Loading user info",
 	"checkuser-userinfocard-error-title": "An error has occurred",

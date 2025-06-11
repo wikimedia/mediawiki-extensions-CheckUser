@@ -418,6 +418,7 @@
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Menu item: Remove user page from watchlist",
 	"checkuser-userinfocard-menu-check-ip": "Menu item: Check user IP addresses",
 	"checkuser-userinfocard-menu-block-user": "Menu item: Block user",
+	"checkuser-userinfocard-menu-provide-feedback": "Menu item: Provide feedback about the CheckUser extension",
 	"checkuser-userinfocard-menu-turn-off": "Menu item: Turn off this feature",
 	"checkuser-userinfocard-loading-label": "Aria label for the loading indicator",
 	"checkuser-userinfocard-error-title": "Error title for the error message",

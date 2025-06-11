@@ -87,6 +87,11 @@ module.exports = exports = {
 				link: blockUserLink
 			},
 			{
+				label: mw.msg( 'checkuser-userinfocard-menu-provide-feedback' ),
+				value: 'provide-feedback',
+				link: 'https://www.mediawiki.org/w/index.php?title=Help_talk:Extension:CheckUser'
+			},
+			{
 				label: mw.msg( 'checkuser-userinfocard-menu-turn-off' ),
 				value: 'turn-off',
 				link: turnOffLink

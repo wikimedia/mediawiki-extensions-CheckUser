@@ -55,7 +55,7 @@ QUnit.test( 'computes menu items correctly', ( assert ) => {
 	const wrapper = mountComponent();
 	const menuItems = wrapper.vm.menuItems;
 
-	assert.strictEqual( menuItems.length, 6, 'Menu has 6 items' );
+	assert.strictEqual( menuItems.length, 7, 'Menu has 7 items' );
 
 	assert.strictEqual(
 		menuItems[ 0 ].value,
@@ -116,14 +116,26 @@ QUnit.test( 'computes menu items correctly', ( assert ) => {
 	);
 	assert.strictEqual( menuItems[ 4 ].link, '/-1/Block/TestUser', 'Block user link is correct' );
 
-	assert.strictEqual( menuItems[ 5 ].value, 'turn-off', 'Sixth item is turn-off' );
+	assert.strictEqual( menuItems[ 5 ].value, 'provide-feedback', 'Sixth item is provide-feedback' );
 	assert.strictEqual(
 		menuItems[ 5 ].label,
+		'checkuser-userinfocard-menu-provide-feedback',
+		'Provide feedback label is correct'
+	);
+	assert.strictEqual(
+		menuItems[ 5 ].link,
+		'https://www.mediawiki.org/w/index.php?title=Help_talk:Extension:CheckUser',
+		'Provide feedback link is correct'
+	);
+
+	assert.strictEqual( menuItems[ 6 ].value, 'turn-off', 'Seventh item is turn-off' );
+	assert.strictEqual(
+		menuItems[ 6 ].label,
 		'checkuser-userinfocard-menu-turn-off',
 		'Turn off label is correct'
 	);
 	assert.strictEqual(
-		menuItems[ 5 ].link,
+		menuItems[ 6 ].link,
 		'/-1/Special:Preferences#mw-prefsection-rendering-advancedrendering',
 		'Turn off link is correct'
 	);
