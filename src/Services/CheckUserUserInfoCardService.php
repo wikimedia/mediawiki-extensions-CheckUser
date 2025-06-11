@@ -8,6 +8,7 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\Registration\UserRegistrationLookup;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserOptionsLookup;
@@ -26,6 +27,8 @@ class CheckUserUserInfoCardService {
 	private UserGroupManager $userGroupManager;
 	private CheckUserCentralIndexLookup $checkUserCentralIndexLookup;
 	private IConnectionProvider $dbProvider;
+	private CheckUserPermissionManager $checkUserPermissionManager;
+	private UserFactory $userFactory;
 	private StatsFactory $statsFactory;
 
 	/**
@@ -37,6 +40,8 @@ class CheckUserUserInfoCardService {
 	 * @param CheckUserCentralIndexLookup $checkUserCentralIndexLookup
 	 * @param IConnectionProvider $dbProvider
 	 * @param StatsFactory $statsFactory
+	 * @param CheckUserPermissionManager $checkUserPermissionManager
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		?UserImpactLookup $userImpactLookup,
@@ -46,7 +51,9 @@ class CheckUserUserInfoCardService {
 		UserGroupManager $userGroupManager,
 		CheckUserCentralIndexLookup $checkUserCentralIndexLookup,
 		IConnectionProvider $dbProvider,
-		StatsFactory $statsFactory
+		StatsFactory $statsFactory,
+		CheckUserPermissionManager $checkUserPermissionManager,
+		UserFactory $userFactory
 	) {
 		$this->userImpactLookup = $userImpactLookup;
 		$this->extensionRegistry = $extensionRegistry;
@@ -55,6 +62,8 @@ class CheckUserUserInfoCardService {
 		$this->userGroupManager = $userGroupManager;
 		$this->checkUserCentralIndexLookup = $checkUserCentralIndexLookup;
 		$this->dbProvider = $dbProvider;
+		$this->checkUserPermissionManager = $checkUserPermissionManager;
+		$this->userFactory = $userFactory;
 		$this->statsFactory = $statsFactory;
 	}
 
@@ -152,6 +161,15 @@ class CheckUserUserInfoCardService {
 			] )
 			->caller( __METHOD__ )
 			->fetchRowCount();
+
+		$authorityPermissionStatus =
+			$this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses( $authority );
+		$userPermissionStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$this->userFactory->newFromUserIdentity( $user )
+		);
+		if ( $authorityPermissionStatus->isGood() && $userPermissionStatus->isGood() ) {
+			$userInfo['canAccessTemporaryAccountIPAddresses'] = true;
+		}
 
 		$this->statsFactory->withComponent( 'CheckUser' )
 			->getTiming( 'userinfocardservice_get_user_info' )

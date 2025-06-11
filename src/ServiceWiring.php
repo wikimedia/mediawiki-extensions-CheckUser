@@ -432,7 +432,9 @@ return [
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
 			$services->getConnectionProvider(),
-			$services->getStatsFactory()
+			$services->getStatsFactory(),
+			$services->get( 'CheckUserPermissionManager' ),
+			$services->getUserFactory()
 		);
 	},
 ];
