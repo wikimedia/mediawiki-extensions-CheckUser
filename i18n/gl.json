@@ -72,9 +72,11 @@
 	"checkuser-search": "Procurar as entradas do rexistro de verificación de usuarios",
 	"checkuser-search-submit": "Procurar",
 	"checkuser-log-search-target": "Obxectivo:",
+	"checkuser-log-search-initiator": "Iniciador:",
 	"checkuser-log-search-reason": "Motivo:",
 	"checkuser-ipeditcount": "~$1 de todos os usuarios",
 	"checkuser-showmain": "Cambiar a {{#special:CheckUser}}",
+	"checkuser-show-investigate": "Cambiar a {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|obtivo}} os enderezos IP {{GENDER:$7|de}} $2",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|obtivo}} os usuarios de <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|obtivo}} os usuarios de XFF <bdi>$2</bdi>",
@@ -88,6 +90,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Seguinte",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Pechar",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Que é unha conta temporal?",
+	"checkuser-investigateblock-reason": "Motivo",
 	"checkuser-investigateblock-confirm-blocks-label": "Confirmar os bloqueos",
 	"checkuser-investigateblock-warning-ips-and-users-in-targets": "Estás a piques de bloquear á vez contas e enderezos IP polo mesmo motivo despois de usares os datos do verificador de usuarios. Isto pode incumprir a política de protección de datos do sitio. Queres facelo?",
 	"checkuser-investigateblock-warning-confirmaction": "Se realmente queres facelo, marca o campo \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" que hai ao final.",
@@ -96,5 +99,10 @@
 	"checkuser-investigate-duration-option-1w": "Última semana",
 	"checkuser-investigate-duration-option-2w": "Últimas 2 semanas",
 	"checkuser-investigate-duration-option-30d": "Últimos 30 días",
-	"checkuser-investigate-reason-label": "Motivo"
+	"checkuser-investigate-reason-label": "Motivo",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Non se atopou o wiki",
+	"checkuser-investigate-filters-legend": "Filtros",
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-investigate-compare-table-header-useragent": "Axente de usuario"
 }

@@ -82,6 +82,7 @@
 	"checkuser-clienthints-name-platform-version": "Version de plateforme",
 	"checkuser-clienthints-value-yes": "Oui",
 	"checkuser-clienthints-value-no": "Non",
+	"checkuser-clienthints-list-item": "$1 : $2",
 	"checkuser-reason": "Motif :",
 	"checkuser-reason-api": "API : $1",
 	"checkuser-showlog": "Journal des vérifications",
@@ -356,6 +357,8 @@
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Pour afficher les adresses IP des comptes temporaires, veuillez accepter l'accord dans [[Special:Preferences|vos préférences]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Chargement des détails du blocage",
 	"checkuser-tempaccount-reveal-blocked-title": "Afficher les détails du blocage",
+	"checkuser-tempaccount-reveal-blocked-missingblock": "Vous avez été empêché de révéler les adresses IP temporaires de votre compte en raison d'un blocage affectant votre compte, qui n'est plus en place. S'il vous plaît, rechargez la page.",
+	"checkuser-tempaccount-reveal-blocked-error": "Une erreur s'est produite lors de la récupération des détails du blocage. Veuillez recharger la page et réessayer.",
 	"checkuser-tempaccount-reveal-blocked-header": "La révélation temporaire de l'adresse IP du compte est désactivée",
 	"checkuser-tempaccount-reveal-blocked-description": "Vous n'êtes pas autorisé à utiliser cette fonctionnalité pour la raison suivante :",
 	"checkuser-tempaccount-specialblock-ips": "Il s’agit d’un utilisateur temporaire utilisant {{PLURAL:$1|l’adresse IP suivante|les adresses IP suivantes}} : $2",
@@ -377,5 +380,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 a activé {{GENDER:$2|son}} propre accès pour afficher les variables protégées",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 a désactivé {{GENDER:$2|son}} propre accès pour afficher les variables protégées",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 a {{GENDER:$2|vu}} des variables protégées associées à $3",
-	"ext-ipinfo-global-contributions-url-text": "Afficher les contributions globales"
+	"ext-ipinfo-global-contributions-url-text": "Afficher les contributions globales",
+	"checkuser-userinfocard-enable-preference-help": "Afficher un bouton à côté des noms d'utilisateur pour ouvrir une fenêtre contextuelle contenant des informations sur un compte."
 }

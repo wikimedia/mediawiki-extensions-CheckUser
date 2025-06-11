@@ -52,7 +52,7 @@
 	"action-checkuser-temporary-account-log": "katsoa tilapäisten tunnusten IP-osoitteisiin pääsyä koskevaa lokia",
 	"action-checkuser-temporary-account-auto-reveal": "paljastaa automaattisesti tilapäisten tunnusten käyttämiä IP-osoitteita",
 	"grouppage-checkuser": "{{ns:project}}:Osoitepaljastin",
-	"grouppage-temporary-account-viewer": "{{ns:project}}:Tilapäisten tunnusten IP-osoitteiden tarkastaja",
+	"grouppage-temporary-account-viewer": "{{ns:project}}:Tilapäisten tunnusten IP-osoitteiden tarkastajat",
 	"checkuser-clienthints-name-architecture": "Arkkitehtuuri",
 	"checkuser-clienthints-value-yes": "Kyllä",
 	"checkuser-clienthints-value-no": "Ei",

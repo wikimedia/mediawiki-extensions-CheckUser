@@ -35,8 +35,8 @@
 	"checkuser-contribs-log-initiator": "sprawdzenia wykonane przez tego użytkownika",
 	"group-checkuser": "Checkuserzy",
 	"group-checkuser-member": "{{GENDER:$1|checkuser|checkuserka}}",
-	"group-temporary-account-viewer": "Weryfikujący adresy IP kont tymczasowych",
-	"group-temporary-account-viewer-member": "{{GENDER:$1|weryfikujący adresy IP kont tymczasowych|weryfikująca adresy IP kont tymczasowych}}",
+	"group-temporary-account-viewer": "Przeglądający adresy IP kont tymczasowych",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|przeglądający adresy IP kont tymczasowych|przeglądająca adresy IP kont tymczasowych}}",
 	"right-checkuser": "Sprawdzanie adresów IP oraz innych informacji o użytkownikach",
 	"right-checkuser-log": "Przeglądanie rejestru checkuser",
 	"right-checkuser-temporary-account": "Przeglądanie adresów IP używanych przez konta tymczasowe",
@@ -52,7 +52,7 @@
 	"action-checkuser-temporary-account-log": "przeglądania rejestru dostępu do adresów IP kont tymczasowych",
 	"action-checkuser-temporary-account-auto-reveal": "automatycznego ujawniania adresów IP używanych przez konta tymczasowe",
 	"grouppage-checkuser": "{{ns:project}}:Checkuser",
-	"grouppage-temporary-account-viewer": "{{ns:project}}:Weryfikujący adresy IP kont tymczasowych",
+	"grouppage-temporary-account-viewer": "{{ns:project}}:Przeglądający adresy IP kont tymczasowych",
 	"checkuser-clienthints-name-architecture": "Architektura",
 	"checkuser-clienthints-name-bitness": "Długość słowa (bity)",
 	"checkuser-clienthints-name-form-factor": "Wielkość",
@@ -311,7 +311,7 @@
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Nie znaleziono wyników pasujących do zapytania.</strong> Możesz znaleźć więcej edycji, modyfikując parametry wyszukiwania.",
 	"checkuser-global-contributions-no-summary-available": "Brak dostępnego opisu zmian",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Przestrzeń nazw<$1>:$2",
-	"checkuser-ip-auto-reveal-link-sidebar": "Automatyczne ujawnianie adresów IP",
+	"checkuser-ip-auto-reveal-link-sidebar": "Autoujawnianie adresów IP",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Automatyczne ujawnianie adresów IP jest aktywne</strong>",
 	"checkuser-ip-auto-reveal-notification-off": "<strong>Automatyczne ujawnienie adresów IP jest wyłaczone</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "Włącz automatyczne ujawnianie adresów IP",
@@ -359,5 +359,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|włączył|włączyła|włączył(-a)}} sobie dostęp do wyświetlania chronionych zmiennych",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|wyłączył|wyłączyła|wyłączył(-a)}} sobie dostęp do wyświetlania chronionych zmiennych",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|wyświetlił|wyświetliła|wyświetlił(-a)}} chronione zmienne, związane z $3",
-	"ext-ipinfo-global-contributions-url-text": "Zobacz wkład globalny"
+	"ext-ipinfo-global-contributions-url-text": "Zobacz wkład globalny",
+	"checkuser-userinfocard-enable-preference-help": "Pokazuje przycisk obok nazwy użytkownika, który otwiera okienko z informacjami o koncie."
 }
