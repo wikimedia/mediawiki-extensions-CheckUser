@@ -1,0 +1,102 @@
+'use strict';
+
+const { nextTick } = require( 'vue' );
+const { mount } = require( 'vue-test-utils' );
+const App = require( 'ext.checkUser.userInfoCard/modules/ext.checkUser.userInfoCard/components/App.vue' );
+
+QUnit.module( 'ext.checkUser.userInfoCard.App', QUnit.newMwEnvironment( {
+	beforeEach: function () {
+		this.server = this.sandbox.useFakeServer();
+	},
+	afterEach: function () {
+		this.server.restore();
+	}
+} ) );
+
+// Reusable mount helper
+function mountComponent( props = {} ) {
+	const mounted = mount( App, { propsData: props } );
+	mounted.vm.setUserInfo( '123', '1' );
+	return mounted;
+}
+
+QUnit.test( 'renders closed by default', ( assert ) => {
+	const wrapper = mountComponent();
+
+	const popover = wrapper.findComponent( { name: 'CdxPopover' } );
+	assert.true( popover.exists(), 'Popover component is rendered' );
+	assert.strictEqual( popover.props( 'open' ), false, 'Popover is closed by default' );
+
+	const userCard = wrapper.findComponent( { name: 'UserCardView' } );
+	assert.false( userCard.exists(), 'UserCardView is not rendered when closed' );
+} );
+
+QUnit.test( 'open method opens the popover with the correct trigger', ( assert ) => {
+	const wrapper = mountComponent();
+	const triggerElement = document.createElement( 'button' );
+
+	wrapper.vm.open( triggerElement );
+
+	nextTick( () => {
+		const popover = wrapper.findComponent( { name: 'CdxPopover' } );
+		assert.strictEqual( popover.props( 'open' ), true, 'Popover is open after calling open()' );
+		assert.strictEqual(
+			popover.props( 'anchor' ),
+			triggerElement,
+			'Popover anchor is set to the trigger element'
+		);
+
+		const userCard = wrapper.findComponent( { name: 'UserCardView' } );
+		assert.true( userCard.exists(), 'UserCardView is rendered when open' );
+	} );
+} );
+
+QUnit.test( 'setUserInfo method sets the user ID and wiki ID', ( assert ) => {
+	const wrapper = mountComponent();
+
+	wrapper.vm.setUserInfo( '123', '1' );
+
+	assert.strictEqual( wrapper.vm.userId, '123', 'User ID is set correctly' );
+	assert.strictEqual( wrapper.vm.wikiId, '1', 'Wiki ID is set correctly' );
+} );
+
+QUnit.test( 'componentKey is based on userId', ( assert ) => {
+	const wrapper = mountComponent();
+
+	wrapper.vm.setUserInfo( null, '1' );
+
+	assert.strictEqual(
+		wrapper.vm.componentKey,
+		'default',
+		'Component key is "default" when userId is null'
+	);
+
+	wrapper.vm.setUserInfo( '123', '1' );
+
+	assert.strictEqual(
+		wrapper.vm.componentKey,
+		'123',
+		'Component key is set to userId when userId is not null'
+	);
+} );
+
+QUnit.test( 'container div is rendered only when popover is open', ( assert ) => {
+	const wrapper = mountComponent();
+
+	let container = wrapper.find( '.ext-checkuser-userinfocard-container' );
+	assert.false( container.exists(), 'Container div is not rendered when closed' );
+
+	wrapper.vm.open( document.createElement( 'button' ) );
+
+	nextTick( () => {
+		container = wrapper.find( '.ext-checkuser-userinfocard-container' );
+		assert.true( container.exists(), 'Container div is rendered when open' );
+	} );
+} );
+
+QUnit.test( 'exposed methods are available', ( assert ) => {
+	const wrapper = mountComponent();
+
+	assert.true( typeof wrapper.vm.open === 'function', 'open method is exposed' );
+	assert.true( typeof wrapper.vm.setUserInfo === 'function', 'setUserInfo method is exposed' );
+} );
