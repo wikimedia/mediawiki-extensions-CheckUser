@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Services;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\User\UserIdentity;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -65,5 +66,31 @@ class CheckUserCentralIndexLookup implements CheckUserQueryInterface {
 				yield $lastCentralId;
 			}
 		}
+	}
+
+	/**
+	 * @param UserIdentity $userIdentity
+	 * @return array A list of wiki IDs associated with the user ID
+	 */
+	public function getActiveWikisForUser( UserIdentity $userIdentity ): array {
+		$dbr = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
+		$rows = $dbr->newSelectQueryBuilder()
+			->select( 'ciu_ciwm_id' )
+			->distinct()
+			->from( 'cuci_user' )
+			->where( [ 'ciu_central_id' => $userIdentity->getId() ] )
+			->caller( __METHOD__ )
+			->fetchFieldValues();
+		if ( !$rows ) {
+			return [];
+		}
+		$wikiIds = array_map( 'intval', $rows );
+		return $dbr->newSelectQueryBuilder()
+			->select( 'ciwm_wiki' )
+			->from( 'cuci_wiki_map' )
+			->where( [ 'ciwm_id' => $wikiIds ] )
+			->orderBy( 'ciwm_wiki', SelectQueryBuilder::SORT_ASC )
+			->caller( __METHOD__ )
+			->fetchFieldValues();
 	}
 }

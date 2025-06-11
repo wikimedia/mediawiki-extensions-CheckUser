@@ -21,7 +21,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getExtensionRegistry(),
 			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
-			$services->getUserGroupManager()
+			$services->getUserGroupManager(),
+			$services->get( 'CheckUserCentralIndexLookup' )
 		);
 	}
 
@@ -50,6 +51,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'localRegistration', $userInfo );
 		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
 		$this->assertSame( [ 'bureaucrat', 'sysop' ], $userInfo['groups'] );
+		$this->assertSame( [], $userInfo['activeWikis'] );
 	}
 
 	public function testExecuteInvalidUser() {
@@ -71,7 +73,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getExtensionRegistry(),
 			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
-			$services->getUserGroupManager()
+			$services->getUserGroupManager(),
+			$services->get( 'CheckUserCentralIndexLookup' )
 		);
 		$this->assertSame( [], $infoCardService->getUserInfo( $this->getTestUser()->getUser() ) );
 	}

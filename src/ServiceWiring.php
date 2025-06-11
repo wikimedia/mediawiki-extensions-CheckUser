@@ -429,7 +429,8 @@ return [
 			$services->getExtensionRegistry(),
 			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
-			$services->getUserGroupManager()
+			$services->getUserGroupManager(),
+			$services->get( 'CheckUserCentralIndexLookup' )
 		);
 	},
 ];

@@ -19,6 +19,7 @@ class CheckUserUserInfoCardService {
 	private UserOptionsLookup $userOptionsLookup;
 	private UserRegistrationLookup $userRegistrationLookup;
 	private UserGroupManager $userGroupManager;
+	private CheckUserCentralIndexLookup $checkUserCentralIndexLookup;
 
 	/**
 	 * @param UserImpactLookup|null $userImpactLookup
@@ -32,13 +33,15 @@ class CheckUserUserInfoCardService {
 		ExtensionRegistry $extensionRegistry,
 		UserOptionsLookup $userOptionsLookup,
 		UserRegistrationLookup $userRegistrationLookup,
-		UserGroupManager $userGroupManager
+		UserGroupManager $userGroupManager,
+		CheckUserCentralIndexLookup $checkUserCentralIndexLookup
 	) {
 		$this->userImpactLookup = $userImpactLookup;
 		$this->extensionRegistry = $extensionRegistry;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->userRegistrationLookup = $userRegistrationLookup;
 		$this->userGroupManager = $userGroupManager;
+		$this->checkUserCentralIndexLookup = $checkUserCentralIndexLookup;
 	}
 
 	/**
@@ -95,6 +98,7 @@ class CheckUserUserInfoCardService {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
 			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
 		}
+		$userInfo['activeWikis'] = $this->checkUserCentralIndexLookup->getActiveWikisForUser( $user );
 		return $userInfo;
 	}
 }
