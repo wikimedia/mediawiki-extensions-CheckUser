@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Services;
 
 use GrowthExperiments\UserImpact\UserImpactLookup;
+use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -122,6 +123,17 @@ class CheckUserUserInfoCardService {
 				$userInfo['checkUserLastCheck'] = $rows[0];
 			}
 		}
+
+		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+			try {
+				$centralAuthUser = CentralAuthUser::getInstance( $user );
+				$blocks = $centralAuthUser->getBlocks();
+			} catch ( LocalUserNotFoundException $e ) {
+				$blocks = [];
+			}
+			$userInfo['activeLocalBlocksAllWikis'] = array_sum( array_map( 'count', $blocks ) );
+		}
+
 		return $userInfo;
 	}
 }
