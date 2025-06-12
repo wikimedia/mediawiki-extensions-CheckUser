@@ -431,7 +431,8 @@ return [
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
-			$services->getConnectionProvider()
+			$services->getConnectionProvider(),
+			$services->getStatsFactory()
 		);
 	},
 ];

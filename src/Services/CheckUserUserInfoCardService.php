@@ -13,6 +13,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserOptionsLookup;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
+use Wikimedia\Stats\StatsFactory;
 
 /**
  * A service for methods that interact with user info card components
@@ -25,6 +26,7 @@ class CheckUserUserInfoCardService {
 	private UserGroupManager $userGroupManager;
 	private CheckUserCentralIndexLookup $checkUserCentralIndexLookup;
 	private IConnectionProvider $dbProvider;
+	private StatsFactory $statsFactory;
 
 	/**
 	 * @param UserImpactLookup|null $userImpactLookup
@@ -34,6 +36,7 @@ class CheckUserUserInfoCardService {
 	 * @param UserGroupManager $userGroupManager
 	 * @param CheckUserCentralIndexLookup $checkUserCentralIndexLookup
 	 * @param IConnectionProvider $dbProvider
+	 * @param StatsFactory $statsFactory
 	 */
 	public function __construct(
 		?UserImpactLookup $userImpactLookup,
@@ -42,7 +45,8 @@ class CheckUserUserInfoCardService {
 		UserRegistrationLookup $userRegistrationLookup,
 		UserGroupManager $userGroupManager,
 		CheckUserCentralIndexLookup $checkUserCentralIndexLookup,
-		IConnectionProvider $dbProvider
+		IConnectionProvider $dbProvider,
+		StatsFactory $statsFactory
 	) {
 		$this->userImpactLookup = $userImpactLookup;
 		$this->extensionRegistry = $extensionRegistry;
@@ -51,6 +55,7 @@ class CheckUserUserInfoCardService {
 		$this->userGroupManager = $userGroupManager;
 		$this->checkUserCentralIndexLookup = $checkUserCentralIndexLookup;
 		$this->dbProvider = $dbProvider;
+		$this->statsFactory = $statsFactory;
 	}
 
 	/**
@@ -90,6 +95,8 @@ class CheckUserUserInfoCardService {
 	 * @return array array containing aggregated user information
 	 */
 	public function getUserInfo( Authority $authority, UserIdentity $user ): array {
+		$start = microtime( true );
+
 		// GrowthExperiments is unavailable, don't attempt to return any data (T394070)
 		// In the future, we may try to return data that's available without having
 		// the GrowthExperiments impact store available.
@@ -145,6 +152,10 @@ class CheckUserUserInfoCardService {
 			] )
 			->caller( __METHOD__ )
 			->fetchRowCount();
+
+		$this->statsFactory->withComponent( 'CheckUser' )
+			->getTiming( 'userinfocardservice_get_user_info' )
+			->observe( ( microtime( true ) - $start ) * 1000 );
 
 		return $userInfo;
 	}
