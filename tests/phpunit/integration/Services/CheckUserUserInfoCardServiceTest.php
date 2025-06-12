@@ -154,4 +154,32 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$result
 		);
 	}
+
+	public function testGetPastBlocksOnLocalWiki() {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+		$user = $this->getTestUser()->getUser();
+		$this->assertSame(
+			0,
+			$this->getObjectUnderTest()->getUserInfo( $user, $user )['pastBlocksOnLocalWiki']
+		);
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'logging' )
+			->rows( [
+				[
+					'log_actor' => $user->getActorId(),
+					'log_comment_id' => 1,
+					'log_params' => '',
+					'log_type' => 'block',
+					'log_namespace' => NS_USER,
+					'log_title' => $user->getName(),
+				],
+			] )
+			->caller( __METHOD__ )
+			->execute();
+
+		$this->assertSame( 1,
+			$this->getObjectUnderTest()->getUserInfo( $user, $user )['pastBlocksOnLocalWiki']
+		);
+	}
 }

@@ -109,8 +109,9 @@ class CheckUserUserInfoCardService {
 			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
 		}
 		$userInfo['activeWikis'] = $this->checkUserCentralIndexLookup->getActiveWikisForUser( $user );
+
+		$dbr = $this->dbProvider->getReplicaDatabase();
 		if ( $authority->isAllowed( 'checkuser-log' ) ) {
-			$dbr = $this->dbProvider->getReplicaDatabase();
 			$rows = $dbr->newSelectQueryBuilder()
 				->select( 'cul_timestamp' )
 				->from( 'cu_log' )
@@ -133,6 +134,17 @@ class CheckUserUserInfoCardService {
 			}
 			$userInfo['activeLocalBlocksAllWikis'] = array_sum( array_map( 'count', $blocks ) );
 		}
+
+		$userInfo['pastBlocksOnLocalWiki'] = $dbr->newSelectQueryBuilder()
+			->select( 'log_id' )
+			->from( 'logging' )
+			->where( [
+				'log_type' => 'block',
+				'log_namespace' => NS_USER,
+				'log_title' => $user->getName(),
+			] )
+			->caller( __METHOD__ )
+			->fetchRowCount();
 
 		return $userInfo;
 	}
