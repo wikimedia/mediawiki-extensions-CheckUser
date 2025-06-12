@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexLookup;
+use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -112,5 +113,21 @@ class CheckUserCentralIndexLookupTest extends MediaWikiIntegrationTestCase {
 			'batchSize' => 1,
 			'expectedUserIds' => [ 1, 2, 4, 5 ],
 		];
+	}
+
+	public function testGetActiveWikisForUser() {
+		/** @var CheckUserCentralIndexLookup $cuciLookup */
+		$cuciLookup = $this->getServiceContainer()->get( 'CheckUserCentralIndexLookup' );
+		$userIdentity99 = $this->createMock( UserIdentity::class );
+		$userIdentity99->method( 'getId' )->willReturn( 99 );
+		$this->assertSame( [], $cuciLookup->getActiveWikisForUser( $userIdentity99 ) );
+
+		$userIdentity1 = $this->createMock( UserIdentity::class );
+		$userIdentity1->method( 'getId' )->willReturn( 1 );
+		$this->assertSame( [ 'enwiki' ], $cuciLookup->getActiveWikisForUser( $userIdentity1 ) );
+
+		$userIdentity2 = $this->createMock( UserIdentity::class );
+		$userIdentity2->method( 'getId' )->willReturn( 2 );
+		$this->assertSame( [ 'dewiki', 'enwiki' ], $cuciLookup->getActiveWikisForUser( $userIdentity2 ) );
 	}
 }
