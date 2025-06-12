@@ -209,6 +209,8 @@
 	"checkuser-investigate-subtitle-link-restart-tour": "ট্যুর পুনরাম্ভ করুন",
 	"checkuser-investigate-tour-targets-title": "একাধিক ব্যবহারকারী ও আইপি পরীক্ষা করছেন?",
 	"checkuser-investigate-tour-block-title": "বাধা দিতে চান?",
+	"prefs-checkuser-tempaccount": "অস্থায়ী অ্যাকাউন্টের আইপি প্রকাশ",
+	"checkuser-tempaccount-enable-preference": "অস্থায়ী অ্যাকাউন্টের জন্য আইপি ঠিকানা প্রকাশ করা সক্রিয় করুন",
 	"checkuser-tempaccount-reveal-ip-button-label": "আইপি দেখান",
 	"checkuser-tempaccount-reveal-ip-missing": "অনুপলব্ধ",
 	"checkuser-tempaccount-reveal-ip-error": "ত্রুটি",

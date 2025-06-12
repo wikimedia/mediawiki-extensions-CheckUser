@@ -18,7 +18,7 @@
 	"checkuser-summary": "Bu alət bir istifadəçi tərəfindən istifadə olunan IP ünvanlarını almaq və ya bir IP ünvan üçün redaktə/istifadəçi məlumatlarını göstərmək üçün son dəyişiklikləri yoxlayır. Bir müştəri IP ünvanı ilə istifadəçilər və redaktələr IP ünvana \"/xff\"  əlavə edərək XFF başlıqları əldə edə bilər. IPv4 (CIDR $1-32) və IPv6 (CIDR $2-128) ilə dəstəklənir. Performans səbəblərinə görə $3+ redaktə qaytarılmayacaq. Bunu siyasətə uyğun olaraq istifadə edin.",
 	"checkuser-desc": "Müvafiq icazəsi olan istifadəçiləri istifadəçinin IP ünvanlarını və digər məlumatları yoxlamaq imkanı verir",
 	"checkuser": "Təftişçi",
-	"checkuserlog": "Təftişçi qeydi",
+	"checkuserlog": "Təftişçi jurnalı",
 	"checkuser-contribs": "İstifadəçinin IP ünvanını yoxla",
 	"checkuser-contribs-log": "istifadəçinin yoxlanılmaları",
 	"checkuser-contribs-log-initiator": "bu istifadəçi tərəfindən edilən yoxlamalar",

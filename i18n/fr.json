@@ -80,6 +80,7 @@
 	"checkuser-clienthints-name-platform-version": "Version de plateforme",
 	"checkuser-clienthints-value-yes": "Oui",
 	"checkuser-clienthints-value-no": "Non",
+	"checkuser-clienthints-list-item": "$1 : $2",
 	"checkuser-reason": "Motif :",
 	"checkuser-reason-api": "API : $1",
 	"checkuser-showlog": "Journal des vérifications",

@@ -23,8 +23,12 @@
 	"right-checkuser-temporary-account": "Gwelet ar chomlec'hioù IP implijet gant ar c'hontoù berrbad",
 	"right-checkuser-temporary-account-no-preference": "Gwelet ar chomlec'hioù IP implijet gant ar c'hontoù berrbad hep ezhomm da weredekaat an dibab",
 	"right-checkuser-temporary-account-log": "Gwelet ar marilh aksed da chomlec'hioù IP ar c’hontoù berrbad",
+	"grant-checkuser-temporary-account": "Aksediñ roadennoù gwirier implijerien evit ar c'hontoù berrbad",
 	"action-checkuser": "Gwiriañ chomlec'hioù IP an implijer ha titouroù all",
 	"action-checkuser-log": "Gwelet marilh gwiriañ an implijerien",
+	"action-checkuser-temporary-account": "gwelet chomlec’hioù IP implijet gant kontoù berrbad",
+	"action-checkuser-temporary-account-no-preference": "gwelet chomlec’hioù IP implijet gant kontoù berrbad",
+	"action-checkuser-temporary-account-log": "gwelet marilh an aksedoù da chomlec'hioù IP ar c'hontoù berrbad",
 	"grouppage-checkuser": "{{ns:project}}:Gwiriañ an implijer",
 	"checkuser-clienthints-value-yes": "Ya",
 	"checkuser-clienthints-value-no": "Ket",
@@ -78,6 +82,10 @@
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl IPoù an implijer-mañ",
 	"prefs-checkuser-tempaccount": "Diskuliañ IP kont berrbad",
 	"checkuser-tempaccount-enable-preference": "Gweredekaat diskuliañ chomlec’hioù IP ar c’hontoù berrbad",
+	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|e|he}} aotre da welet chomlec'hioù IP ar c'hontoù berrbad",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|diweredekaet}}",
-	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|gweredekaet}}"
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|gweredekaet}}",
+	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|en|he}} deus gwelet chomlec'hioù IP evit $3",
+	"log-action-filter-checkuser-temporary-account": "Seurt oberː",
+	"log-action-filter-checkuser-temporary-account-change-access": "Kemmañ aksed"
 }
