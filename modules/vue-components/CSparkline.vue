@@ -59,11 +59,13 @@ module.exports = exports = {
 			// This ensures the chart displays an accurate representation of the data
 			// so the line doesn't stay in the middle of the graph
 			const maxY = d3.max( props.data, getYValue ) || 10;
-			const yDomain = [ 0, maxY ];
+			// Use -10% on the lower yDomain so we see 0 value "lines" in the chart
+			// This issue happens in Safari
+			const yDomain = [ -0.1 * maxY, maxY ];
 
 			const yScale = d3.scaleLinear()
 				.domain( yDomain )
-				// Flip svg Y-axis coordinate system and add some a pixel on top to avoid cutting
+				// Flip svg Y-axis coordinate system and add a pixel on top to avoid cutting
 				// off anti-aliasing pixels. Do not add a pixel on the bottom, that would make the
 				// graph non-0-based, and it's rare for the pageviews to be 0.
 				.range( [ props.dimensions.height, 1 ] );

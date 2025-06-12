@@ -49,7 +49,6 @@ module.exports = exports = {
 		const username = ref( null );
 		const cardContainer = ref( null );
 
-		// Methods
 		function open( target ) {
 			currentTrigger.value = target;
 			isOpen.value = true;
@@ -102,7 +101,9 @@ module.exports = exports = {
 @import 'mediawiki.skin.variables.less';
 
 .ext-checkuser-userinfocard-popover {
-	min-width: @size-2400;
+	// Don't add max-width here as CdxPopover uses it for controlling the card going
+	// outside the view window
+	width: @size-2400;
 }
 
 .ext-checkuser-userinfocard-container {
