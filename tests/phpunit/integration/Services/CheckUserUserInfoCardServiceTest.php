@@ -23,7 +23,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
-			$services->getConnectionProvider()
+			$services->getConnectionProvider(),
+			$services->getStatsFactory()
 		);
 	}
 
@@ -82,7 +83,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
-			$services->getConnectionProvider()
+			$services->getConnectionProvider(),
+			$services->getStatsFactory()
 		);
 		$this->assertSame( [], $infoCardService->getUserInfo(
 			$this->getTestUser()->getAuthority(), $this->getTestUser()->getUser()
