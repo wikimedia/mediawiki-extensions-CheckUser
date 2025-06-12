@@ -430,7 +430,8 @@ return [
 			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserCentralIndexLookup' )
+			$services->get( 'CheckUserCentralIndexLookup' ),
+			$services->getConnectionProvider()
 		);
 	},
 ];

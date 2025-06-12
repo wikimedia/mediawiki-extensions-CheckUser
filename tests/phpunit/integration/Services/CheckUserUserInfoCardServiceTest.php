@@ -22,7 +22,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserCentralIndexLookup' )
+			$services->get( 'CheckUserCentralIndexLookup' ),
+			$services->getConnectionProvider()
 		);
 	}
 
@@ -36,7 +37,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		// Run deferred updates, to ensure that globalEditCount gets populated in CentralAuth.
 		$this->runDeferredUpdates();
-		$userInfo = $this->getObjectUnderTest()->getUserInfo( $user );
+		$userInfo = $this->getObjectUnderTest()->getUserInfo(
+			$this->getTestUser()->getAuthority(),
+			$user
+		);
 		$this->assertSame( 1, $userInfo[ 'totalEditCount' ] );
 		if ( MediaWikiServices::getInstance()->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
 			// TODO: Fix this test so that we assert that the globalEditCount is 1.
@@ -61,7 +65,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$anonUser = $this->getServiceContainer()
 			->getUserFactory()
 			->newAnonymous( '1.2.3.4' );
-		$userImpact = $this->getObjectUnderTest()->getUserInfo( $anonUser );
+		$userImpact = $this->getObjectUnderTest()->getUserInfo(
+			$this->getTestUser()->getAuthority(),
+			$anonUser
+		);
 		$this->assertSame( [], $userImpact );
 	}
 
@@ -74,8 +81,77 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserCentralIndexLookup' )
+			$services->get( 'CheckUserCentralIndexLookup' ),
+			$services->getConnectionProvider()
 		);
-		$this->assertSame( [], $infoCardService->getUserInfo( $this->getTestUser()->getUser() ) );
+		$this->assertSame( [], $infoCardService->getUserInfo(
+			$this->getTestUser()->getAuthority(), $this->getTestUser()->getUser()
+		) );
+	}
+
+	public function testCheckUserChecksDataPoint() {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+		$cuUserAuthority = $this->getTestUser( [ 'checkuser' ] )->getAuthority();
+		$user = $this->getTestUser()->getUser();
+		$this->assertSame(
+			0,
+			$this->getObjectUnderTest()->getUserInfo(
+				$cuUserAuthority, $user
+			)['checkUserChecks']
+		);
+		$timestamp = (int)wfTimestamp( TS_UNIX, '20250611000000' );
+		$olderTimestamp = (int)wfTimestamp( TS_UNIX, '20250411000000' );
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_log' )
+			->rows( [
+				[
+					'cul_target_text' => $user->getName(),
+					'cul_target_id' => $user->getId(),
+					'cul_timestamp' => $this->getDb()->timestamp( $timestamp ),
+					'cul_type' => 'userips',
+					'cul_reason_id' => 1,
+					'cul_reason_plaintext_id' => 2,
+					'cul_actor' => $user->getActorId(),
+				],
+				[
+					'cul_target_text' => $user->getName(),
+					'cul_target_id' => $user->getId(),
+					'cul_timestamp' => $this->getDb()->timestamp( $olderTimestamp ),
+					'cul_type' => 'userips',
+					'cul_reason_id' => 1,
+					'cul_reason_plaintext_id' => 2,
+					'cul_actor' => $user->getActorId(),
+				]
+			] )
+			->caller( __METHOD__ )
+			->execute();
+
+		$result = $this->getObjectUnderTest()->getUserInfo(
+			$cuUserAuthority, $user
+		);
+		$this->assertSame(
+			2,
+			$result['checkUserChecks']
+		);
+		$this->assertSame(
+			$timestamp,
+			(int)wfTimestamp(
+				TS_UNIX,
+				$result['checkUserLastCheck']
+			)
+		);
+		// User without checkuser-log permission should not see any checkUser related output.
+		$result = $this->getObjectUnderTest()->getUserInfo(
+			$user, $user
+		);
+		$this->assertArrayNotHasKey(
+			'checkuserChecks',
+			$result
+		);
+		$this->assertArrayNotHasKey(
+			'checkUserLastCheck',
+			$result
+		);
 	}
 }
