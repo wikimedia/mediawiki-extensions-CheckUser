@@ -60,43 +60,60 @@ module.exports = exports = {
 			-1, 'Special:Preferences'
 		).getUrl() + '#mw-prefsection-rendering-advancedrendering';
 
+		// Get permission configs
+		const canViewIPAddresses = mw.config.get( 'wgCheckUserCanPerformCheckUser' );
+		const canBlock = mw.config.get( 'wgCheckUserCanBlock' );
+
 		// Computed is necessary for the watchListLabel item
-		const menuItems = computed( () => [
-			{
-				label: mw.msg( 'checkuser-userinfocard-menu-view-contributions' ),
-				value: 'view-contributions',
-				link: contributionsLink
-			},
-			{
-				label: mw.msg( 'checkuser-userinfocard-menu-view-global-account' ),
-				value: 'view-global-account',
-				link: globalAccountLink
-			},
-			{
-				label: watchListLabel.value,
-				value: 'toggle-watchlist'
-			},
-			{
-				label: mw.msg( 'checkuser-userinfocard-menu-check-ip' ),
-				value: 'check-ip',
-				link: checkUserLink
-			},
-			{
-				label: mw.msg( 'checkuser-userinfocard-menu-block-user' ),
-				value: 'block-user',
-				link: blockUserLink
-			},
-			{
-				label: mw.msg( 'checkuser-userinfocard-menu-provide-feedback' ),
-				value: 'provide-feedback',
-				link: 'https://www.mediawiki.org/w/index.php?title=Help_talk:Extension:CheckUser'
-			},
-			{
-				label: mw.msg( 'checkuser-userinfocard-menu-turn-off' ),
-				value: 'turn-off',
-				link: turnOffLink
+		const menuItems = computed( () => {
+			const items = [
+				{
+					label: mw.msg( 'checkuser-userinfocard-menu-view-contributions' ),
+					value: 'view-contributions',
+					link: contributionsLink
+				},
+				{
+					label: mw.msg( 'checkuser-userinfocard-menu-view-global-account' ),
+					value: 'view-global-account',
+					link: globalAccountLink
+				},
+				{
+					label: watchListLabel.value,
+					value: 'toggle-watchlist'
+				}
+			];
+
+			if ( canViewIPAddresses ) {
+				items.push( {
+					label: mw.msg( 'checkuser-userinfocard-menu-check-ip' ),
+					value: 'check-ip',
+					link: checkUserLink
+				} );
 			}
-		] );
+
+			if ( canBlock ) {
+				items.push( {
+					label: mw.msg( 'checkuser-userinfocard-menu-block-user' ),
+					value: 'block-user',
+					link: blockUserLink
+				} );
+			}
+
+			items.push( ...[
+				{
+					label: mw.msg( 'checkuser-userinfocard-menu-provide-feedback' ),
+					value: 'provide-feedback',
+					link: 'https://www.mediawiki.org/w/index.php?title=Help_talk:Extension:CheckUser'
+				},
+				{
+					label: mw.msg( 'checkuser-userinfocard-menu-turn-off' ),
+					value: 'turn-off',
+					link: turnOffLink
+				}
+			] );
+
+			return items;
+		} );
 
 		function onMenuSelect( value ) {
 			const selectedItem = menuItems.value.find( ( item ) => item.value === value );

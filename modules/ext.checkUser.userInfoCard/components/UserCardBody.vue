@@ -148,68 +148,79 @@ module.exports = exports = {
 		);
 
 		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
-		const formattedMaxEdits = mw.language.convertNumber( maxEdits );
-		const formattedNewArticles = computed(
-			() => props.newArticles >= maxEdits ?
-				mw.msg( 'checkuser-userinfocard-new-articles-exceeds-max-to-display', formattedMaxEdits ) :
-				props.newArticles
-		);
+		const canViewCheckUserLog = mw.config.get( 'wgCheckUserCanViewCheckUserLog' );
+		const canBlock = mw.config.get( 'wgCheckUserCanBlock' );
 
-		const infoRows = [
-			{
-				icon: cdxIconAlert,
-				iconClass: 'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks',
-				mainLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-main-label' ),
-				mainValue: props.activeBlocks,
-				mainLink: activeBlocksLink,
-				suffixLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-suffix-label' ),
-				suffixValue: props.pastBlocks,
-				suffixLink: pastBlocksLink
-			},
-			{
-				icon: cdxIconEdit,
-				iconClass: 'ext-checkuser-userinfocard-icon',
-				mainLabel: mw.msg( 'checkuser-userinfocard-global-edits-row-main-label' ),
-				mainValue: props.globalEdits,
-				mainLink: globalEditsLink
-			},
-			{
-				icon: cdxIconEdit,
-				iconClass: 'ext-checkuser-userinfocard-icon',
-				mainLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-main-label' ),
-				mainValue: props.localEdits,
-				mainLink: localEditsLink,
-				suffixLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-suffix-label' ),
-				suffixValue: props.localEditsReverted,
-				suffixLink: localEditsLink
-			},
-			{
-				icon: cdxIconArticles,
-				iconClass: 'ext-checkuser-userinfocard-icon',
-				mainLabel: mw.msg( 'checkuser-userinfocard-new-articles-row-main-label' ),
-				mainValue: formattedNewArticles,
-				mainLink: newArticlesLink
-			},
-			{
-				icon: cdxIconHeart,
-				iconClass: 'ext-checkuser-userinfocard-icon',
-				mainLabel: mw.msg( 'checkuser-userinfocard-thanks-row-main-label' ),
-				mainValue: props.thanksReceived,
-				mainLink: thanksReceivedLink,
-				suffixLabel: mw.msg( 'checkuser-userinfocard-thanks-row-suffix-label' ),
-				suffixValue: props.thanksSent,
-				suffixLink: thanksSentLink
-			},
-			{
-				icon: cdxIconSearch,
-				iconClass: 'ext-checkuser-userinfocard-icon',
-				mainLabel: mw.msg( 'checkuser-userinfocard-checks-row-main-label' ),
-				mainValue: props.checks,
-				mainLink: checksLink,
-				suffixLabel: mw.msg( 'checkuser-userinfocard-checks-row-suffix-label' ),
-				suffixValue: props.lastChecked
+		const infoRows = computed( () => {
+			const formattedMaxEdits = mw.language.convertNumber( maxEdits );
+			const formattedNewArticles = props.newArticles >= maxEdits ?
+				mw.msg( 'checkuser-userinfocard-new-articles-exceeds-max-to-display', formattedMaxEdits ) :
+				props.newArticles;
+			const rows = [];
+
+			if ( canBlock ) {
+				rows.push( {
+					icon: cdxIconAlert,
+					iconClass: 'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks',
+					mainLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-main-label' ),
+					mainValue: props.activeBlocks,
+					mainLink: activeBlocksLink,
+					suffixLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-suffix-label' ),
+					suffixValue: props.pastBlocks,
+					suffixLink: pastBlocksLink
+				} );
 			}
-		];
+
+			rows.push( ...[
+				{
+					icon: cdxIconEdit,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					mainLabel: mw.msg( 'checkuser-userinfocard-global-edits-row-main-label' ),
+					mainValue: props.globalEdits,
+					mainLink: globalEditsLink
+				},
+				{
+					icon: cdxIconEdit,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					mainLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-main-label' ),
+					mainValue: props.localEdits,
+					mainLink: localEditsLink,
+					suffixLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-suffix-label' ),
+					suffixValue: props.localEditsReverted,
+					suffixLink: localEditsLink
+				},
+				{
+					icon: cdxIconArticles,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					mainLabel: mw.msg( 'checkuser-userinfocard-new-articles-row-main-label' ),
+					mainValue: formattedNewArticles,
+					mainLink: newArticlesLink
+				},
+				{
+					icon: cdxIconHeart,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					mainLabel: mw.msg( 'checkuser-userinfocard-thanks-row-main-label' ),
+					mainValue: props.thanksReceived,
+					mainLink: thanksReceivedLink,
+					suffixLabel: mw.msg( 'checkuser-userinfocard-thanks-row-suffix-label' ),
+					suffixValue: props.thanksSent,
+					suffixLink: thanksSentLink
+				}
+			] );
+
+			if ( canViewCheckUserLog ) {
+				rows.push( {
+					icon: cdxIconSearch,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					mainLabel: mw.msg( 'checkuser-userinfocard-checks-row-main-label' ),
+					mainValue: props.checks,
+					mainLink: checksLink,
+					suffixLabel: mw.msg( 'checkuser-userinfocard-checks-row-suffix-label' ),
+					suffixValue: props.lastChecked
+				} );
+			}
+			return rows;
+		} );
 
 		return {
 			joinedLabel,

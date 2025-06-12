@@ -24,6 +24,11 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardBody', QUnit.newMwEnvironment(
 				return `${ nsText }${ title }`;
 			}
 		} ) );
+
+		// Force permission configs
+		mw.config.set( 'wgCheckUserCanViewCheckUserLog', true );
+		mw.config.set( 'wgCheckUserCanBlock', true );
+		mw.config.set( 'wgCheckUserGEUserImpactMaxEdits', 1000 );
 	}
 } ) );
 
@@ -82,18 +87,30 @@ QUnit.test( 'displays joined date information correctly', ( assert ) => {
 	);
 } );
 
-QUnit.test( 'renders correct number of InfoRowWithLinks components', ( assert ) => {
+QUnit.test( 'renders correct number of InfoRowWithLinks components with all permissions', ( assert ) => {
 	const wrapper = mountComponent();
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	assert.strictEqual( infoRows.length, 6, 'Renders 6 InfoRowWithLinks components' );
+	assert.strictEqual( infoRows.length, 6, 'Renders 6 InfoRowWithLinks components when all permissions are granted' );
 } );
 
-QUnit.test( 'passes correct props to first InfoRowWithLinks component (blocks)', ( assert ) => {
+QUnit.test( 'renders correct number of InfoRowWithLinks components with no permissions', ( assert ) => {
+	mw.config.set( 'wgCheckUserCanViewCheckUserLog', false );
+	mw.config.set( 'wgCheckUserCanBlock', false );
 	const wrapper = mountComponent();
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	const blocksRow = infoRows[ 0 ];
+	assert.strictEqual( infoRows.length, 4, 'Renders 4 InfoRowWithLinks components when no permissions are granted' );
+} );
+
+QUnit.test( 'passes correct props to blocks row when permission is granted', ( assert ) => {
+	const wrapper = mountComponent();
+
+	// Find the blocks row by its icon class
+	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
+	const blocksRow = infoRows.find( ( row ) => row.props( 'iconClass' ).includes( 'ext-checkuser-userinfocard-icon-blocks' ) );
+
+	assert.true( blocksRow !== undefined, 'Blocks row exists when permission is granted' );
 
 	assert.strictEqual(
 		blocksRow.props( 'mainLabel' ),
@@ -130,6 +147,17 @@ QUnit.test( 'passes correct props to first InfoRowWithLinks component (blocks)',
 		'/-1/Log/block?user=TestUser',
 		'Blocks row has correct suffix link'
 	);
+} );
+
+QUnit.test( 'does not render blocks row when permission is not granted', ( assert ) => {
+	mw.config.set( 'wgCheckUserCanBlock', false );
+	const wrapper = mountComponent();
+
+	// Try to find the blocks row by its icon class
+	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
+	const blocksRow = infoRows.find( ( row ) => row.props( 'iconClass' ).includes( 'ext-checkuser-userinfocard-icon-blocks' ) );
+
+	assert.strictEqual( blocksRow, undefined, 'Blocks row does not exist when permission is not granted' );
 } );
 
 QUnit.test( 'does not render active wikis paragraph when activeWikis is empty', ( assert ) => {
@@ -173,7 +201,7 @@ QUnit.test( 'renders UserActivityChart when recentLocalEdits is not empty', ( as
 	);
 } );
 
-QUnit.test( 'setup function returns correct values', ( assert ) => {
+QUnit.test( 'setup function returns correct values with all permissions', ( assert ) => {
 	const wrapper = mountComponent();
 
 	assert.strictEqual(
@@ -191,6 +219,18 @@ QUnit.test( 'setup function returns correct values', ( assert ) => {
 	assert.strictEqual(
 		wrapper.vm.infoRows.length,
 		6,
-		'infoRows has correct length'
+		'infoRows has correct length with all permissions'
+	);
+} );
+
+QUnit.test( 'setup function returns correct values with no permissions', ( assert ) => {
+	mw.config.set( 'wgCheckUserCanViewCheckUserLog', false );
+	mw.config.set( 'wgCheckUserCanBlock', false );
+	const wrapper = mountComponent();
+
+	assert.strictEqual(
+		wrapper.vm.infoRows.length,
+		4,
+		'infoRows has correct length with no permissions'
 	);
 } );

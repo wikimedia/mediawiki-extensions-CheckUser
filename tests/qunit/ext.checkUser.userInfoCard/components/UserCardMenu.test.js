@@ -28,6 +28,10 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardMenu', QUnit.newMwEnvironment(
 				return `${ nsText }${ title }`;
 			}
 		} ) );
+
+		// Force permission configs
+		mw.config.set( 'wgCheckUserCanPerformCheckUser', true );
+		mw.config.set( 'wgCheckUserCanBlock', true );
 	},
 	afterEach: function () {
 		this.server.restore();
@@ -51,11 +55,11 @@ QUnit.test( 'renders correctly with default props', ( assert ) => {
 	assert.true( wrapper.exists(), 'Component renders' );
 } );
 
-QUnit.test( 'computes menu items correctly', ( assert ) => {
+QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => {
 	const wrapper = mountComponent();
 	const menuItems = wrapper.vm.menuItems;
 
-	assert.strictEqual( menuItems.length, 7, 'Menu has 7 items' );
+	assert.strictEqual( menuItems.length, 7, 'Menu has 7 items with all permissions' );
 
 	assert.strictEqual(
 		menuItems[ 0 ].value,
@@ -139,6 +143,66 @@ QUnit.test( 'computes menu items correctly', ( assert ) => {
 		'/-1/Special:Preferences#mw-prefsection-rendering-advancedrendering',
 		'Turn off link is correct'
 	);
+} );
+
+QUnit.test( 'computes menu items correctly with no permissions', ( assert ) => {
+	// Mock permission configs - default to false for tests
+	mw.config.set( 'wgCheckUserCanPerformCheckUser', false );
+	mw.config.set( 'wgCheckUserCanBlock', false );
+	const wrapper = mountComponent();
+	const menuItems = wrapper.vm.menuItems;
+
+	assert.strictEqual( menuItems.length, 5, 'Menu has 5 items with no permissions' );
+
+	// Check that the basic items are still there
+	assert.strictEqual( menuItems[ 0 ].value, 'view-contributions', 'First item is view-contributions' );
+	assert.strictEqual( menuItems[ 1 ].value, 'view-global-account', 'Second item is view-global-account' );
+	assert.strictEqual( menuItems[ 2 ].value, 'toggle-watchlist', 'Third item is toggle-watchlist' );
+	assert.strictEqual( menuItems[ 3 ].value, 'provide-feedback', 'Fourth item is provide-feedback' );
+	assert.strictEqual( menuItems[ 4 ].value, 'turn-off', 'Fifth item is turn-off' );
+
+	// Check that permission-based items are not present
+	const checkIpItem = menuItems.find( ( item ) => item.value === 'check-ip' );
+	assert.strictEqual( checkIpItem, undefined, 'check-ip item is not present when permission is not granted' );
+
+	const blockUserItem = menuItems.find( ( item ) => item.value === 'block-user' );
+	assert.strictEqual( blockUserItem, undefined, 'block-user item is not present when permission is not granted' );
+} );
+
+QUnit.test( 'computes menu items correctly with only check-ip permission', ( assert ) => {
+	// Mock permission configs - default to true for tests
+	mw.config.set( 'wgCheckUserCanPerformCheckUser', true );
+	mw.config.set( 'wgCheckUserCanBlock', false );
+	const wrapper = mountComponent();
+	const menuItems = wrapper.vm.menuItems;
+
+	assert.strictEqual( menuItems.length, 6, 'Menu has 6 items with only check-ip permission' );
+
+	// Check that the check-ip item is present
+	const checkIpItem = menuItems.find( ( item ) => item.value === 'check-ip' );
+	assert.notStrictEqual( checkIpItem, undefined, 'check-ip item is present when permission is granted' );
+
+	// Check that the block-user item is not present
+	const blockUserItem = menuItems.find( ( item ) => item.value === 'block-user' );
+	assert.strictEqual( blockUserItem, undefined, 'block-user item is not present when permission is not granted' );
+} );
+
+QUnit.test( 'computes menu items correctly with only block-user permission', ( assert ) => {
+	// Mock permission configs - default to true for tests
+	mw.config.set( 'wgCheckUserCanPerformCheckUser', false );
+	mw.config.set( 'wgCheckUserCanBlock', true );
+	const wrapper = mountComponent();
+	const menuItems = wrapper.vm.menuItems;
+
+	assert.strictEqual( menuItems.length, 6, 'Menu has 6 items with only block-user permission' );
+
+	// Check that the check-ip item is not present
+	const checkIpItem = menuItems.find( ( item ) => item.value === 'check-ip' );
+	assert.strictEqual( checkIpItem, undefined, 'check-ip item is not present when permission is not granted' );
+
+	// Check that the block-user item is present
+	const blockUserItem = menuItems.find( ( item ) => item.value === 'block-user' );
+	assert.notStrictEqual( blockUserItem, undefined, 'block-user item is present when permission is granted' );
 } );
 
 QUnit.test( 'watchlist label changes based on initial state', ( assert ) => {

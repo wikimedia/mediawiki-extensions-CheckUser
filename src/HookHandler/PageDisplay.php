@@ -58,6 +58,10 @@ class PageDisplay implements BeforePageDisplayHook {
 				'wgCheckUserCanBlock',
 				$out->getAuthority()->isAllowed( 'block' )
 			);
+			$out->addJsConfigVars(
+				'wgCheckUserCanPerformCheckUser',
+				$out->getAuthority()->isAllowed( 'checkuser' )
+			);
 		}
 
 		// There is no need for the JS modules for temporary account IP reveal
