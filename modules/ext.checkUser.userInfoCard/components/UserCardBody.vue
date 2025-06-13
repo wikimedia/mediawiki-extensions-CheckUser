@@ -16,10 +16,15 @@
 			:suffix-link="row.suffixLink"
 		></info-row-with-links>
 		<p
-			v-if="activeWikis && activeWikis.length > 0"
+			v-if="activeWikisList && activeWikisList.length > 0"
 			class="ext-checkuser-userinfocard-active-wikis"
 		>
-			{{ activeWikisLabel }}: {{ activeWikis.join( ', ' ) }}
+			{{ activeWikisLabel }}:
+			<template v-for="( wiki, idx ) in activeWikisList" :key="idx">
+				<a :href="wiki.url" class="mw-userlink">
+					{{ wiki.wikiId }}
+				</a>{{ idx < activeWikisList.length - 1 ? ', ' : '' }}
+			</template>
 		</p>
 		<user-activity-chart
 			v-if="hasEditInLast60Days"
@@ -100,8 +105,10 @@ module.exports = exports = {
 			default: ''
 		},
 		activeWikis: {
-			type: Array,
-			default: () => []
+			// Active wikis and their URLs
+			// Expected format: { [wikiId: string]: string }
+			type: Object,
+			default: () => ( {} )
 		},
 		hasEditInLast60Days: {
 			type: Boolean,
@@ -119,8 +126,11 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const joinedLabel = mw.msg( 'checkuser-userinfocard-joined-label' );
-		// TODO: T394461 - mount the links for the active wikis once we start receiving from the API
+
 		const activeWikisLabel = mw.msg( 'checkuser-userinfocard-active-wikis-label' );
+		const activeWikisList = computed( () => Object.keys( props.activeWikis ).map(
+			( wikiId ) => ( { wikiId, url: props.activeWikis[ wikiId ] } )
+		) );
 
 		const activeBlocksLink = mw.Title.makeTitle( -1, 'BlockList' ).getUrl(
 			{ wpTarget: props.username, limit: 50, wpFormIdentifier: 'blocklist' }
@@ -225,6 +235,7 @@ module.exports = exports = {
 		return {
 			joinedLabel,
 			activeWikisLabel,
+			activeWikisList,
 			infoRows
 		};
 	}

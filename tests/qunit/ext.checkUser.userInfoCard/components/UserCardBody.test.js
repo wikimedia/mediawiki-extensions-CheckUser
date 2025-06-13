@@ -57,7 +57,7 @@ function mountComponent( props = {} ) {
 			thanksSent: 15,
 			checks: 5,
 			lastChecked: '2024-12-31',
-			activeWikis: [],
+			activeWikis: {},
 			recentLocalEdits: [],
 			hasEditInLast60Days: false,
 			totalLocalEdits: 500,
@@ -169,15 +169,40 @@ QUnit.test( 'does not render active wikis paragraph when activeWikis is empty', 
 } );
 
 QUnit.test( 'renders active wikis paragraph when activeWikis is not empty', ( assert ) => {
-	const wrapper = mountComponent( { activeWikis: [ 'enwiki', 'dewiki', 'frwiki' ] } );
+	const activeWikisObj = {
+		enwiki: 'https://en.wikipedia.org',
+		dewiki: 'https://de.wikipedia.org',
+		frwiki: 'https://fr.wikipedia.org'
+	};
+	const wrapper = mountComponent( { activeWikis: activeWikisObj } );
 
 	const activeWikisParagraph = wrapper.find( '.ext-checkuser-userinfocard-active-wikis' );
 	assert.true( activeWikisParagraph.exists(), 'Active wikis paragraph exists when activeWikis is not empty' );
-	assert.strictEqual(
-		activeWikisParagraph.text(),
-		'checkuser-userinfocard-active-wikis-label: enwiki, dewiki, frwiki',
-		'Active wikis paragraph displays correct information'
-	);
+
+	// Check that the paragraph contains the wiki IDs
+	const paragraphText = activeWikisParagraph.text();
+	assert.true( paragraphText.includes( 'enwiki' ), 'Paragraph includes enwiki' );
+	assert.true( paragraphText.includes( 'dewiki' ), 'Paragraph includes dewiki' );
+	assert.true( paragraphText.includes( 'frwiki' ), 'Paragraph includes frwiki' );
+} );
+
+QUnit.test( 'renders active wikis as links with correct URLs', ( assert ) => {
+	const activeWikisObj = {
+		enwiki: 'https://en.wikipedia.org',
+		dewiki: 'https://de.wikipedia.org'
+	};
+	const wrapper = mountComponent( { activeWikis: activeWikisObj } );
+
+	const wikiLinks = wrapper.findAll( '.ext-checkuser-userinfocard-active-wikis a' );
+	assert.strictEqual( wikiLinks.length, 2, 'Renders correct number of wiki links' );
+
+	// Check first link
+	assert.strictEqual( wikiLinks[ 0 ].text(), 'enwiki', 'First link has correct text' );
+	assert.strictEqual( wikiLinks[ 0 ].attributes( 'href' ), 'https://en.wikipedia.org', 'First link has correct URL' );
+
+	// Check second link
+	assert.strictEqual( wikiLinks[ 1 ].text(), 'dewiki', 'Second link has correct text' );
+	assert.strictEqual( wikiLinks[ 1 ].attributes( 'href' ), 'https://de.wikipedia.org', 'Second link has correct URL' );
 } );
 
 QUnit.test( 'renders UserActivityChart when recentLocalEdits is not empty', ( assert ) => {
@@ -245,5 +270,29 @@ QUnit.test( 'setup function returns correct values with no permissions', ( asser
 		wrapper.vm.infoRows.length,
 		4,
 		'infoRows has correct length with no permissions'
+	);
+} );
+
+QUnit.test( 'activeWikisList computed property transforms object to array correctly', ( assert ) => {
+	const activeWikisObj = {
+		enwiki: 'https://en.wikipedia.org',
+		dewiki: 'https://de.wikipedia.org'
+	};
+	const wrapper = mountComponent( { activeWikis: activeWikisObj } );
+
+	const activeWikisList = wrapper.vm.activeWikisList;
+	assert.strictEqual( activeWikisList.length, 2, 'activeWikisList has correct length' );
+
+	// Check that the array contains objects with wikiId and url properties
+	assert.deepEqual(
+		activeWikisList[ 0 ],
+		{ wikiId: 'enwiki', url: 'https://en.wikipedia.org' },
+		'First item in activeWikisList has correct structure'
+	);
+
+	assert.deepEqual(
+		activeWikisList[ 1 ],
+		{ wikiId: 'dewiki', url: 'https://de.wikipedia.org' },
+		'Second item in activeWikisList has correct structure'
 	);
 } );

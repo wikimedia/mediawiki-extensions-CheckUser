@@ -54,7 +54,10 @@ const sampleUserData = {
 	newArticlesCount: 20,
 	checksCount: 5,
 	lastCheckedDate: '2024-12-31',
-	activeWikis: [ 'enwiki', 'dewiki' ]
+	activeWikis: {
+		enwiki: 'https://en.wikipedia.org',
+		dewiki: 'https://de.wikipedia.org'
+	}
 };
 
 QUnit.module( 'ext.checkUser.userInfoCard.UserCardView', QUnit.newMwEnvironment( {
