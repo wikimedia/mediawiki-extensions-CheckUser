@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Services;
 use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Interwiki\InterwikiLookup;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\Registration\UserRegistrationLookup;
@@ -30,6 +31,7 @@ class CheckUserUserInfoCardService {
 	private CheckUserPermissionManager $checkUserPermissionManager;
 	private UserFactory $userFactory;
 	private StatsFactory $statsFactory;
+	private InterwikiLookup $interwikiLookup;
 
 	/**
 	 * @param UserImpactLookup|null $userImpactLookup
@@ -53,7 +55,8 @@ class CheckUserUserInfoCardService {
 		IConnectionProvider $dbProvider,
 		StatsFactory $statsFactory,
 		CheckUserPermissionManager $checkUserPermissionManager,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		InterwikiLookup $interwikiLookup
 	) {
 		$this->userImpactLookup = $userImpactLookup;
 		$this->extensionRegistry = $extensionRegistry;
@@ -65,6 +68,7 @@ class CheckUserUserInfoCardService {
 		$this->checkUserPermissionManager = $checkUserPermissionManager;
 		$this->userFactory = $userFactory;
 		$this->statsFactory = $statsFactory;
+		$this->interwikiLookup = $interwikiLookup;
 	}
 
 	/**
@@ -124,7 +128,19 @@ class CheckUserUserInfoCardService {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
 			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
 		}
-		$userInfo['activeWikis'] = $this->checkUserCentralIndexLookup->getActiveWikisForUser( $user );
+		$activeWikiIds = $this->checkUserCentralIndexLookup->getActiveWikisForUser( $user );
+		$userInfo['activeWikis'] = [];
+		foreach ( $activeWikiIds as $wikiId ) {
+			$interWiki = $this->interwikiLookup->fetch(
+				rtrim( $wikiId, 'wiki' )
+			);
+			if ( !$interWiki ) {
+				continue;
+			}
+			$userInfo['activeWikis'][ $wikiId ] = $interWiki->getUrl(
+				'Special:Contributions/' . str_replace( ' ', '_', $user->getName() )
+			);
+		}
 
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		if ( $authority->isAllowed( 'checkuser-log' ) ) {
