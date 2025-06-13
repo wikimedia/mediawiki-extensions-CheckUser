@@ -24,7 +24,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
 			$services->getConnectionProvider(),
-			$services->getStatsFactory()
+			$services->getStatsFactory(),
+			$services->get( 'CheckUserPermissionManager' ),
+			$services->getUserFactory()
 		);
 	}
 
@@ -84,7 +86,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
 			$services->getConnectionProvider(),
-			$services->getStatsFactory()
+			$services->getStatsFactory(),
+			$services->get( 'CheckUserPermissionManager' ),
+			$services->getUserFactory()
 		);
 		$this->assertSame( [], $infoCardService->getUserInfo(
 			$this->getTestUser()->getAuthority(), $this->getTestUser()->getUser()
@@ -183,5 +187,35 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 1,
 			$this->getObjectUnderTest()->getUserInfo( $user, $user )['pastBlocksOnLocalWiki']
 		);
+	}
+
+	public function testCanAccessTemporaryAccountIPAddresses() {
+		$userOptionsManager = $this->getServiceContainer()->getUserOptionsManager();
+		$this->setGroupPermissions( 'sysop', 'checkuser-temporary-account', true );
+		$authority = $this->getTestUser( [ 'checkuser' ] )->getAuthority();
+		$userOptionsManager->setOption(
+			$authority->getUser(),
+			'checkuser-temporary-account-enable',
+			'1'
+		);
+		$userOptionsManager->saveOptions( $authority->getUser() );
+
+		$user = $this->getTestSysop()->getUser();
+		$userOptionsManager->setOption(
+			$user,
+			'checkuser-temporary-account-enable',
+		'1'
+		);
+		$userOptionsManager->saveOptions( $user );
+		$result = $this->getObjectUnderTest()->getUserInfo(
+			$authority, $user
+		);
+		$this->assertSame( true, $result['canAccessTemporaryAccountIPAddresses'] );
+
+		$newUser = $this->getTestUser( [ 'noaccess' ] )->getUser();
+		$result = $this->getObjectUnderTest()->getUserInfo(
+			$newUser, $user
+		);
+		$this->assertArrayNotHasKey( 'canAccessTemporaryAccountIPAddresses', $result );
 	}
 }
