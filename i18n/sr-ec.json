@@ -152,7 +152,9 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Кликните „Сачувај подешавања” пре настављања",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Сачувај подешавања",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Откривање IP адресе",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "IP инфо омогућава админима, патролерима и другим искусним уредницима откривање IP адресе повезане са привременим налогом.\n\nКорисници који испуњавају критеријуме могу укључити IP инфо у својим [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|подешавањима]]. Пошто се укључи, појавиће „Прикажи IP” опција поред привремених налога.",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base": "IP инфо омогућава админима, патролерима и другим искусним уредницима откривање IP адресе повезане са привременим налогом.",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "{{int:checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base}}\n\nКорисници који испуњавају критеријуме могу укључити IP инфо у својим [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|подешавањима]]. Пошто се укључи, појавиће „{{int:checkuser-tempaccount-reveal-ip-button-label}}” опција поред привремених налога.",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-with-global-preferences": "{{int:checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base}}\n\nКорисници који испуњавају [https://foundation.wikimedia.org/wiki/Legal:IP_Information_tool_guidelines#Requirements_for_access критеријуме] могу укључити IP инфо у својим [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|подешавањима]] или [[Special:GlobalPreferences#mw-prefsection-personal-checkuser-tempaccount|глобалним подешавањима]]. Пошто се укључи, појавиће „{{int:checkuser-tempaccount-reveal-ip-button-label}}” опција поред привремених налога.",
 	"checkuser-rest-access-denied": "Немате дозволу да извршите ову радњу",
 	"checkuser-rest-access-denied-blocked-user": "Немате дозволу да извршите ову радњу зато што вам је налог блокиран",
 	"checkuser-link-investigate-label": "Пробајте {{#special:investigate}}",
@@ -299,6 +301,7 @@
 	"checkuser-userinfocard-thanks-row-main-label": "Број захваљивања",
 	"checkuser-userinfocard-menu-view-contributions": "Види доприносе",
 	"checkuser-userinfocard-menu-view-global-account": "Види информације о глобалном налогу",
+	"checkuser-userinfocard-menu-remove-from-watchlist": "Уклони корисничку страницу са списка надгледања",
 	"checkuser-userinfocard-menu-block-user": "Блокирај корисника",
 	"checkuser-userinfocard-error-title": "Дошло је до грешке",
 	"checkuser-ipinfo-global-contributions-label": "Глобални доприноси"
