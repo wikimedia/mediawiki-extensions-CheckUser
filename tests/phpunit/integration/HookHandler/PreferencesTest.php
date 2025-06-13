@@ -10,6 +10,7 @@ use MediaWiki\User\User;
 
 /**
  * @group CheckUser
+ * @group Database
  * @covers \MediaWiki\CheckUser\HookHandler\Preferences
  */
 class PreferencesTest extends \MediaWikiIntegrationTestCase {
