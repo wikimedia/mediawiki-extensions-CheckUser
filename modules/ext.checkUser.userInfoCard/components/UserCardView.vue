@@ -34,6 +34,7 @@
 				:active-wikis="userCard.activeWikis"
 				:recent-local-edits="userCard.recentLocalEdits"
 				:total-local-edits="userCard.totalLocalEdits"
+				:has-edit-in-last-60-days="userCard.hasEditInLast60Days"
 			></user-card-body>
 		</div>
 	</teleport>
@@ -149,6 +150,7 @@ module.exports = exports = {
 					userCard.thanksReceivedCount = thanksReceived;
 					userCard.thanksGivenCount = thanksGiven;
 					userCard.recentLocalEdits = processedData;
+					userCard.hasEditInLast60Days = processedData.some( ( item ) => item.count > 0 );
 					userCard.totalLocalEdits = totalEdits;
 					userCard.newArticlesCount = newArticlesCount;
 					userCard.localEditCount = totalEditCount;
