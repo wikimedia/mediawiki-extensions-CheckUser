@@ -93,6 +93,7 @@
 	"checkuser-login-success": "Acceso con éxito a {{SITENAME}} como $1",
 	"group-checkuser.css": "/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */",
 	"group-checkuser.js": "/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */",
+	"checkuser-investigateblock-reason": "Motivo",
 	"checkuser-investigate-duration-label": "Duración",
 	"checkuser-investigate-duration-option-all": "Todas",
 	"checkuser-investigate-duration-option-1w": "Última semana",
