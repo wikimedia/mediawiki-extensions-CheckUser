@@ -29,8 +29,8 @@
 				:new-articles="userCard.newArticlesCount"
 				:thanks-received="userCard.thanksReceivedCount"
 				:thanks-sent="userCard.thanksGivenCount"
-				:checks="userCard.checksCount"
-				:last-checked="userCard.lastCheckedDate"
+				:checks="userCard.checkUserChecks"
+				:last-checked="userCard.checkUserLastCheck"
 				:active-wikis="userCard.activeWikis"
 				:recent-local-edits="userCard.recentLocalEdits"
 				:total-local-edits="userCard.totalLocalEdits"
@@ -87,8 +87,8 @@ module.exports = exports = {
 			localEditCount: 0,
 			localEditRevertedCount: 0,
 			newArticlesCount: 0,
-			checksCount: 0,
-			lastCheckedDate: '',
+			checkUserChecks: 0,
+			checkUserLastCheck: '',
 			activeWikis: [],
 			userPageWatched: false
 		} );
@@ -125,7 +125,9 @@ module.exports = exports = {
 						newArticlesCount,
 						totalEditCount,
 						revertedEditCount,
-						userPageWatched
+						userPageWatched,
+						checkUserChecks,
+						checkUserLastCheck
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -152,6 +154,10 @@ module.exports = exports = {
 					userCard.localEditCount = totalEditCount;
 					userCard.localEditRevertedCount = revertedEditCount;
 					userCard.userPageWatched = !!userPageWatched;
+					userCard.checkUserChecks = checkUserChecks;
+					userCard.checkUserLastCheck = checkUserLastCheck ?
+						moment( checkUserLastCheck, 'YYYYMMDDHHmmss' ).format( 'DD MMM YYYY' ) :
+						'';
 
 					loading.value = false;
 				} )
