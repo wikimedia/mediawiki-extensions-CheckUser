@@ -98,7 +98,7 @@ module.exports = exports = {
 				{
 					label: mw.msg( 'checkuser-userinfocard-menu-provide-feedback' ),
 					value: 'provide-feedback',
-					link: 'https://www.mediawiki.org/w/index.php?title=Help_talk:Extension:CheckUser'
+					link: 'https://www.mediawiki.org/wiki/Talk:Trust_and_Safety_Product/Anti-abuse_signals'
 				},
 				{
 					label: mw.msg( 'checkuser-userinfocard-menu-turn-off' ),
