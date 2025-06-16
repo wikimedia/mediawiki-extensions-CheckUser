@@ -53,7 +53,7 @@
 		},
 		"CheckUserCAtoollink": {
 			"value": false,
-			"description": "Whether to add links to CentralAuth in Special:CheckUser results"
+			"description": "If adding links to CentralAuth in Special:CheckUser results, the central wiki's database name. Requires CentralAuth extension. Set to false in order not to add links."
 		},
 		"CheckUserGBtoollink": {
 			"value": false,
