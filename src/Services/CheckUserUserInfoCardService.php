@@ -179,6 +179,8 @@ class CheckUserUserInfoCardService {
 				'Special:Contributions/' . str_replace( ' ', '_', $user->getName() )
 			);
 		}
+		// FIXME: Temporary removed due to T397088
+		$userInfo['activeWikis'] = [];
 
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		if ( $authority->isAllowed( 'checkuser-log' ) ) {
