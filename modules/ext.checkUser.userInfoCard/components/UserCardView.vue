@@ -90,7 +90,7 @@ module.exports = exports = {
 			newArticlesCount: 0,
 			checkUserChecks: 0,
 			checkUserLastCheck: '',
-			activeWikis: [],
+			activeWikis: {},
 			userPageWatched: false
 		} );
 
@@ -128,7 +128,8 @@ module.exports = exports = {
 						revertedEditCount,
 						userPageWatched,
 						checkUserChecks,
-						checkUserLastCheck
+						checkUserLastCheck,
+						activeWikis
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -160,6 +161,8 @@ module.exports = exports = {
 					userCard.checkUserLastCheck = checkUserLastCheck ?
 						moment( checkUserLastCheck, 'YYYYMMDDHHmmss' ).format( 'DD MMM YYYY' ) :
 						'';
+					userCard.activeWikis = !activeWikis || Array.isArray( activeWikis ) ?
+						{} : activeWikis;
 
 					loading.value = false;
 				} )
