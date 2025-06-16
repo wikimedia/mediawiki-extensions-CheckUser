@@ -22,7 +22,7 @@
 			{{ activeWikisLabel }}: {{ activeWikis.join( ', ' ) }}
 		</p>
 		<user-activity-chart
-			v-if="recentLocalEdits"
+			v-if="hasEditInLast60Days"
 			:username="username"
 			:recent-local-edits="recentLocalEdits"
 			:total-local-edits="totalLocalEdits"
@@ -102,6 +102,10 @@ module.exports = exports = {
 		activeWikis: {
 			type: Array,
 			default: () => []
+		},
+		hasEditInLast60Days: {
+			type: Boolean,
+			default: false
 		},
 		recentLocalEdits: {
 			// Expected format: [ { date: Date, count: number }, ... ]

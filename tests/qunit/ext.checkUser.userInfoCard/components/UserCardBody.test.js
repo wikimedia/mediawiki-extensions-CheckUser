@@ -59,6 +59,7 @@ function mountComponent( props = {} ) {
 			lastChecked: '2024-12-31',
 			activeWikis: [],
 			recentLocalEdits: [],
+			hasEditInLast60Days: false,
 			totalLocalEdits: 500,
 			...props
 		}
@@ -180,10 +181,13 @@ QUnit.test( 'renders active wikis paragraph when activeWikis is not empty', ( as
 } );
 
 QUnit.test( 'renders UserActivityChart when recentLocalEdits is not empty', ( assert ) => {
-	const wrapper = mountComponent( { recentLocalEdits: sampleRecentEdits } );
+	const wrapper = mountComponent( {
+		recentLocalEdits: sampleRecentEdits,
+		hasEditInLast60Days: true
+	} );
 
 	const activityChart = wrapper.findComponent( { name: 'UserActivityChart' } );
-	assert.true( activityChart.exists(), 'UserActivityChart exists when recentLocalEdits is not empty' );
+	assert.true( activityChart.exists(), 'UserActivityChart exists when hasEditInLast60Days is true' );
 	assert.strictEqual(
 		activityChart.props( 'username' ),
 		'TestUser',
@@ -199,6 +203,15 @@ QUnit.test( 'renders UserActivityChart when recentLocalEdits is not empty', ( as
 		500,
 		'UserActivityChart has correct totalLocalEdits'
 	);
+} );
+
+QUnit.test( 'does not render UserActivityChart when hasEditInLast60Days is false', ( assert ) => {
+	const wrapper = mountComponent( {
+		hasEditInLast60Days: false
+	} );
+
+	const activityChart = wrapper.findComponent( { name: 'UserActivityChart' } );
+	assert.false( activityChart.exists(), 'UserActivityChart exists when hasEditInLast60Days is false' );
 } );
 
 QUnit.test( 'setup function returns correct values with all permissions', ( assert ) => {
