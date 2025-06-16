@@ -368,6 +368,7 @@
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Remover le pagina de usator del observatorio",
 	"checkuser-userinfocard-menu-check-ip": "Verificar adresses IP de usatores",
 	"checkuser-userinfocard-menu-block-user": "Blocar usator",
+	"checkuser-userinfocard-menu-provide-feedback": "Fornir commentario",
 	"checkuser-userinfocard-menu-turn-off": "Disactivar iste function",
 	"checkuser-userinfocard-loading-label": "Cargamento de information de usator in curso",
 	"checkuser-userinfocard-error-title": "Un error ha occurrite",

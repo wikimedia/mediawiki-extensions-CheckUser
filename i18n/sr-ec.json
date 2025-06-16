@@ -303,6 +303,7 @@
 	"checkuser-userinfocard-menu-view-global-account": "Види информације о глобалном налогу",
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Уклони корисничку страницу са списка надгледања",
 	"checkuser-userinfocard-menu-block-user": "Блокирај корисника",
+	"checkuser-userinfocard-menu-provide-feedback": "Повратне информације",
 	"checkuser-userinfocard-error-title": "Дошло је до грешке",
 	"checkuser-ipinfo-global-contributions-label": "Глобални доприноси"
 }

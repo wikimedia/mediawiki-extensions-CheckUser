@@ -280,10 +280,12 @@
 	"checkuser-userinfocard-menu-view-contributions": "ব্যবহারকারীর অবদান দেখুন",
 	"checkuser-userinfocard-menu-view-global-account": "বৈশ্বিক অ্যাকাউন্টের তথ্য দেখুন",
 	"checkuser-userinfocard-menu-check-ip": "ব্যবহারকারীর আইপি ঠিকানা পরীক্ষা করুন",
+	"checkuser-userinfocard-menu-provide-feedback": "মতামত প্রদান করুন",
 	"checkuser-userinfocard-menu-turn-off": "এই বৈশিষ্ট্যটি বন্ধ করুন",
 	"checkuser-userinfocard-loading-label": "ব্যবহারকারীর তথ্য লোড হচ্ছে",
 	"checkuser-userinfocard-error-title": "একটি ত্রুটি ঘটেছে",
 	"checkuser-userinfocard-error-generic": "কিছু একটায় ভুল হয়েছে। দয়া করে পরে আবার চেষ্টা করুন।",
+	"checkuser-userinfocard-activity-chart-label": "গত ৬০ দিনের সম্পাদনা কার্যকলাপ ({{PLURAL:$1|$1টি সম্পাদনা|0=কোনও সম্পাদনা নেই}})",
 	"checkuser-ipinfo-global-contributions-label": "বৈশ্বিক অবদান",
 	"checkuser-ipinfo-global-contributions-tooltip": "এই আইপি ঠিকানা থেকে করা ক্রস-উইকি সম্পাদনার সংখ্যা।",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1টি বৈশ্বিক সম্পাদনা|0=কোনও বৈশ্বিক সম্পাদনা নেই}}"
