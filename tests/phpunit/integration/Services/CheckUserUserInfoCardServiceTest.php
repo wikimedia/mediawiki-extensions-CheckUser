@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -13,6 +14,66 @@ use MediaWikiIntegrationTestCase;
  * @covers \MediaWiki\CheckUser\Services\CheckUserUserInfoCardService
  */
 class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
+
+	private User $testUser;
+
+	public function addDBDataOnce() {
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cuci_wiki_map' )
+			->rows( [ [ 'ciwm_wiki' => 'enwiki' ], [ 'ciwm_wiki' => 'dewiki' ] ] )
+			->caller( __METHOD__ )
+			->execute();
+		$this->testUser = $this->getTestSysop()->getUser();
+
+		$enwikiMapId = $this->newSelectQueryBuilder()
+			->select( 'ciwm_id' )
+			->from( 'cuci_wiki_map' )
+			->where( [ 'ciwm_wiki' => 'enwiki' ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$dewikiMapId = $this->newSelectQueryBuilder()
+			->select( 'ciwm_id' )
+			->from( 'cuci_wiki_map' )
+			->where( [ 'ciwm_wiki' => 'dewiki' ] )
+			->caller( __METHOD__ )
+			->fetchField();
+
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cuci_user' )
+			->rows( [
+				[
+					'ciu_central_id' => $this->testUser->getId(), 'ciu_ciwm_id' => $enwikiMapId,
+					'ciu_timestamp' => $this->getDb()->timestamp( '20240505060708' ),
+				],
+				[
+					'ciu_central_id' => $this->testUser->getId(), 'ciu_ciwm_id' => $dewikiMapId,
+					'ciu_timestamp' => $this->getDb()->timestamp( '20240506060708' ),
+				],
+			] )
+			->caller( __METHOD__ )
+			->execute();
+
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'interwiki' )
+			->rows( [
+				[
+					'iw_prefix' => 'en',
+					'iw_url' => 'https://en.wikipedia.org/wiki/$1',
+					'iw_api' => '',
+					'iw_wikiid' => '',
+					'iw_local' => 1,
+				],
+				[
+					'iw_prefix' => 'de',
+					'iw_url' => 'https://de.wikipedia.org/wiki/$1',
+					'iw_api' => '',
+					'iw_wikiid' => '',
+					'iw_local' => 1,
+				]
+			] )
+			->caller( __METHOD__ )
+			->execute();
+	}
 
 	private function getObjectUnderTest(): CheckUserUserInfoCardService {
 		$services = MediaWikiServices::getInstance();
@@ -26,7 +87,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->getInterwikiLookup()
 		);
 	}
 
@@ -34,7 +96,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 		$page = $this->getNonexistingTestPage();
-		$user = $this->getTestSysop()->getUser();
+		$user = $this->testUser->getUser();
 		$this->assertStatusGood(
 			$this->editPage( $page, 'test', '', NS_MAIN, $user )
 		);
@@ -58,7 +120,13 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'localRegistration', $userInfo );
 		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
 		$this->assertSame( [ 'bureaucrat', 'sysop' ], $userInfo['groups'] );
-		$this->assertSame( [], $userInfo['activeWikis'] );
+		$this->assertSame(
+			[
+				'dewiki' => 'https://de.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),
+				'enwiki' => 'https://en.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),
+			],
+			$userInfo['activeWikis']
+		);
 	}
 
 	public function testExecuteInvalidUser() {
@@ -88,7 +156,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->getInterwikiLookup()
 		);
 		$this->assertSame( [], $infoCardService->getUserInfo(
 			$this->getTestUser()->getAuthority(), $this->getTestUser()->getUser()

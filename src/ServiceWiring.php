@@ -434,7 +434,8 @@ return [
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->getInterwikiLookup()
 		);
 	},
 ];
