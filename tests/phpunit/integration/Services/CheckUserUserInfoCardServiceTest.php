@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
+use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\User;
@@ -80,7 +81,6 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		return new CheckUserUserInfoCardService(
 			$services->getService( 'GrowthExperimentsUserImpactLookup' ),
 			$services->getExtensionRegistry(),
-			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
@@ -88,7 +88,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
-			$services->getInterwikiLookup()
+			$services->getInterwikiLookup(),
+			$services->getUserEditTracker()
 		);
 	}
 
@@ -116,7 +117,6 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 1, current( $userInfo[ 'editCountByDay' ] ), 'Edit count for the current day is 1' );
 		$this->assertSame( 0, $userInfo['revertedEditCount'] );
 		$this->assertSame( $user->getName(), $userInfo['name'] );
-		$this->assertSame( 'unknown', $userInfo['gender'] );
 		$this->assertArrayHasKey( 'localRegistration', $userInfo );
 		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
 		$this->assertSame( [ 'bureaucrat', 'sysop' ], $userInfo['groups'] );
@@ -127,6 +127,24 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			],
 			$userInfo['activeWikis']
 		);
+	}
+
+	public function testUserImpactIsEmpty() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+		$this->overrideMwServices(
+			null,
+			[ 'GrowthExperimentsUserImpactLookup' => function () {
+				$mock = $this->createMock( ComputedUserImpactLookup::class );
+				$mock->method( 'getUserImpact' )->willReturn( null );
+				return $mock;
+			} ]
+		);
+		$userInfo = $this->getObjectUnderTest()->getUserInfo(
+			$this->getTestUser()->getAuthority(),
+			$this->getTestUser()->getUser()
+		);
+		$this->assertArrayNotHasKey( 'thanksGiven', $userInfo );
+		$this->assertArrayHasKey( 'name', $userInfo );
 	}
 
 	public function testExecuteInvalidUser() {
@@ -145,11 +163,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
 	public function testLoadingWithoutGrowthExperiments() {
 		$services = $this->getServiceContainer();
-		$services->disableService( 'GrowthExperimentsUserImpactLookup' );
 		$infoCardService = new CheckUserUserInfoCardService(
 			null,
 			$services->getExtensionRegistry(),
-			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
@@ -157,11 +173,24 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
-			$services->getInterwikiLookup()
+			$services->getInterwikiLookup(),
+			$services->getUserEditTracker()
 		);
-		$this->assertSame( [], $infoCardService->getUserInfo(
-			$this->getTestUser()->getAuthority(), $this->getTestUser()->getUser()
-		) );
+		$targetUser = $this->getTestUser()->getUser();
+		$userInfo = $infoCardService->getUserInfo(
+			$this->getTestUser()->getAuthority(), $targetUser
+		);
+		$this->assertArrayContains( [
+			'name' => $targetUser->getName(),
+			'groups' => [],
+			'totalEditCount' => 0,
+			'activeWikis' => [],
+			'pastBlocksOnLocalWiki' => 0,
+		], $userInfo );
+		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			$this->assertArrayContains( [ 'activeLocalBlocksAllWikis' => 0 ], $userInfo );
+		}
+		$this->assertArrayNotHasKey( 'thanksGiven', $userInfo );
 	}
 
 	public function testCheckUserChecksDataPoint() {

@@ -427,7 +427,6 @@ return [
 		return new CheckUserUserInfoCardService(
 			$userImpactLookup,
 			$services->getExtensionRegistry(),
-			$services->getUserOptionsLookup(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
 			$services->get( 'CheckUserCentralIndexLookup' ),
@@ -435,7 +434,8 @@ return [
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
-			$services->getInterwikiLookup()
+			$services->getInterwikiLookup(),
+			$services->getUserEditTracker()
 		);
 	},
 ];
