@@ -148,10 +148,10 @@ module.exports = exports = {
 			{ target: props.username, namespace: 'all', newOnly: 1 }
 		);
 		const thanksReceivedLink = mw.Title.makeTitle( -1, 'Log/thanks' ).getUrl(
-			{ user: props.username }
+			{ page: props.username }
 		);
 		const thanksSentLink = mw.Title.makeTitle( -1, 'Log/thanks' ).getUrl(
-			{ page: props.username }
+			{ user: props.username }
 		);
 		const checksLink = mw.Title.makeTitle( -1, 'CheckUserLog' ).getUrl(
 			{ cuSearch: props.username }
