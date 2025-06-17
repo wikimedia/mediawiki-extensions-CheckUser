@@ -35,6 +35,7 @@ const { ref, computed } = require( 'vue' );
 const { CdxPopover } = require( '@wikimedia/codex' );
 const { hashUsername } = require( '../util.js' );
 const UserCardView = require( './UserCardView.vue' );
+const useInstrument = require( '../composables/useInstrument.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -49,14 +50,19 @@ module.exports = exports = {
 		const username = ref( null );
 		const cardContainer = ref( null );
 
+		// Initialize instrumentation
+		const logEvent = useInstrument();
+
 		function open( target ) {
 			currentTrigger.value = target;
 			isOpen.value = true;
+			logEvent( 'open', { source: 'button' } );
 		}
 
 		function close() {
 			isOpen.value = false;
 			currentTrigger.value = null;
+			logEvent( 'close', { source: 'button' } );
 		}
 
 		function setUserInfo( newUsername ) {

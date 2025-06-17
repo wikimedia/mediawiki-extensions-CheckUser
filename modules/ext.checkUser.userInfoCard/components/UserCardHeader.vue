@@ -7,6 +7,7 @@
 					<a
 						:href="userPageUrl"
 						:class="[ userPageExists ? 'mw-userlink' : 'new' ]"
+						@click="onUsernameClick"
 					>{{ username }}</a>
 				</div>
 			</div>
@@ -31,6 +32,7 @@
 const { CdxIcon, CdxButton } = require( '@wikimedia/codex' );
 const UserCardMenu = require( './UserCardMenu.vue' );
 const { cdxIconUserAvatar, cdxIconClose } = require( './icons.json' );
+const useInstrument = require( '../composables/useInstrument.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -60,12 +62,21 @@ module.exports = exports = {
 	},
 	emits: [ 'close' ],
 	setup() {
+		const logEvent = useInstrument();
 		const closeAriaLabel = mw.msg( 'checkuser-userinfocard-close-button-aria-label' );
+
+		function onUsernameClick() {
+			logEvent( 'link_click', {
+				subType: 'user_page',
+				source: 'card_header'
+			} );
+		}
 
 		return {
 			cdxIconUserAvatar,
 			cdxIconClose,
-			closeAriaLabel
+			closeAriaLabel,
+			onUsernameClick
 		};
 	}
 };

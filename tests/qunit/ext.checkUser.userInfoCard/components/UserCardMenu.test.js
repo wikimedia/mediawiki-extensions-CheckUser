@@ -215,3 +215,44 @@ QUnit.test( 'watchlist label changes based on initial state', ( assert ) => {
 		'Watchlist label is correct'
 	);
 } );
+
+// TODO: T386440 - Fix the test and remove the skip
+// This test fails when running in conjunction with the other test components in this folder.
+// When running this test file alone, this test is passing.
+QUnit.test.skip( 'logs an event when onMenuSelect is called', function ( assert ) {
+	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
+	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
+	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
+	const submitInteractionStub = this.sandbox.stub();
+	submitInteractionStub.respondImmediately = true;
+	const instrumentStub = { submitInteraction: submitInteractionStub };
+	this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+
+	const wrapper = mountComponent();
+	// Call with a fake item so it doesn't trigger window navigation
+	wrapper.vm.onMenuSelect( 'a-fake-item' );
+
+	assert.strictEqual( submitInteractionStub.callCount, 1, 'submitInteraction is called once' );
+	assert.strictEqual(
+		submitInteractionStub.firstCall.args[ 0 ],
+		'link_click',
+		'First argument is "link_click"'
+	);
+
+	const interactionData = submitInteractionStub.firstCall.args[ 1 ];
+	assert.strictEqual(
+		interactionData.funnel_entry_token,
+		'test-session-id',
+		'Includes session token in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_subtype,
+		'a-fake-item',
+		'Includes correct subType in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_source,
+		'card_menu',
+		'Includes correct source in interaction data'
+	);
+} );

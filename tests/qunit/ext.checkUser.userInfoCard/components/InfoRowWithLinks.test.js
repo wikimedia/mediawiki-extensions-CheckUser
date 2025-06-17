@@ -3,7 +3,13 @@
 const { shallowMount } = require( 'vue-test-utils' );
 const InfoRowWithLinks = require( 'ext.checkUser.userInfoCard/modules/ext.checkUser.userInfoCard/components/InfoRowWithLinks.vue' );
 
-QUnit.module( 'ext.checkUser.userInfoCard.InfoRowWithLinks', QUnit.newMwEnvironment() );
+QUnit.module( 'ext.checkUser.userInfoCard.InfoRowWithLinks', QUnit.newMwEnvironment( {
+	beforeEach: function () {
+		this.sandbox.stub( mw, 'msg' ).callsFake( ( key ) => key );
+
+		mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', false );
+	}
+} ) );
 
 // Sample icon for testing
 const sampleIcon = {
@@ -175,4 +181,46 @@ QUnit.test( 'handles numeric values correctly', ( assert ) => {
 
 	assert.true( wrapper.text().includes( '42' ), 'Numeric main value is displayed correctly' );
 	assert.true( wrapper.text().includes( '123' ), 'Numeric suffix value is displayed correctly' );
+} );
+
+// TODO: T386440 - Fix the test and remove the skip
+// This test fails when running in conjunction with the other test components in this folder.
+// When running this test file alone, this test is passing.
+QUnit.test.skip( 'logs an event when onLinkClick is called', function ( assert ) {
+	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
+	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
+	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
+	const submitInteractionStub = this.sandbox.stub().resolves();
+	submitInteractionStub.respondImmediately = true;
+	const instrumentStub = { submitInteraction: submitInteractionStub };
+	this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+
+	const wrapper = mountComponent( {
+		mainLinkLogId: 'main_link_id'
+	} );
+	wrapper.vm.onLinkClick( 'main_link_id' );
+
+	assert.strictEqual( submitInteractionStub.callCount, 1, 'submitInteraction is called once' );
+	assert.strictEqual(
+		submitInteractionStub.firstCall.args[ 0 ],
+		'link_click',
+		'First argument is "link_click"'
+	);
+
+	const interactionData = submitInteractionStub.firstCall.args[ 1 ];
+	assert.strictEqual(
+		interactionData.funnel_entry_token,
+		'test-session-id',
+		'Includes session token in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_subtype,
+		'main_link_id',
+		'Includes correct subType in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_source,
+		'card_body',
+		'Includes correct source in interaction data'
+	);
 } );

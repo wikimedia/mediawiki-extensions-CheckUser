@@ -11,9 +11,11 @@
 			:main-label="row.mainLabel"
 			:main-value="row.mainValue"
 			:main-link="row.mainLink"
+			:main-link-log-id="row.mainLinkLogId"
 			:suffix-label="row.suffixLabel"
 			:suffix-value="row.suffixValue"
 			:suffix-link="row.suffixLink"
+			:suffix-link-log-id="row.suffixLinkLogId"
 		></info-row-with-links>
 		<p
 			v-if="groups && groups.length > 0"
@@ -26,7 +28,10 @@
 		>
 			{{ activeWikisLabel }}:
 			<template v-for="( wiki, idx ) in activeWikisList" :key="idx">
-				<a :href="wiki.url">
+				<a
+					:href="wiki.url"
+					@click="onWikiLinkClick( wiki.wikiId )"
+				>
 					{{ wiki.wikiId }}
 				</a>{{ idx < activeWikisList.length - 1 ? ', ' : '' }}
 			</template>
@@ -51,6 +56,7 @@ const {
 } = require( './icons.json' );
 const InfoRowWithLinks = require( './InfoRowWithLinks.vue' );
 const UserActivityChart = require( './UserActivityChart.vue' );
+const useInstrument = require( '../composables/useInstrument.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -134,6 +140,7 @@ module.exports = exports = {
 		}
 	},
 	setup( props ) {
+		const logEvent = useInstrument();
 		const joinedLabel = mw.msg( 'checkuser-userinfocard-joined-label' );
 
 		const activeWikisLabel = mw.msg( 'checkuser-userinfocard-active-wikis-label' );
@@ -184,9 +191,11 @@ module.exports = exports = {
 					mainLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-main-label' ),
 					mainValue: props.activeBlocks,
 					mainLink: activeBlocksLink,
+					mainLinkLogId: 'active_blocks',
 					suffixLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-suffix-label' ),
 					suffixValue: props.pastBlocks,
-					suffixLink: pastBlocksLink
+					suffixLink: pastBlocksLink,
+					suffixLinkLogId: 'past_blocks'
 				} );
 			}
 
@@ -196,7 +205,8 @@ module.exports = exports = {
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					mainLabel: mw.msg( 'checkuser-userinfocard-global-edits-row-main-label' ),
 					mainValue: props.globalEdits,
-					mainLink: globalEditsLink
+					mainLink: globalEditsLink,
+					mainLinkLogId: 'global_edits'
 				},
 				{
 					icon: cdxIconEdit,
@@ -204,16 +214,19 @@ module.exports = exports = {
 					mainLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-main-label' ),
 					mainValue: props.localEdits,
 					mainLink: localEditsLink,
+					mainLinkLogId: 'local_edits',
 					suffixLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-suffix-label' ),
 					suffixValue: props.localEditsReverted,
-					suffixLink: localEditsLink
+					suffixLink: localEditsLink,
+					suffixLinkLogId: 'reverted_local_edits'
 				},
 				{
 					icon: cdxIconArticles,
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					mainLabel: mw.msg( 'checkuser-userinfocard-new-articles-row-main-label' ),
 					mainValue: formattedNewArticles,
-					mainLink: newArticlesLink
+					mainLink: newArticlesLink,
+					mainLinkLogId: 'new_articles'
 				},
 				{
 					icon: cdxIconHeart,
@@ -221,9 +234,11 @@ module.exports = exports = {
 					mainLabel: mw.msg( 'checkuser-userinfocard-thanks-row-main-label' ),
 					mainValue: props.thanksReceived,
 					mainLink: thanksReceivedLink,
+					mainLinkLogId: 'thanks_received',
 					suffixLabel: mw.msg( 'checkuser-userinfocard-thanks-row-suffix-label' ),
 					suffixValue: props.thanksSent,
-					suffixLink: thanksSentLink
+					suffixLink: thanksSentLink,
+					suffixLinkLogId: 'thanks_sent'
 				}
 			] );
 
@@ -234,6 +249,7 @@ module.exports = exports = {
 					mainLabel: mw.msg( 'checkuser-userinfocard-checks-row-main-label' ),
 					mainValue: props.checks,
 					mainLink: checksLink,
+					mainLinkLogId: 'last_checked',
 					suffixLabel: mw.msg( 'checkuser-userinfocard-checks-row-suffix-label' ),
 					suffixValue: props.lastChecked
 				} );
@@ -241,11 +257,20 @@ module.exports = exports = {
 			return rows;
 		} );
 
+		function onWikiLinkClick( wikiId ) {
+			logEvent( 'link_click', {
+				subType: 'active_wiki',
+				source: 'card_body',
+				context: wikiId
+			} );
+		}
+
 		return {
 			joinedLabel,
 			activeWikisLabel,
 			activeWikisList,
-			infoRows
+			infoRows,
+			onWikiLinkClick
 		};
 	}
 };
