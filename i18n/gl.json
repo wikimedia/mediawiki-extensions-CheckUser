@@ -85,6 +85,7 @@
 	"logentry-checkuser-private-event-create-account": "foi creada",
 	"group-checkuser.css": "/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */",
 	"group-checkuser.js": "/* O código JavaScript que se coloque aquí afectará soamente aos verificadores de usuarios */",
+	"checkuser-investigateblock-reason": "Motivo",
 	"checkuser-investigateblock-confirm-blocks-label": "Confirmar os bloqueos",
 	"checkuser-investigateblock-warning-ips-and-users-in-targets": "Estás a piques de bloquear á vez contas e enderezos IP polo mesmo motivo despois de usares os datos do verificador de usuarios. Isto pode incumprir a política de protección de datos do sitio. Queres facelo?",
 	"checkuser-investigateblock-warning-confirmaction": "Se realmente queres facelo, marca o campo \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" que hai ao final.",
