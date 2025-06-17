@@ -145,7 +145,7 @@ QUnit.test( 'passes correct props to blocks row when permission is granted', ( a
 
 	assert.strictEqual(
 		blocksRow.props( 'suffixLink' ),
-		'/-1/Log/block?user=TestUser',
+		'/-1/Log/block?page=TestUser',
 		'Blocks row has correct suffix link'
 	);
 } );
