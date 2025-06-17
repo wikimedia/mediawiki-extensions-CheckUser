@@ -33,6 +33,9 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 		string &$prefix,
 		string &$postfix
 	) {
+		if ( !$targetUser->isRegistered() ) {
+			return;
+		}
 		if ( $this->userOptionsLookup->getBoolOption( $context->getUser(), Preferences::ENABLE_USER_INFO_CARD ) ) {
 			$output = $context->getOutput();
 			$output->addModuleStyles( 'oojs-ui.styles.icons-user' );
