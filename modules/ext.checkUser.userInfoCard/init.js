@@ -25,9 +25,6 @@ $( () => {
 			const username = button.getAttribute( 'data-username' );
 
 			if ( username ) {
-				popoverApp.setUserInfo( username );
-				popoverApp.open( event.target );
-
 				const isCurrentlyOpen = popoverApp.isPopoverOpen();
 
 				// Check if this is the same button that's currently active and
