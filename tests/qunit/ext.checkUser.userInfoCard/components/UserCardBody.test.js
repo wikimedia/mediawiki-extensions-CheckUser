@@ -161,6 +161,15 @@ QUnit.test( 'does not render blocks row when permission is not granted', ( asser
 	assert.strictEqual( blocksRow, undefined, 'Blocks row does not exist when permission is not granted' );
 } );
 
+QUnit.test( 'renders user groups', ( assert ) => {
+	const wrapper = mountComponent( { groups: 'Administrators, Check users' } );
+	const groupsParagraph = wrapper.find( '.ext-checkuser-userinfocard-groups' );
+	assert.true( groupsParagraph.exists() );
+
+	const paragraphText = groupsParagraph.text();
+	assert.true( paragraphText.includes( 'Administrators, Check users' ) );
+} );
+
 QUnit.test( 'does not render active wikis paragraph when activeWikis is empty', ( assert ) => {
 	const wrapper = mountComponent();
 

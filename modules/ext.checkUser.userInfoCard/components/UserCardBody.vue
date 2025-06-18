@@ -16,6 +16,11 @@
 			:suffix-link="row.suffixLink"
 		></info-row-with-links>
 		<p
+			v-if="groups && groups.length > 0"
+			class="ext-checkuser-userinfocard-groups">
+			{{ groups }}
+		</p>
+		<p
 			v-if="activeWikisList && activeWikisList.length > 0"
 			class="ext-checkuser-userinfocard-active-wikis"
 		>
@@ -101,6 +106,10 @@ module.exports = exports = {
 			default: 0
 		},
 		lastChecked: {
+			type: String,
+			default: ''
+		},
+		groups: {
 			type: String,
 			default: ''
 		},

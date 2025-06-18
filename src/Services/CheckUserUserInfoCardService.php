@@ -6,6 +6,7 @@ use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Interwiki\InterwikiLookup;
+use MediaWiki\Message\Message;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\Registration\UserRegistrationLookup;
@@ -13,6 +14,8 @@ use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
+use MessageLocalizer;
+use Wikimedia\Message\ListType;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Stats\StatsFactory;
@@ -32,6 +35,7 @@ class CheckUserUserInfoCardService {
 	private StatsFactory $statsFactory;
 	private InterwikiLookup $interwikiLookup;
 	private UserEditTracker $userEditTracker;
+	private MessageLocalizer $messageLocalizer;
 
 	/**
 	 * @param UserImpactLookup|null $userImpactLookup
@@ -55,7 +59,8 @@ class CheckUserUserInfoCardService {
 		CheckUserPermissionManager $checkUserPermissionManager,
 		UserFactory $userFactory,
 		InterwikiLookup $interwikiLookup,
-		UserEditTracker $userEditTracker
+		UserEditTracker $userEditTracker,
+		MessageLocalizer $messageLocalizer
 	) {
 		$this->userImpactLookup = $userImpactLookup;
 		$this->extensionRegistry = $extensionRegistry;
@@ -68,6 +73,7 @@ class CheckUserUserInfoCardService {
 		$this->statsFactory = $statsFactory;
 		$this->interwikiLookup = $interwikiLookup;
 		$this->userEditTracker = $userEditTracker;
+		$this->messageLocalizer = $messageLocalizer;
 	}
 
 	/**
@@ -116,7 +122,20 @@ class CheckUserUserInfoCardService {
 		$userInfo['name'] = $user->getName();
 		$userInfo['localRegistration'] = $this->userRegistrationLookup->getRegistration( $user );
 		$userInfo['firstRegistration'] = $this->userRegistrationLookup->getFirstRegistration( $user );
-		$userInfo['groups'] = $this->userGroupManager->getUserGroups( $user );
+
+		$groups = $this->userGroupManager->getUserGroups( $user );
+		$groupMessages = [];
+		foreach ( $groups as $group ) {
+			if ( $this->messageLocalizer->msg( "group-$group" )->exists() ) {
+				$groupMessages[] = $this->messageLocalizer->msg( "group-$group" )->text();
+			}
+		}
+		$userInfo['groups'] = '';
+		if ( $groupMessages ) {
+			$userInfo['groups'] = $this->messageLocalizer->msg( 'checkuser-userinfocard-groups' )
+				->params( Message::listParam( $groupMessages, ListType::COMMA ) )
+				->text();
+		}
 
 		if ( !isset( $userInfo['totalEditCount'] ) ) {
 			$userInfo['totalEditCount'] = $this->userEditTracker->getUserEditCount( $user );

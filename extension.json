@@ -647,7 +647,8 @@
 				"checkuser-userinfocard-error-no-data",
 				"checkuser-userinfocard-error-generic",
 				"checkuser-userinfocard-activity-chart-label",
-				"checkuser-userinfocard-new-articles-exceeds-max-to-display"
+				"checkuser-userinfocard-new-articles-exceeds-max-to-display",
+				"checkuser-userinfocard-groups"
 			],
 			"dependencies": [
 				"mediawiki.api",
