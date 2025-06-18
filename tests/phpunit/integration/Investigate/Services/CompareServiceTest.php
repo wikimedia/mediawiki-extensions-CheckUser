@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
 
+use LogicException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Tests\Integration\Investigate\CompareTabTestDataTrait;
@@ -14,6 +15,8 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\Platform\MySQLPlatform;
+use Wikimedia\Rdbms\Platform\PostgresPlatform;
+use Wikimedia\Rdbms\Platform\SqlitePlatform;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -62,7 +65,21 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$db->method( 'tablePrefix' )
 			->willReturn( '' );
 		$wdb = TestingAccessWrapper::newFromObject( $db );
-		$wdb->platform = new MySQLPlatform( new AddQuoterMock() );
+
+		switch ( $this->getDb()->getType() ) {
+			case 'mysql':
+				$platform = new MySQLPlatform( new AddQuoterMock() );
+				break;
+			case 'postgres':
+				$platform = new PostgresPlatform( new AddQuoterMock() );
+				break;
+			case 'sqlite':
+				$platform = new SqlitePlatform( new AddQuoterMock() );
+				break;
+			default:
+				throw new LogicException( 'Unknown database type encountered.' );
+		}
+		$wdb->platform = $platform;
 
 		$dbProvider = $this->createMock( IConnectionProvider::class );
 		$dbProvider->method( 'getReplicaDatabase' )
@@ -111,7 +128,11 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			$this->assertStringContainsString( $excludeTarget, $queryInfo['tables']['a'] );
 		}
 
-		$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
+		if ( $this->getDb()->unionSupportsOrderAndLimit() ) {
+			$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
+		} else {
+			$this->assertStringNotContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
+		}
 
 		$start = $expected['start'];
 		if ( $start !== '' ) {
@@ -239,7 +260,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGetQueryInfoNoTargets() {
-		$this->expectException( \LogicException::class );
+		$this->expectException( LogicException::class );
 
 		$this->getCompareService()->getQueryInfo( [], [], '' );
 	}

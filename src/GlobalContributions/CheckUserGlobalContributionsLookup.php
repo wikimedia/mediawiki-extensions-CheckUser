@@ -82,29 +82,35 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 					Check if your RangeContributionsCIDRLimit and CheckUserCIDRLimit configs are compatible."
 				);
 			}
-			$activeWikis = $cuciDb->newSelectQueryBuilder()
-				->select( 'ciwm_wiki' )
+			$activeWikisResult = $cuciDb->newSelectQueryBuilder()
+				// T397318: 'cite_timestamp' is selected to satisfy Postgres requirement where all ORDER BY
+				// fields must be present in SELECT list.
+				->select( [ 'ciwm_wiki', 'timestamp' => 'MAX(cite_timestamp)' ] )
 				->from( 'cuci_temp_edit' )
-				->distinct()
 				->where( $targetIPConditions )
 				->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
-				->orderBy( 'cite_timestamp', SelectQueryBuilder::SORT_DESC )
+				->groupBy( 'ciwm_wiki' )
+				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
 				->caller( __METHOD__ )
-				->fetchFieldValues();
+				->fetchResultSet();
+			$activeWikis = array_map( static fn ( $row ) => $row->ciwm_wiki, iterator_to_array( $activeWikisResult ) );
 		} else {
 			$centralId = $this->centralIdLookup->centralIdFromName( $target, $authority );
 			if ( !$centralId ) {
 				throw new InvalidArgumentException( "No central id found for $target" );
 			}
-			$activeWikis = $cuciDb->newSelectQueryBuilder()
-				->select( 'ciwm_wiki' )
+			$activeWikisResult = $cuciDb->newSelectQueryBuilder()
+				// T397318: 'ciu_timestamp' is selected to satisfy Postgres requirement where all ORDER BY
+				// fields must be present in SELECT list.
+				->select( [ 'ciwm_wiki', 'timestamp' => 'MAX(ciu_timestamp)' ] )
 				->from( 'cuci_user' )
-				->distinct()
 				->where( [ 'ciu_central_id' => $centralId ] )
 				->join( 'cuci_wiki_map', null, 'ciu_ciwm_id = ciwm_id' )
-				->orderBy( 'ciu_timestamp', SelectQueryBuilder::SORT_DESC )
+				->groupBy( 'ciwm_wiki' )
+				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
 				->caller( __METHOD__ )
-				->fetchFieldValues();
+				->fetchResultSet();
+			$activeWikis = array_map( static fn ( $row ) => $row->ciwm_wiki, iterator_to_array( $activeWikisResult ) );
 		}
 
 		return $activeWikis;

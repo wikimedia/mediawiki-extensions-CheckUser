@@ -181,7 +181,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 				[ 'isCentralAuthAvailable' => false ],
 				[
 					'tables' => 'user',
-					'conds' => [ 0 ],
+					'conds' => [ '1=0' ],
 				],
 			],
 			'global users as string' => [
