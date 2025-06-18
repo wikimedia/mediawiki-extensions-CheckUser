@@ -11,7 +11,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "specialpage",
 	"requires": {
-		"MediaWiki": ">= 1.44.0",
+		"MediaWiki": ">= 1.45",
 		"platform": {
 			"ext-openssl": "*"
 		}
@@ -107,7 +107,10 @@
 				"CreateAccount": "header",
 				"Emailuser": "js",
 				"PasswordReset": "js",
-				"Userlogin": [ "js", "header" ],
+				"Userlogin": [
+					"js",
+					"header"
+				],
 				"Userlogout": "header"
 			},
 			"description": "List of SpecialPages where CheckUser will collect Client Hints data. Keys are the special pages and values are the method that the data is collected ('js' is using the API and 'header' is using the HTTP headers). Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'UserLogin' is known in the Special page system as 'Userlogin'."
@@ -746,7 +749,10 @@
 				{
 					"name": "durations.json",
 					"callback": "MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getTranslatedDurations",
-					"callbackParam": [ 1800, 3600 ]
+					"callbackParam": [
+						1800,
+						3600
+					]
 				},
 				{
 					"name": "icons.json",
