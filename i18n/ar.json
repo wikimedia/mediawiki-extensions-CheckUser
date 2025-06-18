@@ -20,7 +20,8 @@
 			"ديفيد",
 			"علاء",
 			"محمد أحمد عبد الفتاح",
-			"BAB ZAA"
+			"BAB ZAA",
+			"Mohammed Qays"
 		]
 	},
 	"checkuser-summary": "* تفحص هذه الأداة أحدث التغييرات بهدف استرجاع عنوان البروتوكول المُستخدم بواسطة مستخدم ما أو بهدف إظهار تعديلات/بيانات عنوان البروتوكول.\n* المستخدمون والتعديلات التي تتم بواسطة عنوان بروتوكول العميل يمكن استرجاعها من خلال رؤوس XFF، وذلك عبر إلحاق \"/xff\" في نهاية عنوان البروتوكول. يدعم عناوين بروتوكولات الإصدار الرابع (CIDR $1-32) وبروتوكولات الإصدار السادس (CIDR $2-128).\n* لن تعرض الأداة أكثر من $3 تعديل لأسباب تتعلق بالأداء.\n* استخدم هذه الأداة وفقًا للسياسات.",
@@ -315,7 +316,7 @@
 	"checkuser-ip-auto-reveal-notification-on": "<strong>تم تفعيل الكشف التلقائي عن عنوان IP</strong>",
 	"checkuser-ip-auto-reveal-notification-off": "<strong>تم إيقاف الكشف التلقائي عن عنوان IP</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "تشغيل الكشف التلقائي عن عنوان IP",
-	"checkuser-ip-auto-reveal-on-dialog-text": "سيؤدي تشغيل هذه الميزة إلى الكشف تلقائيًا عن جميع عناوين IP للحسابات المؤقتة لفترة محدودة.",
+	"checkuser-ip-auto-reveal-on-dialog-text": "سيؤدي تشغيل هذه الميزة إلى الكشف تلقائيًا عن جميع عناوين بروتوكول الإنترنت (IP) للحسابات المؤقتة لفترة محدودة.",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "إلغاء",
 	"checkuser-ip-auto-reveal-on-dialog-primary-action": "تشغيل",
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "المدة:",
