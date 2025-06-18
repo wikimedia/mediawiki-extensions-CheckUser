@@ -314,5 +314,9 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1님이 {{GENDER:$2|자신}}에게 보호된 변수를 볼 권한을 활성화함",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1님이 {{GENDER:$2|자신}}에게 보호된 변수를 볼 권한을 비활성화함",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1님이 $3 문서와 관련한 보호된 변수를 {{GENDER:$2|조회함}}",
-	"checkuser-ipinfo-global-contributions-url-text": "전역 기여 보기"
+	"checkuser-ipinfo-global-contributions-url-text": "전역 기여 보기",
+	"checkuser-userinfocard-global-edits-row-main-label": "전역 편집",
+	"checkuser-ipinfo-global-contributions-label": "전역 기여",
+	"checkuser-ipinfo-global-contributions-tooltip": "이 IP 주소에서 수행한 위키 간 편집 수입니다.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|전역 편집 $1개|전역 편집 $1개|0=전역 편집 없음}}"
 }
