@@ -128,7 +128,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	);
 	assert.strictEqual(
 		menuItems[ 5 ].link,
-		'https://www.mediawiki.org/wiki/Talk:Trust_and_Safety_Product/Anti-abuse_signals',
+		'https://www.mediawiki.org/wiki/Talk:Trust_and_Safety_Product/Anti-abuse_signals/User_Info',
 		'Provide feedback link is correct'
 	);
 
