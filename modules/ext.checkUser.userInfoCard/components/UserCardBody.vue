@@ -136,7 +136,7 @@ module.exports = exports = {
 			{ wpTarget: props.username, limit: 50, wpFormIdentifier: 'blocklist' }
 		);
 		const pastBlocksLink = mw.Title.makeTitle( -1, 'Log/block' ).getUrl(
-			{ user: props.username }
+			{ page: props.username }
 		);
 		const globalEditsLink = mw.Title.makeTitle(
 			-1, `GlobalContributions/${ props.username }`
