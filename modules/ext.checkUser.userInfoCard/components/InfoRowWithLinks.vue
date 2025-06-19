@@ -6,11 +6,7 @@
 			:class="iconClass"
 		></cdx-icon>
 		{{ mainLabel }}:
-		<a
-			v-if="mainLink"
-			:href="mainLink"
-			class="mw-userlink"
-		>
+		<a v-if="mainLink" :href="mainLink">
 			{{ mainValue }}
 		</a>
 		<span v-else>
@@ -18,11 +14,7 @@
 		</span>
 		<template v-if="suffixLabel && suffixValue !== ''">
 			({{ suffixLabel }}:
-			<a
-				v-if="suffixLink"
-				:href="suffixLink"
-				class="mw-userlink"
-			>
+			<a v-if="suffixLink" :href="suffixLink">
 				{{ suffixValue }}
 			</a>
 			<span v-else>

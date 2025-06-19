@@ -80,10 +80,6 @@ QUnit.test( 'renders link for main value when mainLink is provided', ( assert ) 
 		'https://example.com',
 		'Main value link has correct href'
 	);
-	assert.true(
-		mainValueLink.classes().includes( 'mw-userlink' ),
-		'Main value link has correct class'
-	);
 } );
 
 QUnit.test( 'does not render suffix section when suffixLabel is not provided', ( assert ) => {
@@ -140,10 +136,6 @@ QUnit.test( 'renders link for suffix value when suffixLink is provided', ( asser
 		links[ 0 ].attributes( 'href' ),
 		'https://example.org',
 		'Suffix value link has correct href'
-	);
-	assert.true(
-		links[ 0 ].classes().includes( 'mw-userlink' ),
-		'Suffix value link has correct class'
 	);
 } );
 
