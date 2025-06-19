@@ -496,8 +496,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$localWikIdProvider = static fn () => WikiMap::getCurrentWikiId();
 		$otherWikIdProvider = static fn () => 'otherwiki';
 		$summaryUnavailableMessage =
-			'<span class="comment">' .
-			'(checkuser-global-contributions-no-summary-available)</span>';
+			'<span class="history-deleted comment">' .
+			'(rev-deleted-comment)</span>';
 		$noCommentMessage =
 			'<span class="comment mw-comment-none">(changeslist-nocomment)</span>';
 

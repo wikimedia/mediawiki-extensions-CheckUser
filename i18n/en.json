@@ -303,7 +303,6 @@
 	"checkuser-global-contributions-api-lookup-error": "Error loading data from some wikis. These results are incomplete. <strong>It may help to try again.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>No results matching the query.</strong> User \"$1\" has no visible contributions.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>No results matching the query.</strong> You may find contributions if you change your search parameters.",
-	"checkuser-global-contributions-no-summary-available": "No edit summary available",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Namespace<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP Auto-reveal",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP Auto-reveal (on)",
