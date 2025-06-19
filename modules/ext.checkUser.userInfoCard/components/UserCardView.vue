@@ -46,8 +46,8 @@ const UserCardBody = require( './UserCardBody.vue' );
 const UserCardHeader = require( './UserCardHeader.vue' );
 const UserCardLoadingView = require( './UserCardLoadingView.vue' );
 const UserInfoCardError = require( './UserInfoCardError.vue' );
-const moment = require( 'moment' );
-const { processEditCountByDay } = require( '../util.js' );
+const DateFormatter = require( 'mediawiki.DateFormatter' );
+const { processEditCountByDay, parseMediaWikiTimestamp } = require( '../util.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -144,12 +144,16 @@ module.exports = exports = {
 					userCard.userPageUrl = userPageUrl;
 					userCard.userPageExists = !!userPageExists;
 					userCard.username = name;
-					userCard.joinedDate = firstRegistration ?
-						moment( firstRegistration, 'YYYYMMDDHHmmss' ).format( 'DD MMM YYYY' ) :
+
+					// Parse and format firstRegistration date
+					const firstRegDate = parseMediaWikiTimestamp( firstRegistration );
+					userCard.joinedDate = firstRegDate ?
+						DateFormatter.formatDate( firstRegDate ) :
 						'';
-					userCard.joinedRelativeTime = firstRegistration ?
-						moment( firstRegistration, 'YYYYMMDDHHmmss' ).fromNow() :
+					userCard.joinedRelativeTime = firstRegDate ?
+						DateFormatter.formatRelativeTimeOrDate( firstRegDate ) :
 						'';
+
 					userCard.globalEditCount = globalEditCount;
 					userCard.thanksReceivedCount = thanksReceived;
 					userCard.thanksGivenCount = thanksGiven;
@@ -161,8 +165,11 @@ module.exports = exports = {
 					userCard.localEditRevertedCount = revertedEditCount;
 					userCard.userPageWatched = !!userPageWatched;
 					userCard.checkUserChecks = checkUserChecks;
-					userCard.checkUserLastCheck = checkUserLastCheck ?
-						moment( checkUserLastCheck, 'YYYYMMDDHHmmss' ).format( 'DD MMM YYYY' ) :
+
+					// Parse and format checkUserLastCheck date
+					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );
+					userCard.checkUserLastCheck = lastCheckDate ?
+						DateFormatter.formatDate( lastCheckDate ) :
 						'';
 					userCard.activeWikis = !activeWikis || Array.isArray( activeWikis ) ?
 						{} : activeWikis;
