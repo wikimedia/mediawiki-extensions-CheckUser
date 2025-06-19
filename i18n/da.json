@@ -43,6 +43,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Tjekbruger",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Brugere, der kan se midlertidige kontoers IP-adresser",
 	"checkuser-clienthints-name-architecture": "Arkitektur",
+	"checkuser-clienthints-name-bitness": "Ordstørrelse",
 	"checkuser-clienthints-name-form-factor": "Formfaktor",
 	"checkuser-clienthints-name-brand": "Mærke",
 	"checkuser-clienthints-name-mobile": "Mobil",
