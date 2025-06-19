@@ -435,7 +435,8 @@ return [
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
-			$services->getUserEditTracker()
+			$services->getUserEditTracker(),
+			new DerivativeContext( RequestContext::getMain() )
 		);
 	},
 ];

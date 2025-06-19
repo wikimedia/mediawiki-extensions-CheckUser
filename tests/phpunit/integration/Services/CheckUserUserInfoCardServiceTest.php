@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
@@ -89,7 +90,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
-			$services->getUserEditTracker()
+			$services->getUserEditTracker(),
+			RequestContext::getMain()
 		);
 	}
 
@@ -119,7 +121,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $user->getName(), $userInfo['name'] );
 		$this->assertArrayHasKey( 'localRegistration', $userInfo );
 		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
-		$this->assertSame( [ 'bureaucrat', 'sysop' ], $userInfo['groups'] );
+		$this->assertSame( 'Groups: Bureaucrats, Administrators', $userInfo['groups'] );
 		$this->assertSame(
 			[
 				'dewiki' => 'https://de.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),
@@ -174,7 +176,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
-			$services->getUserEditTracker()
+			$services->getUserEditTracker(),
+			RequestContext::getMain()
 		);
 		$targetUser = $this->getTestUser()->getUser();
 		$userInfo = $infoCardService->getUserInfo(
@@ -182,7 +185,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		$this->assertArrayContains( [
 			'name' => $targetUser->getName(),
-			'groups' => [],
+			'groups' => '',
 			'totalEditCount' => 0,
 			'activeWikis' => [],
 			'pastBlocksOnLocalWiki' => 0,
