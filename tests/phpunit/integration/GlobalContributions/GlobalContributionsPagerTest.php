@@ -6,6 +6,9 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
+use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\CommentFormatter\RevisionCommentBatch;
+use MediaWiki\CommentStore\CommentStoreComment;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\DAO\WikiAwareEntity;
@@ -13,7 +16,9 @@ use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\UserLinkRenderer;
+use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -50,6 +55,16 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 */
 	private LinkRenderer $linkRenderer;
 
+	/**
+	 * @var (RevisionRecord&MockObject)
+	 */
+	private $revisionRecord;
+
+	/**
+	 * @var (RevisionStore&MockObject)
+	 */
+	private $revisionStore;
+
 	public function setUp(): void {
 		parent::setUp();
 
@@ -66,6 +81,9 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 					str_replace( ' ', '_', $url )
 				)
 			);
+
+		$this->revisionRecord = $this->createMock( RevisionRecord::class );
+		$this->revisionStore = $this->createMock( RevisionStore::class );
 	}
 
 	private function getPagerWithOverrides( $overrides ) {
@@ -106,9 +124,13 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function getWrappedPager( string $userName, $pageTitle, $pageNamespace = 0 ) {
-		$pager = TestingAccessWrapper::newFromObject( $this->getPager( $userName ) );
+		$pager = $this->wrapPager( $this->getPager( $userName ) );
 		$pager->currentPage = Title::makeTitle( $pageNamespace, $pageTitle );
 		return $pager;
+	}
+
+	private function wrapPager( GlobalContributionsPager $pager ) {
+		return TestingAccessWrapper::newFromObject( $pager );
 	}
 
 	private function getRow( $options = [] ) {
@@ -142,6 +164,21 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	public function testPopulateAttributes() {
 		$row = $this->getRow( [ 'sourcewiki' => 'otherwiki' ] );
 
+		$this->revisionStore
+			->expects( $this->once() )
+			->method( 'newRevisionFromRow' )
+			->with( $row )
+			->willReturn( $this->revisionRecord );
+
+		$this->revisionRecord
+			->method( 'getComment' )
+			->with(
+				RevisionRecord::RAW,
+				RequestContext::getMain()->getAuthority()
+			)->willReturn(
+				new CommentStoreComment( null, $row->rev_comment_text )
+			);
+
 		// formatRow() calls getTemplateParams(), which calls formatUserLink(),
 		// which calls UserLinkRenderer's userLink(): We need to mock that to
 		// prevent it from calling WikiMap static methods that check if the user
@@ -168,13 +205,24 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		// Get a pager that uses the mock in $this->userLinkRenderer. That's
 		// needed to avoid the calls the regular UserLinkRenderer does to
 		// WikiMap, since we can't mock static calls from a test.
-		$pager = $this->getPagerWithOverrides( [
-			'UserName' => '127.0.0.1',
-		] );
+		//
+		// Additionally, a wrapper is needed to set a mock comment for the
+		// revision associated with $row, since that would be called by
+		// IndexPager::getBody() but here we are calling formatRow() directly,
+		// which is called later by that same method.
+		$wrapper = $this->wrapPager(
+			$this->getPagerWithOverrides( [
+				'UserName' => '127.0.0.1',
+				'RevisionStore' => $this->revisionStore
+			] )
+		);
+		$wrapper->formattedComments = [
+			$row->rev_id => '<span>Formatted comment</span>'
+		];
 
 		// We can't call populateAttributes directly because TestingAccessWrapper
 		// can't pass by reference: T287318
-		$formatted = $pager->formatRow( $row );
+		$formatted = $wrapper->formatRow( $row );
 		$this->assertStringNotContainsString( 'data-mw-revid', $formatted );
 	}
 
@@ -280,6 +328,21 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'page_latest' => $revisionIsLatest ? '2' : '3',
 		] );
 
+		$context = RequestContext::getMain();
+		$this->revisionStore
+			->expects( $this->once() )
+			->method( 'newRevisionFromRow' )
+			->with( $row )
+			->willReturn( $this->revisionRecord );
+
+		$this->revisionRecord
+			->method( 'getComment' )
+			->with( RevisionRecord::RAW, $context->getAuthority() )
+			->willReturn( $row->rev_comment_text ?
+				new CommentStoreComment( null, $row->rev_comment_text ) :
+				null
+			);
+
 		// formatRow() calls getTemplateParams(), which calls formatUserLink(),
 		// which calls UserLinkRenderer's userLink(): We need to mock that to
 		// prevent it from calling WikiMap static methods that check if the user
@@ -289,23 +352,32 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->userLinkRenderer
 			->expects( $this->once() )
 			->method( 'userLink' )
-			->with(
-				$this->isInstanceOf( UserIdentityValue::class ),
-				RequestContext::getMain()
-			)->willReturn(
+			->with( $this->isInstanceOf( UserIdentityValue::class ), $context )
+			->willReturn(
 				'<a href="http://example.com/User:username">username</a>'
 			);
 
 		// Get a pager that uses the mock in $this->userLinkRenderer. That's
 		// needed to avoid the calls the regular UserLinkRenderer does to
 		// WikiMap, since we can't mock static calls from a test.
-		$pager = $this->getPagerWithOverrides( [
-			'UserName' => '127.0.0.1',
-		] );
+		//
+		// Additionally, a wrapper is needed to set a mock comment for the
+		// revision associated with $row, since that would be called by
+		// IndexPager::getBody() but here we are calling formatRow(), which is
+		// called later by that same method.
+		$wrapper = $this->wrapPager(
+			$this->getPagerWithOverrides( [
+				'UserName' => '127.0.0.1',
+				'RevisionStore' => $this->revisionStore
+			] )
+		);
+		$wrapper->formattedComments = [
+			$row->rev_id => '<span>Formatted comment</span>'
+		];
 
 		// We can't call formatTopMarkText directly because TestingAccessWrapper
 		// can't pass by reference: T287318
-		$formatted = $pager->formatRow( $row );
+		$formatted = $wrapper->formatRow( $row );
 		if ( $revisionIsLatest ) {
 			$this->assertStringContainsString( 'uctop', $formatted );
 		} else {
@@ -317,18 +389,239 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		return [ [ true ], [ false ] ];
 	}
 
-	public function testFormatComment() {
-		$row = $this->getRow( [ 'sourcewiki' => 'otherwiki' ] );
-		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
+	/**
+	 * @dataProvider formatCommentDataProvider
+	 */
+	public function testFormatComment(
+		string $expected,
+		callable $sourceWiki,
+		array $row,
+		bool $hasRevisionRecord,
+		array $permissions,
+		bool $canAccessLocalComment,
+		bool $hasStoredComment,
+		?string $formattedComment
+	): void {
+		// Call wiki ID providers, then merge the row with the default values
+		$sourceWiki = $sourceWiki();
+		$row[ 'sourcewiki' ] = $row[ 'sourcewiki' ]();
+		$row = $this->getRow( $row );
 
-		$formatted = $pager->formatComment( $row );
-		$this->assertSame(
-			sprintf(
-				'<span class="comment mw-comment-none">(%s)</span>',
-				'checkuser-global-contributions-no-summary-available'
-			),
-			$formatted
+		// Create a context mocking the current user
+		$authority = new SimpleAuthority(
+			new UserIdentityValue( 0, '127.0.0.1' ),
+			[]
 		);
+		$context = RequestContext::getMain();
+		$context->setAuthority( $authority );
+		$context->setLanguage( 'qqx' );
+
+		$commentFormatter = $this->createMock( CommentFormatter::class );
+
+		// Get a pager that uses the previous mocks, then wrap it with a
+		// TestingAccessWrapper so that we can initialize a mock comment for the
+		// revision associated with $row, as normally that would be filed by
+		// IndexPager::getBody() but here we are calling formatComment()
+		// directly instead.
+		$pager = $this->wrapPager(
+			$this->getPagerWithOverrides( [
+				'CommentFormatter' => $commentFormatter,
+				'Context' => $context,
+				'RevisionStore' => $this->revisionStore,
+				'UserName' => '127.0.0.1',
+			] )
+		);
+
+		// Normally, permissions would be filled by fetchWikisToQuery(), which
+		// would end up being called after calling getBody(). However, as this
+		// test calls formatComment() directly, we need to set up the permission
+		// data that otherwise would be set up by a call to fetchWikisToQuery()
+		// initiated by IndexPager::getBody().
+		//
+		// This is used by userHasExternalPermission().
+		$pager->permissions = [ $sourceWiki => $permissions ];
+
+		if ( $row->sourcewiki === 'otherwiki' ) {
+			$this->revisionStore
+				->method( 'newRevisionFromRow' )
+				->with( $row )
+				->willReturn( $this->revisionRecord );
+
+			$this->revisionRecord
+				->method( 'getComment' )
+				->with( RevisionRecord::RAW, $authority )
+				->willReturn(
+					$hasStoredComment ?
+						new CommentStoreComment( null, $formattedComment ) :
+						null
+				);
+
+			$commentFormatter
+				->method( 'formatRevision' )
+				->with( $this->revisionRecord, $authority )
+				->willReturn( $formattedComment );
+		} else {
+			// Setup values expected by the parent class
+			$pager->formattedComments = [
+				$row->rev_id => $formattedComment
+			];
+
+			// Ensure formatRevisions is not called by GlobalContributionsPager
+			// but, instead, the parent class used parent::$formattedComments
+			// instead (previously initialized by RevisionCommentBatch).
+			$commentFormatter
+				->expects( $this->never() )
+				->method( 'formatRevision' );
+		}
+
+		if ( $hasRevisionRecord ) {
+			// RevisionRecord::userCan() is called by RevisionRecord::audienceCan()
+			// which, in turn, is called by RevisionRecord::getComment(), which
+			// is called by the pager.
+			$mockRevisionRecord = $this->createMock( RevisionRecord::class );
+			$mockRevisionRecord
+				->expects( $this->atMost( 1 ) )
+				->method( 'userCan' )
+				->with(
+					RevisionRecord::DELETED_COMMENT,
+					$authority
+				)->willReturn( $canAccessLocalComment );
+
+			$pager->currentRevRecord = $mockRevisionRecord;
+		}
+
+		$this->assertSame( $expected, $pager->formatComment( $row ) );
+	}
+
+	public function formatCommentDataProvider(): array {
+		$localWikIdProvider = static fn () => WikiMap::getCurrentWikiId();
+		$otherWikIdProvider = static fn () => 'otherwiki';
+		$summaryUnavailableMessage =
+			'<span class="comment">' .
+			'(checkuser-global-contributions-no-summary-available)</span>';
+		$noCommentMessage =
+			'<span class="comment mw-comment-none">(changeslist-nocomment)</span>';
+
+		return [
+			'External wiki, non-deleted comment' => [
+				'expected' => 'Formatted comment',
+				'sourceWiki' => $otherWikIdProvider,
+				'row' => [
+					'sourcewiki' => $otherWikIdProvider,
+					'rev_deleted' => 0x0,
+				],
+				'hasRevisionRecord' => false,
+				'permissions' => [],
+				'canAccessLocalComment' => false,
+				'hasStoredComment' => true,
+				'formattedComment'  => 'Formatted comment',
+			],
+			'External wiki, non-deleted comment, null comment' => [
+				'expected' => $noCommentMessage,
+				'sourceWiki' => $otherWikIdProvider,
+				'row' => [
+					'sourcewiki' => $otherWikIdProvider,
+					'rev_deleted' => 0x0,
+				],
+				'hasRevisionRecord' => false,
+				'permissions' => [],
+				'canAccessLocalComment' => false,
+				'hasStoredComment' => false,
+				'formattedComment'  => null,
+			],
+			'External wiki, non-deleted comment, empty comment' => [
+				'expected' => $noCommentMessage,
+				'sourceWiki' => $otherWikIdProvider,
+				'row' => [
+					'sourcewiki' => $otherWikIdProvider,
+					'rev_deleted' => 0x0,
+				],
+				'hasRevisionRecord' => false,
+				'permissions' => [],
+				'canAccessLocalComment' => false,
+				'hasStoredComment' => true,
+				'formattedComment'  => '',
+			],
+			'External wiki, non-deleted comment, has deletedhistory' => [
+				'expected' => 'Formatted comment',
+				'sourceWiki' => $otherWikIdProvider,
+				'row' => [
+					'sourcewiki' => $otherWikIdProvider,
+					'rev_deleted' => 0x0,
+				],
+				'hasRevisionRecord' => false,
+				'permissions' => [
+					'deletedhistory' => []
+				],
+				'canAccessLocalComment' => false,
+				'hasStoredComment' => true,
+				'formattedComment'  => 'Formatted comment'
+			],
+			'External wiki, deleted comment, has other permission' => [
+				'expected' => $summaryUnavailableMessage,
+				'sourceWiki' => $otherWikIdProvider,
+				'row' => [
+					'sourcewiki' => $otherWikIdProvider,
+					'rev_deleted' => RevisionRecord::DELETED_COMMENT,
+				],
+				'hasRevisionRecord' => false,
+				'permissions' => [
+					// This one doesn't grant access to the comments
+					'deletedtext' => [],
+				],
+				'canAccessLocalComment' => false,
+				'hasStoredComment' => true,
+				'formattedComment'  => 'Formatted comment'
+			],
+			'External wiki, deleted comment, multiple permissions not granting access' => [
+				'expected' => $summaryUnavailableMessage,
+				'sourceWiki' => $otherWikIdProvider,
+				'row' => [
+					'sourcewiki' => $otherWikIdProvider,
+					'rev_deleted' => RevisionRecord::DELETED_COMMENT,
+				],
+				'hasRevisionRecord' => false,
+				'permissions' => [
+					'deletedtext' => [],
+					'something-else' => []
+				],
+				'canAccessLocalComment' => false,
+				'hasStoredComment' => true,
+				'formattedComment'  => 'Formatted comment'
+			],
+			'External wiki, deleted comment, multiple permissions granting access ' => [
+				'expected' => 'Formatted comment',
+				'sourceWiki' => $otherWikIdProvider,
+				'row' => [
+					'sourcewiki' => $otherWikIdProvider,
+					'rev_deleted' => RevisionRecord::DELETED_COMMENT,
+				],
+				'hasRevisionRecord' => false,
+				'permissions' => [
+					'deletedtext' => [],
+					'deletedhistory' => []
+				],
+				'canAccessLocalComment' => false,
+				'hasStoredComment' => true,
+				'formattedComment'  => 'Formatted comment'
+			],
+			'Local wiki, has access to comment' => [
+				// Comments for records from the local wiki are delegated to the
+				// parent class, so this only tests the most-common scenario
+				// (non-deleted comment).
+				'expected' => 'Formatted comment',
+				'sourceWiki' => $localWikIdProvider,
+				'row' => [
+					'sourcewiki' => $localWikIdProvider,
+					'rev_deleted' => 0x0,
+				],
+				'hasRevisionRecord' => true,
+				'permissions' => [],
+				'canAccessLocalComment' => true,
+				'hasStoredComment' => true,
+				'formattedComment'  => 'Formatted comment',
+			],
+		];
 	}
 
 	/**
@@ -360,6 +653,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		}
 
 		$context = RequestContext::getMain();
+		$context->setLanguage( 'qqx' );
 
 		$this->userLinkRenderer
 			->method( 'userLink' )
@@ -514,6 +808,18 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		] );
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
 
+		$this->revisionStore
+			->method( 'newRevisionFromRow' )
+			->with( $row )
+			->willReturn( $this->revisionRecord );
+
+		$this->revisionRecord
+			->method( 'getComment' )
+			->with(
+				RevisionRecord::RAW,
+				RequestContext::getMain()->getAuthority()
+			)->willReturn( null );
+
 		$flags = $pager->formatFlags( $row );
 		if ( $hasFlags ) {
 			$this->assertCount( 2, $flags );
@@ -559,15 +865,45 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'<a href="http://example.com/User:username">username</a>'
 			);
 
+		// Formatting external comments makes use of the Authority from the
+		// RequestContext: Create a context mocking the current user
+		$authority = new SimpleAuthority(
+			new UserIdentityValue( 0, '127.0.0.1' ),
+			[]
+		);
+		$context = RequestContext::getMain();
+		$context->setAuthority( $authority );
+		$context->setLanguage( 'qqx' );
+
 		// Get a pager that uses the mock in $this->userLinkRenderer. That's
 		// needed to avoid the calls the regular UserLinkRenderer does to
 		// WikiMap, since we can't mock static calls from a test.
 		$pager = $this->getPagerWithOverrides( [
-			'UserName' => '127.0.0.1',
+			'Context' => $context,
+			'RevisionStore' => $this->revisionStore,
+			'UserName' => '127.0.0.1'
 		] );
 
-		// We can't call formatTags directly because TestingAccessWrapper
-		// can't pass by reference: T287318
+		$this->revisionStore
+			->method( 'newRevisionFromRow' )
+			->with( $row )
+			->willReturn( $this->revisionRecord );
+
+		$this->revisionRecord
+			->method( 'getComment' )
+			->with(
+				RevisionRecord::RAW,
+				// May be called with the current Authority when called from
+				// GlobalContributionsPager or null when called from the
+				// CommentFormatter.
+				$this->logicalOr(
+					RequestContext::getMain()->getAuthority(),
+					null
+				)
+			)->willReturn(
+				new CommentStoreComment( null, 'Formatted comment' )
+			);
+
 		$formatted = $pager->formatRow( $row );
 		if ( $hasTags ) {
 			$this->assertStringContainsString( 'sometag', $formatted );
@@ -863,12 +1199,96 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$hookContainer->expects( $this->never() )
 			->method( 'run' );
 
+		// Object representing the current user
+		$authority = new SimpleAuthority(
+			new UserIdentityValue( 0, '127.0.0.1' ),
+			[]
+		);
+
+		// This test handles results for external wikis and, when that happens,
+		// formatComment() in the parent pager expects having a comment for each
+		// row in $formattedComments indexed by revisionId.
+		//
+		// The data provider assigns fake revision IDs starting at 1 and going
+		// up to the number of fake revisions returned, so we can just provide a
+		// big enough array with dummy comments for each ID in the range 1-10.
+		$formattedComments = array_fill( 0, 10, 'test' );
+
+		// Create a context that returns the current user.
+		//
+		// Setting the language to qqx is needed to be able to preg_match the
+		// output later.
+		$context = RequestContext::getMain();
+		$context->setAuthority( $authority );
+		$context->setLanguage( 'qqx' );
+
+		// Mock different services called internally to return dummy values
+		$commentBatch = $this->createMock( RevisionCommentBatch::class );
+		$commentBatch
+			->method( 'authority' )
+			->with( $authority )
+			->willReturnSelf();
+		$commentBatch
+			->method( 'revisions' )
+			->willReturnSelf();
+		$commentBatch
+			->method( 'hideIfDeleted' )
+			->willReturnSelf();
+		$commentBatch
+			->method( 'execute' )
+			->willReturn( $formattedComments );
+
+		$commentFormatter = $this->createMock( CommentFormatter::class );
+		$commentFormatter
+			->expects( $this->never() )
+			->method( 'formatRevisions' );
+		$commentFormatter
+			->expects( $this->once() )
+			->method( 'createRevisionBatch' )
+			->willReturn( $commentBatch );
+		$commentFormatter
+			->method( 'formatRevision' )
+			->with( $this->revisionRecord, $authority )
+			->willReturn( 'Formatted comment' );
+
+		$this->revisionRecord
+			->method( 'getComment' )
+			->with( RevisionRecord::RAW, $authority )
+			->willReturn(
+				new CommentStoreComment( null, 'Unformatted comment' )
+			);
+
+		$revisionStore = $this->getServiceContainer()->getRevisionStore();
+
+		$storeProxy = $this->getMockBuilder( RevisionStore::class )
+			->disableOriginalConstructor()
+			->getMock();
+		$storeProxy
+			->expects( $this->atLeastOnce() )
+			->method( 'newRevisionFromRow' )
+			->willReturn( $this->revisionRecord );
+		$storeProxy
+			->expects( $this->atLeastOnce() )
+			->method( 'newSelectQueryBuilder' )
+			->willReturnCallback( static fn ( IReadableDatabase $db ) =>
+				$revisionStore->newSelectQueryBuilder( $db )
+			);
+		$storeProxy
+			->method( 'getRevisionSizes' )
+			->willReturnCallback( static fn ( array $revIds ) =>
+				$revisionStore->getRevisionSizes( $revIds )
+			);
+
+		// Initialize the subject under test
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
 			'HookContainer' => $hookContainer,
 			'RequestAggregator' => $apiRequestAggregator,
 			'LoadBalancerFactory' => $dbProvider,
 			'GlobalContributionsLookup' => $globalContributionsLookup,
+			'Context' => $context,
+			'CommentFormatter' => $commentFormatter,
+			'RevisionStore' => $storeProxy
 		] );
 		$pager->mIsBackwards = ( $paginationParams['dir'] ?? '' ) === 'prev';
 		$pager->setLimit( $paginationParams['limit'] );
@@ -904,34 +1324,62 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		yield '5 rows, limit=4, first page' => [
-			$testResults,
-			[ 'limit' => 4 ],
-			[ 'testwiki' => [ 1 ], 'otherwiki' => [ 1 ] ],
+			'resultsByWiki' => $testResults,
+			'paginationParams' => [
+				'limit' => 4
+			],
+			'expectedParentSizeLookups' => [
+				'testwiki' => [ 1 ],
+				'otherwiki' => [ 1 ]
+			],
 			// 4 rows shown + 1 row for the next page link
-			5,
-			false,
-			[ 'offset' => '20250108000000|-1|2', 'limit' => 4 ],
-			[ 0, 0, 0, 95 ],
+			'expectedCount' => 5,
+			'expectedPrevQuery' => false,
+			'expectedNextQuery' => [
+				'offset' => '20250108000000|-1|2',
+				'limit' => 4
+			],
+			'expectedDiffSizes' => [ 0, 0, 0, 95 ],
 		];
 
 		yield '5 rows, limit=4, second page' => [
-			$testResults,
-			[ 'offset' => '20250108000000|-1|2', 'limit' => 4 ],
-			[ 'testwiki' => [ 1 ], 'otherwiki' => [ 1 ] ],
-			1,
-			[ 'dir' => 'prev', 'offset' => '20250107000000|0|2', 'limit' => 4 ],
-			false,
-			[ 95 ],
+			'resultsByWiki' => $testResults,
+			'paginationParams' => [
+				'offset' => '20250108000000|-1|2',
+				'limit' => 4
+			],
+			'expectedParentSizeLookups' => [
+				'testwiki' => [ 1 ],
+				'otherwiki' => [ 1 ]
+			],
+			'expectedCount' => 1,
+			'expectedPrevQuery' => [
+				'dir' => 'prev',
+				'offset' => '20250107000000|0|2',
+				'limit' => 4
+			],
+			'expectedNextQuery' => false,
+			'expectedDiffSizes' => [ 95 ],
 		];
 
 		yield '5 rows, limit=4, backwards from second page' => [
-			$testResults,
-			[ 'dir' => 'prev', 'offset' => '20250107000000|0|2', 'limit' => 4 ],
-			[ 'testwiki' => [ 2 ], 'otherwiki' => [ 1 ] ],
-			4,
-			false,
-			[ 'offset' => '20250108000000|-1|2', 'limit' => 4 ],
-			[ 0, 0, 95, 95 ],
+			'resultsByWiki' => $testResults,
+			'paginationParams' => [
+				'dir' => 'prev',
+				'offset' => '20250107000000|0|2',
+				'limit' => 4
+			],
+			'expectedParentSizeLookups' => [
+				'testwiki' => [ 2 ],
+				'otherwiki' => [ 1 ]
+			],
+			'expectedCount' => 4,
+			'expectedPrevQuery' => false,
+			'expectedNextQuery' => [
+				'offset' => '20250108000000|-1|2',
+				'limit' => 4
+			],
+			'expectedDiffSizes' => [ 0, 0, 95, 95 ],
 		];
 
 		$resultsWithIdenticalTimestamps = [
@@ -945,34 +1393,60 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		yield '3 rows, identical timestamps, limit=2, first page' => [
-			$resultsWithIdenticalTimestamps,
-			[ 'limit' => 2 ],
-			[ 'testwiki' => [ 1 ], 'otherwiki' => [ 1 ] ],
+			'resultsByWiki' => $resultsWithIdenticalTimestamps,
+			'paginationParams' => [
+				'limit' => 2
+			],
+			'expectedParentSizeLookups' => [
+				'testwiki' => [ 1 ],
+				'otherwiki' => [ 1 ]
+			],
 			// 2 rows shown + 1 row for the next page link
-			3,
-			false,
-			[ 'offset' => '20250108000000|0|2', 'limit' => 2 ],
-			[ 0, 95 ],
+			'expectedCount' => 3,
+			'expectedPrevQuery' => false,
+			'expectedNextQuery' => [
+				'offset' => '20250108000000|0|2',
+				'limit' => 2
+			],
+			'expectedDiffSizes' => [ 0, 95 ],
 		];
 
 		yield '3 rows, identical timestamps, limit=2, second page' => [
-			$resultsWithIdenticalTimestamps,
-			[ 'offset' => '20250108000000|0|2', 'limit' => 2 ],
-			[ 'otherwiki' => [ 1 ] ],
-			1,
-			[ 'dir' => 'prev', 'offset' => '20250108000000|-1|2', 'limit' => 2 ],
-			false,
-			[ 95 ],
+			'resultsByWiki' => $resultsWithIdenticalTimestamps,
+			'paginationParams' => [
+				'offset' => '20250108000000|0|2',
+				'limit' => 2
+			],
+			'expectedParentSizeLookups' => [
+				'otherwiki' => [ 1 ]
+			],
+			'expectedCount' => 1,
+			'expectedPrevQuery' => [
+				'dir' => 'prev',
+				'offset' => '20250108000000|-1|2',
+				'limit' => 2
+			],
+			'expectedNextQuery' => false,
+			'expectedDiffSizes' => [ 95 ],
 		];
 
 		yield '3 rows, identical timestamps, limit=2, backwards from second page' => [
-			$resultsWithIdenticalTimestamps,
-			[ 'dir' => 'prev', 'offset' => '20250108000000|-1|2', 'limit' => 2 ],
-			[ 'testwiki' => [ 1 ] ],
-			2,
-			false,
-			[ 'offset' => '20250108000000|0|2', 'limit' => 2 ],
-			[ 0, 95 ],
+			'resultsByWiki' => $resultsWithIdenticalTimestamps,
+			'paginationParams' => [
+				'dir' => 'prev',
+				'offset' => '20250108000000|-1|2',
+				'limit' => 2
+			],
+			'expectedParentSizeLookups' => [
+				'testwiki' => [ 1 ]
+			],
+			'expectedCount' => 2,
+			'expectedPrevQuery' => false,
+			'expectedNextQuery' => [
+				'offset' => '20250108000000|0|2',
+				'limit' => 2
+			],
+			'expectedDiffSizes' => [ 0, 95 ],
 		];
 	}
 
