@@ -84,17 +84,21 @@ QUnit.test( 'componentKey is based on username', ( assert ) => {
 	);
 } );
 
-QUnit.test( 'container div is rendered only when popover is open', ( assert ) => {
+QUnit.test( 'container divs are rendered only when popover is open', ( assert ) => {
 	const wrapper = mountComponent();
 
-	let container = wrapper.find( '.ext-checkuser-userinfocard-container' );
-	assert.false( container.exists(), 'Container div is not rendered when closed' );
+	let headerContainer = wrapper.find( '.ext-checkuser-userinfocard-header-container' );
+	let bodyContainer = wrapper.find( '.ext-checkuser-userinfocard-body-container' );
+	assert.false( headerContainer.exists(), 'Header container div is not rendered when closed' );
+	assert.false( bodyContainer.exists(), 'Body container div is not rendered when closed' );
 
 	wrapper.vm.open( document.createElement( 'button' ) );
 
 	nextTick( () => {
-		container = wrapper.find( '.ext-checkuser-userinfocard-container' );
-		assert.true( container.exists(), 'Container div is rendered when open' );
+		headerContainer = wrapper.find( '.ext-checkuser-userinfocard-header-container' );
+		bodyContainer = wrapper.find( '.ext-checkuser-userinfocard-body-container' );
+		assert.true( headerContainer.exists(), 'Header container div is rendered when open' );
+		assert.true( bodyContainer.exists(), 'Body container div is rendered when open' );
 	} );
 } );
 

@@ -81,18 +81,21 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardView', QUnit.newMwEnvironment(
 
 // Reusable mount helper
 function mountComponent( props = {} ) {
-	// Create a container element for the teleport
-	const container = document.createElement( 'div' );
-	// document.body.appendChild( container );
+	// Create container elements for the teleports
+	const headerContainer = document.createElement( 'div' );
+	const bodyContainer = document.createElement( 'div' );
+	// document.body.appendChild( headerContainer );
+	// document.body.appendChild( bodyContainer );
 
 	return mount( UserCardView, {
 		propsData: {
 			username: 'TestUser',
-			container,
+			headerContainer,
+			bodyContainer,
 			...props
 		},
 		stubs: mockComponents,
-		attachTo: container
+		attachTo: bodyContainer
 	} );
 }
 

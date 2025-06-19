@@ -6,11 +6,20 @@
 		:render-in-place="true"
 		class="ext-checkuser-userinfocard-popover"
 	>
-		<!-- Empty container for teleported content -->
+		<template #header>
+			<!-- Container for teleported header content -->
+			<div
+				v-if="isOpen"
+				ref="headerContainer"
+				class="ext-checkuser-userinfocard-header-container"
+			></div>
+		</template>
+
+		<!-- Container for teleported body content -->
 		<div
 			v-if="isOpen"
-			ref="cardContainer"
-			class="ext-checkuser-userinfocard-container"
+			ref="bodyContainer"
+			class="ext-checkuser-userinfocard-body-container"
 		></div>
 	</cdx-popover>
 
@@ -24,7 +33,8 @@
 			v-if="isOpen"
 			:key="componentKey"
 			:username="username"
-			:container="cardContainer"
+			:header-container="headerContainer"
+			:body-container="bodyContainer"
 			@close="close"
 		></user-card-view>
 	</keep-alive>
@@ -48,7 +58,8 @@ module.exports = exports = {
 		const isOpen = ref( false );
 		const currentTrigger = ref( null );
 		const username = ref( null );
-		const cardContainer = ref( null );
+		const headerContainer = ref( null );
+		const bodyContainer = ref( null );
 
 		// Initialize instrumentation
 		const logEvent = useInstrument();
@@ -86,7 +97,8 @@ module.exports = exports = {
 			isOpen,
 			currentTrigger,
 			username,
-			cardContainer,
+			headerContainer,
+			bodyContainer,
 			open,
 			close,
 			setUserInfo,
@@ -112,7 +124,8 @@ module.exports = exports = {
 	width: @size-2400;
 }
 
-.ext-checkuser-userinfocard-container {
+.ext-checkuser-userinfocard-header-container,
+.ext-checkuser-userinfocard-body-container {
 	display: contents;
 }
 

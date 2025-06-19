@@ -1,5 +1,5 @@
 <template>
-	<header class="ext-checkuser-userinfocard-header cdx-popover__header">
+	<div class="ext-checkuser-userinfocard-header">
 		<div class="ext-checkuser-userinfocard-header-main">
 			<cdx-icon :icon="cdxIconUserAvatar"></cdx-icon>
 			<div class="ext-checkuser-userinfocard-header-userinfo">
@@ -25,7 +25,7 @@
 				<cdx-icon :icon="cdxIconClose"></cdx-icon>
 			</cdx-button>
 		</div>
-	</header>
+	</div>
 </template>
 
 <script>
@@ -89,32 +89,43 @@ module.exports = exports = {
 	width: @size-full;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	margin-bottom: @spacing-50;
+	align-items: flex-start;
 }
 
 .ext-checkuser-userinfocard-header-main {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	gap: @spacing-50;
+	flex: 1;
+	min-width: 0;
+
+	.cdx-icon {
+		height: @size-200;
+	}
 }
 
 .ext-checkuser-userinfocard-header-userinfo {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
+	align-self: center;
 	gap: @spacing-25;
+	flex: 1;
+	min-width: 0;
 }
 
 .ext-checkuser-userinfocard-header-username {
 	margin: @spacing-0;
 	font-weight: @font-weight-bold;
-	font-size: @font-size-large;
-	line-height: @line-height-x-small;
+	line-height: @line-height-small;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	flex: 1;
+	min-width: 0;
 }
 
 .ext-checkuser-userinfocard-header-controls {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	gap: @spacing-25;
 }
 </style>

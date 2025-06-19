@@ -1,6 +1,18 @@
 <template>
-	<!-- Use teleport to move content to the container in the popover -->
-	<teleport :to="container" :disabled="!container">
+	<!-- Header teleport - only when data is ready -->
+	<teleport :to="headerContainer" :disabled="!headerContainer">
+		<user-card-header
+			v-if="!loading && !error"
+			:username="userCard.username"
+			:user-page-url="userCard.userPageUrl"
+			:user-page-exists="userCard.userPageExists"
+			:user-page-watched="userCard.userPageWatched"
+			@close="$emit( 'close' )"
+		></user-card-header>
+	</teleport>
+
+	<!-- Body teleport - handles all states -->
+	<teleport :to="bodyContainer" :disabled="!bodyContainer">
 		<user-card-loading-view v-if="loading"></user-card-loading-view>
 
 		<user-info-card-error
@@ -9,14 +21,6 @@
 		></user-info-card-error>
 
 		<div v-else class="ext-checkuser-userinfocard-view">
-			<user-card-header
-				:username="userCard.username"
-				:user-page-url="userCard.userPageUrl"
-				:user-page-exists="userCard.userPageExists"
-				:user-page-watched="userCard.userPageWatched"
-				@close="$emit( 'close' )"
-			></user-card-header>
-
 			<user-card-body
 				:username="userCard.username"
 				:joined-date="userCard.joinedDate"
@@ -63,7 +67,11 @@ module.exports = exports = {
 			type: [ String ],
 			required: true
 		},
-		container: {
+		headerContainer: {
+			type: [ Object, HTMLElement ],
+			default: null
+		},
+		bodyContainer: {
 			type: [ Object, HTMLElement ],
 			default: null
 		}
