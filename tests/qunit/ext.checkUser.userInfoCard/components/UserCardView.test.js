@@ -73,10 +73,6 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardView', QUnit.newMwEnvironment(
 			getPrefixedText: () => `User:${ title }`
 		} ) );
 		this.sandbox.stub( mw.config, 'get' ).withArgs( 'wgUserLanguage' ).returns( 'en' );
-		this.sandbox.stub( window, 'moment' ).callsFake( () => ( {
-			format: () => '01 Jan 2020',
-			fromNow: () => '5 years ago'
-		} ) );
 	},
 	afterEach: function () {
 		this.server.restore();

@@ -660,7 +660,7 @@
 				"vue",
 				"@wikimedia/codex",
 				"mediawiki.user",
-				"moment"
+				"mediawiki.DateFormatter"
 			]
 		},
 		"ext.checkUser.clientHints": {
@@ -968,6 +968,7 @@
 			"tests/qunit/ext.checkUser.tempAccounts/SpecialBlock.test.js",
 			"tests/qunit/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
+			"tests/qunit/ext.checkUser.userInfoCard/util.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/App.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/InfoRowWithLinks.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/UserActivityChart.test.js",
@@ -991,6 +992,7 @@
 		"dependencies": [
 			"mediawiki.qunit-testrunner",
 			"mediawiki.base",
+			"mediawiki.DateFormatter",
 			"mediawiki.router",
 			"mediawiki.storage",
 			"mediawiki.util",

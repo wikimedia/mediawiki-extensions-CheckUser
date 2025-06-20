@@ -1,7 +1,5 @@
 'use strict';
 
-const moment = require( 'moment' );
-
 /**
  * Process edit count data to include only the last 60 days and fill in missing dates with 0
  *
@@ -12,23 +10,54 @@ const moment = require( 'moment' );
 function processEditCountByDay( editCountByDay ) {
 	const rawData = editCountByDay || {};
 
-	const sixtyDaysAgo = moment().subtract( 60, 'days' );
+	// Calculate 60 days ago using native Date
+	const sixtyDaysAgo = new Date();
+	sixtyDaysAgo.setDate( sixtyDaysAgo.getDate() - 60 );
+
 	const processedData = [];
 	let totalEdits = 0;
 
 	for ( let i = 0; i <= 60; i++ ) {
-		const date = moment( sixtyDaysAgo ).add( i, 'days' );
-		const dateStr = date.format( 'YYYY-MM-DD' );
+		// Create a new date for each day
+		const date = new Date( sixtyDaysAgo );
+		date.setDate( sixtyDaysAgo.getDate() + i );
+
+		// Format date as YYYY-MM-DD using native methods
+		const year = date.getFullYear();
+		const month = String( date.getMonth() + 1 ).padStart( 2, '0' );
+		const day = String( date.getDate() ).padStart( 2, '0' );
+		const dateStr = `${ year }-${ month }-${ day }`;
 
 		if ( rawData[ dateStr ] ) {
-			processedData.push( { date: date.toDate(), count: rawData[ dateStr ] } );
+			processedData.push( { date: date, count: rawData[ dateStr ] } );
 			totalEdits += rawData[ dateStr ];
 		} else {
-			processedData.push( { date: date.toDate(), count: 0 } );
+			processedData.push( { date: date, count: 0 } );
 		}
 	}
 
 	return { processedData, totalEdits };
+}
+
+/**
+ * Parse MediaWiki timestamp format (YYYYMMDDHHmmss) to JavaScript Date
+ *
+ * @param {string} timestamp MediaWiki timestamp in format YYYYMMDDHHmmss
+ * @return {Date|null} JavaScript Date object or null if invalid
+ */
+function parseMediaWikiTimestamp( timestamp ) {
+	if ( !timestamp || timestamp.length !== 14 ) {
+		return null;
+	}
+
+	const year = parseInt( timestamp.slice( 0, 4 ), 10 );
+	const month = parseInt( timestamp.slice( 4, 6 ), 10 ) - 1; // Month is 0-indexed
+	const day = parseInt( timestamp.slice( 6, 8 ), 10 );
+	const hour = parseInt( timestamp.slice( 8, 10 ), 10 );
+	const minute = parseInt( timestamp.slice( 10, 12 ), 10 );
+	const second = parseInt( timestamp.slice( 12, 14 ), 10 );
+
+	return new Date( year, month, day, hour, minute, second );
 }
 
 /**
@@ -62,5 +91,6 @@ function hashUsername( username ) {
 
 module.exports = {
 	processEditCountByDay,
+	parseMediaWikiTimestamp,
 	hashUsername
 };
