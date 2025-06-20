@@ -908,6 +908,10 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			return parent::formatComment( $row );
 		}
 
+		$record = $this->isArchive ?
+			$this->revisionStore->newRevisionFromArchiveRow( $row ) :
+			$this->revisionStore->newRevisionFromRow( $row );
+
 		// $this->currentRevRecord is null for external revisions, so permission
 		// checks should be based on data from $row instead.
 		//
@@ -915,9 +919,6 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		// if it is, if the current user can see it in the source wiki.
 		if ( $this->userCanSeeExternalHistory( $row ) ) {
 			$user = $this->getAuthority();
-			$record = $this->isArchive ?
-				$this->revisionStore->newRevisionFromArchiveRow( $row ) :
-				$this->revisionStore->newRevisionFromRow( $row );
 
 			// Note $comment just serves to check that the comment is not empty.
 			//
@@ -935,10 +936,12 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			return "<span class=\"comment mw-comment-none\">$defaultComment</span>";
 		}
 
+		$additionalCssClasses = Linker::getRevisionDeletedClass( $record );
+
 		return Html::element(
 			'span',
-			[ 'class' => 'comment' ],
-			$this->msg( 'checkuser-global-contributions-no-summary-available' )
+			[ 'class' => "{$additionalCssClasses} comment" ],
+			$this->msg( 'rev-deleted-comment' )
 		);
 	}
 
