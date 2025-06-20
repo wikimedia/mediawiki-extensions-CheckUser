@@ -53,10 +53,16 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 	private function getMockDbProviderWithActiveWikiLookupResults( $activeWikis ) {
 		// Mock fetching the recently active wikis
 		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
-		$queryBuilder->method( $this->logicalOr( 'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy' ) )
+		$queryBuilder
+			->method( $this->logicalOr(
+				'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy', 'groupBy'
+			) )
 			->willReturnSelf();
-		$queryBuilder->method( 'fetchFieldValues' )
-			->willReturn( $activeWikis );
+		$queryBuilder->method( 'fetchResultSet' )
+			->willReturn( new FakeResultWrapper( array_map(
+				static fn ( $wiki ) => [ 'ciwm_wiki' => $wiki, 'timestamp' => 'unused' ],
+				$activeWikis
+			) ) );
 
 		$database = $this->createMock( IReadableDatabase::class );
 		$database->method( 'newSelectQueryBuilder' )

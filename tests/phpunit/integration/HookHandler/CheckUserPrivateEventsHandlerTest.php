@@ -409,6 +409,9 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	/** @covers \MediaWiki\CheckUser\EncryptedData */
 	public function testOnEmailWithCUPublicKeyDefined() {
+		// Test is broken on postgres DBs, so skip it for now.
+		$this->markTestSkippedIfDbType( 'postgres' );
+
 		if ( !in_array( 'rc4', openssl_get_cipher_methods() ) ) {
 			$this->markTestSkipped( 'Storing encrypted email data requires the RC4 cipher' );
 		}

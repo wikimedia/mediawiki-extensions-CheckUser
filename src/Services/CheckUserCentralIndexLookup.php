@@ -38,10 +38,10 @@ class CheckUserCentralIndexLookup implements CheckUserQueryInterface {
 
 		$lastCentralId = null;
 		while ( true ) {
-			$criteria = $dbr->expr( 'last_active', '>', $dbr->timestamp( $timestamp ) );
+			$criteria = [ 'MAX(ciu_timestamp) > ' . $dbr->addQuotes( $dbr->timestamp( $timestamp ) ) ];
 
 			if ( $lastCentralId !== null ) {
-				$criteria = $criteria->and( 'ciu_central_id', '>', $lastCentralId );
+				$criteria[] = $dbr->expr( 'ciu_central_id', '>', $lastCentralId );
 			}
 
 			// Leverage the ciu_central_id_timestamp index to fetch distinct central IDs

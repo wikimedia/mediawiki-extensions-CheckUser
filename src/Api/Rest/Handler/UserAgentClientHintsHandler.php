@@ -210,8 +210,8 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 	 * Validate that the API was not called over wgCheckUserClientHintsRestApiMaxTimeLag
 	 * seconds ago.
 	 *
-	 * @param ?string $associatedEntryTimestamp The timestamp associated with the $identifier in TS_MW form.
-	 *   If null, the validation will always fail.
+	 * @param ?string $associatedEntryTimestamp The timestamp associated with the $identifier in any format
+	 *   accepted by {@link ConvertibleTimestamp}. If null, the validation will always fail.
 	 * @param string $type The type of the $identifier (e.g. revision)
 	 * @param int $identifier The ID of the entry of type $type
 	 * @return void
@@ -221,15 +221,11 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		?string $associatedEntryTimestamp, string $type, int $identifier
 	): void {
 		// Check that the API was not called too long after the edit
-		$cutoff = ConvertibleTimestamp::convert(
-			TS_MW,
-			ConvertibleTimestamp::time() - $this->config->get( 'CheckUserClientHintsRestApiMaxTimeLag' )
-		);
-		// If there is no timestamp associated with this action, then
-		// this method cannot perform the timestamp check. This should
-		// rarely happen and is likely to occur for actions that are
-		// already too old, so just don't store data in this case.
-		if ( $associatedEntryTimestamp < $cutoff ) {
+		$cutoff = ConvertibleTimestamp::time() - $this->config->get( 'CheckUserClientHintsRestApiMaxTimeLag' );
+		if (
+			$associatedEntryTimestamp === null ||
+			ConvertibleTimestamp::convert( TS_UNIX, $associatedEntryTimestamp ) < $cutoff
+		) {
 			throw new LocalizedHttpException(
 				new MessageValue(
 					'checkuser-api-useragent-clienthints-called-too-late',

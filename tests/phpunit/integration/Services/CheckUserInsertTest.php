@@ -51,7 +51,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				// Check that the parameters are as expected for the call to this method
 				$this->assertTrue( $expectedUserIdentity->equals( $performer ) );
 				$this->assertSame( $this->getDb()->getDomainID(), $domainID );
-				$this->assertSame( $expectedTimestamp, $timestamp );
+				$this->assertSame( $this->getDb()->timestamp( $expectedTimestamp ), $timestamp );
 				$this->assertSame( $expectedHasRevisionId, $hasRevisionId );
 			} );
 		$this->setService( 'CheckUserCentralIndexManager', $mockCheckUserCentralIndexManager );
@@ -527,7 +527,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$expectedRow[] = $logId;
 		// Pass the expected timestamp through IReadableTimestamp::timestamp to ensure it is in the right format
 		// for the current DB type (T366590).
-		if ( array_key_exists( 'cule_timestamp', $fields ) ) {
+		if ( in_array( 'cule_timestamp', $fields ) ) {
 			$keyForTimestamp = array_search( 'cule_timestamp', $fields );
 			$expectedRow[$keyForTimestamp] = $this->getDb()->timestamp( $expectedRow[$keyForTimestamp] );
 		}
