@@ -734,6 +734,7 @@
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.tempAccounts",
 			"packageFiles": [
 				"dispatcher.js",
+				"useInstrument.js",
 				"BlockDetailsPopupButtonWidget.js",
 				"components/IPAutoRevealOnDialog.vue",
 				"components/IPAutoRevealOffDialog.vue",
