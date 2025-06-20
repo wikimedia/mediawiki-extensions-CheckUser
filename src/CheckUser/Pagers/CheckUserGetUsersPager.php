@@ -315,42 +315,41 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		for ( $i = ( count( $this->userSets['agentsets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
 			$templateParams['agentsList'][] = $this->userSets['agentsets'][$user_text][$i];
 		}
-		// Show Client Hints data if display is enabled.
-		$templateParams['displayClientHints'] = $this->displayClientHints;
-		if ( $this->displayClientHints ) {
-			$templateParams['clientHintsList'] = [];
-			[ $usagesOfClientHints, $clientHintsDataObjects ] = $this->clientHintsLookupResults
-				->getGroupedClientHintsDataForReferenceIds( $this->userSets['clienthints'][$user_text] );
-			// Sort the $usagesOfClientHints array such that the ClientHintsData object that is most used
-			// by the user referenced in $user_text is shown first and the ClientHintsData object least used is
-			// shown last. This is done to be consistent with the way that User-Agent strings are shown as well
-			// as ensuring that if there are more than 10 items the ClientHintsData objects used on the most reference
-			// IDs are shown.
-			arsort( $usagesOfClientHints, SORT_NUMERIC );
-			// Limit the number displayed to at most 10 starting at the
-			// ClientHintsData object associated with the most rows
-			// in the results. This is to be consistent with User-Agent
-			// strings which are also limited to 10 strings.
-			$i = 0;
-			foreach ( array_keys( $usagesOfClientHints ) as $clientHintsDataIndex ) {
-				// If 10 Client Hints data objects have been displayed,
-				// then don't show any more (similar to User-Agent strings).
-				if ( $i === 10 ) {
-					break;
-				}
-				$clientHintsDataObject = $clientHintsDataObjects[$clientHintsDataIndex];
-				if ( $clientHintsDataObject ) {
-					$formattedClientHintsData = $this->clientHintsFormatter
-						->formatClientHintsDataObject( $clientHintsDataObject );
-					if ( $formattedClientHintsData ) {
-						// If the Client Hints data object is valid and evaluates to a non-empty
-						// human readable string, then add it to the list to display.
-						$i++;
-						$templateParams['clientHintsList'][] = $formattedClientHintsData;
-					}
+
+		// Show Client Hints data
+		$templateParams['clientHintsList'] = [];
+		[ $usagesOfClientHints, $clientHintsDataObjects ] = $this->clientHintsLookupResults
+			->getGroupedClientHintsDataForReferenceIds( $this->userSets['clienthints'][$user_text] );
+		// Sort the $usagesOfClientHints array such that the ClientHintsData object that is most used
+		// by the user referenced in $user_text is shown first and the ClientHintsData object least used is
+		// shown last. This is done to be consistent with the way that User-Agent strings are shown as well
+		// as ensuring that if there are more than 10 items the ClientHintsData objects used on the most reference
+		// IDs are shown.
+		arsort( $usagesOfClientHints, SORT_NUMERIC );
+		// Limit the number displayed to at most 10 starting at the
+		// ClientHintsData object associated with the most rows
+		// in the results. This is to be consistent with User-Agent
+		// strings which are also limited to 10 strings.
+		$i = 0;
+		foreach ( array_keys( $usagesOfClientHints ) as $clientHintsDataIndex ) {
+			// If 10 Client Hints data objects have been displayed,
+			// then don't show any more (similar to User-Agent strings).
+			if ( $i === 10 ) {
+				break;
+			}
+			$clientHintsDataObject = $clientHintsDataObjects[$clientHintsDataIndex];
+			if ( $clientHintsDataObject ) {
+				$formattedClientHintsData = $this->clientHintsFormatter
+					->formatClientHintsDataObject( $clientHintsDataObject );
+				if ( $formattedClientHintsData ) {
+					// If the Client Hints data object is valid and evaluates to a non-empty
+					// human readable string, then add it to the list to display.
+					$i++;
+					$templateParams['clientHintsList'][] = $formattedClientHintsData;
 				}
 			}
 		}
+
 		return $this->templateParser->processTemplate( 'GetUsersLine', $templateParams );
 	}
 
@@ -387,16 +386,14 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				$this->userSets['agentsets'][$row->user_text] = [];
 				$this->userSets['clienthints'][$row->user_text] = new ClientHintsReferenceIds();
 			}
-			if ( $this->displayClientHints ) {
-				$referenceIdsForLookup->addReferenceIds(
-					$row->client_hints_reference_id,
-					$row->client_hints_reference_type
-				);
-				$this->userSets['clienthints'][$row->user_text]->addReferenceIds(
-					$row->client_hints_reference_id,
-					$row->client_hints_reference_type
-				);
-			}
+			$referenceIdsForLookup->addReferenceIds(
+				$row->client_hints_reference_id,
+				$row->client_hints_reference_type
+			);
+			$this->userSets['clienthints'][$row->user_text]->addReferenceIds(
+				$row->client_hints_reference_id,
+				$row->client_hints_reference_type
+			);
 			$this->userSets['edits'][$row->user_text]++;
 			$this->userSets['first'][$row->user_text] = $row->timestamp;
 			// Prettify IP
@@ -421,10 +418,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		// Lookup the Client Hints data objects from the DB
 		// and then batch format the ClientHintsData objects
 		// for display.
-		if ( $this->displayClientHints ) {
-			$this->clientHintsLookupResults = $this->clientHintsLookup
-				->getClientHintsByReferenceIds( $referenceIdsForLookup );
-		}
+		$this->clientHintsLookupResults = $this->clientHintsLookup
+			->getClientHintsByReferenceIds( $referenceIdsForLookup );
 	}
 
 	/** @inheritDoc */
@@ -458,7 +453,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuChanges(): array {
-		$queryInfo = [
+		return [
 			'fields' => [
 				'timestamp' => 'cuc_timestamp',
 				'ip' => 'cuc_ip',
@@ -467,27 +462,21 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				'actor' => 'cuc_actor',
 				'user' => 'actor_cuc_actor.actor_user',
 				'user_text' => 'actor_cuc_actor.actor_name',
+				'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+				],
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
 			],
 			'tables' => [ 'cu_changes', 'actor_cuc_actor' => 'actor' ],
 			'conds' => [],
 			'join_conds' => [ 'actor_cuc_actor' => [ 'JOIN', 'actor_cuc_actor.actor_id=cuc_actor' ] ],
 			'options' => [],
 		];
-		// When displaying Client Hints data, add the reference type and reference ID to each row.
-		if ( $this->displayClientHints ) {
-			$queryInfo['fields']['client_hints_reference_id'] =
-				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
-					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
-				];
-			$queryInfo['fields']['client_hints_reference_type'] =
-				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES;
-		}
-		return $queryInfo;
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuLogEvent(): array {
-		$queryInfo = [
+		return [
 			'fields' => [
 				'timestamp' => 'cule_timestamp',
 				'ip' => 'cule_ip',
@@ -496,27 +485,21 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				'actor' => 'cule_actor',
 				'user' => 'actor_cule_actor.actor_user',
 				'user_text' => 'actor_cule_actor.actor_name',
+				'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
+				],
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT,
 			],
 			'tables' => [ 'cu_log_event', 'actor_cule_actor' => 'actor' ],
 			'conds' => [],
 			'join_conds' => [ 'actor_cule_actor' => [ 'JOIN', 'actor_cule_actor.actor_id=cule_actor' ] ],
 			'options' => [],
 		];
-		// When displaying Client Hints data, add the reference type and reference ID to each row.
-		if ( $this->displayClientHints ) {
-			$queryInfo['fields']['client_hints_reference_id'] =
-				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
-					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
-				];
-			$queryInfo['fields']['client_hints_reference_type'] =
-				UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT;
-		}
-		return $queryInfo;
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuPrivateEvent(): array {
-		$queryInfo = [
+		return [
 			'fields' => [
 				'timestamp' => 'cupe_timestamp',
 				'ip' => 'cupe_ip',
@@ -525,22 +508,16 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				'actor' => 'cupe_actor',
 				'user' => 'actor_cupe_actor.actor_user',
 				'user_text' => 'actor_cupe_actor.actor_name',
+				'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+				],
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
 			],
 			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ],
 			'conds' => [],
 			'join_conds' => [ 'actor_cupe_actor' => [ 'LEFT JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ] ],
 			'options' => [],
 		];
-		// When displaying Client Hints data, add the reference type and reference ID to each row.
-		if ( $this->displayClientHints ) {
-			$queryInfo['fields']['client_hints_reference_id'] =
-				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
-					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
-				];
-			$queryInfo['fields']['client_hints_reference_type'] =
-				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT;
-		}
-		return $queryInfo;
 	}
 
 	/** @inheritDoc */
@@ -551,13 +528,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		}
 
 		$divClasses = [ 'mw-checkuser-get-users-results' ];
-
-		if ( $this->displayClientHints ) {
-			// Class used to indicate whether Client Hints are enabled
-			// TODO: Remove this class and old CSS code once display
-			// is on all wikis (T341110).
-			$divClasses[] = 'mw-checkuser-clienthints-enabled-temporary-class';
-		}
 
 		$s .= Html::openElement(
 			'div',

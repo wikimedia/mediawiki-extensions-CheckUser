@@ -340,10 +340,6 @@ class SpecialCheckUser extends SpecialPage {
 		}
 		// Add CIDR calculation convenience JS form
 		$this->addJsCIDRForm();
-		$out->addJsConfigVars(
-			'wgCheckUserDisplayClientHints',
-			$this->getConfig()->get( 'CheckUserDisplayClientHints' )
-		);
 		$out->addModules( 'ext.checkUser' );
 		$out->addModuleStyles( [
 			'mediawiki.interface.helpers.styles',

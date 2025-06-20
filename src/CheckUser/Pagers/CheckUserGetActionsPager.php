@@ -248,16 +248,14 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		}
 		// User agent
 		$templateParams['userAgent'] = $row->agent;
-		// Display Client Hints data if display is enabled
-		if ( $this->displayClientHints ) {
-			// If ::getStringForReferenceId returns null, the mustache template will
-			// interpret this as false and then not display the Client Hints data
-			// in the same way that if $this->displayClientHints data was false.
-			$templateParams['clientHints'] = $this->formattedClientHintsData->getStringForReferenceId(
-				$row->client_hints_reference_id,
-				$row->client_hints_reference_type
-			);
-		}
+
+		// Display Client Hints data
+		// If ::getStringForReferenceId returns null, the mustache template will
+		// interpret this as false and then not display the Client Hints data.
+		$templateParams['clientHints'] = $this->formattedClientHintsData->getStringForReferenceId(
+			$row->client_hints_reference_id,
+			$row->client_hints_reference_type
+		);
 
 		return $this->templateParser->processTemplate( 'GetActionsLine', $templateParams );
 	}
@@ -498,7 +496,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	protected function getQueryInfoForCuChanges(): array {
 		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
-		$queryInfo = [
+		return [
 			'fields' => [
 				'namespace' => 'cuc_namespace',
 				'title' => 'cuc_title',
@@ -517,6 +515,10 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				// Needed for rows with cuc_type other than RC_NEW or RC_EDIT (such as RC_FLOW if Flow is installed).
 				'comment_text',
 				'comment_data',
+				'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+				],
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
 			],
 			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
@@ -525,15 +527,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
-		// When displaying Client Hints data, add the reference type and reference ID to each row.
-		if ( $this->displayClientHints ) {
-			$queryInfo['fields']['client_hints_reference_id'] =
-				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
-					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
-				];
-			$queryInfo['fields']['client_hints_reference_type'] = UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES;
-		}
-		return $queryInfo;
 	}
 
 	/** @inheritDoc */
@@ -560,6 +553,10 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'log_params' => 'log_params',
 				'log_deleted' => 'log_deleted',
 				'log_id' => 'cule_log_id',
+				'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
+				],
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT,
 			],
 			'tables' => [
 				'cu_log_event', 'logging_cule_log_id' => 'logging', 'actor_log_actor' => 'actor'
@@ -582,14 +579,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			$queryInfo['fields'] += [
 				'type' => RC_LOG
 			];
-		}
-		// When displaying Client Hints data, add the reference type and reference ID to each row.
-		if ( $this->displayClientHints ) {
-			$queryInfo['fields']['client_hints_reference_id'] =
-				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
-					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
-				];
-			$queryInfo['fields']['client_hints_reference_type'] = UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT;
 		}
 		return $queryInfo;
 	}
@@ -621,6 +610,10 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'log_params' => 'cupe_params',
 				// cu_private_event log events cannot be deleted or suppressed.
 				'log_deleted' => 0,
+				'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+				],
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
 			],
 			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
@@ -640,15 +633,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			$queryInfo['fields'] += [
 				'type' => RC_LOG
 			];
-		}
-		// When displaying Client Hints data, add the reference type and reference ID to each row.
-		if ( $this->displayClientHints ) {
-			$queryInfo['fields']['client_hints_reference_id'] =
-				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
-					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
-				];
-			$queryInfo['fields']['client_hints_reference_type'] =
-				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT;
 		}
 		return $queryInfo;
 	}
@@ -670,9 +654,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			if ( $row->actor === null && $row->ip ) {
 				$row->user_text = $row->ip;
 			}
-			if ( $this->displayClientHints ) {
-				$referenceIds->addReferenceIds( $row->client_hints_reference_id, $row->client_hints_reference_type );
-			}
+			$referenceIds->addReferenceIds( $row->client_hints_reference_id, $row->client_hints_reference_type );
 			if ( $row->title !== '' ) {
 				$lb->add( $row->namespace, $row->title );
 			}
@@ -718,15 +700,13 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		// Lookup the Client Hints data objects from the DB
 		// and then batch format the ClientHintsData objects
 		// for display.
-		if ( $this->displayClientHints ) {
-			// When no Client Hints data was found for a edit or for all edits in the results,
-			// no associated formatted Client Hints data string will be stored in
-			// $this->formattedClientHintsData for the edits without Client Hints data.
-			// Calling the getter method will handle this by returning null.
-			$clientHintsData = $this->clientHintsLookup->getClientHintsByReferenceIds( $referenceIds );
-			$this->formattedClientHintsData = $this->clientHintsFormatter
-				->batchFormatClientHintsData( $clientHintsData );
-		}
+		// When no Client Hints data was found for a edit or for all edits in the results,
+		// no associated formatted Client Hints data string will be stored in
+		// $this->formattedClientHintsData for the edits without Client Hints data.
+		// Calling the getter method will handle this by returning null.
+		$clientHintsData = $this->clientHintsLookup->getClientHintsByReferenceIds( $referenceIds );
+		$this->formattedClientHintsData = $this->clientHintsFormatter
+			->batchFormatClientHintsData( $clientHintsData );
 		$result->seek( 0 );
 	}
 

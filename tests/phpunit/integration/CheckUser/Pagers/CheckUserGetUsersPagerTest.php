@@ -44,13 +44,12 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 
 	/** @dataProvider provideFormatUserRow */
 	public function testFormatUserRow(
-		$userSets, $userText, $clientHintsLookupResults, $displayClientHints, $expectedTemplateParams
+		$userSets, $userText, $clientHintsLookupResults, $expectedTemplateParams
 	) {
 		$objectUnderTest = $this->setUpObject();
 		$objectUnderTest->templateParser = new MockTemplateParser();
 		$objectUnderTest->userSets = $userSets;
 		$objectUnderTest->clientHintsLookupResults = $clientHintsLookupResults;
-		$objectUnderTest->displayClientHints = $displayClientHints;
 		$objectUnderTest->mQueryDone = true;
 		$objectUnderTest->mResult = new FakeResultWrapper( [] );
 		$objectUnderTest->formatUserRow( $userText );
@@ -119,7 +118,6 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 					0 => $exampleClientHintsDataObject,
 				]
 			),
-			true,
 			[
 				'userText' => '127.0.0.1',
 				'editCount' => 123,
@@ -154,8 +152,6 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 				'127.0.0.1',
 				// $object->clientHintsLookupResults
 				new ClientHintsLookupResults( [], [] ),
-				// Should Client Hints be displayed.
-				true,
 				// Expected template parameters.
 				[
 					'userText' => '127.0.0.1',
@@ -205,7 +201,6 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			] ) ],
 		];
 		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
-		$objectUnderTest->displayClientHints = true;
 		// Add a fake row to the mResult so that we can say at least one row is present. The data is read from
 		// userSets, so this row can be anything.
 		$objectUnderTest->mQueryDone = true;
@@ -262,9 +257,9 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			'ids' => [ '127.0.0.1' => 0 ],
 			'infosets' => [ '127.0.0.1' => [ [ '127.0.0.1', null ], [ '127.0.0.1', '124.5.6.7' ] ] ],
 			'agentsets' => [ '127.0.0.1' => [ 'Testing user agent' ] ],
-			'clienthints' => [],
+			'clienthints' => [ '127.0.0.1' => new ClientHintsReferenceIds( [] ) ],
 		];
-		$objectUnderTest->displayClientHints = false;
+		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
 		$expectedTemplateParams = [
 			'canPerformBlocksOrLocks' => $canPerformBlocks,
 			'userText' => '127.0.0.1',
@@ -342,7 +337,6 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			] ) ],
 		];
 		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
-		$objectUnderTest->displayClientHints = true;
 		$objectUnderTest->mQueryDone = true;
 		$objectUnderTest->mResult = new FakeResultWrapper( [] );
 		$objectUnderTest->formatUserRow( $testUser->getName() );
