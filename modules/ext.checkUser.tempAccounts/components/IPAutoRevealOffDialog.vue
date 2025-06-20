@@ -19,7 +19,7 @@
 			<p>{{ $i18n( 'checkuser-ip-auto-reveal-off-dialog-error-extend-limit' ).text() }}</p>
 		</cdx-message>
 		<template #footer-text>
-			<p>{{ $i18n( 'checkuser-ip-auto-reveal-off-dialog-text-info' ).text() }}</p>
+			<p v-i18n-html:checkuser-ip-auto-reveal-off-dialog-text-info></p>
 		</template>
 	</cdx-dialog>
 </template>

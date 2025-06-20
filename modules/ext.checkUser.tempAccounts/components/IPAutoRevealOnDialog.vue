@@ -9,9 +9,7 @@
 		@default="open = false"
 		@primary="onSubmit"
 	>
-		<p>
-			{{ $i18n( 'checkuser-ip-auto-reveal-on-dialog-text' ).text() }}
-		</p>
+		<p v-i18n-html:checkuser-ip-auto-reveal-on-dialog-text></p>
 		<cdx-field>
 			<template #label>
 				{{ $i18n( 'checkuser-ip-auto-reveal-on-dialog-select-label' ).text() }}
