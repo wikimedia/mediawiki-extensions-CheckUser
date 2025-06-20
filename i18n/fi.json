@@ -362,5 +362,6 @@
 	"checkuser-ipinfo-global-contributions-label": "Järjestelmänlaajuiset muokkaukset",
 	"checkuser-ipinfo-global-contributions-tooltip": "Tästä IP-osoitteesta tehtyjen muokkausten määrä kaikissa wikeissä.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 järjestelmänlaajuinen muokkaus|$1 järjestelmänlaajuista muokkausta|0=Ei järjestelmänlaajuisia muokkauksia}}",
-	"tooltip-t-global-contributions": "Luettelo {{GENDER:$1|tämän käyttäjän}} muokkauksista kaikissa wikeissä"
+	"tooltip-t-global-contributions": "Luettelo {{GENDER:$1|tämän käyttäjän}} muokkauksista kaikissa wikeissä",
+	"checkuser-userinfocard-groups": "Ryhmät: $1"
 }

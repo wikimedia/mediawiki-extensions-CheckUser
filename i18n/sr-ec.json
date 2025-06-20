@@ -305,5 +305,6 @@
 	"checkuser-userinfocard-menu-block-user": "Блокирај корисника",
 	"checkuser-userinfocard-menu-provide-feedback": "Повратне информације",
 	"checkuser-userinfocard-error-title": "Дошло је до грешке",
-	"checkuser-ipinfo-global-contributions-label": "Глобални доприноси"
+	"checkuser-ipinfo-global-contributions-label": "Глобални доприноси",
+	"checkuser-userinfocard-groups": "Групе: $1"
 }

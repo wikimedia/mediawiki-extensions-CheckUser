@@ -391,5 +391,6 @@
 	"checkuser-ipinfo-global-contributions-label": "Qlobal töhfələr",
 	"checkuser-ipinfo-global-contributions-tooltip": "Bu IP ünvanından edilən çarpaz viki redaktələrinin sayı.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 qlobal redaktə|0=Qlobal redaktə yoxdur}}",
-	"tooltip-t-global-contributions": "{{GENDER:$1|Bu istifadəçinin}} bütün vikilərdə etdiyi töhfələrin siyahısı"
+	"tooltip-t-global-contributions": "{{GENDER:$1|Bu istifadəçinin}} bütün vikilərdə etdiyi töhfələrin siyahısı",
+	"checkuser-userinfocard-groups": "Qruplar: $1"
 }

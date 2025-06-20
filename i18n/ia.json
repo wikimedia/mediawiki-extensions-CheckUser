@@ -380,5 +380,6 @@
 	"checkuser-ipinfo-global-contributions-label": "Contributiones global",
 	"checkuser-ipinfo-global-contributions-tooltip": "Le numero de modificationes apportate sur tote le wikis a partir de iste adresse IP.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modification|$1 modificationes|0=Nulle modification}} global",
-	"tooltip-t-global-contributions": "Un lista del contributiones de iste usat{{GENDER:$1|or|rice}} sur tote le wikis"
+	"tooltip-t-global-contributions": "Un lista del contributiones de iste usat{{GENDER:$1|or|rice}} sur tote le wikis",
+	"checkuser-userinfocard-groups": "Gruppos: $1"
 }

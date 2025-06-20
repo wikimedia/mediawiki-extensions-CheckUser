@@ -422,5 +422,6 @@
 	"checkuser-ipinfo-global-contributions-label": "Contributions globales",
 	"checkuser-ipinfo-global-contributions-tooltip": "Le nombre de modifications inter-wiki effectuées à partir de cette adresse IP.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1| $1 modification globale| $1 modifications globales|0=Aucune modification globale}}",
-	"tooltip-t-global-contributions": "Liste des contributions de {{GENDER:$1| cet utilisateur|cette utilisatrice}} sur tous les wikis"
+	"tooltip-t-global-contributions": "Liste des contributions de {{GENDER:$1| cet utilisateur|cette utilisatrice}} sur tous les wikis",
+	"checkuser-userinfocard-groups": "Groupes : $1"
 }
