@@ -26,7 +26,7 @@
 		>
 			{{ activeWikisLabel }}:
 			<template v-for="( wiki, idx ) in activeWikisList" :key="idx">
-				<a :href="wiki.url" class="mw-userlink">
+				<a :href="wiki.url">
 					{{ wiki.wikiId }}
 				</a>{{ idx < activeWikisList.length - 1 ? ', ' : '' }}
 			</template>
