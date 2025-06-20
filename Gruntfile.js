@@ -15,7 +15,8 @@ module.exports = function ( grunt ) {
 		},
 		stylelint: {
 			options: {
-				cache: true
+				cache: true,
+				fix: grunt.option( 'fix' )
 			},
 			all: [
 				'**/*.{css,less}',
@@ -28,4 +29,5 @@ module.exports = function ( grunt ) {
 	} );
 
 	grunt.registerTask( 'test', [ 'eslint', 'banana', 'stylelint' ] );
+	grunt.registerTask( 'fix', [ 'eslint', 'stylelint' ] );
 };
