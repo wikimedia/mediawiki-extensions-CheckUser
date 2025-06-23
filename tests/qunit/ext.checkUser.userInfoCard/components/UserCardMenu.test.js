@@ -140,7 +140,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	);
 	assert.strictEqual(
 		menuItems[ 6 ].link,
-		'/-1/Special:Preferences#mw-prefsection-rendering-advancedrendering',
+		'/-1/Preferences#mw-prefsection-rendering-advancedrendering',
 		'Turn off link is correct'
 	);
 } );

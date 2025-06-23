@@ -380,7 +380,8 @@
 			"services": [
 				"PermissionManager",
 				"CheckUserTemporaryAccountLoggerFactory",
-				"MainConfig"
+				"MainConfig",
+				"UserOptionsLookup"
 			]
 		},
 		"groups": {

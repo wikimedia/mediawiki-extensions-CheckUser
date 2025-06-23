@@ -44,7 +44,8 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 		$this->sut = new Preferences(
 			$this->permissionManager,
 			$this->loggerFactory,
-			$this->getServiceContainer()->getMainConfig()
+			$this->getServiceContainer()->getMainConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup()
 		);
 	}
 

@@ -9,6 +9,7 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
 use MediaWiki\User\Hook\UserGetDefaultOptionsHook;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserOptionsLookup;
 
 class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 
@@ -47,15 +48,18 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 	private PermissionManager $permissionManager;
 	private TemporaryAccountLoggerFactory $loggerFactory;
 	private Config $config;
+	private UserOptionsLookup $userOptionsLookup;
 
 	public function __construct(
 		PermissionManager $permissionManager,
 		TemporaryAccountLoggerFactory $loggerFactory,
-		Config $config
+		Config $config,
+		UserOptionsLookup $userOptionsLookup
 	) {
 		$this->permissionManager = $permissionManager;
 		$this->loggerFactory = $loggerFactory;
 		$this->config = $config;
+		$this->userOptionsLookup = $userOptionsLookup;
 	}
 
 	/**
@@ -81,9 +85,9 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 		$messageLocalizer = RequestContext::getMain();
 
 		$preferences[self::ENABLE_USER_INFO_CARD] = [
-			// TODO: Change this to 'toggle' when we are ready to make this discoverable
-			// to users (T386439)
-			'type' => 'api',
+			'type' => (int)$this->userOptionsLookup->getDefaultOption(
+				self::ENABLE_USER_INFO_CARD, RequestContext::getMain()->getUser()
+			) ? 'toggle' : 'api',
 			'section' => 'rendering/advancedrendering',
 			'label-message' => 'checkuser-userinfocard-enable-preference-description',
 			'help-message' => 'checkuser-userinfocard-enable-preference-help',
