@@ -56,7 +56,7 @@ module.exports = exports = {
 			-1, `Block/${ props.username }`
 		).getUrl();
 		const turnOffLink = mw.Title.makeTitle(
-			-1, 'Special:Preferences'
+			-1, 'Preferences'
 		).getUrl() + '#mw-prefsection-rendering-advancedrendering';
 
 		// Get permission configs
