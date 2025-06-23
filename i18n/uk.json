@@ -313,7 +313,6 @@
 	"checkuser-global-contributions-api-lookup-error": "Помилка завантаження даних з деяких вікі. Ці результати є неповними. <strong>Можливо, допоможе спробувати ще раз.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Немає результатів, що відповідають запиту</strong>. Користувач «$1» не має видимого внеску.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Немає результатів, що відповідають запиту.</strong> Ви можете знайти внесок, якщо зміните параметри пошуку.",
-	"checkuser-global-contributions-no-summary-available": "Немає доступного опису редагування",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Простір назв<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Авторозкриття IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Авторозкриття IP (увімкнено)",

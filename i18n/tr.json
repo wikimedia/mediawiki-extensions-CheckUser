@@ -310,7 +310,6 @@
 	"checkuser-global-contributions-api-lookup-error": "Bazı vikilerden veri yükleme hatası. Sonuçlar eksik. <strong>Tekrar denemek sorunu çözebilir.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Sorguyla eşleşen sonuç bulunamadı.</strong> \"$1\" kullanıcısının görünür katkısı yok.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Sorguyla eşleşen sonuç bulunamadı.</strong> Arama parametrelerinizi değiştirirseniz katkılar bulabilirsiniz.",
-	"checkuser-global-contributions-no-summary-available": "Değişiklik özeti yok",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Ad alanı<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP adresini otomatik açığa çıkar",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP adresini otomatik açığa çıkar (açık)",

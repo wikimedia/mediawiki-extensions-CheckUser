@@ -277,7 +277,6 @@
 	"checkuser-global-contributions-api-lookup-error": "일부 위키에서 데이터를 로드하는 중 오류가 발생했습니다. 이 결과는 불완전합니다. <strong>다시 시도하면 도움이 될 수 있습니다.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>검색어와 일치하는 결과가 없습니다.</strong> \"$1\" 사용자는 가시적인 기여가 없습니다.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>검색어와 일치하는 결과가 없습니다.</strong> 검색 매개변수를 변경하면 기여를 찾아볼 수 있습니다.",
-	"checkuser-global-contributions-no-summary-available": "사용 가능한 편집 요약이 없습니다",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "이름공간<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP 자동 표시",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP 자동 표시 (켬)",

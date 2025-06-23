@@ -246,7 +246,6 @@
 	"checkuser-global-contributions-no-results-no-global-preference": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> এই ফলাফলগুলি অসম্পূর্ণ হতে পারে কারণ আপনাকে প্রথমে [$1 আপনার বৈশ্বিক পছন্দসমূহে] চুক্তিটি গ্রহণ করতে হবে।",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> ব্যবহারকারী \"$1\"-এর কোনো দৃশ্যমান অবদান নেই।",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> আপনি আপনার অনুসন্ধানের প্যারামিটার পরিবর্তন করলে হয়ত অবদান খুঁজে পেতে পারেন।",
-	"checkuser-global-contributions-no-summary-available": "কোনও সম্পাদনা সারাংশ উপলব্ধ নেই",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "নামস্থান<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "আইপি স্বয়ংক্রিয়-প্রকাশ",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "আইপি স্বয়ংক্রিয়-প্রকাশ (চালু)",
@@ -308,5 +307,6 @@
 	"checkuser-userinfocard-activity-chart-label": "গত ৬০ দিনের সম্পাদনা কার্যকলাপ ({{PLURAL:$1|$1টি সম্পাদনা|0=কোনও সম্পাদনা নেই}})",
 	"checkuser-ipinfo-global-contributions-label": "বৈশ্বিক অবদান",
 	"checkuser-ipinfo-global-contributions-tooltip": "এই আইপি ঠিকানা থেকে করা ক্রস-উইকি সম্পাদনার সংখ্যা।",
-	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1টি বৈশ্বিক সম্পাদনা|0=কোনও বৈশ্বিক সম্পাদনা নেই}}"
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1টি বৈশ্বিক সম্পাদনা|0=কোনও বৈশ্বিক সম্পাদনা নেই}}",
+	"checkuser-userinfocard-groups": "গ্রুপ: $1"
 }

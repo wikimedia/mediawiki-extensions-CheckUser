@@ -297,7 +297,6 @@
 	"checkuser-global-contributions-api-lookup-error": "Грешка при вчитувањето на податоците од некои викија. Овој исход е нецелосен. <strong>Обидете се повторно, може да помогне.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Не најдов ништо што одговара на бараното.</strong> Корисникот „$1“ нема видливи придонеси.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Не најдов ништо што одговара на бараото.</strong> Можеби ќе најдете придонеси ако ги смените параметрите на пребарувањето.",
-	"checkuser-global-contributions-no-summary-available": "Нема опис на уредувањето",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Именски простор<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Автооткривање на IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Автоматското откривање на IP (вклучено)",
@@ -383,5 +382,6 @@
 	"checkuser-ipinfo-global-contributions-label": "Глобални придонеси",
 	"checkuser-ipinfo-global-contributions-tooltip": "Број на уредувања на сите викија направени од оваа IP-адреса.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобално уредување|$1 глобални уредувања|0=Нема глобални уредувања}}",
-	"tooltip-t-global-contributions": "Список на придонеси на сите викија од {{GENDER:$1|овој корисник}}"
+	"tooltip-t-global-contributions": "Список на придонеси на сите викија од {{GENDER:$1|овој корисник}}",
+	"checkuser-userinfocard-groups": "Групи: $1"
 }
