@@ -218,7 +218,7 @@
 	"checkuser-investigate-tour-targets-title": "複数の利用者やIPアドレスを調査するには？",
 	"checkuser-investigate-tour-targets-desc": "最大 $1 個の{{PLURAL:$1|利用者名またはIPアドレス}}を対象に、すべての情報を1つの表として表示します。調査記録一覧には各対象が別々の記録として残ります。",
 	"checkuser-investigate-tour-useragents-title": "ユーザーエージェントの一致を調べるには？",
-	"checkuser-investigate-tour-useragents-desc": "セルの上にカーソルを置くと、同じ値を持つ他の行がすべて強調されます。ピンアイコンをクリックすると、強調を維持した状態でデータを確認することができます。",
+	"checkuser-investigate-tour-useragents-desc": "セルの上にカーソルを置くと、同じデータを持つ他のすべての行が強調表示されます。ピンのアイコンをクリックすると、データを見ていく間も強調を維持できます。",
 	"checkuser-investigate-tour-addusertargets-title": "より詳しい情報が必要ですか？",
 	"checkuser-investigate-tour-addusertargets-desc": "クリックすると、そのIPを使用している他のすべての利用者を見ることができます。この操作はアカウントに対しても行うことができ、そのアカウントが使用しているすべてのIPを見ることができます。操作を行うと利用者調査記録へ自動的に記録されます。",
 	"checkuser-investigate-tour-filterip-title": "調査対象を絞り込むには？",
