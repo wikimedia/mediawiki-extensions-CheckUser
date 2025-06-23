@@ -436,7 +436,8 @@ return [
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
-			new DerivativeContext( RequestContext::getMain() )
+			new DerivativeContext( RequestContext::getMain() ),
+			$services->getTitleFactory()
 		);
 	},
 ];

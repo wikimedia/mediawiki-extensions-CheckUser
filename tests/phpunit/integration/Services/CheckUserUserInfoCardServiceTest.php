@@ -91,7 +91,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
-			RequestContext::getMain()
+			RequestContext::getMain(),
+			$services->getTitleFactory()
 		);
 	}
 
@@ -177,7 +178,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
-			RequestContext::getMain()
+			RequestContext::getMain(),
+			$services->getTitleFactory()
 		);
 		$targetUser = $this->getTestUser()->getUser();
 		$userInfo = $infoCardService->getUserInfo(
@@ -319,5 +321,20 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$newUser, $user
 		);
 		$this->assertArrayNotHasKey( 'canAccessTemporaryAccountIPAddresses', $result );
+	}
+
+	public function testUserPageExists() {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+		$user = $this->getTestUser()->getUser();
+
+		$userInfo = $this->getObjectUnderTest()->getUserInfo(
+			$this->getTestUser()->getAuthority(),
+			$user
+		);
+
+		$this->assertArrayHasKey( 'userPageExists', $userInfo );
+		$this->assertIsBool( $userInfo['userPageExists'] );
+		$this->assertFalse( $userInfo['userPageExists'] );
 	}
 }

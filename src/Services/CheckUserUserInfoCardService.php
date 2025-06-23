@@ -10,6 +10,7 @@ use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Message\Message;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\Registration\UserRegistrationLookup;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
@@ -37,6 +38,7 @@ class CheckUserUserInfoCardService {
 	private InterwikiLookup $interwikiLookup;
 	private UserEditTracker $userEditTracker;
 	private MessageLocalizer $messageLocalizer;
+	private TitleFactory $titleFactory;
 
 	/**
 	 * @param UserImpactLookup|null $userImpactLookup
@@ -48,6 +50,10 @@ class CheckUserUserInfoCardService {
 	 * @param StatsFactory $statsFactory
 	 * @param CheckUserPermissionManager $checkUserPermissionManager
 	 * @param UserFactory $userFactory
+	 * @param InterwikiLookup $interwikiLookup
+	 * @param UserEditTracker $userEditTracker
+	 * @param MessageLocalizer $messageLocalizer
+	 * @param TitleFactory $titleFactory
 	 */
 	public function __construct(
 		?UserImpactLookup $userImpactLookup,
@@ -61,7 +67,8 @@ class CheckUserUserInfoCardService {
 		UserFactory $userFactory,
 		InterwikiLookup $interwikiLookup,
 		UserEditTracker $userEditTracker,
-		MessageLocalizer $messageLocalizer
+		MessageLocalizer $messageLocalizer,
+		TitleFactory $titleFactory
 	) {
 		$this->userImpactLookup = $userImpactLookup;
 		$this->extensionRegistry = $extensionRegistry;
@@ -75,6 +82,18 @@ class CheckUserUserInfoCardService {
 		$this->interwikiLookup = $interwikiLookup;
 		$this->userEditTracker = $userEditTracker;
 		$this->messageLocalizer = $messageLocalizer;
+		$this->titleFactory = $titleFactory;
+	}
+
+	/**
+	 * Check if the user's page exists
+	 *
+	 * @param UserIdentity $user
+	 * @return bool
+	 */
+	private function userPageExists( UserIdentity $user ): bool {
+		$userPageTitle = $this->titleFactory->newFromText( $user->getName(), NS_USER );
+		return $userPageTitle && $userPageTitle->exists();
 	}
 
 	/**
@@ -123,6 +142,7 @@ class CheckUserUserInfoCardService {
 		$userInfo['name'] = $user->getName();
 		$userInfo['localRegistration'] = $this->userRegistrationLookup->getRegistration( $user );
 		$userInfo['firstRegistration'] = $this->userRegistrationLookup->getFirstRegistration( $user );
+		$userInfo['userPageExists'] = $this->userPageExists( $user );
 
 		$groups = $this->userGroupManager->getUserGroups( $user );
 		$groupMessages = [];
