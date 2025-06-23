@@ -78,9 +78,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 
 	protected UserIdentity $target;
 
-	/** @var bool Should Special:CheckUser display Client Hints data. */
-	protected bool $displayClientHints;
-
 	/**
 	 * @var string one of the SpecialCheckUser::SUBTYPE_... constants used by this abstract pager
 	 *  to know what the current checktype is.
@@ -147,7 +144,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 
 		$this->mLimitsShown = array_map( 'ceil', $this->mLimitsShown );
 		$this->mLimitsShown = array_unique( $this->mLimitsShown );
-		$this->displayClientHints = $this->getConfig()->get( 'CheckUserDisplayClientHints' );
 
 		$this->userGroupManager = $userGroupManager;
 		$this->centralIdLookup = $centralIdLookup;

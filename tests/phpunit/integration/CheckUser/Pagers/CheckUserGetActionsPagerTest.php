@@ -71,9 +71,8 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	 */
 	public function testFormatRow(
 		$row, $flagCache, $usernameVisibility, $formattedRevisionComments, $formattedClientHintsData,
-		$expectedTemplateParams, $displayClientHints
+		$expectedTemplateParams
 	) {
-		$this->overrideConfigValue( 'CheckUserDisplayClientHints', $displayClientHints );
 		$object = $this->setUpObject();
 		$object->templateParser = new MockTemplateParser();
 		$row = array_merge( $this->getDefaultRowFieldValues(), $row );
@@ -134,8 +133,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'actionText' => $this->getServiceContainer()->getLogFormatterFactory()
 					->newFromEntry( $deleteLogEntry )->getActionText(),
 				'clientHints' => 'Test Client Hints data', 'userAgent' => 'Test',
-			],
-			true,
+			]
 		);
 	}
 
@@ -162,8 +160,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
 			[],
 			new ClientHintsBatchFormatterResults( [], [] ),
-			[ 'actionText' => $logFormatter->getActionText() ],
-			false,
+			[ 'actionText' => $logFormatter->getActionText() ]
 		);
 	}
 
@@ -178,11 +175,13 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[
 				'user_text' => $user_text,
 				'ip' => $ip,
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT,
 			],
 			[ $user_text => '' ],
 			[],
 			[],
-			null,
+			new ClientHintsBatchFormatterResults( [], [] ),
 			[
 				'userLink' => Linker::userLink( 0, $normalisedIP, $normalisedIP ),
 				'ipLink' => $wrapper->getSelfLink( $normalisedIP,
@@ -191,8 +190,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 						'reason' => ''
 					]
 				)
-			],
-			false,
+			]
 		);
 	}
 
@@ -225,8 +223,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'actionText' => $this->getServiceContainer()->getLogFormatterFactory()
 					->newFromEntry( $moveLogEntry )->getActionText(),
 				'clientHints' => 'Test Client Hints data',
-			],
-			true,
+			]
 		);
 	}
 
@@ -289,8 +286,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 					->newFromEntry( $moveLogEntry )->getActionText(),
 				'clientHints' => 'Test Client Hints data',
 				'comment' => '',
-			],
-			true,
+			]
 		);
 	}
 
@@ -326,8 +322,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[ $hiddenUser->getId() => true ],
 			[],
 			new ClientHintsBatchFormatterResults( [], [] ),
-			[ 'showLinks' => false ],
-			true,
+			[ 'showLinks' => false ]
 		);
 	}
 
@@ -336,7 +331,11 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		return [
 			'Test non-existent user has appropriate CSS class' => [
 				// $row as an array
-				[ 'user' => 0, 'user_text' => 'Non existent user 1234' ],
+				[
+					'user' => 0, 'user_text' => 'Non existent user 1234',
+					'client_hints_reference_id' => 1,
+					'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+				],
 				// The $object->flagCache
 				[ 'Non existent user 1234' => '' ],
 				// The $object->usernameVisibility
@@ -344,29 +343,33 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				// The $object->formattedRevisionComments
 				[],
 				// The $object->formattedClientHintsData
-				null,
+				new ClientHintsBatchFormatterResults( [], [] ),
 				// The expected template parameters
 				[ 'userLinkClass' => 'mw-checkuser-nonexistent-user' ],
-				// Whether Client Hints are enabled
-				false
 			],
 			'Testing using a user that is hidden who made an edit' => [
-				[ 'user' => 10, 'user_text' => 'User1234', 'type' => RC_EDIT ],
+				[
+					'user' => 10, 'user_text' => 'User1234', 'type' => RC_EDIT,
+					'client_hints_reference_id' => 1,
+					'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT,
+				],
 				[],
 				[ 0 => false ],
 				[ 0 => 'Test' ],
-				null,
+				new ClientHintsBatchFormatterResults( [], [] ),
 				[ 'comment' => 'Test' ],
-				false
 			],
 			'Row for IP address when temporary accounts are enabled' => [
-				[ 'user_text' => null, 'user' => null, 'actor' => null, 'ip' => '127.0.0.1' ],
+				[
+					'user_text' => null, 'user' => null, 'actor' => null, 'ip' => '127.0.0.1',
+					'client_hints_reference_id' => 1,
+					'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
+				],
 				[ '127.0.0.1' => 'test-flag' ],
 				[ 0 => true ],
 				[],
-				null,
+				new ClientHintsBatchFormatterResults( [], [] ),
 				[ 'flags' => 'test-flag' ],
-				false
 			],
 		];
 	}

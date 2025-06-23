@@ -168,10 +168,6 @@
 			},
 			"description": "An array of the Client Hints data names as keys and an array of values that should be hidden from the interface as the value. This is used to hide commonly seen Client Hint data values in the cases where it isn't helpful."
 		},
-		"CheckUserDisplayClientHints": {
-			"value": true,
-			"description": "A configuration value used to control whether Client Hints data is shown in the interfaces that support it. The default is for it to be enabled."
-		},
 		"CheckUserDeveloperMode": {
 			"value": false,
 			"description": "If set to 'true', then CheckUser will be know it is in development mode. Do not enable this on any wikis other than local development wikis. This will allow use of code that is only intended for local development wikis, such as the populateCheckUserTablesWithSimulatedData.php maintenance script which inserts automated testing edits and actions to the wiki."
