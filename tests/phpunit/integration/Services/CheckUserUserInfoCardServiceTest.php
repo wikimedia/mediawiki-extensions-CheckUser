@@ -278,8 +278,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 					'log_comment_id' => 1,
 					'log_params' => '',
 					'log_type' => 'block',
+					'log_action' => 'block',
 					'log_namespace' => NS_USER,
-					'log_title' => $user->getName(),
+					'log_title' => str_replace( ' ', '_', $user->getName() ),
 				],
 			] )
 			->caller( __METHOD__ )

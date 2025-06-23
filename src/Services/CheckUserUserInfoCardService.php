@@ -6,6 +6,7 @@ use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Interwiki\InterwikiLookup;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Message\Message;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -117,7 +118,7 @@ class CheckUserUserInfoCardService {
 		}
 		$start = microtime( true );
 		$userInfo = $this->getDataFromUserImpact( $user );
-		$hasUserImpactData = count( $userInfo ) > 0;
+		$hasUserImpactData = count( $userInfo );
 
 		$userInfo['name'] = $user->getName();
 		$userInfo['localRegistration'] = $this->userRegistrationLookup->getRegistration( $user );
@@ -174,26 +175,36 @@ class CheckUserUserInfoCardService {
 			}
 		}
 
+		$blocks = [];
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			try {
 				$centralAuthUser = CentralAuthUser::getInstance( $user );
 				$blocks = $centralAuthUser->getBlocks();
 			} catch ( LocalUserNotFoundException $e ) {
-				$blocks = [];
+				LoggerFactory::getInstance( 'CheckUser' )->info(
+					'Unable to get CentralAuthUser for user {user}', [
+						'user' => $user->getName(),
+					]
+				);
 			}
-			$userInfo['activeLocalBlocksAllWikis'] = array_sum( array_map( 'count', $blocks ) );
 		}
+		$userInfo['activeLocalBlocksAllWikis'] = array_sum( array_map( 'count', $blocks ) );
 
-		$userInfo['pastBlocksOnLocalWiki'] = $dbr->newSelectQueryBuilder()
+		$blockLogEntriesCount = $dbr->newSelectQueryBuilder()
 			->select( 'log_id' )
 			->from( 'logging' )
 			->where( [
 				'log_type' => 'block',
+				'log_action' => 'block',
 				'log_namespace' => NS_USER,
-				'log_title' => $user->getName(),
+				// Perform the same transformation on the username as is done in User::getTitleKey()
+				'log_title' => str_replace( ' ', '_', $user->getName() ),
 			] )
 			->caller( __METHOD__ )
 			->fetchRowCount();
+		// Subtract the count of active local blocks (local blocks are on the 0 index, set by CentralAuthUser) to get
+		// the past blocks count.
+		$userInfo['pastBlocksOnLocalWiki'] = $blockLogEntriesCount - count( $blocks[0] ?? [] );
 
 		$authorityPermissionStatus =
 			$this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses( $authority );

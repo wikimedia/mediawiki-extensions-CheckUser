@@ -127,6 +127,8 @@ module.exports = exports = {
 						userPageExists,
 						newArticlesCount,
 						totalEditCount,
+						activeLocalBlocksAllWikis,
+						pastBlocksOnLocalWiki,
 						revertedEditCount,
 						userPageWatched,
 						checkUserChecks,
@@ -164,6 +166,8 @@ module.exports = exports = {
 					userCard.localEditCount = totalEditCount;
 					userCard.localEditRevertedCount = revertedEditCount;
 					userCard.userPageWatched = !!userPageWatched;
+					userCard.activeBlocksCount = activeLocalBlocksAllWikis;
+					userCard.pastBlocksCount = pastBlocksOnLocalWiki;
 					userCard.checkUserChecks = checkUserChecks;
 
 					// Parse and format checkUserLastCheck date
