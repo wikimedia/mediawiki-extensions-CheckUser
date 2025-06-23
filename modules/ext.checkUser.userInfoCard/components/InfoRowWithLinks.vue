@@ -6,7 +6,11 @@
 			:class="iconClass"
 		></cdx-icon>
 		{{ mainLabel }}:
-		<a v-if="mainLink" :href="mainLink">
+		<a
+			v-if="mainLink"
+			:href="mainLink"
+			@click="onLinkClick( mainLinkLogId )"
+		>
 			{{ mainValue }}
 		</a>
 		<span v-else>
@@ -14,7 +18,11 @@
 		</span>
 		<template v-if="suffixLabel && suffixValue !== ''">
 			({{ suffixLabel }}:
-			<a v-if="suffixLink" :href="suffixLink">
+			<a
+				v-if="suffixLink"
+				:href="suffixLink"
+				@click="onLinkClick( suffixLinkLogId )"
+			>
 				{{ suffixValue }}
 			</a>
 			<span v-else>
@@ -26,6 +34,7 @@
 
 <script>
 const { CdxIcon } = require( '@wikimedia/codex' );
+const useInstrument = require( '../composables/useInstrument.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -37,9 +46,25 @@ module.exports = exports = {
 		mainLabel: { type: String, default: '' },
 		mainValue: { type: [ String, Number ], default: '' },
 		mainLink: { type: String, default: '' },
+		mainLinkLogId: { type: String, default: '' },
 		suffixLabel: { type: String, default: '' },
 		suffixValue: { type: [ String, Number ], default: '' },
-		suffixLink: { type: String, default: '' }
+		suffixLink: { type: String, default: '' },
+		suffixLinkLogId: { type: String, default: '' }
+	},
+	setup() {
+		const logEvent = useInstrument();
+
+		function onLinkClick( logId ) {
+			logEvent( 'link_click', {
+				subType: logId || 'unknown',
+				source: 'card_body'
+			} );
+		}
+
+		return {
+			onLinkClick
+		};
 	}
 };
 </script>

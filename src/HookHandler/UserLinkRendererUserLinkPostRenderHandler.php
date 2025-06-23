@@ -47,6 +47,11 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 				] );
 			}
 
+			$output->addJsConfigVars(
+				'wgCheckUserEnableUserInfoCardInstrumentation',
+				$this->config->get( 'CheckUserEnableUserInfoCardInstrumentation' )
+			);
+
 			$iconClass = $this->userNameUtils->isTemp( $targetUser->getName() ) ? 'userTemporary' : 'userAvatar';
 			// CSS-only Codex icon button
 			$icon = Html::rawElement(

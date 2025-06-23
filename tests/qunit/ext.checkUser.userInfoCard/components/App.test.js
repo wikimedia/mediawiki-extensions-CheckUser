@@ -7,6 +7,7 @@ const App = require( 'ext.checkUser.userInfoCard/modules/ext.checkUser.userInfoC
 QUnit.module( 'ext.checkUser.userInfoCard.App', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		this.server = this.sandbox.useFakeServer();
+		this.server.respondImmediately = true;
 	},
 	afterEach: function () {
 		this.server.restore();
@@ -116,6 +117,52 @@ QUnit.test( 'close method closes the popover', ( assert ) => {
 			assert.strictEqual( wrapper.vm.currentTrigger, null, 'Current trigger is reset after closing' );
 		} );
 	} );
+} );
+
+// TODO: T386440 - Fix the test and remove the skip
+// This test fails when running in conjunction with the other test components in this folder.
+// When running this test file alone, this test is passing.
+QUnit.test.skip( 'open & close method logs an event with correct parameters', function ( assert ) {
+	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
+	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
+	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
+	const submitInteractionStub = this.sandbox.stub().resolves();
+	submitInteractionStub.respondImmediately = true;
+	const instrumentStub = { submitInteraction: submitInteractionStub };
+	this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+
+	const wrapper = mountComponent();
+	const triggerElement = document.createElement( 'button' );
+
+	wrapper.vm.setUserInfo( 'testuser' );
+	wrapper.vm.open( triggerElement );
+
+	assert.strictEqual( submitInteractionStub.callCount, 1, 'submitInteraction is called once' );
+	assert.strictEqual(
+		submitInteractionStub.firstCall.args[ 0 ],
+		'open',
+		'First argument is "open"'
+	);
+
+	const interactionData = submitInteractionStub.firstCall.args[ 1 ];
+	assert.strictEqual(
+		interactionData.funnel_entry_token,
+		'test-session-id',
+		'Includes session token in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_source,
+		'button',
+		'Includes correct source in interaction data'
+	);
+
+	wrapper.vm.close();
+	assert.strictEqual( submitInteractionStub.callCount, 2, 'submitInteraction is called again' );
+	assert.strictEqual(
+		submitInteractionStub.secondCall.args[ 0 ],
+		'close',
+		'First argument to logEvent is "close" when closing'
+	);
 } );
 
 QUnit.test( 'isPopoverOpen method returns the correct state', ( assert ) => {

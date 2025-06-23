@@ -29,6 +29,7 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardBody', QUnit.newMwEnvironment(
 		mw.config.set( 'wgCheckUserCanViewCheckUserLog', true );
 		mw.config.set( 'wgCheckUserCanBlock', true );
 		mw.config.set( 'wgCheckUserGEUserImpactMaxEdits', 1000 );
+		mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', false );
 	}
 } ) );
 
@@ -303,5 +304,54 @@ QUnit.test( 'activeWikisList computed property transforms object to array correc
 		activeWikisList[ 1 ],
 		{ wikiId: 'dewiki', url: 'https://de.wikipedia.org' },
 		'Second item in activeWikisList has correct structure'
+	);
+} );
+
+// TODO: T386440 - Fix the test and remove the skip
+// This test fails when running in conjunction with the other test components in this folder.
+// When running this test file alone, this test is passing.
+QUnit.test.skip( 'logs an event when onWikiLinkClick is called', function ( assert ) {
+	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
+	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
+	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
+	const submitInteractionStub = this.sandbox.stub();
+	const instrumentStub = { submitInteraction: submitInteractionStub };
+	this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+
+	const activeWikisObj = {
+		enwiki: 'https://en.wikipedia.org',
+		dewiki: 'https://de.wikipedia.org'
+	};
+
+	const wrapper = mountComponent( { activeWikis: activeWikisObj } );
+	wrapper.vm.onWikiLinkClick( 'enwiki' );
+
+	assert.strictEqual( submitInteractionStub.callCount, 1, 'submitInteraction is called once' );
+	assert.strictEqual(
+		submitInteractionStub.firstCall.args[ 0 ],
+		'link_click',
+		'First argument is "link_click"'
+	);
+
+	const interactionData = submitInteractionStub.firstCall.args[ 1 ];
+	assert.strictEqual(
+		interactionData.funnel_entry_token,
+		'test-session-id',
+		'Includes session token in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_subtype,
+		'active_wiki',
+		'Includes correct subType in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_source,
+		'card_body',
+		'Includes correct source in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_context,
+		'enwiki',
+		'Includes correct action_context (wiki ID) in interaction data'
 	);
 } );

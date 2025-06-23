@@ -14,6 +14,7 @@ const { ref, computed } = require( 'vue' );
 const { CdxMenuButton, CdxIcon } = require( '@wikimedia/codex' );
 const { cdxIconEllipsis } = require( './icons.json' );
 const useWatchList = require( '../composables/useWatchList.js' );
+const useInstrument = require( '../composables/useInstrument.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -39,6 +40,9 @@ module.exports = exports = {
 			toggleWatchList,
 			watchListLabel
 		} = useWatchList( props.username, props.userPageWatched );
+
+		// Initialize instrumentation
+		const logEvent = useInstrument();
 		const contributionsLink = mw.Title.makeTitle(
 			-1, `Contributions/${ props.username }`
 		).getUrl();
@@ -112,6 +116,13 @@ module.exports = exports = {
 
 		function onMenuSelect( value ) {
 			const selectedItem = menuItems.value.find( ( item ) => item.value === value );
+
+			// Log the menu selection
+			logEvent( 'link_click', {
+				subType: value,
+				source: 'card_menu'
+			} );
+
 			if ( value === 'toggle-watchlist' ) {
 				toggleWatchList();
 			} else if ( selectedItem && selectedItem.link ) {
