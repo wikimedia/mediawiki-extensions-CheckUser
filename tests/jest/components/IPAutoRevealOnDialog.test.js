@@ -17,8 +17,10 @@ jest.mock( '../../../modules/ext.checkUser.tempAccounts/durations.json', () => (
 		seconds: 3600
 	}
 ] ), { virtual: true } );
+jest.mock( '../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 
 const IPAutoRevealOnDialog = require( '../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOnDialog.vue' );
+const useInstrument = require( '../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog, CdxSelect } = require( '@wikimedia/codex' );
 
@@ -33,9 +35,13 @@ const renderComponent = () => {
 };
 
 describe( 'IP auto-reveal On dialog', () => {
+	let logEvent;
 	let wrapper;
 
 	beforeEach( () => {
+		logEvent = jest.fn();
+		useInstrument.mockImplementation( () => logEvent );
+
 		wrapper = renderComponent();
 	} );
 
@@ -51,6 +57,7 @@ describe( 'IP auto-reveal On dialog', () => {
 		await wrapper.findComponent( CdxSelect ).vm.$emit( 'update:selected', '1800' );
 
 		expect( wrapper.findComponent( CdxDialog ).props( 'primaryAction' ).disabled ).toEqual( false );
+		expect( logEvent ).toHaveBeenCalledTimes( 0 );
 	} );
 
 	it( 'calls enableAutoReveal and shows notification on submit', async () => {
@@ -61,5 +68,7 @@ describe( 'IP auto-reveal On dialog', () => {
 		expect( mockSetText ).toHaveBeenCalled();
 		expect( mw.notify ).toHaveBeenCalled();
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
+		expect( logEvent ).toHaveBeenCalledTimes( 1 );
+		expect( logEvent ).toHaveBeenCalledWith( 'session_start', { sessionLength: 3600 } );
 	} );
 } );
