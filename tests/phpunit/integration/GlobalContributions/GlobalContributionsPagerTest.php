@@ -1061,6 +1061,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			->getMock();
 		$pager = TestingAccessWrapper::newFromObject( $pager );
 
+		// Assert no hits or misses on the cache have been counted
+		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 0 );
+		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 0 );
+
 		// Set the value in the cache
 		$pager->getExternalWikiPermissions( $wikiIds );
 		$this->assertSame( [
@@ -1070,11 +1074,21 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			]
 		], $pager->permissions );
 
+		// Expect only the cache miss counter to increment
+		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 1 );
+		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 0 );
+
 		// Re-run the function, expecting that the API aggregator will not execute again
 		$pager->getExternalWikiPermissions( $wikiIds );
 
+		// Expect only the cache hit counter to increment
+		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 1 );
+		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 1 );
+
 		// Run the function with a different set of active wikis, expecting a cache miss
 		$pager->getExternalWikiPermissions( [ 'otherwiki2' ] );
+		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 2 );
+		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 1 );
 	}
 
 	public function testExternalWikiPermissionsNotCheckedForUser() {
@@ -1307,7 +1321,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $expectedPrevQuery, $pagingQueries['prev'], 'Invalid prev pagination link' );
 		$this->assertSame( $expectedNextQuery, $pagingQueries['next'], 'Invalid next pagination link' );
 		$this->assertSame( $expectedDiffSizes, $diffSizes, 'Mismatched byte counts in diff links' );
-		$this->assertApiLookupErrorCount( 0 );
+		$this->assertMetricCount( GlobalContributionsPager::API_LOOKUP_ERROR_METRIC_NAME, 0 );
 	}
 
 	public static function provideQueryData(): iterable {
@@ -1604,19 +1618,20 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		] );
 		$pager->doQuery();
 
-		$this->assertApiLookupErrorCount( 1 );
+		$this->assertMetricCount( GlobalContributionsPager::API_LOOKUP_ERROR_METRIC_NAME, 1 );
 	}
 
 	/**
-	 * Convenience function to assert that the API lookup error counter metric has a given count.
+	 * Convenience function to assert that a stats counter metric has a given count.
 	 *
+	 * @param string $metricName
 	 * @param int $expectedCount
 	 * @return void
 	 */
-	private function assertApiLookupErrorCount( int $expectedCount ): void {
+	private function assertMetricCount( string $metricName, int $expectedCount ): void {
 		$counter = $this->getServiceContainer()
 			->getStatsFactory()
-			->getCounter( GlobalContributionsPager::API_LOOKUP_ERROR_METRIC_NAME );
+			->getCounter( $metricName );
 
 		$sampleValues = array_map( static fn ( $sample ) => $sample->getValue(), $counter->getSamples() );
 

@@ -62,6 +62,16 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	public const API_LOOKUP_ERROR_METRIC_NAME = 'checkuser_globalcontributions_api_lookup_error';
 
+	/**
+	 * Prometheus counter metric name for tracking external permissions cache hits.
+	 */
+	public const EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME = 'checkuser_external_permissions_cache_hit';
+
+	/**
+	 * Prometheus counter metric name for tracking external permissions cache misses.
+	 */
+	public const EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME = 'checkuser_external_permissions_cache_miss';
+
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $checkUserLookupUtils;
 	private CentralIdLookup $centralIdLookup;
@@ -188,6 +198,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 					// We still want to check permissions even if it's an empty array so fall back
 					// to that if a cached value hasn't been set yet ($oldValue will be false)
 					if ( is_array( $oldValue ) ) {
+						$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME )
+							->increment();
 						return $oldValue;
 					}
 					return [];
@@ -224,6 +236,9 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 					}
 					$permissions[$wikiId] = $allPermissions[$wikiId]['query']['pages'][0]['actions'];
 				}
+
+				$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME )
+					->increment();
 				return $permissions;
 			},
 			// Always run the callback
