@@ -14,15 +14,15 @@ function useWatchList( username, initialWatchState = false ) {
 	 * Toggle the watchlist status for the user page
 	 */
 	function toggleWatchList() {
-		const userPageTitle = mw.Title.makeTitle( 2, username );
+		const userPageTitle = mw.Title.makeTitle( 2, username ).getPrefixedText();
 		const api = new mw.Api();
 
 		if ( isWatched.value ) {
-			api.unwatch( userPageTitle.getPrefixedText() )
+			api.unwatch( userPageTitle )
 				.then( () => {
 					isWatched.value = false;
 					mw.notify(
-						mw.message( 'removedwatchtext', username ),
+						mw.message( 'removedwatchtext', userPageTitle ),
 						{ type: 'success' }
 					);
 				} )
@@ -30,11 +30,11 @@ function useWatchList( username, initialWatchState = false ) {
 					mw.notify( mw.message( 'checkuser-userinfocard-error-generic' ), { type: 'error' } );
 				} );
 		} else {
-			api.watch( userPageTitle.getPrefixedText() )
+			api.watch( userPageTitle )
 				.then( () => {
 					isWatched.value = true;
 					mw.notify(
-						mw.message( 'addedwatchtext', username ),
+						mw.message( 'addedwatchtext', userPageTitle ),
 						{ type: 'success' }
 					);
 				} )
