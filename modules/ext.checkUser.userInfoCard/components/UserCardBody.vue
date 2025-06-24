@@ -8,11 +8,10 @@
 			:key="idx"
 			:icon="row.icon"
 			:icon-class="row.iconClass"
-			:main-label="row.mainLabel"
+			:message-key="row.messageKey"
 			:main-value="row.mainValue"
 			:main-link="row.mainLink"
 			:main-link-log-id="row.mainLinkLogId"
-			:suffix-label="row.suffixLabel"
 			:suffix-value="row.suffixValue"
 			:suffix-link="row.suffixLink"
 			:suffix-link-log-id="row.suffixLinkLogId"
@@ -200,8 +199,8 @@ module.exports = exports = {
 		const infoRows = computed( () => {
 			const formattedMaxEdits = mw.language.convertNumber( maxEdits );
 			const formattedNewArticles = props.newArticles >= maxEdits ?
-				mw.msg( 'checkuser-userinfocard-new-articles-exceeds-max-to-display', formattedMaxEdits ) :
-				props.newArticles;
+				mw.msg( 'checkuser-userinfocard-new-articles-exceeds-max-to-display', mw.language.convertNumber( formattedMaxEdits ) ) :
+				mw.language.convertNumber( props.newArticles );
 			const rows = [];
 
 			if ( canBlock ) {
@@ -211,7 +210,7 @@ module.exports = exports = {
 					iconClass: props.activeBlocks > 0 ?
 						'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks' :
 						'ext-checkuser-userinfocard-icon',
-					mainLabel: mw.msg( 'checkuser-userinfocard-active-blocks-from-all-wikis-main-label' ),
+					messageKey: 'checkuser-userinfocard-active-blocks-from-all-wikis',
 					mainValue: mw.language.convertNumber( props.activeBlocks ),
 					mainLink: activeBlocksLink,
 					mainLinkLogId: 'active_blocks'
@@ -223,7 +222,7 @@ module.exports = exports = {
 					iconClass: props.pastBlocks > 0 ?
 						'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks' :
 						'ext-checkuser-userinfocard-icon',
-					mainLabel: mw.msg( 'checkuser-userinfocard-past-blocks-main-label' ),
+					messageKey: 'checkuser-userinfocard-past-blocks',
 					mainValue: mw.language.convertNumber( props.pastBlocks ),
 					mainLink: pastBlocksLink,
 					mainLinkLogId: 'past_blocks'
@@ -234,27 +233,26 @@ module.exports = exports = {
 				{
 					icon: cdxIconEdit,
 					iconClass: 'ext-checkuser-userinfocard-icon',
-					mainLabel: mw.msg( 'checkuser-userinfocard-global-edits-row-main-label' ),
-					mainValue: props.globalEdits,
+					messageKey: 'checkuser-userinfocard-global-edits',
+					mainValue: mw.language.convertNumber( props.globalEdits ),
 					mainLink: globalEditsLink,
 					mainLinkLogId: 'global_edits'
 				},
 				{
 					icon: cdxIconEdit,
 					iconClass: 'ext-checkuser-userinfocard-icon',
-					mainLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-main-label' ),
-					mainValue: props.localEdits,
+					messageKey: 'checkuser-userinfocard-local-edits',
+					mainValue: mw.language.convertNumber( props.localEdits ),
 					mainLink: localEditsLink,
 					mainLinkLogId: 'local_edits',
-					suffixLabel: mw.msg( 'checkuser-userinfocard-local-edits-row-suffix-label' ),
-					suffixValue: props.localEditsReverted,
+					suffixValue: mw.language.convertNumber( props.localEditsReverted ),
 					suffixLink: localEditsLink,
 					suffixLinkLogId: 'reverted_local_edits'
 				},
 				{
 					icon: cdxIconArticles,
 					iconClass: 'ext-checkuser-userinfocard-icon',
-					mainLabel: mw.msg( 'checkuser-userinfocard-new-articles-row-main-label' ),
+					messageKey: 'checkuser-userinfocard-new-articles',
 					mainValue: formattedNewArticles,
 					mainLink: newArticlesLink,
 					mainLinkLogId: 'new_articles'
@@ -262,28 +260,37 @@ module.exports = exports = {
 				{
 					icon: cdxIconHeart,
 					iconClass: 'ext-checkuser-userinfocard-icon',
-					mainLabel: mw.msg( 'checkuser-userinfocard-thanks-row-main-label' ),
-					mainValue: props.thanksReceived,
+					messageKey: 'checkuser-userinfocard-thanks',
+					mainValue: mw.language.convertNumber( props.thanksReceived ),
 					mainLink: thanksReceivedLink,
 					mainLinkLogId: 'thanks_received',
-					suffixLabel: mw.msg( 'checkuser-userinfocard-thanks-row-suffix-label' ),
-					suffixValue: props.thanksSent,
+					suffixValue: mw.language.convertNumber( props.thanksSent ),
 					suffixLink: thanksSentLink,
 					suffixLinkLogId: 'thanks_sent'
 				}
 			] );
 
 			if ( canViewCheckUserLog ) {
-				rows.push( {
-					icon: cdxIconSearch,
-					iconClass: 'ext-checkuser-userinfocard-icon',
-					mainLabel: mw.msg( 'checkuser-userinfocard-checks-row-main-label' ),
-					mainValue: props.checks,
-					mainLink: checksLink,
-					mainLinkLogId: 'last_checked',
-					suffixLabel: mw.msg( 'checkuser-userinfocard-checks-row-suffix-label' ),
-					suffixValue: props.lastChecked
-				} );
+				if ( props.lastChecked ) {
+					rows.push( {
+						icon: cdxIconSearch,
+						iconClass: 'ext-checkuser-userinfocard-icon',
+						messageKey: 'checkuser-userinfocard-checks',
+						mainValue: mw.language.convertNumber( props.checks ),
+						mainLink: checksLink,
+						mainLinkLogId: 'last_checked',
+						suffixValue: props.lastChecked
+					} );
+				} else {
+					rows.push( {
+						icon: cdxIconSearch,
+						iconClass: 'ext-checkuser-userinfocard-icon',
+						messageKey: 'checkuser-userinfocard-checks-empty',
+						mainValue: mw.language.convertNumber( props.checks ),
+						mainLink: checksLink,
+						mainLinkLogId: 'last_checked'
+					} );
+				}
 			}
 			return rows;
 		} );

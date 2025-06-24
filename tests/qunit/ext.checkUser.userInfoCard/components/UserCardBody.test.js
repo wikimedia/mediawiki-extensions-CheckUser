@@ -110,20 +110,20 @@ QUnit.test( 'passes correct props to active blocks row when permission is grante
 
 	// Find the active blocks row by its message key
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	const activeBlocksRow = infoRows.find( ( row ) => row.props( 'mainLabel' ) === 'checkuser-userinfocard-active-blocks-from-all-wikis-main-label' );
+	const activeBlocksRow = infoRows.find( ( row ) => row.props( 'messageKey' ) === 'checkuser-userinfocard-active-blocks-from-all-wikis' );
 
 	assert.true( activeBlocksRow !== undefined, 'Active blocks row exists when permission is granted' );
 
 	assert.strictEqual(
-		activeBlocksRow.props( 'mainLabel' ),
-		'checkuser-userinfocard-active-blocks-from-all-wikis-main-label',
-		'Blocks row has correct main label'
+		activeBlocksRow.props( 'messageKey' ),
+		'checkuser-userinfocard-active-blocks-from-all-wikis',
+		'Blocks row has correct message key'
 	);
 
 	assert.strictEqual(
 		activeBlocksRow.props( 'mainValue' ),
 		'2',
-		'Active blocks row has correct main value (converted to string)'
+		'Blocks row has correct main value (converted to string)'
 	);
 
 	assert.strictEqual(
@@ -162,13 +162,13 @@ QUnit.test( 'passes correct props to past blocks row when permission is granted'
 
 	// Find the past blocks row by its message key
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	const pastBlocksRow = infoRows.find( ( row ) => row.props( 'mainLabel' ) === 'checkuser-userinfocard-past-blocks-main-label' );
+	const pastBlocksRow = infoRows.find( ( row ) => row.props( 'messageKey' ) === 'checkuser-userinfocard-past-blocks' );
 
 	assert.true( pastBlocksRow !== undefined, 'Past blocks row exists when permission is granted' );
 
 	assert.strictEqual(
-		pastBlocksRow.props( 'mainLabel' ),
-		'checkuser-userinfocard-past-blocks-main-label',
+		pastBlocksRow.props( 'messageKey' ),
+		'checkuser-userinfocard-past-blocks',
 		'Past blocks row has correct message key'
 	);
 
