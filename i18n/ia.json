@@ -373,7 +373,7 @@
 	"checkuser-userinfocard-error-title": "Un error ha occurrite",
 	"checkuser-userinfocard-error-no-data": "Non poteva recuperar information pro iste usator. Per favor tenta lo de novo plus tarde.",
 	"checkuser-userinfocard-error-generic": "Un error ha occurrite. Per favor tenta lo de novo plus tarde.",
-	"checkuser-userinfocard-enable-preference-description": "Activar le [[mw:Help:Extension:CheckUser#UserInfoCard|carta de information de usator]]",
+	"checkuser-userinfocard-enable-preference-description": "Activar le [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|carta de information de usator]]",
 	"checkuser-userinfocard-enable-preference-help": "Monstrar un button al latere del nomines de usator pro aperir un quadro emergente con information sur un conto.",
 	"checkuser-userinfocard-activity-chart-label": "Activitate de modification del ultime 60 dies ({{PLURAL:$1|$1 modification|$1 modificationes|0=Necun modification}})",
 	"checkuser-ipinfo-global-contributions-label": "Contributiones global",

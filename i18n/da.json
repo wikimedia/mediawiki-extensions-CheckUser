@@ -385,7 +385,7 @@
 	"checkuser-userinfocard-error-title": "Der opstod en fejl",
 	"checkuser-userinfocard-error-no-data": "Oplysningerne for denne bruger kunne ikke hentes. Prøv igen senere.",
 	"checkuser-userinfocard-error-generic": "Noget gik galt. Prøv igen senere.",
-	"checkuser-userinfocard-enable-preference-description": "Aktivér [[mw:Help:Extension:CheckUser#UserInfoCard|brugerinfokortet]]",
+	"checkuser-userinfocard-enable-preference-description": "Aktivér [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|brugerinfokortet]]",
 	"checkuser-userinfocard-enable-preference-help": "Vis en knap ud for brugernavne for at kunne åbne et popover-vindue med oplysninger om en konto.",
 	"checkuser-userinfocard-activity-chart-label": "Redigeringsaktivitet i løbet af de sidste 60 dage ({{PLURAL:$1|$1 redigering|$1 redigeringer|0=Ingen redigeringer}})",
 	"checkuser-ipinfo-global-contributions-label": "Globale brugerbidrag",

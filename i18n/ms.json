@@ -92,6 +92,6 @@
 	"checkuser-userinfocard-thanks-row-suffix-label": "dihantar",
 	"checkuser-userinfocard-checks-row-main-label": "Jumlah pemeriksaan",
 	"checkuser-userinfocard-checks-row-suffix-label": "Kali terakhir diperiksa",
-	"checkuser-userinfocard-enable-preference-description": "Dayakan [[mw:Help:Extension:CheckUser#UserInfoCard|kad maklumat pengguna]]",
+	"checkuser-userinfocard-enable-preference-description": "Dayakan [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|kad maklumat pengguna]]",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 suntingan sejagat|0=Tiada suntingan sejagat}}"
 }

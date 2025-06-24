@@ -415,7 +415,7 @@
 	"checkuser-userinfocard-error-title": "Une erreur s’est produite",
 	"checkuser-userinfocard-error-no-data": "Impossible de récupérer les informations de cet utilisateur. Veuillez réessayer ultérieurement.",
 	"checkuser-userinfocard-error-generic": "Quelque chose s’est mal passé. Veuillez réessayer ultérieurement.",
-	"checkuser-userinfocard-enable-preference-description": "Activer la [[mw:Help:Extension:CheckUser#UserInfoCard|carte d'informations utilisateur]]",
+	"checkuser-userinfocard-enable-preference-description": "Activer la [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|carte d'informations utilisateur]]",
 	"checkuser-userinfocard-enable-preference-help": "Afficher un bouton à côté des noms d'utilisateur pour ouvrir une fenêtre contextuelle contenant des informations sur un compte.",
 	"checkuser-userinfocard-activity-chart-label": "Activité de modification sur les 60 derniers jours ({{PLURAL:$1|une modification|$1 modifications|0=aucune modification}})",
 	"checkuser-ipinfo-global-contributions-label": "Contributions globales",

@@ -395,7 +395,7 @@
 	"checkuser-userinfocard-error-title": "Wystąpił błąd",
 	"checkuser-userinfocard-error-no-data": "Nie udało się pobrać informacji o tym użytkowniku. Spróbuj ponownie później.",
 	"checkuser-userinfocard-error-generic": "Coś poszło nie tak. Spróbuj ponownie później.",
-	"checkuser-userinfocard-enable-preference-description": "Włącz [[mw:Help:Extension:CheckUser#UserInfoCard|okienko z informacjami o użytkowniku]]",
+	"checkuser-userinfocard-enable-preference-description": "Włącz [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|okienko z informacjami o użytkowniku]]",
 	"checkuser-userinfocard-enable-preference-help": "Pokazuje przycisk obok nazwy użytkownika, który otwiera okienko z informacjami o koncie.",
 	"checkuser-userinfocard-activity-chart-label": "Aktywność edytorska w ciągu ostatnich 60 dni ({{PLURAL:$1|$1 edycja|$1 edycje|$1 edycji|0=Brak edycji}})",
 	"checkuser-ipinfo-global-contributions-label": "Edycji globalnie",

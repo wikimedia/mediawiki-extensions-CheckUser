@@ -392,7 +392,7 @@
 	"checkuser-userinfocard-error-title": "Сталася помилка",
 	"checkuser-userinfocard-error-no-data": "Не вдалося отримати інформацію для цього користувача. Спробуйте ще раз пізніше.",
 	"checkuser-userinfocard-error-generic": "Щось пішло не так. Будь ласка, спробуйте ще раз пізніше.",
-	"checkuser-userinfocard-enable-preference-description": "Увімкнути [[mw:Help:Extension:CheckUser#UserInfoCard|картку з інформацією про користувача]]",
+	"checkuser-userinfocard-enable-preference-description": "Увімкнути [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|картку з інформацією про користувача]]",
 	"checkuser-userinfocard-enable-preference-help": "Показувати поруч з іменами користувачів кнопку, що відкриє спливне вікно з інформацією про обліковий запис.",
 	"checkuser-userinfocard-activity-chart-label": "Редагування за минулі 60 днів ({{PLURAL:$1|$1 редагування|$1 редагування|$1 редагувань|0=Без редагувань}})",
 	"checkuser-ipinfo-global-contributions-label": "Глобальний внесок",

@@ -382,7 +382,7 @@
 	"checkuser-userinfocard-error-title": "אירעה שגיאה",
 	"checkuser-userinfocard-error-no-data": "לא ניתן לאחזר מידע עבור המשתמש הזה. נא לנסות שוב מאוחר יותר.",
 	"checkuser-userinfocard-error-generic": "משהו השתבש! נא לנסות שוב מאוחר יותר.",
-	"checkuser-userinfocard-enable-preference-description": "להפעיל את [[mw:Help:Extension:CheckUser#UserInfoCard|כרטיס פרטי המשתמש]]",
+	"checkuser-userinfocard-enable-preference-description": "להפעיל את [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|כרטיס פרטי המשתמש]]",
 	"checkuser-userinfocard-enable-preference-help": "הצגת כפתור ליד שמות משתמש לפתיחת חלון קופץ עם מידע על חשבון.",
 	"checkuser-userinfocard-activity-chart-label": "פעילות עריכה ב־60 הימים האחרונים ({{PLURAL:$1|עריכה אחת|$1 עריכות|0=אין עריכות}})",
 	"checkuser-ipinfo-global-contributions-label": "תרומות גלובליות",

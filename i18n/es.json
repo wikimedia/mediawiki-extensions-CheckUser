@@ -359,6 +359,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 desactivó {{GENDER:$2|su}} propio acceso para ver variables protegidas",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|consultó}} las variables protegidas asociadas con $3",
 	"checkuser-ipinfo-global-contributions-url-text": "Ver contribuciones globales",
-	"checkuser-userinfocard-enable-preference-description": "Habilitar la [[mw:Help:Extension:CheckUser#UserInfoCard|tarjeta de información del usuario]]",
+	"checkuser-userinfocard-enable-preference-description": "Habilitar la [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|tarjeta de información del usuario]]",
 	"checkuser-userinfocard-enable-preference-help": "Muestra un botón junto a los nombres de usuario para abrir una ventana emergente con información sobre una cuenta."
 }

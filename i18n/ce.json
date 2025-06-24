@@ -363,7 +363,7 @@
 	"checkuser-userinfocard-error-title": "ГӀалат даьлла",
 	"checkuser-userinfocard-error-no-data": "ХӀокху декъашхочунна информаци схьаэца аьтто бац. ТӀаьхьо хьажа.",
 	"checkuser-userinfocard-error-generic": "Цхьа хӀума галделира. Дехар до, йуха а хьажа.",
-	"checkuser-userinfocard-enable-preference-description": "Декъашхочун [[mw:Help:Extension:CheckUser#UserInfoCard|инфо карта дӀахӀоттаде]]",
+	"checkuser-userinfocard-enable-preference-description": "Декъашхочун [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|инфо карта дӀахӀоттаде]]",
 	"checkuser-userinfocard-enable-preference-help": "Декъашхойн цӀерашна уллехь нуьйда гайта, хьайн аккаунтах лаьцна информаци йолу кор схьаделла.",
 	"checkuser-ipinfo-global-contributions-label": "Декъашхочун глобалан къинхьегам",
 	"checkuser-ipinfo-global-contributions-tooltip": "ХӀокху IP-адрес тӀехь бина вики-йукъара хийцамийн дукхалла.",

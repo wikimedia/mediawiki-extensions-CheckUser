@@ -389,7 +389,7 @@
 	"checkuser-userinfocard-error-title": "Bir hata meydana geldi",
 	"checkuser-userinfocard-error-no-data": "Bu kullanıcı için bilgi alınamadı. Lütfen daha sonra tekrar deneyin.",
 	"checkuser-userinfocard-error-generic": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyin.",
-	"checkuser-userinfocard-enable-preference-description": "[[mw:Help:Extension:CheckUser#UserInfoCard|Kullanıcı bilgi kartını]] etkinleştirin",
+	"checkuser-userinfocard-enable-preference-description": "[[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|Kullanıcı bilgi kartını]] etkinleştirin",
 	"checkuser-userinfocard-enable-preference-help": "Bir hesap hakkında bilgi içeren bir açılır pencere açmak için kullanıcı adlarının yanında bir buton gösterin.",
 	"checkuser-userinfocard-activity-chart-label": "Son 60 gündeki düzenleme etkinliği ({{PLURAL:$1|$1 edit|$1 düzenleme|0=Düzenleme yok}})",
 	"checkuser-ipinfo-global-contributions-label": "Küresel Katkılar",
