@@ -204,10 +204,6 @@
 			],
 			"description": "Used to hide the 'Show IP' buttons for temporary accounts on special pages where they are not useful. For example, Special:BlockList where a temporary account will only be the target of a block and therefore no IP will be present for that block. Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'ListUsers' is known in the Special page system as 'Listusers'. Some special pages are hard-coded to be included as they load custom scripts to add the buttons."
 		},
-		"CheckUserEnableTempAccountsOnboardingDialog": {
-			"value": true,
-			"description": "Used to control whether the Temporary Accounts onboarding dialog is shown. Used as a temporary configuration value to hide the dialog while it is still being developed."
-		},
 		"CheckUserAlwaysSetClientHintHeaders": {
 			"value": false,
 			"description": "Configuration setting that controls whether to always set client hint headers or not. If set to true, client hints headers will always be set via the Accept-CH HTTP header."

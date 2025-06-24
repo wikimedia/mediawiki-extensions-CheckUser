@@ -72,7 +72,6 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
 				'CUDMaxAge' => 12345,
-				'CheckUserEnableTempAccountsOnboardingDialog' => true,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),

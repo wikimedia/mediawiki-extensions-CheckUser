@@ -156,10 +156,6 @@ class PageDisplay implements BeforePageDisplayHook {
 	 * @return void
 	 */
 	private function addTemporaryAccountsOnboardingDialog( OutputPage $out ) {
-		if ( !$this->config->get( 'CheckUserEnableTempAccountsOnboardingDialog' ) ) {
-			return;
-		}
-
 		$action = $out->getRequest()->getVal( 'action' );
 		$title = $out->getTitle();
 		if (
