@@ -19,7 +19,7 @@
 	"checkuser-desc": "Müvafiq icazəsi olan istifadəçiləri istifadəçinin IP ünvanlarını və digər məlumatları yoxlamaq imkanı verir",
 	"checkuser": "Təftişçi",
 	"checkuserlog": "Təftişçi jurnalı",
-	"checkuser-contribs": "İstifadəçinin IP ünvanını yoxla",
+	"checkuser-contribs": "istifadəçinin IP ünvanını yoxla",
 	"checkuser-contribs-log": "istifadəçinin yoxlanılmaları",
 	"checkuser-contribs-log-initiator": "bu istifadəçi tərəfindən edilən yoxlamalar",
 	"group-checkuser": "Təftişçilər",
