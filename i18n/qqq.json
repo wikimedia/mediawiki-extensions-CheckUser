@@ -431,5 +431,6 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "Description of the global contributions property in IPInfo's infobox widget",
 	"checkuser-ipinfo-global-contributions-value": "Count of global contributions to be displayed in IPInfo's infobox widget",
 	"tooltip-t-global-contributions": "Tooltip for the [[Special:GlobalContributions]] link shown in the tool links bar for user pages.\n\nParameters:\n* $1 - Name of the user",
-	"checkuser-userinfocard-groups": "Message to display the translated list of user groups that a user is a member of.\n\nParameters:\n* $1 - A comma-separated list of translated user group names."
+	"checkuser-userinfocard-groups": "Message to display the translated list of user groups that a user is a member of.\n\nParameters:\n* $1 - A comma-separated list of translated user group names.",
+	"checkuser-userinfocard-chart-tooltip-label": "The tooltip label when you mouse hover the chart in UserInfoCard.\n\nParameters:\n* $1 - Date of local edit\n* $2 - Number of edits (with plural variants)"
 }
