@@ -9,7 +9,9 @@
 			y-accessor="count"
 		></c-sparkline>
 	</div>
-	<p>{{ activityChartLabel }}</p>
+	<p class="ext-checkuser-userinfocard-activity-chart-label">
+		{{ activityChartLabel }}
+	</p>
 </template>
 
 <script>
@@ -54,5 +56,9 @@ module.exports = exports = {
 
 .ext-checkuser-userinfocard-activity-chart {
 	margin-top: @spacing-100;
+}
+
+.ext-checkuser-userinfocard-activity-chart-label {
+	font-size: @font-size-x-small;
 }
 </style>
