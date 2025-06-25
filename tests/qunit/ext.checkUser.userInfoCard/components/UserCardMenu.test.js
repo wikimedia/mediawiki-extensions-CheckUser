@@ -72,7 +72,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 		'Contributions label is correct'
 	);
 	assert.strictEqual(
-		menuItems[ 0 ].link,
+		menuItems[ 0 ].url,
 		'/-1/Contributions/TestUser',
 		'Contributions link is correct'
 	);
@@ -88,7 +88,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 		'Global account label is correct'
 	);
 	assert.strictEqual(
-		menuItems[ 1 ].link,
+		menuItems[ 1 ].url,
 		'/-1/CentralAuth/TestUser',
 		'Global account link is correct'
 	);
@@ -107,7 +107,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 		'Check IP label is correct'
 	);
 	assert.strictEqual(
-		menuItems[ 3 ].link,
+		menuItems[ 3 ].url,
 		'/-1/CheckUser?user=TestUser',
 		'Check IP link is correct'
 	);
@@ -118,7 +118,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 		'checkuser-userinfocard-menu-block-user',
 		'Block user label is correct'
 	);
-	assert.strictEqual( menuItems[ 4 ].link, '/-1/Block/TestUser', 'Block user link is correct' );
+	assert.strictEqual( menuItems[ 4 ].url, '/-1/Block/TestUser', 'Block user link is correct' );
 
 	assert.strictEqual( menuItems[ 5 ].value, 'provide-feedback', 'Sixth item is provide-feedback' );
 	assert.strictEqual(
@@ -127,7 +127,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 		'Provide feedback label is correct'
 	);
 	assert.strictEqual(
-		menuItems[ 5 ].link,
+		menuItems[ 5 ].url,
 		'https://www.mediawiki.org/wiki/Talk:Trust_and_Safety_Product/Anti-abuse_signals/User_Info',
 		'Provide feedback link is correct'
 	);
@@ -139,7 +139,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 		'Turn off label is correct'
 	);
 	assert.strictEqual(
-		menuItems[ 6 ].link,
+		menuItems[ 6 ].url,
 		'/-1/Preferences#mw-prefsection-rendering-advancedrendering',
 		'Turn off link is correct'
 	);

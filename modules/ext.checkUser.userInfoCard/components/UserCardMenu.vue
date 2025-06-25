@@ -69,12 +69,12 @@ module.exports = exports = {
 				{
 					label: mw.msg( 'checkuser-userinfocard-menu-view-contributions' ),
 					value: 'view-contributions',
-					link: contributionsLink
+					url: contributionsLink
 				},
 				{
 					label: mw.msg( 'checkuser-userinfocard-menu-view-global-account' ),
 					value: 'view-global-account',
-					link: globalAccountLink
+					url: globalAccountLink
 				},
 				{
 					label: watchListLabel.value,
@@ -86,7 +86,7 @@ module.exports = exports = {
 				items.push( {
 					label: mw.msg( 'checkuser-userinfocard-menu-check-ip' ),
 					value: 'check-ip',
-					link: checkUserLink
+					url: checkUserLink
 				} );
 			}
 
@@ -94,7 +94,7 @@ module.exports = exports = {
 				items.push( {
 					label: mw.msg( 'checkuser-userinfocard-menu-block-user' ),
 					value: 'block-user',
-					link: blockUserLink
+					url: blockUserLink
 				} );
 			}
 
@@ -102,12 +102,12 @@ module.exports = exports = {
 				{
 					label: mw.msg( 'checkuser-userinfocard-menu-provide-feedback' ),
 					value: 'provide-feedback',
-					link: 'https://www.mediawiki.org/wiki/Talk:Trust_and_Safety_Product/Anti-abuse_signals/User_Info'
+					url: 'https://www.mediawiki.org/wiki/Talk:Trust_and_Safety_Product/Anti-abuse_signals/User_Info'
 				},
 				{
 					label: mw.msg( 'checkuser-userinfocard-menu-turn-off' ),
 					value: 'turn-off',
-					link: turnOffLink
+					url: turnOffLink
 				}
 			] );
 
@@ -115,8 +115,6 @@ module.exports = exports = {
 		} );
 
 		function onMenuSelect( value ) {
-			const selectedItem = menuItems.value.find( ( item ) => item.value === value );
-
 			// Log the menu selection
 			logEvent( 'link_click', {
 				subType: value,
@@ -125,8 +123,6 @@ module.exports = exports = {
 
 			if ( value === 'toggle-watchlist' ) {
 				toggleWatchList();
-			} else if ( selectedItem && selectedItem.link ) {
-				window.location.assign( selectedItem.link );
 			}
 			selection.value = null;
 		}
