@@ -78,6 +78,7 @@
 	"checkuser-global-contributions-link": "sumbangan sejagat",
 	"checkuser-global-contributions-link-sidebar": "Sumbangan sejagat",
 	"prefs-checkuser-tempaccount": "Pendedahan IP akaun sementara",
+	"checkuser-tempaccount-enable-preference": "Dayakan pendedahan alamat IP untuk akaun sementara",
 	"checkuser-tempaccount-reveal-ip-button-label": "Tunjukkan IP",
 	"checkuser-tempaccount-reveal-ip-missing": "tidak ada"
 }
