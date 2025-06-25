@@ -312,14 +312,14 @@
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Automatisk afsløring af IP-adresse er aktiveret</strong>",
 	"checkuser-ip-auto-reveal-notification-off": "<strong>Automatisk afsløring af IP-adresse er slået fra</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "Slå automatisk afsløring af IP-adresser til",
-	"checkuser-ip-auto-reveal-on-dialog-text": "Hvis du aktiverer denne funktion, vil alle IP-adresser på midlertidige konti automatisk blive afsløret i en begrænset periode.",
+	"checkuser-ip-auto-reveal-on-dialog-text": "Hvis du aktiverer denne funktion, vil alle IP-adresser på midlertidige konti automatisk blive afsløret i en begrænset periode. [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/Temporary_Accounts/Access_to_IP#Automatically_showing_IPs_for_temporary_accounts Læs mere]",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "Annullér",
 	"checkuser-ip-auto-reveal-on-dialog-primary-action": "Slå til",
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "Varighed:",
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Vælg en mulighed",
 	"checkuser-ip-auto-reveal-off-dialog-title": "Automatisk afsløring af IP-adresse er aktiveret",
 	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Resterende tid: <strong>$1</strong>",
-	"checkuser-ip-auto-reveal-off-dialog-text-info": "Af hensyn til privatlivets fred vil denne funktion automatisk slukke, når perioden er slut.",
+	"checkuser-ip-auto-reveal-off-dialog-text-info": "Af hensyn til privatlivets fred vil denne funktion automatisk slukke, når perioden er slut. [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/Temporary_Accounts/Access_to_IP#Automatically_showing_IPs_for_temporary_accounts Læs mere]",
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "Varigheden kan ikke indstilles til mere end 24 timer",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 min",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Slå fra",
@@ -391,5 +391,6 @@
 	"checkuser-ipinfo-global-contributions-label": "Globale brugerbidrag",
 	"checkuser-ipinfo-global-contributions-tooltip": "Antallet af redigeringer på tværs af wiki'er foretaget fra denne IP-adresse.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global redigering|$1 globale redigeringer|0=Ingen globale redigeringer}}",
-	"tooltip-t-global-contributions": "En liste over bidrag på tværs af alle wikier fra {{GENDER:$1|denne bruger}}"
+	"tooltip-t-global-contributions": "En liste over bidrag på tværs af alle wikier fra {{GENDER:$1|denne bruger}}",
+	"checkuser-userinfocard-groups": "Grupper: $1"
 }
