@@ -258,7 +258,7 @@
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "একটি বিকল্প বেছে নিন",
 	"checkuser-ip-auto-reveal-off-dialog-title": "আইপি স্বয়ংক্রিয়-প্রকাশ চালু আছে",
 	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "সময় বাকি: <strong>$1</strong>",
-	"checkuser-ip-auto-reveal-off-dialog-text-info": "গোপনীয়তার কারণে, এই বৈশিষ্ট্যটি সময়কাল শেষে স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।",
+	"checkuser-ip-auto-reveal-off-dialog-text-info": "গোপনীয়তার কারণে, এই বৈশিষ্ট্যটি সময়কাল শেষে স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে। [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/Temporary_Accounts/Access_to_IP#Automatically_showing_IPs_for_temporary_accounts আরও জানুন]",
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "সময়কাল ২৪ ঘণ্টার বেশি হতে পারবে না",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+১০ মিনিট",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "বন্ধ করুন",
