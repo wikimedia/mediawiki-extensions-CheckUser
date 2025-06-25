@@ -93,7 +93,7 @@ QUnit.test( 'renders correct number of InfoRowWithLinks components with all perm
 	const wrapper = mountComponent();
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	assert.strictEqual( infoRows.length, 6, 'Renders 6 InfoRowWithLinks components when all permissions are granted' );
+	assert.strictEqual( infoRows.length, 7, 'Renders 7 InfoRowWithLinks components when all permissions are granted' );
 } );
 
 QUnit.test( 'renders correct number of InfoRowWithLinks components with no permissions', ( assert ) => {
@@ -105,49 +105,107 @@ QUnit.test( 'renders correct number of InfoRowWithLinks components with no permi
 	assert.strictEqual( infoRows.length, 4, 'Renders 4 InfoRowWithLinks components when no permissions are granted' );
 } );
 
-QUnit.test( 'passes correct props to blocks row when permission is granted', ( assert ) => {
+QUnit.test( 'passes correct props to active blocks row when permission is granted', ( assert ) => {
 	const wrapper = mountComponent();
 
-	// Find the blocks row by its icon class
+	// Find the active blocks row by its message key
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	const blocksRow = infoRows.find( ( row ) => row.props( 'iconClass' ).includes( 'ext-checkuser-userinfocard-icon-blocks' ) );
+	const activeBlocksRow = infoRows.find( ( row ) => row.props( 'mainLabel' ) === 'checkuser-userinfocard-active-blocks-from-all-wikis-main-label' );
 
-	assert.true( blocksRow !== undefined, 'Blocks row exists when permission is granted' );
+	assert.true( activeBlocksRow !== undefined, 'Active blocks row exists when permission is granted' );
 
 	assert.strictEqual(
-		blocksRow.props( 'mainLabel' ),
-		'checkuser-userinfocard-active-blocks-row-main-label',
+		activeBlocksRow.props( 'mainLabel' ),
+		'checkuser-userinfocard-active-blocks-from-all-wikis-main-label',
 		'Blocks row has correct main label'
 	);
 
 	assert.strictEqual(
-		blocksRow.props( 'mainValue' ),
-		2,
-		'Blocks row has correct main value'
+		activeBlocksRow.props( 'mainValue' ),
+		'2',
+		'Active blocks row has correct main value (converted to string)'
 	);
 
 	assert.strictEqual(
-		blocksRow.props( 'mainLink' ),
-		'/-1/BlockList?wpTarget=TestUser&limit=50&wpFormIdentifier=blocklist',
-		'Blocks row has correct main link'
+		activeBlocksRow.props( 'mainLink' ),
+		'/-1/CentralAuth/TestUser',
+		'Active blocks row has correct main link'
 	);
 
 	assert.strictEqual(
-		blocksRow.props( 'suffixLabel' ),
-		'checkuser-userinfocard-active-blocks-row-suffix-label',
-		'Blocks row has correct suffix label'
+		activeBlocksRow.props( 'mainLinkLogId' ),
+		'active_blocks',
+		'Active blocks row has correct main link log ID'
 	);
 
 	assert.strictEqual(
-		blocksRow.props( 'suffixValue' ),
-		3,
-		'Blocks row has correct suffix value'
+		activeBlocksRow.props( 'suffixValue' ),
+		'',
+		'Active blocks row has no suffix value'
 	);
 
 	assert.strictEqual(
-		blocksRow.props( 'suffixLink' ),
+		activeBlocksRow.props( 'suffixLink' ),
+		'',
+		'Active blocks row has no suffix link'
+	);
+
+	assert.strictEqual(
+		activeBlocksRow.props( 'suffixLinkLogId' ),
+		'',
+		'Active blocks row has no suffix link log ID'
+	);
+} );
+
+QUnit.test( 'passes correct props to past blocks row when permission is granted', ( assert ) => {
+	const wrapper = mountComponent();
+
+	// Find the past blocks row by its message key
+	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
+	const pastBlocksRow = infoRows.find( ( row ) => row.props( 'mainLabel' ) === 'checkuser-userinfocard-past-blocks-main-label' );
+
+	assert.true( pastBlocksRow !== undefined, 'Past blocks row exists when permission is granted' );
+
+	assert.strictEqual(
+		pastBlocksRow.props( 'mainLabel' ),
+		'checkuser-userinfocard-past-blocks-main-label',
+		'Past blocks row has correct message key'
+	);
+
+	assert.strictEqual(
+		pastBlocksRow.props( 'mainValue' ),
+		'3',
+		'Past blocks row has correct main value (converted to string)'
+	);
+
+	assert.strictEqual(
+		pastBlocksRow.props( 'mainLink' ),
 		'/-1/Log/block?page=TestUser',
-		'Blocks row has correct suffix link'
+		'Past blocks row has correct main link'
+	);
+
+	assert.strictEqual(
+		pastBlocksRow.props( 'mainLinkLogId' ),
+		'past_blocks',
+		'Past blocks row has correct main link log ID'
+	);
+
+	assert.strictEqual(
+		pastBlocksRow.props( 'suffixValue' ),
+		'',
+		'Past blocks row has no suffix value'
+	);
+
+	assert.strictEqual(
+		pastBlocksRow.props( 'suffixLink' ),
+		'',
+		'Past blocks row has no suffix link'
+	);
+
+	assert.strictEqual(
+		pastBlocksRow.props( 'suffixLinkLogId' ),
+		'',
+		'Past blocks row has no suffix link log ID'
 	);
 } );
 
@@ -266,7 +324,7 @@ QUnit.test( 'setup function returns correct values with all permissions', ( asse
 
 	assert.strictEqual(
 		wrapper.vm.infoRows.length,
-		6,
+		7,
 		'infoRows has correct length with all permissions'
 	);
 } );

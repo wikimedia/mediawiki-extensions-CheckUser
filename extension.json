@@ -624,7 +624,8 @@
 						"cdxIconEdit",
 						"cdxIconArticles",
 						"cdxIconHeart",
-						"cdxIconSearch"
+						"cdxIconSearch",
+						"cdxIconNotice"
 					]
 				}
 			],
@@ -633,8 +634,8 @@
 				"checkuser-userinfocard-close-button-aria-label",
 				"checkuser-userinfocard-open-menu-aria-label",
 				"checkuser-userinfocard-joined-label",
-				"checkuser-userinfocard-active-blocks-row-main-label",
-				"checkuser-userinfocard-active-blocks-row-suffix-label",
+				"checkuser-userinfocard-active-blocks-from-all-wikis-main-label",
+				"checkuser-userinfocard-past-blocks-main-label",
 				"checkuser-userinfocard-global-edits-row-main-label",
 				"checkuser-userinfocard-local-edits-row-main-label",
 				"checkuser-userinfocard-local-edits-row-suffix-label",

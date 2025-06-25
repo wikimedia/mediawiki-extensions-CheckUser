@@ -52,7 +52,8 @@ const {
 	cdxIconEdit,
 	cdxIconArticles,
 	cdxIconHeart,
-	cdxIconSearch
+	cdxIconSearch,
+	cdxIconNotice
 } = require( './icons.json' );
 const InfoRowWithLinks = require( './InfoRowWithLinks.vue' );
 const UserActivityChart = require( './UserActivityChart.vue' );
@@ -148,9 +149,9 @@ module.exports = exports = {
 			( wikiId ) => ( { wikiId, url: props.activeWikis[ wikiId ] } )
 		) );
 
-		const activeBlocksLink = mw.Title.makeTitle( -1, 'BlockList' ).getUrl(
-			{ wpTarget: props.username, limit: 50, wpFormIdentifier: 'blocklist' }
-		);
+		const activeBlocksLink = mw.Title.makeTitle(
+			-1, `CentralAuth/${ props.username }`
+		).getUrl();
 		const pastBlocksLink = mw.Title.makeTitle( -1, 'Log/block' ).getUrl(
 			{ page: props.username }
 		);
@@ -185,17 +186,28 @@ module.exports = exports = {
 			const rows = [];
 
 			if ( canBlock ) {
+				// Active blocks row
 				rows.push( {
-					icon: cdxIconAlert,
-					iconClass: 'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks',
-					mainLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-main-label' ),
-					mainValue: props.activeBlocks,
+					icon: props.activeBlocks > 0 ? cdxIconAlert : cdxIconNotice,
+					iconClass: props.activeBlocks > 0 ?
+						'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks' :
+						'ext-checkuser-userinfocard-icon',
+					mainLabel: mw.msg( 'checkuser-userinfocard-active-blocks-from-all-wikis-main-label' ),
+					mainValue: mw.language.convertNumber( props.activeBlocks ),
 					mainLink: activeBlocksLink,
-					mainLinkLogId: 'active_blocks',
-					suffixLabel: mw.msg( 'checkuser-userinfocard-active-blocks-row-suffix-label' ),
-					suffixValue: props.pastBlocks,
-					suffixLink: pastBlocksLink,
-					suffixLinkLogId: 'past_blocks'
+					mainLinkLogId: 'active_blocks'
+				} );
+
+				// Past blocks row
+				rows.push( {
+					icon: props.pastBlocks > 0 ? cdxIconAlert : cdxIconNotice,
+					iconClass: props.pastBlocks > 0 ?
+						'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks' :
+						'ext-checkuser-userinfocard-icon',
+					mainLabel: mw.msg( 'checkuser-userinfocard-past-blocks-main-label' ),
+					mainValue: mw.language.convertNumber( props.pastBlocks ),
+					mainLink: pastBlocksLink,
+					mainLinkLogId: 'past_blocks'
 				} );
 			}
 
