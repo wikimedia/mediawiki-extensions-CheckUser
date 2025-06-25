@@ -16,15 +16,15 @@ class CheckUserPage extends Page {
 	}
 
 	get getIPsCheckTypeRadio() {
-		return $( '#checkuserradios input[value="subuserips"]' );
+		return $( '#checkuserradios input[type="radio"][value="subuserips"]' );
 	}
 
 	get getActionsCheckTypeRadio() {
-		return $( '#checkuserradios input[value="subactions"]' );
+		return $( '#checkuserradios input[type="radio"][value="subactions"]' );
 	}
 
 	get getUsersCheckTypeRadio() {
-		return $( '#checkuserradios input[value="subipusers"]' );
+		return $( '#checkuserradios input[type="radio"][value="subipusers"]' );
 	}
 
 	get durationSelector() {
