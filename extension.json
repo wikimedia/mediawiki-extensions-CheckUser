@@ -510,6 +510,9 @@
 				"CheckUserPermissionManager"
 			]
 		},
+		"SpecialLogResolveIPRevealLogType": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialLogResolveIPRevealLogTypeHandler"
+		},
 		"AbuseFilterHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\AbuseFilterHandler",
 			"services": [
@@ -567,6 +570,7 @@
 		"SaveUserOptions": "preferences",
 		"SidebarBeforeOutput": "SidebarLinksHandler",
 		"SpecialContributionsBeforeMainOutput": "ToolLinks",
+		"SpecialLogResolveLogType": "SpecialLogResolveIPRevealLogType",
 		"SpecialPageBeforeExecute": [
 			"clienthints",
 			"SpecialPageBeforeExecute"
