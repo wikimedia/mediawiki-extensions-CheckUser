@@ -224,7 +224,7 @@ module.exports = exports = {
 }
 
 .ext-checkuser-CSparkline {
-	padding: @spacing-0 @spacing-50;
+	padding: @spacing-0 @spacing-25 @spacing-0 @spacing-12;
 	overflow: visible;
 
 	&__line {
