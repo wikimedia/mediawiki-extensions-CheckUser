@@ -379,7 +379,7 @@
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Fjern brugerside fra overvågningsliste",
 	"checkuser-userinfocard-menu-check-ip": "Tjek brugernes IP-adresser",
 	"checkuser-userinfocard-menu-block-user": "Bloker bruger",
-	"checkuser-userinfocard-menu-provide-feedback": "Giv tilbagemelding",
+	"checkuser-userinfocard-menu-provide-feedback": "Giv tilbagemelding om denne funktion",
 	"checkuser-userinfocard-menu-turn-off": "Slå denne funktion fra",
 	"checkuser-userinfocard-loading-label": "Indlæser brugeroplysninger",
 	"checkuser-userinfocard-error-title": "Der opstod en fejl",
