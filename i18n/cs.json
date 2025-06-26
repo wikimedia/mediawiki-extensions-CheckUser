@@ -9,7 +9,8 @@
 			"Martin Urbanec",
 			"Matěj Suchánek",
 			"Mormegil",
-			"Nesuprachy"
+			"Nesuprachy",
+			"Martin Urbanec (WMF)"
 		]
 	},
 	"checkuser-summary": "Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.\nUživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno IPv4 (CIDR $1–32) a IPv6 (CIDR $2-128).\nZ výkonnostních důvodů lze zobrazit maximálně $3 editací. Používejte tento nástroj v souladu s pravidly.",
@@ -29,6 +30,7 @@
 	"right-checkuser-temporary-account-no-preference": "Zobrazování IP adres používaných dočasnými účty bez nutnosti povolit přístup v nastavení",
 	"right-checkuser-temporary-account-log": "Prohlížení protokolu přístupů k IP adresám dočasných účtů",
 	"grant-checkuser": "Přístup k údajům kontroly uživatele",
+	"grant-checkuser-temporary-account": "Zobrazit revizorské údaje k dočasným účtům",
 	"action-checkuser": "kontrolovat uživatelovy IP adresy a další údaje",
 	"action-checkuser-log": "prohlížet protokolovací záznamy revize uživatelů",
 	"action-checkuser-temporary-account": "zobrazit IP adresy používané dočasnými účty",
@@ -100,6 +102,7 @@
 	"checkuser-block-noreason": "Musíte zadat důvod blokování",
 	"checkuser-block-reason-dropdown": "* Běžné důvody blokování\n** Zneužívání více účtů\n** Spamování odkazů na externí stránky\n** Vandalismus",
 	"checkuser-centralauth-multilock": "Hromadně zamknout vybrané účty",
+	"checkuser-centralauth-multilock-list-item": "Odkaz $1",
 	"checkuser-noreason": "K tomuto dotazu musíte uvést důvod.",
 	"checkuser-target-nonexistent": "Zadaný cíl neexistuje.",
 	"checkuser-initiator-nonexistent": "Zadaný kontrolující neexistuje.",

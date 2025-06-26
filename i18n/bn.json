@@ -211,6 +211,7 @@
 	"checkuser-investigate-tour-block-title": "বাধা দিতে চান?",
 	"prefs-checkuser-tempaccount": "অস্থায়ী অ্যাকাউন্টের আইপি প্রকাশ",
 	"checkuser-tempaccount-enable-preference": "অস্থায়ী অ্যাকাউন্টের জন্য আইপি ঠিকানা প্রকাশ করা সক্রিয় করুন",
+	"checkuser-tempaccount-no-ip-results": "গত $1 {{PLURAL:$1|দিনে}} এই অস্থায়ী ব্যবহারকারীর জন্য কোনো আইপি তথ্য পাওয়া যায়নি",
 	"checkuser-tempaccount-reveal-ip-button-label": "আইপি দেখান",
 	"checkuser-tempaccount-reveal-ip-missing": "অনুপলব্ধ",
 	"checkuser-tempaccount-reveal-ip-error": "ত্রুটি",

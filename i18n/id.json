@@ -28,7 +28,7 @@
 	"checkuser-summary": "Peralatan ini memindai perubahan terbaru untuk mengetahui IP seorang pengguna atau menampilkan data suntingan/pengguna untuk suatu IP.\nPengguna dan suntingan suatu IP dapat diketahui melalui kepala XFF dengan menambahkan \"/xff\" pada IP tersebut. Alat ini mendukung baik IPv4 (CIDR $1-32) maupun IPv6 (CIDR $2-128).\nKarena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil.\nHarap gunakan peralatan ini sesuai dengan kebijakan yang ada.",
 	"checkuser-desc": "Memberikan fasilitas bagi pengguna yang memiliki hak akses untuk memeriksa alamat IP dan informasi lain dari pengguna",
 	"checkuser": "Pemeriksaan pengguna",
-	"checkuserlog": "Catatan pemeriksaan pengguna",
+	"checkuserlog": "Log pemeriksaan pengguna",
 	"checkuser-contribs": "periksa IP pengguna",
 	"checkuser-contribs-log": "pemeriksaan pengguna terbaru",
 	"group-checkuser": "Pemeriksa",

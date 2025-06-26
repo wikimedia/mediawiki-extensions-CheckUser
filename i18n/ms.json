@@ -85,6 +85,7 @@
 	"checkuser-investigate-compare-copy-button-label": "Tunjuk wikiteks",
 	"checkuser-investigate-compare-table-button-checks-label": "Jumlah pemeriksaan",
 	"prefs-checkuser-tempaccount": "Pendedahan IP akaun sementara",
+	"checkuser-tempaccount-enable-preference": "Dayakan pendedahan alamat IP untuk akaun sementara",
 	"checkuser-tempaccount-reveal-ip-button-label": "Tunjukkan IP",
 	"checkuser-tempaccount-reveal-ip-missing": "tidak ada"
 }
