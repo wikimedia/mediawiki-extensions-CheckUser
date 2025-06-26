@@ -303,11 +303,15 @@ module.exports = exports = {
 
 .ext-checkuser-userinfocard-icon {
 	margin-right: @spacing-25;
-	color: var(--color-subtle);
-}
 
-.ext-checkuser-userinfocard-icon.ext-checkuser-userinfocard-icon-blocks {
-	color: var(--color-icon-warning);
+	// this should be deep enough so `.cdx-icon` alone doesn't overwrite this style
+	&.cdx-icon {
+		color: var(--color-subtle);
+
+		&.ext-checkuser-userinfocard-icon-blocks {
+			color: var(--color-icon-warning);
+		}
+	}
 }
 
 p.ext-checkuser-userinfocard-active-wikis {
