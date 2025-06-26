@@ -122,7 +122,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $user->getName(), $userInfo['name'] );
 		$this->assertArrayHasKey( 'localRegistration', $userInfo );
 		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
-		$this->assertSame( 'Groups: Bureaucrats, Administrators', $userInfo['groups'] );
+		$this->assertSame( '<strong>Groups</strong>: Bureaucrats, Administrators', $userInfo['groups'] );
 		$this->assertSame(
 			[
 				'dewiki' => 'https://de.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),

@@ -17,16 +17,20 @@
 			:suffix-link="row.suffixLink"
 			:suffix-link-log-id="row.suffixLinkLogId"
 		></info-row-with-links>
+		<!-- v-html fetched directly from the server -->
+		<!-- eslint-disable vue/no-v-html -->
 		<p
 			v-if="groups && groups.length > 0"
-			class="ext-checkuser-userinfocard-groups">
-			{{ groups }}
+			class="ext-checkuser-userinfocard-groups"
+			v-html="formattedGroups"
+		>
 		</p>
+		<!-- eslint-enable vue/no-v-html -->
 		<p
 			v-if="activeWikisList && activeWikisList.length > 0"
 			class="ext-checkuser-userinfocard-active-wikis"
 		>
-			{{ activeWikisLabel }}:
+			<strong>{{ activeWikisLabel }}</strong>:
 			<template v-for="( wiki, idx ) in activeWikisList" :key="idx">
 				<a
 					:href="wiki.url"
@@ -143,6 +147,8 @@ module.exports = exports = {
 	setup( props ) {
 		const logEvent = useInstrument();
 		const joinedLabel = mw.msg( 'checkuser-userinfocard-joined-label' );
+
+		const formattedGroups = computed( () => props.groups );
 
 		const activeWikisLabel = mw.msg( 'checkuser-userinfocard-active-wikis-label' );
 		const activeWikisList = computed( () => Object.keys( props.activeWikis ).map(
@@ -279,6 +285,7 @@ module.exports = exports = {
 
 		return {
 			joinedLabel,
+			formattedGroups,
 			activeWikisLabel,
 			activeWikisList,
 			infoRows,
