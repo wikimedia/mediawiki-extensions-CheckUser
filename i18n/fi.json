@@ -146,7 +146,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Seuraava",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Sulje",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Mikä on tilapäinen tunnus?",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "Kun rekisteröitymätön käyttäjä julkaisee muokkauksen tässä wikissä, hänelle luodaan [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts tilapäinen tunnus].\n\nTälle tunnukselle annetaan käyttäjänimi automaattisesti. Käyttäjän selaimeen asetetaan eväste tunnuksen luomisen yhteydessä. Kaikki tulevat muokkaukset kirjataan tämän käyttäjänimen nimiin, vaikka tilapäisen käyttäjän IP-osoite muutuisikin. Vain valtuutetut yhteisön jäsenet voivat tarkastella tilapäisten tunnusten käyttämiä IP-osoitteita.",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "Kun rekisteröitymätön käyttäjä julkaisee muokkauksen tässä wikissä, hänelle luodaan [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts tilapäinen tunnus].\n\nTilapäiselle tunnukselle annetaan käyttäjänimi automaattisesti. Käyttäjän selaimeen asetetaan eväste tunnuksen luomisen yhteydessä. Kaikki tulevat muokkaukset kirjataan tämän käyttäjänimen nimiin, vaikka tilapäisen käyttäjän IP-osoite muutuisikin. Vain valtuutetut yhteisön jäsenet voivat tarkastella tilapäisten tunnusten käyttämiä IP-osoitteita.",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "Kuva, jossa näkyy tilapäisen tunnuksen kuvake.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "IP-tietojen tarkastelu",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info IP-tietotyökalu] helpottaa ylläpitäjien, vandalismin torjujien ja kokeneiden käyttäjien pääsyä IP-osoitteiden taustatietoihin näkemättä itse IP-osoitteita.\n\nKäyttäjät, jotka täyttävät pääsyehdot voivat ottaa IP-tiedot käyttöön asetuksissaan. Kun ominaisuus on otettu käyttöön, IP-tiedot-ponnahdusikkuna näytetään tilapäisten tunnusten ja vanhojen IP-osoitteiden vieressä. IP-tiedot näytetään myös Muokkaukset-sivulla.",
@@ -332,8 +332,8 @@
 	"checkuser-userinfocard-open-menu-aria-label": "Avaa käyttäjätietokortin valikko",
 	"checkuser-userinfocard-joined-label": "Liittyi",
 	"checkuser-userinfocard-active-wikis-label": "Aktiiviset wikit",
-	"checkuser-userinfocard-active-blocks-row-main-label": "Voimassa olevia estoja",
-	"checkuser-userinfocard-active-blocks-row-suffix-label": "vanhoja estoja",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Aktiiviset estot kaikissa wikeissä",
+	"checkuser-userinfocard-past-blocks-main-label": "Vanhoja estoja",
 	"checkuser-userinfocard-global-edits-row-main-label": "Järjestelmänlaajuisia muokkauksia",
 	"checkuser-userinfocard-local-edits-row-main-label": "Paikallisia muokkauksia",
 	"checkuser-userinfocard-local-edits-row-suffix-label": "palautettu",
@@ -362,5 +362,6 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "Tästä IP-osoitteesta tehtyjen muokkausten määrä kaikissa wikeissä.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 järjestelmänlaajuinen muokkaus|$1 järjestelmänlaajuista muokkausta|0=Ei järjestelmänlaajuisia muokkauksia}}",
 	"tooltip-t-global-contributions": "Luettelo {{GENDER:$1|tämän käyttäjän}} muokkauksista kaikissa wikeissä",
-	"checkuser-userinfocard-groups": "Ryhmät: $1"
+	"checkuser-userinfocard-groups": "Ryhmät: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 muokkaus|$2 muokkausta|0=Ei muokkauksia}})"
 }

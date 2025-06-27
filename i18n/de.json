@@ -369,8 +369,8 @@
 	"checkuser-userinfocard-open-menu-aria-label": "Menü der Benutzerinfokarte öffnen",
 	"checkuser-userinfocard-joined-label": "Beigetreten",
 	"checkuser-userinfocard-active-wikis-label": "Aktive Wikis",
-	"checkuser-userinfocard-active-blocks-row-main-label": "Aktive Sperren",
-	"checkuser-userinfocard-active-blocks-row-suffix-label": "vergangene Sperren",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Aktive Sperren aus allen Wikis",
+	"checkuser-userinfocard-past-blocks-main-label": "Vergangene Sperren",
 	"checkuser-userinfocard-global-edits-row-main-label": "Globale Bearbeitungen",
 	"checkuser-userinfocard-local-edits-row-main-label": "Lokale Bearbeitungen",
 	"checkuser-userinfocard-local-edits-row-suffix-label": "rückgängig gemacht",
@@ -398,5 +398,6 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "Die Anzahl der Wiki-übergreifenden Bearbeitungen, die von dieser IP-Adresse aus vorgenommen wurden.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globale Bearbeitung|$1 globale Bearbeitungen|0=Keine globale Bearbeitung}}",
 	"tooltip-t-global-contributions": "Eine Liste der Beiträge in allen Wikis von {{GENDER:$1|diesem Benutzer|dieser Benutzerin}}",
-	"checkuser-userinfocard-groups": "Gruppen: $1"
+	"checkuser-userinfocard-groups": "Gruppen: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Bearbeitung|$2Bearbeitungen|0=Keine Bearbeitungen}})"
 }

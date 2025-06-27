@@ -67,6 +67,5 @@
 	"checkuser-tempaccount-reveal-ip-missing": "دستیاب کائنی",
 	"checkuser-tempaccount-reveal-ip-error": "خرابی",
 	"log-action-filter-checkuser-temporary-account": "عمل دی قسم:",
-	"checkuser-userinfocard-close-button-aria-label": "بند کرو",
-	"checkuser-userinfocard-active-blocks-row-main-label": "فعال بلاک"
+	"checkuser-userinfocard-close-button-aria-label": "بند کرو"
 }

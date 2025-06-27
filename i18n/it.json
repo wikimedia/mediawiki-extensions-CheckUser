@@ -234,8 +234,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|ha visualizzato}} variabili protette associate a $3",
 	"checkuser-userinfocard-close-button-aria-label": "Chiudi",
 	"checkuser-userinfocard-active-wikis-label": "Wiki attivi",
-	"checkuser-userinfocard-active-blocks-row-main-label": "Blocchi attivi",
-	"checkuser-userinfocard-active-blocks-row-suffix-label": "blocchi passati",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Blocchi attivi da tutti i wiki",
+	"checkuser-userinfocard-past-blocks-main-label": "Blocchi passati",
 	"checkuser-userinfocard-global-edits-row-main-label": "Modifiche globali",
 	"checkuser-userinfocard-local-edits-row-main-label": "Modifiche locali",
 	"checkuser-userinfocard-local-edits-row-suffix-label": "annullato",
@@ -254,5 +254,6 @@
 	"checkuser-ipinfo-global-contributions-label": "Contributi globali",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modifica globale|$1 modifiche globali|0=Nessuna modifica globale}}",
 	"tooltip-t-global-contributions": "Un elenco dei contributi di {{GENDER:$1|questo utente}} in tutti i wiki",
-	"checkuser-userinfocard-groups": "Gruppi: $1"
+	"checkuser-userinfocard-groups": "Gruppi: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modifica|$2 modifiche|0=Nessuna modifica}})"
 }
