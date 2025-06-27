@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\HookHandler;
 use IContextSource;
 use MediaWiki\Config\Config;
 use MediaWiki\Html\Html;
-use Mediawiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
+use MediaWiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserNameUtils;
 use MediaWiki\User\UserOptionsLookup;
