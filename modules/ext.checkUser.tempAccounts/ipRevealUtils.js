@@ -89,7 +89,6 @@ function getAutoRevealStatus() {
 			if ( isExpiryValid( expiry ) ) {
 				deferred.resolve( expiry );
 			} else {
-				// The expiry time has passed, so remove the row from the database table
 				setAutoRevealStatus().then(
 					() => deferred.resolve( false ),
 					() => deferred.resolve( false )
