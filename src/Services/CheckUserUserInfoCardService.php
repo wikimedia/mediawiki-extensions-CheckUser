@@ -86,14 +86,14 @@ class CheckUserUserInfoCardService {
 	}
 
 	/**
-	 * Check if the user's page exists
+	 * Check if the user's local or global page is known
 	 *
 	 * @param UserIdentity $user
 	 * @return bool
 	 */
-	private function userPageExists( UserIdentity $user ): bool {
-		$userPageTitle = $this->titleFactory->newFromText( $user->getName(), NS_USER );
-		return $userPageTitle && $userPageTitle->exists();
+	private function userPageIsKnown( UserIdentity $user ): bool {
+		$userPageTitle = $this->titleFactory->makeTitle( NS_USER, $user->getName() );
+		return $userPageTitle->isKnown();
 	}
 
 	/**
@@ -142,7 +142,7 @@ class CheckUserUserInfoCardService {
 		$userInfo['name'] = $user->getName();
 		$userInfo['localRegistration'] = $this->userRegistrationLookup->getRegistration( $user );
 		$userInfo['firstRegistration'] = $this->userRegistrationLookup->getFirstRegistration( $user );
-		$userInfo['userPageExists'] = $this->userPageExists( $user );
+		$userInfo['userPageIsKnown'] = $this->userPageIsKnown( $user );
 
 		$groups = $this->userGroupManager->getUserGroups( $user );
 		$groupMessages = [];

@@ -22,7 +22,7 @@ function mountComponent( props = {} ) {
 			userId: '123',
 			username: 'TestUser',
 			userPageUrl: '/wiki/User:TestUser',
-			userPageExists: true,
+			userPageIsKnown: true,
 			userPageWatched: false,
 			...props
 		}
@@ -44,8 +44,8 @@ QUnit.test( 'renders correctly with all required props', ( assert ) => {
 	);
 } );
 
-QUnit.test( 'applies the correct class to username link when userPageExists is true', ( assert ) => {
-	// Test with userPageExists = true
+QUnit.test( 'applies the correct class to username link when userPageIsKnown is true', ( assert ) => {
+	// Test with userPageIsKnown = true
 	const wrapperExists = mountComponent();
 
 	const userLinkExists = wrapperExists.find( '.ext-checkuser-userinfocard-header-username a' );
@@ -59,9 +59,9 @@ QUnit.test( 'applies the correct class to username link when userPageExists is t
 	);
 } );
 
-QUnit.test( 'applies the correct class to username link when userPageExists is false', ( assert ) => {
-	// Test with userPageExists = false
-	const wrapperNotExists = mountComponent( { userPageExists: false } );
+QUnit.test( 'applies the correct class to username link when userPageIsKnown is false', ( assert ) => {
+	// Test with userPageIsKnown = false
+	const wrapperNotExists = mountComponent( { userPageIsKnown: false } );
 
 	const userLinkNotExists = wrapperNotExists.find(
 		'.ext-checkuser-userinfocard-header-username a'

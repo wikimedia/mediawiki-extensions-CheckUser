@@ -18,7 +18,7 @@ const mockComponents = {
 	UserCardHeader: {
 		name: 'UserCardHeader',
 		template: '<div class="mock-header">{{ username }}</div>',
-		props: [ 'username', 'userPageUrl', 'userPageExists', 'userId', 'userPageWatched' ],
+		props: [ 'username', 'userPageUrl', 'userPageIsKnown', 'userId', 'userPageWatched' ],
 		emits: [ 'close' ]
 	},
 	UserCardBody: {
@@ -40,7 +40,7 @@ const sampleUserData = {
 	globalEditCount: 1000,
 	thanksReceived: 30,
 	thanksGiven: 15,
-	userPageExists: true,
+	userPageIsKnown: true,
 	userPageWatched: true,
 	editCountByDay: [
 		{ date: '20250101', count: 5 },

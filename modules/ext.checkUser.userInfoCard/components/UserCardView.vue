@@ -5,7 +5,7 @@
 			v-if="!loading && !error"
 			:username="userCard.username"
 			:user-page-url="userCard.userPageUrl"
-			:user-page-exists="userCard.userPageExists"
+			:user-page-is-known="userCard.userPageIsKnown"
 			:user-page-watched="userCard.userPageWatched"
 			@close="$emit( 'close' )"
 		></user-card-header>
@@ -85,7 +85,7 @@ module.exports = exports = {
 		const error = ref( null );
 		const userCard = reactive( {
 			userPageUrl: '',
-			userPageExists: false,
+			userPageIsKnown: false,
 			username: '',
 			joinedDate: '',
 			joinedRelativeTime: '',
@@ -132,7 +132,7 @@ module.exports = exports = {
 						globalEditCount,
 						thanksReceived,
 						thanksGiven,
-						userPageExists,
+						userPageIsKnown,
 						newArticlesCount,
 						totalEditCount,
 						activeLocalBlocksAllWikis,
@@ -152,7 +152,7 @@ module.exports = exports = {
 
 					// Update reactive state
 					userCard.userPageUrl = userPageUrl;
-					userCard.userPageExists = !!userPageExists;
+					userCard.userPageIsKnown = !!userPageIsKnown;
 					userCard.username = name;
 
 					// Parse and format firstRegistration date

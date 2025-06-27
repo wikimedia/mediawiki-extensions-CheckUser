@@ -7,7 +7,7 @@
 					<a
 						ref="headerLinkRef"
 						:href="userPageUrl"
-						:class="[ userPageExists ? 'mw-userlink' : 'new' ]"
+						:class="[ userPageIsKnown ? 'mw-userlink' : 'new' ]"
 						@click="onUsernameClick"
 					>{{ username }}</a>
 				</div>
@@ -53,7 +53,7 @@ module.exports = exports = {
 			type: String,
 			required: true
 		},
-		userPageExists: {
+		userPageIsKnown: {
 			type: Boolean,
 			required: true
 		},

@@ -6,6 +6,7 @@ use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 
@@ -320,18 +321,45 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayNotHasKey( 'canAccessTemporaryAccountIPAddresses', $result );
 	}
 
-	public function testUserPageExists() {
+	/**
+	 * @dataProvider provideUserPageIsKnown
+	 */
+	public function testUserPageIsKnown(
+		bool $PageIsKnown,
+		bool $knownViaHook,
+		bool $expected
+	) {
 		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 		$user = $this->getTestUser()->getUser();
+
+		// Simulate the case where a page does not exist but has meaningful content due to an extension
+		// (T396304).
+		if ( $knownViaHook ) {
+			$this->setTemporaryHook(
+				'TitleIsAlwaysKnown',
+				static fn ( Title $title, ?bool &$isKnown ) => $isKnown = $title->equals( $user->getUserPage() ),
+			);
+		}
+
+		if ( $PageIsKnown ) {
+			$this->getExistingTestPage( $user->getUserPage() );
+		} else {
+			$this->getNonexistingTestPage( $user->getUserPage() );
+		}
 
 		$userInfo = $this->getObjectUnderTest()->getUserInfo(
 			$this->getTestUser()->getAuthority(),
 			$user
 		);
 
-		$this->assertArrayHasKey( 'userPageExists', $userInfo );
-		$this->assertIsBool( $userInfo['userPageExists'] );
-		$this->assertFalse( $userInfo['userPageExists'] );
+		$this->assertArrayHasKey( 'userPageIsKnown', $userInfo );
+		$this->assertSame( $expected, $userInfo['userPageIsKnown'] );
+	}
+
+	public static function provideUserPageIsKnown(): iterable {
+		yield 'nonexistent page' => [ false, false, false ];
+		yield 'existing page' => [ true, false, true ];
+		yield 'page known via hook' => [ false, true, true ];
 	}
 }
