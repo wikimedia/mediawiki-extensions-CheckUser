@@ -429,7 +429,7 @@ return [
 			$services->getExtensionRegistry(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserCentralIndexLookup' ),
+			$services->get( 'CheckUserGlobalContributionsPagerFactory' ),
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),

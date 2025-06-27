@@ -35,6 +35,8 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 
 		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+		// The GlobalContributionsPager used in CheckuserUserInfoCardService requires CentralAuth
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 	}
 
 	private function getObjectUnderTest(): UserInfoHandler {

@@ -3,6 +3,8 @@
 namespace MediaWiki\CheckUser\Services;
 
 use GrowthExperiments\UserImpact\UserImpactLookup;
+use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Interwiki\InterwikiLookup;
@@ -30,7 +32,7 @@ class CheckUserUserInfoCardService {
 	private ExtensionRegistry $extensionRegistry;
 	private UserRegistrationLookup $userRegistrationLookup;
 	private UserGroupManager $userGroupManager;
-	private CheckUserCentralIndexLookup $checkUserCentralIndexLookup;
+	private GlobalContributionsPagerFactory $globalContributionsPagerFactory;
 	private IConnectionProvider $dbProvider;
 	private CheckUserPermissionManager $checkUserPermissionManager;
 	private UserFactory $userFactory;
@@ -45,7 +47,7 @@ class CheckUserUserInfoCardService {
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param UserRegistrationLookup $userRegistrationLookup
 	 * @param UserGroupManager $userGroupManager
-	 * @param CheckUserCentralIndexLookup $checkUserCentralIndexLookup
+	 * @param GlobalContributionsPagerFactory $globalContributionsPagerFactory
 	 * @param IConnectionProvider $dbProvider
 	 * @param StatsFactory $statsFactory
 	 * @param CheckUserPermissionManager $checkUserPermissionManager
@@ -60,7 +62,7 @@ class CheckUserUserInfoCardService {
 		ExtensionRegistry $extensionRegistry,
 		UserRegistrationLookup $userRegistrationLookup,
 		UserGroupManager $userGroupManager,
-		CheckUserCentralIndexLookup $checkUserCentralIndexLookup,
+		GlobalContributionsPagerFactory $globalContributionsPagerFactory,
 		IConnectionProvider $dbProvider,
 		StatsFactory $statsFactory,
 		CheckUserPermissionManager $checkUserPermissionManager,
@@ -74,7 +76,7 @@ class CheckUserUserInfoCardService {
 		$this->extensionRegistry = $extensionRegistry;
 		$this->userRegistrationLookup = $userRegistrationLookup;
 		$this->userGroupManager = $userGroupManager;
-		$this->checkUserCentralIndexLookup = $checkUserCentralIndexLookup;
+		$this->globalContributionsPagerFactory = $globalContributionsPagerFactory;
 		$this->dbProvider = $dbProvider;
 		$this->checkUserPermissionManager = $checkUserPermissionManager;
 		$this->userFactory = $userFactory;
@@ -166,8 +168,25 @@ class CheckUserUserInfoCardService {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
 			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
 		}
-		$activeWikiIds = $this->checkUserCentralIndexLookup->getActiveWikisForUser( $user );
+
+		// Fetch the list of active wikis for a user by looking at permissions-gated
+		// global contributions. Note that this means that a user can perform publicly
+		// logged actions on other wikis but this will not appear in the "active wikis"
+		// list. When T397710 is done, we would be able to also fetch active wikis
+		// by looking at log entries as well. For now, making this edit based is fine.
+		$globalContributionsPager = $this->globalContributionsPagerFactory->createPager(
+			RequestContext::getMain(),
+			[],
+			$user
+		);
+		$globalContributionsPager->doQuery();
+		$activeWikiIds = [];
+		foreach ( $globalContributionsPager->getResult() as $result ) {
+			$activeWikiIds[$result->sourcewiki] = true;
+		}
 		$userInfo['activeWikis'] = [];
+		$activeWikiIds = array_keys( $activeWikiIds );
+		sort( $activeWikiIds );
 		foreach ( $activeWikiIds as $wikiId ) {
 			$interWiki = $this->interwikiLookup->fetch(
 				rtrim( $wikiId, 'wiki' )
@@ -179,8 +198,6 @@ class CheckUserUserInfoCardService {
 				'Special:Contributions/' . str_replace( ' ', '_', $user->getName() )
 			);
 		}
-		// FIXME: Temporary removed due to T397088
-		$userInfo['activeWikis'] = [];
 
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		if ( $authority->isAllowed( 'checkuser-log' ) ) {
