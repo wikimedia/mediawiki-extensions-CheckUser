@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Unit\GlobalContributions;
 use InvalidArgumentException;
 use LogicException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\Config;
@@ -14,11 +15,13 @@ use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWikiUnitTestCase;
+use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
+use Wikimedia\Stats\StatsFactory;
 
 /**
  * @covers \MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup
@@ -40,7 +43,10 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 			$overrides['centralIdLookup'] ?? $this->createMock( CentralIdLookup::class ),
 			$overrides['checkUserLookupUtils'] ?? $this->createMock( CheckUserLookupUtils::class ),
 			$overrides['config'] ?? $this->createMock( Config::class ),
-			$overrides['revisionStore'] ?? $this->createMock( RevisionStore::class )
+			$overrides['revisionStore'] ?? $this->createMock( RevisionStore::class ),
+			$overrides['apiRequestAggregator'] ?? $this->createMock( CheckUserApiRequestAggregator::class ),
+			$overrides['wanCache'] ?? $this->createMock( WANObjectCache::class ),
+			$overrides['statsFactory'] ?? $this->createMock( StatsFactory::class )
 		);
 	}
 

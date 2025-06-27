@@ -197,15 +197,12 @@ return [
 			$services->getMainConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getCentralIdLookup(),
-			$services->get( 'CheckUserApiRequestAggregator' ),
 			$services->get( 'CheckUserGlobalContributionsLookup' ),
 			$services->getPermissionManager(),
 			$preferencesFactory,
 			$services->getDBLoadBalancerFactory(),
 			$services->getJobQueueGroup(),
-			$services->getStatsFactory(),
-			$services->getUserLinkRenderer(),
-			$services->getMainWANObjectCache()
+			$services->getUserLinkRenderer()
 		);
 	},
 	'CheckUserApiRequestAggregator' => static function (
@@ -229,7 +226,10 @@ return [
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getMainConfig(),
-			$services->getRevisionStore()
+			$services->getRevisionStore(),
+			$services->get( 'CheckUserApiRequestAggregator' ),
+			$services->getMainWANObjectCache(),
+			$services->getStatsFactory()
 		);
 	},
 	'CheckUserTemporaryAccountAutoRevealLookup' => static function (
