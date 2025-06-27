@@ -1,10 +1,18 @@
 <template>
+	<!-- Focus trap start -->
+	<div
+		tabindex="0"
+		@focus="restoreFocus"
+	></div>
 	<cdx-popover
+		ref="popoverRef"
 		v-model:open="isOpen"
 		:anchor="currentTrigger"
 		placement="bottom-start"
 		:render-in-place="true"
 		class="ext-checkuser-userinfocard-popover"
+		role="dialog"
+		aria-labelledby="ext-checkuser-userinfocard-button"
 	>
 		<template #header>
 			<!-- Container for teleported header content -->
@@ -22,6 +30,11 @@
 			class="ext-checkuser-userinfocard-body-container"
 		></div>
 	</cdx-popover>
+	<!-- Focus trap end -->
+	<div
+		tabindex="0"
+		@focus="restoreFocus"
+	></div>
 
 	<!--
 		Separate cached component, visually attached to popover.
@@ -41,7 +54,7 @@
 </template>
 
 <script>
-const { ref, computed } = require( 'vue' );
+const { ref, computed, watch } = require( 'vue' );
 const { CdxPopover } = require( '@wikimedia/codex' );
 const { hashUsername } = require( '../util.js' );
 const UserCardView = require( './UserCardView.vue' );
@@ -60,6 +73,8 @@ module.exports = exports = {
 		const username = ref( null );
 		const headerContainer = ref( null );
 		const bodyContainer = ref( null );
+		const popoverRef = ref( null );
+		let previouslyFocused = null;
 
 		// Initialize instrumentation
 		const logEvent = useInstrument();
@@ -93,17 +108,39 @@ module.exports = exports = {
 			() => hashUsername( username.value ) || 'default'
 		);
 
+		watch( isOpen, ( dialogOpen ) => {
+			if ( dialogOpen ) {
+				// Stash the currently focused element so we can restore it later.
+				previouslyFocused = document.activeElement;
+			}
+		} );
+
+		const restoreFocus = () => {
+			// Restore focus to the previously-focused element, if there was one
+			// (and if it still exists in the document).
+			if (
+				previouslyFocused instanceof HTMLElement &&
+				document.contains( previouslyFocused )
+			) {
+				previouslyFocused.focus();
+				previouslyFocused = null;
+				close();
+			}
+		};
+
 		return {
 			isOpen,
 			currentTrigger,
 			username,
 			headerContainer,
 			bodyContainer,
+			popoverRef,
 			open,
 			close,
 			setUserInfo,
 			isPopoverOpen,
-			componentKey
+			componentKey,
+			restoreFocus
 		};
 	},
 	expose: [

@@ -5,6 +5,7 @@
 			<div class="ext-checkuser-userinfocard-header-userinfo">
 				<div class="ext-checkuser-userinfocard-header-username">
 					<a
+						ref="headerLinkRef"
 						:href="userPageUrl"
 						:class="[ userPageExists ? 'mw-userlink' : 'new' ]"
 						@click="onUsernameClick"
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+const { ref, onActivated, onMounted, nextTick } = require( 'vue' );
 const { CdxIcon, CdxButton } = require( '@wikimedia/codex' );
 const UserCardMenu = require( './UserCardMenu.vue' );
 const { cdxIconUserAvatar, cdxIconClose } = require( './icons.json' );
@@ -62,6 +64,7 @@ module.exports = exports = {
 	},
 	emits: [ 'close' ],
 	setup() {
+		const headerLinkRef = ref();
 		const logEvent = useInstrument();
 		const closeAriaLabel = mw.msg( 'checkuser-userinfocard-close-button-aria-label' );
 
@@ -72,11 +75,29 @@ module.exports = exports = {
 			} );
 		}
 
+		function focusOnRef() {
+			// Wait for the DOM to update before focusing
+			nextTick( () => {
+				if ( headerLinkRef.value ) {
+					headerLinkRef.value.focus();
+				}
+			} );
+		}
+
+		onMounted( () => {
+			focusOnRef();
+		} );
+
+		onActivated( () => {
+			focusOnRef();
+		} );
+
 		return {
 			cdxIconUserAvatar,
 			cdxIconClose,
 			closeAriaLabel,
-			onUsernameClick
+			onUsernameClick,
+			headerLinkRef
 		};
 	}
 };
