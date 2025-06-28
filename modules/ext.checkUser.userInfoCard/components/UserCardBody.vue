@@ -312,11 +312,12 @@ module.exports = exports = {
 	margin-right: @spacing-25;
 
 	// this should be deep enough so `.cdx-icon` alone doesn't overwrite this style
+	/* stylelint-disable-next-line selector-class-pattern */
 	&.cdx-icon {
-		color: var(--color-subtle);
+		color: var( --color-subtle );
 
 		&.ext-checkuser-userinfocard-icon-blocks {
-			color: var(--color-icon-warning);
+			color: var( --color-icon-warning );
 		}
 	}
 }

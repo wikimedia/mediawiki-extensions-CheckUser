@@ -120,6 +120,7 @@ module.exports = exports = {
 	flex: 1;
 	min-width: 0;
 
+	/* stylelint-disable-next-line selector-class-pattern */
 	.cdx-icon {
 		height: @size-200;
 	}
