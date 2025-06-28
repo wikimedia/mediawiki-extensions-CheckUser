@@ -19,7 +19,7 @@ module.exports = function ( grunt ) {
 				fix: grunt.option( 'fix' )
 			},
 			all: [
-				'**/*.{css,less}',
+				'**/*.{css,less,vue}',
 				'!vendor/**',
 				'!node_modules/**',
 				'!coverage/**'

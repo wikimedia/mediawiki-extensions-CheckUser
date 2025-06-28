@@ -167,6 +167,7 @@ module.exports = exports = {
 }
 
 // Overwrite cdx-popover__body overflow because of the menu button in the header
+/* stylelint-disable-next-line selector-class-pattern */
 .ext-checkuser-userinfocard-popover .cdx-popover__body {
 	overflow: unset;
 }
