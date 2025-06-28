@@ -1066,8 +1066,8 @@
 	},
 	"TestAutoloadNamespaces": {
 		"MediaWiki\\CheckUser\\Tests\\": "tests/phpunit/",
-		"MediaWiki\\CheckUser\\Tests\\Unit\\": "tests/phpunit/unit",
-		"MediaWiki\\CheckUser\\Tests\\Integration\\": "tests/phpunit/integration"
+		"MediaWiki\\CheckUser\\Tests\\Unit\\": "tests/phpunit/unit/",
+		"MediaWiki\\CheckUser\\Tests\\Integration\\": "tests/phpunit/integration/"
 	},
 	"load_composer_autoloader": true,
 	"DatabaseVirtualDomains": [
