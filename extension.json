@@ -625,7 +625,8 @@
 						"cdxIconArticles",
 						"cdxIconHeart",
 						"cdxIconSearch",
-						"cdxIconNotice"
+						"cdxIconNotice",
+						"cdxIconUserTemporaryLocation"
 					]
 				}
 			],
@@ -659,7 +660,8 @@
 				"checkuser-userinfocard-new-articles-exceeds-max-to-display",
 				"checkuser-userinfocard-groups",
 				"checkuser-userinfocard-global-groups",
-				"checkuser-userinfocard-chart-tooltip-label"
+				"checkuser-userinfocard-chart-tooltip-label",
+				"checkuser-userinfocard-temporary-account-viewer-opted-in"
 			],
 			"dependencies": [
 				"mediawiki.api",

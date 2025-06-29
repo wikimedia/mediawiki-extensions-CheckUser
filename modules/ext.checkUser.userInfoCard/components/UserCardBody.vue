@@ -64,6 +64,7 @@ const {
 	cdxIconArticles,
 	cdxIconHeart,
 	cdxIconSearch,
+	cdxIconUserTemporaryLocation,
 	cdxIconNotice
 } = require( './icons.json' );
 const InfoRowWithLinks = require( './InfoRowWithLinks.vue' );
@@ -126,6 +127,10 @@ module.exports = exports = {
 		lastChecked: {
 			type: String,
 			default: ''
+		},
+		canAccessTemporaryAccountIPAddresses: {
+			type: Boolean,
+			default: false
 		},
 		groups: {
 			type: String,
@@ -194,6 +199,9 @@ module.exports = exports = {
 
 		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
 		const canViewCheckUserLog = mw.config.get( 'wgCheckUserCanViewCheckUserLog' );
+		const canAccessTemporaryAccountIPAddresses = computed(
+			() => props.canAccessTemporaryAccountIPAddresses
+		);
 		const canBlock = mw.config.get( 'wgCheckUserCanBlock' );
 
 		const infoRows = computed( () => {
@@ -291,6 +299,14 @@ module.exports = exports = {
 						mainLinkLogId: 'last_checked'
 					} );
 				}
+			}
+
+			if ( canAccessTemporaryAccountIPAddresses ) {
+				rows.push( {
+					icon: cdxIconUserTemporaryLocation,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					messageKey: 'checkuser-userinfocard-temporary-account-viewer-opted-in'
+				} );
 			}
 			return rows;
 		} );

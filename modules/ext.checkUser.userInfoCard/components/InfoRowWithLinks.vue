@@ -47,6 +47,10 @@ module.exports = exports = {
 		}
 
 		const formattedMessage = computed( () => {
+			// If no main anchor or main value, this is just a label, return early
+			if ( !props.mainLink && !props.mainValue ) {
+				return mw.message( props.messageKey );
+			}
 			// FIXME: Remove jQuery usage for this functionality (T398172)
 			// Create jQuery anchor objects for the links
 			// We could do that in i18n messages, but we need to log the event on click

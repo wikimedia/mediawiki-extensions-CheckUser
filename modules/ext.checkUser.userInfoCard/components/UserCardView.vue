@@ -21,6 +21,7 @@
 		></user-info-card-error>
 
 		<div v-else class="ext-checkuser-userinfocard-view">
+			<!-- eslint-disable max-len -->
 			<user-card-body
 				:username="userCard.username"
 				:joined-date="userCard.joinedDate"
@@ -36,12 +37,14 @@
 				:thanks-received="userCard.thanksReceivedCount"
 				:thanks-sent="userCard.thanksGivenCount"
 				:checks="userCard.checkUserChecks"
+				:can-access-temporary-account-ip-addresses="userCard.canAccessTemporaryAccountIPAddresses"
 				:last-checked="userCard.checkUserLastCheck"
 				:active-wikis="userCard.activeWikis"
 				:recent-local-edits="userCard.recentLocalEdits"
 				:total-local-edits="userCard.totalLocalEdits"
 				:has-edit-in-last-60-days="userCard.hasEditInLast60Days"
 			></user-card-body>
+			<!--eslint-enable-->
 		</div>
 	</teleport>
 </template>
@@ -143,6 +146,7 @@ module.exports = exports = {
 						userPageWatched,
 						checkUserChecks,
 						checkUserLastCheck,
+						canAccessTemporaryAccountIPAddresses,
 						activeWikis,
 						groups,
 						globalGroups
@@ -180,6 +184,7 @@ module.exports = exports = {
 					userCard.activeBlocksCount = activeLocalBlocksAllWikis;
 					userCard.pastBlocksCount = pastBlocksOnLocalWiki;
 					userCard.checkUserChecks = checkUserChecks;
+					userCard.canAccessTemporaryAccountIPAddresses = canAccessTemporaryAccountIPAddresses;
 
 					// Parse and format checkUserLastCheck date
 					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );
