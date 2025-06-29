@@ -29,6 +29,7 @@
 				:past-blocks="userCard.pastBlocksCount"
 				:global-edits="userCard.globalEditCount"
 				:groups="userCard.groups"
+				:global-groups="userCard.globalGroups"
 				:local-edits="userCard.localEditCount"
 				:local-edits-reverted="userCard.localEditRevertedCount"
 				:new-articles="userCard.newArticlesCount"
@@ -101,6 +102,7 @@ module.exports = exports = {
 			checkUserLastCheck: '',
 			activeWikis: {},
 			groups: '',
+			globalGroups: '',
 			userPageWatched: false
 		} );
 
@@ -142,7 +144,8 @@ module.exports = exports = {
 						checkUserChecks,
 						checkUserLastCheck,
 						activeWikis,
-						groups
+						groups,
+						globalGroups
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -186,6 +189,7 @@ module.exports = exports = {
 					userCard.activeWikis = !activeWikis || Array.isArray( activeWikis ) ?
 						{} : activeWikis;
 					userCard.groups = groups;
+					userCard.globalGroups = globalGroups;
 
 					loading.value = false;
 				} )

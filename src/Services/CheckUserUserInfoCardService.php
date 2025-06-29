@@ -145,6 +145,7 @@ class CheckUserUserInfoCardService {
 		$userInfo['userPageIsKnown'] = $this->userPageIsKnown( $user );
 
 		$groups = $this->userGroupManager->getUserGroups( $user );
+		sort( $groups );
 		$groupMessages = [];
 		foreach ( $groups as $group ) {
 			if ( $this->messageLocalizer->msg( "group-$group" )->exists() ) {
@@ -154,6 +155,7 @@ class CheckUserUserInfoCardService {
 		$userInfo['groups'] = '';
 		if ( $groupMessages ) {
 			$userInfo['groups'] = $this->messageLocalizer->msg( 'checkuser-userinfocard-groups' )
+				->useDatabase( true )
 				->params( Message::listParam( $groupMessages, ListType::COMMA ) )
 				->text();
 		}
@@ -165,6 +167,22 @@ class CheckUserUserInfoCardService {
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
 			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
+			$globalGroups = $centralAuthUser->getActiveGlobalGroups();
+			sort( $globalGroups );
+			$globalGroupMessages = [];
+			foreach ( $globalGroups as $group ) {
+				if ( $this->messageLocalizer->msg( "group-$group" )->exists() ) {
+					$globalGroupMessages[] = $this->messageLocalizer->msg( "group-$group" )
+						->text();
+				}
+			}
+			$userInfo['globalGroups'] = '';
+			if ( $globalGroupMessages ) {
+				$userInfo['globalGroups'] = $this->messageLocalizer->msg( 'checkuser-userinfocard-global-groups' )
+					->useDatabase( true )
+					->params( Message::listParam( $globalGroupMessages, ListType::COMMA ) )
+					->text();
+			}
 		}
 		$activeWikiIds = $this->checkUserCentralIndexLookup->getActiveWikisForUser( $user );
 		$userInfo['activeWikis'] = [];

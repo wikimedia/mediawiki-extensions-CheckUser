@@ -221,12 +221,21 @@ QUnit.test( 'does not render blocks row when permission is not granted', ( asser
 } );
 
 QUnit.test( 'renders user groups', ( assert ) => {
-	const wrapper = mountComponent( { groups: 'Administrators, Check users' } );
+	const wrapper = mountComponent( { groups: '<strong>Groups</strong>: Administrators, Check users' } );
 	const groupsParagraph = wrapper.find( '.ext-checkuser-userinfocard-groups' );
 	assert.true( groupsParagraph.exists() );
 
 	const paragraphText = groupsParagraph.text();
 	assert.true( paragraphText.includes( 'Administrators, Check users' ) );
+} );
+
+QUnit.test( 'renders global user groups', ( assert ) => {
+	const wrapper = mountComponent( { globalGroups: '<strong>Global groups</strong>: Stewards' } );
+	const globalGroupsParagraph = wrapper.find( '.ext-checkuser-userinfocard-global-groups' );
+	assert.true( globalGroupsParagraph.exists() );
+
+	const paragraphText = globalGroupsParagraph.text();
+	assert.true( paragraphText.includes( 'Stewards' ) );
 } );
 
 QUnit.test( 'does not render active wikis paragraph when activeWikis is empty', ( assert ) => {

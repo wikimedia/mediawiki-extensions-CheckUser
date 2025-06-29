@@ -17,12 +17,20 @@
 			:suffix-link="row.suffixLink"
 			:suffix-link-log-id="row.suffixLinkLogId"
 		></info-row-with-links>
-		<!-- v-html fetched directly from the server -->
+		<!-- HTML derived from message parsed on server-side -->
 		<!-- eslint-disable vue/no-v-html -->
 		<p
 			v-if="groups && groups.length > 0"
 			class="ext-checkuser-userinfocard-groups"
 			v-html="formattedGroups"
+		>
+		</p>
+		<!-- HTML derived from message parsed on server-side -->
+		<!-- eslint-disable vue/no-v-html -->
+		<p
+			v-if="globalGroups && globalGroups.length > 0"
+			class="ext-checkuser-userinfocard-global-groups"
+			v-html="formattedGlobalGroups"
 		>
 		</p>
 		<!-- eslint-enable vue/no-v-html -->
@@ -124,6 +132,10 @@ module.exports = exports = {
 			type: String,
 			default: ''
 		},
+		globalGroups: {
+			type: String,
+			default: ''
+		},
 		activeWikis: {
 			// Active wikis and their URLs
 			// Expected format: { [wikiId: string]: string }
@@ -149,6 +161,7 @@ module.exports = exports = {
 		const joinedLabel = mw.msg( 'checkuser-userinfocard-joined-label' );
 
 		const formattedGroups = computed( () => props.groups );
+		const formattedGlobalGroups = computed( () => props.globalGroups );
 
 		const activeWikisLabel = mw.msg( 'checkuser-userinfocard-active-wikis-label' );
 		const activeWikisList = computed( () => Object.keys( props.activeWikis ).map(
@@ -286,6 +299,7 @@ module.exports = exports = {
 		return {
 			joinedLabel,
 			formattedGroups,
+			formattedGlobalGroups,
 			activeWikisLabel,
 			activeWikisList,
 			infoRows,
