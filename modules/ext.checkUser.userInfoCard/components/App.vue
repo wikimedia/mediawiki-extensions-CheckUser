@@ -159,16 +159,11 @@ module.exports = exports = {
 	// Don't add max-width here as CdxPopover uses it for controlling the card going
 	// outside the view window
 	width: @size-2400;
+	padding-bottom: @spacing-0;
 }
 
 .ext-checkuser-userinfocard-header-container,
 .ext-checkuser-userinfocard-body-container {
 	display: contents;
-}
-
-// Overwrite cdx-popover__body overflow because of the menu button in the header
-/* stylelint-disable-next-line selector-class-pattern */
-.ext-checkuser-userinfocard-popover .cdx-popover__body {
-	overflow: unset;
 }
 </style>
