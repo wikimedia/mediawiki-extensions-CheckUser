@@ -28,7 +28,8 @@ const mockComponents = {
 			'userId', 'username', 'gender', 'joinedDate', 'joinedRelative', 'globalEdits',
 			'thanksReceived', 'thanksSent', 'activeBlocks', 'pastBlocks',
 			'localEdits', 'localEditsReverted', 'newArticles', 'checks',
-			'lastChecked', 'activeWikis', 'recentLocalEdits', 'totalLocalEdits'
+			'lastChecked', 'activeWikis', 'recentLocalEdits', 'totalLocalEdits',
+			'ipRevealCount', 'hasIpRevealInfo'
 		]
 	}
 };
@@ -73,7 +74,16 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardView', QUnit.newMwEnvironment(
 			getUrl: () => `/wiki/User:${ title }`,
 			getPrefixedText: () => `User:${ title }`
 		} ) );
-		this.sandbox.stub( mw.config, 'get' ).withArgs( 'wgUserLanguage' ).returns( 'en' );
+		this.sandbox.stub( mw.config, 'get' ).callsFake( ( key ) => {
+			switch ( key ) {
+				case 'wgUserLanguage':
+					return 'en';
+				case 'wgNamespaceIds':
+					return {
+						special: -1
+					};
+			}
+		} );
 	},
 	afterEach: function () {
 		this.server.restore();

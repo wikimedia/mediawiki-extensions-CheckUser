@@ -45,6 +45,9 @@
 				:active-wikis="userCard.activeWikis"
 				:recent-local-edits="userCard.recentLocalEdits"
 				:total-local-edits="userCard.totalLocalEdits"
+				:number-of-ip-reveals="userCard.numberOfIpReveals"
+				:ip-reveal-last-check="userCard.ipRevealLastCheck"
+				:has-ip-reveal-info="userCard.hasIpRevealInfo"
 				:has-edit-in-last-60-days="userCard.hasEditInLast60Days"
 				:special-central-auth-url="userCard.specialCentralAuthUrl"
 			></user-card-body>
@@ -113,7 +116,10 @@ module.exports = exports = {
 			globalGroups: '',
 			userPageWatched: false,
 			canAccessTemporaryAccountIpAddresses: false,
-			specialCentralAuthUrl: ''
+			specialCentralAuthUrl: '',
+			numberOfIpReveals: 0,
+			ipRevealLastCheck: '',
+			hasIpRevealInfo: false
 		} );
 
 		// Methods
@@ -158,7 +164,9 @@ module.exports = exports = {
 						activeWikis,
 						groups,
 						globalGroups,
-						specialCentralAuthUrl
+						specialCentralAuthUrl,
+						numberOfIpReveals,
+						ipRevealLastCheck
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -194,14 +202,36 @@ module.exports = exports = {
 					userCard.activeBlocksCount = activeLocalBlocksAllWikis;
 					userCard.pastBlocksCount = pastBlocksOnLocalWiki;
 					userCard.checkUserChecks = checkUserChecks;
-					userCard.canAccessTemporaryAccountIpAddresses = canAccessTemporaryAccountIpAddresses;
 					userCard.specialCentralAuthUrl = specialCentralAuthUrl;
+					userCard.canAccessTemporaryAccountIpAddresses =
+						canAccessTemporaryAccountIpAddresses;
 
 					// Parse and format checkUserLastCheck date
 					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );
 					userCard.checkUserLastCheck = lastCheckDate ?
 						DateFormatter.formatDate( lastCheckDate ) :
 						'';
+
+					// If numberOfIpReveals is present, the user may see IP Reveal info.
+					// Including zero serves to explicitly show "IP Reveals: 0" instead
+					// of hiding the row altogether. OTOH, if the API doesn't provide a
+					// value, numberOfIpReveals is undefined and the row is hidden.
+					const hasIpRevealInfo = ( numberOfIpReveals >= 0 );
+					userCard.hasIpRevealInfo = hasIpRevealInfo;
+
+					if ( hasIpRevealInfo ) {
+						const lastIpRevealCheck = ipRevealLastCheck ?
+							parseMediaWikiTimestamp( ipRevealLastCheck ) :
+							null;
+
+						if ( numberOfIpReveals > 0 && lastIpRevealCheck ) {
+							userCard.ipRevealLastCheck =
+								DateFormatter.formatDate( lastIpRevealCheck );
+						}
+
+						userCard.numberOfIpReveals = numberOfIpReveals;
+					}
+
 					userCard.activeWikis = !activeWikis || Array.isArray( activeWikis ) ?
 						{} : activeWikis;
 					userCard.groups = groups;

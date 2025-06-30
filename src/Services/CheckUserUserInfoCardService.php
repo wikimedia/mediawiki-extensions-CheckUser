@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Services;
 use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\Cache\GenderCache;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
@@ -12,12 +13,14 @@ use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Interwiki\InterwikiLookup;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Logging\LogPage;
 use MediaWiki\Message\Message;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\Registration\UserRegistrationLookup;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
@@ -27,6 +30,7 @@ use Psr\Log\LoggerInterface;
 use Wikimedia\Message\ListType;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Stats\StatsFactory;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * A service for methods that interact with user info card components
@@ -54,6 +58,7 @@ class CheckUserUserInfoCardService {
 		private readonly MessageLocalizer $messageLocalizer,
 		private readonly TitleFactory $titleFactory,
 		private readonly GenderCache $genderCache,
+		private readonly TempUserConfig $tempUserConfig,
 		private readonly ServiceOptions $options,
 		private readonly LoggerInterface $logger
 	) {
@@ -137,6 +142,10 @@ class CheckUserUserInfoCardService {
 
 		if ( !isset( $userInfo['totalEditCount'] ) ) {
 			$userInfo['totalEditCount'] = $this->userEditTracker->getUserEditCount( $user );
+		}
+
+		if ( $this->shouldIncludeIPRevealLogData( $authority, $user ) ) {
+			$userInfo += $this->getIPRevealLogData( $authority, $user );
 		}
 
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
@@ -314,6 +323,100 @@ class CheckUserUserInfoCardService {
 			->observe( ( microtime( true ) - $start ) * 1000 );
 
 		return $userInfo;
+	}
+
+	/**
+	 * Checks if the Info Card should include the IP Reveals count and the
+	 * timestamp of the last check for a given user.
+	 *
+	 * IP Reveal data will be included if the wiki has temporary accounts
+	 * enabled, the target user is a temporary account and the performing
+	 * authority can access temporary account IP Addresses or has the
+	 * 'checkuser-temporary-account-log' permission.
+	 *
+	 * @param Authority $performer The user the Info Card is being shown to.
+	 * @param UserIdentity $target The user the Info Card shows info for.
+	 *
+	 * @return bool True if IP Reveal data should be included, false otherwise.
+	 */
+	private function shouldIncludeIPRevealLogData(
+		Authority $performer,
+		UserIdentity $target
+	): bool {
+		if ( !$this->tempUserConfig->isEnabled() ||
+			 !$this->tempUserConfig->isTempName( $target->getName() ) ) {
+			return false;
+		}
+
+		$status = $this->checkUserPermissionManager
+			->canAccessTemporaryAccountIPAddresses( $performer );
+
+		if ( !$status->isGood() ) {
+			// Users with access to the IP Reveal log can list who accessed the
+			// user's IP and when, so the IP Reveal count is also shown for them.
+			return $performer->isAllowed( 'checkuser-temporary-account-log' );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns the number of times a user had its IP revealed, and the timestamp
+	 * when it was last revealed, ignoring deleted log entries if the user
+	 * performing the action is not allowed to access them.
+	 *
+	 * @param Authority $performer
+	 * @param UserIdentity $userIdentity
+	 * @return array
+	 */
+	private function getIPRevealLogData(
+		Authority $performer,
+		UserIdentity $userIdentity
+	): array {
+		$dbr = $this->dbProvider->getReplicaDatabase();
+		$conditions = [
+			'log_type' => TemporaryAccountLogger::LOG_TYPE,
+			'log_action' => TemporaryAccountLogger::ACTION_VIEW_IPS,
+			'log_namespace' => NS_USER,
+			'log_title' => $this->getUserTitleKey( $userIdentity ),
+		];
+
+		if ( !$performer->isAllowed( 'deletedhistory' ) ) {
+			$hiddenBits = LogPage::DELETED_ACTION;
+		} elseif ( !$performer->isAllowedAny( 'suppressrevision', 'viewsuppressed' ) ) {
+			$hiddenBits = LogPage::SUPPRESSED_ACTION;
+		} else {
+			$hiddenBits = 0x0;
+		}
+
+		if ( $hiddenBits !== 0x0 ) {
+			// If the user is *not* allowed to see some data once hidden, skip
+			// applicable log entries. See onSpecialLogAddLogSearchRelations
+			// in CentralAuth LogHookHandler.
+			$bitfield = $dbr->bitAnd( 'log_deleted', $hiddenBits );
+			$conditions[] = "{$bitfield} != {$hiddenBits}";
+		}
+
+		$row = $dbr->newSelectQueryBuilder()
+			->select( [
+				'count' => 'COUNT(*)',
+				'last' => 'MAX(log_timestamp)'
+			] )
+			->from( 'logging' )
+			->where( $conditions )
+			->caller( __METHOD__ )
+			->fetchRow();
+
+		if ( $row === false ) {
+			return [];
+		}
+
+		return [
+			'numberOfIpReveals' => intval( $row->count ),
+			'ipRevealLastCheck' => $row->last ?
+				ConvertibleTimestamp::convert( TS_MW, $row->last ) :
+				null
+		];
 	}
 
 	/**

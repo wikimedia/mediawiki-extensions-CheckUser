@@ -460,6 +460,7 @@ return [
 			new DerivativeContext( RequestContext::getMain() ),
 			$services->getTitleFactory(),
 			$services->getGenderCache(),
+			$services->getTempUserConfig(),
 			new ServiceOptions(
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()

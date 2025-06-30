@@ -654,7 +654,9 @@
 				"checkuser-userinfocard-groups",
 				"checkuser-userinfocard-global-groups",
 				"checkuser-userinfocard-chart-tooltip-label",
-				"checkuser-userinfocard-temporary-account-viewer-opted-in"
+				"checkuser-userinfocard-temporary-account-viewer-opted-in",
+				"checkuser-userinfocard-ip-revealed-count",
+				"checkuser-userinfocard-ip-revealed-never"
 			],
 			"dependencies": [
 				"mediawiki.api",

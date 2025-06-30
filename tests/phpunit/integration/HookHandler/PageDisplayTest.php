@@ -315,12 +315,18 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideOnBeforePageDisplayForUserInfoCard */
-	public function testOnBeforePageDisplayForUserInfoCard( bool $isEnabled, array $expected ) {
+	public function testOnBeforePageDisplayForUserInfoCard(
+		bool $isEnabled,
+		bool $performerIsNamed,
+		array $expected
+	) {
 		$this->disableAutoCreateTempUser();
 
 		$context = new DerivativeContext( RequestContext::getMain() );
-		$testAuthority = $this->mockRegisteredUltimateAuthority();
-		$context->setAuthority( $testAuthority );
+		$performer = $performerIsNamed ?
+			$this->mockRegisteredUltimateAuthority() :
+			$this->mockAnonUltimateAuthority();
+		$context->setAuthority( $performer );
 		$output = $context->getOutput();
 		$output->setContext( $context );
 
@@ -351,16 +357,24 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideOnBeforePageDisplayForUserInfoCard() {
 		return [
-			'UserInfoCard is enabled' => [
-				'enabled' => true,
+			'UserInfoCard is enabled, performer is a non-temp user' => [
+				'isEnabled' => true,
+				'performerIsNamed' => true,
 				'expected' => [
-					'wgCheckUserCanViewCheckUserLog' => true,
+					'wgCheckUserCanAccessTemporaryAccountLog' => true,
 					'wgCheckUserCanBlock' => true,
 					'wgCheckUserCanPerformCheckUser' => true,
+					'wgCheckUserCanViewCheckUserLog' => true,
 				],
 			],
+			'UserInfoCard is enabled, performer is a temp user' => [
+				'isEnabled' => true,
+				'performerIsNamed' => false,
+				'expected' => [],
+			],
 			'UserInfoCard is disabled' => [
-				'enabled' => false,
+				'isEnabled' => false,
+				'performerIsNamed' => false,
 				'expected' => [],
 			],
 		];

@@ -70,6 +70,9 @@ function mountComponent( props = {} ) {
 			hasEditInLast60Days: false,
 			totalLocalEdits: 500,
 			specialCentralAuthUrl: 'https://example.com/wiki/Special:CentralAuth/TestUser',
+			hasIpRevealInfo: true,
+			numberOfIpReveals: 2,
+			ipRevealLastCheck: '20250102030408',
 			...props
 		}
 	} );
@@ -106,7 +109,7 @@ QUnit.test( 'renders correct number of InfoRowWithLinks components with all perm
 	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: true } );
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	assert.strictEqual( infoRows.length, 8, 'Renders 8 InfoRowWithLinks components when all permissions are granted' );
+	assert.strictEqual( infoRows.length, 9, 'Renders 9 InfoRowWithLinks components when all permissions are granted' );
 } );
 
 QUnit.test( 'renders correct number of InfoRowWithLinks components with no permissions', ( assert ) => {
@@ -114,7 +117,10 @@ QUnit.test( 'renders correct number of InfoRowWithLinks components with no permi
 	mw.config.set( 'wgCheckUserCanBlock', false );
 	// FIXME: Better test to handle the canAccessTemporaryAccountIpAddresses case, which is about
 	// both permissions of viewing and viewed user
-	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: false } );
+	const wrapper = mountComponent( {
+		canAccessTemporaryAccountIpAddresses: false,
+		hasIpRevealInfo: false
+	} );
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
 	assert.strictEqual( infoRows.length, 6, 'Renders 6 InfoRowWithLinks components when no permissions are granted' );
@@ -384,8 +390,29 @@ QUnit.test( 'setup function returns correct values with all permissions', ( asse
 
 	assert.strictEqual(
 		wrapper.vm.infoRows.length,
-		8,
+		9,
 		'infoRows has correct length with all permissions'
+	);
+
+	const ipRevealInfo = wrapper.vm.infoRows.filter(
+		( r ) => r.messageKey ===
+			'checkuser-userinfocard-ip-revealed-count'
+	);
+
+	assert.strictEqual(
+		ipRevealInfo.length,
+		1,
+		'infoRows contains IP Reveal info'
+	);
+	assert.strictEqual(
+		ipRevealInfo[ 0 ].mainValue,
+		'2',
+		'infoRows contains the expected IP Reveal count'
+	);
+	assert.strictEqual(
+		ipRevealInfo[ 0 ].suffixValue,
+		'20250102030408',
+		'infoRows contains the expected last IP Reveal timestamp'
 	);
 } );
 
@@ -394,7 +421,10 @@ QUnit.test( 'setup function returns correct values with no permissions', ( asser
 	mw.config.set( 'wgCheckUserCanBlock', false );
 	// FIXME: Better test to handle the canAccessTemporaryAccountIpAddresses case, which is about
 	// both permissions of viewing and viewed user
-	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: false } );
+	const wrapper = mountComponent( {
+		canAccessTemporaryAccountIpAddresses: false,
+		hasIpRevealInfo: false
+	} );
 
 	assert.strictEqual(
 		wrapper.vm.infoRows.length,

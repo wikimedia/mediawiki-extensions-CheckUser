@@ -167,6 +167,18 @@ module.exports = exports = {
 		specialCentralAuthUrl: {
 			type: String,
 			default: ''
+		},
+		hasIpRevealInfo: {
+			type: Boolean,
+			default: false
+		},
+		numberOfIpReveals: {
+			type: Number,
+			default: 0
+		},
+		ipRevealLastCheck: {
+			type: String,
+			default: ''
 		}
 	},
 	setup( props ) {
@@ -209,6 +221,7 @@ module.exports = exports = {
 		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
 		const maxThanks = mw.config.get( 'wgCheckUserGEUserImpactMaxThanks' ) || 1000;
 		const canViewCheckUserLog = mw.config.get( 'wgCheckUserCanViewCheckUserLog' );
+		const canAccessTemporaryAccountLog = mw.config.get( 'wgCheckUserCanAccessTemporaryAccountLog' );
 		const canAccessTemporaryAccountIpAddresses = computed(
 			() => props.canAccessTemporaryAccountIpAddresses
 		);
@@ -308,6 +321,29 @@ module.exports = exports = {
 						mainLinkLogId: 'last_checked'
 					} );
 				}
+			}
+
+			if ( props.hasIpRevealInfo ) {
+				const row = {
+					icon: cdxIconUserTemporaryLocation,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					mainValue: mw.language.convertNumber( props.numberOfIpReveals )
+				};
+
+				if ( props.numberOfIpReveals > 0 ) {
+					row.messageKey = 'checkuser-userinfocard-ip-revealed-count';
+					row.suffixValue = props.ipRevealLastCheck;
+				} else {
+					row.messageKey = 'checkuser-userinfocard-ip-revealed-never';
+				}
+
+				if ( canAccessTemporaryAccountLog ) {
+					const title = 'Log/checkuser-temporary-account';
+					row.mainLink = mw.Title.makeTitle( -1, title )
+						.getUrl( { page: `User:${ props.username }` } );
+				}
+
+				rows.push( row );
 			}
 
 			if ( canAccessTemporaryAccountIpAddresses.value ) {

@@ -407,5 +407,7 @@
 	"checkuser-userinfocard-groups": "<strong>Groups</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Global groups</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 edit|$2 edits|0=No edits}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Opted in to view temporary account IPs"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Opted in to view temporary account IPs",
+	"checkuser-userinfocard-ip-revealed-count": "IP reveals: $1 (last checked $2)",
+	"checkuser-userinfocard-ip-revealed-never": "IP reveals: $1"
 }

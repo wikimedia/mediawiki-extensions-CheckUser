@@ -71,7 +71,7 @@ class PageDisplay implements BeforePageDisplayHook {
 		// Config needed for a js-added message on Special:Block
 		$title = $out->getTitle();
 		if ( $title->isSpecial( 'Block' ) ) {
-			$out->addJSConfigVars( [
+			$out->addJsConfigVars( [
 				'wgCUDMaxAge' => $this->config->get( 'CUDMaxAge' )
 			] );
 		}
@@ -102,23 +102,28 @@ class PageDisplay implements BeforePageDisplayHook {
 	 */
 	private function addUserInfoCardConfigVars( OutputPage $out ) {
 		$performer = $out->getUser();
-		if ( !$this->userOptionsLookup->getBoolOption( $performer, Preferences::ENABLE_USER_INFO_CARD ) ) {
+		if ( !$performer->isNamed() ) {
 			return;
 		}
 
-		if ( $performer->isNamed() ) {
-			$out->addJsConfigVars(
-				'wgCheckUserCanViewCheckUserLog',
-				$out->getAuthority()->isAllowed( 'checkuser-log' )
-			);
-			$out->addJsConfigVars(
-				'wgCheckUserCanBlock',
-				$out->getAuthority()->isAllowed( 'block' )
-			);
-			$out->addJsConfigVars(
-				'wgCheckUserCanPerformCheckUser',
-				$out->getAuthority()->isAllowed( 'checkuser' )
-			);
+		$hasEnabledInfoCard = $this->userOptionsLookup->getBoolOption(
+			$performer,
+			Preferences::ENABLE_USER_INFO_CARD
+		);
+
+		if ( $hasEnabledInfoCard ) {
+			$authority = $out->getAuthority();
+
+			$out->addJsConfigVars( [
+				'wgCheckUserCanViewCheckUserLog' =>
+					$authority->isAllowed( 'checkuser-log' ),
+				'wgCheckUserCanBlock' =>
+					$authority->isAllowed( 'block' ),
+				'wgCheckUserCanPerformCheckUser' =>
+					$authority->isAllowed( 'checkuser' ),
+				'wgCheckUserCanAccessTemporaryAccountLog' =>
+					$authority->isAllowed( 'checkuser-temporary-account-log' ),
+			] );
 		}
 	}
 

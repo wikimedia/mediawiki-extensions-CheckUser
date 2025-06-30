@@ -5,17 +5,21 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Logging\LogEntryBase;
+use MediaWiki\Logging\LogPage;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
-use Psr\Log\LoggerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\Test\TestLogger;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
@@ -27,14 +31,22 @@ use Wikimedia\Rdbms\FakeResultWrapper;
  */
 class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
+	use CheckUserTempUserTestTrait;
 	use MockAuthorityTrait;
 
-	private User $testUser;
+	private static User $tempUser1;
+	private static User $tempUser2;
+
+	private static User $testUser;
 
 	public function setUp(): void {
 		parent::setUp();
 		// The GlobalContributionsPager used in CheckuserUserInfoCardService requires CentralAuth
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+
+		$this->enableAutoCreateTempUser( [
+			[ 'genPattern' => '~check-user-test-$1' ]
+		] );
 	}
 
 	public function addDBDataOnce() {
@@ -43,7 +55,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			->rows( [ [ 'ciwm_wiki' => 'enwiki' ], [ 'ciwm_wiki' => 'dewiki' ] ] )
 			->caller( __METHOD__ )
 			->execute();
-		$this->testUser = $this->getTestSysop()->getUser();
+		self::$testUser = $this->getTestSysop()->getUser();
 
 		$enwikiMapId = $this->newSelectQueryBuilder()
 			->select( 'ciwm_id' )
@@ -62,11 +74,11 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			->insertInto( 'cuci_user' )
 			->rows( [
 				[
-					'ciu_central_id' => $this->testUser->getId(), 'ciu_ciwm_id' => $enwikiMapId,
+					'ciu_central_id' => self::$testUser->getId(), 'ciu_ciwm_id' => $enwikiMapId,
 					'ciu_timestamp' => $this->getDb()->timestamp( '20240505060708' ),
 				],
 				[
-					'ciu_central_id' => $this->testUser->getId(), 'ciu_ciwm_id' => $dewikiMapId,
+					'ciu_central_id' => self::$testUser->getId(), 'ciu_ciwm_id' => $dewikiMapId,
 					'ciu_timestamp' => $this->getDb()->timestamp( '20240506060708' ),
 				],
 			] )
@@ -93,30 +105,47 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			] )
 			->caller( __METHOD__ )
 			->execute();
+
+		$tempUserCreator = $this->getServiceContainer()->getTempUserCreator();
+		$result1 = $tempUserCreator->create( '~check-user-test-1', new FauxRequest() );
+		$result2 = $tempUserCreator->create( '~check-user-test-2', new FauxRequest() );
+		$this->assertTrue( $result1->isGood() && $result2->isGood() );
+
+		self::$tempUser1 = $result1->getUser();
+		self::$tempUser2 = $result2->getUser();
+
+		$this->populateLogTable();
 	}
 
-	private function getObjectUnderTest( ?LoggerInterface $logger = null ): CheckUserUserInfoCardService {
-		$services = MediaWikiServices::getInstance();
+	private function getObjectUnderTest(
+		array $overrides = []
+	): CheckUserUserInfoCardService {
+		$services = $this->getServiceContainer();
 		return new CheckUserUserInfoCardService(
 			$services->getService( 'GrowthExperimentsUserImpactLookup' ),
 			$services->getExtensionRegistry(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserGlobalContributionsPagerFactory' ),
+			$overrides[ 'CheckUserGlobalContributionsPagerFactory' ] ??
+				$services->get( 'CheckUserGlobalContributionsPagerFactory' ),
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
-			$services->get( 'CheckUserPermissionManager' ),
+			$overrides[ 'CheckUserPermissionManager' ] ??
+				$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
 			RequestContext::getMain(),
 			$services->getTitleFactory(),
 			$services->getGenderCache(),
+			$overrides[ 'TempUserConfig' ] ??
+				$services->getTempUserConfig(),
 			new ServiceOptions(
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$logger ?? LoggerFactory::getInstance( 'CheckUser' )
+			$overrides[ 'logger' ] ??
+				LoggerFactory::getInstance( 'CheckUser' )
 		);
 	}
 
@@ -124,7 +153,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 		$page = $this->getNonexistingTestPage();
-		$user = $this->testUser->getUser();
+		$user = self::$testUser->getUser();
 		$this->assertStatusGood(
 			$this->editPage( $page, 'test', '', NS_MAIN, $user )
 		);
@@ -194,7 +223,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			return $globalContributionsPagerFactory;
 		} );
 		$logger = new TestLogger();
-		$this->getObjectUnderTest( $logger )->getUserInfo(
+		$this->getObjectUnderTest( [ 'logger' => $logger ] )->getUserInfo(
 			$this->getTestUser()->getAuthority(),
 			$user
 		);
@@ -265,6 +294,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			RequestContext::getMain(),
 			$services->getTitleFactory(),
 			$services->getGenderCache(),
+			$services->getTempUserConfig(),
 			new ServiceOptions(
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
@@ -555,5 +585,348 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			'Central wiki is unrecognised' => [ 'dewikiabc' ],
 			'Central wiki is false' => [ false ],
 		];
+	}
+
+	public function testProvidesIPRevealData(): void {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+
+		$sut = $this->getObjectUnderTest( [
+			'CheckUserGlobalContributionsPagerFactory' => $this->mockPagerFactoryBySourceWikis()
+		] );
+
+		// A user with access to the IP reveal log (checkuser-temporary-account-log
+		// permission) but that can't see deleted history.
+		$performer = $this->mockRegisteredAuthorityWithPermissions( [
+			'checkuser-temporary-account-log',
+			'checkuser-temporary-account-no-preference'
+		] );
+
+		$userInfo1 = $sut->getUserInfo( $performer, self::$tempUser1 );
+		$this->assertArrayContains( [
+				'name' => self::$tempUser1->getUser()->getName(),
+				'groups' => '',
+				'numberOfIpReveals' => 2,
+				'ipRevealLastCheck' => '20250102030408',
+			],
+			$userInfo1
+		);
+
+		$userInfo2 = $sut->getUserInfo( $performer, self::$tempUser2 );
+		$this->assertArrayContains( [
+				'name' => self::$tempUser2->getUser()->getName(),
+				'groups' => '',
+				'numberOfIpReveals' => 3,
+				'ipRevealLastCheck' => '20250102030513',
+			],
+			$userInfo2
+		);
+	}
+
+	/**
+	 * @dataProvider skipsIPRevealDataWhenUnavailableDataProvider
+	 */
+	public function testSkipsIPRevealDataWhenUnavailable(
+		bool $expectsToSkipIPReveal,
+		bool $canAccessTemporaryAccountIPAddresses,
+		bool $canAccessIPRevealLog,
+		bool $tempUsersEnabled,
+		bool $targetIsATemporaryAccount
+	): void {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+
+		$permissions = [];
+
+		if ( $canAccessTemporaryAccountIPAddresses ) {
+			// Grant the permissions making CheckUserPermissionManager to return
+			// true for canAccessTemporaryAccountIPAddresses().
+			$permissions = [
+				'checkuser-temporary-account-no-preference',
+				'checkuser-temporary-account-log'
+			];
+		}
+
+		if ( $canAccessIPRevealLog ) {
+			$permissions[] = 'checkuser-temporary-account-log';
+		}
+
+		if ( !$tempUsersEnabled ) {
+			$this->disableAutoCreateTempUser();
+		} else {
+			$this->enableAutoCreateTempUser();
+		}
+
+		$this->assertEquals(
+			$tempUsersEnabled,
+			$this->getServiceContainer()->getTempUserConfig()->isEnabled()
+		);
+
+		$target = $targetIsATemporaryAccount ?
+			self::$tempUser1->getUser() :
+			self::$testUser;
+
+		$performer = $this->mockRegisteredAuthorityWithPermissions( $permissions );
+
+		$this->assertNotEquals(
+			$target->getName(),
+			$performer->getUser()->getName(),
+			'Ensure the performer is not checking its own data'
+		);
+
+		$sut = $this->getObjectUnderTest( [
+			'CheckUserGlobalContributionsPagerFactory' => $this->mockPagerFactoryBySourceWikis()
+		] );
+
+		$result = $sut->getUserInfo( $performer, $target );
+
+		if ( $expectsToSkipIPReveal ) {
+			$this->assertArrayNotHasKey( 'numberOfIpReveals', $result );
+			$this->assertArrayNotHasKey( 'ipRevealLastCheck', $result );
+		} else {
+			$this->assertArrayHasKey( 'numberOfIpReveals', $result );
+			$this->assertArrayHasKey( 'ipRevealLastCheck', $result );
+		}
+	}
+
+	public static function skipsIPRevealDataWhenUnavailableDataProvider(): array {
+		return [
+			'Missing all permissions' => [
+				'expectsToSkipIPReveal' => true,
+				'canAccessTemporaryAccountIPAddresses' => false,
+				'canAccessIPRevealLog' => false,
+				'tempUsersEnabled' => true,
+				'targetIsATemporaryAccount' => true,
+			],
+			// checkuser-temporary-account-log would still grant access
+			'Missing Temp Account IP Addresses permissions' => [
+				'expectsToSkipIPReveal' => false,
+				'canAccessTemporaryAccountIPAddresses' => false,
+				'canAccessIPRevealLog' => true,
+				'tempUsersEnabled' => true,
+				'targetIsATemporaryAccount' => true,
+			],
+			// canAccessTemporaryAccountIPAddresses would still grant access
+			'Missing permission: checkuser-temporary-account-log' => [
+				'expectsToSkipIPReveal' => false,
+				'canAccessTemporaryAccountIPAddresses' => true,
+				'canAccessIPRevealLog' => false,
+				'tempUsersEnabled' => true,
+				'targetIsATemporaryAccount' => true,
+			],
+			'Temp users disabled' => [
+				'expectsToSkipIPReveal' => true,
+				'canAccessTemporaryAccountIPAddresses' => true,
+				'canAccessIPRevealLog' => true,
+				'tempUsersEnabled' => false,
+				'targetIsATemporaryAccount' => true,
+			],
+			'Target is a non-temp user' => [
+				'expectsToSkipIPReveal' => true,
+				'canAccessTemporaryAccountIPAddresses' => true,
+				'canAccessIPRevealLog' => true,
+				'tempUsersEnabled' => true,
+				'targetIsATemporaryAccount' => false,
+			],
+			'Has permissions, temp users enabled, target is a temp user' => [
+				'expectsToSkipIPReveal' => false,
+				'canAccessTemporaryAccountIPAddresses' => true,
+				'canAccessIPRevealLog' => true,
+				'tempUsersEnabled' => true,
+				'targetIsATemporaryAccount' => true,
+			]
+		];
+	}
+
+	/**
+	 * @dataProvider doesntCountHiddenActionsDataProvider
+	 */
+	public function testDoesntCountHiddenActions(
+		int $expectedNumberOfIpReveals,
+		bool $deletedHistoryAllowed,
+		bool $suppressedRevisionAllowed
+	): void {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+
+		$sut = $this->getObjectUnderTest( [
+			'CheckUserGlobalContributionsPagerFactory' => $this->mockPagerFactoryBySourceWikis()
+		] );
+
+		$performerPermissions = [
+			'checkuser-log',
+			'checkuser-temporary-account-log',
+			'checkuser-temporary-account-no-preference'
+		];
+
+		if ( $suppressedRevisionAllowed ) {
+			$performerPermissions = array_merge(
+				[ 'suppressrevision', 'viewsuppressed' ],
+				$performerPermissions
+			);
+		}
+
+		if ( $deletedHistoryAllowed ) {
+			$performerPermissions[] = 'deletedhistory';
+		}
+
+		$performer = $this->mockRegisteredAuthorityWithPermissions(
+			$performerPermissions
+		);
+
+		$result = $sut->getUserInfo( $performer, self::$tempUser1->getUser() );
+
+		$this->assertArrayHasKey( 'numberOfIpReveals', $result );
+		$this->assertEquals(
+			$expectedNumberOfIpReveals,
+			$result[ 'numberOfIpReveals' ]
+		);
+	}
+
+	public static function doesntCountHiddenActionsDataProvider(): iterable {
+		return [
+			'Has deletedHistory and suppressedRevision access' => [
+				'expectedNumberOfIpReveals' => 4,
+				'deletedHistoryAllowed' => true,
+				'suppressedRevisionAllowed' => true,
+			],
+			'Has deletedHistory access' => [
+				'expectedNumberOfIpReveals' => 3,
+				'deletedHistoryAllowed' => true,
+				'suppressedRevisionAllowed' => false,
+			],
+			'Has suppressRevision access' => [
+				'expectedNumberOfIpReveals' => 2,
+				'deletedHistoryAllowed' => false,
+				'suppressedRevisionAllowed' => true,
+			],
+			'Does not have access to deleted logs' => [
+				'expectedNumberOfIpReveals' => 2,
+				'deletedHistoryAllowed' => false,
+				'suppressedRevisionAllowed' => false,
+			],
+		];
+	}
+
+	private function populateLogTable(): void {
+		$db = $this->getDb();
+		$sysOpUserId = $this->getTestSysop()->getUser()->getId();
+		$comment = $this->getServiceContainer()->getCommentStore()
+			->createComment( $db, 'test' );
+
+		$prototype = [
+			'log_type' => TemporaryAccountLogger::LOG_TYPE,
+			'log_action' => TemporaryAccountLogger::ACTION_VIEW_IPS,
+			'log_actor' => $sysOpUserId,
+			'log_namespace' => NS_USER,
+			'log_deleted' => 0x0,
+			'log_comment_id' => $comment->id,
+			'log_params' => LogEntryBase::makeParamBlob( [] )
+		];
+		$prototypeUser1 = array_merge(
+			$prototype,
+			[ 'log_title' => self::$tempUser1->getName() ]
+		);
+		$prototypeUser2 = array_merge(
+			$prototype,
+			[ 'log_title' => self::$tempUser2->getName() ]
+		);
+
+		$rows = [
+			// Wrong type
+			array_merge( $prototypeUser1, [
+				'log_timestamp' => $db->timestamp( '20250102030404' ),
+				'log_type' => 'something-else',
+			] ),
+			// Wrong action
+			array_merge( $prototypeUser1, [
+				'log_action' => 'something-else',
+				'log_timestamp' => $db->timestamp( '20250102030405' ),
+			] ),
+			// Deleted log action
+			array_merge( $prototypeUser1, [
+				'log_deleted' => LogPage::DELETED_ACTION,
+				'log_timestamp' => $db->timestamp( '20250102030406' ),
+			] ),
+			// Restricted log action
+			array_merge( $prototypeUser1, [
+				'log_deleted' => LogPage::SUPPRESSED_ACTION,
+				'log_timestamp' => $db->timestamp( '20250102030406' ),
+			] ),
+			// Valid entry
+			array_merge( $prototypeUser1, [
+				'log_timestamp' => $db->timestamp( '20250102030407' ),
+			] ),
+			// Valid entry
+			array_merge( $prototypeUser1, [
+				'log_timestamp' => $db->timestamp( '20250102030408' ),
+			] ),
+			// Wrong namespace
+			array_merge( $prototypeUser1, [
+				'log_namespace' => NS_USER_TALK,
+				'log_timestamp' => $db->timestamp( '20250102030409' ),
+			] ),
+			// Wrong type
+			array_merge( $prototypeUser1, [
+				'log_timestamp' => $db->timestamp( '20250102030410' ),
+				'log_type' => 'something-else',
+			] ),
+			// Valid entry
+			array_merge( $prototypeUser2, [
+				'log_timestamp' => $db->timestamp( '20250102030510' ),
+			] ),
+			// Valid entry
+			array_merge( $prototypeUser2, [
+				'log_timestamp' => $db->timestamp( '20250102030511' ),
+			] ),
+			// Wrong action
+			array_merge( $prototypeUser2, [
+				'log_action' => 'another-action',
+				'log_timestamp' => $db->timestamp( '20250102030512' ),
+			] ),
+			// Valid entry
+			array_merge( $prototypeUser2, [
+				'log_timestamp' => $db->timestamp( '20250102030513' ),
+			] ),
+			// Non-temp user
+			array_merge( $prototype, [
+				'log_timestamp' => $db->timestamp( '20250102030412' ),
+				'log_title' => 'Wrong User'
+			] )
+		];
+
+		// insertInto() requires columns to be in the same order for each row,
+		// but array_merge() doesn't guarantee to preserve the key order of
+		// neither array
+		foreach ( $rows as &$row ) {
+			ksort( $row );
+		}
+
+		$db->newInsertQueryBuilder()
+			->insertInto( 'logging' )
+			->rows( $rows )
+			->caller( __METHOD__ )
+			->execute();
+	}
+
+	/**
+	 * @return (GlobalContributionsPagerFactory&MockObject)
+	 */
+	private function mockPagerFactoryBySourceWikis(): GlobalContributionsPagerFactory {
+		$gcPagerMock = $this->createMock( GlobalContributionsPager::class );
+		$gcPagerMock
+			->method( 'getResult' )
+			->willReturn(
+				new FakeResultWrapper( [
+					[ 'sourcewiki' => 'enwiki' ]
+				] )
+			);
+
+		$gcPagerFactoryMock = $this->createMock( GlobalContributionsPagerFactory::class );
+		$gcPagerFactoryMock
+			->method( 'createPager' )
+			->willReturn( $gcPagerMock );
+
+		return $gcPagerFactoryMock;
 	}
 }
