@@ -3,12 +3,15 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
+use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
+use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\FakeResultWrapper;
 
 /**
  * @group Database
@@ -19,6 +22,12 @@ use MediaWikiIntegrationTestCase;
 class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
 	private User $testUser;
+
+	public function setUp(): void {
+		parent::setUp();
+		// The GlobalContributionsPager used in CheckuserUserInfoCardService requires CentralAuth
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+	}
 
 	public function addDBDataOnce() {
 		$this->getDb()->newInsertQueryBuilder()
@@ -85,7 +94,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getExtensionRegistry(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserCentralIndexLookup' ),
+			$services->get( 'CheckUserGlobalContributionsPagerFactory' ),
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
@@ -107,15 +116,24 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		// Run deferred updates, to ensure that globalEditCount gets populated in CentralAuth.
 		$this->runDeferredUpdates();
+
+		$this->setService( 'CheckUserGlobalContributionsPagerFactory', function () use ( $user ) {
+			$globalContributionsPager = $this->createMock( GlobalContributionsPager::class );
+			$globalContributionsPager->method( 'getResult' )->willReturn(
+				new FakeResultWrapper( [ [ 'sourcewiki' => 'enwiki' ], [ 'sourcewiki' => 'dewiki' ] ] )
+			);
+			$globalContributionsPagerFactory = $this->createMock( GlobalContributionsPagerFactory::class );
+			$globalContributionsPagerFactory->method( 'createPager' )->willReturn( $globalContributionsPager );
+			return $globalContributionsPagerFactory;
+		} );
+
 		$userInfo = $this->getObjectUnderTest()->getUserInfo(
 			$this->getTestUser()->getAuthority(),
 			$user
 		);
 		$this->assertSame( 1, $userInfo[ 'totalEditCount' ] );
-		if ( MediaWikiServices::getInstance()->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
-			// TODO: Fix this test so that we assert that the globalEditCount is 1.
-			$this->assertArrayHasKey( 'globalEditCount', $userInfo );
-		}
+		// TODO: Fix this test so that we assert that the globalEditCount is 1.
+		$this->assertArrayHasKey( 'globalEditCount', $userInfo );
 		$this->assertSame( 0, $userInfo[ 'thanksGiven' ] );
 		$this->assertSame( 0, $userInfo[ 'thanksReceived' ] );
 		$this->assertSame( 1, current( $userInfo[ 'editCountByDay' ] ), 'Edit count for the current day is 1' );
@@ -125,7 +143,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
 		$this->assertSame( '<strong>Groups</strong>: Bureaucrats, Administrators', $userInfo['groups'] );
 		$this->assertSame(
-			[],
+			[
+				'dewiki' => 'https://de.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),
+				'enwiki' => 'https://en.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),
+			],
 			$userInfo['activeWikis']
 		);
 	}
@@ -169,7 +190,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getExtensionRegistry(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserCentralIndexLookup' ),
+			$services->get( 'CheckUserGlobalContributionsPagerFactory' ),
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
@@ -190,9 +211,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			'activeWikis' => [],
 			'pastBlocksOnLocalWiki' => 0,
 		], $userInfo );
-		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
-			$this->assertArrayContains( [ 'activeLocalBlocksAllWikis' => 0 ], $userInfo );
-		}
+		$this->assertArrayContains( [ 'activeLocalBlocksAllWikis' => 0 ], $userInfo );
 		$this->assertArrayNotHasKey( 'thanksGiven', $userInfo );
 	}
 
