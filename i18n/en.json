@@ -398,5 +398,6 @@
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global edit|$1 global edits|0=No global edits}}",
 	"tooltip-t-global-contributions": "A list of contributions across all wikis by {{GENDER:$1|this user}}",
 	"checkuser-userinfocard-groups": "<strong>Groups</strong>: $1",
+	"checkuser-userinfocard-global-groups": "<strong>Global groups</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 edit|$2 edits|0=No edits}})"
 }
