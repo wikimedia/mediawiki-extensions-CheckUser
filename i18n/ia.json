@@ -147,7 +147,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Sequente",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Clauder",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Que es un conto temporari?",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "Cata vice que un usator publica un modification sur iste wiki sin aperir session con un conto registrate, un [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts conto temporari] essera create.\n\nIsto conto recipera automaticamente un nomine de usator. Un cookie essera installate in le navigator quando le conto es create. Isto nomine de usator essera usate pro attribuer tote le modificationes subsequente, mesmo si le adresse IP del usator temporari cambia. Con un conto temporari, le adresse IP potera esser consultate solmente per membros digne de fide del communitate.",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "Pro proteger le privatessa del usatores, {{SITENAME}} non exhibi plus publicamente le adresses IP del redactores que non ha aperite session.\n\nIn su loco, le redactores que non ha aperite session recipera nomines de usator automaticamente generate ligate a <strong>[https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts contos temporari]</strong>, e lor adresses IP essera visibile solmente pro membros digne de fide del communitate qui debe poter vider los pro tractar vandalismo e comportamento abusive.\n\nQuando un conto temporari es create pro un redactor que non ha aperite session, un cookie essera collocate in le navigator del redactor. Alora, tote le modificationes subsequente essera attribuite a ille conto temporari, mesmo si le adresse IP del redactor cambia.",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "Imagine que monstra le icone de usator de conto temporari.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "Consultar information IP",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "Le instrumento [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info Information IP] (Info IP) facilita le accesso a informationes sur adresses IP pro administratores, combattentes de vandalismo e usatores experte, sin que illes debe vider le adresses IP mesme.\n\nUsatores que satisface le requisitos de accesso pote activar Info IP in lor preferentias. Un vice activate, le fenestra Info IP apparera juxta contos temporari e adresses IP ancian. Le information IP essera tamben visibile sur le pagina Contributiones.",
@@ -351,7 +351,8 @@
 	"checkuser-userinfocard-open-menu-aria-label": "Aperir le menu del carta de information del usator",
 	"checkuser-userinfocard-joined-label": "Adherite",
 	"checkuser-userinfocard-active-wikis-label": "Wikis active",
-	"checkuser-userinfocard-past-blocks-main-label": "blocadas passate",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Blocadas active de tote le wikis",
+	"checkuser-userinfocard-past-blocks-main-label": "Blocadas passate",
 	"checkuser-userinfocard-global-edits-row-main-label": "Modificationes global",
 	"checkuser-userinfocard-local-edits-row-main-label": "Modificationes local",
 	"checkuser-userinfocard-local-edits-row-suffix-label": "revertite",
@@ -379,5 +380,6 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "Le numero de modificationes apportate sur tote le wikis a partir de iste adresse IP.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modification|$1 modificationes|0=Nulle modification}} global",
 	"tooltip-t-global-contributions": "Un lista del contributiones de iste usat{{GENDER:$1|or|rice}} sur tote le wikis",
-	"checkuser-userinfocard-groups": "Gruppos: $1"
+	"checkuser-userinfocard-groups": "<strong>Gruppos:</strong> $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modification|$2 modificationes|0=Necun modification}})"
 }

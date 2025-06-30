@@ -188,7 +188,8 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen",
 	"checkuser-userinfocard-close-button-aria-label": "Zoumaachen",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv Wikien",
-	"checkuser-userinfocard-past-blocks-main-label": "vergaange Spären",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Aktiv Späre vun alle Wikien",
+	"checkuser-userinfocard-past-blocks-main-label": "Vergaange Spären",
 	"checkuser-userinfocard-global-edits-row-main-label": "Global Ännerungen",
 	"checkuser-userinfocard-local-edits-row-main-label": "Lokal Ännerungen",
 	"checkuser-userinfocard-new-articles-row-main-label": "Nei Artikelen",
@@ -197,12 +198,13 @@
 	"checkuser-userinfocard-menu-add-to-watchlist": "Benotzersäit op d'Iwwerwaachungslëscht setzen",
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Benotzersäit vun enger Iwwerwaachungslëscht erofhuelen",
 	"checkuser-userinfocard-menu-block-user": "Benotzer spären",
-	"checkuser-userinfocard-menu-provide-feedback": "Feedback ginn",
+	"checkuser-userinfocard-menu-provide-feedback": "Feedback zu dëser Funktioun ginn",
 	"checkuser-userinfocard-loading-label": "Benotzerinformatioune gi gelueden",
 	"checkuser-userinfocard-error-title": "Et ass e Feeler geschitt",
 	"checkuser-userinfocard-error-generic": "Et ass eppes schifgaangen. Probéiert wgl. méi spéit nach eng Kéier.",
 	"checkuser-userinfocard-activity-chart-label": "Ännerungsaktivitéit iwwer déi lescht 60 Deeg ({{PLURAL:$1|$1 Ännerung|$1 Ännerungen|0=Keng Ännerung}})",
 	"checkuser-ipinfo-global-contributions-label": "Global Kontributiounen",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global Ännerung|$1 global Ännerungen|0=Keng global Ännerungen}}",
-	"checkuser-userinfocard-groups": "Gruppen: $1"
+	"checkuser-userinfocard-groups": "<strong>Gruppen</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Ännerung|$2 Ännerungen|0=Keng Ännerungen}})"
 }

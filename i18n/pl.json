@@ -374,7 +374,8 @@
 	"checkuser-userinfocard-open-menu-aria-label": "Otwórz menu okienka informacyjnego o użytkowniku",
 	"checkuser-userinfocard-joined-label": "Data dołączenia",
 	"checkuser-userinfocard-active-wikis-label": "Wiki z aktywnością",
-	"checkuser-userinfocard-past-blocks-main-label": "przeszłe blokady",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Aktywne blokady ze wszystkich wiki",
+	"checkuser-userinfocard-past-blocks-main-label": "Poprzednie blokady",
 	"checkuser-userinfocard-global-edits-row-main-label": "Edycji globalnie",
 	"checkuser-userinfocard-local-edits-row-main-label": "Edycji lokalnie",
 	"checkuser-userinfocard-local-edits-row-suffix-label": "wycofanych",
@@ -402,5 +403,6 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "Liczba edycji wykonanych z tego adresu IP na wszystkich wiki.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|1 edycja|$1 edycje|$1 edycji|0=Brak edycji}} globalnie",
 	"tooltip-t-global-contributions": "Lista edycji, wykonanych przez {{GENDER:$1|tego użytkownika|tę użytkowniczkę}} na wszystkich wiki",
-	"checkuser-userinfocard-groups": "Grupy: $1"
+	"checkuser-userinfocard-groups": "<strong>Grupy</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 edycja|$2 edycje|$2 edycji|0=Brak edycji}})"
 }

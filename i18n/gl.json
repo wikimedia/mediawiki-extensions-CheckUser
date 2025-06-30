@@ -154,7 +154,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Seguinte",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Pechar",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Que é unha conta temporal?",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "Cada vez que un usuario publique unha edición neste wiki sen iniciar sesión nunha conta rexistrada, crearase unha [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts conta temporal].\n\nEsta conta recibirá automaticamente un nome de usuario. Establecerase unha cookie no navegador ao crear a conta. Este nome de usuario empregarase para atribuír todas as edicións posteriores, mesmo se cambia o enderezo IP do usuario temporal. Cunha conta temporal, só poden acceder ao enderezo IP membros de confianza da comunidade.",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "Cada vez que un usuario publique unha edición neste wiki sen iniciar sesión nunha conta rexistrada, crearase unha [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts conta temporal].\n\nA conta temporal recibirá automaticamente un nome de usuario. Establecerase unha cookie no navegador ao crear a conta. O nome de usuario empregarase para atribuír todas as edicións posteriores, mesmo se cambia o enderezo IP do usuario temporal. Cunha conta temporal, só poden acceder ao enderezo IP membros de confianza da comunidade.",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "Imaxe que mostra a icona de usuario da conta temporal.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "Visualización da información do enderezo IP",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "A ferramenta de [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info información do enderezo IP] facilita que a administración, as persoas que loitan contra o vandalismo e os usuarios experimentados accedan á información sobre os enderezos IP sen ver os propios enderezos IP.\n\nOs usuarios que cumpran os requisitos de acceso poden activar a información do enderezo IP nas súas preferencias. Unha vez activado, aparecerá a ventá emerxente de información do enderezo IP xunto ás contas temporais e os enderezos IP antigos. A información do enderezo IP tamén se mostrará na páxina de contribucións.",
@@ -287,5 +287,6 @@
 	"checkuser-tempaccount-reveal-ip-error": "erro",
 	"log-action-filter-checkuser-temporary-account": "Tipo de acción:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Cambiar o acceso",
+	"checkuser-userinfocard-close-button-aria-label": "Pechar",
 	"checkuser-userinfocard-groups": "Grupos: $1"
 }

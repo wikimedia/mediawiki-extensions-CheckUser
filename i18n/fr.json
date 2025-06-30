@@ -394,7 +394,8 @@
 	"checkuser-userinfocard-open-menu-aria-label": "Ouvrir le menu de la carte d'informations utilisateur",
 	"checkuser-userinfocard-joined-label": "Rejoint",
 	"checkuser-userinfocard-active-wikis-label": "Wikis actifs",
-	"checkuser-userinfocard-past-blocks-main-label": "blocs passés",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Blocs actifs de tous les wikis",
+	"checkuser-userinfocard-past-blocks-main-label": "Blocs passés",
 	"checkuser-userinfocard-global-edits-row-main-label": "Modifications globales",
 	"checkuser-userinfocard-local-edits-row-main-label": "Modifications locales",
 	"checkuser-userinfocard-local-edits-row-suffix-label": "restauré",
@@ -422,5 +423,6 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "Le nombre de modifications inter-wiki effectuées à partir de cette adresse IP.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1| $1 modification globale| $1 modifications globales|0=Aucune modification globale}}",
 	"tooltip-t-global-contributions": "Liste des contributions de {{GENDER:$1| cet utilisateur|cette utilisatrice}} sur tous les wikis",
-	"checkuser-userinfocard-groups": "Groupes : $1"
+	"checkuser-userinfocard-groups": "<strong>Groupes</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modification|$2 modifications|0=Pas de modifications}})"
 }

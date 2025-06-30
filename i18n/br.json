@@ -6,6 +6,7 @@
 			"Fohanno",
 			"Fulup",
 			"Huñvreüs",
+			"Troer56",
 			"Y-M D"
 		]
 	},
@@ -225,7 +226,7 @@
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Dilemel pajenn implijer eus ar roll evezhiañ",
 	"checkuser-userinfocard-menu-check-ip": "Gwiriañ chomlec'h IP an implijer",
 	"checkuser-userinfocard-menu-block-user": "Stankañ an implijer",
-	"checkuser-userinfocard-menu-provide-feedback": "Roit ho soñj",
+	"checkuser-userinfocard-menu-provide-feedback": "Roit ho soñj diwar-benn ar c'heweriuster-mañ",
 	"checkuser-userinfocard-menu-turn-off": "Diweredekaat an arc’hweliadur-mañ",
 	"checkuser-userinfocard-loading-label": "O kargañ titouroù an implijer",
 	"checkuser-userinfocard-error-title": "Ur fazi ez eus bet",
@@ -238,5 +239,5 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "An niver a gemmoù treuzwiki graet eus ar chomlec'h IP-mañ.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 degasadenn hollek||0=Degasadenn lec’hel ebet}}",
 	"tooltip-t-global-contributions": "Roll ar c'hemmoù en holl wikioù gant {{GENDER:$1|an implijer-mañ}}",
-	"checkuser-userinfocard-groups": "Strolladoù: $1"
+	"checkuser-userinfocard-groups": "<strong>Strolladoù</strong> : $1"
 }

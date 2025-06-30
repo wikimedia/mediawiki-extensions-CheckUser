@@ -157,7 +157,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Növbəti",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Bağla",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Müvəqqəti hesab nədir?",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "İstifadəçi qeydiyyatdan keçmiş hesaba daxil olmadan bu vikidə redaktə etdikdə, [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts müvəqqəti hesab] yaradılacaq.\n\nMüvəqqəti hesaba avtomatik olaraq istifadəçi adı veriləcək. Hesab yaradılan zaman brauzerə kuki əlavə ediləcək. İstifadəçi adı müvəqqəti istifadəçinin IP ünvanı dəyişsə belə, bütün sonrakı redaktələri aid etmək üçün istifadə olunacaq. Müvəqqəti hesabların IP ünvanına yalnız etibarlı icma üzvləri baxa bilər.",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "İstifadəçilərin gizliliyini qorumaq üçün {{SITENAME}} bundan sonra anonim redaktorların IP ünvanlarını ictimai şəkildə göstərməyəcək.\n\nBunun yerinə, anonim redaktorlara <strong>[https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts müvəqqəti hesablar]</strong> adlanan avtomatik yaradılan istifadəçi adları veriləcək və onların IP ünvanını vandalizm və sui-istifadə ilə mübarizə üçün sadəcə etibarlı icma üzvləri görə biləcək.\n\nAnonim redaktor üçün müvəqqəti hesab yaradıldıqda redaktorun brauzerinə kuki əlavə ediləcək. Həmin müvəqqəti hesab daha sonra IP ünvan dəyişsə belə bütün redaktələrində müəllif olaraq qeyd ediləcək.",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "Müvəqqəti hesab istifadəçi ikonasını göstərən şəkil.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "IP məlumatlarına baxış",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info IP Məlumat] (IP Info) aləti inzibatçılar, vandalizmlə mübarizə aparanlar və təcrübəli istifadəçilər üçün IP ünvanları haqqında məlumat əldə etməyi asanlaşdırır.\n\nTələblərə cavab verən istifadəçilər öz nizamlamalarında IP Məlumat alətini aktivləşdirə bilərlər. Aktivləşdirildikdən sonra IP Məlumat popup pəncərəsi müvəqqəti hesabların və köhnə IP ünvanlarının yanında görünəcək. Töhfələr səhifəsində də bu pəncərə göstəriləcək.",
@@ -362,7 +362,8 @@
 	"checkuser-userinfocard-open-menu-aria-label": "İstifadəçi məlumat kartı menyusunu aç",
 	"checkuser-userinfocard-joined-label": "Qeydiyyat",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv vikilər",
-	"checkuser-userinfocard-past-blocks-main-label": "keçmiş bloklar",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Bütün vikilərdəki aktiv bloklar",
+	"checkuser-userinfocard-past-blocks-main-label": "Keçmiş bloklar",
 	"checkuser-userinfocard-global-edits-row-main-label": "Qlobal redaktə sayı",
 	"checkuser-userinfocard-local-edits-row-main-label": "Lokal redaktə sayı",
 	"checkuser-userinfocard-local-edits-row-suffix-label": "geri qaytarılmış",
@@ -390,5 +391,6 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "Bu IP ünvanından edilən çarpaz viki redaktələrinin sayı.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 qlobal redaktə|0=Qlobal redaktə yoxdur}}",
 	"tooltip-t-global-contributions": "{{GENDER:$1|Bu istifadəçinin}} bütün vikilərdə etdiyi töhfələrin siyahısı",
-	"checkuser-userinfocard-groups": "Qruplar: $1"
+	"checkuser-userinfocard-groups": "<strong>Qruplar</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 redaktə|0=Redaktə yoxdur}})"
 }
