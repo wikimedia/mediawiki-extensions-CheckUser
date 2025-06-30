@@ -148,7 +148,7 @@
 	"checkuser-investigateblock-notice-append": "Добавить на страницу",
 	"checkuser-investigateblock-notice-prepend": "Подготовить к странице",
 	"checkuser-investigateblock-notice-replace": "Заменить страницу",
-	"checkuser-investigateblock-failure": "Ни один пользователь не заблокирован. Чтобы переписать существующие блокировки, проверьте: \"{{int:checkuser-investigateblock-reblock-label}}\". Блокировка не будет переписана, если новая блокировка идентична существующей блокировке.",
+	"checkuser-investigateblock-failure": "Ни один участник не заблокирован. Чтобы перезаписать существующие блокировки, проверьте: «{{int:checkuser-investigateblock-reblock-label}}». Блокировка не будет переписана, если новая блокировка идентична существующей.",
 	"checkuser-investigateblock-success": "Сейчас {{PLURAL:$2|заблокирован $1 участник|заблокированы $1 участника|заблокированы $1 участников}}.",
 	"checkuser-investigateblock-notices-failed": "Некоторые уведомления не могли быть добавлены на страницы участников или страницы обсуждения участников.",
 	"checkuser-investigate": "Исследовать",

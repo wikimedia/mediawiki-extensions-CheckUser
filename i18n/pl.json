@@ -23,7 +23,9 @@
 			"Luku123",
 			"Nux",
 			"WaldiSt",
-			"AramilFeraxa"
+			"AramilFeraxa",
+			"IOIOI",
+			"Tar Lócesilion"
 		]
 	},
 	"checkuser-summary": "Narzędzie pozwala na ustalenie adresów IP, z których\nkorzystał użytkownik lub pokazać edycje i nazwy użytkowników edytujących z zadanego adresu IP.\n\nDodając parametr „/xff” do adresu IP można odnaleźć użytkowników i edycje przeszukując zapisane nagłówki XFF (X-Forwarded-For).\n\nObsługiwane są zakresy adresów IPv4 (maska CIDR $1-32) i IPv6 (CIDR $2-128).\n\nNarzędzie ze względu na wydajność pokazuje maksymalnie {{formatnum:$3}} {{PLURAL:$3|edycję|edycje|edycji}}.\n\nPamiętaj o korzystaniu z narzędzia zgodnie z zasadami.",
