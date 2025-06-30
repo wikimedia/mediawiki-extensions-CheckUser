@@ -54,6 +54,7 @@
 			:recent-local-edits="recentLocalEdits"
 			:total-local-edits="totalLocalEdits"
 		></user-activity-chart>
+		<div class="ext-checkuser-userinfocard-gradient"></div>
 	</div>
 </template>
 
@@ -315,6 +316,8 @@ module.exports = exports = {
 .ext-checkuser-userinfocard-body {
 	padding: @spacing-0;
 	font-size: @font-size-small;
+	padding-bottom: @spacing-100;
+	overflow: auto;
 }
 
 .ext-checkuser-userinfocard-joined {
@@ -338,5 +341,15 @@ module.exports = exports = {
 
 p.ext-checkuser-userinfocard-active-wikis {
 	margin-top: @spacing-100;
+}
+
+.ext-checkuser-userinfocard-gradient {
+	height: @spacing-200;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: @color-inverted;
+	background: linear-gradient( 360deg, rgba( 255, 255, 255, 1 ) 0%, rgba( 255, 255, 255, 0 ) 100% );
 }
 </style>
