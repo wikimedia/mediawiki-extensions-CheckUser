@@ -37,7 +37,7 @@
 				:thanks-received="userCard.thanksReceivedCount"
 				:thanks-sent="userCard.thanksGivenCount"
 				:checks="userCard.checkUserChecks"
-				:can-access-temporary-account-ip-addresses="userCard.canAccessTemporaryAccountIPAddresses"
+				:can-access-temporary-account-ip-addresses="userCard.canAccessTemporaryAccountIpAddresses"
 				:last-checked="userCard.checkUserLastCheck"
 				:active-wikis="userCard.activeWikis"
 				:recent-local-edits="userCard.recentLocalEdits"
@@ -106,7 +106,8 @@ module.exports = exports = {
 			activeWikis: {},
 			groups: '',
 			globalGroups: '',
-			userPageWatched: false
+			userPageWatched: false,
+			canAccessTemporaryAccountIpAddresses: false
 		} );
 
 		// Methods
@@ -146,7 +147,7 @@ module.exports = exports = {
 						userPageWatched,
 						checkUserChecks,
 						checkUserLastCheck,
-						canAccessTemporaryAccountIPAddresses,
+						canAccessTemporaryAccountIpAddresses,
 						activeWikis,
 						groups,
 						globalGroups
@@ -184,7 +185,7 @@ module.exports = exports = {
 					userCard.activeBlocksCount = activeLocalBlocksAllWikis;
 					userCard.pastBlocksCount = pastBlocksOnLocalWiki;
 					userCard.checkUserChecks = checkUserChecks;
-					userCard.canAccessTemporaryAccountIPAddresses = canAccessTemporaryAccountIPAddresses;
+					userCard.canAccessTemporaryAccountIpAddresses = canAccessTemporaryAccountIpAddresses;
 
 					// Parse and format checkUserLastCheck date
 					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );

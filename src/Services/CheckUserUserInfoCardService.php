@@ -268,9 +268,9 @@ class CheckUserUserInfoCardService {
 		$userPermissionStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
 			$this->userFactory->newFromUserIdentity( $user )
 		);
-		if ( $authorityPermissionStatus->isGood() && $userPermissionStatus->isGood() ) {
-			$userInfo['canAccessTemporaryAccountIPAddresses'] = true;
-		}
+
+		$userInfo['canAccessTemporaryAccountIpAddresses'] = $authorityPermissionStatus->isGood() &&
+			$userPermissionStatus->isGood();
 
 		$this->statsFactory->withComponent( 'CheckUser' )
 			->getTiming( 'userinfocardservice_get_user_info' )
