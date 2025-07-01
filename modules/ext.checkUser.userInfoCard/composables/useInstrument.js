@@ -28,6 +28,11 @@ let instrument;
  * @return {LogEvent}
  */
 const useInstrument = () => {
+	if ( !mw.eventLog ) {
+		// EventLogging is not installed
+		return () => {};
+	}
+
 	if ( !mw.config.get( 'wgCheckUserEnableUserInfoCardInstrumentation' ) ) {
 		return () => {};
 	}
