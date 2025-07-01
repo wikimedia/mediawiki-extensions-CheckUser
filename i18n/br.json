@@ -6,7 +6,8 @@
 			"Fohanno",
 			"Fulup",
 			"Huñvreüs",
-			"Y-M D"
+			"Y-M D",
+			"Troer56"
 		]
 	},
 	"checkuser-summary": "Furchal a ra an ostilh-mañ ar c'hemmoù diwezhañ a-benn klask ar chomlec'h IP implijet gant un implijer bennak, diskouez a ra holl degasadennoù ur chomlec'h IP (ha pa vefe bet enrollet), pe roll ar c'hontoù implijet gant ur chomlec'h IP. Gallout a ra ar c'hontoù hag ar c'hemmoù bezañ kavet gant un IP XFF mard echu gant \"/xff\". Posupl eo implijout ar protokoloù IPv4 (CIDR $1-32) hag IPv6 (CIDR $2-128).\nNe vo kaset en-dro nemet $3 kemm da vuiañ evit abegoù nerzh ar servijer.\nGrit gant an ostilh-mañ en ur zoujañ d'ar garta implijout.",
@@ -92,8 +93,10 @@
 	"checkuser-investigate-compare-notice-no-results": "N'eus disoc'h ebet : an implijerien pe IPoù-se n'o deus graet kemm ebet e-kerzh an 90 deiz diwezhañ.",
 	"checkuser-investigate-compare-notice-no-results-filters": "Disoc'h ebet ne glot gant an dezverkoù silañ-mañ. Dilamit siloù zo evit ledanaat ar c'hlask.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl IPoù an implijer-mañ",
+	"checkuser-ip-contributions": "Klask degasadennoù IP",
 	"checkuser-ip-contributions-permission-error-title": "Fazi aotreoù",
 	"checkuser-ip-contributions-permission-error-description": "Evit gwelet degasadennoù ar c’hontoù berrbad evit un IP, asantit an emglev en [[Special:Preferences|ho penndibaboù]] mar plij.",
+	"checkuser-ip-contributions-subtitle": "O tiskouez disoc'hoù an $1 {{PLURAL:$1|deiz}} diwezhañ.",
 	"checkuser-ip-contributions-target-label": "Chomlec'h IP pe lijorenn :",
 	"checkuser-ip-contributions-target-error-no-ip": "Merkit ur chomlec'h IP pe ul lijorenn IP reizh",
 	"checkuser-ip-contributions-target-error-no-ip-banner": "C’hwitet eo bet ho klask. Merkit ur chomlec'h IP pe ul lijorenn IP reizh. [[Special:Contributions/$1|Pe klaskit dre anv implijer]].",
@@ -111,7 +114,7 @@
 	"checkuser-global-contributions-permission-error-title": "Fazi aotreoù",
 	"checkuser-global-contributions-permission-error-description": "Evit gwelet an degasadennoù hollek, asantit d’an emglev en [[Special:GlobalPreferences|ho penndibaboù hollek]].",
 	"checkuser-global-contributions-search-form-wrapper": "Klask degasadennoù hollek",
-	"prefs-checkuser-tempaccount": "Diskuliañ IP kont berrbad",
+	"prefs-checkuser-tempaccount": "Diskuliañ IP ar c’hontoù berrbad",
 	"checkuser-tempaccount-enable-preference-description": "Pa rit gant ar benveg-mañ e rankit bezañ sur e rit hervez ar reolennoù.",
 	"checkuser-tempaccount-enable-preference": "Gweredekaat diskuliañ chomlec’hioù IP ar c’hontoù berrbad",
 	"checkuser-tempaccount-no-ip-results": "Roadenn IP ebet a-zivout an implijer berrbad-mañ e-pad an $1  {{PLURAL:$1|deiz}} diwezhañ",
