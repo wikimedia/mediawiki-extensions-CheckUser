@@ -32,7 +32,7 @@ class CheckUserUserInfoCardService {
 	private ExtensionRegistry $extensionRegistry;
 	private UserRegistrationLookup $userRegistrationLookup;
 	private UserGroupManager $userGroupManager;
-	private GlobalContributionsPagerFactory $globalContributionsPagerFactory;
+	private ?GlobalContributionsPagerFactory $globalContributionsPagerFactory;
 	private IConnectionProvider $dbProvider;
 	private CheckUserPermissionManager $checkUserPermissionManager;
 	private UserFactory $userFactory;
@@ -47,7 +47,7 @@ class CheckUserUserInfoCardService {
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param UserRegistrationLookup $userRegistrationLookup
 	 * @param UserGroupManager $userGroupManager
-	 * @param GlobalContributionsPagerFactory $globalContributionsPagerFactory
+	 * @param GlobalContributionsPagerFactory|null $globalContributionsPagerFactory
 	 * @param IConnectionProvider $dbProvider
 	 * @param StatsFactory $statsFactory
 	 * @param CheckUserPermissionManager $checkUserPermissionManager
@@ -62,7 +62,7 @@ class CheckUserUserInfoCardService {
 		ExtensionRegistry $extensionRegistry,
 		UserRegistrationLookup $userRegistrationLookup,
 		UserGroupManager $userGroupManager,
-		GlobalContributionsPagerFactory $globalContributionsPagerFactory,
+		?GlobalContributionsPagerFactory $globalContributionsPagerFactory,
 		IConnectionProvider $dbProvider,
 		StatsFactory $statsFactory,
 		CheckUserPermissionManager $checkUserPermissionManager,
@@ -192,29 +192,31 @@ class CheckUserUserInfoCardService {
 		// logged actions on other wikis but this will not appear in the "active wikis"
 		// list. When T397710 is done, we would be able to also fetch active wikis
 		// by looking at log entries as well. For now, making this edit based is fine.
-		$globalContributionsPager = $this->globalContributionsPagerFactory->createPager(
-			RequestContext::getMain(),
-			[],
-			$user
-		);
-		$globalContributionsPager->doQuery();
-		$activeWikiIds = [];
-		foreach ( $globalContributionsPager->getResult() as $result ) {
-			$activeWikiIds[$result->sourcewiki] = true;
-		}
 		$userInfo['activeWikis'] = [];
-		$activeWikiIds = array_keys( $activeWikiIds );
-		sort( $activeWikiIds );
-		foreach ( $activeWikiIds as $wikiId ) {
-			$interWiki = $this->interwikiLookup->fetch(
-				rtrim( $wikiId, 'wiki' )
+		if ( $this->globalContributionsPagerFactory instanceof GlobalContributionsPagerFactory ) {
+			$globalContributionsPager = $this->globalContributionsPagerFactory->createPager(
+				RequestContext::getMain(),
+				[],
+				$user
 			);
-			if ( !$interWiki ) {
-				continue;
+			$globalContributionsPager->doQuery();
+			$activeWikiIds = [];
+			foreach ( $globalContributionsPager->getResult() as $result ) {
+				$activeWikiIds[$result->sourcewiki] = true;
 			}
-			$userInfo['activeWikis'][ $wikiId ] = $interWiki->getUrl(
-				'Special:Contributions/' . str_replace( ' ', '_', $user->getName() )
-			);
+			$activeWikiIds = array_keys( $activeWikiIds );
+			sort( $activeWikiIds );
+			foreach ( $activeWikiIds as $wikiId ) {
+				$interWiki = $this->interwikiLookup->fetch(
+					rtrim( $wikiId, 'wiki' )
+				);
+				if ( !$interWiki ) {
+					continue;
+				}
+				$userInfo['activeWikis'][$wikiId] = $interWiki->getUrl(
+					'Special:Contributions/' . str_replace( ' ', '_', $user->getName() )
+				);
+			}
 		}
 
 		$dbr = $this->dbProvider->getReplicaDatabase();

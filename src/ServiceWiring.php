@@ -420,16 +420,22 @@ return [
 	'CheckUserUserInfoCardService' => static function (
 		MediaWikiServices $services
 	): CheckUserUserInfoCardService {
+		$extensionRegistry = $services->getExtensionRegistry();
 		$userImpactLookup = null;
-		if ( $services->getExtensionRegistry()->isLoaded( 'GrowthExperiments' ) ) {
+		if ( $extensionRegistry->isLoaded( 'GrowthExperiments' ) ) {
 			$userImpactLookup = $services->getService( 'GrowthExperimentsUserImpactLookup' );
+		}
+		$globalContributionsPagerFactory = null;
+		if ( $extensionRegistry->isLoaded( 'GlobalPreferences' ) &&
+			$extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+			$globalContributionsPagerFactory = $services->get( 'CheckUserGlobalContributionsPagerFactory' );
 		}
 		return new CheckUserUserInfoCardService(
 			$userImpactLookup,
 			$services->getExtensionRegistry(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserGlobalContributionsPagerFactory' ),
+			$globalContributionsPagerFactory,
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),

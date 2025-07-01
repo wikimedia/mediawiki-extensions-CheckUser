@@ -149,6 +149,18 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			],
 			$userInfo['activeWikis']
 		);
+
+		$this->setService( 'CheckUserGlobalContributionsPagerFactory', static function () use ( $user ) {
+			return null;
+		} );
+		$userInfoWithoutGlobalContributionsPager = $this->getObjectUnderTest()->getUserInfo(
+			$this->getTestUser()->getAuthority(),
+			$user
+		);
+		$this->assertSame( [], $userInfoWithoutGlobalContributionsPager['activeWikis'] );
+		unset( $userInfo['activeWikis'] );
+		unset( $userInfoWithoutGlobalContributionsPager['activeWikis'] );
+		$this->assertArrayEquals( $userInfo, $userInfoWithoutGlobalContributionsPager );
 	}
 
 	public function testUserImpactIsEmpty() {
