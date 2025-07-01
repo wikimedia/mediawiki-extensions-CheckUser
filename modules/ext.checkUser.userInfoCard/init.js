@@ -20,7 +20,7 @@ $( () => {
 		// is enabled. See T397609 for follow-up work.
 		// Set up event listeners for the user info card buttons
 		$content.find( '.ext-checkuser-userinfocard-button' ).each( function () {
-			$( this ).on( 'mousedown keydown', ( event ) => {
+			$( this ).on( 'click keydown', ( event ) => {
 				// For keyboard events, only respond to Enter key
 				if ( event.type === 'keydown' &&
 					event.key !== 'Enter' &&
