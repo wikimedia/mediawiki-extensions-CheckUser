@@ -6,6 +6,7 @@
 	></div>
 	<cdx-popover
 		ref="popoverRef"
+		:key="username"
 		v-model:open="isOpen"
 		:anchor="currentTrigger"
 		placement="bottom-start"
