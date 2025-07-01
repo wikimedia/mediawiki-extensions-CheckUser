@@ -129,7 +129,7 @@ module.exports = exports = {
 			type: String,
 			default: ''
 		},
-		canAccessTemporaryAccountIPAddresses: {
+		canAccessTemporaryAccountIpAddresses: {
 			type: Boolean,
 			default: false
 		},
@@ -200,8 +200,8 @@ module.exports = exports = {
 
 		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
 		const canViewCheckUserLog = mw.config.get( 'wgCheckUserCanViewCheckUserLog' );
-		const canAccessTemporaryAccountIPAddresses = computed(
-			() => props.canAccessTemporaryAccountIPAddresses
+		const canAccessTemporaryAccountIpAddresses = computed(
+			() => props.canAccessTemporaryAccountIpAddresses
 		);
 		const canBlock = mw.config.get( 'wgCheckUserCanBlock' );
 
@@ -302,7 +302,7 @@ module.exports = exports = {
 				}
 			}
 
-			if ( canAccessTemporaryAccountIPAddresses ) {
+			if ( canAccessTemporaryAccountIpAddresses.value ) {
 				rows.push( {
 					icon: cdxIconUserTemporaryLocation,
 					iconClass: 'ext-checkuser-userinfocard-icon',

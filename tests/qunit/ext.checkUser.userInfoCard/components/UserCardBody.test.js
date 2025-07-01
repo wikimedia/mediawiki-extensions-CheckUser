@@ -90,7 +90,7 @@ QUnit.test( 'displays joined date information correctly', ( assert ) => {
 } );
 
 QUnit.test( 'renders correct number of InfoRowWithLinks components with all permissions', ( assert ) => {
-	const wrapper = mountComponent();
+	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: true } );
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
 	assert.strictEqual( infoRows.length, 8, 'Renders 8 InfoRowWithLinks components when all permissions are granted' );
@@ -99,12 +99,12 @@ QUnit.test( 'renders correct number of InfoRowWithLinks components with all perm
 QUnit.test( 'renders correct number of InfoRowWithLinks components with no permissions', ( assert ) => {
 	mw.config.set( 'wgCheckUserCanViewCheckUserLog', false );
 	mw.config.set( 'wgCheckUserCanBlock', false );
-	// FIXME: Better test to handle the canAccessTemporaryAccountIPAddresses case, which is about
+	// FIXME: Better test to handle the canAccessTemporaryAccountIpAddresses case, which is about
 	// both permissions of viewing and viewed user
-	const wrapper = mountComponent();
+	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: false } );
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	assert.strictEqual( infoRows.length, 5, 'Renders 5 InfoRowWithLinks components when no permissions are granted' );
+	assert.strictEqual( infoRows.length, 4, 'Renders 4 InfoRowWithLinks components when no permissions are granted' );
 } );
 
 QUnit.test( 'passes correct props to active blocks row when permission is granted', ( assert ) => {
@@ -319,7 +319,7 @@ QUnit.test( 'does not render UserActivityChart when hasEditInLast60Days is false
 } );
 
 QUnit.test( 'setup function returns correct values with all permissions', ( assert ) => {
-	const wrapper = mountComponent( { canAccessTemporaryAccountIPAddresses: true } );
+	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: true } );
 
 	assert.strictEqual(
 		wrapper.vm.joinedLabel,
@@ -343,13 +343,13 @@ QUnit.test( 'setup function returns correct values with all permissions', ( asse
 QUnit.test( 'setup function returns correct values with no permissions', ( assert ) => {
 	mw.config.set( 'wgCheckUserCanViewCheckUserLog', false );
 	mw.config.set( 'wgCheckUserCanBlock', false );
-	// FIXME: Better test to handle the canAccessTemporaryAccountIPAddresses case, which is about
+	// FIXME: Better test to handle the canAccessTemporaryAccountIpAddresses case, which is about
 	// both permissions of viewing and viewed user
-	const wrapper = mountComponent();
+	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: false } );
 
 	assert.strictEqual(
 		wrapper.vm.infoRows.length,
-		5,
+		4,
 		'infoRows has correct length with no permissions'
 	);
 } );
