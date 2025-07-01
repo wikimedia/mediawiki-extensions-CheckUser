@@ -331,13 +331,13 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$result = $this->getObjectUnderTest()->getUserInfo(
 			$authority, $user
 		);
-		$this->assertSame( true, $result['canAccessTemporaryAccountIPAddresses'] );
+		$this->assertSame( true, $result['canAccessTemporaryAccountIpAddresses'] );
 
 		$newUser = $this->getTestUser( [ 'noaccess' ] )->getUser();
 		$result = $this->getObjectUnderTest()->getUserInfo(
 			$newUser, $user
 		);
-		$this->assertArrayNotHasKey( 'canAccessTemporaryAccountIPAddresses', $result );
+		$this->assertSame( false, $result['canAccessTemporaryAccountIpAddresses'] );
 	}
 
 	/**
