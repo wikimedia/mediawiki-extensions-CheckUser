@@ -305,7 +305,5 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 دسترسی {{GENDER:$2|خود}} به مشاهدهٔ متغیرهای محافظت‌شده را فعال کرد",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 دسترسی {{GENDER:$2|خود}} به مشاهدهٔ متغیرهای محافظت‌شده را غیرفعال کرد",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 متغیرهای محافظت‌شدهٔ مرتبط با $3 را {{GENDER:$2|مشاهده کرد}}",
-	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "قطع دسترسی‌های فعال از تمام ویکی‌ها",
-	"checkuser-userinfocard-past-blocks-main-label": "قطع دسترسی‌های قبلی",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 ویرایش|0=فاقد ویرایش}})"
 }

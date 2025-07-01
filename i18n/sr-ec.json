@@ -296,10 +296,6 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Глобални доприноси",
 	"checkuser-userinfocard-close-button-aria-label": "Затвори",
 	"checkuser-userinfocard-joined-label": "Придружио/ла се",
-	"checkuser-userinfocard-global-edits-row-main-label": "Глобалних измена",
-	"checkuser-userinfocard-local-edits-row-main-label": "Локалне измене",
-	"checkuser-userinfocard-new-articles-row-main-label": "Нови чланци",
-	"checkuser-userinfocard-thanks-row-main-label": "Број захваљивања",
 	"checkuser-userinfocard-menu-view-contributions": "Види доприносе",
 	"checkuser-userinfocard-menu-view-global-account": "Види информације о глобалном налогу",
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Уклони корисничку страницу са списка надгледања",
@@ -307,5 +303,6 @@
 	"checkuser-userinfocard-menu-provide-feedback": "Повратне информације",
 	"checkuser-userinfocard-error-title": "Дошло је до грешке",
 	"checkuser-ipinfo-global-contributions-label": "Глобални доприноси",
-	"checkuser-userinfocard-groups": "Групе: $1"
+	"checkuser-userinfocard-groups": "<strong>Групе</strong>: $1",
+	"checkuser-userinfocard-global-groups": "<strong>Глобалне групе</strong>: $1"
 }

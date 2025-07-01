@@ -362,16 +362,6 @@
 	"checkuser-userinfocard-open-menu-aria-label": "İstifadəçi məlumat kartı menyusunu aç",
 	"checkuser-userinfocard-joined-label": "Qeydiyyat",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv vikilər",
-	"checkuser-userinfocard-active-blocks-from-all-wikis-main-label": "Bütün vikilərdəki aktiv bloklar",
-	"checkuser-userinfocard-past-blocks-main-label": "Keçmiş bloklar",
-	"checkuser-userinfocard-global-edits-row-main-label": "Qlobal redaktə sayı",
-	"checkuser-userinfocard-local-edits-row-main-label": "Lokal redaktə sayı",
-	"checkuser-userinfocard-local-edits-row-suffix-label": "geri qaytarılmış",
-	"checkuser-userinfocard-new-articles-row-main-label": "Yeni məqalə sayı",
-	"checkuser-userinfocard-thanks-row-main-label": "Qəbul edilən təşəkkürlər",
-	"checkuser-userinfocard-thanks-row-suffix-label": "verilən",
-	"checkuser-userinfocard-checks-row-main-label": "Yoxlanışlar",
-	"checkuser-userinfocard-checks-row-suffix-label": "sonuncu yoxlanış",
 	"checkuser-userinfocard-menu-view-contributions": "İstifadəçi töhfələrinə bax",
 	"checkuser-userinfocard-menu-view-global-account": "Qlobal hesab məlumatlarına bax",
 	"checkuser-userinfocard-menu-add-to-watchlist": "İstifadəçi səhifəsini izləmə siyahısına əlavə et",
@@ -392,5 +382,6 @@
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 qlobal redaktə|0=Qlobal redaktə yoxdur}}",
 	"tooltip-t-global-contributions": "{{GENDER:$1|Bu istifadəçinin}} bütün vikilərdə etdiyi töhfələrin siyahısı",
 	"checkuser-userinfocard-groups": "<strong>Qruplar</strong>: $1",
+	"checkuser-userinfocard-global-groups": "<strong>Qlobal qruplar</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 redaktə|0=Redaktə yoxdur}})"
 }
