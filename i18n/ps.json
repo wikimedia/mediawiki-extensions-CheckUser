@@ -38,5 +38,8 @@
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "تړل",
 	"checkuser-global-contributions-link": "ټوليزې ونډې",
 	"checkuser-global-contributions-link-sidebar": "ټوليزې ونډې",
-	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+۱۰دقيقې"
+	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+۱۰دقيقې",
+	"checkuser-userinfocard-past-blocks": "تېر بنديزون: $1",
+	"checkuser-userinfocard-global-edits": "ټوليز سمونونه: $1",
+	"checkuser-userinfocard-new-articles": "نوې ليکنې: $1"
 }

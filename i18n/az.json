@@ -362,6 +362,14 @@
 	"checkuser-userinfocard-open-menu-aria-label": "İstifadəçi məlumat kartı menyusunu aç",
 	"checkuser-userinfocard-joined-label": "Qeydiyyat",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv vikilər",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Bütün vikilərdəki aktiv bloklar: $1",
+	"checkuser-userinfocard-past-blocks": "Keçmiş bloklar: $1",
+	"checkuser-userinfocard-global-edits": "Qlobal redaktə sayı: $1",
+	"checkuser-userinfocard-local-edits": "Lokal redaktə sayı: $1 ($2 geri qaytarılan)",
+	"checkuser-userinfocard-new-articles": "Yeni məqalə sayı: $1",
+	"checkuser-userinfocard-thanks": "Qəbul edilmiş təşəkkür: $1 ($2 verilib)",
+	"checkuser-userinfocard-checks": "Yoxlanışlar: $1 (son yoxlanış: $2)",
+	"checkuser-userinfocard-checks-empty": "Yoxlanışlar: $1",
 	"checkuser-userinfocard-menu-view-contributions": "İstifadəçi töhfələrinə bax",
 	"checkuser-userinfocard-menu-view-global-account": "Qlobal hesab məlumatlarına bax",
 	"checkuser-userinfocard-menu-add-to-watchlist": "İstifadəçi səhifəsini izləmə siyahısına əlavə et",
@@ -383,5 +391,6 @@
 	"tooltip-t-global-contributions": "{{GENDER:$1|Bu istifadəçinin}} bütün vikilərdə etdiyi töhfələrin siyahısı",
 	"checkuser-userinfocard-groups": "<strong>Qruplar</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Qlobal qruplar</strong>: $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 redaktə|0=Redaktə yoxdur}})"
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 redaktə|0=Redaktə yoxdur}})",
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Müvəqqəti hesab IP-lərinə baxa bilməyi seçib"
 }

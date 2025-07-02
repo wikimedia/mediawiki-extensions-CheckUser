@@ -351,6 +351,14 @@
 	"checkuser-userinfocard-open-menu-aria-label": "Aperir le menu del carta de information del usator",
 	"checkuser-userinfocard-joined-label": "Adherite",
 	"checkuser-userinfocard-active-wikis-label": "Wikis active",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocadas active de tote le wikis: $1",
+	"checkuser-userinfocard-past-blocks": "Blocadas passate: $1",
+	"checkuser-userinfocard-global-edits": "Modificationes global: $1",
+	"checkuser-userinfocard-local-edits": "Modificationes local: $1 (revertite: $2)",
+	"checkuser-userinfocard-new-articles": "Nove articulos: $1",
+	"checkuser-userinfocard-thanks": "Regratiamentos recipite: $1 (date: $2)",
+	"checkuser-userinfocard-checks": "Verificationes: $1 (ultime verification: $2)",
+	"checkuser-userinfocard-checks-empty": "Verificationes: $1",
 	"checkuser-userinfocard-menu-view-contributions": "Vider contributiones del usator",
 	"checkuser-userinfocard-menu-view-global-account": "Vider information de conto global",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Adder pagina de usator al observatorio",
@@ -372,5 +380,6 @@
 	"tooltip-t-global-contributions": "Un lista del contributiones de iste usat{{GENDER:$1|or|rice}} sur tote le wikis",
 	"checkuser-userinfocard-groups": "<strong>Gruppos:</strong> $1",
 	"checkuser-userinfocard-global-groups": "<strong>Gruppos global:</strong> $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modification|$2 modificationes|0=Necun modification}})"
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modification|$2 modificationes|0=Necun modification}})",
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Optate pro vider le adresses IP de contos temporari"
 }

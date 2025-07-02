@@ -370,6 +370,14 @@
 	"checkuser-userinfocard-open-menu-aria-label": "Відкрити меню інформаційної картки користувача",
 	"checkuser-userinfocard-joined-label": "Приєдналися",
 	"checkuser-userinfocard-active-wikis-label": "Активні вікі",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Активні блокування з усіх вікі: $1",
+	"checkuser-userinfocard-past-blocks": "Минулі блокування: $1",
+	"checkuser-userinfocard-global-edits": "Глобальні редагування: $1",
+	"checkuser-userinfocard-local-edits": "Локальні редагування: $1 (відкинуто: $2)",
+	"checkuser-userinfocard-new-articles": "Нові статті: $1",
+	"checkuser-userinfocard-thanks": "Отримано подяк: $1 (надіслано: $2)",
+	"checkuser-userinfocard-checks": "Перевірки: $1 (остання перевірка: $2)",
+	"checkuser-userinfocard-checks-empty": "Перевірки: $1",
 	"checkuser-userinfocard-menu-view-contributions": "Переглянути внесок користувача",
 	"checkuser-userinfocard-menu-view-global-account": "Переглянути інформацію про глобальний обліковий запис",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Додати сторінку користувача до списку спостереження",
@@ -390,5 +398,7 @@
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобальне редагування|$1 глобальні редагування|$1 глобальних редагувань|0=Немає глобальних редагувань}}",
 	"tooltip-t-global-contributions": "Список внесків у всіх вікі від {{GENDER:$1|цього користувача|цієї користувачки}}",
 	"checkuser-userinfocard-groups": "<strong>Групи</strong>: $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 редагування|$2 редагування|$2 редагувань|0=Немає редагувань}})"
+	"checkuser-userinfocard-global-groups": "<strong>Глобальні групи</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 редагування|$2 редагування|$2 редагувань|0=Немає редагувань}})",
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Ви увімкнули собі перегляд IP-адрес тимчасових облікових записів"
 }

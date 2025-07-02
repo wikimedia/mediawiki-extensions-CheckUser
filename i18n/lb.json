@@ -188,6 +188,12 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen",
 	"checkuser-userinfocard-close-button-aria-label": "Zoumaachen",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv Wikien",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktiv Späre vun alle Wikien: $1",
+	"checkuser-userinfocard-past-blocks": "Vergaange Spären: $1",
+	"checkuser-userinfocard-global-edits": "Global Ännerungen: $1",
+	"checkuser-userinfocard-local-edits": "Lokal Ännerungen: $1 (zréckgesat: $2)",
+	"checkuser-userinfocard-new-articles": "Nei Artikelen: $1",
+	"checkuser-userinfocard-thanks": "Mercie kritt: $1 (ginn: $2)",
 	"checkuser-userinfocard-menu-view-contributions": "Benotzerkontributioune weisen",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Benotzersäit op d'Iwwerwaachungslëscht setzen",
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Benotzersäit vun enger Iwwerwaachungslëscht erofhuelen",
@@ -200,5 +206,6 @@
 	"checkuser-ipinfo-global-contributions-label": "Global Kontributiounen",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global Ännerung|$1 global Ännerungen|0=Keng global Ännerungen}}",
 	"checkuser-userinfocard-groups": "<strong>Gruppen</strong>: $1",
+	"checkuser-userinfocard-global-groups": "<strong>Global Gruppen</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Ännerung|$2 Ännerungen|0=Keng Ännerungen}})"
 }
