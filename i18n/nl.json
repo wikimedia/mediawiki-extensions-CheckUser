@@ -18,7 +18,8 @@
 			"Trijnstel",
 			"Troefkaart",
 			"Vistaus",
-			"Xbaked potatox"
+			"Xbaked potatox",
+			"XXBlackburnXx"
 		]
 	},
 	"checkuser-summary": "Dit hulpmiddel doorzoekt de recente wijzigingen om de IP-adressen van een gebruiker te achterhalen, of om voor een IP-adres de bewerkings- en gebruikersgegegevens weer te geven.\nDe met een bepaald IP-adres in verband staande gebruikers en bewerkingen kunnen via XFF-headers achterhaald worden door \"/xff\" achter het IP-adres toe te voegen. Daarbij worden zowel IPv4 (CIDR $1-32) als IPv6 (CIDR $2-128) ondersteund.\nOm prestatieredenen worden niet meer dan $3 bewerkingen weergegeven.\nGebruik dit hulpmiddel alleen in overeenstemming met het vastgestelde beleid.",
@@ -165,7 +166,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "IP-informatie inschakelen",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "Er is iets misgegaan. Probeer het opnieuw. De ontvangen foutmelding was: $1",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Voorkeur bijgewerkt",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Klik op “Voorkeur opslaan” voordat u doorgaat",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Klik op \"Voorkeur opslaan\" voordat je verdergaat",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Voorkeur opslaan",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Een IP-adres onthullen",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "Met de functie IP Reveal kunnen beheerders, vandalenbestrijders en ervaren gebruikers het IP-adres onthullen dat is gekoppeld aan een tijdelijk account.\n\nGebruikers die voldoen aan de toegangsvereisten kunnen IP Reveal inschakelen in hun [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|voorkeuren]]. Na het inschakelen verschijnt de knop “IP-adres weergeven” naast tijdelijke accounts.",

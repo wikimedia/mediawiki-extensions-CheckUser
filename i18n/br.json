@@ -6,7 +6,8 @@
 			"Fohanno",
 			"Fulup",
 			"Huñvreüs",
-			"Y-M D"
+			"Y-M D",
+			"Troer56"
 		]
 	},
 	"checkuser-summary": "Furchal a ra an ostilh-mañ ar c'hemmoù diwezhañ a-benn klask ar chomlec'h IP implijet gant un implijer bennak, diskouez a ra holl degasadennoù ur chomlec'h IP (ha pa vefe bet enrollet), pe roll ar c'hontoù implijet gant ur chomlec'h IP. Gallout a ra ar c'hontoù hag ar c'hemmoù bezañ kavet gant un IP XFF mard echu gant \"/xff\". Posupl eo implijout ar protokoloù IPv4 (CIDR $1-32) hag IPv6 (CIDR $2-128).\nNe vo kaset en-dro nemet $3 kemm da vuiañ evit abegoù nerzh ar servijer.\nGrit gant an ostilh-mañ en ur zoujañ d'ar garta implijout.",
@@ -164,7 +165,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "N'haller ket lakaat ur badelezh ouzhpenn 24 eurvezh",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10mun",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Diweredekaat",
-	"prefs-checkuser-tempaccount": "Diskuliañ IP kont berrbad",
+	"prefs-checkuser-tempaccount": "Diskuliañ IP ar c’hontoù berrbad",
 	"checkuser-tempaccount-enable-preference-description": "Pa rit gant ar benveg-mañ e rankit bezañ sur e rit hervez ar reolennoù.",
 	"checkuser-tempaccount-enable-preference": "Gweredekaat diskuliañ chomlec’hioù IP ar c’hontoù berrbad",
 	"checkuser-tempaccount-no-ip-results": "Roadenn IP ebet a-zivout an implijer berrbad-mañ e-pad an $1  {{PLURAL:$1|deiz}} diwezhañ",

@@ -23,6 +23,8 @@
 	"checkuser-contribs-log": "verificări recente de utilizatori",
 	"group-checkuser": "Checkuseri",
 	"group-checkuser-member": "{{GENDER:$1|checkuser}}",
+	"group-temporary-account-viewer": "Vizualizatori de IP-uri ale conturilor temporare",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|vizualizator de IP-uri ale conturilor temporare|vizualizatoare de IP-uri ale conturilor temporare}}",
 	"right-checkuser": "Verifică adresele IP ale utilizatorilor și alte informații",
 	"right-checkuser-log": "Vezi jurnalul checkuser",
 	"action-checkuser": "verifică adresa IP a utilizatorului și alte informații",
@@ -62,5 +64,13 @@
 	"logentry-checkuser-private-event-create-account": "a fost creat",
 	"checkuser-ip-contributions-subtitle": "Se afișează rezultate din {{PLURAL:$1|ultima zi|ultimele $1 zile|ultimele $1 de zile}}.",
 	"checkuser-global-contributions-link": "contribuții globale",
-	"checkuser-global-contributions-link-sidebar": "Contribuții globale"
+	"checkuser-global-contributions-link-sidebar": "Contribuții globale",
+	"checkuser-ip-auto-reveal-link-sidebar": "Auto-dezvăluire IP",
+	"checkuser-ip-auto-reveal-notification-on": "<strong>Auto-dezvăluirea IP este pornită.</strong>",
+	"checkuser-ip-auto-reveal-notification-off": "<strong>Auto-dezvăluirea IP este oprită.</strong>",
+	"checkuser-tempaccount-reveal-ip-button-label": "Arată IP-ul",
+	"checkuser-tempaccount-reveal-ip-missing": "indisponibil",
+	"checkuser-tempaccount-reveal-ip-error": "eroare",
+	"checkuser-tempaccount-reveal-blocked-loading": "Se încarcă detaliile blocării",
+	"checkuser-tempaccount-reveal-blocked-title": "Vezi detaliile blocării"
 }

@@ -153,7 +153,7 @@
 	"group-checkuser.js": "/* Buraya eklenen JavaScript kodu yalnızca denetçilerde çalışacaktır */",
 	"checkuser-temporary-accounts-onboarding-dialog-title": "Geçici hesapların tanıtımı",
 	"checkuser-temporary-accounts-onboarding-dialog-skip-all": "Tümünü atla",
-	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$2/$1",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1/$2",
 	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "Önceki",
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Sonraki",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Kapat",

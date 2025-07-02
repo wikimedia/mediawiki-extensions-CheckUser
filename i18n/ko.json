@@ -149,6 +149,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "임시 계정은 무엇입니까?",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "임시 계정 사용자 아이콘을 보여주는 이미지입니다.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "IP 정보 보기",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info IP 정보] 도구를 사용하면 관리자, 문서 훼손 전문가, 숙련된 사용자가 IP 주소를 직접 확인하지 않고도 IP 주소 정보에 쉽게 접근할 수 있습니다.\n\n접근 요건을 충족하는 사용자는 환경 설정에서 IP 정보를 활성화할 수 있습니다. 활성화하면 임시 계정과 기존 IP 주소 옆에 IP 정보 팝업이 표시됩니다. IP 정보는 기여 페이지에도 표시됩니다.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "IP 정보 활성화",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "환경 설정이 업데이트되었습니다",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "계속하기 전에 \"환경 설정 저장\"을 클릭해 주십시오",
