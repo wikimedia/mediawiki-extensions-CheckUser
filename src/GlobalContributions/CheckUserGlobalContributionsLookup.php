@@ -10,11 +10,15 @@ use MediaWiki\Config\Config;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\Request\WebRequest;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
+use MediaWiki\User\User;
+use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
+use Wikimedia\Stats\StatsFactory;
 
 class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 
@@ -26,6 +30,24 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	private CheckUserLookupUtils $checkUserLookupUtils;
 	private Config $config;
 	private RevisionStore $revisionStore;
+	private CheckUserApiRequestAggregator $apiRequestAggregator;
+	private WANObjectCache $wanCache;
+	private StatsFactory $statsFactory;
+
+	/**
+	 * Prometheus counter metric name for API lookup errors.
+	 */
+	public const API_LOOKUP_ERROR_METRIC_NAME = 'checkuser_globalcontributions_api_lookup_error';
+
+	/**
+	 * Prometheus counter metric name for tracking external permissions cache hits.
+	 */
+	public const EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME = 'checkuser_external_permissions_cache_hit';
+
+	/**
+	 * Prometheus counter metric name for tracking external permissions cache misses.
+	 */
+	public const EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME = 'checkuser_external_permissions_cache_miss';
 
 	public function __construct(
 		IConnectionProvider $dbProvider,
@@ -33,7 +55,10 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 		CentralIdLookup $centralIdLookup,
 		CheckUserLookupUtils $checkUserLookupUtils,
 		Config $config,
-		RevisionStore $revisionStore
+		RevisionStore $revisionStore,
+		CheckUserApiRequestAggregator $apiRequestAggregator,
+		WANObjectCache $wanCache,
+		StatsFactory $statsFactory
 	) {
 		$this->dbProvider = $dbProvider;
 		$this->extensionRegistry = $extensionRegistry;
@@ -41,6 +66,9 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->config = $config;
 		$this->revisionStore = $revisionStore;
+		$this->apiRequestAggregator = $apiRequestAggregator;
+		$this->wanCache = $wanCache;
+		$this->statsFactory = $statsFactory;
 	}
 
 	/**
@@ -176,6 +204,99 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 			$centralUser = CentralAuthUser::getInstanceByName( $target );
 			return $centralUser->getGlobalEditCount();
 		}
+	}
+
+	/**
+	 * @param int $centralId
+	 * @param string[] $wikiIds
+	 * @param User $user
+	 * @return array array containing 1. an array of permissions results 2. a bool indicating if any errors occurred
+	 */
+	public function getAndUpdateExternalWikiPermissions(
+		int $centralId,
+		array $wikiIds,
+		User $user,
+		WebRequest $request
+	) {
+		$cacheKey = $this->wanCache->makeGlobalKey(
+			'globalcontributions-ext-permissions',
+			$centralId
+		);
+
+		$externalApiLookupError = false;
+		$permissions = $this->wanCache->getWithSetCallback(
+			$cacheKey,
+			$this->wanCache::TTL_MONTH,
+			function ( $oldValue, &$ttl ) use ( $wikiIds, $user, $request, &$externalApiLookupError ) {
+				// If new active wikis are used, the cache value will need to be updated
+				$wikisWithUnknownPermissions = [];
+				if ( is_array( $oldValue ) ) {
+					foreach ( $wikiIds as $wikiId ) {
+						if ( !array_key_exists( $wikiId, $oldValue ) ) {
+							$wikisWithUnknownPermissions[] = $wikiId;
+						}
+					}
+				} else {
+					// Nothing in cache, will need to pull permissions and cache them
+					$wikisWithUnknownPermissions = $wikiIds;
+				}
+
+				if ( !count( $wikisWithUnknownPermissions ) ) {
+					// Don't attempt to re-set this value when it's returned
+					$ttl = $this->wanCache::TTL_UNCACHEABLE;
+					// We still want to check permissions even if it's an empty array so fall back
+					// to that if a cached value hasn't been set yet ($oldValue will be false)
+					if ( is_array( $oldValue ) ) {
+						$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME )
+							->increment();
+						return $oldValue;
+					}
+					return [];
+				}
+
+				$allPermissions = $this->apiRequestAggregator->execute(
+					$user,
+					[
+						'action' => 'query',
+						'prop' => 'info',
+						'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference' .
+							'|deletedtext|deletedhistory|suppressrevision|viewsuppressed',
+						// We need to check against a title, but it doesn't actually matter if the title exists
+						'titles' => 'Test Title',
+						// Using `full` level checks blocks as well
+						'intestactionsdetail' => 'full',
+						'format' => 'json',
+					],
+					$wikisWithUnknownPermissions,
+					$request,
+					CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH
+				);
+
+				$permissions = is_array( $oldValue ) ? $oldValue : [];
+				foreach ( $wikiIds as $wikiId ) {
+					if ( !isset( $allPermissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
+						// The API lookup failed, so assume the user does not have IP reveal rights.
+						$externalApiLookupError = true;
+
+						$this->statsFactory->getCounter( self::API_LOOKUP_ERROR_METRIC_NAME )
+							->increment();
+
+						continue;
+					}
+					$permissions[$wikiId] = $allPermissions[$wikiId]['query']['pages'][0]['actions'];
+				}
+				$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME )
+					->increment();
+				return $permissions;
+			},
+			// Always run the callback
+			[ 'minAsOf' => INF ]
+		);
+
+		return [
+			'externalApiLookupError' => $externalApiLookupError,
+			'permissions' => $permissions
+		];
 	}
 
 	/**

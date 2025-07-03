@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -99,15 +98,12 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['TempUserConfig'] ?? $services->getTempUserConfig(),
 			$overrides['CheckUserLookupUtils'] ?? $services->get( 'CheckUserLookupUtils' ),
 			$overrides['CentralIdLookup'] ?? $services->get( 'CentralIdLookup' ),
-			$overrides['RequestAggregator'] ?? $services->get( 'CheckUserApiRequestAggregator' ),
 			$overrides['GlobalContributionsLookup'] ?? $services->get( 'CheckUserGlobalContributionsLookup' ),
 			$overrides['PermissionManager'] ?? $services->getPermissionManager(),
 			$overrides['PreferencesFactory'] ?? $services->getPreferencesFactory(),
 			$overrides['LoadBalancerFactory'] ?? $services->getConnectionProvider(),
 			$overrides['JobQueueGroup'] ?? $services->getJobQueueGroup(),
-			$overrides['StatsFactory'] ?? $services->getStatsFactory(),
 			$overrides['UserLinkRenderer'] ?? $this->userLinkRenderer,
-			$overrides['MainWANObjectCache'] ?? $services->getMainWANObjectCache(),
 			$overrides['Context'] ?? RequestContext::getMain(),
 			$overrides['options'] ?? [ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, $overrides['UserName'] ?? '127.0.0.1' )
@@ -696,15 +692,12 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getTempUserConfig(),
 				$services->get( 'CheckUserLookupUtils' ),
 				$services->get( 'CentralIdLookup' ),
-				$services->get( 'CheckUserApiRequestAggregator' ),
 				$services->get( 'CheckUserGlobalContributionsLookup' ),
 				$services->getPermissionManager(),
 				$services->getPreferencesFactory(),
 				$services->getDBLoadBalancerFactory(),
 				$services->getJobQueueGroup(),
-				$services->getStatsFactory(),
 				$this->userLinkRenderer,
-				$services->getMainWANObjectCache(),
 				$context,
 				[ 'revisionsOnly' => true ],
 				new UserIdentityValue( 0, '127.0.0.1' )
@@ -934,23 +927,16 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( [ $localWiki, $externalWiki ] );
 
 		// Mock making the permission API call
-		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
-		$apiRequestAggregator->method( 'execute' )
+		$globalContributionsLookup->method( 'getAndUpdateExternalWikiPermissions' )
 			->willReturn( [
-				$externalWiki => [
-					'query' => [
-						'pages' => [
-							[
-								'actions' => $permissions,
-							],
-						],
-					],
+				'permissions' => [
+					'otherwiki' => $permissions,
 				],
+				'externalApiLookupError' => false,
 			] );
 
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
-			'RequestAggregator' => $apiRequestAggregator,
 			'GlobalContributionsLookup' => $globalContributionsLookup
 		] );
 		$pager = TestingAccessWrapper::newFromObject( $pager );
@@ -1002,95 +988,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( [], $pager->permissions );
 	}
 
-	public function testExternalWikiPermissionsCache() {
-		// Mock the user has a central id
-		$centralIdLookup = $this->createMock( CentralIdLookup::class );
-		$centralIdLookup->method( 'centralIdFromLocalUser' )
-			->willReturn( 1 );
-
-		// Mock making the permission API call
-		$wikiIds = [ 'otherwiki' ];
-		$permsByWiki = array_fill_keys(
-			$wikiIds,
-			[
-				'query' => [
-					'pages' => [
-						[
-							'actions' => [
-								'checkuser-temporary-account' => [ 'error' ],
-								'checkuser-temporary-account-no-preference' => [],
-							]
-						],
-					],
-				],
-			],
-		);
-		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
-		$apiRequestAggregator
-			->expects( $this->exactly( 2 ) )
-			->method( 'execute' )
-			->willReturn( $permsByWiki );
-
-		$services = $this->getServiceContainer();
-		$pager = $this->getMockBuilder( GlobalContributionsPager::class )
-			->onlyMethods( [ 'getExternalWikiPermissions' ] )
-			->setConstructorArgs( [
-				$this->linkRenderer,
-				$services->getLinkBatchFactory(),
-				$services->getHookContainer(),
-				$services->getRevisionStore(),
-				$services->getNamespaceInfo(),
-				$services->getCommentFormatter(),
-				$services->getUserFactory(),
-				$services->getTempUserConfig(),
-				$services->get( 'CheckUserLookupUtils' ),
-				$centralIdLookup,
-				$apiRequestAggregator,
-				$services->get( 'CheckUserGlobalContributionsLookup' ),
-				$services->getPermissionManager(),
-				$services->getPreferencesFactory(),
-				$services->getDBLoadBalancerFactory(),
-				$services->getJobQueueGroup(),
-				$services->getStatsFactory(),
-				$this->userLinkRenderer,
-				$services->getMainWANObjectCache(),
-				RequestContext::getMain(),
-				[ 'revisionsOnly' => true ],
-				new UserIdentityValue( 0, '127.0.0.1' )
-			] )
-			->getMock();
-		$pager = TestingAccessWrapper::newFromObject( $pager );
-
-		// Assert no hits or misses on the cache have been counted
-		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 0 );
-		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 0 );
-
-		// Set the value in the cache
-		$pager->getExternalWikiPermissions( $wikiIds );
-		$this->assertSame( [
-			'otherwiki' => [
-				'checkuser-temporary-account' => [ 'error' ],
-				'checkuser-temporary-account-no-preference' => [],
-			]
-		], $pager->permissions );
-
-		// Expect only the cache miss counter to increment
-		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 1 );
-		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 0 );
-
-		// Re-run the function, expecting that the API aggregator will not execute again
-		$pager->getExternalWikiPermissions( $wikiIds );
-
-		// Expect only the cache hit counter to increment
-		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 1 );
-		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 1 );
-
-		// Run the function with a different set of active wikis, expecting a cache miss
-		$pager->getExternalWikiPermissions( [ 'otherwiki2' ] );
-		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 2 );
-		$this->assertMetricCount( GlobalContributionsPager::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 1 );
-	}
-
 	public function testExternalWikiPermissionsNotCheckedForUser() {
 		$localWiki = WikiMap::getCurrentWikiId();
 		$externalWiki = 'otherwiki';
@@ -1100,9 +997,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$globalContributionsLookup->method( 'getActiveWikis' )
 			->willReturn( [ $localWiki, $externalWiki ] );
 
-		// Ensure the permission API call is not made
-		$apiRequestAggregator = $this->createNoOpMock( CheckUserApiRequestAggregator::class );
-
 		// Mock the central user exists
 		$centralIdLookup = $this->createMock( CentralIdLookup::class );
 		$centralIdLookup->method( 'centralIdFromName' )
@@ -1110,7 +1004,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
-			'RequestAggregator' => $apiRequestAggregator,
 			'GlobalContributionsLookup' => $globalContributionsLookup,
 			'UserName' => 'SomeUser',
 		] );
@@ -1150,6 +1043,20 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$globalContributionsLookup->method( 'getActiveWikis' )
 			->willReturn( $wikiIds );
 
+		// Mock returning the permissions
+		$permsByWiki = array_fill_keys(
+			$wikiIds,
+			[
+				'checkuser-temporary-account' => [ 'error' ],
+				'checkuser-temporary-account-no-preference' => [],
+			],
+		);
+		$globalContributionsLookup->method( 'getAndUpdateExternalWikiPermissions' )
+			->willReturn( [
+				'externalApiLookupError' => false,
+				'permissions' => $permsByWiki
+			] );
+
 		$parentSizeMap = [];
 		foreach ( $expectedParentSizeLookups as $wikiId => $parentRevIds ) {
 			$parentSizes = array_fill_keys( $parentRevIds, 5 );
@@ -1186,26 +1093,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$centralIdLookup = $this->createMock( CentralIdLookup::class );
 		$centralIdLookup->method( 'centralIdFromLocalUser' )
 			->willReturn( 1 );
-
-		// Mock making the permission API call
-		$permsByWiki = array_fill_keys(
-			$wikiIds,
-			[
-				'query' => [
-					'pages' => [
-						[
-							'actions' => [
-								'checkuser-temporary-account' => [ 'error' ],
-								'checkuser-temporary-account-no-preference' => [],
-							]
-						],
-					],
-				],
-			],
-		);
-		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
-		$apiRequestAggregator->method( 'execute' )
-			->willReturn( $permsByWiki );
 
 		// Since this pager calls out to other wikis, extension hooks should not be run
 		// because the extension may not be loaded on the external wiki (T385092).
@@ -1297,7 +1184,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
 			'HookContainer' => $hookContainer,
-			'RequestAggregator' => $apiRequestAggregator,
 			'LoadBalancerFactory' => $dbProvider,
 			'GlobalContributionsLookup' => $globalContributionsLookup,
 			'Context' => $context,
@@ -1321,7 +1207,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $expectedPrevQuery, $pagingQueries['prev'], 'Invalid prev pagination link' );
 		$this->assertSame( $expectedNextQuery, $pagingQueries['next'], 'Invalid next pagination link' );
 		$this->assertSame( $expectedDiffSizes, $diffSizes, 'Mismatched byte counts in diff links' );
-		$this->assertMetricCount( GlobalContributionsPager::API_LOOKUP_ERROR_METRIC_NAME, 0 );
+		$this->assertApiLookupErrorCount( 0 );
 	}
 
 	public static function provideQueryData(): iterable {
@@ -1544,7 +1430,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		$pager = $this->getPagerWithOverrides( [
 			'HookContainer' => $hookContainer,
-			'RequestAggregator' => $this->createMock( CheckUserApiRequestAggregator::class ),
 			'LoadBalancerFactory' => $dbProvider,
 		] );
 
@@ -1564,74 +1449,16 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testShouldInstrumentForeignApiLookupErrors(): void {
-		// Mock the user has a central id
-		$centralIdLookup = $this->createMock( CentralIdLookup::class );
-		$centralIdLookup->method( 'centralIdFromLocalUser' )
-			->willReturn( 1 );
-
-		// Mock fetching the recently active wikis
-		$globalContributionsLookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
-		$globalContributionsLookup->method( 'getActiveWikis' )
-			->willReturn( [ 'testwiki' ] );
-
-		$checkUserDb = $this->createMock( IReadableDatabase::class );
-
-		$localQueryBuilder = $this->createMock( SelectQueryBuilder::class );
-		$localQueryBuilder->method( $this->logicalNot( $this->equalTo( 'fetchResultSet' ) ) )
-			->willReturnSelf();
-		$localQueryBuilder->method( 'fetchResultSet' )
-			->willReturn( new FakeResultWrapper( [] ) );
-
-		$localDb = $this->createMock( IReadableDatabase::class );
-		$localDb->method( 'newSelectQueryBuilder' )
-			->willReturn( $localQueryBuilder );
-
-		$dbProvider = $this->createMock( IConnectionProvider::class );
-		$dbProvider->method( 'getReplicaDatabase' )
-			->willReturnMap( [
-				[ CheckUserQueryInterface::VIRTUAL_GLOBAL_DB_DOMAIN, null, $checkUserDb ],
-				[ 'testwiki', null, $localDb ]
-			] );
-
-		// Mock a failed permission API call
-		$permsByWiki = [
-			'testwiki' => [
-				'error' => true,
-			],
-		];
-
-		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
-		$apiRequestAggregator->method( 'execute' )
-			->willReturn( $permsByWiki );
-
-		// Since this pager calls out to other wikis, extension hooks should not be run
-		// because the extension may not be loaded on the external wiki (T385092).
-		$hookContainer = $this->createNoOpMock( HookContainer::class );
-
-		$pager = $this->getPagerWithOverrides( [
-			'CentralIdLookup' => $centralIdLookup,
-			'HookContainer' => $hookContainer,
-			'RequestAggregator' => $apiRequestAggregator,
-			'LoadBalancerFactory' => $dbProvider,
-			'GlobalContributionsLookup' => $globalContributionsLookup,
-		] );
-		$pager->doQuery();
-
-		$this->assertMetricCount( GlobalContributionsPager::API_LOOKUP_ERROR_METRIC_NAME, 1 );
-	}
-
 	/**
-	 * Convenience function to assert that a stats counter metric has a given count.
+	 * Convenience function to assert that the API lookup error counter metric has a given count.
 	 *
-	 * @param string $metricName
 	 * @param int $expectedCount
 	 * @return void
 	 */
-	private function assertMetricCount( string $metricName, int $expectedCount ): void {
+	private function assertApiLookupErrorCount( int $expectedCount ): void {
 		$counter = $this->getServiceContainer()
 			->getStatsFactory()
-			->getCounter( $metricName );
+			->getCounter( CheckUserGlobalContributionsLookup::API_LOOKUP_ERROR_METRIC_NAME );
 
 		$sampleValues = array_map( static fn ( $sample ) => $sample->getValue(), $counter->getSamples() );
 
