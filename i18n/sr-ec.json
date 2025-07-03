@@ -144,6 +144,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Следеће",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Затвори",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Шта је привремени налог?",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "Да би заштитили приватност корисника {{SITENAME}} више не приказује јавно IP адресе анонимних уредника\n\nУместо тога анонимни уредници добијају <strong>[https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts аутоматски генерисано корисничко име]</strong>. Колачић ће бити додат у прегледач када се налог направи. Ово корисничко име ће бити коришћено за све наредне измене, чак и када се IP адреса промени. \n\nIP адресе привремених налога могу видети само овлашћена лица и чланови заједнице ради спречавања вандализама/злоупотреба.",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "Слика приказује корисничку икону привременог налога.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "Приступ IP информацијама",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info IP инфо] алатка олакшава администраторима, патролерима и искусним уредницима да приступе информацијама о IP адресама без да исте виде.\n\nКорисници који испуњавају услове за приступ могу да омогуће алатку у подешавањима. Када је омогућена, IP инфо искачући прозорчић ће бити приказан поред привремених налога и пређашњих IP адреса. IP информација ће бити приказана и на страници доприноса.",
@@ -296,6 +297,12 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Глобални доприноси",
 	"checkuser-userinfocard-close-button-aria-label": "Затвори",
 	"checkuser-userinfocard-joined-label": "Придружио/ла се",
+	"checkuser-userinfocard-past-blocks": "Претходне блокаде: $1",
+	"checkuser-userinfocard-global-edits": "Глобалних измена: $1",
+	"checkuser-userinfocard-local-edits": "Локалних измена: $1 (враћено: $2)",
+	"checkuser-userinfocard-new-articles": "Нови чланци: $1",
+	"checkuser-userinfocard-thanks": "Захваљено: $1 (захвалио/ла се: $2)",
+	"checkuser-userinfocard-checks-empty": "Провера: $1",
 	"checkuser-userinfocard-menu-view-contributions": "Види доприносе",
 	"checkuser-userinfocard-menu-view-global-account": "Види информације о глобалном налогу",
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Уклони корисничку страницу са списка надгледања",
@@ -304,5 +311,6 @@
 	"checkuser-userinfocard-error-title": "Дошло је до грешке",
 	"checkuser-ipinfo-global-contributions-label": "Глобални доприноси",
 	"checkuser-userinfocard-groups": "<strong>Групе</strong>: $1",
-	"checkuser-userinfocard-global-groups": "<strong>Глобалне групе</strong>: $1"
+	"checkuser-userinfocard-global-groups": "<strong>Глобалне групе</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 измена|$2 измене|0=Без измена}})"
 }
