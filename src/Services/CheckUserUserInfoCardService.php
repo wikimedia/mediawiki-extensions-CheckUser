@@ -19,6 +19,7 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MessageLocalizer;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Message\ListType;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -41,6 +42,8 @@ class CheckUserUserInfoCardService {
 	private UserEditTracker $userEditTracker;
 	private MessageLocalizer $messageLocalizer;
 	private TitleFactory $titleFactory;
+	private LoggerInterface $logger;
+	private const PAGER_ITERATION_LIMIT = 20;
 
 	/**
 	 * @param UserImpactLookup|null $userImpactLookup
@@ -70,7 +73,8 @@ class CheckUserUserInfoCardService {
 		InterwikiLookup $interwikiLookup,
 		UserEditTracker $userEditTracker,
 		MessageLocalizer $messageLocalizer,
-		TitleFactory $titleFactory
+		TitleFactory $titleFactory,
+		LoggerInterface $logger
 	) {
 		$this->userImpactLookup = $userImpactLookup;
 		$this->extensionRegistry = $extensionRegistry;
@@ -85,6 +89,7 @@ class CheckUserUserInfoCardService {
 		$this->userEditTracker = $userEditTracker;
 		$this->messageLocalizer = $messageLocalizer;
 		$this->titleFactory = $titleFactory;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -187,22 +192,43 @@ class CheckUserUserInfoCardService {
 			}
 		}
 
-		// Fetch the list of active wikis for a user by looking at permissions-gated
-		// global contributions. Note that this means that a user can perform publicly
-		// logged actions on other wikis but this will not appear in the "active wikis"
-		// list. When T397710 is done, we would be able to also fetch active wikis
-		// by looking at log entries as well. For now, making this edit based is fine.
 		$userInfo['activeWikis'] = [];
 		if ( $this->globalContributionsPagerFactory instanceof GlobalContributionsPagerFactory ) {
+			$activeWikiIds = [];
+			$activeWikisStart = microtime( true );
+			// Fetch the list of active wikis for a user by looking at permissions-gated
+			// global contributions. Note that this means that a user can perform publicly
+			// logged actions on other wikis but this will not appear in the "active wikis"
+			// list. When T397710 is done, we would be able to also fetch active wikis
+			// by looking at log entries as well. For now, making this edit based is fine.
 			$globalContributionsPager = $this->globalContributionsPagerFactory->createPager(
 				RequestContext::getMain(),
 				[],
 				$user
 			);
-			$globalContributionsPager->doQuery();
-			$activeWikiIds = [];
-			foreach ( $globalContributionsPager->getResult() as $result ) {
-				$activeWikiIds[$result->sourcewiki] = true;
+			$offset = '';
+			$iterations = 0;
+			do {
+				// Iterate over results until we have gone through every wiki's rows.
+				$globalContributionsPager->setOffset( $offset );
+				// Set the highest possible limit here, to reduce the number of times we need to
+				// iterate over the pager results.
+				$globalContributionsPager->setLimit( 5000 );
+				$globalContributionsPager->doQuery();
+				foreach ( $globalContributionsPager->getResult() as $result ) {
+					$activeWikiIds[$result->sourcewiki] = true;
+				}
+				$queryOptions = $globalContributionsPager->getPagingQueries();
+				$offset = $queryOptions['next']['offset'] ?? '';
+				$iterations++;
+			} while ( $offset !== '' && $iterations < self::PAGER_ITERATION_LIMIT );
+			if ( $iterations === self::PAGER_ITERATION_LIMIT ) {
+				// Diagnostic logging, in case we need to increase the iterations.
+				$this->logger->info(
+					'UserInfoCard returned incomplete activeWikis for {user} due to reaching pager iteration limits', [
+						'user' => $user->getName(),
+					]
+				);
 			}
 			$activeWikiIds = array_keys( $activeWikiIds );
 			sort( $activeWikiIds );
@@ -217,6 +243,10 @@ class CheckUserUserInfoCardService {
 					'Special:Contributions/' . str_replace( ' ', '_', $user->getName() )
 				);
 			}
+			$this->statsFactory->withComponent( 'CheckUser' )
+				->getTiming( 'userinfocardservice_active_wikis' )
+				->setLabel( 'reached_paging_limit', $iterations === self::PAGER_ITERATION_LIMIT ? '1' : '0' )
+				->observe( ( microtime( true ) - $activeWikisStart ) * 1000 );
 		}
 
 		$dbr = $this->dbProvider->getReplicaDatabase();

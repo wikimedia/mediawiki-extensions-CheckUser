@@ -443,7 +443,8 @@ return [
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
 			new DerivativeContext( RequestContext::getMain() ),
-			$services->getTitleFactory()
+			$services->getTitleFactory(),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 ];
