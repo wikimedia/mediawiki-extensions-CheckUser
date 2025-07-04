@@ -7,10 +7,13 @@ use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
+use Psr\Log\Test\TestLogger;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
 /**
@@ -87,7 +90,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			->execute();
 	}
 
-	private function getObjectUnderTest(): CheckUserUserInfoCardService {
+	private function getObjectUnderTest( ?LoggerInterface $logger = null ): CheckUserUserInfoCardService {
 		$services = MediaWikiServices::getInstance();
 		return new CheckUserUserInfoCardService(
 			$services->getService( 'GrowthExperimentsUserImpactLookup' ),
@@ -102,7 +105,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
 			RequestContext::getMain(),
-			$services->getTitleFactory()
+			$services->getTitleFactory(),
+			$logger ?? LoggerFactory::getInstance( 'CheckUser' )
 		);
 	}
 
@@ -163,6 +167,44 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals( $userInfo, $userInfoWithoutGlobalContributionsPager );
 	}
 
+	public function testPagingLimits() {
+		$user = $this->getTestUser()->getUser();
+		$this->setService( 'CheckUserGlobalContributionsPagerFactory', function () use ( $user ) {
+			$globalContributionsPager = $this->createMock( GlobalContributionsPager::class );
+			$globalContributionsPager->method( 'getResult' )->willReturn(
+				new FakeResultWrapper( [ [ 'sourcewiki' => 'enwiki' ], [ 'sourcewiki' => 'dewiki' ] ] )
+			);
+			$globalContributionsPager->method( 'getPagingQueries' )->willReturn(
+				// Set an arbitrary offset, this is to ensure that we reach the pager iteration limit
+				[ 'next' => [ 'offset' => '12345 ' ] ]
+			);
+			$globalContributionsPagerFactory = $this->createMock( GlobalContributionsPagerFactory::class );
+			$globalContributionsPagerFactory->method( 'createPager' )->willReturn( $globalContributionsPager );
+			return $globalContributionsPagerFactory;
+		} );
+		$logger = new TestLogger();
+		$this->getObjectUnderTest( $logger )->getUserInfo(
+			$this->getTestUser()->getAuthority(),
+			$user
+		);
+		$this->assertTrue(
+			$logger->hasInfoThatContains(
+				'UserInfoCard returned incomplete activeWikis for {user} due to reaching pager iteration limits'
+			)
+		);
+		// Verify that the Prometheus data is logged as intended.
+		$timing = $this->getServiceContainer()
+			->getStatsFactory()
+			->withComponent( 'CheckUser' )
+			->getTiming( 'userinfocardservice_active_wikis' );
+
+		$labelKeys = $timing->getLabelKeys();
+		$samples = $timing->getSamples();
+		$this->assertSame( 'reached_paging_limit', $labelKeys[0] );
+		$this->assertSame( '1', $samples[0]->getLabelValues()[0] );
+		$this->assertIsNumeric( $samples[0]->getValue() );
+	}
+
 	public function testUserImpactIsEmpty() {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 		$this->overrideMwServices(
@@ -210,7 +252,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
 			RequestContext::getMain(),
-			$services->getTitleFactory()
+			$services->getTitleFactory(),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 		$targetUser = $this->getTestUser()->getUser();
 		$userInfo = $infoCardService->getUserInfo(
