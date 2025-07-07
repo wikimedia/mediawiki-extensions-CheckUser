@@ -282,7 +282,7 @@
 	"checkuser-ip-auto-reveal-link-sidebar-on": "آشکارسازی خودکار آی‌پی (روشن)",
 	"prefs-checkuser-tempaccount": "آشکارسازی آی‌پی حساب‌های موقت",
 	"checkuser-tempaccount-enable-preference-description": "هنگام استفاده از این ابزار باید مطمئن شوید که این کار را در چارچوب سیاست انجام می‌دهید.",
-	"checkuser-tempaccount-enable-preference": "فعال کردن قابلی آشکارسازی نشانی‌های آی‌پی مرتبط با حساب‌های موقت",
+	"checkuser-tempaccount-enable-preference": "فعال کردن قابلیت آشکارسازی نشانی‌های آی‌پی مرتبط با حساب‌های موقت",
 	"checkuser-tempaccount-no-ip-results": "داده‌های آی‌پی مربوط به $1 {{PLURAL:$1|روز}} گذشته برای این حساب موقت موجود نیست",
 	"checkuser-tempaccount-reveal-ip-button-label": "نمایش آی‌پی",
 	"checkuser-tempaccount-reveal-ip-missing": "در دسترس نیست",
@@ -305,5 +305,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 دسترسی {{GENDER:$2|خود}} به مشاهدهٔ متغیرهای محافظت‌شده را فعال کرد",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 دسترسی {{GENDER:$2|خود}} به مشاهدهٔ متغیرهای محافظت‌شده را غیرفعال کرد",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 متغیرهای محافظت‌شدهٔ مرتبط با $3 را {{GENDER:$2|مشاهده کرد}}",
+	"checkuser-group-requirements": "کاربر معیارهای دسترسی را برآورده نمی‌کند",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 ویرایش|0=فاقد ویرایش}})"
 }

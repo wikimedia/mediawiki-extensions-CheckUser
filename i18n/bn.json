@@ -306,5 +306,6 @@
 	"checkuser-ipinfo-global-contributions-label": "বৈশ্বিক অবদান",
 	"checkuser-ipinfo-global-contributions-tooltip": "এই আইপি ঠিকানা থেকে করা ক্রস-উইকি সম্পাদনার সংখ্যা।",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1টি বৈশ্বিক সম্পাদনা|0=কোনও বৈশ্বিক সম্পাদনা নেই}}",
-	"checkuser-userinfocard-groups": "গ্রুপ: $1"
+	"checkuser-userinfocard-groups": "<strong>গ্রুপ</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2টি সম্পাদনা|0=কোনো সম্পাদনা নেই}})"
 }

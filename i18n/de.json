@@ -8,6 +8,7 @@
 			"FF11",
 			"Geitost",
 			"J. 'mach' wust",
+			"Johannnes89",
 			"Justman10000",
 			"Kghbln",
 			"Luke081515",
@@ -398,6 +399,6 @@
 	"tooltip-t-global-contributions": "Eine Liste der Beiträge in allen Wikis von {{GENDER:$1|diesem Benutzer|dieser Benutzerin}}",
 	"checkuser-userinfocard-groups": "<strong>Gruppen:</strong> $1",
 	"checkuser-userinfocard-global-groups": "<strong>Globale Gruppen:</strong> $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Bearbeitung|$2Bearbeitungen|0=Keine Bearbeitungen}})",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Bearbeitung|$2 Bearbeitungen|0=Keine Bearbeitungen}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Für die Anzeige temporärer Konto-IPs angemeldet"
 }

@@ -297,6 +297,7 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Глобални доприноси",
 	"checkuser-userinfocard-close-button-aria-label": "Затвори",
 	"checkuser-userinfocard-joined-label": "Придружио/ла се",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Активне бликаде на свим викијима: $1",
 	"checkuser-userinfocard-past-blocks": "Претходне блокаде: $1",
 	"checkuser-userinfocard-global-edits": "Глобалних измена: $1",
 	"checkuser-userinfocard-local-edits": "Локалних измена: $1 (враћено: $2)",
