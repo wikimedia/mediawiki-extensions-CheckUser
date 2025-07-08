@@ -25,6 +25,7 @@ use MediaWikiIntegrationTestCase;
 
 /**
  * @covers \MediaWiki\CheckUser\HookHandler\PageDisplay
+ * @covers \MediaWiki\CheckUser\Services\CheckUserIPRevealManager
  */
 class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
@@ -155,6 +156,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CUDMaxAge' => 12345,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$extensionRegistry,
@@ -176,6 +178,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		if (
 			$tempAccountsKnown &&
 			( $specialPageName || $actionName ) &&
+			$specialPageName !== 'BlockList' &&
 			$hasIpRevealPermission
 		) {
 			if ( $hasEnabledIpReveal ) {
@@ -221,7 +224,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	public static function provideOnBeforePageDisplayCases(): iterable {
 		$testCases = ArrayUtils::cartesianProduct(
 			// special pages
-			[ 'Watchlist', 'Block', null ],
+			[ 'Watchlist', 'Block', 'BlockList', null ],
 			// actions
 			[ 'info', 'history', null ],
 			// whether temporary accounts are known
@@ -325,6 +328,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig(),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$this->getServiceContainer()->getExtensionRegistry(),
@@ -406,6 +410,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
 			] ),
 			$cuPermissionManager,
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$mockExtensionRegistry,

@@ -74,6 +74,7 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 				'CUDMaxAge' => 12345,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$this->getServiceContainer()->getExtensionRegistry(),

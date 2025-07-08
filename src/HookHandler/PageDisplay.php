@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use GlobalPreferences\GlobalPreferencesFactory;
+use MediaWiki\CheckUser\Services\CheckUserIPRevealManager;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
@@ -19,6 +20,7 @@ use MediaWiki\User\UserIdentityUtils;
 class PageDisplay implements BeforePageDisplayHook {
 	private Config $config;
 	private CheckUserPermissionManager $checkUserPermissionManager;
+	private CheckUserIPRevealManager $checkUserIPRevealManager;
 	private UserOptionsLookup $userOptionsLookup;
 	private TempUserConfig $tempUserConfig;
 	private ExtensionRegistry $extensionRegistry;
@@ -28,6 +30,7 @@ class PageDisplay implements BeforePageDisplayHook {
 	public function __construct(
 		Config $config,
 		CheckUserPermissionManager $checkUserPermissionManager,
+		CheckUserIPRevealManager $checkUserIPRevealManager,
 		TempUserConfig $tempUserConfig,
 		UserOptionsLookup $userOptionsLookup,
 		ExtensionRegistry $extensionRegistry,
@@ -36,6 +39,7 @@ class PageDisplay implements BeforePageDisplayHook {
 	) {
 		$this->config = $config;
 		$this->checkUserPermissionManager = $checkUserPermissionManager;
+		$this->checkUserIPRevealManager = $checkUserIPRevealManager;
 		$this->tempUserConfig = $tempUserConfig;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->extensionRegistry = $extensionRegistry;
@@ -60,33 +64,9 @@ class PageDisplay implements BeforePageDisplayHook {
 	 * @return void
 	 */
 	private function addIPRevealButtons( OutputPage $out ) {
-		if ( !$this->tempUserConfig->isKnown() ) {
+		if ( !$this->checkUserIPRevealManager->shouldAddIPRevealButtons( $out ) ) {
 			return;
 		}
-
-		// Exclude loading the JS module on pages which do not use it.
-		$action = $out->getRequest()->getVal( 'action' );
-		if (
-			$action !== 'history' &&
-			$action !== 'info' &&
-			$out->getRequest()->getRawVal( 'diff' ) === null &&
-			$out->getRequest()->getRawVal( 'oldid' ) === null &&
-			!( $out->getTitle() && $out->getTitle()->isSpecialPage() )
-		) {
-			return;
-		}
-
-		// Add IP reveal modules if the user has permission to use it.
-		// Note we also add the module if the user is blocked
-		// so that we can render the UI in a disabled state (T345639).
-		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
-			$out->getAuthority()
-		);
-		if ( !$permStatus->isGood() && !$permStatus->getBlock() ) {
-			return;
-		}
-
-		// All checks passed, so add the JS code needed for temporary account IP reveal.
 
 		// Config needed for a js-added message on Special:Block
 		$title = $out->getTitle();
@@ -98,6 +78,10 @@ class PageDisplay implements BeforePageDisplayHook {
 
 		$out->addModules( 'ext.checkUser.tempAccounts' );
 		$out->addModuleStyles( 'ext.checkUser.styles' );
+
+		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$out->getAuthority()
+		);
 		$out->addJSConfigVars( [
 			'wgCheckUserIsPerformerBlocked' => $permStatus->getBlock() !== null,
 			'wgCheckUserTemporaryAccountMaxAge' => $this->config->get( 'CheckUserTemporaryAccountMaxAge' ),
