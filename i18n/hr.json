@@ -18,7 +18,7 @@
 	"checkuser": "Provjeri suradnika",
 	"checkuserlog": "Evidencija provjere suradnika",
 	"checkuser-contribs": "provjeri suradničke IP adrese",
-	"checkuser-contribs-log": "evidencija nedavnih provjera",
+	"checkuser-contribs-log": "evidencija provjera",
 	"group-checkuser": "Provjeritelji",
 	"group-checkuser-member": "{{GENDER:$1|provjeritelj|provjeriteljica}}",
 	"right-checkuser": "Provjeravanje IP adrese suradnika i drugih informacija",
@@ -91,6 +91,7 @@
 	"checkuser-investigate-compare-table-header-username": "Suradničko ime",
 	"checkuser-investigate-tour-addusertargets-title": "Potrebnost širega konteksta?",
 	"checkuser-investigate-tour-filterip-title": "Sužavanje Vaše istrage?",
+	"checkuser-global-contributions": "Pretraživanje globalnih doprinosa",
 	"prefs-checkuser-tempaccount": "Otkrivanje internetske adrese privremenih računa",
 	"checkuser-tempaccount-enable-preference": "Omogući otkrivanje IP adresa za privremene račune"
 }

@@ -255,7 +255,7 @@
 	"checkuser-global-contributions-search-form-wrapper": "جستجوی مشارکت‌های سراسری",
 	"prefs-checkuser-tempaccount": "آشکارسازی آی‌پی حساب‌های موقت",
 	"checkuser-tempaccount-enable-preference-description": "هنگام استفاده از این ابزار باید مطمئن شوید که این کار را در چارچوب سیاست انجام می‌دهید.",
-	"checkuser-tempaccount-enable-preference": "فعال کردن قابلی آشکارسازی نشانی‌های آی‌پی مرتبط با حساب‌های موقت",
+	"checkuser-tempaccount-enable-preference": "فعال کردن قابلیت آشکارسازی نشانی‌های آی‌پی مرتبط با حساب‌های موقت",
 	"checkuser-tempaccount-no-ip-results": "داده‌های آی‌پی مربوط به $1 {{PLURAL:$1|روز}} گذشته برای این حساب موقت موجود نیست",
 	"checkuser-tempaccount-reveal-ip-button-label": "نمایش آی‌پی",
 	"checkuser-tempaccount-reveal-ip-missing": "در دسترس نیست",

@@ -275,7 +275,7 @@
 	"checkuser-tempaccount-enable-preference-description": "عند استخدام هذه الأداة، يجب عليك التأكد من أنك تفعل ذلك ضمن السياسة.",
 	"checkuser-tempaccount-enable-preference": "تفعيل كشف عنوان بروتوكول الإنترنت للحسابات المؤقتة",
 	"checkuser-tempaccount-no-ip-results": "لا توجد بيانات IP لهذا المستخدم المؤقت لآخر $1 {{PLURAL:$1| يوم | أيام}}",
-	"checkuser-tempaccount-reveal-ip-button-label": "اعرض عنوان بروتوكول الإنترنت",
+	"checkuser-tempaccount-reveal-ip-button-label": "عرض عنوان بروتوكول الإنترنت",
 	"checkuser-tempaccount-reveal-ip-missing": "غير متاح",
 	"checkuser-tempaccount-reveal-ip-error": "خطأ",
 	"checkuser-tempaccount-specialblock-ips": "هذا مستخدم مؤقت يستخدم ما يلي {{PLURAL:$1| IP | IPs}}: $2",

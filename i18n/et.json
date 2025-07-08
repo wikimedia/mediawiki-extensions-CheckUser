@@ -27,7 +27,7 @@
 	"grant-checkuser-temporary-account": "Juurdepääs kasutajakontrolli andmetele ajutiste kontode kohta",
 	"action-checkuser": "kontrollida kasutaja IP-aadresse ja muid andmeid",
 	"action-checkuser-log": "vaadata kasutajakontrolli logi",
-	"action-checkuser-temporary-account": "vaadata IP-aadresse, mida on kasutanud ajutised kontod",
+	"action-checkuser-temporary-account": "vaadata IP-aadresse, mida on kasutanud ajutised kontod,",
 	"action-checkuser-temporary-account-no-preference": "vaadata IP-aadresse, mida on kasutanud ajutised kontod,",
 	"action-checkuser-temporary-account-log": "vaadata logi selle kohta, kes on ajutiste kontode IP-aadresse pärinud,",
 	"grouppage-checkuser": "{{ns:project}}:Kontrollkasutajad",
