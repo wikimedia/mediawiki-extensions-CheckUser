@@ -49,7 +49,17 @@ class PageDisplay implements BeforePageDisplayHook {
 	public function onBeforePageDisplay( $out, $skin ): void {
 		$this->loadIPInfoGlobalContributionsLink( $out, $skin );
 		$this->addUserInfoCardConfigVars( $out );
+		$this->addTemporaryAccountsOnboardingDialog( $out );
+		$this->addIPRevealButtons( $out );
+	}
 
+	/**
+	 * Add IP reveal buttons to certain pages if the user has the necessary permissions.
+	 *
+	 * @param OutputPage $out
+	 * @return void
+	 */
+	private function addIPRevealButtons( OutputPage $out ) {
 		if ( !$this->tempUserConfig->isKnown() ) {
 			return;
 		}
@@ -65,8 +75,6 @@ class PageDisplay implements BeforePageDisplayHook {
 		) {
 			return;
 		}
-
-		$this->addTemporaryAccountsOnboardingDialog( $out );
 
 		// Add IP reveal modules if the user has permission to use it.
 		// Note we also add the module if the user is blocked
@@ -163,6 +171,10 @@ class PageDisplay implements BeforePageDisplayHook {
 	 * @return void
 	 */
 	private function addTemporaryAccountsOnboardingDialog( OutputPage $out ) {
+		if ( !$this->tempUserConfig->isKnown() ) {
+			return;
+		}
+
 		$action = $out->getRequest()->getVal( 'action' );
 		$title = $out->getTitle();
 		if (
