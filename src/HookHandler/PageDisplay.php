@@ -48,33 +48,11 @@ class PageDisplay implements BeforePageDisplayHook {
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
 		$this->loadIPInfoGlobalContributionsLink( $out, $skin );
-
-		if ( $out->getUser()->isNamed() ) {
-			$out->addJsConfigVars(
-				'wgCheckUserCanViewCheckUserLog',
-				$out->getAuthority()->isAllowed( 'checkuser-log' )
-			);
-			$out->addJsConfigVars(
-				'wgCheckUserCanBlock',
-				$out->getAuthority()->isAllowed( 'block' )
-			);
-			$out->addJsConfigVars(
-				'wgCheckUserCanPerformCheckUser',
-				$out->getAuthority()->isAllowed( 'checkuser' )
-			);
-		}
+		$this->addUserInfoCardConfigVars( $out );
 
 		if ( !$this->tempUserConfig->isKnown() ) {
 			return;
 		}
-
-		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
-			$out->getAuthority()
-		);
-		$out->addJsConfigVars(
-			'wgCheckUserCanAccessTemporaryAccountIPAddresses',
-			$permStatus->isGood() && !$permStatus->getBlock()
-		);
 
 		// Exclude loading the JS module on pages which do not use it.
 		$action = $out->getRequest()->getVal( 'action' );
@@ -93,6 +71,9 @@ class PageDisplay implements BeforePageDisplayHook {
 		// Add IP reveal modules if the user has permission to use it.
 		// Note we also add the module if the user is blocked
 		// so that we can render the UI in a disabled state (T345639).
+		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$out->getAuthority()
+		);
 		if ( !$permStatus->isGood() && !$permStatus->getBlock() ) {
 			return;
 		}
@@ -115,6 +96,29 @@ class PageDisplay implements BeforePageDisplayHook {
 			'wgCheckUserSpecialPagesWithoutIPRevealButtons' =>
 				$this->config->get( 'CheckUserSpecialPagesWithoutIPRevealButtons' ),
 		] );
+	}
+
+	/**
+	 * Export JS config variables for UserInfoCard to determine permissions.
+	 *
+	 * @param OutputPage $out
+	 * @return void
+	 */
+	private function addUserInfoCardConfigVars( OutputPage $out ) {
+		if ( $out->getUser()->isNamed() ) {
+			$out->addJsConfigVars(
+				'wgCheckUserCanViewCheckUserLog',
+				$out->getAuthority()->isAllowed( 'checkuser-log' )
+			);
+			$out->addJsConfigVars(
+				'wgCheckUserCanBlock',
+				$out->getAuthority()->isAllowed( 'block' )
+			);
+			$out->addJsConfigVars(
+				'wgCheckUserCanPerformCheckUser',
+				$out->getAuthority()->isAllowed( 'checkuser' )
+			);
+		}
 	}
 
 	/**
