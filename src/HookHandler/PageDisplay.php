@@ -64,8 +64,6 @@ class PageDisplay implements BeforePageDisplayHook {
 			);
 		}
 
-		// There is no need for the JS modules for temporary account IP reveal
-		// if the wiki does not have temporary accounts enabled or known.
 		if ( !$this->tempUserConfig->isKnown() ) {
 			return;
 		}
