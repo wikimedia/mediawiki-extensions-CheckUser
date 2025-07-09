@@ -168,7 +168,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "التالي",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "إغلاق",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "ما هو الحساب المؤقت؟",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "في كل مرة ينشر فيها مستخدم تعديلاً على هذه الويكي دون تسجيل الدخول إلى حساب مُسجَّل، سيتم إنشاء [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts حساب مؤقت].\n\nسيتم منح الحساب المؤقت اسم مستخدم تلقائيًا. سيتم ضبط ملف تعريف ارتباط في المتصفح عند إنشاء الحساب. سيُستخدم اسم المستخدم لنسب جميع التعديلات اللاحقة، حتى لو تغير عنوان IP الخاص بالمستخدم المؤقت. باستخدام حساب مؤقت، لا يمكن الوصول إلى عنوان IP إلا من قِبل أعضاء المجتمع الموثوق بهم.",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "لحماية خصوصية المستخدم، لم يعد موقع {{SITENAME}} يعرض عناوين IP للمحررين الذين لم يسجلوا دخولهم.\n\nبدلاً من ذلك، سيتم منحهم أسماء مستخدمين مُولّدة تلقائيًا ومرتبطة <strong>بحسابات مؤقتة [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts]</strong> ، وستكون عناوين IP الخاصة بهم مرئية فقط لأعضاء المجتمع الموثوق بهم الذين يحتاجون إلى رؤيتها للتعامل مع التخريب والسلوك المسيء.\n\nعند إنشاء حساب مؤقت لمحرر لم يسجل دخوله، سيتم تعيين ملف تعريف ارتباط في متصفح ذلك المحرر. سيتم بعد ذلك نسب هذا الحساب المؤقت إلى جميع التعديلات اللاحقة، حتى لو تغير عنوان IP الخاص بذلك المحرر.",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "صورة توضح أيقونة حساب المستخدم المؤقت.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "عرض معلومات IP",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "تسهل أداة [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info IP Information] (معلومات IP) على المسؤولين ومقاتلي التخريب والمستخدمين ذوي الخبرة الوصول إلى معلومات حول عناوين IP دون رؤية عناوين IP نفسها.\n\nيمكن للمستخدمين الذين يستوفون متطلبات الوصول تمكين معلومات IP في تفضيلاتهم. بمجرد التمكين، سيتم عرض نافذة معلومات IP المنبثقة بجوار الحسابات المؤقتة وعناوين IP القديمة. سيتم أيضًا عرض معلومات IP في صفحة المساهمات.",
@@ -380,6 +380,7 @@
 	"checkuser-userinfocard-new-articles": "مقالات جديدة: $1",
 	"checkuser-userinfocard-thanks": "الشكر المستلم: $1 (المُعطى: $2 )",
 	"checkuser-userinfocard-checks": "الشيكات: $1 (آخر فحص: $2 )",
+	"checkuser-userinfocard-checks-empty": "الشيكات: $1",
 	"checkuser-userinfocard-menu-view-contributions": "عرض مساهمات المستخدم",
 	"checkuser-userinfocard-menu-view-global-account": "عرض معلومات الحساب العالمية",
 	"checkuser-userinfocard-menu-add-to-watchlist": "إضافة صفحة المستخدم إلى قائمة المراقبة",
@@ -400,5 +401,8 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "عدد التعديلات عبر الويكي التي تم إجراؤها من عنوان IP هذا.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 تعديل عالمي|$1 تعديلات عالمية|0=لا تعديلات عالمية}}",
 	"tooltip-t-global-contributions": "قائمة المساهمات في جميع الويكيات بواسطة {{GENDER:$1|هذا المستخدم}}",
-	"checkuser-userinfocard-groups": "المجموعات: $1"
+	"checkuser-userinfocard-groups": "<strong>المجموعات</strong> : $1",
+	"checkuser-userinfocard-global-groups": "<strong>المجموعات العالمية</strong> : $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 تعديل|$2 تعديلات|0=لا تعديلات}})",
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "تم اختيار عرض عناوين IP للحسابات المؤقتة"
 }
