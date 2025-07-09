@@ -105,7 +105,12 @@ class PageDisplay implements BeforePageDisplayHook {
 	 * @return void
 	 */
 	private function addUserInfoCardConfigVars( OutputPage $out ) {
-		if ( $out->getUser()->isNamed() ) {
+		$performer = $out->getUser();
+		if ( !$this->userOptionsLookup->getBoolOption( $performer, Preferences::ENABLE_USER_INFO_CARD ) ) {
+			return;
+		}
+
+		if ( $performer->isNamed() ) {
 			$out->addJsConfigVars(
 				'wgCheckUserCanViewCheckUserLog',
 				$out->getAuthority()->isAllowed( 'checkuser-log' )

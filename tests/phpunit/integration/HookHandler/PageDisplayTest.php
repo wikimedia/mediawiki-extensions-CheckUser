@@ -309,6 +309,57 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
+	/** @dataProvider provideOnBeforePageDisplayForUserInfoCard */
+	public function testOnBeforePageDisplayForUserInfoCard( bool $isEnabled, array $expected ) {
+		$this->disableAutoCreateTempUser();
+
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$testAuthority = $this->mockRegisteredUltimateAuthority();
+		$context->setAuthority( $testAuthority );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		$options = [ Preferences::ENABLE_USER_INFO_CARD => (int)$isEnabled ];
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup( [], $options ) );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig(),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils(),
+			$this->getServiceContainer()->getPreferencesFactory()
+		);
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output, $this->createMock( Skin::class )
+		);
+
+		$this->assertArrayEquals(
+			$expected,
+			$output->getJsConfigVars(),
+			false,
+			true
+		);
+	}
+
+	public static function provideOnBeforePageDisplayForUserInfoCard() {
+		return [
+			'UserInfoCard is enabled' => [
+				'enabled' => true,
+				'expected' => [
+					'wgCheckUserCanViewCheckUserLog' => true,
+					'wgCheckUserCanBlock' => true,
+					'wgCheckUserCanPerformCheckUser' => true,
+				],
+			],
+			'UserInfoCard is disabled' => [
+				'enabled' => false,
+				'expected' => [],
+			],
+		];
+	}
+
 	/** @dataProvider provideOnBeforePageDisplayForIPInfoHookCases */
 	public function testOnBeforePageDisplayForIPInfoHook(
 		string $pageTitle,
