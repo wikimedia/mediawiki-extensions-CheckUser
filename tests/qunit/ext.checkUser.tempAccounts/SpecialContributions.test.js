@@ -106,7 +106,13 @@ QUnit.test( 'Test for a Special:Contributions page for revealed temp account', (
 		request.respond(
 			200,
 			{ 'Content-Type': 'application/json' },
-			'{"ips":{"1":"127.0.0.1","3":"127.0.0.1","6":"127.0.0.1"}}'
+			JSON.stringify( {
+				'~1': {
+					// The API returns the revIds for the keys as strings
+					// eslint-disable-next-line quote-props
+					revIps: { '1': '127.0.0.1', '3': '127.0.0.1', '6': '127.0.0.1' }
+				}
+			} )
 		);
 	} );
 	setUpDocumentForTest( '~1' );

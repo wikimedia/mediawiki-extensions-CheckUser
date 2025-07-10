@@ -16,7 +16,15 @@ QUnit.module( 'ext.checkUser.tempAccounts.rest', QUnit.newMwEnvironment( {
 } ) );
 
 function performRevealRequestTest(
-	assert, target, logIds, revIds, expectedUrl, responseCode, responseContent, shouldFail
+	assert,
+	target,
+	logIds,
+	revIds,
+	expectedUrl,
+	responseCode,
+	responseContent,
+	shouldFail,
+	expectedBody = null
 ) {
 	server.respond( ( request ) => {
 		if ( request.url.endsWith( expectedUrl ) ) {
@@ -36,10 +44,17 @@ function performRevealRequestTest(
 			// unexpected API request is made.
 			assert.true( false, 'Unexpected API request to' + request.url );
 		}
+
+		if ( expectedBody !== null ) {
+			const actual = JSON.parse( request.requestBody );
+			delete actual.token;
+
+			assert.deepEqual( actual, expectedBody );
+		}
 	} );
 
 	// Call the method under test
-	const promise = rest.performRevealRequest( '~1', revIds, logIds );
+	const promise = rest.performRevealRequest( '~1', revIds, logIds, false );
 
 	if ( shouldFail ) {
 		return assert.rejects( promise, 'Request should have failed' );
@@ -56,7 +71,16 @@ QUnit.test( 'Test performRevealRequest for 500 response when requesting one IP',
 
 QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for rev IDs', ( assert ) => performRevealRequestTest(
 	assert, '~1', {}, { allIds: [ '1', '2' ] },
-	'checkuser/v0/temporaryaccount/~1/revisions/1|2', 500, '', true
+	'checkuser/v0/batch-temporaryaccount', 500, '', true,
+	{
+		users: {
+			'~1': {
+				lastUsedIp: true,
+				logIds: [],
+				revIds: [ '1', '2' ]
+			}
+		}
+	}
 ) );
 
 QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for log IDs', ( assert ) => performRevealRequestTest(

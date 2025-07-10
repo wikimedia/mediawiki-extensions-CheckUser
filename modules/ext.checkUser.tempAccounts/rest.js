@@ -38,40 +38,64 @@ function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTok
 	const restApi = new mw.Rest();
 	const api = new mw.Api();
 	const deferred = $.Deferred();
+
 	api.getToken( 'csrf' ).then( ( token ) => {
-		restApi.post(
-			'/checkuser/v0/temporaryaccount/' + target + buildQuery( revIds, logIds, limit ),
-			{ token: token }
-		).then(
-			( data ) => {
-				deferred.resolve( data );
-			},
-			( err, errObject ) => {
-				if (
-					retryOnTokenMismatch &&
-					errObject.xhr &&
-					errObject.xhr.responseJSON &&
-					errObject.xhr.responseJSON.errorKey &&
-					errObject.xhr.responseJSON.errorKey === 'rest-badtoken'
-				) {
-					// The CSRF token has expired. Retry the POST with a new token.
-					api.badToken( 'csrf' );
-					performRevealRequestInternal( target, revIds, logIds, limit, false ).then(
-						( data ) => {
-							deferred.resolve( data );
-						},
-						( secondRequestErr, secondRequestErrObject ) => {
-							deferred.reject( secondRequestErr, secondRequestErrObject );
-						}
-					);
-				} else {
-					deferred.reject( err, errObject );
+		if ( isRevisionLookup( revIds ) ) {
+			const request = {
+				[ target ]: {
+					// revision IDs are integers, but the API expects strings
+					revIds: revIds.allIds.map( ( id ) => id.toString() ),
+					logIds: [],
+					lastUsedIp: true
 				}
-			}
-		);
+			};
+
+			performBatchRevealRequestInternal( request, retryOnTokenMismatch )
+				.then( ( data ) => {
+					// Adjust the response format to what's expected by the caller
+					if ( Object.prototype.hasOwnProperty.call( data, target ) &&
+						Object.prototype.hasOwnProperty.call( data[ target ], 'revIps' ) ) {
+						deferred.resolve( {
+							ips: data[ target ].revIps,
+							autoReveal: data.autoReveal
+						} );
+					}
+				} )
+				.catch( ( err ) => {
+					deferred.reject( err, {} );
+				} );
+		} else {
+			// TODO Using the batch endpoint instead of /logs will be handled via T399712
+			// TODO Using the batch endpoint instead of /revisions will be handled via T399713
+			restApi.post(
+				'/checkuser/v0/temporaryaccount/' + target + buildQuery( revIds, logIds, limit ),
+				{ token: token } )
+				.then(
+					( data ) => {
+						deferred.resolve( data );
+					},
+					( err, errObject ) => {
+						if ( retryOnTokenMismatch && isBadTokenError( errObject ) ) {
+							// The CSRF token has expired. Retry the POST with a new token.
+							api.badToken( 'csrf' );
+							performRevealRequestInternal( target, revIds, logIds, limit, false ).then(
+								( data ) => {
+									deferred.resolve( data );
+								},
+								( secondRequestErr, secondRequestErrObject ) => {
+									deferred.reject( secondRequestErr, secondRequestErrObject );
+								}
+							);
+						} else {
+							deferred.reject( err, errObject );
+						}
+					}
+				);
+		}
 	} ).catch( ( err, errObject ) => {
 		deferred.reject( err, errObject );
 	} );
+
 	return deferred.promise();
 }
 
@@ -137,13 +161,7 @@ function performBatchRevealRequestInternal( request, retryOnTokenMismatch ) {
 				deferred.resolve( data );
 			},
 			( err, errObject ) => {
-				if (
-					retryOnTokenMismatch &&
-					errObject.xhr &&
-					errObject.xhr.responseJSON &&
-					errObject.xhr.responseJSON.errorKey &&
-					errObject.xhr.responseJSON.errorKey === 'rest-badtoken'
-				) {
+				if ( retryOnTokenMismatch && isBadTokenError( errObject ) ) {
 					// The CSRF token has expired. Retry the POST with a new token.
 					api.badToken( 'csrf' );
 					performBatchRevealRequestInternal( request, false ).then(
@@ -211,6 +229,20 @@ function isRevisionLookup( revIds ) {
  */
 function isLogLookup( logIds ) {
 	return !!( logIds && logIds.allIds && logIds.allIds.length );
+}
+
+/**
+ * Checks if an error response is caused by providing a bad CSRF token.
+ *
+ * @param {Object} errObject
+ * @return {boolean}
+ * @internal
+ */
+function isBadTokenError( errObject ) {
+	return errObject.xhr &&
+		errObject.xhr.responseJSON &&
+		errObject.xhr.responseJSON.errorKey &&
+		errObject.xhr.responseJSON.errorKey === 'rest-badtoken';
 }
 
 module.exports = {

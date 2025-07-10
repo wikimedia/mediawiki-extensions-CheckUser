@@ -130,11 +130,28 @@ QUnit.test( 'Test enableMultiReveal', ( assert ) => {
 
 QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => {
 	const done = assert.async();
+
 	server.respond( ( request ) => {
-		if ( request.url.includes( 'revisions' ) || request.url.includes( 'logs' ) ) {
+		if ( request.url.includes( '/temporaryaccount/' ) && request.url.includes( '/logs' ) ) {
 			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":{"1":"127.0.0.1"}}' );
-		} else {
+		} else if ( request.url.includes( '/temporaryaccount/' ) ) {
 			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":["127.0.0.3"]}' );
+		} else if ( request.url.includes( '/batch-temporaryaccount' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( {
+					[ tempName1 ]: {
+						// eslint-disable-next-line quote-props
+						revIps: { '1': '127.0.0.1' },
+						// eslint-disable-next-line quote-props
+						logIps: { '1': '127.0.0.3' }
+					}
+				} )
+			);
+		} else {
+			assert.expect( 0 );
+			done( new Error( `Unexpected request URL: ${ request.url }` ) );
 		}
 	} );
 	// eslint-disable-next-line no-jquery/no-global-selector
@@ -183,7 +200,7 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 			'Button removed after click'
 		);
 		assert.strictEqual(
-			$( '.no-id .ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
+			$( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
 			'127.0.0.3',
 			'Text of element that replaced button'
 		);
@@ -361,12 +378,38 @@ QUnit.test( 'Test makeButton on button click for failed request', ( assert ) => 
 
 QUnit.test( 'Test makeButton on button click for successful request but no data', ( assert ) => {
 	performMakeButtonRequestTest(
-		assert, 200, '{"ips":[]}', '(checkuser-tempaccount-reveal-ip-missing)'
+		assert,
+		200,
+		JSON.stringify( {
+			[ tempName1 ]: {
+				revIps: {},
+				logIps: null,
+				lastUsedIp: null
+			},
+			autoReveal: false
+		} ),
+		'(checkuser-tempaccount-reveal-ip-missing)'
 	);
 } );
 
 QUnit.test( 'Test makeButton on button click for successful request with data', ( assert ) => {
-	performMakeButtonRequestTest( assert, 200, '{"ips":{"1":"127.0.0.1"}}', '127.0.0.1' );
+	performMakeButtonRequestTest(
+		assert,
+		200,
+		JSON.stringify( {
+			[ tempName1 ]: {
+				revIps: {
+					// The API returns the revIds as strings
+					// eslint-disable-next-line quote-props
+					'1': '127.0.0.1'
+				},
+				logIps: null,
+				lastUsedIp: null
+			},
+			autoReveal: false
+		} ),
+		'127.0.0.1'
+	);
 } );
 
 QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', function ( assert ) {
