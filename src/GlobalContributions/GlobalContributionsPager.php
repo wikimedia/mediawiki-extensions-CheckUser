@@ -867,7 +867,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		return Html::element(
 			'span',
 			[ 'class' => "{$additionalCssClasses} comment" ],
-			$this->msg( 'rev-deleted-comment' )
+			$this->msg( 'rev-deleted-comment' )->text()
 		);
 	}
 
