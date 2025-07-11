@@ -241,5 +241,16 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 viu os endereços IP para a página $3{{GENDER:$2|}}",
 	"log-action-filter-checkuser-temporary-account": "Tipo de operação:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Mudança de acesso",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Ver endereços IP"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Ver endereços IP",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocos ativos de todas as wikis: $1",
+	"checkuser-userinfocard-past-blocks": "Blocos anteriores: $1",
+	"checkuser-userinfocard-global-edits": "Edições globais: $1",
+	"checkuser-userinfocard-local-edits": "Edições locais: $1 (revertidas: $2 )",
+	"checkuser-userinfocard-new-articles": "Novos artigos: $1",
+	"checkuser-userinfocard-thanks": "Agradecimentos recebidos: $1 (dados: $2 )",
+	"checkuser-userinfocard-checks": "Verificações: $1 (última verificação: $2)",
+	"checkuser-userinfocard-checks-empty": "Verificações: $1",
+	"checkuser-userinfocard-groups": "<strong>Grupos</strong>: $1",
+	"checkuser-userinfocard-global-groups": "<strong>Grupos globais</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ( {{PLURAL:$2| $2 edição| $2 edições|0=Sem edições}})"
 }

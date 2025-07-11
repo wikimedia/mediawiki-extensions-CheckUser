@@ -28,6 +28,7 @@
 			"Mahabarata",
 			"McDutchie",
 			"Méthodes Bulebe Hangi",
+			"NicoScribe",
 			"Obscaeris",
 			"Orlodrim",
 			"Pamputt",
@@ -397,9 +398,9 @@
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocages actifs de tous les wikis: $1",
 	"checkuser-userinfocard-past-blocks": "Blocages précédents : $1",
 	"checkuser-userinfocard-global-edits": "Modifications globales : $1",
-	"checkuser-userinfocard-local-edits": "Modifications locales : $1 (annulées : $2 )",
+	"checkuser-userinfocard-local-edits": "Modifications locales : $1 (annulées : $2)",
 	"checkuser-userinfocard-new-articles": "Nouveaux articles : $1",
-	"checkuser-userinfocard-thanks": "Remerciements reçus : $1 (donnés : $2 )",
+	"checkuser-userinfocard-thanks": "Remerciements reçus : $1 (donnés : $2)",
 	"checkuser-userinfocard-checks": "Contrôles : $1 (dernier contrôle : $2)",
 	"checkuser-userinfocard-checks-empty": "Contrôles : $1",
 	"checkuser-userinfocard-menu-view-contributions": "Afficher les contributions de l’utilisateur",
@@ -424,5 +425,5 @@
 	"checkuser-userinfocard-groups": "<strong>Groupes</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Groupes globaux</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modification|$2 modifications|0=Pas de modifications}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Vous avez choisi de voir les adresses IP temporaires des comptes"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "A choisi de voir les adresses IP des comptes temporaires"
 }
