@@ -93,7 +93,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 			// ::newFromJsApi with the $data may raise a TypeError as the $data
 			// does not have its type validated (T305973).
 			$clientHints = ClientHintsData::newFromJsApi( $data );
-		} catch ( TypeError $e ) {
+		} catch ( TypeError ) {
 			throw new LocalizedHttpException( new MessageValue( 'rest-bad-json-body' ), 400 );
 		}
 		$type = $this->getValidatedParams()['type'];

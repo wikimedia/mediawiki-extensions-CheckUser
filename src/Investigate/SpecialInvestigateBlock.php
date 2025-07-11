@@ -458,7 +458,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 		try {
 			$api->execute();
-		} catch ( Exception $e ) {
+		} catch ( Exception ) {
 			$this->noticesFailed = true;
 		}
 	}

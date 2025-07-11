@@ -269,7 +269,7 @@ class CheckUserUserInfoCardService {
 			try {
 				$centralAuthUser = CentralAuthUser::getInstance( $user );
 				$blocks = $centralAuthUser->getBlocks();
-			} catch ( LocalUserNotFoundException $e ) {
+			} catch ( LocalUserNotFoundException ) {
 				LoggerFactory::getInstance( 'CheckUser' )->info(
 					'Unable to get CentralAuthUser for user {user}', [
 						'user' => $user->getName(),

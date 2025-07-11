@@ -295,7 +295,7 @@ class TemporaryAccountLogger {
 
 		try {
 			$logEntry->insert( $this->dbProvider->getPrimaryDatabase() );
-		} catch ( DBError $e ) {
+		} catch ( DBError ) {
 			$this->logger->critical(
 				'CheckUser temporary account log entry was not recorded. ' .
 				'This means checks can occur without being auditable. ' .

@@ -235,7 +235,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 					$this->target,
 					$this->getAuthority()
 				);
-			} catch ( InvalidArgumentException $e ) {
+			} catch ( InvalidArgumentException ) {
 				// No central user found or viewable, flag it and then return an empty array for active wikis
 				// which will eventually return an empty results set
 				$this->centralUserExists = false;

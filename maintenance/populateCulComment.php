@@ -67,7 +67,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 		try {
 			/** @var CheckUserLogService $checkUserLogService */
 			$checkUserLogService = $services->get( 'CheckUserLogService' );
-		} catch ( NoSuchServiceException $ex ) {
+		} catch ( NoSuchServiceException ) {
 			# CheckUser ServiceWiring files may not loaded until
 			#  postDatabaseUpdateMaintenance is run.
 			# If this is the case, manually get the service.
