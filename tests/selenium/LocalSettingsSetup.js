@@ -42,8 +42,8 @@ async function restartPhpFpmService() {
 async function overrideLocalSettings() {
 	console.log( 'Setting up modified ' + localSettingsPath );
 	// Cannot use __dirname here to get the path, as the LocalSettings.php file may be executed
-	// inside "/var/www/html/w" so we can use the PHP $IP variable to handle this for us.
-	const extraSettingsPath = '$IP/extensions/CheckUser/tests/selenium/fixtures/ExtraLocalSettings.php';
+	// inside "/var/www/html/w" so use $wgExtensionDirectory instead.
+	const extraSettingsPath = '$wgExtensionDirectory/CheckUser/tests/selenium/fixtures/ExtraLocalSettings.php';
 
 	fs.writeFileSync( localSettingsPath,
 		localSettingsContents + `
