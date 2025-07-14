@@ -88,6 +88,9 @@
 	"checkuser-massblock-text": "Лакхахь долчу жамӀашкахь долчу хьаьркех пайда а оьцуш, хьайна блоктоха лууш йолу аккаунташ а, IP-аш а харжа. Цул тӀаьхьа лело мегар ду лахахь йолу нуьйдаш, цара схьайоьллур йу {{#special:InvestigateBlock}} форма, Ӏалашонаш дӀайазйар хьалххе дуьзна а долуш.",
 	"checkuser-massblock-commit-accounts": "Хаьржина аккаунташна блоктоха",
 	"checkuser-massblock-commit-ips": "Хаьржина IP-адресашна блоктоха",
+	"checkuser-massglobalblock-commit-accounts": "Глобалан блоктоха хаьржина аккаунташ",
+	"checkuser-massglobalblock-commit-ips": "Глобалан блоктоха хаьржина IP-адресашна",
+	"checkuser-massblock-localblocks-section": "Локалан блоктоха хаьржина Ӏалашонашна",
 	"checkuser-block-reason-dropdown": "* Блоктохаран даьржина бахьанаш\n** Дуккха а аккаунташ лелор\n** Арахьарчу сайташна тӀе спам-хьажоргаш\n** Вандализм",
 	"checkuser-centralauth-multilock": "Хаьржина аккаунташна глобалан блоктоха",
 	"checkuser-centralauth-multilock-list": "Мультиблоктоха хаьржина аккаунташна, хьажоргаш лелош:",
@@ -365,5 +368,7 @@
 	"checkuser-ipinfo-global-contributions-label": "Декъашхочун глобалан къинхьегам",
 	"checkuser-ipinfo-global-contributions-tooltip": "ХӀокху IP-адрес тӀехь бина вики-йукъара хийцамийн дукхалла.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобалан хийцам|0=Глобалан хийцамаш бац}}",
-	"tooltip-t-global-contributions": "{{GENDER:$1|ХӀокху декъашхочо}} массо а викишкахь бина къинхьегам"
+	"tooltip-t-global-contributions": "{{GENDER:$1|ХӀокху декъашхочо}} массо а викишкахь бина къинхьегам",
+	"checkuser-userinfocard-groups": "<strong>Тобанаш</strong>: $1",
+	"checkuser-userinfocard-global-groups": "<strong>Глобалан тобанаш</strong>: $1"
 }

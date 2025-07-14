@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Bjarki S",
 			"S.Örvarr.S",
 			"Snævar",
 			"Spacebirdy",
@@ -14,7 +15,7 @@
 	"group-checkuser": "Athugendur",
 	"group-checkuser-member": "{{GENDER:$1|athugandi}}",
 	"group-temporary-account-viewer": "Athugendur tímabundra aðganga",
-	"group-temporary-account-viewer-member": "{{GENDER:$1|Athugandi tímabundra aðganga}}",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|athugandi tímabundinna aðganga}}",
 	"grouppage-checkuser": "{{ns:project}}:Athugandi",
 	"checkuser-reason": "Ástæða:",
 	"checkuser-reason-api": "HFV: $1",
@@ -56,6 +57,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "Breytingar tímabundra notenda á vistfangi",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Breytingar tímab. notenda á IP-tölu",
 	"checkuser-ip-contributions-special-contributions-button": "Eldri vistfanga breytingar",
+	"checkuser-global-contributions-link": "altæk framlög",
 	"checkuser-global-contributions": "Leita eftir altækum framlögum",
 	"checkuser-global-contributions-permission-error-title": "Aðgangsvilla",
 	"checkuser-global-contributions-permission-error-description": "Til að skoða altæk framlög, vinsamlegast staðfestu samkomulagið í [[Special:GlobalPreferences|stillingunum þínum]].",
