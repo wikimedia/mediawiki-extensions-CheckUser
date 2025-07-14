@@ -538,8 +538,8 @@
 				"DatabaseBlockStore"
 			]
 		},
-		"SpecialLogResolveIPRevealLogType": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialLogResolveIPRevealLogTypeHandler"
+		"SpecialLogAddIPRevealLogTypeAliasHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialLogAddIPRevealLogTypeAliasHandler"
 		},
 		"AbuseFilterHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\AbuseFilterHandler",
@@ -611,7 +611,8 @@
 			"SpecialContributionsBeforeMainOutput",
 			"ToolLinks"
 		],
-		"SpecialLogResolveLogType": "SpecialLogResolveIPRevealLogType",
+		"SpecialLogResolveLogType": "SpecialLogAddIPRevealLogTypeAliasHandler",
+		"SpecialLogGetSubpagesForPrefixSearch": "SpecialLogAddIPRevealLogTypeAliasHandler",
 		"SpecialPageBeforeExecute": [
 			"clienthints",
 			"SpecialPageBeforeExecute"
