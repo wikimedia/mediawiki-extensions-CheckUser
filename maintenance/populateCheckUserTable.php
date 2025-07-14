@@ -7,11 +7,13 @@ use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use MediaWiki\RecentChanges\RecentChange;
 use Wikimedia\IPUtils;
 
+// @codeCoverageIgnoreStart
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
 	$IP = __DIR__ . '/../../..';
 }
 require_once "$IP/maintenance/Maintenance.php";
+// @codeCoverageIgnoreEnd
 
 /**
  * Populate the CheckUser result tables needed for CheckUser queries with
@@ -192,5 +194,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 	}
 }
 
+// @codeCoverageIgnoreStart
 $maintClass = PopulateCheckUserTable::class;
 require_once RUN_MAINTENANCE_IF_MAIN;
+// @codeCoverageIgnoreEnd

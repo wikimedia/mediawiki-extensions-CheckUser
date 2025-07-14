@@ -5,11 +5,13 @@ namespace MediaWiki\CheckUser\Maintenance;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 
+// @codeCoverageIgnoreStart
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
 	$IP = __DIR__ . '/../../..';
 }
 require_once "$IP/maintenance/Maintenance.php";
+// @codeCoverageIgnoreEnd
 
 /**
  * Move log entries from cu_changes to cu_private_event.
@@ -172,5 +174,7 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 	}
 }
 
+// @codeCoverageIgnoreStart
 $maintClass = MoveLogEntriesFromCuChanges::class;
 require_once RUN_MAINTENANCE_IF_MAIN;
+// @codeCoverageIgnoreEnd

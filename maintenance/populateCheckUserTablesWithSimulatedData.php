@@ -22,11 +22,13 @@ use MediaWiki\User\UserRigorOptions;
 use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
+// @codeCoverageIgnoreStart
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
 	$IP = __DIR__ . '/../../..';
 }
 require_once "$IP/maintenance/Maintenance.php";
+// @codeCoverageIgnoreEnd
 
 /**
  * Populates the CheckUser tables with simulated data that can be useful for
@@ -966,5 +968,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	}
 }
 
+// @codeCoverageIgnoreStart
 $maintClass = PopulateCheckUserTablesWithSimulatedData::class;
 require_once RUN_MAINTENANCE_IF_MAIN;
+// @codeCoverageIgnoreEnd
