@@ -252,7 +252,7 @@
 	"checkuser-investigate-compare-table-button-filter-label": "このIPアドレスを結果から除外",
 	"checkuser-investigate-compare-table-cell-unregistered": "未登録",
 	"checkuser-investigate-compare-table-cell-actions": "<b>[$1 {{PLURAL:$1|操作}}]</b>",
-	"checkuser-investigate-compare-table-cell-other-actions": "<i>(全利用者による編集 ~$1 回)</i>",
+	"checkuser-investigate-compare-table-cell-other-actions": "<i>(全利用者による操作 ~$1 回)</i>",
 	"checkuser-investigate-compare-table-header-username": "利用者名",
 	"checkuser-investigate-compare-table-header-activity": "日付範囲",
 	"checkuser-investigate-compare-table-header-ip": "IPアドレス",
