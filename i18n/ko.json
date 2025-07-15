@@ -317,7 +317,16 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1님이 {{GENDER:$2|자신}}에게 보호된 변수를 볼 권한을 비활성화함",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1님이 $3 문서와 관련한 보호된 변수를 {{GENDER:$2|조회함}}",
 	"checkuser-ipinfo-global-contributions-url-text": "전역 기여 보기",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "모든 위키의 활성화된 차단: $1",
+	"checkuser-userinfocard-past-blocks": "마지막 차단: $1",
+	"checkuser-userinfocard-global-edits": "전역 편집: $1",
+	"checkuser-userinfocard-local-edits": "로컬 편집: $1 (되돌려진 편집: $2)",
+	"checkuser-userinfocard-new-articles": "새 문서: $1",
+	"checkuser-userinfocard-thanks": "받은 감사 수: $1 (보낸 감사 수: $2)",
+	"checkuser-userinfocard-checks": "검사: $1 (마지막 검사: $2)",
+	"checkuser-userinfocard-checks-empty": "검사: $1",
 	"checkuser-ipinfo-global-contributions-label": "전역 기여",
 	"checkuser-ipinfo-global-contributions-tooltip": "이 IP 주소에서 수행한 위키 간 편집 수입니다.",
-	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|전역 편집 $1개|전역 편집 $1개|0=전역 편집 없음}}"
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|전역 편집 $1개|전역 편집 $1개|0=전역 편집 없음}}",
+	"checkuser-userinfocard-groups": "<strong>그룹</strong>: $1"
 }
