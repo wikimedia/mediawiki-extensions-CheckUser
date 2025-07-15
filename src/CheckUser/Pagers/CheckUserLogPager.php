@@ -160,7 +160,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				);
 			}
 			$user .= $this->msg( 'word-separator' )->escaped()
-				. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
+				. Html::rawElement( 'span', [ 'class' => 'mw-usertoollinks' ],
 					$this->msg( 'parentheses' )->rawParams( $this->getLinkRenderer()->makeLink(
 						SpecialPage::getTitleFor( 'CheckUserLog' ),
 						$this->msg( 'checkuser-log-checks-by' )->text(),
