@@ -349,6 +349,11 @@
 				"name": "cupe_actor_ip_time",
 				"columns": [ "cupe_actor", "cupe_ip", "cupe_timestamp" ],
 				"unique": false
+			},
+			{
+				"name": "cupe_actor_ip_hex_time",
+				"columns": [ "cupe_actor", "cupe_ip_hex", "cupe_timestamp" ],
+				"unique": false
 			}
 		],
 		"pk": [ "cupe_id" ]
