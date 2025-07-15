@@ -388,6 +388,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'cuc_actor_ip_hex_time',
 			"$base/$dbType/patch-cu_changes-add-index-cuc_actor_ip_hex_time.sql"
 		);
+		$updater->addExtensionIndex(
+			'cu_log_event',
+			'cule_actor_ip_hex_time',
+			"$base/$dbType/patch-cu_log_event-add-index-cule_actor_ip_hex_time.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
