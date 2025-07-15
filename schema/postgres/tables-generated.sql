@@ -31,6 +31,10 @@ CREATE INDEX cuc_timestamp ON cu_changes (cuc_timestamp);
 
 CREATE INDEX cuc_actor_ip_time ON cu_changes (cuc_actor, cuc_ip, cuc_timestamp);
 
+CREATE INDEX cuc_actor_ip_hex_time ON cu_changes (
+  cuc_actor, cuc_ip_hex, cuc_timestamp
+);
+
 
 CREATE TABLE cu_log_event (
   cule_id BIGSERIAL NOT NULL,

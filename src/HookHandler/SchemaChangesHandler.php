@@ -382,6 +382,13 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		// 1.44
 		$updater->addPostDatabaseUpdateMaintenance( MigrateTemporaryAccountIPViewerGroup::class );
 
+		// 1.45
+		$updater->addExtensionIndex(
+			'cu_changes',
+			'cuc_actor_ip_hex_time',
+			"$base/$dbType/patch-cu_changes-add-index-cuc_actor_ip_hex_time.sql"
+		);
+
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
 			// Note: We cannot completely rely on updatelog here for old entries
