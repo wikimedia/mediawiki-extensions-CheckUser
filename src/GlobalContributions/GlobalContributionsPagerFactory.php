@@ -14,6 +14,7 @@ use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\Revision\RevisionStoreFactory;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -43,6 +44,7 @@ class GlobalContributionsPagerFactory {
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 	private UserLinkRenderer $userLinkRenderer;
+	private RevisionStoreFactory $revisionStoreFactory;
 
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -62,6 +64,7 @@ class GlobalContributionsPagerFactory {
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
 		UserLinkRenderer $userLinkRenderer,
+		RevisionStoreFactory $revisionStoreFactory,
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -80,6 +83,7 @@ class GlobalContributionsPagerFactory {
 		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->userLinkRenderer = $userLinkRenderer;
+		$this->revisionStoreFactory = $revisionStoreFactory;
 	}
 
 	/**
@@ -110,6 +114,7 @@ class GlobalContributionsPagerFactory {
 			$this->dbProvider,
 			$this->jobQueueGroup,
 			$this->userLinkRenderer,
+			$this->revisionStoreFactory,
 			$context,
 			$options,
 			$target

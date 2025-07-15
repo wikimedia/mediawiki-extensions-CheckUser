@@ -25,6 +25,7 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\RecentChanges\ChangesList;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\Revision\RevisionStoreFactory;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
@@ -65,6 +66,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 	private UserLinkRenderer $userLinkRenderer;
+	private RevisionStoreFactory $revisionStoreFactory;
 	private array $permissions = [];
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
@@ -99,6 +101,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
 		UserLinkRenderer $userLinkRenderer,
+		RevisionStoreFactory $revisionStoreFactory,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null
@@ -128,6 +131,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
 		$this->userLinkRenderer = $userLinkRenderer;
+		$this->revisionStoreFactory = $revisionStoreFactory;
 	}
 
 	/**
@@ -834,9 +838,11 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			return parent::formatComment( $row );
 		}
 
+		$wikiId = $row->sourcewiki;
+		$revisionStore = $this->revisionStoreFactory->getRevisionStore( $wikiId );
 		$record = $this->isArchive ?
-			$this->revisionStore->newRevisionFromArchiveRow( $row ) :
-			$this->revisionStore->newRevisionFromRow( $row );
+			$revisionStore->newRevisionFromArchiveRow( $row ) :
+			$revisionStore->newRevisionFromRow( $row );
 
 		// $this->currentRevRecord is null for external revisions, so permission
 		// checks should be based on data from $row instead.

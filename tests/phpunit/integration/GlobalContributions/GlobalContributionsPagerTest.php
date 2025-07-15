@@ -18,6 +18,7 @@ use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\Revision\RevisionStoreFactory;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -64,6 +65,15 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 */
 	private $revisionStore;
 
+	/**
+	 * Stop the factory from trying to instantiate stores on databases
+	 * that don't exist/it doesn't have access to by using this mock to
+	 * return the local one by default.
+	 *
+	 * @var (RevisionStoreFactory&MockObject)
+	 */
+	private $revisionStoreFactory;
+
 	public function setUp(): void {
 		parent::setUp();
 
@@ -83,6 +93,13 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		$this->revisionRecord = $this->createMock( RevisionRecord::class );
 		$this->revisionStore = $this->createMock( RevisionStore::class );
+
+		// External revisions should use their wikis' revision store. See T398722.
+		// For the purposes of testing everything else, pretend like that's happening by default.
+		$this->revisionStoreFactory = $this->createMock( RevisionStoreFactory::class );
+		$this->revisionStoreFactory
+			->method( 'getRevisionStore' )
+			->willReturn( $this->revisionStore );
 	}
 
 	private function getPagerWithOverrides( $overrides ) {
@@ -104,6 +121,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['LoadBalancerFactory'] ?? $services->getConnectionProvider(),
 			$overrides['JobQueueGroup'] ?? $services->getJobQueueGroup(),
 			$overrides['UserLinkRenderer'] ?? $this->userLinkRenderer,
+			$overrides['RevisionStoreFactory'] ?? $this->revisionStoreFactory,
 			$overrides['Context'] ?? RequestContext::getMain(),
 			$overrides['options'] ?? [ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, $overrides['UserName'] ?? '127.0.0.1' )
@@ -698,6 +716,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getDBLoadBalancerFactory(),
 				$services->getJobQueueGroup(),
 				$this->userLinkRenderer,
+				$this->revisionStoreFactory,
 				$context,
 				[ 'revisionsOnly' => true ],
 				new UserIdentityValue( 0, '127.0.0.1' )
@@ -1026,6 +1045,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @param array|false $expectedNextQuery The expected query parameters for the 'next' page,
 	 * or `false` if there is no next page
 	 * @param int[] $expectedDiffSizes The expected byte sizes of the shown diffs
+	 * @param array $expectRevisionsReturned Whether or not the revision store is expected to get a record
 	 */
 	public function testQuery(
 		array $resultsByWiki,
@@ -1034,7 +1054,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		int $expectedCount,
 		$expectedPrevQuery,
 		$expectedNextQuery,
-		array $expectedDiffSizes
+		array $expectedDiffSizes,
+		array $expectRevisionsReturned
 	): void {
 		$wikiIds = array_keys( $resultsByWiki );
 
@@ -1161,23 +1182,70 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		$revisionStore = $this->getServiceContainer()->getRevisionStore();
 
-		$storeProxy = $this->getMockBuilder( RevisionStore::class )
-			->disableOriginalConstructor()
-			->getMock();
-		$storeProxy
-			->expects( $this->atLeastOnce() )
-			->method( 'newRevisionFromRow' )
-			->willReturn( $this->revisionRecord );
-		$storeProxy
-			->expects( $this->atLeastOnce() )
-			->method( 'newSelectQueryBuilder' )
-			->willReturnCallback( static fn ( IReadableDatabase $db ) =>
-				$revisionStore->newSelectQueryBuilder( $db )
-			);
-		$storeProxy
-			->method( 'getRevisionSizes' )
-			->willReturnCallback( static fn ( array $revIds ) =>
-				$revisionStore->getRevisionSizes( $revIds )
+		// Setting up the revision stores that each external wiki is expected to return
+		// $revisionStoreFactory will stub out the return values using these arrays
+		$revisionStoreProxies = [];
+
+		// Pager also uses the local revision store, save it here when the loop handles
+		// its case so the test can pass it into the pager constructor
+		$localRevisionStore = null;
+		foreach ( $wikiIds as $wikiId ) {
+			$storeProxy = $this->getMockBuilder( RevisionStore::class )
+				->disableOriginalConstructor()
+				->getMock();
+
+			if ( $expectRevisionsReturned[$wikiId] ) {
+				// Confirm that the revision is being called
+				$storeProxy
+					->expects( $this->atLeastOnce() )
+					->method( 'newRevisionFromRow' )
+					->willReturn( $this->revisionRecord );
+			} else {
+				// Depending on the test, the wiki's revision stores won't have revisions
+				// in the expected to call so we shouldn't set the expectation in those cases
+				$storeProxy
+					->expects( $this->never() )
+					->method( 'newRevisionFromRow' );
+			}
+
+			// Only the local store should be calling this function
+			if ( $wikiId === WikiAwareEntity::LOCAL ) {
+				$storeProxy
+					->expects( $this->atLeastOnce() )
+					->method( 'newSelectQueryBuilder' )
+					->willReturnCallback( static fn ( IReadableDatabase $db ) =>
+						$revisionStore->newSelectQueryBuilder( $db )
+				);
+			} else {
+				$storeProxy
+					->expects( $this->never() )
+					->method( 'newSelectQueryBuilder' );
+			}
+
+			$storeProxy
+				->method( 'getRevisionSizes' )
+				->willReturnCallback( static fn ( array $revIds ) =>
+					$revisionStore->getRevisionSizes( $revIds )
+				);
+
+			// External revision store shouldn't be called for local revisions so only
+			// save the local revision store to the variable instead of the return map
+			if ( $wikiId === WikiAwareEntity::LOCAL ) {
+				$localRevisionStore = $storeProxy;
+			} else {
+				$revisionStoreProxies[] = [ $wikiId, $storeProxy ];
+			}
+		}
+
+		$revisionStoreFactory = $this->createMock( RevisionStoreFactory::class );
+
+		// Diff size is an indicator for how many revisions were rendered so use their
+		// count to check that the revision store is called for each revision
+		$revisionStoreFactory
+			->expects( $this->exactly( count( $expectedDiffSizes ) ) )
+			->method( 'getRevisionStore' )
+			->willReturnMap(
+				$revisionStoreProxies
 			);
 
 		// Initialize the subject under test
@@ -1188,7 +1256,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'GlobalContributionsLookup' => $globalContributionsLookup,
 			'Context' => $context,
 			'CommentFormatter' => $commentFormatter,
-			'RevisionStore' => $storeProxy
+			'RevisionStore' => $localRevisionStore,
+			'RevisionStoreFactory' => $revisionStoreFactory,
 		] );
 		$pager->mIsBackwards = ( $paginationParams['dir'] ?? '' ) === 'prev';
 		$pager->setLimit( $paginationParams['limit'] );
@@ -1240,6 +1309,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'limit' => 4
 			],
 			'expectedDiffSizes' => [ 0, 0, 0, 95 ],
+			'expectRevisionsReturned' => [
+				'testwiki' => true,
+				'otherwiki' => true
+			]
 		];
 
 		yield '5 rows, limit=4, second page' => [
@@ -1260,6 +1333,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			],
 			'expectedNextQuery' => false,
 			'expectedDiffSizes' => [ 95 ],
+			'expectRevisionsReturned' => [
+				'testwiki' => true,
+				'otherwiki' => false
+			]
 		];
 
 		yield '5 rows, limit=4, backwards from second page' => [
@@ -1280,6 +1357,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'limit' => 4
 			],
 			'expectedDiffSizes' => [ 0, 0, 95, 95 ],
+			'expectRevisionsReturned' => [
+				'testwiki' => true,
+				'otherwiki' => true
+			]
 		];
 
 		$resultsWithIdenticalTimestamps = [
@@ -1309,6 +1390,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'limit' => 2
 			],
 			'expectedDiffSizes' => [ 0, 95 ],
+			'expectRevisionsReturned' => [
+				'testwiki' => true,
+				'otherwiki' => false
+			]
 		];
 
 		yield '3 rows, identical timestamps, limit=2, second page' => [
@@ -1328,6 +1413,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			],
 			'expectedNextQuery' => false,
 			'expectedDiffSizes' => [ 95 ],
+			'expectRevisionsReturned' => [
+				'testwiki' => false,
+				'otherwiki' => true
+			]
 		];
 
 		yield '3 rows, identical timestamps, limit=2, backwards from second page' => [
@@ -1347,6 +1436,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'limit' => 2
 			],
 			'expectedDiffSizes' => [ 0, 95 ],
+			'expectRevisionsReturned' => [
+				'testwiki' => true,
+				'otherwiki' => false
+			]
 		];
 	}
 
