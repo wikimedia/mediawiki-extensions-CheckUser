@@ -43,6 +43,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
 			->willReturn( CheckUserPermissionStatus::newGood() );
+		$checkUserPermissionManager->method( 'canAutoRevealIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
 
 		$actorStore = $this->createMock( ActorStore::class );
 		$actorStore->method( 'findActorIdByName' )
@@ -59,7 +61,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 					[]
 				);
 			$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
-				$preferencesFactory
+				$preferencesFactory, $checkUserPermissionManager
 			);
 		} else {
 			$autoRevealLookup = $this->createMock(

@@ -245,12 +245,18 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 	) {
 		ConvertibleTimestamp::setFakeTime( '20230406060708' );
 
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+		$checkUserPermissionManager->method( 'canAutoRevealIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
 		$preferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
 		$preferencesFactory->method( 'getGlobalPreferencesValues' )
 			->willReturn( $preferences );
 
 		$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
-			$preferencesFactory
+			$preferencesFactory, $checkUserPermissionManager
 		);
 
 		$jobQueueGroup = $this->createMock( JobQueueGroup::class );

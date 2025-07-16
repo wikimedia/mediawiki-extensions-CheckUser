@@ -382,7 +382,9 @@
 				"PermissionManager",
 				"CheckUserTemporaryAccountLoggerFactory",
 				"MainConfig",
-				"UserOptionsLookup"
+				"UserOptionsLookup",
+				"CheckUserTemporaryAccountAutoRevealLookup",
+				"CheckUserPermissionManager"
 			]
 		},
 		"groups": {

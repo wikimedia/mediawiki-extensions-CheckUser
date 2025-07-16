@@ -238,7 +238,8 @@ return [
 		MediaWikiServices $services
 	): CheckUserTemporaryAccountAutoRevealLookup {
 		return new CheckUserTemporaryAccountAutoRevealLookup(
-			$services->getPreferencesFactory()
+			$services->getPreferencesFactory(),
+			$services->get( 'CheckUserPermissionManager' )
 		);
 	},
 	'CheckUserIPRevealManager' => static function (
