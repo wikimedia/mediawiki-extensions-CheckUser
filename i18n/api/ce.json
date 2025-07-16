@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Умар"
+		]
+	},
+	"apihelp-query+checkuser-param-reason": "Талламан бахьана.",
+	"apihelp-query+checkuser-param-limit": "МогӀанийн терахь лахдар.",
+	"apihelp-query+checkuserlog-param-limit": "МогӀанийн терахь лахдар.",
+	"apihelp-query+checkuserlog-param-from": "Дагарйар дӀадолийна йолу ханна билгало.",
+	"apihelp-query+checkuserlog-param-to": "Дагарйар чекхдаьлла йолу ханна билгало.",
+	"apihelp-query+checkuserlog-example-1": "Гайта таллар [[User:Example]]",
+	"apihelp-query+globalcontributions-param-limit": "МогӀанийн терахь лахдар."
+}
