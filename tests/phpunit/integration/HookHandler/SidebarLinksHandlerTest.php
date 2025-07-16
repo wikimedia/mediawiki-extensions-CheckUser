@@ -10,7 +10,6 @@ use MediaWiki\Config\Config;
 use MediaWiki\Message\Message;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\Authority;
-use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Skin\Skin;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
@@ -40,9 +39,6 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/** (CheckUserTemporaryAccountAutoRevealLookup&MockObject) */
 	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
 
-	/** @var (ExtensionRegistry&MockObject) */
-	private ExtensionRegistry $extensionRegistry;
-
 	/** @var (UserIdentity&MockObject) */
 	private UserIdentity $relevantUser;
 
@@ -65,9 +61,6 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->autoRevealLookup = $this->createMock(
 			CheckUserTemporaryAccountAutoRevealLookup::class
 		);
-		$this->extensionRegistry = $this->createMock(
-			ExtensionRegistry::class
-		);
 		$this->relevantUser = $this->createMock(
 			UserIdentity::class
 		);
@@ -75,8 +68,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->sut = new SidebarLinksHandler(
 			$this->config,
 			$this->permissionManager,
-			$this->autoRevealLookup,
-			$this->extensionRegistry
+			$this->autoRevealLookup
 		);
 	}
 
@@ -337,8 +329,8 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			->method( 'isAutoRevealOn' )
 			->willReturn( $autoRevealIsOn );
 
-		$this->extensionRegistry
-			->method( 'isLoaded' )
+		$this->autoRevealLookup
+			->method( 'isAutoRevealAvailable' )
 			->willReturn( $globalPreferencesIsLoaded );
 
 		$this->skin

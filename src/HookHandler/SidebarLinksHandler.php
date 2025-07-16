@@ -6,7 +6,6 @@ use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\SidebarBeforeOutputHook;
-use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Skin\Skin;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentity;
@@ -24,18 +23,15 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	private Config $config;
 	private CheckUserPermissionManager $permissionManager;
 	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
-	private ExtensionRegistry $extensionRegistry;
 
 	public function __construct(
 		Config $config,
 		CheckUserPermissionManager $checkUserPermissionManager,
-		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
-		ExtensionRegistry $extensionRegistry
+		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup
 	) {
 		$this->config = $config;
 		$this->permissionManager = $checkUserPermissionManager;
 		$this->autoRevealLookup = $autoRevealLookup;
-		$this->extensionRegistry = $extensionRegistry;
 	}
 
 	/** @inheritDoc */
@@ -149,7 +145,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	 * @return bool
 	 */
 	private function shouldAddIPAutoReveal( Skin $skin ) {
-		if ( !$this->extensionRegistry->isLoaded( 'GlobalPreferences' ) ) {
+		if ( !$this->autoRevealLookup->isAutoRevealAvailable() ) {
 			return false;
 		}
 

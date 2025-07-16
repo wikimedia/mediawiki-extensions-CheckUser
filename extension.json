@@ -499,8 +499,7 @@
 			"services": [
 				"MainConfig",
 				"CheckUserPermissionManager",
-				"CheckUserTemporaryAccountAutoRevealLookup",
-				"ExtensionRegistry"
+				"CheckUserTemporaryAccountAutoRevealLookup"
 			]
 		},
 		"LogDisplayHandler": {
