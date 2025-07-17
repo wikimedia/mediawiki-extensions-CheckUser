@@ -170,10 +170,14 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->overrideConfigValues( [
 			'CheckUserLogLogins' => true,
 			'CheckUserLogSuccessfulBotLogins' => true,
+			'CheckUserWriteToCentralIndex' => false,
 		] );
 		$userObj = $this->getTestUser( $userGroups )->getUser();
 		$userName = $userObj->getName();
 		$authResp = $this->getMockAuthenticationResponseForStatus( $authStatus, $userName );
+
+		// Validate that we don't create the T390051 warnings when the username being logged into isn't an IP address.
+		$this->setLogger( 'CheckUser', $this->createNoOpMock( LoggerInterface::class ) );
 
 		$this->doTestOnAuthManagerLoginAuthenticateAudit(
 			$authResp, $userObj, $userName, $isAnonPerformer, $expectedLogAction
@@ -186,6 +190,30 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			'failed login' => [ AuthenticationResponse::FAIL, 'login-failure', true, [] ],
 			'successful bot login' => [ AuthenticationResponse::PASS, 'login-success', false, [ 'bot' ] ],
 		];
+	}
+
+	public function testOnAuthManagerLoginAuthenticateAuditForLoginToIPAddress() {
+		$this->overrideConfigValue( 'CheckUserLogLogins', true );
+		$userObj = $this->getServiceContainer()->getUserFactory()->newAnonymous();
+		$userName = $userObj->getName();
+		$authResp = $this->getMockAuthenticationResponseForStatus( AuthenticationResponse::FAIL, $userName );
+
+		// Expect that a warning is created that indicates that a login event is being stored for an IP address
+		// as the user being logged in to.
+		$mockLogger = $this->createMock( LoggerInterface::class );
+		$mockLogger->expects( $this->once() )
+			->method( 'warning' )
+			->with( 'T390051: Storing login event where the user being logged into is an IP address' )
+			->willReturnCallback( function ( $message, $context ) use ( $userObj, $userName ) {
+				$this->assertArrayContains( [
+					'username_from_object' => $userObj->getName(),
+					'username_from_arguments' => $userName,
+					'status' => AuthenticationResponse::FAIL,
+				], $context );
+			} );
+		$this->setLogger( 'CheckUser', $mockLogger );
+
+		$this->doTestOnAuthManagerLoginAuthenticateAudit( $authResp, $userObj, $userName, true, 'login-failure' );
 	}
 
 	/** @dataProvider provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled */

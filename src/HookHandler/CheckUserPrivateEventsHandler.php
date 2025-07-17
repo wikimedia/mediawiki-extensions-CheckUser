@@ -29,6 +29,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use Psr\Log\LoggerInterface;
 use TypeError;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\ReadOnlyMode;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -350,6 +351,21 @@ class CheckUserPrivateEventsHandler implements
 		} else {
 			// Abstain, Redirect, etc.
 			return;
+		}
+
+		if ( IPUtils::isValid( $user->getName() ) ) {
+			$this->logger->warning(
+				'T390051: Storing login event where the user being logged into is an IP address',
+				[
+					'username_from_object' => $user->getName(),
+					'username_from_arguments' => $username,
+					'username_from_authentication_response' => $ret->username,
+					'status' => $ret->status,
+					'error_message' => $ret->message,
+					'extra_data' => $extraData,
+					'exception' => new \RuntimeException(),
+				]
+			);
 		}
 
 		$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable(
