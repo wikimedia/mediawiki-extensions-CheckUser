@@ -395,6 +395,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}. No new logs of this type are now created and this is kept so historical logs can still be displayed.",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}. No new logs of this type are now created and this is kept so historical logs can still be displayed.",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "{{Logentry|[[Special:Log/checkuser-temporary-account|view-ips]]}}",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "{{Logentry|[[Special:Log/checkuser-temporary-account|view-ips]]}}\n\nAdditional parameters:\n* $4 – number of variables viewed\n* $5 – a comma-separated list of names of variables that were viewed",
 	"checkuser-ipinfo-global-contributions-url-text": "Link text to user's global contributions list on IPInfo's infobox widget",
 	"checkuser-group-requirements": "Default message displayed on [[Special:UserRights]] next to a group's checkbox, if the target user does not meet access requirements for this group.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Aria label for the toggle button that opens the user info card",

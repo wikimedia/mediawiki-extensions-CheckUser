@@ -194,4 +194,45 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 
 		$this->assertStringContainsString( TemporaryAccountLogger::ACTION_AUTO_REVEAL_DISABLED, $row->log_params );
 	}
+
+	public function testDebouncedExternalLogSameActionAndParams() {
+		// Create a temporary account logger and log an action with some parameters
+		$logger = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' )->getLogger();
+		$performer = $this->getTestSysop()->getUserIdentity();
+		$target = '~2024-01';
+		$params = [ 'variables' => [ 'user_unnamed_ip' ] ];
+
+		$logger->logFromExternal( $performer, $target, 'action', $params, true );
+		$logger->logFromExternal( $performer, $target, 'action', $params, true );
+
+		// Assert that only one log entry was created
+		$result = $this->newSelectQueryBuilder()
+			->select( 'log_id' )
+			->from( 'logging' )
+			->where( [ 'log_type' => 'checkuser-temporary-account' ] )
+			->fetchResultSet();
+
+		$this->assertSame( 1, $result->numRows() );
+	}
+
+	public function testDebouncedExternalLogSameActionAndDifferentParams() {
+		// Create a temporary account logger and log an action with some parameters
+		$logger = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' )->getLogger();
+		$performer = $this->getTestSysop()->getUserIdentity();
+		$target = '~2024-01';
+		$params1 = [ 'variables' => [ 'user_unnamed_ip', 'var2' ] ];
+		$params2 = [ 'variables' => [ 'user_unnamed_ip' ] ];
+
+		$logger->logFromExternal( $performer, $target, 'action', $params1, true );
+		$logger->logFromExternal( $performer, $target, 'action', $params2, true );
+
+		// Assert that two log entries were created
+		$result = $this->newSelectQueryBuilder()
+			->select( 'log_id' )
+			->from( 'logging' )
+			->where( [ 'log_type' => 'checkuser-temporary-account' ] )
+			->fetchResultSet();
+
+		$this->assertSame( 2, $result->numRows() );
+	}
 }

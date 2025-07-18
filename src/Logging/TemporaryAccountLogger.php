@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Logging;
 
+use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\ActorStore;
@@ -251,9 +252,7 @@ class TemporaryAccountLogger {
 		}
 
 		$targetAsTitle = $this->titleFactory->makeTitle( NS_USER, $target );
-		$logline = $dbw->newSelectQueryBuilder()
-			->select( '1' )
-			->from( 'logging' )
+		$logRows = DatabaseLogEntry::newSelectQueryBuilder( $dbw )
 			->where( [
 				'log_type' => self::LOG_TYPE,
 				'log_action' => $action,
@@ -263,9 +262,21 @@ class TemporaryAccountLogger {
 				$dbw->expr( 'log_timestamp', '>', $dbw->timestamp( $timestampMinusDelay ) ),
 			] )
 			->caller( __METHOD__ )
-			->fetchRow();
+			->fetchResultSet();
 
-		if ( !$logline ) {
+		$shouldLog = true;
+
+		foreach ( $logRows as $logRow ) {
+			$logEntry = DatabaseLogEntry::newFromRow( $logRow );
+			$logParams = $logEntry->getParameters();
+
+			if ( $logParams == $params ) {
+				$shouldLog = false;
+				break;
+			}
+		}
+
+		if ( $shouldLog ) {
 			$this->log( $performer, $target, $action, $params, $timestamp );
 		}
 	}
