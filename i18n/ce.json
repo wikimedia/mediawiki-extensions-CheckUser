@@ -156,6 +156,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Кхин дӀа дахьале, тӀетаӀайе «Ӏалашбе нисдаран гӀирс».",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Хазахетарг Ӏалашде",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "IP-адрес гучудаккхар",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base": "«IP-адрес дӀадовзийтар» функцино аьтто бо администраторийн а, вандализмца къийсам латточу нахана а, зеделларг долчу агӀончашна а ханна лелочу аккаунтаца доьзна IP-адрес гучудаккха.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "IP гучудоккхучу функцино аьтто бо администраторшна а, вандалашца къийсам латточу нехан а, зеделларг долчу декъашхойн а ханна лелочу аккаунтаца йоьзна IP гучуйаккха.\n\nТӀекхачаран бакъонаш йолучу декъашхойн йиш йу IP гучудоккхург дӀахӀотто шайн [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|нисдаран гӀирсашкахь]]. Функци дӀахӀоттича, «Гайта IP» нуьйда гойтур йу ханна лелочу аккаунташна уллехь.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Сурт гойту IP гучудаккхаран гӀирс лелийначул тӀаьхьа, цигахь гойту ханна лелочу аккаунтца доьзна IP-адрес. ХӀара ган хьажа хьаькхна нуьйда тӀехь «Гайта IP» аьлла йаздина ду, иза гойту ханна лелочу аккаунтан лелоран цӀарна уллехь.",
 	"checkuser-rest-access-denied": "Хьан бакъо йац и ардамаш кхочушбан.",
