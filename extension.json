@@ -352,7 +352,8 @@
 				"CheckUserPermissionManager",
 				"CheckUserTemporaryAccountAutoRevealLookup",
 				"CheckUserTemporaryAccountLoggerFactory",
-				"ReadOnlyMode"
+				"ReadOnlyMode",
+				"ExtensionRegistry"
 			]
 		},
 		{
