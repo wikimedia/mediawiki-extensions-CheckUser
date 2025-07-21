@@ -47,8 +47,9 @@
 	];
 	excludePages = excludePages.concat( mw.config.get( 'wgCheckUserSpecialPagesWithoutIPRevealButtons', [] ) );
 	if (
-		!mw.config.get( 'wgCanonicalSpecialPageName' ) ||
-		!excludePages.includes( mw.config.get( 'wgCanonicalSpecialPageName' ) )
+		mw.config.get( 'wgCheckUserTemporaryAccountIPRevealAllowed' ) && // T399994
+		( !mw.config.get( 'wgCanonicalSpecialPageName' ) ||
+		!excludePages.includes( mw.config.get( 'wgCanonicalSpecialPageName' ) ) )
 	) {
 		require( './initOnLoad.js' )();
 	}

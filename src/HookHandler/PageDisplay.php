@@ -85,6 +85,10 @@ class PageDisplay implements BeforePageDisplayHook {
 		$out->addJSConfigVars( [
 			'wgCheckUserIsPerformerBlocked' => $permStatus->getBlock() !== null,
 			'wgCheckUserTemporaryAccountMaxAge' => $this->config->get( 'CheckUserTemporaryAccountMaxAge' ),
+			// Unconditionally set to true as CheckUserIPRevealManager already checked
+			// the user's access to this tool. This config is needed for client-side code
+			// to decide whether to add the buttons (T399994)
+			'wgCheckUserTemporaryAccountIPRevealAllowed' => true,
 			'wgCheckUserSpecialPagesWithoutIPRevealButtons' =>
 				$this->config->get( 'CheckUserSpecialPagesWithoutIPRevealButtons' ),
 		] );
