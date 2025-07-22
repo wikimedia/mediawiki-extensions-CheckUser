@@ -226,7 +226,7 @@
 	"checkuser-investigate-compare-toollinks-ipcheck": "代理檢查",
 	"checkuser-investigate-compare-copy-message-label": "您想要將此資訊複製成 wikitext 表格嗎？",
 	"checkuser-investigate-compare-notice-exceeded-limit": "由於技術上的限制，我們已達到可呈現紀錄的數量。以下目標所回傳的資料內容不完整：$1。請嘗試使用較少的目標、較小的時窗、或是較窄的 IP 範圍。",
-	"checkuser-investigate-compare-notice-no-results": "沒有結果：沒有在過去 90 天來自這些使用者或 IP 的結果",
+	"checkuser-investigate-compare-notice-no-results": "沒有結果：在過去90天內沒有來自這些使用者或IP的編輯",
 	"checkuser-investigate-compare-notice-no-results-filters": "沒有符合這些篩選條件的結果。嘗試移除一些篩選來擴大搜尋。",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "顯示此使用者的全部 IP",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "顯示在此 IP 上的所有使用者",

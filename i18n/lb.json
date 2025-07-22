@@ -31,7 +31,7 @@
 	"checkuser-clienthints-name-platform": "Plattform",
 	"checkuser-clienthints-name-platform-version": "Plattformversioun",
 	"checkuser-clienthints-value-yes": "Jo",
-	"checkuser-clienthints-value-no": "Neen",
+	"checkuser-clienthints-value-no": "Nee",
 	"checkuser-reason": "Grond:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Op d'Logbuch vun CheckUser wiesselen",

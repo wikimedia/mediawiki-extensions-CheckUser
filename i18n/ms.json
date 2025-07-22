@@ -24,6 +24,8 @@
 	"right-checkuser": "Memeriksa alamat IP dan maklumat-maklumat lain bagi pengguna",
 	"right-checkuser-log": "Melihat log pemeriksa",
 	"right-checkuser-temporary-account": "lihat alamat IP yang digunakan oleh akaun sementara",
+	"right-checkuser-temporary-account-log": "Lihat log akses kepada alamat IP akaun sementara",
+	"grant-checkuser": "Mengakses data pemeriksa",
 	"action-checkuser": "memeriksa alamat IP dan maklumat-maklumat lain",
 	"action-checkuser-log": "melihat log pemeriksa",
 	"action-checkuser-temporary-account": "lihat alamat IP yang digunakan oleh akaun sementara",
