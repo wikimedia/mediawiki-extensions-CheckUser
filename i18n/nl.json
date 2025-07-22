@@ -386,5 +386,16 @@
 	"checkuser-userinfocard-loading-label": "Gebruikersinfo wordt geladen",
 	"checkuser-userinfocard-error-title": "Er is een fout opgetreden",
 	"checkuser-userinfocard-error-no-data": "Er kan geen informatie voor deze gebruiker worden opgehaald. Probeer het later opnieuw.",
-	"checkuser-userinfocard-error-generic": "Er is iets misgegaan. Probeer het later opnieuw."
+	"checkuser-userinfocard-error-generic": "Er is iets misgegaan. Probeer het later opnieuw.",
+	"checkuser-userinfocard-enable-preference-description": "De [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|gebruikersinfokaart]] inschakelen",
+	"checkuser-userinfocard-enable-preference-help": "Naast gebruikersnamen een knop weergeven waarmee een deelvenster met informatie over een account wordt geopend.",
+	"checkuser-userinfocard-activity-chart-label": "Bewerkingsactiviteit in de afgelopen 60 dagen ({{PLURAL:$1|$1 bewerking|$1 bewerkingen|0=Geen bewerkingen}})",
+	"checkuser-ipinfo-global-contributions-label": "Globaal aantal bijdragen",
+	"checkuser-ipinfo-global-contributions-tooltip": "Het aantal bewerkingen dat op alle wiki’s vanaf dit IP-adres is aangebracht.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globale bewerking|$1 globale bewerkingen|0=Geen globale bewerkingen}}",
+	"tooltip-t-global-contributions": "Een lijst met bijdragen van deze gebruik{{GENDER:$1||st}}er op alle wiki’s",
+	"checkuser-userinfocard-groups": "<strong>Groepen</strong>: $1",
+	"checkuser-userinfocard-global-groups": "<strong>Globale groepen</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 bewerking|$2 bewerkingen|0=Geen bewerkingen}})",
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Inzage IP-adressen tijdelijke accounts is ingeschakeld"
 }

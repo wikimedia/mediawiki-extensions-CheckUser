@@ -12,6 +12,7 @@
 			"Minisarm",
 			"NGC 54",
 			"Paloi Sciurala",
+			"SalinaTheTranslator",
 			"Trotinel Iftode"
 		]
 	},
@@ -83,7 +84,7 @@
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocări active de pe toate wiki-urile: $1",
 	"checkuser-userinfocard-past-blocks": "Blocări trecute: $1",
 	"checkuser-userinfocard-global-edits": "Modificări globale: $1",
-	"checkuser-userinfocard-local-edits": "Modificări locale: $1 (anulate: $2)",
+	"checkuser-userinfocard-local-edits": "Modificări locale: $1 (revenite: $2)",
 	"checkuser-userinfocard-new-articles": "Articole noi: $1",
 	"checkuser-userinfocard-thanks": "Mulțumiri primite: $1 (oferite: $2)",
 	"checkuser-userinfocard-menu-view-contributions": "Vezi contribuțiile utilizatorului",
