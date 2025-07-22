@@ -764,6 +764,7 @@
 				"api.js",
 				"rest.js",
 				"ShowIPButton.vue",
+				"AbuseLog.js",
 				"SpecialBlock.js",
 				"SpecialContributions.js",
 				{
@@ -985,6 +986,7 @@
 			"tests/qunit/ext.checkUser.tempAccounts/initOnHook.test.js",
 			"tests/qunit/ext.checkUser.tempAccounts/rest.test.js",
 			"tests/qunit/ext.checkUser.tempAccounts/SpecialBlock.test.js",
+			"tests/qunit/ext.checkUser.tempAccounts/AbuseLog.test.js",
 			"tests/qunit/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/util.test.js",

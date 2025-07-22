@@ -145,7 +145,9 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 						// eslint-disable-next-line quote-props
 						revIps: { '1': '127.0.0.1' },
 						// eslint-disable-next-line quote-props
-						logIps: { '1': '127.0.0.3' }
+						logIps: { '1': '127.0.0.3' },
+						// eslint-disable-next-line quote-props
+						abuseLogIps: { '1': '127.0.0.4' }
 					}
 				} )
 			);
@@ -161,17 +163,26 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 		{
 			$element: $( '<div>' ).attr( 'data-mw-revid', 1 ),
 			revIds: { targetId: 1, allIds: [ 1 ] },
-			logIds: {}
+			logIds: {},
+			aflIds: {}
 		},
 		{
 			$element: $( '<div>' ).attr( 'data-mw-logid', 1 ),
 			revIds: {},
-			logIds: { targetId: 1, allIds: [ 1 ] }
+			logIds: { targetId: 1, allIds: [ 1 ] },
+			aflIds: {}
+		},
+		{
+			$element: $( '<div>' ).attr( 'data-afl-log-id', 1 ),
+			revIds: {},
+			logIds: {},
+			aflIds: { targetId: 1, allIds: [ 1 ] }
 		},
 		{
 			$element: $( '<div>' ).addClass( 'no-id' ),
 			revIds: {},
-			logIds: {}
+			logIds: {},
+			aflIds: {}
 		}
 	];
 	lines.forEach( ( line ) => {
@@ -184,6 +195,7 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 			username,
 			line.revIds,
 			line.logIds,
+			line.aflIds,
 			$qunitFixture
 		) );
 	} );

@@ -1,6 +1,6 @@
 const BlockDetailsPopupButtonWidget = require( './BlockDetailsPopupButtonWidget.js' );
 const ipRevealUtils = require( './ipRevealUtils.js' );
-const { performRevealRequest, performBatchRevealRequest, isRevisionLookup, isLogLookup } = require( './rest.js' );
+const { performRevealRequest, performBatchRevealRequest, isRevisionLookup, isLogLookup, isAbuseFilterLogLookup } = require( './rest.js' );
 
 /**
  * Replace a button with an IP address, or a message indicating that the IP address
@@ -53,11 +53,14 @@ function replaceButton( $element, ip, success ) {
  * @param {Object} logIds Object used to perform the API request, containing:
  *  - targetId: log ID for the passed-in element
  *  - allIds: array of all log IDs for the passed-in target
+ * @param {Object} aflIds Object used to perform the API request, containing:
+ * - targetId: AbuseFilter log ID for the passed-in element
+ * - allIds: array of all AbuseFilter log IDs for the passed-in target
  * @param {string|*} documentRoot A Document or selector to use as the context
  *  for firing the 'userRevealed' event, handled by buttons within that context.
  * @return {jQuery[]}
  */
-function makeButton( target, revIds, logIds, documentRoot ) {
+function makeButton( target, revIds, logIds, aflIds, documentRoot ) {
 	if ( !documentRoot ) {
 		documentRoot = document;
 	}
@@ -78,6 +81,7 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 	button.$element.data( 'target', target );
 	button.$element.data( 'revIds', revIds );
 	button.$element.data( 'logIds', logIds );
+	button.$element.data( 'aflIds', aflIds );
 
 	button.once( 'click', () => {
 		button.$element.trigger( 'revealIp' );
@@ -102,6 +106,10 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 				logIds.allIds.forEach( ( logId ) => {
 					ips[ logId ] = batchResponse[ target ].logIps[ logId ];
 				} );
+			} else if ( isAbuseFilterLogLookup( aflIds ) ) {
+				aflIds.allIds.forEach( ( aflLogId ) => {
+					ips[ aflLogId ] = batchResponse[ target ].abuseLogIps[ aflLogId ];
+				} );
 			} else {
 				ips = [ ip ];
 			}
@@ -110,14 +118,16 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 				ips,
 				isRevisionLookup( revIds ),
 				isLogLookup( logIds ),
+				isAbuseFilterLogLookup( aflIds ),
 				batchResponse
 			] );
 
 			return;
 		}
 
-		performRevealRequest( target, revIds, logIds ).then( ( response ) => {
-			const targetIp = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
+		performRevealRequest( target, revIds, logIds, aflIds ).then( ( response ) => {
+			const index = ( revIds.targetId || logIds.targetId || aflIds.targetId || 0 );
+			const targetIp = response.ips[ index ];
 			if ( !ipRevealUtils.getRevealedStatus( target ) && !response.autoReveal ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
@@ -126,7 +136,8 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 				target,
 				response.ips,
 				isRevisionLookup( revIds ),
-				isLogLookup( logIds )
+				isLogLookup( logIds ),
+				isAbuseFilterLogLookup( aflIds )
 			] );
 		} ).catch( () => {
 			replaceButton( button.$element, false, false );
@@ -189,10 +200,12 @@ function addIpRevealButtons( $content ) {
 function addButtonsToUserLinks( $userLinks ) {
 	const allRevIds = {};
 	const allLogIds = {};
+	const allAflIds = {};
 
 	$userLinks.each( function () {
 		addToAllIds( $( this ), allRevIds, getRevisionId );
 		addToAllIds( $( this ), allLogIds, getLogId );
+		addToAllIds( $( this ), allAflIds, getAbuseFilterLogId );
 	} );
 
 	$userLinks.each( function () {
@@ -203,7 +216,9 @@ function addButtonsToUserLinks( $userLinks ) {
 		$( this ).after( function () {
 			const revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
 			const logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
-			return makeButton( target, revIds, logIds );
+			const aflIds = getIdsForTarget( $( this ), target, allAflIds, getAbuseFilterLogId );
+
+			return makeButton( target, revIds, logIds, aflIds );
 		} );
 	} );
 
@@ -273,9 +288,10 @@ function enableMultiReveal( $element ) {
 		 *  or log IDs to the IP address used while making the edit or performing the action.
 		 * @param {boolean} isRev The map keys are revision IDs
 		 * @param {boolean} isLog The map keys are log IDs
+		 * @param {boolean} isAfLog The map keys are AbuseFilter log IDs
 		 * @param {Object|undefined} batchResponse
 		 */
-		( _e, userLookup, ips, isRev, isLog, batchResponse ) => {
+		( _e, userLookup, ips, isRev, isLog, isAfLog, batchResponse ) => {
 			// Find all temp user links that share the username
 			const $userLinks = $( '.mw-tempuserlink' ).filter( function () {
 				return $( this ).attr( 'data-mw-target' ) === userLookup;
@@ -292,6 +308,9 @@ function enableMultiReveal( $element ) {
 			// another lookup to get the map. Needed for grouped recent changes: T369662
 			const ipsIsRevMap = !Array.isArray( ips ) && isRev;
 			const ipsIsLogMap = !Array.isArray( ips ) && isLog;
+			const ipsIsAfLogMap = !Array.isArray( ips ) && isAfLog;
+			const isUnknownType = !ipsIsRevMap && !ipsIsLogMap && !ipsIsAfLogMap;
+
 			let $triggerNext;
 
 			$userButtons.each( function () {
@@ -300,11 +319,15 @@ function enableMultiReveal( $element ) {
 				} else {
 					const revId = getRevisionId( $( this ) );
 					const logId = getLogId( $( this ) );
+					const afLogId = getAbuseFilterLogId( $( this ) );
+
 					if ( ipsIsRevMap && revId ) {
 						replaceButton( $( this ), ips[ revId ], true );
 					} else if ( ipsIsLogMap && logId ) {
 						replaceButton( $( this ), ips[ logId ], true );
-					} else if ( !ipsIsRevMap && !ipsIsLogMap && !revId && !logId ) {
+					} else if ( ipsIsAfLogMap && afLogId ) {
+						replaceButton( $( this ), ips[ afLogId ], true );
+					} else if ( isUnknownType && !revId && !logId && !afLogId ) {
 						replaceButton( $( this ), ips[ 0 ], true );
 					} else if ( !ipsIsRevMap && revId && batchResponse ) {
 						// If the current button has a revId but the reveal
@@ -323,6 +346,15 @@ function enableMultiReveal( $element ) {
 						// new lookup. The data we need should be in the batch
 						// response.
 						const ip = batchResponse[ userLookup ].logIps[ logId ];
+						replaceButton( $( this ), ip, true );
+					} else if ( !ipsIsAfLogMap && afLogId && batchResponse ) {
+						// If the current button has an afLogId but the reveal
+						// didn't set ipsIsAfLogMap due to the reveal happening
+						// from another button without the afLogId, and we also
+						// have a batch response, we don't need to trigger a
+						// new lookup. The data we need should be in the batch
+						// response.
+						const ip = batchResponse[ userLookup ].abuseLogIps[ afLogId ];
 						replaceButton( $( this ), ip, true );
 					} else {
 						// There is a mismatch, so trigger a new lookup for this button.
@@ -371,12 +403,15 @@ function batchRevealIps( request, $ipRevealButtons ) {
 			if ( Object.prototype.hasOwnProperty.call( response, target ) ) {
 				const revId = $button.data( 'revIds' ).targetId;
 				const logId = $button.data( 'logIds' ).targetId;
+				const aflId = $button.data( 'aflIds' ).targetId;
 
 				let ip = null;
 				if ( revId && response[ target ].revIps !== null ) {
 					ip = response[ target ].revIps[ revId ];
 				} else if ( logId && response[ target ].logIps !== null ) {
 					ip = response[ target ].logIps[ logId ];
+				} else if ( aflId && response[ target ].abuseLogIps !== null ) {
+					ip = response[ target ].abuseLogIps[ aflId ];
 				} else if ( response[ target ].lastUsedIp ) {
 					ip = response[ target ].lastUsedIp;
 				}
@@ -423,7 +458,11 @@ function automaticallyRevealUsersInternal( $ipRevealButtons, autoRevealStatus ) 
 		const $button = $( this );
 
 		if ( !Object.prototype.hasOwnProperty.call( request, target ) ) {
-			request[ target ] = { revIds: [], logIds: [], lastUsedIp: false };
+			request[ target ] = {
+				revIds: [],
+				logIds: [],
+				lastUsedIp: false
+			};
 		}
 		if (
 			$button.data( 'revIds' ).allIds &&
@@ -441,7 +480,33 @@ function automaticallyRevealUsersInternal( $ipRevealButtons, autoRevealStatus ) 
 				$button.data( 'logIds' ).allIds.map( ( x ) => String( x ) )
 			);
 		}
-		if ( request[ target ].revIds.length === 0 && request[ target ].logIds.length === 0 ) {
+
+		let isEmpty = (
+			request[ target ].revIds.length === 0 &&
+			request[ target ].logIds.length === 0
+		);
+
+		// Checking for AbuseFilter is required so that an (empty) aflIds property is
+		// not added to the payload (doing so when AF is not loaded would make the
+		// request fail).
+		if ( mw.loader.getState( 'ext.abuseFilter' ) === 'ready' ) {
+			if ( !Object.prototype.hasOwnProperty.call( request[ target ], 'abuseLogIds' ) ) {
+				request[ target ].abuseLogIds = [];
+			}
+
+			if (
+				$button.data( 'aflIds' ).allIds &&
+				request[ target ].abuseLogIds.length === 0
+			) {
+				request[ target ].abuseLogIds = request[ target ].abuseLogIds.concat(
+					$button.data( 'aflIds' ).allIds.map( ( x ) => String( x ) )
+				);
+			}
+
+			isEmpty = isEmpty && ( request[ target ].abuseLogIds.length === 0 );
+		}
+
+		if ( isEmpty ) {
 			request[ target ].lastUsedIp = true;
 		}
 
@@ -597,6 +662,16 @@ function getLogId( $element ) {
 }
 
 /**
+ * Get AbuseFilter log ID from the surrounding DOM. This looks only in ancestors.
+ *
+ * @param {jQuery} $element
+ * @return {number|undefined}
+ */
+function getAbuseFilterLogId( $element ) {
+	return $element.closest( '[data-afl-log-id]' ).data( 'afl-log-id' );
+}
+
+/**
  * Reveals the first button within $content. This may trigger further reveals, if multi-reveal
  * is enabled.
  *
@@ -656,7 +731,7 @@ function enableIpRevealForContributionsPage( documentRoot, pageTitle, autoReveal
 			return [
 				' ',
 				$( '<span>' ).addClass( 'mw-changeslist-separator' )
-			].concat( makeButton( target, ids, undefined, documentRoot ) );
+			].concat( makeButton( target, ids, undefined, undefined, documentRoot ) );
 		} );
 	} );
 

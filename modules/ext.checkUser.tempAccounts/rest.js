@@ -6,15 +6,16 @@
  * @param {string} target
  * @param {Object} revIds
  * @param {Object} logIds
- * @param {boolean} retryOnTokenMismatch
+ * @param {Object} aflIds
+ * @param {boolean} [retryOnTokenMismatch]
  * @return {Promise}
  */
-function performRevealRequest( target, revIds, logIds, retryOnTokenMismatch ) {
+function performRevealRequest( target, revIds, logIds, aflIds, retryOnTokenMismatch ) {
 	if ( retryOnTokenMismatch === undefined ) {
 		// Default value for the argument is true.
 		retryOnTokenMismatch = true;
 	}
-	return performRevealRequestInternal( target, revIds, logIds, 1, retryOnTokenMismatch );
+	return performRevealRequestInternal( target, revIds, logIds, aflIds, 1, retryOnTokenMismatch );
 }
 
 /**
@@ -23,45 +24,87 @@ function performRevealRequest( target, revIds, logIds, retryOnTokenMismatch ) {
  * @param {string} target
  * @param {Object} revIds
  * @param {Object} logIds
- * @param {boolean} retryOnTokenMismatch
+ * @param {Object} aflIds
+ * @param {boolean} [retryOnTokenMismatch]
  * @return {Promise}
  */
-function performFullRevealRequest( target, revIds, logIds, retryOnTokenMismatch ) {
+function performFullRevealRequest( target, revIds, logIds, aflIds, retryOnTokenMismatch ) {
 	if ( retryOnTokenMismatch === undefined ) {
 		// Default value for the argument is true.
 		retryOnTokenMismatch = true;
 	}
-	return performRevealRequestInternal( target, revIds, logIds, false, retryOnTokenMismatch );
+	return performRevealRequestInternal( target, revIds, logIds, aflIds, false, retryOnTokenMismatch );
 }
 
-function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTokenMismatch ) {
+function performRevealRequestInternal( target, revIds, logIds, aflIds, limit, retryOnTokenMismatch ) {
 	const restApi = new mw.Rest();
 	const api = new mw.Api();
 	const deferred = $.Deferred();
 
+	/**
+	 * Formats response data obtained from the backend according to what's
+	 * expected by the frontend.
+	 *
+	 * @param {Object} data Payload returned by the backend.
+	 * @param {string} key Name of the property in data that holds the payload.
+	 *
+	 * @return {{autoReveal: (boolean), ips: string[]}}
+	 * @throws Error if the payload is malformed
+	 */
+	const buildIPsDto = ( data, key ) => {
+		// Adjust the response format to what's expected by the caller
+		if ( !Object.prototype.hasOwnProperty.call( data, target ) ||
+			!Object.prototype.hasOwnProperty.call( data[ target ], key ) ) {
+			throw new Error( 'Malformed response' );
+		}
+
+		return {
+			ips: data[ target ][ key ],
+			autoReveal: data.autoReveal
+		};
+	};
+
+	/**
+	 * Takes an array of integers and turns it into an array of strings.
+	 *
+	 * This is used when building requests for fetching data by log IDs, since
+	 * these IDs are integers, but the backend API expects strings.
+	 *
+	 * @param {number[]} ids Values to cast into strings
+	 * @return {string[]}
+	 */
+	const makeStringIDs = ( ids ) => ids.map( ( id ) => id.toString() );
+
 	api.getToken( 'csrf' ).then( ( token ) => {
-		if ( isRevisionLookup( revIds ) ) {
+		if ( isAbuseFilterLogLookup( aflIds ) ) {
 			const request = {
 				[ target ]: {
-					// revision IDs are integers, but the API expects strings
-					revIds: revIds.allIds.map( ( id ) => id.toString() ),
+					abuseLogIds: makeStringIDs( aflIds.allIds ),
+					revIds: [],
 					logIds: [],
 					lastUsedIp: true
 				}
 			};
 
 			performBatchRevealRequestInternal( request, retryOnTokenMismatch )
-				.then( ( data ) => {
-					// Adjust the response format to what's expected by the caller
-					if ( Object.prototype.hasOwnProperty.call( data, target ) &&
-						Object.prototype.hasOwnProperty.call( data[ target ], 'revIps' ) ) {
-						deferred.resolve( {
-							ips: data[ target ].revIps,
-							autoReveal: data.autoReveal
-						} );
-					}
-				} )
-				.catch( ( err ) => {
+				.then( ( data ) => deferred.resolve(
+					buildIPsDto( data, 'abuseLogIps' )
+				) ).catch( ( err ) => {
+					deferred.reject( err, {} );
+				} );
+		} else if ( isRevisionLookup( revIds ) ) {
+			const request = {
+				[ target ]: {
+					revIds: makeStringIDs( revIds.allIds ),
+					logIds: [],
+					lastUsedIp: true
+				}
+			};
+
+			performBatchRevealRequestInternal( request, retryOnTokenMismatch )
+				.then( ( data ) => deferred.resolve(
+					buildIPsDto( data, 'revIps' )
+				) ).catch( ( err ) => {
 					deferred.reject( err, {} );
 				} );
 		} else {
@@ -232,6 +275,16 @@ function isLogLookup( logIds ) {
 }
 
 /**
+ * Determine whether to look up IPs for AbuseFilter log IDs.
+ *
+ * @param {Object} aflIds
+ * @return {boolean} There are revision IDs
+ */
+function isAbuseFilterLogLookup( aflIds ) {
+	return !!( aflIds && aflIds.allIds && aflIds.allIds.length );
+}
+
+/**
  * Checks if an error response is caused by providing a bad CSRF token.
  *
  * @param {Object} errObject
@@ -250,5 +303,6 @@ module.exports = {
 	performFullRevealRequest: performFullRevealRequest,
 	performBatchRevealRequest: performBatchRevealRequest,
 	isRevisionLookup: isRevisionLookup,
-	isLogLookup: isLogLookup
+	isLogLookup: isLogLookup,
+	isAbuseFilterLogLookup: isAbuseFilterLogLookup
 };
