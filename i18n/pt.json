@@ -226,6 +226,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Quer copiar os dados?",
 	"checkuser-investigate-tour-copywikitext-desc": "Copie a tabela de comparação com um clique e leve-a para a CUWiki. Repare que só está a copiar aquilo que é visível e não todas as páginas da investigação.",
 	"checkuser-global-contributions-link": "contribuições globais",
+	"checkuser-ip-auto-reveal-link-sidebar": "Revelação automática de IP",
 	"prefs-checkuser-tempaccount": "Revelação de IP de contas temporárias",
 	"checkuser-tempaccount-enable-preference": "Ativar a revelação dos endereços IP de contas temporárias",
 	"checkuser-tempaccount-no-ip-results": "Não existem dados de endereço IP para este utilizador temporário nos últimos $1 {{PLURAL:$1|dia|dias}}",
