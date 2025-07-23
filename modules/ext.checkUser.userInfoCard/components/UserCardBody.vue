@@ -185,6 +185,9 @@ module.exports = exports = {
 		const localEditsLink = mw.Title.makeTitle(
 			-1, `Contributions/${ props.username }`
 		).getUrl();
+		const localRevertedEditsLink = mw.Title.makeTitle(
+			-1, `Contributions/${ props.username }`
+		).getUrl( { tagfilter: 'mw-reverted' } );
 		const newArticlesLink = mw.Title.makeTitle( -1, 'Contributions' ).getUrl(
 			{ target: props.username, namespace: 'all', newOnly: 1 }
 		);
@@ -255,7 +258,7 @@ module.exports = exports = {
 					mainLink: localEditsLink,
 					mainLinkLogId: 'local_edits',
 					suffixValue: mw.language.convertNumber( props.localEditsReverted ),
-					suffixLink: localEditsLink,
+					suffixLink: localRevertedEditsLink,
 					suffixLinkLogId: 'reverted_local_edits'
 				},
 				{
