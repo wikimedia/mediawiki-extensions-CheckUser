@@ -295,6 +295,7 @@
 	"checkuser-global-contributions-permission-error-title": "İcazə xətası",
 	"checkuser-global-contributions-permission-error-description": "Qlobal töhfələrə baxmaq üçün [[Special:GlobalPreferences|qlobal nizamlamalarda]] razılaşmanı qəbul edin.",
 	"checkuser-global-contributions-subtitle": "Töhfələrə baxma icazəniz olan bütün vikilərdən son $1 {{PLURAL:$1|günün}} nəticələri göstərilir. Hər viki üçün $2 {{PLURAL:$2|nəticə}} ilə məhdudlaşır.",
+	"checkuser-global-contributions-subtitle-account": "Son $1 {{PLURAL:$1|günün}} bütün vikilər üçün olan nəticələri göstərilir. Hər viki üçün $2 {{PLURAL:$2|nəticə}} ilə məhdudlaşdırılıb.",
 	"checkuser-global-contributions-target-label": "İstifadəçi adı, IP ünvanı və ya diapazon:",
 	"checkuser-global-contributions-target-placeholder": "İstifadəçi adı, IP ünvanı və ya diapazon",
 	"checkuser-global-contributions-search-form-wrapper": "Qlobal töhfələrdə axtar",
