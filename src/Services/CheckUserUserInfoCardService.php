@@ -174,7 +174,7 @@ class CheckUserUserInfoCardService {
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
 			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
-			$globalGroups = $centralAuthUser->getActiveGlobalGroups();
+			$globalGroups = $centralAuthUser->getGlobalGroups();
 			sort( $globalGroups );
 			$globalGroupMessages = [];
 			foreach ( $globalGroups as $group ) {
