@@ -470,6 +470,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		bool $knownViaHook,
 		bool $expected
 	) {
+		// T399252
+		$this->clearHook( 'TitleIsAlwaysKnown' );
+
 		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 		$user = $this->getTestUser()->getUser();
