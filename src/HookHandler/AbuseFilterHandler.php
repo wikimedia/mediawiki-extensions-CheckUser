@@ -7,14 +7,14 @@ use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterPermissionStatus;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterCanViewProtectedVariablesHook;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterCustomProtectedVariablesHook;
-use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterProtectedVarsAccessLoggerHook;
+// use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterProtectedVarsAccessLoggerHook;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 
 class AbuseFilterHandler implements
 	AbuseFilterCustomProtectedVariablesHook,
-	AbuseFilterProtectedVarsAccessLoggerHook,
+	// AbuseFilterProtectedVarsAccessLoggerHook,
 	AbuseFilterCanViewProtectedVariablesHook
 	{
 
