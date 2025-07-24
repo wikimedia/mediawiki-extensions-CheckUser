@@ -637,7 +637,7 @@
 				"checkuser-userinfocard-toggle-button-aria-label",
 				"checkuser-userinfocard-close-button-aria-label",
 				"checkuser-userinfocard-open-menu-aria-label",
-				"checkuser-userinfocard-joined-label",
+				"checkuser-userinfocard-joined",
 				"checkuser-userinfocard-active-blocks-from-all-wikis",
 				"checkuser-userinfocard-past-blocks",
 				"checkuser-userinfocard-global-edits",
@@ -673,7 +673,8 @@
 				"vue",
 				"@wikimedia/codex",
 				"mediawiki.user",
-				"mediawiki.DateFormatter"
+				"mediawiki.DateFormatter",
+				"mediawiki.jqueryMsg"
 			]
 		},
 		"ext.checkUser.clientHints": {

@@ -24,6 +24,7 @@
 			<!-- eslint-disable max-len -->
 			<user-card-body
 				:username="userCard.username"
+				:gender="userCard.gender"
 				:joined-date="userCard.joinedDate"
 				:joined-relative="userCard.joinedRelativeTime"
 				:active-blocks="userCard.activeBlocksCount"
@@ -91,6 +92,7 @@ module.exports = exports = {
 			userPageUrl: '',
 			userPageIsKnown: false,
 			username: '',
+			gender: 'unknown',
 			joinedDate: '',
 			joinedRelativeTime: '',
 			globalEditCount: 0,
@@ -134,6 +136,7 @@ module.exports = exports = {
 
 					const {
 						name,
+						gender,
 						firstRegistration,
 						globalEditCount,
 						thanksReceived,
@@ -162,6 +165,7 @@ module.exports = exports = {
 					userCard.userPageUrl = userPageUrl;
 					userCard.userPageIsKnown = !!userPageIsKnown;
 					userCard.username = name;
+					userCard.gender = gender;
 
 					// Parse and format firstRegistration date
 					const firstRegDate = parseMediaWikiTimestamp( firstRegistration );

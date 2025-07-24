@@ -1,7 +1,7 @@
 <template>
 	<div class="ext-checkuser-userinfocard-body">
 		<p class="ext-checkuser-userinfocard-joined">
-			{{ joinedLabel }}: {{ joinedDate }} ({{ joinedRelative }})
+			{{ joined }}
 		</p>
 		<info-row-with-links
 			v-for="( row, idx ) in infoRows"
@@ -80,6 +80,10 @@ module.exports = exports = {
 		username: {
 			type: String,
 			default: ''
+		},
+		gender: {
+			type: String,
+			default: 'unknown'
 		},
 		joinedDate: {
 			type: String,
@@ -163,7 +167,7 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const logEvent = useInstrument();
-		const joinedLabel = mw.msg( 'checkuser-userinfocard-joined-label' );
+		const joined = mw.msg( 'checkuser-userinfocard-joined', props.joinedDate, props.joinedRelative, props.gender );
 
 		const formattedGroups = computed( () => props.groups );
 		const formattedGlobalGroups = computed( () => props.globalGroups );
@@ -324,7 +328,7 @@ module.exports = exports = {
 		}
 
 		return {
-			joinedLabel,
+			joined,
 			formattedGroups,
 			formattedGlobalGroups,
 			activeWikisLabel,

@@ -25,7 +25,7 @@ const mockComponents = {
 		name: 'UserCardBody',
 		template: '<div class="mock-body">{{ username }}</div>',
 		props: [
-			'userId', 'username', 'joinedDate', 'joinedRelative', 'globalEdits',
+			'userId', 'username', 'gender', 'joinedDate', 'joinedRelative', 'globalEdits',
 			'thanksReceived', 'thanksSent', 'activeBlocks', 'pastBlocks',
 			'localEdits', 'localEditsReverted', 'newArticles', 'checks',
 			'lastChecked', 'activeWikis', 'recentLocalEdits', 'totalLocalEdits'
@@ -36,6 +36,7 @@ const mockComponents = {
 // Sample user data for testing
 const sampleUserData = {
 	name: 'TestUser',
+	gender: 'female',
 	firstRegistration: '20200101000000',
 	globalEditCount: 1000,
 	thanksReceived: 30,

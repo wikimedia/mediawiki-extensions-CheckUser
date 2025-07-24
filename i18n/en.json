@@ -367,7 +367,7 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "Open user info card",
 	"checkuser-userinfocard-close-button-aria-label": "Close",
 	"checkuser-userinfocard-open-menu-aria-label": "Open user info card menu",
-	"checkuser-userinfocard-joined-label": "Joined",
+	"checkuser-userinfocard-joined": "{{GENDER:$3|Joined}}: $1 ($2)",
 	"checkuser-userinfocard-active-wikis-label": "Active wikis",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Active blocks from all wikis: $1",
 	"checkuser-userinfocard-past-blocks": "Past blocks: $1",

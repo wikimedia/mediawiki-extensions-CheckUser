@@ -5,7 +5,13 @@ const UserCardBody = require( 'ext.checkUser.userInfoCard/modules/ext.checkUser.
 
 QUnit.module( 'ext.checkUser.userInfoCard.UserCardBody', QUnit.newMwEnvironment( {
 	beforeEach: function () {
-		this.sandbox.stub( mw, 'msg' ).callsFake( ( key ) => key );
+		this.sandbox.stub( mw, 'msg' ).callsFake( ( key, ...args ) => {
+			let returnValue = '(' + key;
+			if ( args.length !== 0 ) {
+				returnValue += ': ' + args.join( ', ' );
+			}
+			return returnValue + ')';
+		} );
 
 		// Stub mw.Title.makeTitle
 		this.sandbox.stub( mw.Title, 'makeTitle' ).callsFake( ( namespace, title ) => ( {
@@ -46,6 +52,7 @@ function mountComponent( props = {} ) {
 		propsData: {
 			userId: '123',
 			username: 'TestUser',
+			gender: 'female',
 			joinedDate: '2020-01-01',
 			joinedRelative: '5 years ago',
 			activeBlocks: 2,
@@ -84,7 +91,7 @@ QUnit.test( 'displays joined date information correctly', ( assert ) => {
 	assert.true( joinedParagraph.exists(), 'Joined paragraph exists' );
 	assert.strictEqual(
 		joinedParagraph.text(),
-		'checkuser-userinfocard-joined-label: 2020-01-01 (5 years ago)',
+		'(checkuser-userinfocard-joined: 2020-01-01, 5 years ago, female)',
 		'Joined paragraph displays correct information'
 	);
 } );
@@ -322,14 +329,14 @@ QUnit.test( 'setup function returns correct values with all permissions', ( asse
 	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: true } );
 
 	assert.strictEqual(
-		wrapper.vm.joinedLabel,
-		'checkuser-userinfocard-joined-label',
-		'joinedLabel is set correctly'
+		wrapper.vm.joined,
+		'(checkuser-userinfocard-joined: 2020-01-01, 5 years ago, female)',
+		'joined is set correctly'
 	);
 
 	assert.strictEqual(
 		wrapper.vm.activeWikisLabel,
-		'checkuser-userinfocard-active-wikis-label',
+		'(checkuser-userinfocard-active-wikis-label)',
 		'activeWikisLabel is set correctly'
 	);
 

@@ -459,6 +459,7 @@ return [
 			$services->getUserEditTracker(),
 			new DerivativeContext( RequestContext::getMain() ),
 			$services->getTitleFactory(),
+			$services->getGenderCache(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},

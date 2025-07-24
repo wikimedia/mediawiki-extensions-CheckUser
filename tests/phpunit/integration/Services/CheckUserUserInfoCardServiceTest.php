@@ -106,6 +106,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserEditTracker(),
 			RequestContext::getMain(),
 			$services->getTitleFactory(),
+			$services->getGenderCache(),
 			$logger ?? LoggerFactory::getInstance( 'CheckUser' )
 		);
 	}
@@ -143,6 +144,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 1, current( $userInfo[ 'editCountByDay' ] ), 'Edit count for the current day is 1' );
 		$this->assertSame( 0, $userInfo['revertedEditCount'] );
 		$this->assertSame( $user->getName(), $userInfo['name'] );
+		$this->assertSame( $this->getServiceContainer()->getGenderCache()->getGenderOf( $user ), $userInfo['gender'] );
 		$this->assertArrayHasKey( 'localRegistration', $userInfo );
 		$this->assertArrayHasKey( 'firstRegistration', $userInfo );
 		$this->assertSame( '<strong>Groups</strong>: Bureaucrats, Administrators', $userInfo['groups'] );
@@ -253,6 +255,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserEditTracker(),
 			RequestContext::getMain(),
 			$services->getTitleFactory(),
+			$services->getGenderCache(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 		$targetUser = $this->getTestUser()->getUser();

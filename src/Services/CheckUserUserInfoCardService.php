@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Services;
 
 use GrowthExperiments\UserImpact\UserImpactLookup;
+use MediaWiki\Cache\GenderCache;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
@@ -42,24 +43,10 @@ class CheckUserUserInfoCardService {
 	private UserEditTracker $userEditTracker;
 	private MessageLocalizer $messageLocalizer;
 	private TitleFactory $titleFactory;
+	private GenderCache $genderCache;
 	private LoggerInterface $logger;
 	private const PAGER_ITERATION_LIMIT = 20;
 
-	/**
-	 * @param UserImpactLookup|null $userImpactLookup
-	 * @param ExtensionRegistry $extensionRegistry
-	 * @param UserRegistrationLookup $userRegistrationLookup
-	 * @param UserGroupManager $userGroupManager
-	 * @param GlobalContributionsPagerFactory|null $globalContributionsPagerFactory
-	 * @param IConnectionProvider $dbProvider
-	 * @param StatsFactory $statsFactory
-	 * @param CheckUserPermissionManager $checkUserPermissionManager
-	 * @param UserFactory $userFactory
-	 * @param InterwikiLookup $interwikiLookup
-	 * @param UserEditTracker $userEditTracker
-	 * @param MessageLocalizer $messageLocalizer
-	 * @param TitleFactory $titleFactory
-	 */
 	public function __construct(
 		?UserImpactLookup $userImpactLookup,
 		ExtensionRegistry $extensionRegistry,
@@ -74,6 +61,7 @@ class CheckUserUserInfoCardService {
 		UserEditTracker $userEditTracker,
 		MessageLocalizer $messageLocalizer,
 		TitleFactory $titleFactory,
+		GenderCache $genderCache,
 		LoggerInterface $logger
 	) {
 		$this->userImpactLookup = $userImpactLookup;
@@ -89,6 +77,7 @@ class CheckUserUserInfoCardService {
 		$this->userEditTracker = $userEditTracker;
 		$this->messageLocalizer = $messageLocalizer;
 		$this->titleFactory = $titleFactory;
+		$this->genderCache = $genderCache;
 		$this->logger = $logger;
 	}
 
@@ -147,6 +136,7 @@ class CheckUserUserInfoCardService {
 		$hasUserImpactData = count( $userInfo );
 
 		$userInfo['name'] = $user->getName();
+		$userInfo['gender'] = $this->genderCache->getGenderOf( $user );
 		$userInfo['localRegistration'] = $this->userRegistrationLookup->getRegistration( $user );
 		$userInfo['firstRegistration'] = $this->userRegistrationLookup->getFirstRegistration( $user );
 		$userInfo['userPageIsKnown'] = $this->userPageIsKnown( $user );
