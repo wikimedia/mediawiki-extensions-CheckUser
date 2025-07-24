@@ -155,6 +155,13 @@ class CheckUserUserInfoCardService {
 		if ( !$user->isRegistered() ) {
 			return [];
 		}
+		// If the authority can't view hidden user, and the user is hidden,
+		// don't return anything.
+		if ( !$authority->isAllowed( 'hideuser' ) &&
+			$this->userFactory->newFromUserIdentity( $user )->isHidden()
+		) {
+			return [];
+		}
 		$start = microtime( true );
 		$userInfo = $this->getDataFromUserImpact( $user );
 		$hasUserImpactData = count( $userInfo );

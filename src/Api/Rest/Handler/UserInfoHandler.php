@@ -49,6 +49,12 @@ class UserInfoHandler extends SimpleHandler {
 			$user->load();
 		}
 
+		// If the user exists, is hidden, and the authority doesn't have the `hideuser`
+		// right, then pretend that the user doesn't exist
+		if ( $user && $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
+			$user = null;
+		}
+
 		if ( $user === null || !$user->getId() ) {
 			throw new LocalizedHttpException(
 				new MessageValue( 'checkuser-rest-userinfo-user-not-found' ),
