@@ -365,6 +365,73 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testGetBlocksOnLocalWikiWithSuppression() {
+		$user = $this->getTestUser()->getUser();
+		$sysopUser = $this->getTestSysop()->getUser();
+		$this->overrideUserPermissions( $sysopUser, [ 'suppressionlog' ] );
+		$this->assertSame(
+			0,
+			$this->getObjectUnderTest()->getUserInfo(
+				$user, $user
+			)['pastBlocksOnLocalWiki']
+		);
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'logging' )
+			->row( [
+				'log_actor' => $user->getActorId(),
+				'log_comment_id' => 1,
+				'log_params' => '',
+				'log_type' => 'suppress',
+				'log_action' => 'block',
+				'log_namespace' => NS_USER,
+				'log_title' => str_replace( ' ', '_', $user->getName() ),
+			] )
+			->caller( __METHOD__ )
+			->execute();
+
+		$this->assertSame(
+			0,
+			$this->getObjectUnderTest()->getUserInfo(
+				$user, $user
+			)['pastBlocksOnLocalWiki'],
+			'User without suppressionlog right sees 0 for the count'
+		);
+		$this->assertSame(
+			1,
+			$this->getObjectUnderTest()->getUserInfo(
+				$sysopUser, $user
+			)['pastBlocksOnLocalWiki'],
+			'User with suppression log right sees 1 for the count'
+		);
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'logging' )
+			->row( [
+				'log_actor' => $user->getActorId(),
+				'log_comment_id' => 1,
+				'log_params' => '',
+				'log_type' => 'block',
+				'log_action' => 'block',
+				'log_namespace' => NS_USER,
+				'log_title' => str_replace( ' ', '_', $user->getName() ),
+			] )
+			->caller( __METHOD__ )
+			->execute();
+		$this->assertSame(
+			2,
+			$this->getObjectUnderTest()->getUserInfo(
+				$sysopUser, $user
+			)['pastBlocksOnLocalWiki'],
+			'User with suppressionlog right can see both counts'
+		);
+		$this->assertSame(
+			1,
+			$this->getObjectUnderTest()->getUserInfo(
+				$user, $user
+			)['pastBlocksOnLocalWiki'],
+			'User without suppressionlog sees only regular block entry counts'
+		);
+	}
+
 	public function testCanAccessTemporaryAccountIPAddresses() {
 		$userOptionsManager = $this->getServiceContainer()->getUserOptionsManager();
 		$this->setGroupPermissions( 'sysop', 'checkuser-temporary-account', true );

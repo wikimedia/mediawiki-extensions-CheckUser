@@ -240,7 +240,7 @@ class CheckUserUserInfoCardService {
 					continue;
 				}
 				$userInfo['activeWikis'][$wikiId] = $interWiki->getUrl(
-					'Special:Contributions/' . str_replace( ' ', '_', $user->getName() )
+					'Special:Contributions/' . $this->getUserTitleKey( $user )
 				);
 			}
 			$this->statsFactory->withComponent( 'CheckUser' )
@@ -286,14 +286,27 @@ class CheckUserUserInfoCardService {
 				'log_type' => 'block',
 				'log_action' => 'block',
 				'log_namespace' => NS_USER,
-				// Perform the same transformation on the username as is done in User::getTitleKey()
-				'log_title' => str_replace( ' ', '_', $user->getName() ),
+				'log_title' => $this->getUserTitleKey( $user ),
 			] )
 			->caller( __METHOD__ )
 			->fetchRowCount();
+		if ( $authority->isAllowed( 'suppressionlog' ) ) {
+			$blockLogEntriesCount += $dbr->newSelectQueryBuilder()
+				->select( 'log_id' )
+				->from( 'logging' )
+				->where( [
+					'log_type' => 'suppress',
+					'log_action' => 'block',
+					'log_namespace' => NS_USER,
+					'log_title' => $this->getUserTitleKey( $user ),
+				] )
+				->caller( __METHOD__ )
+				->fetchRowCount();
+		}
 		// Subtract the count of active local blocks (local blocks are on the 0 index, set by CentralAuthUser) to get
 		// the past blocks count.
-		$userInfo['pastBlocksOnLocalWiki'] = $blockLogEntriesCount - count( $blocks[0] ?? [] );
+		// In case the user doesn't have suppressionlog rights, ensure that the value displayed here is at least 0.
+		$userInfo['pastBlocksOnLocalWiki'] = max( 0, $blockLogEntriesCount - count( $blocks[0] ?? [] ) );
 
 		$authorityPermissionStatus =
 			$this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses( $authority );
@@ -311,4 +324,18 @@ class CheckUserUserInfoCardService {
 
 		return $userInfo;
 	}
+
+	/**
+	 * Get the username in a form that can be used in a DB query
+	 *
+	 * This performs the same transformation on the username as done in
+	 * User::getTitleKey().
+	 *
+	 * @param UserIdentity $userIdentity
+	 * @return string
+	 */
+	private function getUserTitleKey( UserIdentity $userIdentity ): string {
+		return str_replace( ' ', '_', $userIdentity->getName() );
+	}
+
 }
