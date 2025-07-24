@@ -291,6 +291,7 @@
 	"checkuser-global-contributions-permission-error-title": "Erro de permisos",
 	"checkuser-global-contributions-permission-error-description": "Para ver as contribucións globais, acepta o acordo [[Special:GlobalPreferences|nas túas preferencias globais]].",
 	"checkuser-global-contributions-subtitle": "Mostrando os resultados {{PLURAL:$1|do último día|dos últimos $1 días}}, para todos os wikis onde tes dereito a consultar as contribucións. Limitado a $2 {{PLURAL:$2|resultado|resultados}} por wiki.",
+	"checkuser-global-contributions-subtitle-account": "Mostrando os resultados {{PLURAL:$1|do último día|dos últimos $1 días}}, para todos os wikis. Limitado a $2 {{PLURAL:$2|resultado|resultados}} por wiki.",
 	"checkuser-global-contributions-target-label": "Nome de usuario, enderezo IP ou rango de enderezos IP:",
 	"checkuser-global-contributions-target-placeholder": "Nome de usuario, enderezo IP ou rango de enderezos IP",
 	"checkuser-global-contributions-search-form-wrapper": "Procura de contribucións globais",

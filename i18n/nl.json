@@ -300,6 +300,7 @@
 	"checkuser-global-contributions-permission-error-title": "Toestemmingsfout",
 	"checkuser-global-contributions-permission-error-description": "Om globale bijdragen te bekijken, moet u de overeenkomst in [[Special:GlobalPreferences|uw globale voorkeuren]] accepteren.",
 	"checkuser-global-contributions-subtitle": "De resultaten van de laatste {{PLURAL:$1|dag|$1 dagen}} worden weergegeven, voor alle wiki’s waar u het recht hebt om bijdragen te bekijken. Dit is beperkt tot $2 {{PLURAL:$2|resultaat|resultaten}} per wiki.",
+	"checkuser-global-contributions-subtitle-account": "Dit zijn de resultaten van de laatste {{PLURAL:$1|dag|$1 dagen}}, voor alle wiki’s. Beperkt tot $2 {{PLURAL:$2| resultaat|resultaten}} per wiki.",
 	"checkuser-global-contributions-target-label": "Gebruikersnaam, IP-adres of IP-bereik:",
 	"checkuser-global-contributions-target-placeholder": "Gebruikersnaam, IP-adres of IP-bereik",
 	"checkuser-global-contributions-search-form-wrapper": "Globale bijdragen zoeken",
