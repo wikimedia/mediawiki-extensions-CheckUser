@@ -318,6 +318,8 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "Изменить доступ",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Доступ к данным об IP временной учётной записи",
 	"checkuser-userinfocard-joined-label": "Присоединился",
+	"checkuser-userinfocard-active-wikis-label": "Активные вики",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Активные блокировки со всех вики: $1",
 	"checkuser-userinfocard-global-edits": "Глобальных правок: $1",
 	"checkuser-userinfocard-local-edits": "Локальных правок: $1 (отменены: $2)",
 	"checkuser-userinfocard-new-articles": "Новых статей: $1",

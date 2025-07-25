@@ -287,6 +287,7 @@
 	"checkuser-global-contributions-permission-error-title": "Грешка со дозволата",
 	"checkuser-global-contributions-permission-error-description": "За да ги видите глобалните придонеси, прифатете ја согласноста во [[Special:GlobalPreferences|вашите глобални нагодувања]].",
 	"checkuser-global-contributions-subtitle": "Прикажувам исходни ставки од {{PLURAL:$1|изминатиов ден|изминатите $1 дена}} за сите викија на кои имате право да гледате придонеси. Ограничено на $2 {{PLURAL:$2|ставка|ставки}} по вики.",
+	"checkuser-global-contributions-subtitle-account": "Прикажувам исход од {{PLURAL:$1|последниов ден|последниве $1 дена}}, за сите викија. Ограничено на $2 {{PLURAL:$2|ставка|ставки}} по вики.",
 	"checkuser-global-contributions-target-label": "Корисничко име, IP-адреса или опсег:",
 	"checkuser-global-contributions-target-placeholder": "Корисничко име, IP-адреса или опсег",
 	"checkuser-global-contributions-search-form-wrapper": "Пребарај глобални придонеси",
