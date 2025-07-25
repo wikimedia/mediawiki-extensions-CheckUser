@@ -6,6 +6,7 @@ use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\Cache\GenderCache;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Interwiki\InterwikiLookup;
@@ -163,7 +164,9 @@ class CheckUserUserInfoCardService {
 
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
-			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
+			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ?
+				CentralAuthServices::getEditCounter()->getCountFromWikis( $centralAuthUser ) :
+				0;
 			$globalGroups = $centralAuthUser->getGlobalGroups();
 			sort( $globalGroups );
 			$globalGroupMessages = [];
