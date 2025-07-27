@@ -1,0 +1,8 @@
+// Hide the user avatar icon added in MinervaNeue, as that is duplicated by the user info card feature.
+/* stylelint-disable-next-line selector-class-pattern */
+.history-user .mw-userlink::before,
+/* stylelint-disable-next-line selector-class-pattern */
+td.diff-ntitle .mw-userlink::before {
+	/* stylelint-disable-next-line declaration-no-important */
+	display: none !important;
+}

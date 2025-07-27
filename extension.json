@@ -946,7 +946,10 @@
 				"userInfoCard.less"
 			],
 			"skinStyles": {
-				"minerva": "temporaryaccount.minerva.less"
+				"minerva": [
+					"temporaryaccount.minerva.less",
+					"userinfocard.minerva.less"
+				]
 			},
 			"lessMessages": [
 				"brackets-start",
