@@ -26,6 +26,7 @@
 
 <script>
 const { onMounted, reactive, computed } = require( 'vue' );
+const DateFormatter = require( 'mediawiki.DateFormatter' );
 const d3 = require( '../lib/d3/d3.min.js' );
 let chart, sparkline, area, hoverDot = null;
 let xScale, yScale = null;
@@ -128,7 +129,7 @@ module.exports = exports = {
 
 			// Update tooltip data and position (relative to container)
 			tooltipData.visible = !!getYValue( d );
-			tooltipData.date = getXValue( d ).toLocaleDateString();
+			tooltipData.date = DateFormatter.formatDate( getXValue( d ) );
 			tooltipData.edits = getYValue( d );
 
 			// Convert SVG coordinates to screen coordinates dynamically
