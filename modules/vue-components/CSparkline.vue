@@ -199,7 +199,7 @@ module.exports = exports = {
 			// Add hover dot (initially hidden)
 			hoverDot = chart.append( 'circle' )
 				.attr( 'class', 'ext-checkuser-CSparkline__hover-dot' )
-				.attr( 'r', 4 )
+				.attr( 'r', 3 )
 				.style( 'display', 'none' );
 
 			plot();
@@ -254,7 +254,7 @@ module.exports = exports = {
 		border-radius: @border-radius-base;
 		padding: @spacing-12 @spacing-35;
 		font-family: @font-family-system-sans;
-		font-size: @font-size-small;
+		font-size: @font-size-x-small;
 		font-weight: @font-weight-normal;
 		line-height: @line-height-small;
 	}
