@@ -105,7 +105,6 @@ module.exports = exports = {
 
 		const handleMouseMove = ( event ) => {
 			const [ mouseX ] = d3.pointer( event );
-			// Find the closest data point
 			const xValue = xScale.invert( mouseX );
 			const bisector = d3.bisector( getXValue ).left;
 			const index = bisector( props.data, xValue, 1 );
@@ -117,32 +116,48 @@ module.exports = exports = {
 			}
 
 			const d = findClosestDataPoint( d0, d1, xValue, getXValue );
-
-			// Position the hover dot
 			const x = xScale( getXValue( d ) );
 			const y = yScale( getYValue( d ) );
-
 			hoverDot
 				.attr( 'cx', x )
 				.attr( 'cy', y )
 				.style( 'display', 'block' );
 
-			// Update tooltip data and position (relative to container)
 			tooltipData.visible = !!getYValue( d );
 			tooltipData.date = DateFormatter.formatDate( getXValue( d ) );
 			tooltipData.edits = getYValue( d );
 
-			// Convert SVG coordinates to screen coordinates dynamically
 			const svgElement = chart.node();
-			const containerRect = svgElement.getBoundingClientRect();
+			const container = svgElement.parentElement;
 
-			// Calculate the actual position relative to the container
-			const svgToScreenX = ( x / props.dimensions.width ) * containerRect.width;
-			const svgToScreenY = ( y / props.dimensions.height ) * containerRect.height;
+			// Use requestAnimationFrame to position after Vue renders the tooltip, to ensure
+			// the tooltip is positioned within the parent container
+			requestAnimationFrame( () => {
+				const tooltip = container.querySelector( '.ext-checkuser-CSparkline__tooltip' );
+				if ( !tooltip ) {
+					return;
+				}
 
-			// Position tooltip relative to container with proper offsets
-			tooltipData.x = svgToScreenX - 60; // Center the tooltip horizontally
-			tooltipData.y = svgToScreenY - 34; // Position tooltip above the point
+				const svgRect = svgElement.getBoundingClientRect();
+				const containerRect = container.getBoundingClientRect();
+				const tooltipRect = tooltip.getBoundingClientRect();
+
+				const pointX = ( svgRect.left - containerRect.left ) +
+					( x / props.dimensions.width ) *
+					svgRect.width;
+				const pointY = ( svgRect.top - containerRect.top ) +
+					( y / props.dimensions.height ) *
+					svgRect.height;
+
+				const halfWidth = tooltipRect.width / 2;
+				const tooltipX = Math.max(
+					0, Math.min( pointX - halfWidth, containerRect.width - tooltipRect.width )
+				);
+				const tooltipY = pointY - tooltipRect.height - 10;
+
+				tooltipData.x = tooltipX;
+				tooltipData.y = tooltipY;
+			} );
 		};
 
 		const handleMouseLeave = () => {
