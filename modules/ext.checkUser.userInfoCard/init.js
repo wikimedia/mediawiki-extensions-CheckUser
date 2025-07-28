@@ -47,7 +47,7 @@ $( () => {
 						// If it's a different button, the popover is closed, or no
 						// button is active, open the popover
 						popoverApp.setUserInfo( username );
-						popoverApp.open( event.target );
+						popoverApp.open( this );
 						activeButton = this;
 						activeUsername = username;
 					}
