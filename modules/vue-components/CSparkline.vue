@@ -127,7 +127,7 @@ module.exports = exports = {
 				.style( 'display', 'block' );
 
 			// Update tooltip data and position (relative to container)
-			tooltipData.visible = true;
+			tooltipData.visible = !!getYValue( d );
 			tooltipData.date = getXValue( d ).toLocaleDateString();
 			tooltipData.edits = getYValue( d );
 
