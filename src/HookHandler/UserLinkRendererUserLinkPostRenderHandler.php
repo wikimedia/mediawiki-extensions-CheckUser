@@ -65,7 +65,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 			$markup = Html::rawElement(
 				'a',
 				[
-					'href' => '#',
+					'href' => 'javascript:void(0)',
 					'role' => 'button',
 					'aria-label' => $context->msg( 'checkuser-userinfocard-toggle-button-aria-label' )->text(),
 					'aria-haspopover' => 'dialog',

@@ -79,7 +79,7 @@ module.exports = exports = {
 			// Wait for the DOM to update before focusing
 			nextTick( () => {
 				if ( headerLinkRef.value ) {
-					headerLinkRef.value.focus();
+					headerLinkRef.value.focus( { preventScroll: true } );
 				}
 			} );
 		}
