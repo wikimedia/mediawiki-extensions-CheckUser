@@ -369,7 +369,13 @@ module.exports = exports = {
 	}
 }
 
+p.ext-checkuser-userinfocard-groups,
+p.ext-checkuser-userinfocard-global-groups,
 p.ext-checkuser-userinfocard-active-wikis {
+	margin: @spacing-0 @spacing-0 @spacing-25;
+}
+
+p.ext-checkuser-userinfocard-groups {
 	margin-top: @spacing-100;
 }
 
