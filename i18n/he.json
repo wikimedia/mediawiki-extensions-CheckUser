@@ -358,7 +358,6 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "פתיחת כרטיס פרטי המשתמש",
 	"checkuser-userinfocard-close-button-aria-label": "סגירה",
 	"checkuser-userinfocard-open-menu-aria-label": "פתיחת תפריט כרטיס פרטי המשתמש",
-	"checkuser-userinfocard-joined-label": "תאריך הצטרפות",
 	"checkuser-userinfocard-active-wikis-label": "אתרי ויקי שהחשבון פעיל בהם",
 	"checkuser-userinfocard-new-articles": "ערכים חדשים: $1",
 	"checkuser-userinfocard-menu-view-contributions": "הצגת תרומות משתמש",

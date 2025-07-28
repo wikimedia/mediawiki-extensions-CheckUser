@@ -393,7 +393,6 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "Ouvrir la fiche d'information utilisateur",
 	"checkuser-userinfocard-close-button-aria-label": "Fermer",
 	"checkuser-userinfocard-open-menu-aria-label": "Ouvrir le menu de la carte d'informations utilisateur",
-	"checkuser-userinfocard-joined-label": "Rejoint",
 	"checkuser-userinfocard-active-wikis-label": "Wikis actifs",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocages actifs de tous les wikis: $1",
 	"checkuser-userinfocard-past-blocks": "Blocages précédents : $1",

@@ -361,7 +361,6 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "گشودن کارت اطلاعات کاربر",
 	"checkuser-userinfocard-close-button-aria-label": "بستن",
 	"checkuser-userinfocard-open-menu-aria-label": "گشودن منوی کارت اطلاعات کاربر",
-	"checkuser-userinfocard-joined-label": "عضو شده در",
 	"checkuser-userinfocard-active-wikis-label": "ویکی‌های فعال",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "قطع دسترسی‌های فعال از تمام ویکی‌ها: $1",
 	"checkuser-userinfocard-past-blocks": "قطع دسترسی‌های قبلی: $1",

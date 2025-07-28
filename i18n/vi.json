@@ -223,7 +223,6 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Tiết lộ địa chỉ IP của tài khoản tạm thời đã bị tắt",
 	"checkuser-temporary-account-log-name": "Nhật ký tiết lộ IP",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|đã xem}} tài khoản tạm thời tại $3",
-	"checkuser-userinfocard-joined-label": "Tham gia",
 	"checkuser-userinfocard-active-wikis-label": "Wiki hoạt động tích cực",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Số lệnh cấm đang có hiệu lực tại các wiki khác: $1",
 	"checkuser-userinfocard-past-blocks": "Lần cấm trước: $1",

@@ -371,7 +371,7 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "Benutzerinfokarte öffnen",
 	"checkuser-userinfocard-close-button-aria-label": "Schließen",
 	"checkuser-userinfocard-open-menu-aria-label": "Menü der Benutzerinfokarte öffnen",
-	"checkuser-userinfocard-joined-label": "Beigetreten",
+	"checkuser-userinfocard-joined": "{{GENDER:$3|Beigetreten}}: $1 ($2)",
 	"checkuser-userinfocard-active-wikis-label": "Aktive Wikis",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktive Sperren aus allen Wikis: $1",
 	"checkuser-userinfocard-past-blocks": "Vergangene Sperren: $1",

@@ -79,7 +79,6 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "Deschide cardul cu informații despre utilizator",
 	"checkuser-userinfocard-close-button-aria-label": "Închide",
 	"checkuser-userinfocard-open-menu-aria-label": "Deschide meniul cardului cu informații despre utilizator",
-	"checkuser-userinfocard-joined-label": "{{GENDER:|Alăturat|Alăturată}} la",
 	"checkuser-userinfocard-active-wikis-label": "Wiki-uri active",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocări active de pe toate wiki-urile: $1",
 	"checkuser-userinfocard-past-blocks": "Blocări trecute: $1",

@@ -331,7 +331,7 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "Avaa käyttäjätietokortti",
 	"checkuser-userinfocard-close-button-aria-label": "Sulje",
 	"checkuser-userinfocard-open-menu-aria-label": "Avaa käyttäjätietokortin valikko",
-	"checkuser-userinfocard-joined-label": "Liittyi",
+	"checkuser-userinfocard-joined": "{{GENDER:$3|Liittyi}}: $1 ($2)",
 	"checkuser-userinfocard-active-wikis-label": "Aktiiviset wikit",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktiiviset estot kaikissa wikeissä: $1",
 	"checkuser-userinfocard-past-blocks": "Vanhat estot: $1",

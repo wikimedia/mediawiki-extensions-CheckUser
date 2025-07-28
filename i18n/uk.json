@@ -368,7 +368,6 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "Відкрити інформаційну картку користувача",
 	"checkuser-userinfocard-close-button-aria-label": "Закрити",
 	"checkuser-userinfocard-open-menu-aria-label": "Відкрити меню інформаційної картки користувача",
-	"checkuser-userinfocard-joined-label": "Приєдналися",
 	"checkuser-userinfocard-active-wikis-label": "Активні вікі",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Активні блокування з усіх вікі: $1",
 	"checkuser-userinfocard-past-blocks": "Минулі блокування: $1",

@@ -371,7 +371,6 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "فتح بطاقة معلومات المستخدم",
 	"checkuser-userinfocard-close-button-aria-label": "إغلاق",
 	"checkuser-userinfocard-open-menu-aria-label": "فتح قائمة بطاقة معلومات المستخدم",
-	"checkuser-userinfocard-joined-label": "انضم",
 	"checkuser-userinfocard-active-wikis-label": "ويكيات نشطة",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "الكتل النشطة من جميع الويكيات: $1",
 	"checkuser-userinfocard-past-blocks": "الكتل السابقة: $1",

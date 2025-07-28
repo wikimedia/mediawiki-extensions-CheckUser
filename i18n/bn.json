@@ -283,7 +283,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 $3-এর সাথে যুক্ত সুরক্ষিত ভেরিয়েবল {{GENDER:$2|পরিদর্শন করেছেন}}",
 	"checkuser-ipinfo-global-contributions-url-text": "বৈশ্বিক অবদান দেখুন",
 	"checkuser-userinfocard-close-button-aria-label": "বন্ধ করুন",
-	"checkuser-userinfocard-joined-label": "যোগ দিয়েছেন",
 	"checkuser-userinfocard-active-wikis-label": "সক্রিয় উইকি",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "সকল উইকিতে থাকা সক্রিয় বাধা: $1টি",
 	"checkuser-userinfocard-past-blocks": "অতীতে বাধাপ্রাপ্ত: $1 বার",
