@@ -3,9 +3,11 @@
 		<div class="ext-checkuser-userinfocard-header-main">
 			<cdx-icon :icon="cdxIconUserAvatar"></cdx-icon>
 			<div class="ext-checkuser-userinfocard-header-userinfo">
+				<span
+					ref="focusTrapRef"
+					tabindex="-1"></span>
 				<div class="ext-checkuser-userinfocard-header-username">
 					<a
-						ref="headerLinkRef"
 						:href="userPageUrl"
 						:class="[ userPageIsKnown ? 'mw-userlink' : 'new' ]"
 						@click="onUsernameClick"
@@ -64,7 +66,7 @@ module.exports = exports = {
 	},
 	emits: [ 'close' ],
 	setup() {
-		const headerLinkRef = ref();
+		const focusTrapRef = ref();
 		const logEvent = useInstrument();
 		const closeAriaLabel = mw.msg( 'checkuser-userinfocard-close-button-aria-label' );
 
@@ -78,8 +80,8 @@ module.exports = exports = {
 		function focusOnRef() {
 			// Wait for the DOM to update before focusing
 			nextTick( () => {
-				if ( headerLinkRef.value ) {
-					headerLinkRef.value.focus( { preventScroll: true } );
+				if ( focusTrapRef.value ) {
+					focusTrapRef.value.focus( { preventScroll: true } );
 				}
 			} );
 		}
@@ -97,7 +99,7 @@ module.exports = exports = {
 			cdxIconClose,
 			closeAriaLabel,
 			onUsernameClick,
-			headerLinkRef
+			focusTrapRef
 		};
 	}
 };
