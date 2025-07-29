@@ -361,8 +361,7 @@ class CheckUserPrivateEventsHandler implements
 					'username_from_arguments' => $username,
 					'username_from_authentication_response' => $ret->username,
 					'status' => $ret->status,
-					'error_message' => $ret->message,
-					'extra_data' => $extraData,
+					'error_message' => $ret->message->text(),
 					'exception' => new \RuntimeException(),
 				]
 			);
