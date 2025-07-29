@@ -212,6 +212,10 @@
 			"value": true,
 			"description": "Should the 'checkuser' query API be disabled. Disabling the API currently means that all requests to the 'checkuser' query API return with an error indicating that the API is disabled. This configuration setting does not affect the CheckUserLog API."
 		},
+		"CheckUserUserInfoCardFeatureVisible": {
+			"value": false,
+			"description": "Whether the UserInfoCard is available to users."
+		},
 		"CheckUserEnableUserInfoCardInstrumentation": {
 			"value": true,
 			"description": "Enable instrumentation for the CheckUser UserInfoCard feature. When enabled, user interactions with the UserInfoCard will be logged to the metrics platform."

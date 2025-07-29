@@ -101,9 +101,10 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 		$messageLocalizer = RequestContext::getMain();
 
 		$preferences[self::ENABLE_USER_INFO_CARD] = [
-			'type' => (int)$this->userOptionsLookup->getDefaultOption(
-				self::ENABLE_USER_INFO_CARD, RequestContext::getMain()->getUser()
-			) ? 'toggle' : 'api',
+			'type' => (int)$this->userOptionsLookup->getBoolOption(
+				RequestContext::getMain()->getUser(),
+				self::ENABLE_USER_INFO_CARD,
+			) || $this->config->get( 'CheckUserUserInfoCardFeatureVisible' ) ? 'toggle' : 'api',
 			'section' => 'rendering/advancedrendering',
 			'label-message' => 'checkuser-userinfocard-enable-preference-description',
 			'help-message' => 'checkuser-userinfocard-enable-preference-help',
