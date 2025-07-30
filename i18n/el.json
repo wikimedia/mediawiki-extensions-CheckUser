@@ -16,7 +16,8 @@
 			"Omnipaedista",
 			"Protnet",
 			"ZaDiak",
-			"Απεργός"
+			"Απεργός",
+			"Warudo"
 		]
 	},
 	"checkuser-summary": "Αυτό το εργαλείο σαρώνει τις πρόσφατες αλλαγές για να ανακτήσει τις IP διευθύνσεις που χρησιμοποιούνται από ένα χρήστη ή για να δείξει τα δεδομένα επεξεργασιών/χρηστών για μία IP.\nΧρήστες και επεξεργασίες από μία σταθερή IP μπορούν να ανακτηθούν μέσω XFF επικεφαλίδων προσαρτώντας \"/xff\" στην IP. Το IPv4 (CIDR $1-32) και το IPv6 (CIDR $2-128) υποστηρίζονται.\nΌχι περισσότερες από 5000 επεξεργασίες θα επιστραφούν για λόγους απόδοσης.\nΧρησιμοποιήστε αυτό σύμφωνα με την πολιτική.",
@@ -44,6 +45,7 @@
 	"checkuser-week-1": "τελευταία εβδομάδα",
 	"checkuser-week-2": "τις τελευταίες δύο εβδομάδες",
 	"checkuser-month": "τις τελευταίες 30 ημέρες",
+	"checkuser-month-2": "τις τελευταίες 60 ημέρες",
 	"checkuser-all": "όλα",
 	"checkuser-cidr-label": "Εύρεση κοινής σειράς και επηρεασμένων διευθύνσεων για μια λίστα IP",
 	"checkuser-cidr-res": "Κοινό CIDR:",
@@ -63,6 +65,7 @@
 	"checkuser-search-submit": "Αναζήτηση",
 	"checkuser-ipeditcount": "~$1 από όλους τους χρήστες",
 	"checkuser-showmain": "Γυρίστε στο {{#special:CheckUser}}",
+	"checkuser-show-investigate": "Γυρίστε στο {{#special:Investigate}}",
 	"checkuser-helper-xff-trusted": "XFF (έμπιστο):",
 	"checkuser-helper-xff-untrusted": "XFF (μη αξιόπιστο):",
 	"logentry-checkuser-private-event-autocreate-account": "δημιουργήθηκε αυτόματα",
