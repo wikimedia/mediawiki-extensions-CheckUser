@@ -664,7 +664,7 @@
 				"checkuser-userinfocard-error-no-data",
 				"checkuser-userinfocard-error-generic",
 				"checkuser-userinfocard-activity-chart-label",
-				"checkuser-userinfocard-new-articles-exceeds-max-to-display",
+				"checkuser-userinfocard-count-exceeds-max-to-display",
 				"checkuser-userinfocard-groups",
 				"checkuser-userinfocard-global-groups",
 				"checkuser-userinfocard-chart-tooltip-label",

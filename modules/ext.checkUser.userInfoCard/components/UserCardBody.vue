@@ -206,17 +206,20 @@ module.exports = exports = {
 		);
 
 		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
+		const maxThanks = mw.config.get( 'wgCheckUserGEUserImpactMaxThanks' ) || 1000;
 		const canViewCheckUserLog = mw.config.get( 'wgCheckUserCanViewCheckUserLog' );
 		const canAccessTemporaryAccountIpAddresses = computed(
 			() => props.canAccessTemporaryAccountIpAddresses
 		);
 		const canBlock = mw.config.get( 'wgCheckUserCanBlock' );
 
+		function formatCount( count, max ) {
+			return count >= max ?
+				mw.msg( 'checkuser-userinfocard-count-exceeds-max-to-display', mw.language.convertNumber( max ) ) :
+				mw.language.convertNumber( count );
+		}
+
 		const infoRows = computed( () => {
-			const formattedMaxEdits = mw.language.convertNumber( maxEdits );
-			const formattedNewArticles = props.newArticles >= maxEdits ?
-				mw.msg( 'checkuser-userinfocard-new-articles-exceeds-max-to-display', mw.language.convertNumber( formattedMaxEdits ) ) :
-				mw.language.convertNumber( props.newArticles );
 			const rows = [];
 
 			if ( canBlock ) {
@@ -269,7 +272,7 @@ module.exports = exports = {
 					icon: cdxIconArticles,
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					messageKey: 'checkuser-userinfocard-new-articles',
-					mainValue: formattedNewArticles,
+					mainValue: formatCount( props.newArticles, maxEdits ),
 					mainLink: newArticlesLink,
 					mainLinkLogId: 'new_articles'
 				},
@@ -277,10 +280,10 @@ module.exports = exports = {
 					icon: cdxIconHeart,
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					messageKey: 'checkuser-userinfocard-thanks',
-					mainValue: mw.language.convertNumber( props.thanksReceived ),
+					mainValue: formatCount( props.thanksReceived, maxThanks ),
 					mainLink: thanksReceivedLink,
 					mainLinkLogId: 'thanks_received',
-					suffixValue: mw.language.convertNumber( props.thanksSent ),
+					suffixValue: formatCount( props.thanksSent, maxThanks ),
 					suffixLink: thanksSentLink,
 					suffixLinkLogId: 'thanks_sent'
 				}
