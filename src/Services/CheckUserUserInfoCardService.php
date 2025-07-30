@@ -33,6 +33,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\Message\ListType;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Stats\StatsFactory;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -336,27 +337,32 @@ class CheckUserUserInfoCardService {
 		}
 		$userInfo['activeLocalBlocksAllWikis'] = array_sum( array_map( 'count', $blocks ) );
 
+		$logActionRestrictions = $this->getLogActionRestrictions( $authority, $dbr );
 		$blockLogEntriesCount = $dbr->newSelectQueryBuilder()
 			->select( 'log_id' )
 			->from( 'logging' )
-			->where( [
-				'log_type' => 'block',
-				'log_action' => 'block',
-				'log_namespace' => NS_USER,
-				'log_title' => $this->getUserTitleKey( $user ),
-			] )
+			->where(
+				array_merge( [
+					'log_type' => 'block',
+					'log_action' => 'block',
+					'log_namespace' => NS_USER,
+					'log_title' => $this->getUserTitleKey( $user ),
+				], $logActionRestrictions )
+			)
 			->caller( __METHOD__ )
 			->fetchRowCount();
 		if ( $authority->isAllowed( 'suppressionlog' ) ) {
 			$blockLogEntriesCount += $dbr->newSelectQueryBuilder()
 				->select( 'log_id' )
 				->from( 'logging' )
-				->where( [
-					'log_type' => 'suppress',
-					'log_action' => 'block',
-					'log_namespace' => NS_USER,
-					'log_title' => $this->getUserTitleKey( $user ),
-				] )
+				->where(
+					array_merge( [
+						'log_type' => 'suppress',
+						'log_action' => 'block',
+						'log_namespace' => NS_USER,
+						'log_title' => $this->getUserTitleKey( $user ),
+					], $logActionRestrictions )
+				)
 				->caller( __METHOD__ )
 				->fetchRowCount();
 		}
@@ -518,4 +524,23 @@ class CheckUserUserInfoCardService {
 		return str_replace( ' ', '_', $userIdentity->getName() );
 	}
 
+	/**
+	 * Get the conditions to fetch only the log entries that the user is allowed to see
+	 *
+	 * @param Authority $authority
+	 * @param IReadableDatabase $dbr
+	 * @return array
+	 */
+	private function getLogActionRestrictions( Authority $authority, IReadableDatabase $dbr ): array {
+		$conditions = [];
+
+		if ( !$authority->isAllowed( 'deletedhistory' ) ) {
+			$conditions[] = $dbr->bitAnd( 'log_deleted', LogPage::DELETED_ACTION ) . ' = 0';
+		} elseif ( !$authority->isAllowedAny( 'suppressrevision', 'viewsuppressed' ) ) {
+			$conditions[] = $dbr->bitAnd( 'log_deleted', LogPage::SUPPRESSED_ACTION ) .
+				' != ' . LogPage::SUPPRESSED_ACTION;
+		}
+
+		return $conditions;
+	}
 }

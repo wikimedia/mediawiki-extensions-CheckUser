@@ -507,10 +507,12 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testGetPastBlocksOnLocalWiki() {
+	/** @dataProvider provideBlockLogDelete */
+	public function testGetPastBlocksOnLocalWiki( int $logDeleted, array $userRights, bool $canSee ) {
 		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 		$user = $this->getTestUser()->getUser();
+		$this->overrideUserPermissions( $user, $userRights );
 		$this->assertSame(
 			0,
 			$this->getObjectUnderTest()->getUserInfo( $user, $user )['pastBlocksOnLocalWiki']
@@ -526,20 +528,56 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 					'log_action' => 'block',
 					'log_namespace' => NS_USER,
 					'log_title' => str_replace( ' ', '_', $user->getName() ),
+					'log_deleted' => $logDeleted,
 				],
 			] )
 			->caller( __METHOD__ )
 			->execute();
 
-		$this->assertSame( 1,
+		$this->assertSame( $canSee ? 1 : 0,
 			$this->getObjectUnderTest()->getUserInfo( $user, $user )['pastBlocksOnLocalWiki']
 		);
 	}
 
-	public function testGetBlocksOnLocalWikiWithSuppression() {
+	public static function provideBlockLogDelete() {
+		return [
+			'Log not deleted' => [
+				'logDeleted' => 0,
+				'userRights' => [],
+				'canSee' => true,
+			],
+			'Log action deleted, unprivileged user' => [
+				'logDeleted' => LogPage::DELETED_ACTION,
+				'userRights' => [],
+				'canSee' => false,
+			],
+			'Log action suppressed, unprivileged user' => [
+				'logDeleted' => LogPage::SUPPRESSED_ACTION,
+				'userRights' => [],
+				'canSee' => false,
+			],
+			'Log action deleted, has (deletedhistory)' => [
+				'logDeleted' => LogPage::DELETED_ACTION,
+				'userRights' => [ 'deletedhistory' ],
+				'canSee' => true,
+			],
+			'Log action suppressed, has (deletedhistory)' => [
+				'logDeleted' => LogPage::SUPPRESSED_ACTION,
+				'userRights' => [ 'deletedhistory' ],
+				'canSee' => false,
+			],
+			'Log action suppressed, has (deletedhistory) and (viewsuppressed)' => [
+				'logDeleted' => LogPage::SUPPRESSED_ACTION,
+				'userRights' => [ 'deletedhistory', 'viewsuppressed' ],
+				'canSee' => true,
+			],
+		];
+	}
+
+	/** @dataProvider provideBlockLogDeleteWithSuppression */
+	public function testGetBlocksOnLocalWikiWithSuppression( int $logDeleted, array $userRights, bool $canSee ) {
 		$user = $this->getTestUser()->getUser();
-		$sysopUser = $this->getTestSysop()->getUser();
-		$this->overrideUserPermissions( $sysopUser, [ 'suppressionlog' ] );
+		$this->overrideUserPermissions( $user, $userRights );
 		$this->assertSame(
 			0,
 			$this->getObjectUnderTest()->getUserInfo(
@@ -556,24 +594,20 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				'log_action' => 'block',
 				'log_namespace' => NS_USER,
 				'log_title' => str_replace( ' ', '_', $user->getName() ),
+				'log_deleted' => $logDeleted,
 			] )
 			->caller( __METHOD__ )
 			->execute();
 
 		$this->assertSame(
-			0,
+			$canSee ? 1 : 0,
 			$this->getObjectUnderTest()->getUserInfo(
 				$user, $user
 			)['pastBlocksOnLocalWiki'],
-			'User without suppressionlog right sees 0 for the count'
+			'Testing block in suppress log'
 		);
-		$this->assertSame(
-			1,
-			$this->getObjectUnderTest()->getUserInfo(
-				$sysopUser, $user
-			)['pastBlocksOnLocalWiki'],
-			'User with suppression log right sees 1 for the count'
-		);
+
+		// Add a public block log entry; other visibility levels are tested in testGetPastBlocksOnLocalWiki
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'logging' )
 			->row( [
@@ -587,20 +621,39 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			] )
 			->caller( __METHOD__ )
 			->execute();
+
 		$this->assertSame(
-			2,
-			$this->getObjectUnderTest()->getUserInfo(
-				$sysopUser, $user
-			)['pastBlocksOnLocalWiki'],
-			'User with suppressionlog right can see both counts'
-		);
-		$this->assertSame(
-			1,
+			$canSee ? 2 : 1,
 			$this->getObjectUnderTest()->getUserInfo(
 				$user, $user
 			)['pastBlocksOnLocalWiki'],
-			'User without suppressionlog sees only regular block entry counts'
+			'Testing block in both logs'
 		);
+	}
+
+	public static function provideBlockLogDeleteWithSuppression() {
+		return [
+			'Unprivileged user, log is not deleted' => [
+				'logDeleted' => 0,
+				'userRights' => [],
+				'canSee' => false,
+			],
+			'User has (suppressionlog), log is not deleted' => [
+				'logDeleted' => 0,
+				'userRights' => [ 'suppressionlog' ],
+				'canSee' => true,
+			],
+			'User has (suppressionlog), log is deleted' => [
+				'logDeleted' => LogPage::SUPPRESSED_ACTION,
+				'userRights' => [ 'suppressionlog' ],
+				'canSee' => false,
+			],
+			'User has (suppressionlog), (viewsuppressed) and (deletedhistory), log is deleted' => [
+				'logDeleted' => LogPage::SUPPRESSED_ACTION,
+				'userRights' => [ 'suppressionlog', 'viewsuppressed', 'deletedhistory' ],
+				'canSee' => true,
+			],
+		];
 	}
 
 	public function testCanAccessTemporaryAccountIPAddresses() {
