@@ -74,6 +74,11 @@ function mountComponent( props = {} ) {
 	} );
 }
 
+function findRowByLabel( wrapper, labelMsg ) {
+	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
+	return infoRows.find( ( row ) => row.props( 'messageKey' ) === labelMsg );
+}
+
 QUnit.test( 'renders correctly with required props', ( assert ) => {
 	const wrapper = mountComponent();
 
@@ -114,12 +119,59 @@ QUnit.test( 'renders correct number of InfoRowWithLinks components with no permi
 	assert.strictEqual( infoRows.length, 4, 'Renders 4 InfoRowWithLinks components when no permissions are granted' );
 } );
 
+QUnit.test.each( 'should cap thanks and new articles counts when at or above configured limit', {
+	'below limit': [
+		{ newArticles: 800, thanksReceived: 700, thanksSent: 600 },
+		'800',
+		'700',
+		'600'
+	],
+	'new articles count at limit': [
+		{ newArticles: 1000, thanksReceived: 700, thanksSent: 600 },
+		'(checkuser-userinfocard-count-exceeds-max-to-display: 1,000)',
+		'700',
+		'600'
+	],
+	'thanks received count at limit': [
+		{ newArticles: 800, thanksReceived: 1000, thanksSent: 600 },
+		'800',
+		'(checkuser-userinfocard-count-exceeds-max-to-display: 1,000)',
+		'600'
+	],
+	'thanks sent count at limit': [
+		{ newArticles: 800, thanksReceived: 700, thanksSent: 1000 },
+		'800',
+		'700',
+		'(checkuser-userinfocard-count-exceeds-max-to-display: 1,000)'
+	]
+}, ( assert, [ props, expectedNewArticlesCount, expectedThanksReceivedCount, expectedThanksSentCount ] ) => {
+	const wrapper = mountComponent( props );
+
+	const newArticlesRow = findRowByLabel( wrapper, 'checkuser-userinfocard-new-articles' );
+	const thanksRow = findRowByLabel( wrapper, 'checkuser-userinfocard-thanks' );
+
+	assert.strictEqual(
+		newArticlesRow.props( 'mainValue' ),
+		expectedNewArticlesCount,
+		'New article count is correct'
+	);
+	assert.strictEqual(
+		thanksRow.props( 'mainValue' ),
+		expectedThanksReceivedCount,
+		'Thanks received count is correct'
+	);
+	assert.strictEqual(
+		thanksRow.props( 'suffixValue' ),
+		expectedThanksSentCount,
+		'Thanks sent count is correct'
+	);
+} );
+
 QUnit.test( 'passes correct props to active blocks row when permission is granted', ( assert ) => {
 	const wrapper = mountComponent();
 
 	// Find the active blocks row by its message key
-	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	const activeBlocksRow = infoRows.find( ( row ) => row.props( 'messageKey' ) === 'checkuser-userinfocard-active-blocks-from-all-wikis' );
+	const activeBlocksRow = findRowByLabel( wrapper, 'checkuser-userinfocard-active-blocks-from-all-wikis' );
 
 	assert.true( activeBlocksRow !== undefined, 'Active blocks row exists when permission is granted' );
 

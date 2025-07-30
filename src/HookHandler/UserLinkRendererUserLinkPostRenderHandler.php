@@ -47,6 +47,12 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 				] );
 			}
 
+			if ( $this->config->has( 'GEUserImpactMaxThanks' ) ) {
+				$output->addJsConfigVars( [
+					'wgCheckUserGEUserImpactMaxThanks' => $this->config->get( 'GEUserImpactMaxThanks' )
+				] );
+			}
+
 			$output->addJsConfigVars(
 				'wgCheckUserEnableUserInfoCardInstrumentation',
 				$this->config->get( 'CheckUserEnableUserInfoCardInstrumentation' )
