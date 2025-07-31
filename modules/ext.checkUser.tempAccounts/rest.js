@@ -93,6 +93,8 @@ function performRevealRequestInternal( target, revIds, logIds, aflIds, limit, re
 					deferred.reject( err, {} );
 				} );
 		} else if ( isRevisionLookup( revIds ) ) {
+			// TODO The /revisions endpoint will be removed in T399713
+
 			const request = {
 				[ target ]: {
 					revIds: makeStringIDs( revIds.allIds ),
@@ -109,7 +111,6 @@ function performRevealRequestInternal( target, revIds, logIds, aflIds, limit, re
 				} );
 		} else {
 			// TODO Using the batch endpoint instead of /logs will be handled via T399712
-			// TODO Using the batch endpoint instead of /revisions will be handled via T399713
 			restApi.post(
 				'/checkuser/v0/temporaryaccount/' + target + buildQuery( revIds, logIds, limit ),
 				{ token: token } )
@@ -239,9 +240,7 @@ function buildQuery( revIds, logIds, limit ) {
 	let urlParams = '';
 	const queryStringParams = new URLSearchParams();
 
-	if ( isRevisionLookup( revIds ) ) {
-		urlParams += '/revisions/' + revIds.allIds.join( '|' );
-	} else if ( isLogLookup( logIds ) ) {
+	if ( isLogLookup( logIds ) ) {
 		urlParams += '/logs/' + logIds.allIds.join( '|' );
 	} else if ( limit ) {
 		queryStringParams.set( 'limit', String( limit ) );

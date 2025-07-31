@@ -19,6 +19,9 @@ use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\ReadOnlyMode;
 
+/**
+ * @deprecated since 1.45. Please use the batch endpoint instead.
+ */
 class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandler {
 
 	use TemporaryAccountRevisionTrait;
