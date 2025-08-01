@@ -63,8 +63,21 @@ function mockJSConfig( mockConfigValues ) {
 	} );
 }
 
+/**
+ * Expect that the given element contains the given text, or if
+ * this is not the case then wait for this to be the case.
+ *
+ * @param {*} element The element that should contain the text
+ * @param {string} text The text to search for
+ */
+async function waitForAndExpectTextToExistInElement( element, text ) {
+	await waitFor( () => element.text().includes( text ) );
+	expect( element.text() ).toContain( text );
+}
+
 module.exports = {
 	mockApiSaveOption,
 	waitFor,
-	mockJSConfig
+	mockJSConfig,
+	waitForAndExpectTextToExistInElement
 };
