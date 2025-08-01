@@ -82,7 +82,7 @@ function commonTestRendersCorrectly() {
  */
 function getIPInfoPreferenceCheckbox( rootElement ) {
 	const ipInfoPreference = rootElement.find(
-		'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+		'.ext-checkuser-temp-account-onboarding-dialog-preference'
 	);
 	expect( ipInfoPreference.exists() ).toEqual( true );
 	expect( ipInfoPreference.text() ).toContain(
@@ -102,7 +102,7 @@ function getIPInfoPreferenceCheckbox( rootElement ) {
  */
 function getIPInfoSavePreferenceButton( rootElement ) {
 	const ipInfoSavePreference = rootElement.find(
-		'.ext-checkuser-temp-account-onboarding-dialog-ip-info-save-preference'
+		'.ext-checkuser-temp-account-onboarding-dialog-save-preference'
 	);
 	expect( ipInfoSavePreference.exists() ).toEqual( true );
 	const ipInfoSavePreferenceButton = ipInfoSavePreference.find( 'button' );
@@ -139,11 +139,11 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 		// Expect that the IPInfo preference is not shown if the user has already checked it.
 		const ipInfoPreferenceSectionTitle = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference-title'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference-title'
 		);
 		expect( ipInfoPreferenceSectionTitle.exists() ).toEqual( false );
 		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
 		expect( ipInfoPreference.exists() ).toEqual( false );
 	} );
@@ -159,11 +159,11 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 		// Expect that the IPInfo preference is not shown if the user has already checked it.
 		const ipInfoPreferenceSectionTitle = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference-title'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference-title'
 		);
 		expect( ipInfoPreferenceSectionTitle.exists() ).toEqual( false );
 		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
 		expect( ipInfoPreference.exists() ).toEqual( false );
 	} );
@@ -183,11 +183,11 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// Expect that the IPInfo preference is not shown if the user has
 		// checked it previously using the dialog
 		const ipInfoPreferenceSectionTitle = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference-title'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference-title'
 		);
 		expect( ipInfoPreferenceSectionTitle.exists() ).toEqual( false );
 		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
 		expect( ipInfoPreference.exists() ).toEqual( false );
 	} );
@@ -204,7 +204,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// Check that the preference exists in the step and verify the structure of the preference
 		// and it's title.
 		const ipInfoPreferenceSectionTitle = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference-title'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference-title'
 		);
 		expect( ipInfoPreferenceSectionTitle.exists() ).toEqual( true );
 		expect( ipInfoPreferenceSectionTitle.text() ).toEqual(
@@ -245,7 +245,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
 		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
 		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
 
 		// Check the preference checkbox and then press the "Save preference" button
@@ -257,7 +257,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// Expect that the preference checkbox has a success message shown to indicate the
 		// preference was updated successfully.
 		await waitForAndExpectTextToExistInElement(
-			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-preference-success)'
 		);
 
 		// Check that if the preference saved, the user can move forward to another
@@ -269,9 +269,9 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		ipInfoPreferenceCheckbox.setChecked( false );
 
 		// Check that the success message disappears when the preference is unchecked
-		await waitFor( () => !ipInfoPreference.text().includes( '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)' ) );
+		await waitFor( () => !ipInfoPreference.text().includes( '(checkuser-temporary-accounts-onboarding-dialog-preference-success)' ) );
 		expect( ipInfoPreference.text() ).not.toContain(
-			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
+			'(checkuser-temporary-accounts-onboarding-dialog-preference-success)'
 		);
 
 		// Save the change to the preference and then check that this has caused
@@ -281,7 +281,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// Expect that the preference checkbox has a success message shown to indicate the
 		// preference was updated successfully.
 		await waitForAndExpectTextToExistInElement(
-			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-preference-success)'
 		);
 		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 0, { global: 'create' } );
 	} );
@@ -297,7 +297,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
 		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
 
 		// Check the preference checkbox, but don't save the preference using the button
@@ -310,7 +310,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// Expect that the preference checkbox has a warning in the UI indicating to the
 		// user to save the preference before proceeding to the next step.
 		await waitForAndExpectTextToExistInElement(
-			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning)'
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-preference-warning)'
 		);
 	} );
 
@@ -325,7 +325,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
 		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
 
 		// Check the preference checkbox, but don't save the preference using the button
@@ -338,7 +338,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// Expect that the preference checkbox has a warning in the UI indicating to the
 		// user to save the preference before closing the dialog
 		await waitForAndExpectTextToExistInElement(
-			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning)'
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-preference-warning)'
 		);
 	} );
 
@@ -357,7 +357,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
 		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
 		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
 
 		// Turn on the preference and click the "Save preference" button
@@ -367,7 +367,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// Expect that an error appears indicating the preference update failed.
 		await waitForAndExpectTextToExistInElement(
 			ipInfoPreference,
-			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error' +
+			'(checkuser-temporary-accounts-onboarding-dialog-preference-error' +
 				', Wiki is in read only mode)'
 		);
 		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1, { global: 'create' } );
@@ -400,7 +400,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
 		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
 		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
 
 		// Turn on the preference and click the "Save preference" button a couple of times
@@ -421,7 +421,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 		// Now that the promise is resolved, expect it the success message to appear.
 		await waitForAndExpectTextToExistInElement(
-			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-preference-success)'
 		);
 	} );
 } );

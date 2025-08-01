@@ -15,15 +15,24 @@ class HistoryPageWithOnboardingDialog extends Page {
 	}
 
 	get tempAccountsOnboardingDialogIPInfoPreferenceCheckbox() {
-		return $( '.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference input[type="checkbox"]' );
+		return $(
+			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-step ' +
+				'.ext-checkuser-temp-account-onboarding-dialog-preference input[type="checkbox"]'
+		);
 	}
 
 	get tempAccountsOnboardingDialogIPInfoPreferenceCheckboxLabel() {
-		return $( '.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference label' );
+		return $(
+			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-step ' +
+				'.ext-checkuser-temp-account-onboarding-dialog-preference label'
+		);
 	}
 
 	get tempAccountsOnboardingDialogIPInfoSavePreferenceButton() {
-		return $( '.ext-checkuser-temp-account-onboarding-dialog-ip-info-save-preference button' );
+		return $(
+			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-step ' +
+				'.ext-checkuser-temp-account-onboarding-dialog-save-preference button'
+		);
 	}
 
 	async open( title ) {

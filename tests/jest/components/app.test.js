@@ -106,7 +106,7 @@ describe( 'Main app component', () => {
 		// Click the next button again and wait for the DOM to be updated.
 		await nextButton.trigger( 'click' );
 		await waitFor( () => !wrapper.find(
-			'.ext-checkuser-image-temp-accounts-onboarding-temp-accounts'
+			'.ext-checkuser-image-temp-accounts-onboarding-ip-info'
 		).exists() );
 
 		// Expect that the third step is the IP reveal step.
