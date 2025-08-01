@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Unit\ClientHints;
 
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
-use MediaWiki\Request\WebRequest;
+use MediaWiki\Request\FauxRequest;
 use MediaWikiUnitTestCase;
 use TypeError;
 
@@ -259,11 +259,8 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideNewFromRequestHeaders */
 	public function testNewFromRequestHeaders( $requestHeaders, $expectedJsonArray ) {
-		$request = $this->createMock( WebRequest::class );
-		$request->method( 'getHeader' )
-			->willReturnCallback( static function ( $headerName ) use ( $requestHeaders ) {
-				return $requestHeaders[strtoupper( $headerName )] ?? false;
-			} );
+		$request = new FauxRequest();
+		$request->setHeaders( $requestHeaders );
 		$objectToTest = ClientHintsData::newFromRequestHeaders( $request );
 		$this->assertArrayEquals(
 			$expectedJsonArray,

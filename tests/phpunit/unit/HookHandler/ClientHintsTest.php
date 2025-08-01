@@ -9,7 +9,6 @@ use MediaWiki\CheckUser\HookHandler\ClientHints;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\FauxRequest;
-use MediaWiki\Request\FauxResponse;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\Request\WebResponse;
 use MediaWiki\Skin\Skin;
@@ -71,13 +70,9 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 	public function testClientHintsSpecialPageRequested() {
 		$special = $this->createMock( SpecialPage::class );
 		$special->method( 'getName' )->willReturn( 'Foo' );
-		$requestMock = $this->getMockBuilder( FauxRequest::class )
-			->onlyMethods( [ 'response', 'getHeader' ] )->getMock();
-		$requestMock->method( 'getHeader' )->with( 'Sec-Ch-Ua' )
-			->willReturn( '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"' );
-		$fauxResponse = new FauxResponse();
-		$requestMock->method( 'response' )->willReturn( $fauxResponse );
-		$special->method( 'getRequest' )->willReturn( $requestMock );
+		$request = new FauxRequest();
+		$request->setHeader( 'Sec-Ch-Ua', '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"' );
+		$special->method( 'getRequest' )->willReturn( $request );
 		$specialPageFactoryMock = $this->createMock( SpecialPageFactory::class );
 		$specialPageFactoryMock->method( 'getPage' )->willReturn( $special );
 		$hookHandler = new ClientHints(
@@ -92,7 +87,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler->onSpecialPageBeforeExecute( $special, null );
 		$this->assertSame(
 			implode( ', ', array_keys( $this->getDefaultClientHintHeaders() ) ),
-			$fauxResponse->getHeader( 'ACCEPT-CH' )
+			$request->response()->getHeader( 'ACCEPT-CH' )
 		);
 	}
 
