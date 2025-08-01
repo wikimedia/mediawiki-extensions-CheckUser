@@ -183,7 +183,7 @@ describe( 'ShowIPButton', () => {
 			const wrapper = renderComponent( { targetUser: '~2025' } );
 			await wrapper.find( '.ext-checkuser-tempaccount-specialblock-ips-link' ).trigger( 'click' );
 
-			expect( mockPerformFullRevealRequest ).toHaveBeenCalledWith( '~2025', {}, {}, {} );
+			expect( mockPerformFullRevealRequest ).toHaveBeenCalledWith( '~2025' );
 			expect( wrapper.find( '.ext-checkuser-tempaccount-specialblock-ips' ).text() )
 				.toStrictEqual( expectedText );
 		} );

@@ -132,29 +132,26 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 	const done = assert.async();
 
 	server.respond( ( request ) => {
-		if ( request.url.includes( '/temporaryaccount/' ) && request.url.includes( '/logs' ) ) {
-			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":{"1":"127.0.0.1"}}' );
-		} else if ( request.url.includes( '/temporaryaccount/' ) ) {
-			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":["127.0.0.3"]}' );
-		} else if ( request.url.includes( '/batch-temporaryaccount' ) ) {
-			request.respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify( {
-					[ tempName1 ]: {
-						// eslint-disable-next-line quote-props
-						revIps: { '1': '127.0.0.1' },
-						// eslint-disable-next-line quote-props
-						logIps: { '1': '127.0.0.3' },
-						// eslint-disable-next-line quote-props
-						abuseLogIps: { '1': '127.0.0.4' }
-					}
-				} )
-			);
-		} else {
+		if ( !request.url.includes( '/batch-temporaryaccount' ) ) {
 			assert.expect( 0 );
 			done( new Error( `Unexpected request URL: ${ request.url }` ) );
 		}
+
+		request.respond(
+			200,
+			{ 'Content-Type': 'application/json' },
+			JSON.stringify( {
+				[ tempName1 ]: {
+					// eslint-disable-next-line quote-props
+					revIps: { '1': '127.0.0.1' },
+					// eslint-disable-next-line quote-props
+					logIps: { '1': '127.0.0.1' },
+					// eslint-disable-next-line quote-props
+					abuseLogIps: { '1': '127.0.0.4' },
+					lastUsedIp: '127.0.0.3'
+				}
+			} )
+		);
 	} );
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );

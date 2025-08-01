@@ -1,6 +1,6 @@
 /**
- * Perform a REST API request to reveal the IP address(es) used for given revIds and logIds
- * performed by temporary accounts. If no revIds or logIds are specified, this will return
+ * Perform a REST API request to reveal the IP address(es) used for given revIds, logIds,
+ * and aflIds performed by temporary accounts. If no ids are specified, this will return
  * the last IP address used by a temporary account.
  *
  * @param {string} target
@@ -15,129 +15,114 @@ function performRevealRequest( target, revIds, logIds, aflIds, retryOnTokenMisma
 		// Default value for the argument is true.
 		retryOnTokenMismatch = true;
 	}
-	return performRevealRequestInternal( target, revIds, logIds, aflIds, 1, retryOnTokenMismatch );
-}
 
-/**
- * Perform a REST API request to reveal all the IP address(es) used by a temporary account.
- *
- * @param {string} target
- * @param {Object} revIds
- * @param {Object} logIds
- * @param {Object} aflIds
- * @param {boolean} [retryOnTokenMismatch]
- * @return {Promise}
- */
-function performFullRevealRequest( target, revIds, logIds, aflIds, retryOnTokenMismatch ) {
-	if ( retryOnTokenMismatch === undefined ) {
-		// Default value for the argument is true.
-		retryOnTokenMismatch = true;
-	}
-	return performRevealRequestInternal( target, revIds, logIds, aflIds, false, retryOnTokenMismatch );
-}
-
-function performRevealRequestInternal( target, revIds, logIds, aflIds, limit, retryOnTokenMismatch ) {
-	const restApi = new mw.Rest();
-	const api = new mw.Api();
 	const deferred = $.Deferred();
 
 	/**
-	 * Formats response data obtained from the backend according to what's
-	 * expected by the frontend.
-	 *
-	 * @param {Object} data Payload returned by the backend.
-	 * @param {string} key Name of the property in data that holds the payload.
-	 *
-	 * @return {{autoReveal: (boolean), ips: string[]}}
-	 * @throws Error if the payload is malformed
-	 */
-	const buildIPsDto = ( data, key ) => {
-		// Adjust the response format to what's expected by the caller
-		if ( !Object.prototype.hasOwnProperty.call( data, target ) ||
-			!Object.prototype.hasOwnProperty.call( data[ target ], key ) ) {
-			throw new Error( 'Malformed response' );
-		}
-
-		return {
-			ips: data[ target ][ key ],
-			autoReveal: data.autoReveal
-		};
-	};
-
-	/**
-	 * Takes an array of integers and turns it into an array of strings.
+	 * Takes an object with array of integers and turns it into an array of strings.
 	 *
 	 * This is used when building requests for fetching data by log IDs, since
 	 * these IDs are integers, but the backend API expects strings.
 	 *
-	 * @param {number[]} ids Values to cast into strings
+	 * @param {{allIds: number[] | null} | null} ids Values to cast into strings
 	 * @return {string[]}
 	 */
-	const makeStringIDs = ( ids ) => ids.map( ( id ) => id.toString() );
+	const makeStringIDs = ( ids ) => {
+		if ( !ids || !ids.allIds || !Array.isArray( ids.allIds ) ) {
+			return [];
+		}
+		return ids.allIds.map( ( id ) => id.toString() );
+	};
+
+	const request = {
+		[ target ]: {
+			abuseLogIds: makeStringIDs( aflIds ),
+			revIds: makeStringIDs( revIds ),
+			logIds: makeStringIDs( logIds ),
+			lastUsedIp: true
+		}
+	};
+
+	performBatchRevealRequestInternal( request, retryOnTokenMismatch )
+		.then( ( data ) => {
+			let key;
+			if ( isAbuseFilterLogLookup( aflIds ) ) {
+				key = 'abuseLogIps';
+			} else if ( isRevisionLookup( revIds ) ) {
+				key = 'revIps';
+			} else if ( isLogLookup( logIds ) ) {
+				key = 'logIps';
+			} else {
+				key = 'lastUsedIp';
+			}
+
+			// Adjust the response format to what's expected by the caller
+			if ( !Object.prototype.hasOwnProperty.call( data, target ) ||
+				!Object.prototype.hasOwnProperty.call( data[ target ], key ) ) {
+				throw new Error( 'Malformed response' );
+			}
+
+			// Request was made without any IDs, so return the last used IP
+			if ( key === 'lastUsedIp' ) {
+				return deferred.resolve( {
+					ips: [ data[ target ].lastUsedIp ],
+					autoReveal: data.autoReveal
+				} );
+			}
+
+			deferred.resolve( {
+				ips: data[ target ][ key ],
+				autoReveal: data.autoReveal
+			} );
+		} ).catch( ( err ) => {
+			deferred.reject( err, {} );
+		} );
+
+	return deferred.promise();
+}
+
+/**
+ * Perform a REST API request to reveal all the IP addresses used by a temporary account.
+ *
+ * @param {string} target
+ * @param {boolean} [retryOnTokenMismatch]
+ * @return {Promise}
+ */
+function performFullRevealRequest( target, retryOnTokenMismatch ) {
+	const restApi = new mw.Rest();
+	const api = new mw.Api();
+	const deferred = $.Deferred();
+
+	if ( retryOnTokenMismatch === undefined ) {
+		// Default value for the argument is true.
+		retryOnTokenMismatch = true;
+	}
 
 	api.getToken( 'csrf' ).then( ( token ) => {
-		if ( isAbuseFilterLogLookup( aflIds ) ) {
-			const request = {
-				[ target ]: {
-					abuseLogIds: makeStringIDs( aflIds.allIds ),
-					revIds: [],
-					logIds: [],
-					lastUsedIp: true
-				}
-			};
-
-			performBatchRevealRequestInternal( request, retryOnTokenMismatch )
-				.then( ( data ) => deferred.resolve(
-					buildIPsDto( data, 'abuseLogIps' )
-				) ).catch( ( err ) => {
-					deferred.reject( err, {} );
-				} );
-		} else if ( isRevisionLookup( revIds ) ) {
-			// TODO The /revisions endpoint will be removed in T399713
-
-			const request = {
-				[ target ]: {
-					revIds: makeStringIDs( revIds.allIds ),
-					logIds: [],
-					lastUsedIp: true
-				}
-			};
-
-			performBatchRevealRequestInternal( request, retryOnTokenMismatch )
-				.then( ( data ) => deferred.resolve(
-					buildIPsDto( data, 'revIps' )
-				) ).catch( ( err ) => {
-					deferred.reject( err, {} );
-				} );
-		} else {
-			// TODO Using the batch endpoint instead of /logs will be handled via T399712
-			restApi.post(
-				'/checkuser/v0/temporaryaccount/' + target + buildQuery( revIds, logIds, limit ),
-				{ token: token } )
-				.then(
-					( data ) => {
-						deferred.resolve( data );
-					},
-					( err, errObject ) => {
-						if ( retryOnTokenMismatch && isBadTokenError( errObject ) ) {
-							// The CSRF token has expired. Retry the POST with a new token.
-							api.badToken( 'csrf' );
-							performRevealRequestInternal( target, revIds, logIds, limit, false ).then(
-								( data ) => {
-									deferred.resolve( data );
-								},
-								( secondRequestErr, secondRequestErrObject ) => {
-									deferred.reject( secondRequestErr, secondRequestErrObject );
-								}
-							);
-						} else {
-							deferred.reject( err, errObject );
-						}
+		restApi.post(
+			'/checkuser/v0/temporaryaccount/' + target,
+			{ token: token } )
+			.then(
+				( data ) => {
+					deferred.resolve( data );
+				},
+				( err, errObject ) => {
+					if ( retryOnTokenMismatch && isBadTokenError( errObject ) ) {
+						// The CSRF token has expired. Retry the POST with a new token.
+						api.badToken( 'csrf' );
+						performFullRevealRequest( target, false ).then(
+							( data ) => {
+								deferred.resolve( data );
+							},
+							( secondRequestErr, secondRequestErrObject ) => {
+								deferred.reject( secondRequestErr, secondRequestErrObject );
+							}
+						);
+					} else {
+						deferred.reject( err, errObject );
 					}
-				);
-		}
-	} ).catch( ( err, errObject ) => {
-		deferred.reject( err, errObject );
+				}
+			);
 	} );
 
 	return deferred.promise();
@@ -226,31 +211,6 @@ function performBatchRevealRequestInternal( request, retryOnTokenMismatch ) {
 	} );
 
 	return deferred.promise();
-}
-
-/**
- * Generate the query string and URL parameters for the REST API request.
- *
- * @param {Object} revIds
- * @param {Object} logIds
- * @param {number|false} limit
- * @return {string}
- */
-function buildQuery( revIds, logIds, limit ) {
-	let urlParams = '';
-	const queryStringParams = new URLSearchParams();
-
-	if ( isLogLookup( logIds ) ) {
-		urlParams += '/logs/' + logIds.allIds.join( '|' );
-	} else if ( limit ) {
-		queryStringParams.set( 'limit', String( limit ) );
-	}
-
-	if ( queryStringParams.toString() === '' ) {
-		// Don't append a '?' if there are no query string parameters
-		return urlParams;
-	}
-	return urlParams + '?' + queryStringParams.toString();
 }
 
 /**

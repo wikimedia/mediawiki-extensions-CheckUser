@@ -80,7 +80,7 @@ function onTargetChange( blockTarget ) {
 			$( '#mw-htmlform-target' ).after( $container );
 
 			revealButton.once( 'click', () => {
-				performFullRevealRequest( blockTarget, {}, {}, {} ).then( ( response ) => {
+				performFullRevealRequest( blockTarget ).then( ( response ) => {
 					let message;
 					if ( response.ips.length ) {
 						// Wrap each IP in a link to Special:IPContributions

@@ -25,7 +25,8 @@ function performRevealRequestTest(
 	responseCode,
 	responseContent,
 	shouldFail,
-	expectedBody = null
+	expectedBody = null,
+	expectedReturnValue = null
 ) {
 	server.respond( ( request ) => {
 		if ( request.url.endsWith( expectedUrl ) ) {
@@ -68,13 +69,23 @@ function performRevealRequestTest(
 	}
 
 	return promise.then( ( data ) => {
-		assert.deepEqual( data, responseContent, 'Response data' );
+		assert.deepEqual( data, expectedReturnValue, 'Response data' );
 	} );
 }
 
 QUnit.test( 'Test performRevealRequest for 500 response when requesting one IP', ( assert ) => performRevealRequestTest(
 	assert, '~1', {}, {}, {},
-	'checkuser/v0/temporaryaccount/~1?limit=1', 500, '', true
+	'checkuser/v0/batch-temporaryaccount', 500, '', true,
+	{
+		users: {
+			'~1': {
+				abuseLogIds: [],
+				lastUsedIp: true,
+				logIds: [],
+				revIds: []
+			}
+		}
+	}
 ) );
 
 QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for rev IDs', ( assert ) => performRevealRequestTest(
@@ -83,6 +94,7 @@ QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for rev
 	{
 		users: {
 			'~1': {
+				abuseLogIds: [],
 				lastUsedIp: true,
 				logIds: [],
 				revIds: [ '1', '2' ]
@@ -93,18 +105,44 @@ QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for rev
 
 QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for log IDs', ( assert ) => performRevealRequestTest(
 	assert, '~1', { allIds: [ '1', '2' ] }, {}, {},
-	'checkuser/v0/temporaryaccount/~1/logs/1|2', 500, '', true
+	'checkuser/v0/batch-temporaryaccount', 500, '', true,
+	{
+		users: {
+			'~1': {
+				abuseLogIds: [],
+				lastUsedIp: true,
+				logIds: [ '1', '2' ],
+				revIds: []
+			}
+		}
+	}
 ) );
 
 QUnit.test( 'Test performRevealRequest for 200 response when requesting one IP', ( assert ) => performRevealRequestTest(
 	assert, '~1', {}, {}, {},
-	'checkuser/v0/temporaryaccount/~1?limit=1', 200,
-	{ test: 'test' }, false
+	'checkuser/v0/batch-temporaryaccount', 200,
+	{ autoReveal: false, '~1': { lastUsedIp: '127.0.0.1' } }, false,
+	{
+		users: {
+			'~1': {
+				abuseLogIds: [],
+				lastUsedIp: true,
+				logIds: [],
+				revIds: []
+			}
+		}
+	},
+	{
+		autoReveal: false,
+		ips: [
+			'127.0.0.1'
+		]
+	}
 ) );
 
 QUnit.test( 'Test performRevealRequest on bad CSRF token for both attempts', ( assert ) => performRevealRequestTest(
 	assert, '~1', {}, {}, {},
-	'checkuser/v0/temporaryaccount/~1?limit=1', 500,
+	'checkuser/v0/batch-temporaryaccount', 500,
 	{ errorKey: 'rest-badtoken' }, true
 ) );
 
@@ -129,7 +167,7 @@ QUnit.test( 'Test performFullRevealRequest for only target username', ( assert )
 	} );
 
 	// Call the method under test
-	return rest.performFullRevealRequest( '~1', {}, {}, {} ).then( ( data ) => {
+	return rest.performFullRevealRequest( '~1' ).then( ( data ) => {
 		assert.deepEqual( data, { ips: [ '127.0.0.1', '1.2.3.4' ] }, 'Response data' );
 	} );
 } );
@@ -170,7 +208,7 @@ QUnit.test( 'Test performFullRevealRequest on bad CSRF token for first attempt',
 	} );
 
 	// Call the method under test
-	return rest.performFullRevealRequest( '~1', {}, {}, {} ).then( ( data ) => {
+	return rest.performFullRevealRequest( '~1' ).then( ( data ) => {
 		assert.deepEqual( data, { ips: [ '127.0.0.1', '1.2.3.4' ] }, 'Response data' );
 	} );
 } );

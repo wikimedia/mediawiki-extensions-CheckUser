@@ -109,7 +109,7 @@ module.exports = exports = defineComponent( {
 		 * Handle the click event.
 		 */
 		function onClick() {
-			performFullRevealRequest( props.targetUser, {}, {}, {} )
+			performFullRevealRequest( props.targetUser )
 				.then( ( { ips } ) => {
 					if ( ips.length ) {
 						const ipLinks = ips.map( ( ip ) => {
