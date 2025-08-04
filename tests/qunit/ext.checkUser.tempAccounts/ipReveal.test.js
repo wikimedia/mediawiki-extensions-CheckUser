@@ -93,6 +93,7 @@ QUnit.test( 'Test enableMultiReveal', ( assert ) => {
 			username,
 			{ targetId: revId, allIds: [ revId ] },
 			{},
+			{},
 			$qunitFixture
 		) );
 		assert.strictEqual(
@@ -106,7 +107,29 @@ QUnit.test( 'Test enableMultiReveal', ( assert ) => {
 
 	// Fire the userRevealed event with the ~1 temporary account username
 	// and the IP addresses for the revisions.
-	$qunitFixture.trigger( 'userRevealed', [ tempName1, { 1: '127.0.0.1', 2: '127.0.0.2', 3: '127.0.0.3' }, true, false ] );
+	const isRevisionLookup = true;
+	const isLogLookup = false;
+	const isAbuseFilterLookup = false;
+	const ips = {
+		1: '127.0.0.1',
+		2: '127.0.0.2',
+		3: '127.0.0.3'
+	};
+	const batchResponse = {
+		[ tempName1 ]: { revIps: ips, expired: { revIds: [], logIps: [] } }
+	};
+
+	$qunitFixture.trigger(
+		'userRevealed',
+		[
+			tempName1,
+			ips,
+			isRevisionLookup,
+			isLogLookup,
+			isAbuseFilterLookup,
+			batchResponse
+		]
+	);
 	// Check that the IP addresses were added to the buttons for the revisions
 	// with the ~1 temporary account username.
 	assert.strictEqual(
@@ -385,19 +408,45 @@ QUnit.test( 'Test makeButton on button click for failed request', ( assert ) => 
 	performMakeButtonRequestTest( assert, 500, '', '(checkuser-tempaccount-reveal-ip-error)' );
 } );
 
-QUnit.test( 'Test makeButton on button click for successful request but no data', ( assert ) => {
+QUnit.test( 'Test makeButton on button click for successful request but missing data', ( assert ) => {
 	performMakeButtonRequestTest(
 		assert,
 		200,
 		JSON.stringify( {
 			[ tempName1 ]: {
-				revIps: {},
+				revIps: {
+					// The API returns the revIds as strings.
+					// null indicates the IP is missing from the DB (i.e. that
+					// it was never there in the first place).
+					// eslint-disable-next-line quote-props
+					'1': null
+				},
 				logIps: null,
 				lastUsedIp: null
 			},
 			autoReveal: false
 		} ),
 		'(checkuser-tempaccount-reveal-ip-missing)'
+	);
+} );
+
+QUnit.test( 'Test makeButton on button click for successful request but expired data', ( assert ) => {
+	performMakeButtonRequestTest(
+		assert,
+		200,
+		JSON.stringify( {
+			[ tempName1 ]: {
+				revIps: {
+					// The API returns the revIds as strings.
+					// Having the key missing here indicates that the data has
+					// expired.
+				},
+				logIps: null,
+				lastUsedIp: null
+			},
+			autoReveal: false
+		} ),
+		'(checkuser-tempaccount-reveal-ip-expired)'
 	);
 } );
 

@@ -375,6 +375,7 @@
 	"checkuser-tempaccount-no-ip-results": "Label that appears on Special:Block when no IP results are returned for a temporary user",
 	"checkuser-tempaccount-reveal-ip-button-label": "Label for a button that reveals the IP address of a temporary user. Displayed next to user links for temporary users on history, diff and special pages.",
 	"checkuser-tempaccount-reveal-ip-missing": "Text to display when revealing an IP for a temporary user, if the IP address can't be found. Displayed next to user links for temporary users on history, diff and special pages.",
+	"checkuser-tempaccount-reveal-ip-expired": "Text to display when revealing an IP for a temporary user, if the IP address is not available anymore because the associated log entry has expired. Displayed next to user links for temporary users on history, diff and special pages.",
 	"checkuser-tempaccount-reveal-ip-error": "Text to display when revealing an IP for a temporary user, if the there is an error with building request URL or the user does not have access. Displayed next to user links for temporary users on history, diff and special pages.",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Contents of an error page shown when revealing an IP for a temporary user without having accepted the necessary agreement via preferences",
 	"checkuser-tempaccount-reveal-blocked-loading": "Invisible label set on the loading indicator within the block details info widget.",

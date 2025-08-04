@@ -7,33 +7,36 @@ const { performRevealRequest, performBatchRevealRequest, isRevisionLookup, isLog
  * was not found.
  *
  * @param {jQuery} $element The button element
- * @param {string|false} ip IP address, or false if the IP is unavaiable
+ * @param {string|false|undefined} ip IP address, false if unavailable, undefined if expired
  * @param {boolean} success The IP lookup was successful. Indicates how to interpret
- *  a value of `false` for the IP address. If the lookup was successful but the IP,
- *  then the IP address is legitimately missing, likely because it has been purged.
+ *  a value of `false` for the IP address. If the lookup was successful but the IP
+ *  is `false`, then the IP address is legitimately missing.
+ * @return {void}
  */
 function replaceButton( $element, ip, success ) {
-	if ( success ) {
-		$element.replaceWith(
-			ip ?
-				$( '<span>' )
-					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
-					.append(
-						$( '<a>' )
-							.attr( 'href', mw.util.getUrl( 'Special:IPContributions/' + ip ) )
-							.addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
-							.text( ip )
-					) :
-				$( '<span>' )
-					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
-					.text( mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
+	const $span = $( '<span>' )
+		.addClass( 'ext-checkuser-tempaccount-reveal-ip' );
 
+	if ( !success ) {
+		$element.replaceWith(
+			$span.text( mw.msg( 'checkuser-tempaccount-reveal-ip-error' ) )
+		);
+	} else if ( typeof ip === 'undefined' ) {
+		$element.replaceWith(
+			$span.text( mw.msg( 'checkuser-tempaccount-reveal-ip-expired' ) )
+		);
+	} else if ( ip ) {
+		$element.replaceWith(
+			$span.append(
+				$( '<a>' )
+					.attr( 'href', mw.util.getUrl( 'Special:IPContributions/' + ip ) )
+					.addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
+					.text( ip )
+			)
 		);
 	} else {
 		$element.replaceWith(
-			$( '<span>' )
-				.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
-				.text( mw.msg( 'checkuser-tempaccount-reveal-ip-error' ) )
+			$span.text( mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
 		);
 	}
 }
@@ -284,8 +287,9 @@ function enableMultiReveal( $element ) {
 		/**
 		 * @param {Event} _e
 		 * @param {string} userLookup
-		 * @param {ips} ips An array of IPs from most recent to oldest, or a map of revision
-		 *  or log IDs to the IP address used while making the edit or performing the action.
+		 * @param {string[]|object} ips An array of IPs from most recent to oldest, or a map of
+		 *  revision or log IDs to the IP address used while making the edit or performing the
+		 *  action.
 		 * @param {boolean} isRev The map keys are revision IDs
 		 * @param {boolean} isLog The map keys are log IDs
 		 * @param {boolean} isAfLog The map keys are AbuseFilter log IDs

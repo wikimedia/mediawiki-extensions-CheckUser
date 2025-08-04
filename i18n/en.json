@@ -341,6 +341,7 @@
 	"checkuser-tempaccount-no-ip-results": "No IP data for this temporary user for the last $1 {{PLURAL:$1|day|days}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Show IP",
 	"checkuser-tempaccount-reveal-ip-missing": "unavailable",
+	"checkuser-tempaccount-reveal-ip-expired": "no longer available",
 	"checkuser-tempaccount-reveal-ip-error": "error",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "To view IP addresses for temporary accounts, please accept the agreement in [[Special:Preferences|your preferences]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Loading block details",
