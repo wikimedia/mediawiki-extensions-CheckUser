@@ -1224,7 +1224,8 @@
 		"MediaWiki\\CheckUser\\Maintenance\\FixTrailingSpacesInLogs": "maintenance/fixTrailingSpacesInLogs.php",
 		"MediaWiki\\CheckUser\\Maintenance\\DeleteReadOldRowsInCuChanges": "maintenance/deleteReadOldRowsInCuChanges.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCentralCheckUserIndexTables": "maintenance/populateCentralCheckUserIndexTables.php",
-		"MediaWiki\\CheckUser\\Maintenance\\MigrateTemporaryAccountIPViewerGroup": "maintenance/migrateTemporaryAccountIPViewerGroup.php"
+		"MediaWiki\\CheckUser\\Maintenance\\MigrateTemporaryAccountIPViewerGroup": "maintenance/migrateTemporaryAccountIPViewerGroup.php",
+		"MediaWiki\\CheckUser\\Maintenance\\RevokeTemporaryAccountViewerGroup": "maintenance/revokeTemporaryAccountViewerGroup.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
