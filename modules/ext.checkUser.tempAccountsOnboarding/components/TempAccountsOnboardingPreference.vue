@@ -2,6 +2,11 @@
 	<h6 class="ext-checkuser-temp-account-onboarding-dialog-preference-title">
 		{{ sectionTitle }}
 	</h6>
+	<p
+		v-if="checkboxDescriptionMessageKey !== ''"
+		v-i18n-html="checkboxDescriptionMessageKey"
+		class="ext-checkuser-temp-account-onboarding-dialog-preference-description"
+	></p>
 	<cdx-field
 		:is-fieldset="true"
 		class="ext-checkuser-temp-account-onboarding-dialog-preference"
@@ -20,9 +25,7 @@
 			action="progressive"
 			@click="onSavePreferenceButtonClick"
 		>
-			{{ $i18n(
-				'checkuser-temporary-accounts-onboarding-dialog-save-preference'
-			).text() }}
+			{{ savePreferenceButtonText }}
 		</cdx-button>
 	</cdx-field>
 </template>
@@ -52,6 +55,8 @@ module.exports = exports = {
 		name: { type: String, required: true },
 		/** The message key for the text for the preference checkbox */
 		checkboxMessageKey: { type: String, required: true },
+		/** The message key for the text above the preference checkbox (optional) */
+		checkboxDescriptionMessageKey: { type: String, required: false, default: '' },
 		/** The text used as the section title displayed above the preference */
 		sectionTitle: { type: String, required: true }
 	},
@@ -63,6 +68,17 @@ module.exports = exports = {
 		const lastOptionsUpdateError = ref( false );
 		const preferenceUpdateSuccessful = computed( () => lastOptionsUpdateError.value === '' );
 		const attemptedToMoveWithoutPressingSave = ref( false );
+
+		let savePreferenceButtonText;
+		if ( mw.config.get( 'wgCheckUserGlobalPreferencesExtensionLoaded' ) ) {
+			savePreferenceButtonText = mw.msg(
+				'checkuser-temporary-accounts-onboarding-dialog-save-global-preference'
+			);
+		} else {
+			savePreferenceButtonText = mw.msg(
+				'checkuser-temporary-accounts-onboarding-dialog-save-preference'
+			);
+		}
 
 		/**
 		 * What type of message to show to the user underneath the preference checkbox:
@@ -90,7 +106,9 @@ module.exports = exports = {
 			error: mw.msg(
 				'checkuser-temporary-accounts-onboarding-dialog-preference-error', lastOptionsUpdateError.value
 			),
-			warning: mw.msg( 'checkuser-temporary-accounts-onboarding-dialog-preference-warning' ),
+			warning: mw.msg(
+				'checkuser-temporary-accounts-onboarding-dialog-preference-warning', savePreferenceButtonText
+			),
 			success: mw.msg( 'checkuser-temporary-accounts-onboarding-dialog-preference-success' )
 		} ) );
 
@@ -185,6 +203,7 @@ module.exports = exports = {
 			checkboxFieldErrorState,
 			checkboxFieldMessages,
 			preferenceValue,
+			savePreferenceButtonText,
 			onPreferenceChange,
 			onSavePreferenceButtonClick
 		};

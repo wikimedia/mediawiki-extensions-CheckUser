@@ -94,7 +94,8 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( null );
 		mockJSConfig( {
 			wgCheckUserUserHasIPInfoRight: true,
-			wgCheckUserIPInfoPreferenceChecked: true
+			wgCheckUserIPInfoPreferenceChecked: true,
+			wgCheckUserGlobalPreferencesExtensionLoaded: true
 		} );
 
 		const { rootElement } = commonTestRendersCorrectly();
@@ -114,7 +115,8 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( null );
 		mockJSConfig( {
 			wgCheckUserUserHasIPInfoRight: false,
-			wgCheckUserIPInfoPreferenceChecked: false
+			wgCheckUserIPInfoPreferenceChecked: false,
+			wgCheckUserGlobalPreferencesExtensionLoaded: false
 		} );
 
 		const { rootElement } = commonTestRendersCorrectly();
@@ -137,7 +139,8 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// and then moved back to this step.
 		mockJSConfig( {
 			wgCheckUserUserHasIPInfoRight: true,
-			wgCheckUserIPInfoPreferenceChecked: false
+			wgCheckUserIPInfoPreferenceChecked: false,
+			wgCheckUserGlobalPreferencesExtensionLoaded: false
 		} );
 
 		const { rootElement } = commonTestRendersCorrectly();
@@ -158,7 +161,8 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( false );
 		mockJSConfig( {
 			wgCheckUserUserHasIPInfoRight: true,
-			wgCheckUserIPInfoPreferenceChecked: false
+			wgCheckUserIPInfoPreferenceChecked: false,
+			wgCheckUserGlobalPreferencesExtensionLoaded: true
 		} );
 
 		const { rootElement } = commonTestRendersCorrectly();
@@ -173,21 +177,22 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title)'
 		);
 		getIPInfoPreferenceCheckbox( rootElement );
-		getSaveGlobalPreferenceButton( rootElement );
+		getSaveGlobalPreferenceButton( rootElement, true );
 	} );
 
 	it( 'Updates IPInfo preference value after checkbox and submit pressed', async () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( '' );
 		mockJSConfig( {
 			wgCheckUserUserHasIPInfoRight: true,
-			wgCheckUserIPInfoPreferenceChecked: false
+			wgCheckUserIPInfoPreferenceChecked: false,
+			wgCheckUserGlobalPreferencesExtensionLoaded: false
 		} );
 		const apiSaveOptionMock = mockApiSaveOption( true );
 
 		const { rootElement, wrapper } = commonTestRendersCorrectly();
 
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
-		const ipInfoSavePreferenceButton = getSaveGlobalPreferenceButton( rootElement );
+		const ipInfoSavePreferenceButton = getSaveGlobalPreferenceButton( rootElement, false );
 		const ipInfoPreference = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
@@ -214,7 +219,8 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		mockIPInfoPreferenceCheckedSessionStorageValue( '' );
 		mockJSConfig( {
 			wgCheckUserUserHasIPInfoRight: true,
-			wgCheckUserIPInfoPreferenceChecked: false
+			wgCheckUserIPInfoPreferenceChecked: false,
+			wgCheckUserGlobalPreferencesExtensionLoaded: false
 		} );
 
 		const { rootElement, wrapper } = commonTestRendersCorrectly();

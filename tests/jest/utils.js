@@ -103,16 +103,25 @@ function mockStorageSessionGetValue( key, value ) {
  * Used to test the IPInfo and IP reveal steps for the onboarding dialog.
  *
  * @param {*} rootElement The element to search through to find the button
+ * @param {boolean} globalPreferencesInstalled If GlobalPreferences is installed, as
+ *   determined by the value of mocked JS config
+ *   wgCheckUserGlobalPreferencesExtensionLoaded
  * @return {*} The IP reveal "Save preference" button
  */
-function getSaveGlobalPreferenceButton( rootElement ) {
+function getSaveGlobalPreferenceButton( rootElement, globalPreferencesInstalled ) {
 	const saveGlobalPreferenceField = rootElement.find(
 		'.ext-checkuser-temp-account-onboarding-dialog-save-preference'
 	);
 	expect( saveGlobalPreferenceField.exists() ).toEqual( true );
-	expect( saveGlobalPreferenceField.text() ).toContain(
-		'(checkuser-temporary-accounts-onboarding-dialog-save-preference)'
-	);
+	if ( globalPreferencesInstalled ) {
+		expect( saveGlobalPreferenceField.text() ).toContain(
+			'(checkuser-temporary-accounts-onboarding-dialog-save-global-preference)'
+		);
+	} else {
+		expect( saveGlobalPreferenceField.text() ).toContain(
+			'(checkuser-temporary-accounts-onboarding-dialog-save-preference)'
+		);
+	}
 	const saveGlobalPreferenceButton = saveGlobalPreferenceField.find( 'button' );
 	expect( saveGlobalPreferenceButton.exists() ).toEqual( true );
 	return saveGlobalPreferenceButton;

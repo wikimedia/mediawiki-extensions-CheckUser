@@ -200,6 +200,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 					'wgCheckUserIPInfoExtensionLoaded' => $isIpInfoAvailable,
 					'wgCheckUserUserHasIPInfoRight' => $isIpInfoAvailable && $hasIpInfoPermission,
 					'wgCheckUserIPInfoPreferenceChecked' => $isIpInfoAvailable && $hasEnabledIPInfo,
+					'wgCheckUserIPRevealPreferenceGloballyChecked' => $hasEnabledIpReveal,
+					'wgCheckUserIPRevealPreferenceLocallyChecked' => $hasEnabledIpReveal,
 					'wgCheckUserGlobalPreferencesExtensionLoaded' => $isGlobalPreferencesAvailable,
 				];
 				$expectedModules[] = 'ext.checkUser.tempAccountOnboarding';

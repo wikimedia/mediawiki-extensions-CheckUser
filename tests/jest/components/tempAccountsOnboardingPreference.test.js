@@ -2,7 +2,7 @@
 
 const TempAccountsOnboardingPreference = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingPreference.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockApiSaveOption, waitFor, waitForAndExpectTextToExistInElement, getSaveGlobalPreferenceButton } = require( '../utils.js' );
+	{ mockApiSaveOption, waitFor, waitForAndExpectTextToExistInElement, getSaveGlobalPreferenceButton, mockJSConfig } = require( '../utils.js' );
 
 const renderComponent = ( props ) => {
 	const defaultProps = {
@@ -55,6 +55,7 @@ describe( 'Temporary accounts preference component', () => {
 	} );
 
 	it( 'Renders correctly when checkbox not initially checked', () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: false } );
 		const wrapper = renderComponent( {
 			initialValue: false,
 			name: 'test-preference',
@@ -72,10 +73,11 @@ describe( 'Temporary accounts preference component', () => {
 			'Test section title'
 		);
 		getPreferenceCheckbox( wrapper, '(test-message-key)' );
-		getSaveGlobalPreferenceButton( wrapper );
+		getSaveGlobalPreferenceButton( wrapper, false );
 	} );
 
 	it( 'Does nothing if preference checkbox is checked but not saved', async () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
 		const apiSaveOptionMock = mockApiSaveOption( true );
 		const mockStorageSessionSet = mockStorageSession();
 
@@ -91,6 +93,7 @@ describe( 'Temporary accounts preference component', () => {
 	} );
 
 	it( 'Updates preference value after checkbox and submit pressed', async () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
 		const apiSaveOptionMock = mockApiSaveOption( true );
 		const mockStorageSessionSet = mockStorageSession();
 
@@ -101,7 +104,7 @@ describe( 'Temporary accounts preference component', () => {
 		} );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
-		const savePreferenceButton = getSaveGlobalPreferenceButton( wrapper );
+		const savePreferenceButton = getSaveGlobalPreferenceButton( wrapper, true );
 		const preferenceFieldset = wrapper.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
@@ -147,6 +150,7 @@ describe( 'Temporary accounts preference component', () => {
 	} );
 
 	it( 'Prevents step move if preference checked but not saved', async () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
 		const wrapper = renderComponent( { initialValue: false } );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
@@ -164,11 +168,13 @@ describe( 'Temporary accounts preference component', () => {
 		// Expect that the preference checkbox has a warning in the UI indicating to the
 		// user to save the preference before proceeding to the next step.
 		await waitForAndExpectTextToExistInElement(
-			preferenceFieldset, '(checkuser-temporary-accounts-onboarding-dialog-preference-warning)'
+			preferenceFieldset,
+			'(checkuser-temporary-accounts-onboarding-dialog-preference-warning, (checkuser-temporary-accounts-onboarding-dialog-save-global-preference))'
 		);
 	} );
 
 	it( 'Prevents dialog close if preference checked but not saved', async () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
 		const wrapper = renderComponent( { initialValue: false } );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
@@ -186,11 +192,12 @@ describe( 'Temporary accounts preference component', () => {
 		// Expect that the preference checkbox has a warning in the UI indicating to the
 		// user to save the preference before closing the dialog
 		await waitForAndExpectTextToExistInElement(
-			preferenceFieldset, '(checkuser-temporary-accounts-onboarding-dialog-preference-warning)'
+			preferenceFieldset, '(checkuser-temporary-accounts-onboarding-dialog-preference-warning'
 		);
 	} );
 
 	it( 'Displays error message if preference check failed', async () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
 		const apiSaveOptionMock = mockApiSaveOption(
 			false, { error: { info: 'Wiki is in read only mode' } }
 		);
@@ -202,7 +209,7 @@ describe( 'Temporary accounts preference component', () => {
 		} );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
-		const savePreferenceButton = getSaveGlobalPreferenceButton( wrapper );
+		const savePreferenceButton = getSaveGlobalPreferenceButton( wrapper, true );
 		const preferenceFieldset = wrapper.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
@@ -226,6 +233,7 @@ describe( 'Temporary accounts preference component', () => {
 	} );
 
 	it( 'Displays error code if preference check failed and no message returned', async () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
 		const apiSaveOptionMock = mockApiSaveOption( false, {}, 'error-code' );
 
 		const wrapper = renderComponent( {
@@ -235,7 +243,7 @@ describe( 'Temporary accounts preference component', () => {
 		} );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
-		const savePreferenceButton = getSaveGlobalPreferenceButton( wrapper );
+		const savePreferenceButton = getSaveGlobalPreferenceButton( wrapper, true );
 		const preferenceFieldset = wrapper.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
@@ -250,6 +258,7 @@ describe( 'Temporary accounts preference component', () => {
 	} );
 
 	it( 'Only submits one preference change on race condition', async () => {
+		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
 		// Mock the api.saveOption() method to only resolve when we want it to
 		// so that we can test race-condition handling.
 		const apiSaveOptionMock = jest.fn();
@@ -268,7 +277,7 @@ describe( 'Temporary accounts preference component', () => {
 		} );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
-		const savePreferenceButton = getSaveGlobalPreferenceButton( wrapper );
+		const savePreferenceButton = getSaveGlobalPreferenceButton( wrapper, true );
 		const preferenceFieldset = wrapper.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);

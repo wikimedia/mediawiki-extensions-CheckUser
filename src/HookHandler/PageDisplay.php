@@ -123,16 +123,14 @@ class PageDisplay implements BeforePageDisplayHook {
 	}
 
 	/**
-	 * Returns whether the 'ipinfo-use-agreement' preference is enabled for the
-	 * given user. If the GlobalPreferences extension is installed, then the global value
-	 * of the preference is returned ignoring any local override.
-	 *
-	 * Assumes that IPInfo is loaded, so caller should check this before calling.
+	 * Returns whether the given preference is enabled for the given user. If the GlobalPreferences extension
+	 * is installed, then the global value of the preference is returned ignoring any local override.
 	 *
 	 * @param UserIdentity $user The user to get the preference value for
+	 * @param string $preference The preference to check
 	 * @return bool Whether the preference is enabled
 	 */
-	private function getIPInfoAgreementPreferenceValue( UserIdentity $user ): bool {
+	private function getGlobalPreferenceValue( UserIdentity $user, string $preference ): bool {
 		if (
 			$this->extensionRegistry->isLoaded( 'GlobalPreferences' ) &&
 			$this->preferencesFactory instanceof GlobalPreferencesFactory
@@ -143,11 +141,11 @@ class PageDisplay implements BeforePageDisplayHook {
 			// enabled but globally disabled.
 			$globalPreferences = $this->preferencesFactory->getGlobalPreferencesValues( $user );
 			if ( $globalPreferences !== false ) {
-				return isset( $globalPreferences[AbstractPreferencesHandler::IPINFO_USE_AGREEMENT] ) &&
-					$globalPreferences[AbstractPreferencesHandler::IPINFO_USE_AGREEMENT];
+				return isset( $globalPreferences[$preference] ) &&
+					$globalPreferences[$preference];
 			}
 		}
-		return $this->userOptionsLookup->getBoolOption( $user, AbstractPreferencesHandler::IPINFO_USE_AGREEMENT );
+		return $this->userOptionsLookup->getBoolOption( $user, $preference );
 	}
 
 	/**
@@ -196,7 +194,14 @@ class PageDisplay implements BeforePageDisplayHook {
 				'wgCheckUserUserHasIPInfoRight' => $ipInfoLoaded &&
 					$out->getAuthority()->isAllowed( 'ipinfo' ),
 				'wgCheckUserIPInfoPreferenceChecked' => $ipInfoLoaded &&
-					$this->getIPInfoAgreementPreferenceValue( $out->getUser() ),
+					$this->getGlobalPreferenceValue(
+						$out->getUser(), AbstractPreferencesHandler::IPINFO_USE_AGREEMENT
+					),
+				'wgCheckUserIPRevealPreferenceGloballyChecked' => $this->getGlobalPreferenceValue(
+					$out->getUser(), Preferences::ENABLE_IP_REVEAL
+				),
+				'wgCheckUserIPRevealPreferenceLocallyChecked' =>
+					$this->userOptionsLookup->getBoolOption( $out->getUser(), Preferences::ENABLE_IP_REVEAL ),
 				'wgCheckUserGlobalPreferencesExtensionLoaded' =>
 					$this->extensionRegistry->isLoaded( 'GlobalPreferences' ),
 			] );

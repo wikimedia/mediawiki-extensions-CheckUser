@@ -20,7 +20,9 @@ describe( 'Main app component', () => {
 	it( 'Renders correctly when IPInfo not installed', async () => {
 		mockJSConfig( {
 			wgCheckUserIPInfoExtensionLoaded: false,
-			wgCheckUserGlobalPreferencesExtensionLoaded: false
+			wgCheckUserGlobalPreferencesExtensionLoaded: false,
+			wgCheckUserIPRevealPreferenceGloballyChecked: false,
+			wgCheckUserIPRevealPreferenceLocallyChecked: false
 		} );
 
 		const wrapper = renderComponent();
@@ -69,7 +71,9 @@ describe( 'Main app component', () => {
 			wgCheckUserIPInfoExtensionLoaded: true,
 			wgCheckUserIPInfoPreferenceChecked: true,
 			wgCheckUserUserHasIPInfoRight: true,
-			wgCheckUserGlobalPreferencesExtensionLoaded: false
+			wgCheckUserGlobalPreferencesExtensionLoaded: false,
+			wgCheckUserIPRevealPreferenceGloballyChecked: true,
+			wgCheckUserIPRevealPreferenceLocallyChecked: true
 		} );
 
 		const wrapper = renderComponent();
