@@ -82,6 +82,18 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 				}
 				return true;
 			} );
+		$this->permissionManager->method( 'userHasAnyRight' )
+			->willReturnCallback( static function ( $user, ...$rights ) use ( $options ) {
+				foreach ( $rights as $right ) {
+					if ( $right === 'checkuser-temporary-account' && $options['hasRight'] ) {
+						return true;
+					}
+					if ( $right === 'checkuser-temporary-account-no-preference' && $options['hasNoPreferenceRight'] ) {
+						return true;
+					}
+				}
+				return false;
+			} );
 
 		$this->sut->onGetPreferences( $this->user, $prefs );
 
@@ -93,12 +105,19 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 			$prefs['checkuser-temporary-accounts-onboarding-dialog-seen'],
 		);
 
+		if ( $options['expectPreferenceToExist'] ) {
+			$this->assertArrayHasKey( 'checkuser-temporary-account-enable', $prefs );
+		} else {
+			$this->assertArrayNotHasKey( 'checkuser-temporary-account-enable', $prefs );
+		}
+		if ( array_key_exists( 'checkuser-temporary-account-enable', $prefs ) ) {
+			$this->assertSame(
+				$options['expectPreferenceToBeDisplayed'] ? 'toggle' : 'api',
+				$prefs['checkuser-temporary-account-enable']['type']
+			);
+		}
 		$this->assertSame(
-			$options['expected'],
-			isset( $prefs['checkuser-temporary-account-enable'] )
-		);
-		$this->assertSame(
-			$options['expected'],
+			$options['expectPreferenceToBeDisplayed'],
 			isset( $prefs['checkuser-temporary-account-enable-description'] )
 		);
 	}
@@ -107,21 +126,24 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 		return [
 			'User has right' => [
 				[
-					'expected' => true,
+					'expectPreferenceToBeDisplayed' => true,
+					'expectPreferenceToExist' => true,
 					'hasRight' => true,
 					'hasNoPreferenceRight' => false,
 				],
 			],
 			'User has no-preference right' => [
 				[
-					'expected' => false,
+					'expectPreferenceToBeDisplayed' => false,
+					'expectPreferenceToExist' => true,
 					'hasRight' => false,
 					'hasNoPreferenceRight' => true,
 				],
 			],
 			'User does not have right' => [
 				[
-					'expected' => false,
+					'expectPreferenceToBeDisplayed' => false,
+					'expectPreferenceToExist' => false,
 					'hasRight' => false,
 					'hasNoPreferenceRight' => false,
 				],

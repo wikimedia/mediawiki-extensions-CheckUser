@@ -111,25 +111,33 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 			'canglobal' => true,
 		];
 
-		if (
-			$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' ) &&
-			!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account-no-preference' )
-		) {
-			$preferences['checkuser-temporary-account-enable-description'] = [
-				'type' => 'info',
-				'default' => $messageLocalizer->msg( 'checkuser-tempaccount-enable-preference-description' )
-					->parse(),
-				// The following message is generated here:
-				// * prefs-checkuser-tempaccount
-				'section' => 'personal/checkuser-tempaccount',
-				'raw' => true,
-				// Forces the info text to be shown on Special:GlobalPreferences, as 'info' preference types are
-				// excluded by default. This needs to be shown as it contains important information about
-				// what checking the checkbox below this text means.
-				'canglobal' => true,
-			];
+		if ( $this->permissionManager->userHasAnyRight(
+			$user, 'checkuser-temporary-account', 'checkuser-temporary-account-no-preference'
+		) ) {
+			$needsToCheckIPRevealPreferenceToUseFeature =
+				$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' ) &&
+				!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account-no-preference' );
+
+			if ( $needsToCheckIPRevealPreferenceToUseFeature ) {
+				$preferences['checkuser-temporary-account-enable-description'] = [
+					'type' => 'info',
+					'default' => $messageLocalizer->msg( 'checkuser-tempaccount-enable-preference-description' )
+						->parse(),
+					// The following message is generated here:
+					// * prefs-checkuser-tempaccount
+					'section' => 'personal/checkuser-tempaccount',
+					'raw' => true,
+					// Forces the info text to be shown on Special:GlobalPreferences, as 'info' preference types are
+					// excluded by default. This needs to be shown as it contains important information about
+					// what checking the checkbox below this text means.
+					'canglobal' => true,
+				];
+			}
+
+			// Still define the IP reveal preference if the user doesn't need to check it as this is used by
+			// the temporary accounts onboarding dialog in this case.
 			$preferences[self::ENABLE_IP_REVEAL] = [
-				'type' => 'toggle',
+				'type' => $needsToCheckIPRevealPreferenceToUseFeature ? 'toggle' : 'api',
 				'label-message' => 'checkuser-tempaccount-enable-preference',
 				'section' => 'personal/checkuser-tempaccount',
 			];
