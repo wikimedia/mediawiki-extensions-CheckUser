@@ -75,9 +75,54 @@ async function waitForAndExpectTextToExistInElement( element, text ) {
 	expect( element.text() ).toContain( text );
 }
 
+/**
+ * Mocks mw.storage.session.get to return a specific value when asked for a given key.
+ *
+ * @param {string} key The storage key that is expected to be provided
+ * @param {false|'checked'|''|null} value null when no value was set, false when storage is not
+ *   available, empty string when the preference was not checked, string 'checked' when the
+ *   preference was checked.
+ */
+function mockStorageSessionGetValue( key, value ) {
+	jest.spyOn( mw.storage.session, 'get' ).mockImplementation( ( actualStorageKey ) => {
+		if ( actualStorageKey === key ) {
+			return value;
+		} else {
+			throw new Error(
+				'Did not expect a call to get the value of ' + actualStorageKey +
+				' for mw.storage.session.get'
+			);
+		}
+	} );
+}
+
+/**
+ * Returns the button element which is wrapped in an element that
+ * has the class 'ext-checkuser-temp-account-onboarding-dialog-save-preference'.
+ *
+ * Used to test the IPInfo and IP reveal steps for the onboarding dialog.
+ *
+ * @param {*} rootElement The element to search through to find the button
+ * @return {*} The IP reveal "Save preference" button
+ */
+function getSaveGlobalPreferenceButton( rootElement ) {
+	const saveGlobalPreferenceField = rootElement.find(
+		'.ext-checkuser-temp-account-onboarding-dialog-save-preference'
+	);
+	expect( saveGlobalPreferenceField.exists() ).toEqual( true );
+	expect( saveGlobalPreferenceField.text() ).toContain(
+		'(checkuser-temporary-accounts-onboarding-dialog-save-preference)'
+	);
+	const saveGlobalPreferenceButton = saveGlobalPreferenceField.find( 'button' );
+	expect( saveGlobalPreferenceButton.exists() ).toEqual( true );
+	return saveGlobalPreferenceButton;
+}
+
 module.exports = {
 	mockApiSaveOption,
 	waitFor,
 	mockJSConfig,
-	waitForAndExpectTextToExistInElement
+	waitForAndExpectTextToExistInElement,
+	mockStorageSessionGetValue,
+	getSaveGlobalPreferenceButton
 };

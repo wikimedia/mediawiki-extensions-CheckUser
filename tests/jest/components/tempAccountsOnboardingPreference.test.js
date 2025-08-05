@@ -2,7 +2,7 @@
 
 const TempAccountsOnboardingPreference = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingPreference.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockApiSaveOption, waitFor, waitForAndExpectTextToExistInElement } = require( '../utils.js' );
+	{ mockApiSaveOption, waitFor, waitForAndExpectTextToExistInElement, getSaveGlobalPreferenceButton } = require( '../utils.js' );
 
 const renderComponent = ( props ) => {
 	const defaultProps = {
@@ -38,25 +38,6 @@ function getPreferenceCheckbox( rootElement, expectedCheckboxLabel ) {
 }
 
 /**
- * Gets the save preference button after checking that it exists.
- *
- * @param {*} rootElement The root element
- * @return {*} The save preference button
- */
-function getSaveGlobalPreferenceButton( rootElement ) {
-	const saveGlobalPreferenceField = rootElement.find(
-		'.ext-checkuser-temp-account-onboarding-dialog-save-preference'
-	);
-	expect( saveGlobalPreferenceField.exists() ).toEqual( true );
-	expect( saveGlobalPreferenceField.text() ).toContain(
-		'(checkuser-temporary-accounts-onboarding-dialog-save-preference)'
-	);
-	const saveGlobalPreferenceButton = saveGlobalPreferenceField.find( 'button' );
-	expect( saveGlobalPreferenceButton.exists() ).toEqual( true );
-	return saveGlobalPreferenceButton;
-}
-
-/**
  * Mocks mw.storage.session and returns a jest.fn() that is used as the set() method.
  *
  * @return {jest.fn}
@@ -78,7 +59,8 @@ describe( 'Temporary accounts preference component', () => {
 			initialValue: false,
 			name: 'test-preference',
 			checkboxMessageKey: 'test-message-key',
-			sectionTitle: 'Test section title'
+			sectionTitle: 'Test section title',
+			checkboxDescriptionMessageKey: 'test-description-message-key'
 		} );
 
 		// Expect that the structure of the component is correct along with the text

@@ -2,7 +2,7 @@
 
 const TempAccountsOnboardingIPInfoStep = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIPInfoStep.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockApiSaveOption, waitForAndExpectTextToExistInElement, mockJSConfig } = require( '../utils.js' );
+	{ mockApiSaveOption, waitForAndExpectTextToExistInElement, mockJSConfig, mockStorageSessionGetValue, getSaveGlobalPreferenceButton } = require( '../utils.js' );
 
 const renderComponent = () => utils.mount( TempAccountsOnboardingIPInfoStep );
 
@@ -15,16 +15,7 @@ const renderComponent = () => utils.mount( TempAccountsOnboardingIPInfoStep );
  *   preference was checked.
  */
 function mockIPInfoPreferenceCheckedSessionStorageValue( value ) {
-	jest.spyOn( mw.storage.session, 'get' ).mockImplementation( ( actualStorageKey ) => {
-		if ( actualStorageKey === 'mw-checkuser-ipinfo-preference-checked-status' ) {
-			return value;
-		} else {
-			throw new Error(
-				'Did not expect a call to get the value of ' + actualStorageKey +
-					' for mw.storage.session.get'
-			);
-		}
-	} );
+	mockStorageSessionGetValue( 'mw-checkuser-ipinfo-preference-checked-status', value );
 }
 
 /**
@@ -91,23 +82,6 @@ function getIPInfoPreferenceCheckbox( rootElement ) {
 	const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
 	expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
 	return ipInfoPreferenceCheckbox;
-}
-
-/**
- * Gets the IPInfo "Save preference" button
- * after checking that it exists.
- *
- * @param {*} rootElement The root element for the IPInfo step
- * @return {*} The IPInfo "Save preference" button
- */
-function getIPInfoSavePreferenceButton( rootElement ) {
-	const ipInfoSavePreference = rootElement.find(
-		'.ext-checkuser-temp-account-onboarding-dialog-save-preference'
-	);
-	expect( ipInfoSavePreference.exists() ).toEqual( true );
-	const ipInfoSavePreferenceButton = ipInfoSavePreference.find( 'button' );
-	expect( ipInfoSavePreferenceButton.exists() ).toEqual( true );
-	return ipInfoSavePreferenceButton;
 }
 
 describe( 'IPInfo step temporary accounts onboarding dialog', () => {
@@ -199,7 +173,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title)'
 		);
 		getIPInfoPreferenceCheckbox( rootElement );
-		getIPInfoSavePreferenceButton( rootElement );
+		getSaveGlobalPreferenceButton( rootElement );
 	} );
 
 	it( 'Updates IPInfo preference value after checkbox and submit pressed', async () => {
@@ -213,7 +187,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		const { rootElement, wrapper } = commonTestRendersCorrectly();
 
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
-		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
+		const ipInfoSavePreferenceButton = getSaveGlobalPreferenceButton( rootElement );
 		const ipInfoPreference = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-preference'
 		);
