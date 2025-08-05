@@ -84,6 +84,7 @@
 	"checkuser-tempaccount-enable-preference": "Dayakan pendedahan alamat IP untuk akaun sementara",
 	"checkuser-tempaccount-reveal-ip-button-label": "Tunjukkan IP",
 	"checkuser-tempaccount-reveal-ip-missing": "tidak ada",
+	"checkuser-userinfocard-global-edits": "Suntingan sejagat: $1",
 	"checkuser-userinfocard-enable-preference-description": "Dayakan [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|kad maklumat pengguna]]",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 suntingan sejagat|0=Tiada suntingan sejagat}}"
 }
