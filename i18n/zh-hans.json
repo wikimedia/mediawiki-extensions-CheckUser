@@ -333,6 +333,7 @@
 	"checkuser-global-contributions-no-global-preference": "这些结果可能不完整，因为您需要接受 [ $1您的全局偏好设置] 中的协议。",
 	"checkuser-global-contributions-api-lookup-error": "从某些 wiki 加载数据时出错。这些结果不完整。<strong>重试可能会有帮助。</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>没有符合查询条件的结果。</strong>用户“ $1 ”没有可见的贡献。",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "命名空间<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP地址自动显示",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>IP地址自动显示已开启</strong>",
 	"checkuser-ip-auto-reveal-notification-off": "<strong>IP地址自动显示已关闭</strong>",

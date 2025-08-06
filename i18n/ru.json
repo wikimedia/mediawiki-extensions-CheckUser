@@ -44,7 +44,8 @@
 			"Ядерный Трамвай",
 			"MidnightLG",
 			"Megitsune-chan",
-			"Iluvatar"
+			"Iluvatar",
+			"Mitte27"
 		]
 	},
 	"checkuser-summary": "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.\nПравки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив постфикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR $1—32) и 6 (CIDR $2—128).\nИз соображений производительности будут показаны только первые $3 правок.\nИспользуйте эту страницу '''только в соответствии с правилами'''.",
@@ -306,5 +307,6 @@
 	"checkuser-temporary-account-change-access-level-disable-globally": "глобально {{GENDER:$1| отключен}}",
 	"log-action-filter-checkuser-temporary-account": "Тип действия:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Изменить доступ",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Доступ к данным об IP временной учётной записи"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Доступ к данным об IP временной учётной записи",
+	"checkuser-userinfocard-enable-preference-help": "Показать кнопку рядом с именем участника для демонстрации всплывающего окна с информацией об аккаунте."
 }
