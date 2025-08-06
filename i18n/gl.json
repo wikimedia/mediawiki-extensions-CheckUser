@@ -383,7 +383,7 @@
 	"checkuser-userinfocard-enable-preference-description": "Activar a [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|ficha de información do usuario]]",
 	"checkuser-userinfocard-enable-preference-help": "Amosar un botón ao carón dos nomes de usuario para abrir unha ventá emerxente con información sobre unha conta.",
 	"checkuser-userinfocard-activity-chart-label": "Actividade de edición nos últimos 60 días ({{PLURAL:$1|$1 edición|$1 edicións|0=sen edicións}})",
-	"checkuser-userinfocard-new-articles-exceeds-max-to-display": "+$1",
+	"checkuser-userinfocard-count-exceeds-max-to-display": "+$1",
 	"checkuser-ipinfo-global-contributions-label": "Contribucións globais",
 	"checkuser-ipinfo-global-contributions-tooltip": "O número de edicións en todos os wiki feitas desde este enderezo IP.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 edición global|$1 edicións globais|0=Sen edicións globais}}",

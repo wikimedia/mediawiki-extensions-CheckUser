@@ -11,6 +11,7 @@
 			"NguyenHung",
 			"Nguyenphutrong2",
 			"Nguyễn Mạnh An",
+			"Nvdtn19",
 			"Vinhtantran"
 		]
 	},
@@ -230,6 +231,8 @@
 	"checkuser-userinfocard-local-edits": "Số sửa đổi trên wiki này: $1 (bị lùi lại: $2)",
 	"checkuser-userinfocard-new-articles": "Bài viết đã tạo: $1",
 	"checkuser-userinfocard-thanks": "Cảm ơn đã nhận: $1 (đã trao: $2)",
+	"checkuser-userinfocard-enable-preference-description": "Bật [[mw:Special:MyLanguage/Trust_and_Safety_Product/Anti-abuse_signals/User_Info|thẻ thông tin người dùng]]",
+	"checkuser-userinfocard-enable-preference-help": "Hiển thị nút bên cạnh tên người dùng để hiện một popup chứa thông tin về tài khoản.",
 	"checkuser-userinfocard-activity-chart-label": "Thống kê hoạt động trong vòng 60 ngày qua ({{PLURAL:$1|$1 sửa đổi|$1 sửa đổi|0=không có sửa đổi}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Đã kích hoạt khả năng xem địa chỉ IP tài khoản tạm thời"
 }

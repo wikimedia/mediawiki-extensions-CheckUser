@@ -356,7 +356,7 @@
 	"checkuser-userinfocard-enable-preference-description": "Ota käyttöön [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|käyttäjätietokortit]]",
 	"checkuser-userinfocard-enable-preference-help": "Näytä käyttäjänimien vieressä painike, joka avaa tunnuksen tietoja sisältävän laatikon.",
 	"checkuser-userinfocard-activity-chart-label": "Muokkausaktiivisuus viimeisen 60 päivän aikana ({{PLURAL:$1|$1 muokkaus|$1 muokkausta|0=ei muokkauksia}})",
-	"checkuser-userinfocard-new-articles-exceeds-max-to-display": "yli $1",
+	"checkuser-userinfocard-count-exceeds-max-to-display": "yli $1",
 	"checkuser-ipinfo-global-contributions-label": "Järjestelmänlaajuiset muokkaukset",
 	"checkuser-ipinfo-global-contributions-tooltip": "Tästä IP-osoitteesta tehtyjen muokkausten määrä kaikissa wikeissä.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 järjestelmänlaajuinen muokkaus|$1 järjestelmänlaajuista muokkausta|0=Ei järjestelmänlaajuisia muokkauksia}}",

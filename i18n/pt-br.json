@@ -264,6 +264,7 @@
 	"checkuser-userinfocard-menu-view-contributions": "Ver contribuições do usuário",
 	"checkuser-userinfocard-menu-view-global-account": "Ver informação de contas globais",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Adicionar usuário à lista de páginas vigiadas",
+	"checkuser-userinfocard-menu-remove-from-watchlist": "Remover página do usuário das páginas vigiadas",
 	"checkuser-userinfocard-menu-block-user": "Bloquear usuário",
 	"checkuser-userinfocard-menu-provide-feedback": "Deixar comentários sobre este recurso",
 	"checkuser-userinfocard-menu-turn-off": "Desativar esse recurso",

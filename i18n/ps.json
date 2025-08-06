@@ -188,6 +188,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+۱۰دقيقې",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "گولول",
 	"prefs-checkuser-tempaccount": "لنډمهاله گڼون وېبپته ښکاره‌کول",
+	"checkuser-tempaccount-enable-preference": "د لنډمهاله گڼونونو لپاره د وېبپتو څرگندول چارنول",
 	"checkuser-tempaccount-reveal-ip-button-label": "وېبپته ښودل",
 	"checkuser-tempaccount-reveal-ip-missing": "لاسرسي نه بهر",
 	"checkuser-tempaccount-reveal-ip-error": "تېروتنه",
