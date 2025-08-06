@@ -18,7 +18,8 @@ function checkIfBrowserSupportsClientHints( browserName ) {
 let tempAccountUsername = '';
 const createdAccountUsername = Util.getTestString( 'ClientHintsAccountCreationTest' );
 
-describe( 'Client Hints', () => {
+// Skipped on 2025-08-06 because of T385449
+describe.skip( 'Client Hints', () => {
 	before( async () => {
 		// Skip the tests if we are using a browser which does not support client hints,
 		// because the tests need data to be sent to the API to e2e test.
