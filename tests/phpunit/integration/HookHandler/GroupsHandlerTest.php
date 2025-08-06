@@ -3,11 +3,9 @@
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\GroupsHandler;
-use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\MainConfigNames;
 use MediaWiki\SpecialPage\SpecialPageFactory;
-use MediaWiki\Specials\SpecialUserRights;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Registration\UserRegistrationLookup;
 use MediaWiki\User\UserEditTracker;
@@ -16,6 +14,7 @@ use MediaWiki\User\UserGroupMembership;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -390,71 +389,34 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testUserGroupsChangedInvalidatesExternalPermissionsCache() {
+	/** @dataProvider provideOnUserGroupsChanged */
+	public function testOnUserGroupsChanged(
+		bool $globalContributionsExists,
+		array $addedGroups,
+		int $centralId,
+		int $expected
+	) {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
 
-		$services = $this->getServiceContainer();
-		$user = $this->getTestUser();
-		$performer = $this->getTestSysop();
-		RequestContext::getMain()->setUser( $performer->getUser() );
+		$user = $this->getTestUser()->getUser();
 
-		// Manually set the cache value to be invalidated
-		$wanCache = $services->getMainWANObjectCache();
-		$cacheKey = $wanCache->makeGlobalKey(
-			'globalcontributions-ext-permissions',
-			$services->get( 'CentralIdLookup' )->centralIdFromLocalUser( $user->getUserIdentity() )
-		);
-		$wanCache->set( $cacheKey, [] );
-		$this->assertSame( [], $wanCache->get( $cacheKey ) );
-
-		// Special:UserRights needs to be instantiated because it invokes the hook
-		$page = new SpecialUserRights(
-			$services->getUserGroupManagerFactory(),
-			$services->getUserNameUtils(),
-			$services->getUserNamePrefixSearch(),
-			$services->getUserFactory(),
-			$services->getActorStoreFactory(),
-			$services->getWatchlistManager(),
-			$services->getTempUserConfig()
-		);
-		$page->doSaveUserGroups(
-			$user->getUserIdentity(),
-			[ 'temporary-account-viewer' ],
-			[]
-		);
-
-		// Assert that the hook invalidated the cache
-		$this->assertSame( false, $wanCache->get( $cacheKey ) );
-	}
-
-	/**
-	 * @dataProvider provideTestNoOpHook
-	 */
-	public function testNoOpHook( $addedGroups, $specialGlobalContributionsEnabled, $centralUserId ) {
-		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
-		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
-
-		$services = $this->getServiceContainer();
-		$wanCache = $services->getMainWANObjectCache();
-
-		// Mock the user has a central id
 		$centralIdLookup = $this->createMock( CentralIdLookup::class );
 		$centralIdLookup->method( 'centralIdFromLocalUser' )
-			->willReturn( $centralUserId );
+			->willReturn( $centralId );
 
-		// Manually set the cache value to be invalidated
-		$cacheKey = $wanCache->makeGlobalKey(
-			'globalcontributions-ext-permissions',
-			$centralUserId
-		);
-		$wanCache->set( $cacheKey, [] );
-		$this->assertSame( [], $wanCache->get( $cacheKey ) );
+		$wanCache = $this->createMock( WANObjectCache::class );
+		$wanCache->method( 'makeGlobalKey' )
+			->with( 'globalcontributions-ext-permissions', $centralId )
+			->willReturn( 'checkKey' );
+		$wanCache->expects( $this->exactly( $expected ) )
+			->method( 'touchCheckKey' )
+			->with( 'checkKey' );
 
 		$specialPageFactory = $this->createMock( SpecialPageFactory::class );
 		$specialPageFactory->method( 'exists' )
 			->with( 'GlobalContributions' )
-			->willReturn( $specialGlobalContributionsEnabled );
+			->willReturn( $globalContributionsExists );
 
 		$handler = $this->getHandler( [
 			'centralIdLookup' => $centralIdLookup,
@@ -463,7 +425,7 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 		] );
 
 		$handler->onUserGroupsChanged(
-			$this->getTestUser()->getUserIdentity(),
+			$user,
 			$addedGroups,
 			[],
 			false,
@@ -474,67 +436,34 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 				$this->createMock( UserGroupMembership::class )
 			)
 		);
-
-		$this->assertSame( [], $wanCache->get( $cacheKey ) );
 	}
 
-	public static function provideTestNoOpHook() {
+	public static function provideOnUserGroupsChanged() {
 		return [
-			'No user groups changed' => [
+			'Early return when GlobalContributions does not exist' => [
+				'globalContributionsexists' => false,
+				'addedGroups' => [ 'testGroup' ],
+				'centralUserId' => 1,
+				'expected' => 0,
+			],
+			'Early return when groups not changed' => [
+				'globalContributionsexists' => true,
 				'addedGroups' => [],
-				'specialGlobalContributionsEnabled' => true,
 				'centralUserId' => 1,
+				'expected' => 0,
 			],
-			'Extensions not installed' => [
-				'addedGroups' => [ 'test' ],
-				'specialGlobalContributionsEnabled' => false,
-				'centralUserId' => 1,
-			],
-			'Central user does not exist' => [
-				'addedGroups' => [ 'test' ],
-				'specialGlobalContributionsEnabled' => true,
+			'Early return when central user does not exist' => [
+				'globalContributionsexists' => true,
+				'addedGroups' => [ 'testGroup' ],
 				'centralUserId' => 0,
+				'expected' => 0,
+			],
+			'Cache invalidated when GlobalContributions exists' => [
+				'globalContributionsexists' => true,
+				'addedGroups' => [ 'testGroup' ],
+				'centralUserId' => 1,
+				'expected' => 1,
 			],
 		];
-	}
-
-	public function testOnUserGroupsChangedRun() {
-		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
-		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
-
-		// Test that the isolated hook operates as expected when the handler is run
-		$services = $this->getServiceContainer();
-		$wanCache = $services->getMainWANObjectCache();
-
-		// Mock the user has a central id
-		$centralIdLookup = $this->createMock( CentralIdLookup::class );
-		$centralIdLookup->method( 'centralIdFromLocalUser' )
-			->willReturn( 1 );
-
-		$handler = $this->getHandler( [
-			'centralIdLookup' => $centralIdLookup,
-			'wanCache' => $wanCache,
-		] );
-
-		// Manually set the cache value to be invalidated
-		$cacheKey = $wanCache->makeGlobalKey(
-			'globalcontributions-ext-permissions',
-			1
-		);
-		$wanCache->set( $cacheKey, [] );
-		$this->assertSame( [], $wanCache->get( $cacheKey ) );
-
-		$handler->onUserGroupsChanged(
-			$this->getTestUser()->getUserIdentity(),
-			[ 'test' ],
-			[],
-			false,
-			false,
-			[],
-			[ 'test' => $this->createMock( UserGroupMembership::class ) ]
-		);
-
-		// Assert that the hook invalidated the cache
-		$this->assertSame( false, $wanCache->get( $cacheKey ) );
 	}
 }

@@ -132,7 +132,7 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			->willReturn( 1 );
 
 		// Mock making the permission API call
-		$wikiIds = [ 'otherwiki' ];
+		$wikiIds = [ 'otherwiki', 'otherwiki2' ];
 		$permsByWiki = array_fill_keys(
 			$wikiIds,
 			[
@@ -175,7 +175,7 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		// Get and set the value in the cache
 		$permissions = $lookup->getAndUpdateExternalWikiPermissions(
 			1,
-			$wikiIds,
+			[ 'otherwiki' ],
 			$this->getTestUser()->getUser(),
 			new FauxRequest()
 		);
@@ -194,7 +194,7 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		// Re-run the function, expecting that the API aggregator will not execute again
 		$lookup->getAndUpdateExternalWikiPermissions(
 			1,
-			$wikiIds,
+			[ 'otherwiki' ],
 			$this->getTestUser()->getUser(),
 			new FauxRequest()
 		);
@@ -210,6 +210,7 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			$this->getTestUser()->getUser(),
 			new FauxRequest()
 		);
+
 		$this->assertMetricCount( CheckUserGlobalContributionsLookup::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 2 );
 		$this->assertMetricCount( CheckUserGlobalContributionsLookup::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 1 );
 	}

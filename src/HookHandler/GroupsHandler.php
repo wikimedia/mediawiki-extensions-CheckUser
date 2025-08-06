@@ -160,12 +160,12 @@ class GroupsHandler implements
 			return;
 		}
 
-		$cacheKey = $this->wanCache->makeGlobalKey(
+		$checkKey = $this->wanCache->makeGlobalKey(
 			'globalcontributions-ext-permissions',
 			$centralUserId
 		);
 
 		// Clear the cache value if it exists as changing user groups may change the user's stored access permissions
-		$this->wanCache->delete( $cacheKey );
+		$this->wanCache->touchCheckKey( $checkKey );
 	}
 }

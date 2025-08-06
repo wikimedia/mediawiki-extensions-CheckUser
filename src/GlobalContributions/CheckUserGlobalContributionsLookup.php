@@ -218,43 +218,29 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 		User $user,
 		WebRequest $request
 	) {
-		$cacheKey = $this->wanCache->makeGlobalKey(
-			'globalcontributions-ext-permissions',
-			$centralId
-		);
-
 		$externalApiLookupError = false;
-		$permissions = $this->wanCache->getWithSetCallback(
-			$cacheKey,
+		$numWikisWithUnknownPermissions = 0;
+
+		$permissions = $this->wanCache->getMultiWithUnionSetCallback(
+			$this->wanCache->makeMultiKeys(
+				$wikiIds,
+				function ( $wikiId ) use ( $centralId ) {
+					return $this->wanCache->makeGlobalKey(
+						'globalcontributions-ext-permissions',
+						$centralId,
+						$wikiId
+					);
+				}
+			),
 			$this->wanCache::TTL_MONTH,
-			function ( $oldValue, &$ttl ) use ( $wikiIds, $user, $request, &$externalApiLookupError ) {
-				// If new active wikis are used, the cache value will need to be updated
-				$wikisWithUnknownPermissions = [];
-				if ( is_array( $oldValue ) ) {
-					foreach ( $wikiIds as $wikiId ) {
-						if ( !array_key_exists( $wikiId, $oldValue ) ) {
-							$wikisWithUnknownPermissions[] = $wikiId;
-						}
-					}
-				} else {
-					// Nothing in cache, will need to pull permissions and cache them
-					$wikisWithUnknownPermissions = $wikiIds;
-				}
+			function (
+				array $wikisWithUnknownPermissions,
+				array &$ttls
+			) use ( $user, $request, &$externalApiLookupError, &$numWikisWithUnknownPermissions ) {
+				$numWikisWithUnknownPermissions = count( $wikisWithUnknownPermissions );
 
-				if ( !count( $wikisWithUnknownPermissions ) ) {
-					// Don't attempt to re-set this value when it's returned
-					$ttl = $this->wanCache::TTL_UNCACHEABLE;
-					// We still want to check permissions even if it's an empty array so fall back
-					// to that if a cached value hasn't been set yet ($oldValue will be false)
-					if ( is_array( $oldValue ) ) {
-						$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME )
-							->increment();
-						return $oldValue;
-					}
-					return [];
-				}
-
-				$allPermissions = $this->apiRequestAggregator->execute(
+				$foundPermissions = array_fill_keys( $wikisWithUnknownPermissions, false );
+				$lookedUpPermissions = $this->apiRequestAggregator->execute(
 					$user,
 					[
 						'action' => 'query',
@@ -272,30 +258,41 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 					CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH
 				);
 
-				$permissions = is_array( $oldValue ) ? $oldValue : [];
-				foreach ( $wikiIds as $wikiId ) {
-					if ( !isset( $allPermissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
+				foreach ( $wikisWithUnknownPermissions as $wikiId ) {
+					if ( !isset( $lookedUpPermissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
 						// The API lookup failed, so assume the user does not have IP reveal rights.
 						$externalApiLookupError = true;
-
+						$ttls[$wikiId] = $this->wanCache::TTL_UNCACHEABLE;
 						$this->statsFactory->getCounter( self::API_LOOKUP_ERROR_METRIC_NAME )
 							->increment();
-
 						continue;
 					}
-					$permissions[$wikiId] = $allPermissions[$wikiId]['query']['pages'][0]['actions'];
+					$foundPermissions[$wikiId] = $lookedUpPermissions[$wikiId]['query']['pages'][0]['actions'];
+					$ttls[$wikiId] = $this->wanCache::TTL_MONTH;
+					$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME )
+						->increment();
 				}
-				$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME )
-					->increment();
-				return $permissions;
+
+				return $foundPermissions;
 			},
-			// Always run the callback
-			[ 'minAsOf' => INF ]
+			[
+				'checkKeys' => [ $this->wanCache->makeGlobalKey(
+					'globalcontributions-ext-permissions',
+					$centralId
+				) ],
+			]
 		);
+
+		$numWikisWithKnownPermissions = count( $wikiIds ) - $numWikisWithUnknownPermissions;
+		if ( $numWikisWithKnownPermissions > 0 ) {
+			$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME )
+				->incrementBy( $numWikisWithKnownPermissions );
+		}
 
 		return [
 			'externalApiLookupError' => $externalApiLookupError,
-			'permissions' => $permissions
+			// Since the cache preserves order, it is safe to combine the arrays
+			'permissions' => array_combine( $wikiIds, $permissions )
 		];
 	}
 
