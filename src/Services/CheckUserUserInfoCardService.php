@@ -31,55 +31,26 @@ use Wikimedia\Stats\StatsFactory;
  * A service for methods that interact with user info card components
  */
 class CheckUserUserInfoCardService {
-	private ?UserImpactLookup $userImpactLookup;
-	private ExtensionRegistry $extensionRegistry;
-	private UserRegistrationLookup $userRegistrationLookup;
-	private UserGroupManager $userGroupManager;
-	private ?GlobalContributionsPagerFactory $globalContributionsPagerFactory;
-	private IConnectionProvider $dbProvider;
-	private CheckUserPermissionManager $checkUserPermissionManager;
-	private UserFactory $userFactory;
-	private StatsFactory $statsFactory;
-	private InterwikiLookup $interwikiLookup;
-	private UserEditTracker $userEditTracker;
-	private MessageLocalizer $messageLocalizer;
-	private TitleFactory $titleFactory;
-	private GenderCache $genderCache;
-	private LoggerInterface $logger;
+
 	private const PAGER_ITERATION_LIMIT = 20;
 
 	public function __construct(
-		?UserImpactLookup $userImpactLookup,
-		ExtensionRegistry $extensionRegistry,
-		UserRegistrationLookup $userRegistrationLookup,
-		UserGroupManager $userGroupManager,
-		?GlobalContributionsPagerFactory $globalContributionsPagerFactory,
-		IConnectionProvider $dbProvider,
-		StatsFactory $statsFactory,
-		CheckUserPermissionManager $checkUserPermissionManager,
-		UserFactory $userFactory,
-		InterwikiLookup $interwikiLookup,
-		UserEditTracker $userEditTracker,
-		MessageLocalizer $messageLocalizer,
-		TitleFactory $titleFactory,
-		GenderCache $genderCache,
-		LoggerInterface $logger
+		private readonly ?UserImpactLookup $userImpactLookup,
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly UserRegistrationLookup $userRegistrationLookup,
+		private readonly UserGroupManager $userGroupManager,
+		private readonly ?GlobalContributionsPagerFactory $globalContributionsPagerFactory,
+		private readonly IConnectionProvider $dbProvider,
+		private readonly StatsFactory $statsFactory,
+		private readonly CheckUserPermissionManager $checkUserPermissionManager,
+		private readonly UserFactory $userFactory,
+		private readonly InterwikiLookup $interwikiLookup,
+		private readonly UserEditTracker $userEditTracker,
+		private readonly MessageLocalizer $messageLocalizer,
+		private readonly TitleFactory $titleFactory,
+		private readonly GenderCache $genderCache,
+		private readonly LoggerInterface $logger
 	) {
-		$this->userImpactLookup = $userImpactLookup;
-		$this->extensionRegistry = $extensionRegistry;
-		$this->userRegistrationLookup = $userRegistrationLookup;
-		$this->userGroupManager = $userGroupManager;
-		$this->globalContributionsPagerFactory = $globalContributionsPagerFactory;
-		$this->dbProvider = $dbProvider;
-		$this->checkUserPermissionManager = $checkUserPermissionManager;
-		$this->userFactory = $userFactory;
-		$this->statsFactory = $statsFactory;
-		$this->interwikiLookup = $interwikiLookup;
-		$this->userEditTracker = $userEditTracker;
-		$this->messageLocalizer = $messageLocalizer;
-		$this->titleFactory = $titleFactory;
-		$this->genderCache = $genderCache;
-		$this->logger = $logger;
 	}
 
 	/**
