@@ -32,6 +32,10 @@ module.exports = exports = {
 		userPageWatched: {
 			type: Boolean,
 			default: false
+		},
+		specialCentralAuthUrl: {
+			type: String,
+			default: ''
 		}
 	},
 	setup( props ) {
@@ -45,9 +49,6 @@ module.exports = exports = {
 		const logEvent = useInstrument();
 		const contributionsLink = mw.Title.makeTitle(
 			-1, `Contributions/${ props.username }`
-		).getUrl();
-		const globalAccountLink = mw.Title.makeTitle(
-			-1, `CentralAuth/${ props.username }`
 		).getUrl();
 		const checkUserLink = mw.Title.makeTitle( -1, 'CheckUser' ).getUrl(
 			{ user: props.username }
@@ -70,17 +71,21 @@ module.exports = exports = {
 					label: mw.msg( 'checkuser-userinfocard-menu-view-contributions' ),
 					value: 'view-contributions',
 					url: contributionsLink
-				},
-				{
-					label: mw.msg( 'checkuser-userinfocard-menu-view-global-account' ),
-					value: 'view-global-account',
-					url: globalAccountLink
-				},
-				{
-					label: watchListLabel.value,
-					value: 'toggle-watchlist'
 				}
 			];
+
+			if ( props.specialCentralAuthUrl ) {
+				items.push( {
+					label: mw.msg( 'checkuser-userinfocard-menu-view-global-account' ),
+					value: 'view-global-account',
+					url: props.specialCentralAuthUrl
+				} );
+			}
+
+			items.push( {
+				label: watchListLabel.value,
+				value: 'toggle-watchlist'
+			} );
 
 			if ( canViewIPAddresses ) {
 				items.push( {

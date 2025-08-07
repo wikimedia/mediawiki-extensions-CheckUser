@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Services;
 use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\Cache\GenderCache;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
@@ -14,6 +15,7 @@ use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Message\Message;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\Registration\UserRegistrationLookup;
 use MediaWiki\User\UserEditTracker;
@@ -32,6 +34,10 @@ use Wikimedia\Stats\StatsFactory;
  */
 class CheckUserUserInfoCardService {
 
+	public const CONSTRUCTOR_OPTIONS = [
+		'CheckUserUserInfoCardCentralWikiId',
+	];
+
 	private const PAGER_ITERATION_LIMIT = 20;
 
 	public function __construct(
@@ -49,8 +55,10 @@ class CheckUserUserInfoCardService {
 		private readonly MessageLocalizer $messageLocalizer,
 		private readonly TitleFactory $titleFactory,
 		private readonly GenderCache $genderCache,
+		private readonly ServiceOptions $options,
 		private readonly LoggerInterface $logger
 	) {
+		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
 
 	/**
@@ -280,6 +288,24 @@ class CheckUserUserInfoCardService {
 
 		$userInfo['canAccessTemporaryAccountIpAddresses'] = $authorityPermissionStatus->isGood() &&
 			$userPermissionStatus->isGood();
+
+		// Generate a URL to the Special:CentralAuth page for the user being viewed, preferring to have the
+		// URL be on a central wiki if one is defined.
+		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+			$centralWikiId = $this->options->get( 'CheckUserUserInfoCardCentralWikiId' );
+			if ( $centralWikiId ) {
+				$interWiki = $this->interwikiLookup->fetch( rtrim( $centralWikiId, 'wiki' ) );
+				if ( $interWiki ) {
+					$userInfo['specialCentralAuthUrl'] = $interWiki->getURL(
+						'Special:CentralAuth/' . $this->getUserTitleKey( $user )
+					);
+				}
+			}
+
+			$userInfo['specialCentralAuthUrl'] ??= SpecialPage::getTitleFor(
+				'CentralAuth', $this->getUserTitleKey( $user )
+			)->getLinkURL();
+		}
 
 		$this->statsFactory->withComponent( 'CheckUser' )
 			->getTiming( 'userinfocardservice_get_user_info' )

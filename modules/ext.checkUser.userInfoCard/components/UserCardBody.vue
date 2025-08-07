@@ -163,6 +163,10 @@ module.exports = exports = {
 		totalLocalEdits: {
 			type: Number,
 			default: 0
+		},
+		specialCentralAuthUrl: {
+			type: String,
+			default: ''
 		}
 	},
 	setup( props ) {
@@ -177,9 +181,6 @@ module.exports = exports = {
 			( wikiId ) => ( { wikiId, url: props.activeWikis[ wikiId ] } )
 		) );
 
-		const activeBlocksLink = mw.Title.makeTitle(
-			-1, `CentralAuth/${ props.username }`
-		).getUrl();
 		const pastBlocksLink = mw.Title.makeTitle( -1, 'Log/block' ).getUrl(
 			{ page: props.username }
 		);
@@ -231,7 +232,7 @@ module.exports = exports = {
 						'ext-checkuser-userinfocard-icon',
 					messageKey: 'checkuser-userinfocard-active-blocks-from-all-wikis',
 					mainValue: mw.language.convertNumber( props.activeBlocks ),
-					mainLink: activeBlocksLink,
+					mainLink: props.specialCentralAuthUrl,
 					mainLinkLogId: 'active_blocks'
 				} );
 

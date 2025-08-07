@@ -69,6 +69,7 @@ function mountComponent( props = {} ) {
 			recentLocalEdits: [],
 			hasEditInLast60Days: false,
 			totalLocalEdits: 500,
+			specialCentralAuthUrl: 'https://example.com/wiki/Special:CentralAuth/TestUser',
 			...props
 		}
 	} );
@@ -189,7 +190,7 @@ QUnit.test( 'passes correct props to active blocks row when permission is grante
 
 	assert.strictEqual(
 		activeBlocksRow.props( 'mainLink' ),
-		'/-1/CentralAuth/TestUser',
+		'https://example.com/wiki/Special:CentralAuth/TestUser',
 		'Active blocks row has correct main link'
 	);
 

@@ -19,6 +19,7 @@
 			<user-card-menu
 				:username="username"
 				:user-page-watched="userPageWatched"
+				:special-central-auth-url="specialCentralAuthUrl"
 			></user-card-menu>
 			<cdx-button
 				:aria-label="closeAriaLabel"
@@ -62,6 +63,10 @@ module.exports = exports = {
 		userPageWatched: {
 			type: Boolean,
 			default: false
+		},
+		specialCentralAuthUrl: {
+			type: String,
+			default: ''
 		}
 	},
 	emits: [ 'close' ],

@@ -7,6 +7,7 @@
 			:user-page-url="userCard.userPageUrl"
 			:user-page-is-known="userCard.userPageIsKnown"
 			:user-page-watched="userCard.userPageWatched"
+			:special-central-auth-url="userCard.specialCentralAuthUrl"
 			@close="$emit( 'close' )"
 		></user-card-header>
 	</teleport>
@@ -44,6 +45,7 @@
 				:recent-local-edits="userCard.recentLocalEdits"
 				:total-local-edits="userCard.totalLocalEdits"
 				:has-edit-in-last-60-days="userCard.hasEditInLast60Days"
+				:special-central-auth-url="userCard.specialCentralAuthUrl"
 			></user-card-body>
 			<!--eslint-enable-->
 		</div>
@@ -109,7 +111,8 @@ module.exports = exports = {
 			groups: '',
 			globalGroups: '',
 			userPageWatched: false,
-			canAccessTemporaryAccountIpAddresses: false
+			canAccessTemporaryAccountIpAddresses: false,
+			specialCentralAuthUrl: ''
 		} );
 
 		// Methods
@@ -153,7 +156,8 @@ module.exports = exports = {
 						canAccessTemporaryAccountIpAddresses,
 						activeWikis,
 						groups,
-						globalGroups
+						globalGroups,
+						specialCentralAuthUrl
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -190,6 +194,7 @@ module.exports = exports = {
 					userCard.pastBlocksCount = pastBlocksOnLocalWiki;
 					userCard.checkUserChecks = checkUserChecks;
 					userCard.canAccessTemporaryAccountIpAddresses = canAccessTemporaryAccountIpAddresses;
+					userCard.specialCentralAuthUrl = specialCentralAuthUrl;
 
 					// Parse and format checkUserLastCheck date
 					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );

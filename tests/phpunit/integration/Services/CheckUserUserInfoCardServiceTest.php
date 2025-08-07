@@ -6,9 +6,12 @@ use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
@@ -23,6 +26,8 @@ use Wikimedia\Rdbms\FakeResultWrapper;
  * @covers \MediaWiki\CheckUser\Services\CheckUserUserInfoCardService
  */
 class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
+
+	use MockAuthorityTrait;
 
 	private User $testUser;
 
@@ -107,6 +112,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			RequestContext::getMain(),
 			$services->getTitleFactory(),
 			$services->getGenderCache(),
+			new ServiceOptions(
+				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			$logger ?? LoggerFactory::getInstance( 'CheckUser' )
 		);
 	}
@@ -256,6 +265,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			RequestContext::getMain(),
 			$services->getTitleFactory(),
 			$services->getGenderCache(),
+			new ServiceOptions(
+				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 		$targetUser = $this->getTestUser()->getUser();
@@ -508,5 +521,39 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		yield 'nonexistent page' => [ false, false, false ];
 		yield 'existing page' => [ true, false, true ];
 		yield 'page known via hook' => [ false, true, true ];
+	}
+
+	/** @dataProvider provideExecuteWhenSpecialCentralAuthUrlDefined */
+	public function testExecuteWhenSpecialCentralAuthUrlDefined( $centralWikiId, $expectedUrlWithoutUsername ) {
+		$this->overrideConfigValue( 'CheckUserUserInfoCardCentralWikiId', $centralWikiId );
+
+		$targetUser = $this->getTestUser()->getUser();
+
+		$userInfo = $this->getObjectUnderTest()->getUserInfo( $this->mockRegisteredNullAuthority(), $targetUser );
+
+		$this->assertArrayHasKey( 'specialCentralAuthUrl', $userInfo );
+		$this->assertSame(
+			$expectedUrlWithoutUsername . '/' . str_replace( ' ', '_', $targetUser->getName() ),
+			$userInfo['specialCentralAuthUrl']
+		);
+	}
+
+	public static function provideExecuteWhenSpecialCentralAuthUrlDefined(): array {
+		return [
+			'Central wiki is defined' => [ 'dewiki', 'https://de.wikipedia.org/wiki/Special:CentralAuth' ],
+		];
+	}
+
+	/** @dataProvider provideExecuteWhenSpecialCentralAuthUrlDefinedAsLocalWiki */
+	public function testExecuteWhenSpecialCentralAuthUrlDefinedAsLocalWiki( $centralWikiId ) {
+		$expectedUrlWithoutUsername = SpecialPage::getTitleFor( 'CentralAuth' )->getLocalURL();
+		$this->testExecuteWhenSpecialCentralAuthUrlDefined( $centralWikiId, $expectedUrlWithoutUsername );
+	}
+
+	public static function provideExecuteWhenSpecialCentralAuthUrlDefinedAsLocalWiki(): array {
+		return [
+			'Central wiki is unrecognised' => [ 'dewikiabc' ],
+			'Central wiki is false' => [ false ],
+		];
 	}
 }

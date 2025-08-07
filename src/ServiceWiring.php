@@ -460,6 +460,10 @@ return [
 			new DerivativeContext( RequestContext::getMain() ),
 			$services->getTitleFactory(),
 			$services->getGenderCache(),
+			new ServiceOptions(
+				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},

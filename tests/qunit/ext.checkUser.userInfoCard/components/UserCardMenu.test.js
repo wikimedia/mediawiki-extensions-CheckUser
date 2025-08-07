@@ -44,6 +44,7 @@ function mountComponent( props = {} ) {
 		propsData: {
 			userId: '123',
 			username: 'TestUser',
+			specialCentralAuthUrl: 'https://example.com/wiki/Special:CentralAuth/TestUser',
 			...props
 		}
 	} );
@@ -89,7 +90,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	);
 	assert.strictEqual(
 		menuItems[ 1 ].url,
-		'/-1/CentralAuth/TestUser',
+		'https://example.com/wiki/Special:CentralAuth/TestUser',
 		'Global account link is correct'
 	);
 
