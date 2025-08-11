@@ -325,6 +325,8 @@
 	"checkuser-userinfocard-thanks": "받은 감사 수: $1 (보낸 감사 수: $2)",
 	"checkuser-userinfocard-checks": "검사: $1 (마지막 검사: $2)",
 	"checkuser-userinfocard-checks-empty": "검사: $1",
+	"checkuser-userinfocard-enable-preference-description": "[[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|사용자 정보 카드]] 활성화",
+	"checkuser-userinfocard-enable-preference-help": "사용자 이름 옆에 버튼을 표시하여 계정 정보가 있는 팝오버를 엽니다.",
 	"checkuser-ipinfo-global-contributions-label": "전역 기여",
 	"checkuser-ipinfo-global-contributions-tooltip": "이 IP 주소에서 수행한 위키 간 편집 수입니다.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|전역 편집 $1개|전역 편집 $1개|0=전역 편집 없음}}",

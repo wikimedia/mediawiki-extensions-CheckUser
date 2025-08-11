@@ -151,7 +151,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "Омогућавање IP инфо алатке",
 	"checkuser-temporary-accounts-onboarding-dialog-preference-error": "Дошло је до грешке, молимо покушајте поново. Грешка: $1",
 	"checkuser-temporary-accounts-onboarding-dialog-preference-success": "Подешавања промењена",
-	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Кликните „Сачувај подешавања” пре настављања",
+	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Кликните „$1” пре настављања",
 	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Сачувај подешавања",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Откривање IP адресе",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base": "IP инфо омогућава админима, патролерима и другим искусним уредницима откривање IP адресе повезане са привременим налогом.",
