@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Winston Sung",
-			"H78c67c"
+			"H78c67c",
+			"Ktchankt"
 		]
 	},
 	"checkuser-summary": "呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。\n\t響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 \"/xff\" 就可以拎到。呢個工具係支援 IPv4 (CIDR $1-32) 同埋 IPv6 (CIDR $2-128)。\n\t由於為咗效能方面嘅原因，將唔會顯示多過5000次嘅編輯。請跟源政策去用呢個工具。",
@@ -20,11 +21,17 @@
 	"checkuser-users": "拎用戶",
 	"checkuser-edits": "拎IP嘅編輯",
 	"checkuser-ips": "拎IP",
+	"checkuser-all": "全部",
 	"checkuser-empty": "呢個日誌無任何嘅項目。",
 	"checkuser-nomatch": "搵唔到符合嘅資訊。",
 	"checkuser-check": "查",
 	"checkuser-blocked": "已經封鎖",
 	"checkuser-search": "搵用戶稽查記錄",
 	"checkuser-search-submit": "搵",
-	"checkuser-ipeditcount": "~響全部用戶度搵到$1"
+	"checkuser-ipeditcount": "~響全部用戶度搵到$1",
+	"checkuser-investigate-subtitle-cancel-button-label": "取消",
+	"checkuser-investigate-subtitle-continue-button-label": "繼續",
+	"checkuser-investigate-duration-option-all": "全部",
+	"checkuser-investigate-compare-table-button-contribs-label": "貢獻",
+	"checkuser-investigate-compare-table-header-ip": "IP"
 }
