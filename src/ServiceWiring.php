@@ -434,7 +434,8 @@ return [
 			$services->getTempUserConfig(),
 			$services->getUserFactory(),
 			$services->getPermissionManager(),
-			$services->getUserOptionsLookup()
+			$services->getUserOptionsLookup(),
+			$services->get( 'CheckUserLookupUtils' )
 		);
 	},
 	'CheckUserPermissionManager' => static function ( MediaWikiServices $services ): CheckUserPermissionManager {

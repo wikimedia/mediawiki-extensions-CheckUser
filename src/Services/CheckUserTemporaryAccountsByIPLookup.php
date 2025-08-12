@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Services;
 
+use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
@@ -36,6 +37,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	private UserFactory $userFactory;
 	private UserOptionsLookup $userOptionsLookup;
 	private PermissionManager $permissionManager;
+	private CheckUserLookupUtils $checkUserLookupUtils;
 
 	public function __construct(
 		ServiceOptions $serviceOptions,
@@ -44,7 +46,8 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		TempUserConfig $tempUserConfig,
 		UserFactory $userFactory,
 		PermissionManager $permissionManager,
-		UserOptionsLookup $userOptionsLookup
+		UserOptionsLookup $userOptionsLookup,
+		CheckUserLookupUtils $checkUserLookupUtils
 	) {
 		$serviceOptions->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->serviceOptions = $serviceOptions;
@@ -54,6 +57,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		$this->userFactory = $userFactory;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->permissionManager = $permissionManager;
+		$this->checkUserLookupUtils = $checkUserLookupUtils;
 	}
 
 	/**
@@ -65,6 +69,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	 * @param int|null $limit The maximum number of rows to fetch.
 	 * @return StatusValue A good status will have a list of account names or empty list if none were found;
 	 *  a bad status will have the relevant permission error encountered
+	 * @throws InvalidArgumentException If the $ip could not be parsed as a valid IP or range
 	 */
 	public function get( string $ip, Authority $authority, bool $shouldLog = true, ?int $limit = null ): StatusValue {
 		// TODO: Use a trait for permissions, to avoid duplication with
@@ -84,8 +89,38 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 				)
 			);
 		}
-		// Normalize the IP into the same format that cuc_ip uses
-		$ip = IPUtils::sanitizeIP( $ip );
+
+		$allAccounts = $this->getTempAccountsFromIPAddress( $ip, $limit );
+
+		// If the user can see hidden accounts, return the result
+		if ( $authority->isAllowed( 'hideuser' ) ) {
+			return StatusValue::newGood( $allAccounts );
+		}
+
+		// Don't return hidden accounts to authorities who cannot view them
+		$accounts = [];
+		foreach ( $allAccounts as $account ) {
+			if ( !$this->userFactory->newFromName( $account )->isHidden() ) {
+				$accounts[] = $account;
+			}
+		}
+		return StatusValue::newGood( $accounts );
+	}
+
+	/**
+	 * Given an IP address or range, return all temporary accounts associated with
+	 * it. This function should be called from a wrapper so that `checkPermissions()`
+	 * can be run if necessary.
+	 *
+	 * @param string $ip The IP address or range to use in the lookup
+	 * @param int|null $limit The maximum number of rows to fetch.
+	 * @return string[]
+	 * @throws InvalidArgumentException if the provided IP is invalid
+	 */
+	private function getTempAccountsFromIPAddress( string $ip, ?int $limit = null ): array {
+		if ( !IPUtils::isIPAddress( $ip ) ) {
+			throw new InvalidArgumentException( 'Invalid IP passed' );
+		}
 
 		// If no limit is supplied, set the default to CheckUserMaximumRowCount.
 		if ( !$limit ) {
@@ -95,16 +130,26 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			$limit = min( $limit, $this->serviceOptions->get( 'CheckUserMaximumRowCount' ) );
 		}
 
+		$dbr = $this->connectionProvider->getReplicaDatabase();
+
 		// T327906: 'cuc_timestamp' is selected to satisfy a Postgres requirement
 		// where all ORDER BY fields must be present in SELECT list.
-
-		$dbr = $this->connectionProvider->getReplicaDatabase();
+		$ipConds = $this->checkUserLookupUtils->getIPTargetExpr(
+			$ip,
+			false,
+			self::CHANGES_TABLE
+		);
+		if ( $ipConds === null ) {
+			throw new InvalidArgumentException( "Unable to acquire subquery for $ip" );
+		}
 		$rows = $dbr->newSelectQueryBuilder()
 			->fields( [ 'actor_name', 'timestamp' => 'MAX(cuc_timestamp)' ] )
 			->table( self::CHANGES_TABLE )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
-			->where( [ 'cuc_ip' => $ip ] )
 			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
+			->where(
+				$ipConds
+			)
 			->groupBy( 'actor_name' )
 			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
 			->limit( $limit )
@@ -112,16 +157,11 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->fetchResultSet();
 
 		$accounts = [];
-		$canSeeHidden = $authority->isAllowed( 'hideuser' );
 		foreach ( $rows as $row ) {
-			$account = $row->actor_name;
+			$accounts[] = $row->actor_name;
 
-			// Don't return hidden accounts to authorities who cannot view them
-			if ( $canSeeHidden || !$this->userFactory->newFromName( $account )->isHidden() ) {
-				$accounts[] = $account;
-			}
 		}
-		return StatusValue::newGood( $accounts );
+		return $accounts;
 	}
 
 	private function checkPermissions( Authority $authority ): StatusValue {
