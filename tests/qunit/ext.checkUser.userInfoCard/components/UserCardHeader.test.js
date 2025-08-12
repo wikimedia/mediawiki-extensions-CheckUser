@@ -8,7 +8,13 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardHeader', QUnit.newMwEnvironmen
 		this.server = this.sandbox.useFakeServer();
 		this.server.respondImmediately = true;
 
-		this.sandbox.stub( mw, 'msg' ).callsFake( ( key ) => key );
+		this.sandbox.stub( mw, 'msg' ).callsFake( ( key, ...args ) => {
+			let returnValue = '(' + key;
+			if ( args.length !== 0 ) {
+				returnValue += ': ' + args.join( ', ' );
+			}
+			return returnValue + ')';
+		} );
 	},
 	afterEach: function () {
 		this.server.restore();
@@ -123,7 +129,7 @@ QUnit.test( 'sets the correct aria-label on the close button', ( assert ) => {
 	const closeButton = wrapper.findComponent( { name: 'CdxButton' } );
 	assert.strictEqual(
 		closeButton.attributes( 'aria-label' ),
-		'checkuser-userinfocard-close-button-aria-label',
+		'(checkuser-userinfocard-close-button-aria-label)',
 		'Close button has correct aria-label'
 	);
 } );

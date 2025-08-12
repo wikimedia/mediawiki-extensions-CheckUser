@@ -25,9 +25,13 @@ module.exports = exports = {
 			type: String,
 			required: true
 		},
+		gender: {
+			type: String,
+			default: 'unknown'
+		},
 		ariaLabel: {
 			type: String,
-			default: () => mw.msg( 'checkuser-userinfocard-open-menu-aria-label' )
+			default: ( props ) => mw.msg( 'checkuser-userinfocard-open-menu-aria-label', props.gender )
 		},
 		userPageWatched: {
 			type: Boolean,
@@ -43,7 +47,7 @@ module.exports = exports = {
 		const {
 			toggleWatchList,
 			watchListLabel
-		} = useWatchList( props.username, props.userPageWatched );
+		} = useWatchList( props.username, props.gender, props.userPageWatched );
 
 		// Initialize instrumentation
 		const logEvent = useInstrument();
@@ -68,7 +72,7 @@ module.exports = exports = {
 		const menuItems = computed( () => {
 			const items = [
 				{
-					label: mw.msg( 'checkuser-userinfocard-menu-view-contributions' ),
+					label: mw.msg( 'checkuser-userinfocard-menu-view-contributions', props.gender ),
 					value: 'view-contributions',
 					url: contributionsLink
 				}
@@ -76,7 +80,7 @@ module.exports = exports = {
 
 			if ( props.specialCentralAuthUrl ) {
 				items.push( {
-					label: mw.msg( 'checkuser-userinfocard-menu-view-global-account' ),
+					label: mw.msg( 'checkuser-userinfocard-menu-view-global-account', props.gender ),
 					value: 'view-global-account',
 					url: props.specialCentralAuthUrl
 				} );
@@ -89,7 +93,7 @@ module.exports = exports = {
 
 			if ( canViewIPAddresses ) {
 				items.push( {
-					label: mw.msg( 'checkuser-userinfocard-menu-check-ip' ),
+					label: mw.msg( 'checkuser-userinfocard-menu-check-ip', props.gender ),
 					value: 'check-ip',
 					url: checkUserLink
 				} );
@@ -97,7 +101,7 @@ module.exports = exports = {
 
 			if ( canBlock ) {
 				items.push( {
-					label: mw.msg( 'checkuser-userinfocard-menu-block-user' ),
+					label: mw.msg( 'checkuser-userinfocard-menu-block-user', props.gender ),
 					value: 'block-user',
 					url: blockUserLink
 				} );

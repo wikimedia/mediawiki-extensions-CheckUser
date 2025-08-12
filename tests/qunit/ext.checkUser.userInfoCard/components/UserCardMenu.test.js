@@ -9,7 +9,13 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardMenu', QUnit.newMwEnvironment(
 		this.server.respondImmediately = true;
 
 		// Stub mw.msg
-		this.sandbox.stub( mw, 'msg' ).callsFake( ( key ) => key );
+		this.sandbox.stub( mw, 'msg' ).callsFake( ( key, ...args ) => {
+			let returnValue = '(' + key;
+			if ( args.length !== 0 ) {
+				returnValue += ': ' + args.join( ', ' );
+			}
+			return returnValue + ')';
+		} );
 
 		// Stub mw.Title.makeTitle
 		this.sandbox.stub( mw.Title, 'makeTitle' ).callsFake( ( namespace, title ) => ( {
@@ -44,6 +50,7 @@ function mountComponent( props = {} ) {
 		propsData: {
 			userId: '123',
 			username: 'TestUser',
+			gender: 'female',
 			specialCentralAuthUrl: 'https://example.com/wiki/Special:CentralAuth/TestUser',
 			...props
 		}
@@ -69,7 +76,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	);
 	assert.strictEqual(
 		menuItems[ 0 ].label,
-		'checkuser-userinfocard-menu-view-contributions',
+		'(checkuser-userinfocard-menu-view-contributions: female)',
 		'Contributions label is correct'
 	);
 	assert.strictEqual(
@@ -85,7 +92,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	);
 	assert.strictEqual(
 		menuItems[ 1 ].label,
-		'checkuser-userinfocard-menu-view-global-account',
+		'(checkuser-userinfocard-menu-view-global-account: female)',
 		'Global account label is correct'
 	);
 	assert.strictEqual(
@@ -97,14 +104,14 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	assert.strictEqual( menuItems[ 2 ].value, 'toggle-watchlist', 'Third item is toggle-watchlist' );
 	assert.strictEqual(
 		menuItems[ 2 ].label,
-		'checkuser-userinfocard-menu-add-to-watchlist',
+		'(checkuser-userinfocard-menu-add-to-watchlist: female)',
 		'Watchlist label is correct'
 	);
 
 	assert.strictEqual( menuItems[ 3 ].value, 'check-ip', 'Fourth item is check-ip' );
 	assert.strictEqual(
 		menuItems[ 3 ].label,
-		'checkuser-userinfocard-menu-check-ip',
+		'(checkuser-userinfocard-menu-check-ip: female)',
 		'Check IP label is correct'
 	);
 	assert.strictEqual(
@@ -116,7 +123,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	assert.strictEqual( menuItems[ 4 ].value, 'block-user', 'Fifth item is block-user' );
 	assert.strictEqual(
 		menuItems[ 4 ].label,
-		'checkuser-userinfocard-menu-block-user',
+		'(checkuser-userinfocard-menu-block-user: female)',
 		'Block user label is correct'
 	);
 	assert.strictEqual( menuItems[ 4 ].url, '/-1/Block/TestUser', 'Block user link is correct' );
@@ -124,7 +131,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	assert.strictEqual( menuItems[ 5 ].value, 'provide-feedback', 'Sixth item is provide-feedback' );
 	assert.strictEqual(
 		menuItems[ 5 ].label,
-		'checkuser-userinfocard-menu-provide-feedback',
+		'(checkuser-userinfocard-menu-provide-feedback)',
 		'Provide feedback label is correct'
 	);
 	assert.strictEqual(
@@ -136,7 +143,7 @@ QUnit.test( 'computes menu items correctly with all permissions', ( assert ) => 
 	assert.strictEqual( menuItems[ 6 ].value, 'turn-off', 'Seventh item is turn-off' );
 	assert.strictEqual(
 		menuItems[ 6 ].label,
-		'checkuser-userinfocard-menu-turn-off',
+		'(checkuser-userinfocard-menu-turn-off)',
 		'Turn off label is correct'
 	);
 	assert.strictEqual(
@@ -207,12 +214,12 @@ QUnit.test( 'computes menu items correctly with only block-user permission', ( a
 } );
 
 QUnit.test( 'watchlist label changes based on initial state', ( assert ) => {
-	const wrapper = mountComponent( { userPageWatched: true } );
+	const wrapper = mountComponent( { userPageWatched: true, gender: 'male' } );
 	const menuItems = wrapper.vm.menuItems;
 
 	assert.strictEqual(
 		menuItems[ 2 ].label,
-		'checkuser-userinfocard-menu-remove-from-watchlist',
+		'(checkuser-userinfocard-menu-remove-from-watchlist: male)',
 		'Watchlist label is correct'
 	);
 } );

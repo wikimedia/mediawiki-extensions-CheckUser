@@ -5,7 +5,13 @@ const UserCardLoadingView = require( 'ext.checkUser.userInfoCard/modules/ext.che
 
 QUnit.module( 'ext.checkUser.userInfoCard.UserCardLoadingView', QUnit.newMwEnvironment( {
 	beforeEach: function () {
-		this.sandbox.stub( mw, 'msg' ).callsFake( ( key ) => key );
+		this.sandbox.stub( mw, 'msg' ).callsFake( ( key, ...args ) => {
+			let returnValue = '(' + key;
+			if ( args.length !== 0 ) {
+				returnValue += ': ' + args.join( ', ' );
+			}
+			return returnValue + ')';
+		} );
 	}
 } ) );
 
@@ -37,7 +43,7 @@ QUnit.test( 'displays the correct loading label', ( assert ) => {
 	const progressIndicator = wrapper.findComponent( { name: 'CdxProgressIndicator' } );
 	assert.strictEqual(
 		progressIndicator.text(),
-		'checkuser-userinfocard-loading-label',
+		'(checkuser-userinfocard-loading-label: unknown)',
 		'Progress indicator displays the correct loading label'
 	);
 } );
@@ -47,7 +53,7 @@ QUnit.test( 'setup function returns the correct loadingLabel', ( assert ) => {
 
 	assert.strictEqual(
 		wrapper.vm.loadingLabel,
-		'checkuser-userinfocard-loading-label',
+		'(checkuser-userinfocard-loading-label: unknown)',
 		'loadingLabel is set correctly from mw.msg'
 	);
 } );

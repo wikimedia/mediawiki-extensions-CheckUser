@@ -4,6 +4,7 @@
 		<user-card-header
 			v-if="!loading && !error"
 			:username="userCard.username"
+			:gender="userCard.gender"
 			:user-page-url="userCard.userPageUrl"
 			:user-page-is-known="userCard.userPageIsKnown"
 			:user-page-watched="userCard.userPageWatched"
@@ -134,7 +135,7 @@ module.exports = exports = {
 			rest.post( '/checkuser/v0/userinfo', payload )
 				.then( ( userInfo ) => {
 					if ( !userInfo ) {
-						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data' ) );
+						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data', 'unknown' ) );
 					}
 
 					const {

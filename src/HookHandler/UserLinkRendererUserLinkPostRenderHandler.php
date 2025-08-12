@@ -73,7 +73,9 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 				[
 					'href' => 'javascript:void(0)',
 					'role' => 'button',
-					'aria-label' => $context->msg( 'checkuser-userinfocard-toggle-button-aria-label' )->text(),
+					'aria-label' => $context->msg(
+						'checkuser-userinfocard-toggle-button-aria-label', $targetUser->getName()
+					)->text(),
 					'aria-haspopover' => 'dialog',
 					'class' => "ext-checkuser-userinfocard-button cdx-button " .
 						'cdx-button--action-default cdx-button--weight-quiet cdx-button--fake-button ' .

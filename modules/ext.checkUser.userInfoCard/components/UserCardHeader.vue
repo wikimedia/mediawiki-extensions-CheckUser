@@ -20,6 +20,7 @@
 				:username="username"
 				:user-page-watched="userPageWatched"
 				:special-central-auth-url="specialCentralAuthUrl"
+				:gender="gender"
 			></user-card-menu>
 			<cdx-button
 				:aria-label="closeAriaLabel"
@@ -51,6 +52,10 @@ module.exports = exports = {
 		username: {
 			type: String,
 			required: true
+		},
+		gender: {
+			type: String,
+			default: 'unknown'
 		},
 		userPageUrl: {
 			type: String,

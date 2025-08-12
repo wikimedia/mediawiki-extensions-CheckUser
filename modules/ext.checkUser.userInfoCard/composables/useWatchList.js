@@ -7,7 +7,7 @@
  */
 const { ref, computed } = require( 'vue' );
 
-function useWatchList( username, initialWatchState = false ) {
+function useWatchList( username, gender, initialWatchState = false ) {
 	const isWatched = ref( initialWatchState );
 
 	/**
@@ -48,8 +48,8 @@ function useWatchList( username, initialWatchState = false ) {
 	 * Computed property for the watchlist label
 	 */
 	const watchListLabel = computed( () => isWatched.value ?
-		mw.msg( 'checkuser-userinfocard-menu-remove-from-watchlist' ) :
-		mw.msg( 'checkuser-userinfocard-menu-add-to-watchlist' )
+		mw.msg( 'checkuser-userinfocard-menu-remove-from-watchlist', gender ) :
+		mw.msg( 'checkuser-userinfocard-menu-add-to-watchlist', gender )
 	);
 
 	return {

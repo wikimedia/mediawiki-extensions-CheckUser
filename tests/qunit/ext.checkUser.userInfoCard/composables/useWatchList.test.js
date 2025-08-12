@@ -8,8 +8,20 @@ let watchStub, unwatchStub, notifyStub;
 
 QUnit.module( 'ext.checkUser.userInfoCard.useWatchList', QUnit.newMwEnvironment( {
 	beforeEach: function () {
-		this.sandbox.stub( mw, 'msg' ).callsFake( ( key ) => key );
-		this.sandbox.stub( mw, 'message' ).callsFake( ( key ) => key );
+		this.sandbox.stub( mw, 'msg' ).callsFake( ( key, ...args ) => {
+			let returnValue = '(' + key;
+			if ( args.length !== 0 ) {
+				returnValue += ': ' + args.join( ', ' );
+			}
+			return returnValue + ')';
+		} );
+		this.sandbox.stub( mw, 'message' ).callsFake( ( key, ...args ) => {
+			let returnValue = '(' + key;
+			if ( args.length !== 0 ) {
+				returnValue += ': ' + args.join( ', ' );
+			}
+			return returnValue + ')';
+		} );
 
 		// Assign stubs to the module-level variables
 		notifyStub = this.sandbox.stub( mw, 'notify' );
@@ -45,10 +57,10 @@ QUnit.test( 'initializes with correct state', ( assert ) => {
 QUnit.test( 'toggleWatchList unwatches when currently watched', ( assert ) => {
 	const done = assert.async();
 
-	const watchList = useWatchList( 'TestUser', true );
+	const watchList = useWatchList( 'TestUser', 'male', true );
 	assert.strictEqual(
 		watchList.watchListLabel.value,
-		'checkuser-userinfocard-menu-remove-from-watchlist'
+		'(checkuser-userinfocard-menu-remove-from-watchlist: male)'
 	);
 
 	watchList.toggleWatchList();
@@ -64,7 +76,7 @@ QUnit.test( 'toggleWatchList unwatches when currently watched', ( assert ) => {
 	nextTick( () => {
 		assert.strictEqual(
 			watchList.watchListLabel.value,
-			'checkuser-userinfocard-menu-add-to-watchlist'
+			'(checkuser-userinfocard-menu-add-to-watchlist: male)'
 		);
 		assert.strictEqual( notifyStub.callCount, 1, 'Shows notification' );
 		done();
@@ -74,10 +86,10 @@ QUnit.test( 'toggleWatchList unwatches when currently watched', ( assert ) => {
 QUnit.test( 'toggleWatchList watches when currently unwatched', ( assert ) => {
 	const done = assert.async();
 
-	const watchList = useWatchList( 'TestUser', false );
+	const watchList = useWatchList( 'TestUser', 'female', false );
 	assert.strictEqual(
 		watchList.watchListLabel.value,
-		'checkuser-userinfocard-menu-add-to-watchlist'
+		'(checkuser-userinfocard-menu-add-to-watchlist: female)'
 	);
 
 	watchList.toggleWatchList();
@@ -88,7 +100,7 @@ QUnit.test( 'toggleWatchList watches when currently unwatched', ( assert ) => {
 	nextTick( () => {
 		assert.strictEqual(
 			watchList.watchListLabel.value,
-			'checkuser-userinfocard-menu-remove-from-watchlist'
+			'(checkuser-userinfocard-menu-remove-from-watchlist: female)'
 		);
 		assert.strictEqual( notifyStub.callCount, 1, 'Shows notification' );
 		done();
@@ -101,7 +113,7 @@ QUnit.test( 'toggleWatchList handles unwatch error', ( assert ) => {
 	// Make the unwatch call fail
 	unwatchStub.rejects( new Error( 'Failed to unwatch' ) );
 
-	const watchList = useWatchList( 'TestUser', true );
+	const watchList = useWatchList( 'TestUser', 'unknown', true );
 	watchList.toggleWatchList();
 
 	nextTick( () => {
@@ -125,7 +137,7 @@ QUnit.test( 'toggleWatchList handles watch error', ( assert ) => {
 	// Make the watch call fail
 	watchStub.rejects( new Error( 'Failed to watch' ) );
 
-	const watchList = useWatchList( 'TestUser', false );
+	const watchList = useWatchList( 'TestUser', 'unknown', false );
 	watchList.toggleWatchList();
 
 	nextTick( () => {
@@ -143,18 +155,18 @@ QUnit.test( 'toggleWatchList handles watch error', ( assert ) => {
 
 QUnit.test( 'watchListLabel returns correct label based on watch state', ( assert ) => {
 	// Test with unwatched state
-	let watchList = useWatchList( 'TestUser', false );
+	let watchList = useWatchList( 'TestUser', 'unknown', false );
 	assert.strictEqual(
 		watchList.watchListLabel.value,
-		'checkuser-userinfocard-menu-add-to-watchlist',
+		'(checkuser-userinfocard-menu-add-to-watchlist: unknown)',
 		'Returns correct key when unwatched'
 	);
 
 	// Test with watched state
-	watchList = useWatchList( 'TestUser', true );
+	watchList = useWatchList( 'TestUser', 'unknown', true );
 	assert.strictEqual(
 		watchList.watchListLabel.value,
-		'checkuser-userinfocard-menu-remove-from-watchlist',
+		'(checkuser-userinfocard-menu-remove-from-watchlist: unknown)',
 		'Returns correct key when watched'
 	);
 } );
