@@ -202,6 +202,7 @@
 	"checkuser-userinfocard-toggle-button-aria-label": "د کارن مالوماتي کارت پرانېستل",
 	"checkuser-userinfocard-close-button-aria-label": "تړل",
 	"checkuser-userinfocard-open-menu-aria-label": "د کارن مالوماتو کارت غوره‌نۍ پرانېستل",
+	"checkuser-userinfocard-active-wikis-label": "کارنده ويکي‌گانې",
 	"checkuser-userinfocard-past-blocks": "تېر بنديزون: $1",
 	"checkuser-userinfocard-global-edits": "ټوليز سمونونه: $1",
 	"checkuser-userinfocard-new-articles": "نوې ليکنې: $1",

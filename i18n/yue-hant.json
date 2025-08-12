@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"H78c67c",
+			"JeffreyKim",
 			"Ktchankt",
 			"Winston Sung"
 		]
@@ -43,6 +44,13 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "之後",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "閂",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "乜嘢係臨時戶口？",
+	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "唔該撳「$1」先至繼續",
+	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "儲存全域偏好",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences": "喺全球啟用IP透露",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title": "啟用IP透露",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text-with-global-preferences": "喺所有符合存取要求嘅維基上面啟用顯示臨時帳戶嘅IP位址",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled": "喺而家嘅維基上面已經啟用咗IP顯示功能。",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-globally-enabled": "所有符合存取要求嘅維基都已經喺全球啟用咗IP顯示功能。",
 	"checkuser-investigate-subtitle-cancel-button-label": "取消",
 	"checkuser-investigate-subtitle-continue-button-label": "繼續",
 	"checkuser-investigate-duration-option-all": "全部",

@@ -100,6 +100,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Wat ass een temporäre Kont?",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "IP-Informatiounen aktivéieren",
 	"checkuser-temporary-accounts-onboarding-dialog-preference-success": "Astellung aktualiséiert",
+	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Klickt wgl. virum Virufueren op „$1“",
 	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Astellung späicheren",
 	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Global Astellung späicheren",
 	"checkuser-rest-userinfo-user-not-found": "Ongülteg Benotzer-ID uginn.",
