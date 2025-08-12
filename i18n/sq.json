@@ -4,11 +4,13 @@
 			"Ammartivari",
 			"Dori",
 			"Toplove12",
-			"Vanished 456321456"
+			"Vanished 456321456",
+			"Xhulianoo"
 		]
 	},
 	"checkuser": "Kontrollo përdoruesin",
 	"checkuser-reason": "Arsyeja:",
 	"checkuser-blocked": "Bllokuar",
-	"checkuser-wasblocked": "Bllokuar më parë"
+	"checkuser-wasblocked": "Bllokuar më parë",
+	"checkuser-global-contributions-permission-error-title": "Gabime lejeje"
 }
