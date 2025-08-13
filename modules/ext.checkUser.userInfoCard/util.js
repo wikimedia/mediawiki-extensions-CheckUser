@@ -57,7 +57,11 @@ function parseMediaWikiTimestamp( timestamp ) {
 	const minute = parseInt( timestamp.slice( 10, 12 ), 10 );
 	const second = parseInt( timestamp.slice( 12, 14 ), 10 );
 
-	return new Date( year, month, day, hour, minute, second );
+	// This creates a Date object with UTC value as if it was in the local timezone
+	const dateUtc = new Date( year, month, day, hour, minute, second );
+	const offsetMins = dateUtc.getTimezoneOffset();
+	dateUtc.setHours( dateUtc.getHours(), dateUtc.getMinutes() - offsetMins );
+	return dateUtc;
 }
 
 /**

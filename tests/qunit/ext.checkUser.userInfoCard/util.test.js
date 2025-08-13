@@ -125,6 +125,10 @@ QUnit.test( 'parseMediaWikiTimestamp parses valid MediaWiki timestamp', ( assert
 	const result = parseMediaWikiTimestamp( timestamp );
 
 	assert.true( result instanceof Date, 'Should return a Date object' );
+
+	// Undo the timezone adjustment, so that the test can pass in non-UTC environments
+	result.setHours( result.getHours(), result.getMinutes() + result.getTimezoneOffset() );
+
 	assert.strictEqual( result.getFullYear(), 2024, 'Year should be 2024' );
 	assert.strictEqual( result.getMonth(), 2, 'Month should be 2 (March, 0-indexed)' );
 	assert.strictEqual( result.getDate(), 15, 'Date should be 15' );
@@ -138,6 +142,10 @@ QUnit.test( 'parseMediaWikiTimestamp parses timestamp with zeros', ( assert ) =>
 	const result = parseMediaWikiTimestamp( timestamp );
 
 	assert.true( result instanceof Date, 'Should return a Date object' );
+
+	// Undo the timezone adjustment, so that the test can pass in non-UTC environments
+	result.setHours( result.getHours(), result.getMinutes() + result.getTimezoneOffset() );
+
 	assert.strictEqual( result.getFullYear(), 2020, 'Year should be 2020' );
 	assert.strictEqual( result.getMonth(), 0, 'Month should be 0 (January)' );
 	assert.strictEqual( result.getDate(), 1, 'Date should be 1' );
@@ -151,6 +159,10 @@ QUnit.test( 'parseMediaWikiTimestamp parses end of year timestamp', ( assert ) =
 	const result = parseMediaWikiTimestamp( timestamp );
 
 	assert.true( result instanceof Date, 'Should return a Date object' );
+
+	// Undo the timezone adjustment, so that the test can pass in non-UTC environments
+	result.setHours( result.getHours(), result.getMinutes() + result.getTimezoneOffset() );
+
 	assert.strictEqual( result.getFullYear(), 2023, 'Year should be 2023' );
 	assert.strictEqual( result.getMonth(), 11, 'Month should be 11 (December)' );
 	assert.strictEqual( result.getDate(), 31, 'Date should be 31' );
