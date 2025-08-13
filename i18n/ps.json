@@ -184,6 +184,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+۱۰دقيقې",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "گولول",
 	"prefs-checkuser-tempaccount": "لنډمهاله گڼون وېبپته ښکاره‌کول",
+	"checkuser-tempaccount-enable-preference": "د لنډمهاله گڼونونو لپاره د وېبپتو څرگندول چارنول",
 	"checkuser-tempaccount-reveal-ip-button-label": "وېبپته ښودل",
 	"checkuser-tempaccount-reveal-ip-missing": "لاسرسي نه بهر",
 	"checkuser-tempaccount-reveal-ip-error": "تېروتنه",
@@ -193,5 +194,6 @@
 	"checkuser-temporary-account-change-access-level-disable-globally": "په ټوليزه ډول {{GENDER:$1|ناچارن‌شوی}}",
 	"checkuser-temporary-account-change-access-level-enable-globally": "په ټوليز ډول {{GENDER:$1|چارن‌شوی}}",
 	"log-action-filter-checkuser-temporary-account": "چارې ډول:",
-	"log-action-filter-checkuser-temporary-account-change-access": "لاسرسی بدلول"
+	"log-action-filter-checkuser-temporary-account-change-access": "لاسرسی بدلول",
+	"checkuser-userinfocard-enable-preference-help": "د کارن‌نومونو سره يوه تڼۍ وښاياست؛ ترڅو د گڼون په اړه يو مالوماتي بړبوکيزه پرانيځي."
 }

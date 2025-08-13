@@ -358,6 +358,7 @@
 	"checkuser-tempaccount-reveal-blocked-loading": "正在加载封禁的详细信息",
 	"checkuser-tempaccount-reveal-blocked-title": "查看封禁的详细信息",
 	"checkuser-tempaccount-reveal-blocked-missingblock": "您的账号由于先前受到封禁，无法访问临时账号的IP地址信息。该封禁现已解除。请刷新本页。",
+	"checkuser-tempaccount-reveal-blocked-error": "获取封禁详情时出错。请刷新页面并重试。",
 	"checkuser-tempaccount-reveal-blocked-header": "临时账号IP显示功能已关闭",
 	"checkuser-tempaccount-reveal-blocked-description": "由于以下原因，您无权使用此功能：",
 	"checkuser-tempaccount-specialblock-ips": "此为使用以下{{PLURAL:$1|IP}}的临时用户：$2",

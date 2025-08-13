@@ -248,5 +248,6 @@
 	"log-action-filter-checkuser-temporary-account": "Vrsta dejanja:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Sprememba dostopa",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Dostop do začasnih podatkov IP-računa",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 si je ogledal zaščitene spremenljivke, povezane z $3"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 si je ogledal zaščitene spremenljivke, povezane z $3",
+	"checkuser-userinfocard-enable-preference-help": "Zraven uporabniških imen prikaži gumb za odpiranje pojavnega okna s podatki o računu."
 }
