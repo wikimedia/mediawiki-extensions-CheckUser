@@ -131,7 +131,6 @@ class CheckUserUserInfoCardService {
 		$userInfo['groups'] = '';
 		if ( $groupMessages ) {
 			$userInfo['groups'] = $this->messageLocalizer->msg( 'checkuser-userinfocard-groups' )
-				->useDatabase( true )
 				->params( Message::listParam( $groupMessages, ListType::COMMA ) )
 				->text();
 		}
@@ -157,7 +156,6 @@ class CheckUserUserInfoCardService {
 			$userInfo['globalGroups'] = '';
 			if ( $globalGroupMessages ) {
 				$userInfo['globalGroups'] = $this->messageLocalizer->msg( 'checkuser-userinfocard-global-groups' )
-					->useDatabase( true )
 					->params( Message::listParam( $globalGroupMessages, ListType::COMMA ) )
 					->text();
 			}
