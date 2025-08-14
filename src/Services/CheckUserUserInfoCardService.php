@@ -26,7 +26,6 @@ use MessageLocalizer;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Message\ListType;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Stats\StatsFactory;
 
 /**
@@ -223,16 +222,20 @@ class CheckUserUserInfoCardService {
 
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		if ( $authority->isAllowed( 'checkuser-log' ) ) {
-			$rows = $dbr->newSelectQueryBuilder()
-				->select( 'cul_timestamp' )
+			$row = $dbr->newSelectQueryBuilder()
+				->select( [
+					'count' => 'COUNT(*)',
+					'recent_ts' => 'MAX(cul_timestamp)',
+				] )
 				->from( 'cu_log' )
 				->where( [ 'cul_target_id' => $user->getId() ] )
 				->caller( __METHOD__ )
-				->orderBy( 'cul_timestamp', SelectQueryBuilder::SORT_DESC )
-				->fetchFieldValues();
-			$userInfo['checkUserChecks'] = count( $rows );
-			if ( $rows ) {
-				$userInfo['checkUserLastCheck'] = $rows[0];
+				->fetchRow();
+
+			$numChecks = (int)$row->count;
+			$userInfo['checkUserChecks'] = $numChecks;
+			if ( $numChecks > 0 ) {
+				$userInfo['checkUserLastCheck'] = $row->recent_ts;
 			}
 		}
 
