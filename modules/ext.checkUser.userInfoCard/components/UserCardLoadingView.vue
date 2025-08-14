@@ -16,7 +16,7 @@ module.exports = exports = {
 		CdxProgressIndicator
 	},
 	setup() {
-		const loadingLabel = mw.msg( 'checkuser-userinfocard-loading-label', 'unknown' );
+		const loadingLabel = mw.msg( 'checkuser-userinfocard-loading-label' );
 		return { loadingLabel };
 	}
 };

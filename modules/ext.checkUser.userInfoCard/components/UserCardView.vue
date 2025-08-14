@@ -135,7 +135,7 @@ module.exports = exports = {
 			rest.post( '/checkuser/v0/userinfo', payload )
 				.then( ( userInfo ) => {
 					if ( !userInfo ) {
-						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data', 'unknown' ) );
+						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data' ) );
 					}
 
 					const {

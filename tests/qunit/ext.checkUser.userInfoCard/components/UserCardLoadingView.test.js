@@ -43,7 +43,7 @@ QUnit.test( 'displays the correct loading label', ( assert ) => {
 	const progressIndicator = wrapper.findComponent( { name: 'CdxProgressIndicator' } );
 	assert.strictEqual(
 		progressIndicator.text(),
-		'(checkuser-userinfocard-loading-label: unknown)',
+		'(checkuser-userinfocard-loading-label)',
 		'Progress indicator displays the correct loading label'
 	);
 } );
@@ -53,7 +53,7 @@ QUnit.test( 'setup function returns the correct loadingLabel', ( assert ) => {
 
 	assert.strictEqual(
 		wrapper.vm.loadingLabel,
-		'(checkuser-userinfocard-loading-label: unknown)',
+		'(checkuser-userinfocard-loading-label)',
 		'loadingLabel is set correctly from mw.msg'
 	);
 } );
