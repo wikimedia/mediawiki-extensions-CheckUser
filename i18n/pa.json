@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Cabal"
+			"Cabal",
+			"Kuldeepburjbhalaike"
 		]
 	},
 	"group-checkuser": "ਵਰਤੋਂਕਾਰਾਂ ਦੀ ਜਾਂਚ ਕਰੋ",
@@ -30,10 +31,10 @@
 	"checkuser-ipinfo-global-contributions-url-text": "ਵਿਸ਼ਵ ਪੱਧਰੀ ਯੋਗਦਾਨ ਵੇਖੋ",
 	"checkuser-userinfocard-close-button-aria-label": "ਬੰਦ ਕਰੋ",
 	"checkuser-userinfocard-active-wikis-label": "ਸਰਗਰਮ ਵਿਕੀਆਂ",
-	"checkuser-userinfocard-menu-view-contributions": "ਵਰਤੋਂਕਾਰ ਯੋਗਦਾਨ ਵੇਖੋ",
-	"checkuser-userinfocard-menu-view-global-account": "ਵਿਸ਼ਵ-ਵਿਆਪੀ ਖਾਤਾ ਜਾਣਕਾਰੀ ਵੇਖੋ",
-	"checkuser-userinfocard-menu-check-ip": "ਵਰਤੋਂਕਾਰ IP ਪਤਿਆਂ ਦੀ ਜਾਂਚ ਕਰੋ",
-	"checkuser-userinfocard-menu-block-user": "ਵਰਤੋਂਕਾਰ 'ਤੇ ਪਾਬੰਦੀ ਲਾਓ",
+	"checkuser-userinfocard-menu-view-contributions": "{{GENDER:$1|ਵਰਤੋਂਕਾਰ}} ਯੋਗਦਾਨ ਦੇਖੋ",
+	"checkuser-userinfocard-menu-view-global-account": "{{GENDER:$1|ਗਲੋਬਲ ਖ਼ਾਤਾ}} ਜਾਣਕਾਰੀ ਵੇਖੋ।",
+	"checkuser-userinfocard-menu-check-ip": "{{GENDER:$1|ਵਰਤੋਂਕਾਰ}} ਆਈਪੀ ਪਤਿਆਂ ਦੀ ਜਾਂਚ ਕਰੋ।",
+	"checkuser-userinfocard-menu-block-user": "{{GENDER:$1|ਵਰਤੋਂਕਾਰ}} 'ਤੇ ਰੋਕ ਲਾਉ",
 	"checkuser-userinfocard-menu-turn-off": "ਇਸ ਵਿਸ਼ੇਸ਼ਤਾ ਨੂੰ ਬੰਦ ਕਰੋ",
 	"checkuser-userinfocard-error-title": "ਇੱਕ ਗਲਤੀ ਆਈ ਐ",
 	"checkuser-userinfocard-error-generic": "ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
