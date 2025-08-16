@@ -90,11 +90,11 @@ function onTargetChange( blockTarget ) {
 							.text( ip )
 							.prop( 'outerHTML' )
 						);
-						message = mw.msg(
+						message = mw.message(
 							'checkuser-tempaccount-specialblock-ips',
 							ips.length,
-							mw.language.listToText( ips )
-						);
+							Object.assign( mw.language.listToText( ips ) )
+						).parse();
 						message = new OO.ui.HtmlSnippet( message );
 					} else {
 						message = mw.msg(

@@ -118,20 +118,21 @@ module.exports = exports = defineComponent( {
 							a.textContent = ip;
 							return a.outerHTML;
 						} );
-						message.value = mw.msg(
+
+						message.value = mw.message(
 							'checkuser-tempaccount-specialblock-ips',
 							ipLinks.length,
-							mw.language.listToText( ipLinks )
-						);
+							Object.assign( mw.language.listToText( ipLinks ) )
+						).parse();
 					} else {
-						message.value = mw.msg(
+						message.value = mw.message(
 							'checkuser-tempaccount-no-ip-results',
 							Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
-						);
+						).escaped();
 					}
 				} )
 				.catch( () => {
-					message.value = mw.msg( 'checkuser-tempaccount-reveal-ip-error' );
+					message.value = mw.message( 'checkuser-tempaccount-reveal-ip-error' ).escaped();
 				} );
 		}
 
