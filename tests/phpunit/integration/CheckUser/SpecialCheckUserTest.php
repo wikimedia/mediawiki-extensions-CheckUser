@@ -7,12 +7,18 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Request\FauxRequest;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\User;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use SpecialPageTestBase;
+use Wikimedia\Parsoid\Utils\DOMCompat;
+use Wikimedia\Parsoid\Utils\DOMUtils;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -26,6 +32,9 @@ use Wikimedia\TestingAccessWrapper;
 class SpecialCheckUserTest extends SpecialPageTestBase {
 
 	use MockAuthorityTrait;
+	use TempUserTestTrait;
+
+	private static UserIdentity $usernameTarget;
 
 	protected function newSpecialPage() {
 		return $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
@@ -155,9 +164,71 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		];
 	}
 
+	public function testLoadSpecialPageWhenMissingRequiredRight() {
+		$this->expectException( PermissionsError::class );
+		$this->executeSpecialPage();
+	}
+
+	/**
+	 * Expects that one element exists in the provided HTML with the given ID and then returns the
+	 * HTML inside the element.
+	 *
+	 * @param string $html The HTML to search through
+	 * @param string $id The ID to search for, excluding the "#" character
+	 * @return string
+	 */
+	private function assertAndGetByElementId( string $html, string $id ): string {
+		$specialPageDocument = DOMUtils::parseHTML( $html );
+		$element = DOMCompat::getElementById( $specialPageDocument, $id );
+		$this->assertNotNull( $element, "Could not find element with ID $id in $html" );
+		return DOMCompat::getInnerHTML( $element );
+	}
+
+	/**
+	 * Expects that one element exists with the given class inside the provided HTML and then returns
+	 * the HTML inside that element
+	 *
+	 * @param string $html The HTML to search through
+	 * @param string $class The CSS class to search for, excluding the "." character
+	 * @return string
+	 */
+	private function assertAndGetByElementClass( string $html, string $class ): string {
+		$specialPageDocument = DOMUtils::parseHTML( $html );
+		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
+		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
+		return DOMCompat::getOuterHTML( $element[0] );
+	}
+
+	/**
+	 * Verifies that the form fields are present for the Special:CheckUser search form
+	 */
+	private function commonVerifyFormFieldsPresent( string $html ): void {
+		$formHtml = $this->assertAndGetByElementId( $html, 'checkuserform' );
+
+		$this->assertStringContainsString( '(checkuser-target', $formHtml );
+		$this->assertStringContainsString( '(checkuser-period', $formHtml );
+		$this->assertStringContainsString( '(checkuser-reason', $formHtml );
+		$this->assertStringContainsString( '(checkuser-ips', $formHtml );
+		$this->assertStringContainsString( '(checkuser-actions', $formHtml );
+		$this->assertStringContainsString( '(checkuser-users', $formHtml );
+		$this->assertStringContainsString( '(checkuser-check', $formHtml );
+	}
+
+	/**
+	 * Verifies that the CIDR form is shown on the page
+	 */
+	private function verifyCidrFormExists( string $html ): void {
+		$cidrFormHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-cidrform' );
+		$this->assertStringContainsString( '(checkuser-cidr-label', $cidrFormHtml );
+	}
+
 	public function testLoadSpecialPageBeforeFormSubmission() {
 		// Execute the special page. We need the full HTML to verify the subtitle links.
 		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+
+		$this->commonVerifyFormFieldsPresent( $html );
+		$this->verifyCidrFormExists( $html );
+
 		// Assert that the "Try out Special:Investigate" link is present
 		$this->assertStringContainsString( '(checkuser-link-investigate-label', $html );
 		// Assert that the normal subtitle links are present (those without a specific target)
@@ -165,16 +236,117 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( '(checkuser-showlog', $html );
 		// Verify that the summary text is present
 		$this->assertStringContainsString( '(checkuser-summary', $html );
-		// Verify that the form fields that are expected are present.
-		$this->assertStringContainsString( '(checkuser-target', $html );
-		$this->assertStringContainsString( '(checkuser-period', $html );
-		$this->assertStringContainsString( '(checkuser-reason', $html );
-		$this->assertStringContainsString( '(checkuser-ips', $html );
-		$this->assertStringContainsString( '(checkuser-actions', $html );
-		$this->assertStringContainsString( '(checkuser-users', $html );
-		// Verify that the submit button is present
-		$this->assertStringContainsString( '(checkuser-check', $html );
-		// Verify that the CIDR calculator is present
-		$this->assertStringContainsString( '(checkuser-cidr-label', $html );
+	}
+
+	public function testSubmitFormForGetIPsCheckWithResults() {
+		$request = new FauxRequest( [ 'checktype' => 'subuserips', 'reason' => 'Test check' ], true );
+		$testCheckUser = $this->getTestCheckUser();
+		[ $html ] = $this->executeSpecialPage( self::$usernameTarget->getName(), $request, null, $testCheckUser );
+
+		$this->commonVerifyFormFieldsPresent( $html );
+		$this->verifyCidrFormExists( $html );
+
+		// Verify that the CheckUser helper fieldset is not present for a Get IPs check
+		$this->assertCount(
+			0,
+			DOMCompat::querySelectorAll( DOMUtils::parseHTML( $html ), '.mw-checkuser-helper-fieldset' ),
+			'The CheckUserHelper fieldset should not be present for a "Get IPs" check'
+		);
+
+		// Verify that the results contain the IP '1.2.3.4'
+		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-ips-results' );
+		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
+
+		// Verify that the check was logged
+		$this->newSelectQueryBuilder()
+			->select( [ 'actor_name', 'comment_text', 'cul_target_text', 'cul_type' ] )
+			->from( 'cu_log' )
+			->join( 'actor', null, 'actor_id=cul_actor' )
+			->join( 'comment', null, 'comment_id=cul_reason_id' )
+			->caller( __METHOD__ )
+			->assertRowValue( [
+				$testCheckUser->getName(), 'Test check', self::$usernameTarget->getName(), 'userips',
+			] );
+	}
+
+	public function testSubmitFormForGetActionsCheckWithResults() {
+		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
+		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+
+		$testCheckUser = $this->getTestCheckUser();
+		$request = new FauxRequest( [ 'checktype' => 'subactions', 'reason' => 'Test check' ], true );
+		[ $html ] = $this->executeSpecialPage( self::$usernameTarget->getName(), $request, null, $testCheckUser );
+
+		$this->commonVerifyFormFieldsPresent( $html );
+		$this->verifyCidrFormExists( $html );
+		$this->assertAndGetByElementClass( $html, 'mw-checkuser-helper-fieldset' );
+
+		// Verify that the results contain the IP '1.2.3.4' and target username
+		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-actions-results' );
+		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
+		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
+
+		// Verify that the check was logged
+		$this->newSelectQueryBuilder()
+			->select( [ 'actor_name', 'comment_text', 'cul_target_text', 'cul_type' ] )
+			->from( 'cu_log' )
+			->join( 'actor', null, 'actor_id=cul_actor' )
+			->join( 'comment', null, 'comment_id=cul_reason_id' )
+			->caller( __METHOD__ )
+			->assertRowValue( [
+				$testCheckUser->getName(), 'Test check', self::$usernameTarget->getName(), 'useredits',
+			] );
+	}
+
+	public function testSubmitFormForGetUsersCheckWithResults() {
+		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
+		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+
+		$testCheckUser = $this->getTestCheckUser();
+		$request = new FauxRequest(
+			[ 'checktype' => 'subipusers', 'reason' => 'Test check', 'user' => '1.2.3.4' ], true
+		);
+		[ $html ] = $this->executeSpecialPage( '', $request, null, $testCheckUser );
+
+		$this->commonVerifyFormFieldsPresent( $html );
+		$this->verifyCidrFormExists( $html );
+		$this->assertAndGetByElementClass( $html, 'mw-checkuser-helper-fieldset' );
+
+		// Verify that the results contain the target IP '1.2.3.4' and the user who has used that IP
+		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-users-results' );
+		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
+		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
+
+		// Verify that the check was logged
+		$this->newSelectQueryBuilder()
+			->select( [ 'actor_name', 'comment_text', 'cul_target_text', 'cul_type' ] )
+			->from( 'cu_log' )
+			->join( 'actor', null, 'actor_id=cul_actor' )
+			->join( 'comment', null, 'comment_id=cul_reason_id' )
+			->caller( __METHOD__ )
+			->assertRowValue( [
+				$testCheckUser->getName(), 'Test check', '1.2.3.4', 'ipusers',
+			] );
+	}
+
+	public function addDBDataOnce() {
+		$this->disableAutoCreateTempUser();
+		$usernameTarget = $this->getTestUser();
+
+		// Insert test edit(s) so that we get results in Special:CheckUser to look at.
+		// More rigorous testing is done in the tests that target each check subtype pager.
+		RequestContext::getMain()->getRequest()->setIP( '1.2.3.4' );
+		$testPage = $this->getNonexistingTestPage();
+		$this->editPage(
+			$testPage, 'Test content', 'Test summary', NS_MAIN, $usernameTarget->getAuthority()
+		);
+		$this->editPage(
+			$testPage, 'Test content2', 'Test summary', NS_MAIN,
+			$this->getServiceContainer()->getUserFactory()->newAnonymous( '1.2.3.4' )
+		);
+
+		self::$usernameTarget = $usernameTarget->getUserIdentity();
 	}
 }

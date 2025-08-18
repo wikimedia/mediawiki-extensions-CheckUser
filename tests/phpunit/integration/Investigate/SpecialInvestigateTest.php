@@ -6,6 +6,7 @@ use CentralAuthTestUser;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Exception\PermissionsError;
 use MediaWiki\HookContainer\HookRunner;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -100,6 +101,11 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		// link is shown.
 		[ $html ] = $this->executeSpecialPage( $subPage, $request, null, $testCheckUser, $fullHtml );
 		return $html;
+	}
+
+	public function testViewSpecialPageWhenMissingRequiredRight() {
+		$this->expectException( PermissionsError::class );
+		$this->executeSpecialPage();
 	}
 
 	public function testViewSpecialPageBeforeCheck() {

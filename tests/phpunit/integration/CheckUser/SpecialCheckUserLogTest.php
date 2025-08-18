@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Exception\UserBlockedError;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
@@ -88,6 +89,11 @@ class SpecialCheckUserLogTest extends SpecialPageTestBase {
 			'No user groups' => [ '', false ],
 			'checkuser-log right only' => [ 'checkuser-log', true ],
 		];
+	}
+
+	public function testLoadSpecialPageWhenMissingRequiredRight() {
+		$this->expectException( PermissionsError::class );
+		$this->executeSpecialPage();
 	}
 
 	/**

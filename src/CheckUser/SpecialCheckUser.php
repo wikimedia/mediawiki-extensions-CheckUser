@@ -285,7 +285,7 @@ class SpecialCheckUser extends SpecialPage {
 		// Perform one of the various submit operations...
 		if ( $request->wasPosted() ) {
 			$checkType = $this->opts->getValue( 'checktype' );
-			if ( !$this->getUser()->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
+			if ( !$this->getContext()->getCsrfTokenSet()->matchTokenField() ) {
 				$out->wrapWikiMsg( '<div class="error">$1</div>', 'checkuser-token-fail' );
 			} elseif ( !$this->checkReason() ) {
 				$out->addWikiMsg( 'checkuser-noreason' );
