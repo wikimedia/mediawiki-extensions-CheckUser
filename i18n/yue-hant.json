@@ -3,7 +3,9 @@
 		"authors": [
 			"Winston Sung",
 			"H78c67c",
-			"Ktchankt"
+			"Ktchankt",
+			"JeffreyKim",
+			"Yueman"
 		]
 	},
 	"checkuser-summary": "呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。\n\t響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 \"/xff\" 就可以拎到。呢個工具係支援 IPv4 (CIDR $1-32) 同埋 IPv6 (CIDR $2-128)。\n\t由於為咗效能方面嘅原因，將唔會顯示多過5000次嘅編輯。請跟源政策去用呢個工具。",

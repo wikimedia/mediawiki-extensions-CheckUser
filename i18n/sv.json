@@ -19,7 +19,8 @@
 			"Sabelöga",
 			"Smetanakaviar",
 			"WikiPhoenix",
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"Belteshassar"
 		]
 	},
 	"checkuser-summary": "Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.\nAnvändare och redigeringar kan visas med IP-adress från XFF genom att lägga till \"/xff\" efter IP-adressen. Verktyget stödjer IPv4 (CIDR $1-32) och IPv6 (CIDR $2-128).\nPå grund av prestandaskäl så visas inte mer än $3 redigeringar.\nAnvänd verktyget i enlighet med policy.",
