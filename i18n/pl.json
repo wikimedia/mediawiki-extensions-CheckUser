@@ -411,5 +411,6 @@
 	"tooltip-t-global-contributions": "Lista edycji, wykonanych przez {{GENDER:$1|tego użytkownika|tę użytkowniczkę}} na wszystkich wiki",
 	"checkuser-userinfocard-groups": "<strong>Grupy</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Grupy globalne</strong>: $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 edycja|$2 edycje|$2 edycji|0=Brak edycji}})"
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 edycja|$2 edycje|$2 edycji|0=Brak edycji}})",
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Włączone przeglądanie adresów IP kont tymczasowych"
 }

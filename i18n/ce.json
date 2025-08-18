@@ -165,6 +165,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences": "Глобалан IP-адрес дӀадовзийтар дӀахӀоттаде",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title": "IP-адрес дӀадовзийтар дӀахӀоттаде",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text-with-global-preferences": "IP-адресаш дӀадовзийтар ханна долчу аккаунташна массо а викишкахь, цигахь ахь кхачаран лехамаш кхочушбо.",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled": "IP Reveal функци дӀахӀоттийна карарчу хенахь йолчу вики тӀехь.",
 	"checkuser-rest-access-denied": "Хьан бакъо йац и ардамаш кхочушбан.",
 	"checkuser-rest-access-denied-blocked-user": "Хьан бакъо йац ардам кхочушдан, хӀунда аьлча хьан аккаунт блоктоьхна йу",
 	"checkuser-rest-userinfo-user-not-found": "Декъашхочун нийса йоцу идентификатор билгалйаьккхина.",
@@ -299,6 +300,7 @@
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Дехарца догӀуш долу жамӀаш дац.</strong> Хьуна каро тарло материалаш, нагахь санна ахь лехаман параметраш хийцахь.",
 	"checkuser-global-contributions-page-when-no-namespace-translation-available": "ЦӀерийн меттиг<$1>:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP Авто-гучудаккхар",
+	"checkuser-ip-auto-reveal-link-sidebar-on": "IP Авто-гучудаккхар (лат.)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>IP Авто-гучудаккхар дӀахӀоттийна</strong>",
 	"checkuser-ip-auto-reveal-notification-off": "<strong>IP Авто-гучудаккхар дӀадаьккхина</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "IP Авто-гучудаккхар дӀахӀоттаде",
@@ -379,5 +381,7 @@
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобалан хийцам|0=Глобалан хийцамаш бац}}",
 	"tooltip-t-global-contributions": "{{GENDER:$1|ХӀокху декъашхочо}} массо а викишкахь бина къинхьегам",
 	"checkuser-userinfocard-groups": "<strong>Тобанаш</strong>: $1",
-	"checkuser-userinfocard-global-groups": "<strong>Глобалан тобанаш</strong>: $1"
+	"checkuser-userinfocard-global-groups": "<strong>Глобалан тобанаш</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 хийцам|0=хийцамаш бац}})",
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Ханна аккаунтийн IP-адресаш хьажа дӀахӀоттийна"
 }
