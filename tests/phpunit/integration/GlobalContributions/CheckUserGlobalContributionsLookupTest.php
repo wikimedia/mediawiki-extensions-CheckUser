@@ -12,6 +12,7 @@ use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -150,11 +151,14 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		);
 		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
 		$apiRequestAggregator
-			->expects( $this->exactly( 2 ) )
+			->expects( $this->exactly( 3 ) )
 			->method( 'execute' )
 			->willReturn( $permsByWiki );
 
 		$services = $this->getServiceContainer();
+		$store = $services->getObjectCacheFactory()->getLocalClusterInstance();
+		$cache = new WANObjectCache( [ 'cache' => $store ] );
+
 		$lookup = new CheckUserGlobalContributionsLookup(
 			$services->getConnectionProvider(),
 			$services->get( 'ExtensionRegistry' ),
@@ -163,7 +167,7 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			$services->getMainConfig(),
 			$services->getRevisionStore(),
 			$apiRequestAggregator,
-			$services->getMainWANObjectCache(),
+			$cache,
 			$services->getStatsFactory()
 		);
 		$lookup = TestingAccessWrapper::newFromObject( $lookup );
@@ -212,6 +216,23 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		);
 
 		$this->assertMetricCount( CheckUserGlobalContributionsLookup::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 2 );
+		$this->assertMetricCount( CheckUserGlobalContributionsLookup::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 1 );
+
+		// Invalidate the checkKey and expect cache miss
+		$checkKey = $cache->makeGlobalKey(
+			'globalcontributions-ext-permissions',
+			1
+		);
+		$time = time() + 1000;
+		$cache->setMockTime( $time );
+		$cache->touchCheckKey( $checkKey );
+		$permissions = $lookup->getAndUpdateExternalWikiPermissions(
+			1,
+			[ 'otherwiki' ],
+			$this->getTestUser()->getUser(),
+			new FauxRequest()
+		);
+		$this->assertMetricCount( CheckUserGlobalContributionsLookup::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 3 );
 		$this->assertMetricCount( CheckUserGlobalContributionsLookup::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME, 1 );
 	}
 
