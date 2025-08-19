@@ -117,7 +117,7 @@ QUnit.test( 'renders correct number of InfoRowWithLinks components with no permi
 	const wrapper = mountComponent( { canAccessTemporaryAccountIpAddresses: false } );
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	assert.strictEqual( infoRows.length, 4, 'Renders 4 InfoRowWithLinks components when no permissions are granted' );
+	assert.strictEqual( infoRows.length, 6, 'Renders 6 InfoRowWithLinks components when no permissions are granted' );
 } );
 
 QUnit.test.each( 'should cap thanks and new articles counts when at or above configured limit', {
@@ -168,13 +168,13 @@ QUnit.test.each( 'should cap thanks and new articles counts when at or above con
 	);
 } );
 
-QUnit.test( 'passes correct props to active blocks row when permission is granted', ( assert ) => {
+QUnit.test( 'passes correct props to active blocks row', ( assert ) => {
 	const wrapper = mountComponent();
 
 	// Find the active blocks row by its message key
 	const activeBlocksRow = findRowByLabel( wrapper, 'checkuser-userinfocard-active-blocks-from-all-wikis' );
 
-	assert.true( activeBlocksRow !== undefined, 'Active blocks row exists when permission is granted' );
+	assert.true( activeBlocksRow !== undefined, 'Active blocks row exists' );
 
 	assert.strictEqual(
 		activeBlocksRow.props( 'messageKey' ),
@@ -219,14 +219,14 @@ QUnit.test( 'passes correct props to active blocks row when permission is grante
 	);
 } );
 
-QUnit.test( 'passes correct props to past blocks row when permission is granted', ( assert ) => {
+QUnit.test( 'passes correct props to past blocks row', ( assert ) => {
 	const wrapper = mountComponent();
 
 	// Find the past blocks row by its message key
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
 	const pastBlocksRow = infoRows.find( ( row ) => row.props( 'messageKey' ) === 'checkuser-userinfocard-past-blocks' );
 
-	assert.true( pastBlocksRow !== undefined, 'Past blocks row exists when permission is granted' );
+	assert.true( pastBlocksRow !== undefined, 'Past blocks row exists' );
 
 	assert.strictEqual(
 		pastBlocksRow.props( 'messageKey' ),
@@ -269,17 +269,6 @@ QUnit.test( 'passes correct props to past blocks row when permission is granted'
 		'',
 		'Past blocks row has no suffix link log ID'
 	);
-} );
-
-QUnit.test( 'does not render blocks row when permission is not granted', ( assert ) => {
-	mw.config.set( 'wgCheckUserCanBlock', false );
-	const wrapper = mountComponent();
-
-	// Try to find the blocks row by its icon class
-	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	const blocksRow = infoRows.find( ( row ) => row.props( 'iconClass' ).includes( 'ext-checkuser-userinfocard-icon-blocks' ) );
-
-	assert.strictEqual( blocksRow, undefined, 'Blocks row does not exist when permission is not granted' );
 } );
 
 QUnit.test( 'renders user groups', ( assert ) => {
@@ -409,7 +398,7 @@ QUnit.test( 'setup function returns correct values with no permissions', ( asser
 
 	assert.strictEqual(
 		wrapper.vm.infoRows.length,
-		4,
+		6,
 		'infoRows has correct length with no permissions'
 	);
 } );
