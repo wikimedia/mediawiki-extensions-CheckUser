@@ -56,7 +56,7 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Edit action' => [
 				array_merge( $defaultRcAttribs, [
-					'rc_type' => RC_EDIT,
+					'rc_source' => RecentChange::SRC_EDIT,
 					'rc_user' => 0,
 					'rc_user_text' => '127.0.0.1',
 				] ),
@@ -68,7 +68,7 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 				array_merge( $defaultRcAttribs, [
 					'rc_namespace' => NS_SPECIAL,
 					'rc_title' => 'Log',
-					'rc_type' => RC_LOG,
+					'rc_source' => RecentChange::SRC_LOG,
 					'rc_log_type' => ''
 				] ),
 				'cu_private_event',
@@ -100,14 +100,20 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->commonTestsUpdateCheckUserData( self::getDefaultRecentChangeAttribs(), [], $expectedRow );
 			// Insertion into cu_private_event
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
+				array_merge(
+					self::getDefaultRecentChangeAttribs(),
+					[ 'rc_source' => RecentChange::SRC_LOG, 'rc_log_type' => '' ]
+				),
 				[],
 				$expectedRow
 			);
 			// Insertion into cu_log_event
 			$logId = $this->newLogEntry();
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_logid' => $logId ] ),
+				array_merge(
+					self::getDefaultRecentChangeAttribs(),
+					[ 'rc_source' => RecentChange::SRC_LOG, 'rc_logid' => $logId ]
+				),
 				[],
 				$expectedRow
 			);

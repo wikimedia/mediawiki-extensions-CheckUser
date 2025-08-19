@@ -317,6 +317,7 @@ return [
 			$services->get( 'CheckUserCentralIndexManager' ),
 			$services->get( 'UserAgentClientHintsManager' ),
 			$services->getJobQueueGroup(),
+			$services->getRecentChangeLookup(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},

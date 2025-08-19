@@ -18,6 +18,7 @@ use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
+use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Profiler;
@@ -248,6 +249,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserCentralIndexManager' ),
 			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
 			$this->getServiceContainer()->getJobQueueGroup(),
+			$this->getServiceContainer()->getRecentChangeLookup(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 		if ( $table === 'cu_changes' ) {
@@ -465,7 +467,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$testCases = [
 			'registered user' => [
 				array_merge( $attribs, [
-					'rc_type' => RC_EDIT,
+					'rc_source' => RecentChange::SRC_EDIT,
 					'rc_user' => $testUser->getId(),
 					'rc_user_text' => $testUser->getName(),
 				] ),
@@ -477,7 +479,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				array_merge( $attribs, [
 					'rc_namespace' => NS_SPECIAL,
 					'rc_title' => 'Log',
-					'rc_type' => RC_LOG,
+					'rc_source' => RecentChange::SRC_LOG,
 					'rc_log_type' => ''
 				] ),
 				'cu_private_event',
@@ -488,7 +490,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				array_merge( $attribs, [
 					'rc_namespace' => NS_SPECIAL,
 					'rc_title' => 'Log',
-					'rc_type' => RC_LOG,
+					'rc_source' => RecentChange::SRC_LOG,
 					'rc_log_type' => '',
 					'rc_comment_id' => $this->getServiceContainer()->getCommentStore()
 						->createComment( $this->getDb(), 'test' )->id,
@@ -606,7 +608,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			[
 				'rc_namespace' => NS_SPECIAL,
 				'rc_title' => 'Log',
-				'rc_type' => RC_LOG,
+				'rc_source' => RecentChange::SRC_LOG,
 				'rc_log_type' => '',
 			]
 		);
@@ -625,7 +627,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			array_merge( $attribs, [
 				'rc_namespace' => NS_SPECIAL,
 				'rc_title' => 'Log',
-				'rc_type' => RC_LOG,
+				'rc_source' => RecentChange::SRC_LOG,
 				'rc_log_type' => ''
 			] ),
 			'cu_log_event',
@@ -640,7 +642,8 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		return [
 			'external user' => [
 				array_merge( $attribs, [
-					'rc_type' => RC_EXTERNAL,
+					// external source
+					'rc_source' => 'wb',
 					'rc_user' => 0,
 					'rc_user_text' => 'm>External User',
 				] ),
@@ -651,7 +654,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				array_merge( $attribs, [
 					'rc_namespace' => NS_MAIN,
 					'rc_title' => '',
-					'rc_type' => RC_CATEGORIZE,
+					'rc_source' => RecentChange::SRC_CATEGORIZE,
 				] ),
 				[ 'cuc_ip' ],
 				[],

@@ -116,7 +116,6 @@ trait CheckUserCommonTraitTest {
 			'rc_timestamp' => wfTimestamp( TS_MW ),
 			'rc_namespace' => NS_USER,
 			'rc_title' => 'Tony',
-			'rc_type' => RC_EDIT,
 			'rc_source' => RecentChange::SRC_EDIT,
 			'rc_minor' => 0,
 			'rc_cur_id' => 77,

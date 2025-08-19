@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
+use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use MediaWiki\RecentChanges\RecentChange;
@@ -125,7 +126,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 				}
 
 				$comment = $commentStore->getComment( 'rc_comment', $row );
-				if ( $row->rc_type == RC_LOG ) {
+				if ( $row->rc_source == RecentChange::SRC_LOG ) {
 					$logEntry = null;
 					if ( $row->rc_logid != 0 ) {
 						$logEntry = DatabaseLogEntry::newFromId( $row->rc_logid, $db );
@@ -164,7 +165,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_page_id' => $row->rc_cur_id,
 						'cuc_this_oldid' => $row->rc_this_oldid,
 						'cuc_last_oldid' => $row->rc_last_oldid,
-						'cuc_type' => $row->rc_type,
+						'cuc_type' => CheckUserInsert::getTypeFromRCSource( $row->rc_source ),
 						'cuc_ip' => $row->rc_ip,
 						'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
 					];
