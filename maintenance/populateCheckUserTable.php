@@ -111,6 +111,19 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			$cuPrivateEventBatch = [];
 			$cuLogEventBatch = [];
 			foreach ( $res as $row ) {
+				// RC_CATEGORIZE recent changes are generally triggered by other edits, so there is no reason to store
+				// checkuser data about them (T125209). Also excluded by the CheckUserInsert service.
+				if ( $row->rc_source === RecentChange::SRC_CATEGORIZE ) {
+					continue;
+				}
+
+				// Exclude RecentChanges with sources other than flow edits and MediaWiki core sources,
+				// as usually these events are not specific to the local wiki (T125664).
+				// Also excluded by the CheckUserInsert service.
+				if ( $row->rc_source !== 'flow' && !in_array( $row->rc_source, RecentChange::INTERNAL_SOURCES ) ) {
+					continue;
+				}
+
 				$comment = $commentStore->getComment( 'rc_comment', $row );
 				if ( $row->rc_type == RC_LOG ) {
 					$logEntry = null;
