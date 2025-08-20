@@ -128,5 +128,6 @@
 	"checkuser-tempaccount-reveal-blocked-missingblock": "Zabranjeno Vam je otkrivanje privremenih IP adresa računa zbog blokade koja utječe na Vaš račun, a koja više nije na snazi. Molimo Vas da ponovo učitate stranicu.",
 	"checkuser-tempaccount-reveal-blocked-header": "Isključeno je odavanje IP adresa privremenih suradnika",
 	"logentry-checkuser-temporary-account-disable-auto-reveal": "$1 {{GENDER:$2|onemogućava}} automatsko otkrivanje IP adresa privremenih računa",
-	"logentry-checkuser-temporary-account-enable-auto-reveal": "$1 {{GENDER:$2|omogućava}} automatsko otkrivanje IP adresa privremenih računa do $5"
+	"logentry-checkuser-temporary-account-enable-auto-reveal": "$1 {{GENDER:$2|omogućava}} automatsko otkrivanje IP adresa privremenih računa do $5",
+	"checkuser-userinfocard-enable-preference-help": "Uz suradničko ime prikaži dugme za otvaranje skočnog prozorčića s informacijama o računu."
 }

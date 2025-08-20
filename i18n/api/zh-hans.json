@@ -10,7 +10,8 @@
 			"U.T.",
 			"WhitePhosphorus",
 			"Xzonn",
-			"Yfdyh000"
+			"Yfdyh000",
+			"Peterxy12"
 		]
 	},
 	"apihelp-query+checkuser-summary": "检查指定用户名使用过的IP地址或指定IP地址使用过的用户名。",
@@ -34,6 +35,7 @@
 	"apihelp-query+checkuserlog-param-to": "结束枚举的时间戳。",
 	"apihelp-query+checkuserlog-example-1": "显示[[User:Example]]的查核",
 	"apihelp-query+checkuserlog-example-2": "显示2011-10-15T23:00:00Z之后对192.0.2.0/24的查核",
+	"apihelp-query+checkuserformattedblockinfo-summary": "返回影响当前用户的站点范围阻止的格式化阻止详细信息。",
 	"apierror-checkuser-missingsummary": "您必须定义查核原因。",
 	"apierror-checkuser-timelimit": "您需要使用正确的时间限制（例如“-2 weeks”或“2 weeks ago”）。",
 	"apierror-checkuser-invalidmode": "无效的请求模式",
