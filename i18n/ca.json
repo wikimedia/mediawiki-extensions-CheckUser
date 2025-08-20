@@ -85,6 +85,7 @@
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocatges actius de tots els wikis: $1",
 	"checkuser-userinfocard-past-blocks": "Blocatges: $1",
 	"checkuser-userinfocard-global-edits": "Edicions globals: $1",
+	"checkuser-userinfocard-local-edits": "Edicions locals: $1 (revertides: $2)",
 	"checkuser-userinfocard-new-articles": "Articles nous: $1",
 	"checkuser-userinfocard-thanks": "Agraïments rebuts: $1 (enviats: $2)",
 	"checkuser-userinfocard-checks": "Verificacions: $1 (darrera verificació: $2)",

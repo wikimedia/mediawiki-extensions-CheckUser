@@ -410,5 +410,7 @@
 	"checkuser-userinfocard-groups": "<strong>Gruppen:</strong> $1",
 	"checkuser-userinfocard-global-groups": "<strong>Globale Gruppen:</strong> $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Bearbeitung|$2 Bearbeitungen|0=Keine Bearbeitungen}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Für die Anzeige temporärer Konto-IPs angemeldet"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Für die Anzeige temporärer Konto-IPs angemeldet",
+	"checkuser-userinfocard-ip-revealed-count": "Offengelegte IP-Adressen: $1 (zuletzt $2)",
+	"checkuser-userinfocard-ip-revealed-never": "Offengelegte IP-Adressen: $1"
 }

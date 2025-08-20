@@ -101,7 +101,7 @@
 	"checkuser-userinfocard-menu-check-ip": "檢查{{GENDER:$1|用戶}}嘅IP地址",
 	"checkuser-userinfocard-menu-block-user": "封鎖{{GENDER:$1|用戶}}",
 	"checkuser-userinfocard-loading-label": "載入緊用戶資料",
-	"checkuser-userinfocard-error-no-data": "擷取唔到呢個用戶嘅資料。請遲啲再試過。",
+	"checkuser-userinfocard-error-no-data": "攞唔到呢個用戶嘅資料。請遲啲再試過。",
 	"checkuser-userinfocard-enable-preference-description": "啟用[[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|用戶資料咭]]",
 	"checkuser-userinfocard-enable-preference-help": "喺用戶名隔籬顯示一個掣，可以彈出戶口資料。",
 	"checkuser-ipinfo-global-contributions-label": "全域貢獻",
