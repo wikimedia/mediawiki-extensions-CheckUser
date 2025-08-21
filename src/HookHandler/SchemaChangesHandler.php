@@ -27,6 +27,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		$isCUInstalled = $updater->tableExists( 'cu_changes' );
 
 		$updater->addExtensionTable( 'cu_changes', "$base/$dbType/tables-generated.sql" );
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_DB_DOMAIN, 'addTable', 'cusi_case',
+			"$base/$dbType/tables-virtual-checkuser-generated.sql", true,
+		] );
 
 		// Added 1.43, but will need to remain here forever as it creates tables which are not in tables-generated.sql
 		$updater->addExtensionUpdateOnVirtualDomain( [
@@ -403,6 +407,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'cul_target',
 			"$base/$dbType/patch-cu_log-add-index-cul_target.sql"
 		);
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_DB_DOMAIN, 'addTable', 'cusi_case',
+			"$base/$dbType/patch-cusi_case-def.sql", true,
+		] );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
