@@ -369,5 +369,7 @@
 	"tooltip-t-global-contributions": "Luettelo {{GENDER:$1|tämän käyttäjän}} muokkauksista kaikissa wikeissä",
 	"checkuser-userinfocard-groups": "<strong>Ryhmät</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Järjestelmänlaajuiset ryhmät</strong>: $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 muokkaus|$2 muokkausta|0=Ei muokkauksia}})"
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 muokkaus|$2 muokkausta|0=Ei muokkauksia}})",
+	"checkuser-userinfocard-ip-revealed-count": "IP-paljastuksia: $1 (viimeksi $2)",
+	"checkuser-userinfocard-ip-revealed-never": "IP-paljastuksia: $1"
 }

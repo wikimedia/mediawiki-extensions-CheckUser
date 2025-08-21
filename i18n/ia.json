@@ -389,5 +389,7 @@
 	"checkuser-userinfocard-groups": "<strong>Gruppos:</strong> $1",
 	"checkuser-userinfocard-global-groups": "<strong>Gruppos global:</strong> $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modification|$2 modificationes|0=Necun modification}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Optate pro vider le adresses IP de contos temporari"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Optate pro vider le adresses IP de contos temporari",
+	"checkuser-userinfocard-ip-revealed-count": "Revelationes IP: $1 (ultime consultation $2)",
+	"checkuser-userinfocard-ip-revealed-never": "Revelationes IP: $1"
 }

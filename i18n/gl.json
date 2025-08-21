@@ -397,5 +397,7 @@
 	"checkuser-userinfocard-groups": "<strong>Grupos:</strong> $1",
 	"checkuser-userinfocard-global-groups": "<strong>Grupos globais:</strong> $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 edición|$2 edicións|0=sen edicións}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Activou a opción para consultar os enderezos IP das contas temporais"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Activou a opción para consultar os enderezos IP das contas temporais",
+	"checkuser-userinfocard-ip-revealed-count": "Revelacións de IP: $1 (última comprobación o $2)",
+	"checkuser-userinfocard-ip-revealed-never": "Revelacións de IP: $1"
 }
