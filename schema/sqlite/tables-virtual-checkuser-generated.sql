@@ -15,3 +15,12 @@ CREATE UNIQUE INDEX sic_status_created_timestamp_id ON /*_*/cusi_case (
 );
 
 CREATE UNIQUE INDEX sic_created_timestamp_id ON /*_*/cusi_case (sic_created_timestamp, sic_id);
+
+
+CREATE TABLE /*_*/cusi_user (
+  siu_user_id INTEGER UNSIGNED NOT NULL,
+  siu_sic_id INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(siu_sic_id, siu_user_id)
+);
+
+CREATE INDEX siu_user_id ON /*_*/cusi_user (siu_user_id);

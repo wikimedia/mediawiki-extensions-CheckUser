@@ -14,3 +14,11 @@ CREATE TABLE /*_*/cusi_case (
   UNIQUE INDEX sic_created_timestamp_id (sic_created_timestamp, sic_id),
   PRIMARY KEY(sic_id)
 ) /*$wgDBTableOptions*/;
+
+
+CREATE TABLE /*_*/cusi_user (
+  siu_user_id INT UNSIGNED NOT NULL,
+  siu_sic_id INT UNSIGNED NOT NULL,
+  INDEX siu_user_id (siu_user_id),
+  PRIMARY KEY(siu_sic_id, siu_user_id)
+) /*$wgDBTableOptions*/;

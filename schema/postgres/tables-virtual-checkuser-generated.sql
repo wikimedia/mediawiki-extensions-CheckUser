@@ -16,3 +16,12 @@ CREATE UNIQUE INDEX sic_status_created_timestamp_id ON cusi_case (
 );
 
 CREATE UNIQUE INDEX sic_created_timestamp_id ON cusi_case (sic_created_timestamp, sic_id);
+
+
+CREATE TABLE cusi_user (
+  siu_user_id INT NOT NULL,
+  siu_sic_id INT NOT NULL,
+  PRIMARY KEY(siu_sic_id, siu_user_id)
+);
+
+CREATE INDEX siu_user_id ON cusi_user (siu_user_id);
