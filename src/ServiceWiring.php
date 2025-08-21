@@ -22,6 +22,7 @@ use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexLookup;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserDataPurger;
+use MediaWiki\CheckUser\Services\CheckUserExpiredIdsLookupService;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\CheckUserIPRevealManager;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
@@ -217,6 +218,18 @@ return [
 			$services->getExtensionRegistry(),
 			$services->getSiteLookup(),
 			LoggerFactory::getInstance( 'CheckUser' )
+		);
+	},
+	'CheckUserExpiredIdsLookupService' => static function (
+		MediaWikiServices $services
+	): CheckUserExpiredIdsLookupService {
+		return new CheckUserExpiredIdsLookupService(
+			new ServiceOptions(
+				CheckUserExpiredIdsLookupService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
+			$services->getConnectionProvider(),
+			$services->getExtensionRegistry()
 		);
 	},
 	'CheckUserGlobalContributionsLookup' => static function (
