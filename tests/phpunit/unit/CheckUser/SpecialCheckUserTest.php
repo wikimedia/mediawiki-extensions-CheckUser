@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser;
 
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\CheckUser\Tests\SpecialCheckUserTestTrait;
 use MediaWiki\Config\Config;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
@@ -18,6 +19,7 @@ use Wikimedia\TestingAccessWrapper;
 class SpecialCheckUserTest extends MediaWikiUnitTestCase {
 
 	use MockServiceDependenciesTrait;
+	use SpecialCheckUserTestTrait;
 
 	private function setUpObjectInTestingAccessWrapper(): TestingAccessWrapper {
 		return TestingAccessWrapper::newFromObject( $this->setUpObject() );

@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\CheckUser\Tests\SpecialCheckUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Html\FormOptions;
@@ -32,6 +33,7 @@ use Wikimedia\TestingAccessWrapper;
 class SpecialCheckUserTest extends SpecialPageTestBase {
 
 	use MockAuthorityTrait;
+	use SpecialCheckUserTestTrait;
 	use TempUserTestTrait;
 
 	private static UserIdentity $usernameTarget;
