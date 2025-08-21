@@ -24,3 +24,13 @@ CREATE TABLE /*_*/cusi_user (
 );
 
 CREATE INDEX siu_user_id ON /*_*/cusi_user (siu_user_id);
+
+
+CREATE TABLE /*_*/cusi_signal (
+  sis_sic_id INTEGER UNSIGNED NOT NULL,
+  sis_name BLOB NOT NULL,
+  sis_value BLOB NOT NULL,
+  PRIMARY KEY(sis_name, sis_value, sis_sic_id)
+);
+
+CREATE INDEX sis_sic_id ON /*_*/cusi_signal (sis_sic_id);

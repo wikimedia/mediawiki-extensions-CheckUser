@@ -25,3 +25,13 @@ CREATE TABLE cusi_user (
 );
 
 CREATE INDEX siu_user_id ON cusi_user (siu_user_id);
+
+
+CREATE TABLE cusi_signal (
+  sis_sic_id INT NOT NULL,
+  sis_name TEXT NOT NULL,
+  sis_value TEXT NOT NULL,
+  PRIMARY KEY(sis_name, sis_value, sis_sic_id)
+);
+
+CREATE INDEX sis_sic_id ON cusi_signal (sis_sic_id);

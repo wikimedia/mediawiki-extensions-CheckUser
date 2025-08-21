@@ -22,3 +22,12 @@ CREATE TABLE /*_*/cusi_user (
   INDEX siu_user_id (siu_user_id),
   PRIMARY KEY(siu_sic_id, siu_user_id)
 ) /*$wgDBTableOptions*/;
+
+
+CREATE TABLE /*_*/cusi_signal (
+  sis_sic_id INT UNSIGNED NOT NULL,
+  sis_name VARBINARY(255) NOT NULL,
+  sis_value VARBINARY(255) NOT NULL,
+  INDEX sis_sic_id (sis_sic_id),
+  PRIMARY KEY(sis_name, sis_value, sis_sic_id)
+) /*$wgDBTableOptions*/;
