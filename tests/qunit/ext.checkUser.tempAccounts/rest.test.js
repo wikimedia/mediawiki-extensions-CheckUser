@@ -79,7 +79,6 @@ QUnit.test( 'Test performRevealRequest for 500 response when requesting one IP',
 	{
 		users: {
 			'~1': {
-				abuseLogIds: [],
 				lastUsedIp: true,
 				logIds: [],
 				revIds: []
@@ -94,7 +93,6 @@ QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for rev
 	{
 		users: {
 			'~1': {
-				abuseLogIds: [],
 				lastUsedIp: true,
 				logIds: [],
 				revIds: [ '1', '2' ]
@@ -109,7 +107,6 @@ QUnit.test( 'Test performRevealRequest for 500 response when getting IPs for log
 	{
 		users: {
 			'~1': {
-				abuseLogIds: [],
 				lastUsedIp: true,
 				logIds: [ '1', '2' ],
 				revIds: []
@@ -125,7 +122,6 @@ QUnit.test( 'Test performRevealRequest for 200 response when requesting one IP',
 	{
 		users: {
 			'~1': {
-				abuseLogIds: [],
 				lastUsedIp: true,
 				logIds: [],
 				revIds: []

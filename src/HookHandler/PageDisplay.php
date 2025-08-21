@@ -83,6 +83,8 @@ class PageDisplay implements BeforePageDisplayHook {
 			$out->getAuthority()
 		);
 		$out->addJSConfigVars( [
+			'wgCheckUserAbuseFilterExtensionLoaded' =>
+				$this->extensionRegistry->isLoaded( 'Abuse Filter' ),
 			'wgCheckUserIsPerformerBlocked' => $permStatus->getBlock() !== null,
 			'wgCheckUserTemporaryAccountMaxAge' => $this->config->get( 'CheckUserTemporaryAccountMaxAge' ),
 			// Unconditionally set to true as CheckUserIPRevealManager already checked

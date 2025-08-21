@@ -36,12 +36,15 @@ function performRevealRequest( target, revIds, logIds, aflIds, retryOnTokenMisma
 
 	const request = {
 		[ target ]: {
-			abuseLogIds: makeStringIDs( aflIds ),
 			revIds: makeStringIDs( revIds ),
 			logIds: makeStringIDs( logIds ),
 			lastUsedIp: true
 		}
 	};
+
+	if ( mw.config.get( 'wgCheckUserAbuseFilterExtensionLoaded' ) ) {
+		request[ target ].abuseLogIds = makeStringIDs( aflIds );
+	}
 
 	performBatchRevealRequestInternal( request, retryOnTokenMismatch )
 		.then( ( data ) => {
