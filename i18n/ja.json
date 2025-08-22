@@ -51,9 +51,9 @@
 	"checkuser-desc": "適切な権限を持つ利用者に、特定利用者のIPアドレスやその他の情報をチェックする能力を付与する",
 	"checkuser": "チェックユーザー",
 	"checkuserlog": "チェックユーザー記録",
-	"checkuser-contribs": "利用者のIPアドレスをチェック",
-	"checkuser-contribs-log": "チェックユーザー記録",
-	"checkuser-contribs-log-initiator": "チェックユーザー実施記録",
+	"checkuser-contribs": "チェックユーザー",
+	"checkuser-contribs-log": "被チェック記録",
+	"checkuser-contribs-log-initiator": "チェック実施記録",
 	"group-checkuser": "チェックユーザー",
 	"group-checkuser-member": "{{GENDER:$1|チェックユーザー}}",
 	"group-temporary-account-viewer": "仮アカウントIP閲覧者",
@@ -431,5 +431,7 @@
 	"checkuser-userinfocard-groups": "<strong>グループ</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>グローバルグループ</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2編集|0=編集なし}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "仮アカウントIPの閲覧機能を有効化しています"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "仮アカウントIPの閲覧機能を有効化しています",
+	"checkuser-userinfocard-ip-revealed-count": "IP開示回数: $1 (最終確認 $2)",
+	"checkuser-userinfocard-ip-revealed-never": "IP開示回数: $1"
 }

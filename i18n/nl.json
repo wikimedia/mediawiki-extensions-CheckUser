@@ -405,5 +405,7 @@
 	"checkuser-userinfocard-groups": "<strong>Groepen</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Globale groepen</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 bewerking|$2 bewerkingen|0=Geen bewerkingen}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Inzage IP-adressen tijdelijke accounts is ingeschakeld"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Inzage IP-adressen tijdelijke accounts is ingeschakeld",
+	"checkuser-userinfocard-ip-revealed-count": "IP-adresweergaven: $1 (laatste controle $2)",
+	"checkuser-userinfocard-ip-revealed-never": "IP-adresweergaven: $1"
 }
