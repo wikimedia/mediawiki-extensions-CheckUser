@@ -9,8 +9,10 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\User;
+use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\TestingAccessWrapper;
@@ -23,6 +25,7 @@ use Wikimedia\TestingAccessWrapper;
 class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserTempUserTestTrait;
+	use MockAuthorityTrait;
 
 	private static User $tempUser1;
 	private static User $tempUser2;
@@ -87,10 +90,9 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 	}
 
-	/** @dataProvider provideTestGetGlobalContributionCount */
-	public function testGetGlobalContributionCount( $targetProvider, $expectedCount ) {
+	private function getObjectUnderTest(): CheckUserGlobalContributionsLookup {
 		$services = $this->getServiceContainer();
-		$lookup = new CheckUserGlobalContributionsLookup(
+		return new CheckUserGlobalContributionsLookup(
 			$services->getConnectionProvider(),
 			$services->get( 'ExtensionRegistry' ),
 			$services->get( 'CentralIdLookup' ),
@@ -101,6 +103,11 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			$services->getMainWANObjectCache(),
 			$services->getStatsFactory()
 		);
+	}
+
+	/** @dataProvider provideTestGetGlobalContributionCount */
+	public function testGetGlobalContributionCount( $targetProvider, $expectedCount ) {
+		$lookup = $this->getObjectUnderTest();
 		$authority = RequestContext::getMain()->getAuthority();
 
 		$this->assertSame(
@@ -275,6 +282,37 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		);
 
 		$this->assertMetricCount( CheckUserGlobalContributionsLookup::API_LOOKUP_ERROR_METRIC_NAME, 1 );
+	}
+
+	/** @dataProvider provideGetActiveWikis */
+	public function testGetActiveWikis( $target ) {
+		$lookup = $this->getObjectUnderTest();
+
+		$activeWikisAllTime = $lookup->getActiveWikis(
+			$target(),
+			$this->mockAnonUltimateAuthority()
+		);
+		$this->assertArrayEquals( [ WikiMap::getCurrentWikiId() ], $activeWikisAllTime );
+
+		$activeWikisRecent = $lookup->getActiveWikis(
+			$target(),
+			$this->mockAnonUltimateAuthority(),
+			// addDBDataOnce makes edits with current date, so we need a reliable future date here
+			// to ensure we don't capture anything
+			'99990101000000'
+		);
+		$this->assertArrayEquals( [], $activeWikisRecent );
+	}
+
+	public static function provideGetActiveWikis() {
+		return [
+			'Account' => [
+				'target' => static fn () => self::$tempUser1->getName()
+			],
+			'IP address' => [
+				'target' => static fn () => '127.0.0.3'
+			]
+		];
 	}
 
 	/**
