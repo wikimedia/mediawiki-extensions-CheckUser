@@ -375,6 +375,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|wyłączył|wyłączyła|wyłączył(-a)}} sobie dostęp do wyświetlania chronionych zmiennych",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|wyświetlił|wyświetliła|wyświetlił(-a)}} chronione zmienne, związane z $3",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|wyświetlił|wyświetliła|wyświetlił(-a)}} chronione zmienne związane z $3: $5",
+	"checkuser-temporary-account-autorevoke-userright-reason": "usunięto automatycznie z powodu nieaktywności",
 	"checkuser-ipinfo-global-contributions-url-text": "Zobacz wkład globalny",
 	"checkuser-group-requirements": "Użytkownik nie spełnia kryteriów dostępu",
 	"checkuser-userinfocard-toggle-button-aria-label": "Otwórz okienko z informacjami o {{GENDER:$1|użytkowniku|użytkowniczce}}",

@@ -332,6 +332,7 @@
 	"log-action-filter-checkuser-temporary-account": "Toiminnon tyyppi:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Pääsyn muutos",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Pääsy tilapäisen tunnuksen IP-tietoihin",
+	"checkuser-temporary-account-autorevoke-userright-reason": "automaattisesti peruttu käyttämättömyyden vuoksi",
 	"checkuser-ipinfo-global-contributions-url-text": "Näytä järjestelmänlaajuiset muokkaukset",
 	"checkuser-group-requirements": "Käyttäjä ei täytä käyttöoikeusvaatimuksia",
 	"checkuser-userinfocard-toggle-button-aria-label": "Avaa {{GENDER:$1|käyttäjätietokortti}}",

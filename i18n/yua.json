@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Anettechan03",
+			"Cesia Tun"
+		]
+	},
+	"checkuser-temporary-account-autorevoke-userright-reason": "autorevocado tumen inactividad",
+	"checkuser-userinfocard-ip-revealed-count": "IP ku ye'esik: $1 (ts'ook verificación $2)",
+	"checkuser-userinfocard-ip-revealed-never": "IP ku ye'esik: $1"
+}

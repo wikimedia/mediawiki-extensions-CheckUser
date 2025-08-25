@@ -157,7 +157,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "הבא",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "סגירה",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "מהו חשבון חולף?",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "בכל פעם שמשתמש מפרסם עריכה בוויקי הזה מבלי להיכנס לחשבון רשום, ייווצר [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts חשבון חולף].\n\nהחשבון הזה יקבל באופן אוטומטי שם משתמש. עם יצירת החשבון תוגדר עוגייה בדפדפן. שם המשתמש הזה ישמש לייחוס כל העריכות הבאות, גם אם כתובת ה־IP של המשתמש החולף משתנה. עם חשבון חולף, רק חברי קהילה ראויים לאמון יכולים לגשת אל כתובת ה־IP.",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "כדי להגן על פרטיות המשתמשים, אתר {{SITENAME}} אינו מציג עוד בפומבי את כתובות ה־IP של עורכים שלא נכנסו לחשבון.\n\nבמקום זאת, עורכים שלא נכנסו לחשבון יקבלו שמות משתמש שנוצרו אוטומטית ושמקושרים ל<strong>[https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts חשבונות חולפים]</strong>, וכתובות ה־IP שלהם יהיו גלויות רק לחברי קהילה מהימנים שצריכים לראות אותן כדי להתמודד עם השחתה והתנהגות פוגענית.\n\nכשנוצר חשבון חולף עבור עורך שלא נכנס לחשבון, תוגדר עוגייה בדפדפן של אותו העורך. החשבון החולף הזה ישויך לאחר מכן לכל העריכות הבאות, גם אם כתובת ה־IP של העורך תשתנה.",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "תמונה שמציגה סמל של משתמש חולף.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "הצגת מידע ה־IP",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "כלי [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info מידע ה־IP] (IP Info) נותן למפעילים, ללוחמים נגד השחתה ולמשתמשים מנוסים גישה קלה יותר למידע על כתובות IP מבלי לראות את כתובות ה־IP עצמן.\n\nמשתמשים שעומדים בדרישות הגישה יכולים להפעיל את כלי מידע ה־IP בהעדפות שלהם. לאחר ההפעלה, החלון הקופץ של מידע ה־IP יוצג לצד חשבונות חולפים ולצד כתובות IP מהסוג הישן. מידע ה־IP יוצג גם בדף תרומות המשתמש.",
@@ -362,6 +362,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|כיבה לעצמו|כיבתה לעצמה}} את הגישה לצפייה במשתנים מוגנים",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|צפה|צפתה}} במשתנים מוגנים שמשויכים לדף $3",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|צפה|צפתה}} {{PLURAL:$4|במשתנה מוגן|במשתנים מוגנים}} שמשויכים לדף $3, שהם: $5",
+	"checkuser-temporary-account-autorevoke-userright-reason": "נשללה באופן אוטומטי בשל חוסר־פעילות",
 	"checkuser-ipinfo-global-contributions-url-text": "הצגת תרומות גלובליות",
 	"checkuser-group-requirements": "המשתמש אינו עומד בתנאי הגישה",
 	"checkuser-userinfocard-toggle-button-aria-label": "פתיחת כרטיס פרטי {{GENDER:$1|המשתמש|המשתמשת}}",
@@ -399,5 +400,7 @@
 	"checkuser-userinfocard-groups": "<strong>קבוצות</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>קבוצות גלובליות</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|עריכה אחת|$2 עריכות|אין עריכות}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "בחרו לצפות בכתובות IP של חשבונות חולפים"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "בחרו לצפות בכתובות IP של חשבונות חולפים",
+	"checkuser-userinfocard-ip-revealed-count": "פעולת חשיפת IP‏: $1 (נבדק לאחרונה ב־$2)",
+	"checkuser-userinfocard-ip-revealed-never": "פעולת חשיפת IP‏: $1"
 }
