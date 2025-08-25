@@ -661,7 +661,11 @@
 				"checkuser-userinfocard-chart-tooltip-label",
 				"checkuser-userinfocard-temporary-account-viewer-opted-in",
 				"checkuser-userinfocard-ip-revealed-count",
-				"checkuser-userinfocard-ip-revealed-never"
+				"checkuser-userinfocard-ip-revealed-never",
+				"checkuser-userinfocard-global-restrictions-locked",
+				"checkuser-userinfocard-global-restrictions-locked-no-date",
+				"checkuser-userinfocard-global-restrictions-blocked",
+				"checkuser-userinfocard-global-restrictions-blocked-disabled"
 			],
 			"dependencies": [
 				"mediawiki.api",

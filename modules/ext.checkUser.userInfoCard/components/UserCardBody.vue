@@ -3,6 +3,19 @@
 		<p class="ext-checkuser-userinfocard-joined">
 			{{ joined }}
 		</p>
+		<info-row
+			v-if="globalRestrictionsLabel"
+			:icon="cdxIconAlert"
+			icon-class="ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks"
+		>
+			<!--
+			Security Note: This use of v-html is considered acceptable because:
+			- Props are set via internal API with no user input (from UserCardBody.vue)
+			- MediaWiki messages used here do not include unescaped placeholders
+			-->
+			<!-- eslint-disable-next-line vue/no-v-html -->
+			<span v-html="globalRestrictionsLabel"></span>
+		</info-row>
 		<info-row-with-links
 			v-for="( row, idx ) in infoRows"
 			:key="idx"
@@ -68,6 +81,7 @@ const {
 	cdxIconUserTemporaryLocation,
 	cdxIconNotice
 } = require( './icons.json' );
+const InfoRow = require( './InfoRow.vue' );
 const InfoRowWithLinks = require( './InfoRowWithLinks.vue' );
 const UserActivityChart = require( './UserActivityChart.vue' );
 const useInstrument = require( '../composables/useInstrument.js' );
@@ -75,7 +89,7 @@ const useInstrument = require( '../composables/useInstrument.js' );
 // @vue/component
 module.exports = exports = {
 	name: 'UserCard',
-	components: { InfoRowWithLinks, UserActivityChart },
+	components: { InfoRow, InfoRowWithLinks, UserActivityChart },
 	props: {
 		username: {
 			type: String,
@@ -179,6 +193,14 @@ module.exports = exports = {
 		ipRevealLastCheck: {
 			type: String,
 			default: ''
+		},
+		globalRestrictions: {
+			type: String,
+			default: null
+		},
+		globalRestrictionsDate: {
+			type: String,
+			default: null
 		}
 	},
 	setup( props ) {
@@ -217,6 +239,33 @@ module.exports = exports = {
 		const checksLink = mw.Title.makeTitle( -1, 'CheckUserLog' ).getUrl(
 			{ cuSearch: props.username }
 		);
+
+		let globalRestrictionsLabel = null;
+		if ( props.globalRestrictions ) {
+			const specialPage = props.globalRestrictions === 'locked' ? 'CentralAuth' : 'GlobalBlockList';
+			const linkTarget = mw.Title.makeTitle( -1, specialPage + '/' + props.username );
+
+			if ( props.globalRestrictionsDate ) {
+				// Possible variants:
+				// * checkuser-userinfocard-global-restrictions-locked
+				// * checkuser-userinfocard-global-restrictions-blocked
+				// * checkuser-userinfocard-global-restrictions-blocked-disabled
+				globalRestrictionsLabel = mw.message(
+					'checkuser-userinfocard-global-restrictions-' + props.globalRestrictions,
+					props.gender,
+					linkTarget.getPrefixedText(),
+					props.globalRestrictionsDate
+				).parse();
+			} else if ( props.globalRestrictions === 'locked' ) {
+				// For 'locked' it may happen that the date is not available, when relevant log
+				// entry has its action deleted. Global blocks do not offer a similar option.
+				globalRestrictionsLabel = mw.message(
+					'checkuser-userinfocard-global-restrictions-locked-no-date',
+					props.gender,
+					linkTarget.getPrefixedText()
+				).parse();
+			}
+		}
 
 		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
 		const maxThanks = mw.config.get( 'wgCheckUserGEUserImpactMaxThanks' ) || 1000;
@@ -370,8 +419,10 @@ module.exports = exports = {
 			formattedGlobalGroups,
 			activeWikisLabel,
 			activeWikisList,
+			globalRestrictionsLabel,
 			infoRows,
-			onWikiLinkClick
+			onWikiLinkClick,
+			cdxIconAlert
 		};
 	}
 };

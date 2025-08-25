@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
+use CentralAuthTestUser;
 use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
@@ -9,6 +10,8 @@ use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\MainConfigNames;
@@ -36,6 +39,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	private static User $tempUser2;
 
 	private static User $testUser;
+	private static User $testGlobalUser;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -49,6 +53,13 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function addDBDataOnce() {
+		// This method is called even if the tests are marked as skipped in setUp (due to absence of CentralAuth).
+		// But there's no point in adding data for tests that won't run, so we check for CentralAuth again here.
+		$extensionRegistry = $this->getServiceContainer()->getExtensionRegistry();
+		if ( !$extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+			return;
+		}
+
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cuci_wiki_map' )
 			->rows( [ [ 'ciwm_wiki' => 'enwiki' ], [ 'ciwm_wiki' => 'dewiki' ] ] )
@@ -113,6 +124,15 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		self::$tempUser1 = $result1->getUser();
 		self::$tempUser2 = $result2->getUser();
 
+		$testGlobalUser = $this->getTestUser();
+
+		$centralAuthUser = new CentralAuthTestUser(
+			$testGlobalUser->getUser()->getName(),
+			$testGlobalUser->getPassword()
+		);
+		$centralAuthUser->save( $this->getDb() );
+		self::$testGlobalUser = $testGlobalUser->getUser();
+
 		$this->populateLogTable();
 	}
 
@@ -142,7 +162,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				$services->getMainConfig()
 			),
 			$overrides[ 'CheckUserGlobalContributionsLookup' ] ??
-				$services->get( 'CheckUserGlobalContributionsLookup' )
+				$services->get( 'CheckUserGlobalContributionsLookup' ),
+			$services->getCentralIdLookup()
 		);
 	}
 
@@ -248,7 +269,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->get( 'CheckUserGlobalContributionsLookup' )
+			$services->get( 'CheckUserGlobalContributionsLookup' ),
+			$services->getCentralIdLookup()
 		);
 		$targetUser = $this->getTestUser()->getUser();
 		$userInfo = $infoCardService->getUserInfo(
@@ -755,6 +777,165 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				'suppressedRevisionAllowed' => false,
 			],
 		];
+	}
+
+	/** @dataProvider provideGlobalRestrictions */
+	public function testGlobalRestrictions(
+		bool $lockUser,
+		bool $globallyBlockUser,
+		bool $locallyDisableGlobalBlock,
+		?string $expectedResult,
+		?string $expectedTimestamp
+	) {
+		if ( $globallyBlockUser ) {
+			$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
+		}
+
+		$user = self::$testGlobalUser;
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+		try {
+			ConvertibleTimestamp::setFakeTime( '20250102030405' );
+			$this->setUserLocked( $user, $lockUser );
+			ConvertibleTimestamp::setFakeTime( '20250203040506' );
+			$this->setUserGloballyBlocked( $user, $globallyBlockUser, $locallyDisableGlobalBlock );
+
+			$userInfo = $this->getObjectUnderTest()->getUserInfo(
+				$this->mockRegisteredNullAuthority(),
+				$user
+			);
+			$this->assertSame( $expectedResult, $userInfo['globalRestrictions'] );
+			$this->assertSame( $expectedTimestamp, $userInfo['globalRestrictionsTimestamp'] );
+		} finally {
+			// Clean up the state for other tests, just in case
+			$this->setUserLocked( $user, false );
+			$this->setUserGloballyBlocked( $user, false, false );
+		}
+	}
+
+	public static function provideGlobalRestrictions(): array {
+		return [
+			'Non-restricted user' => [
+				'lockUser' => false,
+				'globallyBlockUser' => false,
+				'locallyDisableGlobalBlock' => false,
+				'expectedResult' => null,
+				'expectedTimestamp' => null,
+			],
+			'Locked user' => [
+				'lockUser' => true,
+				'globallyBlockUser' => false,
+				'locallyDisableGlobalBlock' => false,
+				'expectedResult' => 'locked',
+				'expectedTimestamp' => '20250102030405',
+			],
+			'Globally blocked user' => [
+				'lockUser' => false,
+				'globallyBlockUser' => true,
+				'locallyDisableGlobalBlock' => false,
+				'expectedResult' => 'blocked',
+				'expectedTimestamp' => '20250203040506',
+			],
+			'Globally blocked user with locally disabled block' => [
+				'lockUser' => false,
+				'globallyBlockUser' => true,
+				'locallyDisableGlobalBlock' => true,
+				'expectedResult' => 'blocked-disabled',
+				'expectedTimestamp' => '20250203040506',
+			],
+			'Globally blocked and locked user' => [
+				'lockUser' => true,
+				'globallyBlockUser' => true,
+				'locallyDisableGlobalBlock' => false,
+				'expectedResult' => 'locked',
+				'expectedTimestamp' => '20250102030405',
+			],
+		];
+	}
+
+	/** @dataProvider provideGlobalRestrictionsBlockedAndHidden */
+	public function testGlobalRestrictionsBlockedAndHidden( array $permissions, bool $shouldSee ) {
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
+
+		$user = self::$testGlobalUser;
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+		try {
+			ConvertibleTimestamp::setFakeTime( '20250102030405' );
+			$this->setUserLocked( $user, false, CentralAuthUser::HIDDEN_LEVEL_LISTS );
+			ConvertibleTimestamp::setFakeTime( '20250203040506' );
+			$this->setUserGloballyBlocked( $user, true, false );
+
+			$userInfo = $this->getObjectUnderTest()->getUserInfo(
+				$this->mockAnonAuthorityWithPermissions( $permissions ),
+				$user
+			);
+			$this->assertSame( $shouldSee ? 'blocked' : null, $userInfo['globalRestrictions'] );
+			$this->assertSame( $shouldSee ? '20250203040506' : null, $userInfo['globalRestrictionsTimestamp'] );
+		} finally {
+			// Clean up the state for other tests, just in case
+			$this->setUserLocked( $user, false );
+			$this->setUserGloballyBlocked( $user, false, false );
+		}
+	}
+
+	public static function provideGlobalRestrictionsBlockedAndHidden(): array {
+		return [
+			'Viewer has centralauth-suppress right' => [
+				'permissions' => [ 'centralauth-suppress' ],
+				'shouldSee' => true,
+			],
+			'Viewer does not have centralauth-suppress right' => [
+				'permissions' => [],
+				'shouldSee' => false,
+			],
+		];
+	}
+
+	private function setUserLocked(
+		User $user,
+		bool $isLocked,
+		int $hiddenLevel = CentralAuthUser::HIDDEN_LEVEL_NONE
+	): void {
+		$context = RequestContext::getMain();
+		$context->setUser( $this->getTestSysop()->getUser() );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$centralAuthUser = CentralAuthUser::getInstance( $user );
+		$this->assertStatusGood(
+			$centralAuthUser->adminLockHide( $isLocked, $hiddenLevel, 'Test', $context )
+		);
+		$this->assertSame( $isLocked, $centralAuthUser->isLocked() );
+	}
+
+	private function setUserGloballyBlocked( User $user, bool $isBlocked, bool $isLocallyDisabled ): void {
+		$testBlocker = $this->getTestUser( [ 'steward', 'sysop' ] )->getUser();
+
+		$globalBlockingServices = GlobalBlockingServices::wrap( $this->getServiceContainer() );
+		$globalBlockManager = $globalBlockingServices->getGlobalBlockManager();
+		$globalBlockLookup = $globalBlockingServices->getGlobalBlockLookup();
+
+		if ( $isBlocked ) {
+			$globalBlockManager->block( $user->getName(), 'Test', 'infinite', $testBlocker );
+		} else {
+			$globalBlockManager->unblock( $user->getName(), 'Test', $testBlocker );
+		}
+
+		$id = $globalBlockLookup->getGlobalBlockId( $user->getName() );
+		$this->assertSame( $isBlocked, $id !== 0 );
+
+		// Disabling the block makes sense only if the block is present
+		if ( $isBlocked ) {
+			$localStatusManager = $globalBlockingServices->getGlobalBlockLocalStatusManager();
+			$localStatusLookup = $globalBlockingServices->getGlobalBlockLocalStatusLookup();
+
+			if ( $isLocallyDisabled ) {
+				$localStatusManager->locallyDisableBlock( $user->getName(), 'Test', $testBlocker );
+			} else {
+				$localStatusManager->locallyEnableBlock( $user->getName(), 'Test', $testBlocker );
+			}
+
+			$status = $localStatusLookup->getLocalStatusInfo( $id );
+			$this->assertSame( $isLocallyDisabled, $status !== false );
+		}
 	}
 
 	private function populateLogTable(): void {

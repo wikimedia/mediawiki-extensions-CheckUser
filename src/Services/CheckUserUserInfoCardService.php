@@ -11,20 +11,26 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
+use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLookup;
 use MediaWiki\Interwiki\InterwikiLookup;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\LogPage;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Message\Message;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\TitleFactory;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Registration\UserRegistrationLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\WikiMap\WikiMap;
 use MessageLocalizer;
 use Wikimedia\Message\ListType;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -40,6 +46,10 @@ class CheckUserUserInfoCardService {
 		'CheckUserUserInfoCardCentralWikiId',
 		'CUDMaxAge',
 	];
+
+	private const GLOBAL_RESTRICTIONS_LOCKED = 'locked';
+	private const GLOBAL_RESTRICTIONS_BLOCKED = 'blocked';
+	private const GLOBAL_RESTRICTIONS_BLOCKED_DISABLED = 'blocked-disabled';
 
 	public function __construct(
 		private readonly ?UserImpactLookup $userImpactLookup,
@@ -57,7 +67,8 @@ class CheckUserUserInfoCardService {
 		private readonly GenderCache $genderCache,
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly ServiceOptions $options,
-		private readonly ?CheckUserGlobalContributionsLookup $globalContributionsLookup
+		private readonly ?CheckUserGlobalContributionsLookup $globalContributionsLookup,
+		private readonly CentralIdLookup $centralIdLookup
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -145,6 +156,8 @@ class CheckUserUserInfoCardService {
 			$userInfo += $this->getIPRevealLogData( $authority, $user );
 		}
 
+		$userInfo['globalRestrictions'] = null;
+		$userInfo['globalRestrictionsTimestamp'] = null;
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
 			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ?
@@ -164,6 +177,58 @@ class CheckUserUserInfoCardService {
 				$userInfo['globalGroups'] = $this->messageLocalizer->msg( 'checkuser-userinfocard-global-groups' )
 					->params( Message::listParam( $globalGroupMessages, ListType::COMMA ) )
 					->text();
+			}
+
+			if ( $centralAuthUser->isLocked() ) {
+				$userInfo['globalRestrictions'] = self::GLOBAL_RESTRICTIONS_LOCKED;
+
+				// We don't know what permissions the user has on the central wiki,
+				// so we check whether this is the central wiki. If not, assume we don't
+				// have any special permissions to view hidden parts of the log entries.
+				$localWikiId = WikiMap::getCurrentWikiId();
+				$centralWikiId = $this->options->get( 'CheckUserUserInfoCardCentralWikiId' );
+
+				$userStatusLookup = CentralAuthServices::getUserStatusLookupFactory()
+					->getLookupService( $centralWikiId );
+
+				$lookupAuthority = $authority;
+				if ( $localWikiId !== $centralWikiId && $centralWikiId !== false ) {
+					$lookupAuthority = new SimpleAuthority( $authority->getUser(), [], $authority->isTemp() );
+				}
+				$userInfo['globalRestrictionsTimestamp'] =
+					$userStatusLookup->getUserLockedTimestamp( $centralAuthUser->getName(), $lookupAuthority );
+			}
+		}
+
+		if (
+			// Locked users can't log in, so blocks have no effect on them
+			$userInfo['globalRestrictions'] === null
+			&& $this->extensionRegistry->isLoaded( 'GlobalBlocking' )
+		) {
+			$centralId = $this->centralIdLookup->centralIdFromLocalUser( $user, $authority );
+			$globalBlockingServices = GlobalBlockingServices::wrap( MediaWikiServices::getInstance() );
+			$globalBlockRow = $globalBlockingServices->getGlobalBlockLookup()
+				->getGlobalBlockingBlock( null, $centralId, GlobalBlockLookup::SKIP_LOCAL_DISABLE_CHECK );
+
+			// By default, trust `centralIdFromLocalUser` to take care of permissions
+			$canSee = true;
+			if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+				// However, CentralAuth ignores authority when performing central id lookup, so ensure that
+				// we don't leak information about the user if it's hidden and authority doesn't have the right
+				// to see hidden users
+				// @phan-suppress-next-line PhanPossiblyUndeclaredVariable
+				$canSee = !$centralAuthUser->isHidden() || $authority->isAllowed( 'centralauth-suppress' );
+			}
+
+			if ( $globalBlockRow && $canSee ) {
+				$localBlockStatus = $globalBlockingServices->getGlobalBlockLocalStatusLookup()
+					->getLocalStatusInfo( $globalBlockRow->gb_id );
+				$isLocallyDisabled = $localBlockStatus !== false;
+
+				$userInfo['globalRestrictions'] = $isLocallyDisabled ?
+					self::GLOBAL_RESTRICTIONS_BLOCKED_DISABLED :
+					self::GLOBAL_RESTRICTIONS_BLOCKED;
+				$userInfo['globalRestrictionsTimestamp'] = $globalBlockRow->gb_timestamp;
 			}
 		}
 

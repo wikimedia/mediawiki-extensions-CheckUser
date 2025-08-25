@@ -50,6 +50,8 @@
 				:has-ip-reveal-info="userCard.hasIpRevealInfo"
 				:has-edit-in-last-60-days="userCard.hasEditInLast60Days"
 				:special-central-auth-url="userCard.specialCentralAuthUrl"
+				:global-restrictions="userCard.globalRestrictions"
+				:global-restrictions-date="userCard.globalRestrictionsDate"
 			></user-card-body>
 			<!--eslint-enable-->
 		</div>
@@ -119,7 +121,9 @@ module.exports = exports = {
 			specialCentralAuthUrl: '',
 			numberOfIpReveals: 0,
 			ipRevealLastCheck: '',
-			hasIpRevealInfo: false
+			hasIpRevealInfo: false,
+			globalRestrictions: null,
+			globalRestrictionsTimestamp: null
 		} );
 
 		// Methods
@@ -166,7 +170,9 @@ module.exports = exports = {
 						globalGroups,
 						specialCentralAuthUrl,
 						numberOfIpReveals,
-						ipRevealLastCheck
+						ipRevealLastCheck,
+						globalRestrictions,
+						globalRestrictionsTimestamp
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -236,6 +242,12 @@ module.exports = exports = {
 						{} : activeWikis;
 					userCard.groups = groups;
 					userCard.globalGroups = globalGroups;
+					userCard.globalRestrictions = globalRestrictions;
+
+					const globalRestrictionsDate =
+						parseMediaWikiTimestamp( globalRestrictionsTimestamp );
+					userCard.globalRestrictionsDate = globalRestrictionsDate ?
+						DateFormatter.formatDate( globalRestrictionsDate ) : '';
 
 					loading.value = false;
 				} )

@@ -476,7 +476,8 @@ return [
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$globalContributionsLookup
+			$globalContributionsLookup,
+			$services->getCentralIdLookup()
 		);
 	},
 ];
