@@ -176,5 +176,6 @@
 	"checkuser-investigate-compare-table-header-useragent": "ব্যবহারকারী এজেন্ট",
 	"checkuser-investigate-subtitle-link-restart-tour": "ট্যুর পুনরাম্ভ করুন",
 	"checkuser-investigate-tour-targets-title": "একাধিক ব্যবহারকারী ও আইপি পরীক্ষা করছেন?",
-	"checkuser-investigate-tour-block-title": "বাধা দিতে চান?"
+	"checkuser-investigate-tour-block-title": "বাধা দিতে চান?",
+	"checkuser-investigate-tour-copywikitext-title": "উপাত্ত অনুলিপি করতে চান?"
 }
