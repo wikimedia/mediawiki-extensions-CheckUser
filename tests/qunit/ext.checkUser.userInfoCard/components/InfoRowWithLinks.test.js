@@ -1,6 +1,6 @@
 'use strict';
 
-const { shallowMount } = require( 'vue-test-utils' );
+const { shallowMount, mount } = require( 'vue-test-utils' );
 const InfoRowWithLinks = require( 'ext.checkUser.userInfoCard/modules/ext.checkUser.userInfoCard/components/InfoRowWithLinks.vue' );
 
 QUnit.module( 'ext.checkUser.userInfoCard.InfoRowWithLinks', QUnit.newMwEnvironment( {
@@ -24,13 +24,6 @@ QUnit.module( 'ext.checkUser.userInfoCard.InfoRowWithLinks', QUnit.newMwEnvironm
 	}
 } ) );
 
-// Sample icon for testing
-const sampleIcon = {
-	path: 'M10 10 H 90 V 90 H 10 Z',
-	width: 24,
-	height: 24
-};
-
 // Reusable mount helper
 function mountComponent( props = {} ) {
 	return shallowMount( InfoRowWithLinks, {
@@ -41,32 +34,6 @@ function mountComponent( props = {} ) {
 		}
 	} );
 }
-
-QUnit.test( 'renders correctly with minimal props', ( assert ) => {
-	const wrapper = mountComponent();
-
-	assert.true( wrapper.exists(), 'Component renders' );
-	assert.true(
-		wrapper.find( 'p' ).classes().includes( 'ext-checkuser-userinfocard-short-paragraph' ),
-		'Paragraph has correct class'
-	);
-} );
-
-QUnit.test( 'does not render icon when icon prop is not provided', ( assert ) => {
-	const wrapper = mountComponent();
-
-	const icon = wrapper.findComponent( { name: 'CdxIcon' } );
-	assert.false( icon.exists(), 'Icon does not exist when icon prop is not provided' );
-} );
-
-QUnit.test( 'renders icon when icon prop is provided', ( assert ) => {
-	const wrapper = mountComponent( { icon: sampleIcon, iconClass: 'test-icon-class' } );
-
-	const icon = wrapper.findComponent( { name: 'CdxIcon' } );
-	assert.true( icon.exists(), 'Icon exists when icon prop is provided' );
-	assert.deepEqual( icon.props( 'icon' ), sampleIcon, 'Icon has correct icon prop' );
-	assert.true( icon.classes().includes( 'test-icon-class' ), 'Icon has correct class' );
-} );
 
 QUnit.test( 'formattedMessage computed property creates correct HTML for main value only', ( assert ) => {
 	const wrapper = mountComponent( {
@@ -178,9 +145,11 @@ QUnit.test( 'handles numeric values correctly', ( assert ) => {
 } );
 
 QUnit.test( 'renders formatted message using v-html', ( assert ) => {
-	const wrapper = mountComponent( {
-		messageKey: 'checkuser-userinfocard-global-edits',
-		mainValue: 'Test Value'
+	const wrapper = mount( InfoRowWithLinks, {
+		propsData: {
+			messageKey: 'checkuser-userinfocard-global-edits',
+			mainValue: 'Test Value'
+		}
 	} );
 
 	const span = wrapper.find( 'span' );

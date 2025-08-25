@@ -1,10 +1,8 @@
 <template>
-	<p class="ext-checkuser-userinfocard-short-paragraph">
-		<cdx-icon
-			v-if="icon"
-			:icon="icon"
-			:class="iconClass"
-		></cdx-icon>
+	<info-row
+		:icon="icon"
+		:icon-class="iconClass"
+	>
 		<!--
 		Security Note: This use of v-html is considered acceptable because:
 		- Props are set via internal API with no user input (from UserCardBody.vue)
@@ -13,18 +11,18 @@
 		-->
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<span v-html="formattedMessage"></span>
-	</p>
+	</info-row>
 </template>
 
 <script>
-const { CdxIcon } = require( '@wikimedia/codex' );
 const { computed, onMounted, watch, nextTick } = require( 'vue' );
+const InfoRow = require( './InfoRow.vue' );
 const useInstrument = require( '../composables/useInstrument.js' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'InfoRowWithLinks',
-	components: { CdxIcon },
+	components: { InfoRow },
 	props: {
 		icon: { type: [ String, Object ], default: null },
 		iconClass: { type: String, default: '' },
@@ -119,19 +117,3 @@ module.exports = exports = {
 	}
 };
 </script>
-
-<style lang="less">
-@import 'mediawiki.skin.variables.less';
-
-p.ext-checkuser-userinfocard-short-paragraph {
-	margin: @spacing-0 @spacing-0 @spacing-25;
-
-	/* stylelint-disable-next-line selector-class-pattern */
-	.cdx-icon {
-		min-width: @size-100;
-		min-height: @size-100;
-		width: @size-100;
-		height: @size-100;
-	}
-}
-</style>
