@@ -49,7 +49,8 @@ class RevokeTemporaryAccountViewerGroup extends Maintenance {
 		);
 		$this->addOption(
 			'expiry',
-			'Revoke the rights of accounts that haven\'t been active in N days. Use 0 to revoke everyone\'s right.',
+			'Revoke the group membership of accounts that haven\'t been active in N days. ' .
+			'If you need to remove everyone from the group, use emptyUserGroup.php instead.',
 			true,
 			true
 		);
@@ -96,7 +97,7 @@ class RevokeTemporaryAccountViewerGroup extends Maintenance {
 			$userIdentity,
 			[],
 			[ 'temporary-account-viewer' ],
-			$context->msg( 'checkuser-temporary-account-autorevoke-userright-reason' )
+			$context->msg( 'checkuser-temporary-account-autorevoke-userright-reason' )->text()
 		);
 
 		// doSaveUserGroups() will return the removed groups in the second array. If it's empty, there was a problem.
@@ -142,6 +143,11 @@ class RevokeTemporaryAccountViewerGroup extends Maintenance {
 		$revokeCount = 0;
 		$skippedUsers = [];
 		do {
+			// Get users with 'temporary-account-viewer' membership that should be revoked
+			// by doing a left join on revision and logging with the expiry range.
+			// This works by setting null on all rows in the revision/logging tables
+			// that don't match the range which can then be filtered for. Any row
+			// with a valid timestamp would indicate activity from the user.
 			$userQuerySelector = $dbr->newSelectQueryBuilder()
 				->select( 'ug_user' )
 				->distinct()
@@ -149,43 +155,26 @@ class RevokeTemporaryAccountViewerGroup extends Maintenance {
 				->where( $dbr->expr( 'ug_user', '>', $maxUserId ) )
 				->join( 'actor', null, 'ug_user=actor_user' )
 				->orderBy( 'ug_user' )
+				->leftJoin( 'revision', null, [
+					'actor_id=rev_actor',
+					$dbr->expr( 'rev_timestamp', '>', $expiryTimestamp ),
+				] )
+				->leftJoin( 'logging', null, [
+					'actor_id=log_actor',
+					$dbr->expr( 'log_timestamp', '>', $expiryTimestamp ),
+				] )
+				->where( [
+					'ug_group' => 'temporary-account-viewer',
+					$dbr->expr( 'ug_expiry', '>', $dbr->timestamp() )
+						->or( 'ug_expiry', '=', null ),
+					'rev_timestamp' => null,
+					'log_timestamp' => null,
+				] )
 				->limit( $this->getBatchSize() );
 
 			// Ignore users that have been attempted but for whatever reason were marked as failures
 			if ( count( $skippedUsers ) ) {
 				$userQuerySelector->andWhere( $dbr->expr( 'ug_user', '!=', $skippedUsers ) );
-			}
-
-			// Get users with 'temporary-account-viewer' membership that should be revoked
-			if ( $expiryAfterDays === 0 ) {
-				// If the expiry is set to 0, all users with an active membership in the group
-				// should have it revoked regardless of activity
-				$userQuerySelector->where( [
-					'ug_group' => 'temporary-account-viewer',
-					$dbr->expr( 'ug_expiry', '>', wfTimestamp( TS_MW ) )
-						->or( 'ug_expiry', '=', null )
-				] );
-			} else {
-				// Otherwise, left join on revision and logging with the expiry range
-				// This works by setting null on all rows in the revision/logging tables
-				// that don't match the range which can then be filtered for. Any row
-				// with a valid timestamp would indicate activity from the user.
-				$userQuerySelector
-					->leftJoin( 'revision', null, [
-						'actor_id=rev_actor',
-						$dbr->expr( 'rev_timestamp', '>', $expiryTimestamp ),
-					] )
-					->leftJoin( 'logging', null, [
-						'actor_id=log_actor',
-						$dbr->expr( 'log_timestamp', '>', $expiryTimestamp ),
-					] )
-					->where( [
-						'ug_group' => 'temporary-account-viewer',
-						$dbr->expr( 'ug_expiry', '>', wfTimestamp( TS_MW ) )
-							->or( 'ug_expiry', '=', null ),
-						'rev_timestamp' => null,
-						'log_timestamp' => null,
-					] );
 			}
 			$usersToRevokeGroupMembershipFrom = $userQuerySelector
 				->caller( __METHOD__ )
@@ -204,22 +193,21 @@ class RevokeTemporaryAccountViewerGroup extends Maintenance {
 				$revokeStatus = $this->revokeTempAccountViewerGroupMembership( $userIdentity );
 				if ( $revokeStatus === true ) {
 					$revokeCount++;
+					$this->verboseLog(
+						'Removed ' . $userIdentity->getName() . ' from temporary-account-viewer group' . PHP_EOL
+					);
 				} else {
 					$skippedUsers[] = $revokeStatus;
 				}
 				$maxUserId = (int)$userRow->ug_user;
-
-				$this->verboseLog(
-					'Removed ' . $userIdentity->getName() . ' from temporary-account-viewer group' . PHP_EOL
-				);
 			}
 			$this->waitForReplication();
 		} while ( $usersToRevokeGroupMembershipFrom->numRows() );
 
 		$this->output( "Removed $revokeCount user(s) from temporary-account-viewer group." . PHP_EOL );
 		if ( count( $skippedUsers ) ) {
-			$this->output( "Attempted and failed to remove users " . implode( ',', $skippedUsers ) .
-			'from temporary-account-viewer group.' . PHP_EOL );
+			$this->output( "Attempted and failed to remove user(s) " . implode( ',', $skippedUsers ) .
+			' from temporary-account-viewer group.' . PHP_EOL );
 		}
 	}
 }
