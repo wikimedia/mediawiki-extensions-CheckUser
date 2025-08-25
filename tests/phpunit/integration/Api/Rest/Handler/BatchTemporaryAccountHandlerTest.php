@@ -32,6 +32,7 @@ use Psr\Log\LoggerInterface;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\TestingAccessWrapper;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -47,6 +48,10 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 	private static UserIdentity $tempUser;
 	private static int $pageCreationLogId;
+	private static int $expiredLogId;
+	private static int $standardAFLogId;
+	private static int $expiredAFLogId;
+	private static int $unavailableAFLogId;
 	private static array $logIdsForPerformLogsLookupTest;
 
 	/**
@@ -131,7 +136,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				$autoRevealLookup,
 				$services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				$services->getReadOnlyMode(),
-				$extensionRegistry
+				$extensionRegistry,
+				$services->get( 'CheckUserExpiredIdsLookupService' ),
 			] )
 			->getMock();
 		$handler->method( 'getRevisionsIps' )
@@ -214,7 +220,11 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideExecuteForSpecificTypeOfIds */
 	public function testExecuteForSpecificTypeOfIds(
-		$revIdsCallback, $logIdsCallback, $abuseLogIdsCallback, $expectedResponseCallback, $permissions
+		callable $revIdsCallback,
+		callable $logIdsCallback,
+		callable $abuseLogIdsCallback,
+		callable $expectedResponseCallback,
+		array $permissions
 	) {
 		if ( count( $abuseLogIdsCallback() ) ) {
 			$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
@@ -308,9 +318,25 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'logIdsCallback' => static fn () => [ 10, 1000 ],
 				'abuseLogIdsCallback' => static fn () => [],
 				'expectedResponseCallback' => static fn () => [
-					'logIps' => [ 10 => '1.2.3.4' ],
+					'logIps' => [
+						10 => '1.2.3.4',
+						// null means the ID is unavailable (but not expired)
+						1000 => null
+					],
 				],
 				'permissions' => [],
+			],
+			'One visible and one expired log (privileged user)' => [
+				'revIdsCallback' => static fn () => [],
+				'logIdsCallback' => static fn () => [ 10, self::$expiredLogId ],
+				'abuseLogIdsCallback' => static fn () => [],
+				'expectedResponseCallback' => static fn () => [
+					'logIps' => [
+						10 => '1.2.3.4',
+						// The expired entry is not present in the response
+					],
+				],
+				'permissions' => [ 'viewsuppressed' ],
 			],
 			'One visible and one suppressed log (privileged user)' => [
 				'revIdsCallback' => static fn () => [],
@@ -321,12 +347,56 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				],
 				'permissions' => [ 'viewsuppressed' ],
 			],
+			'One visible, one expired, one unavailable log (privileged user)' => [
+				'revIdsCallback' => static fn () => [],
+				'logIdsCallback' => static fn () => [
+					10,
+					self::$expiredLogId,
+					9999
+				],
+				'abuseLogIdsCallback' => static fn () => [],
+				'expectedResponseCallback' => static fn () => [
+					// Note the expired entry (self::$expiredLogId) is not
+					// present in the response
+					'logIps' => [
+						10 => '1.2.3.4',
+						// 9999 is considered unavailable since there is no
+						// log entry with such ID.
+						9999 => null
+					],
+				],
+				'permissions' => [ 'viewsuppressed' ],
+			],
+			'One visible, one expired, one unavailable log (privileged user)' => [
+				'revIdsCallback' => static fn () => [],
+				'logIdsCallback' => static fn () => [
+					10,
+					self::$expiredLogId,
+					9999
+				],
+				'abuseLogIdsCallback' => static fn () => [],
+				'expectedResponseCallback' => static fn () => [
+					// Note the expired entry (self::$expiredLogId) is not
+					// present in the response
+					'logIps' => [
+						10 => '1.2.3.4',
+						// 9999 is considered unavailable since there is no
+						// log entry with such ID.
+						9999 => null
+					],
+				],
+				'permissions' => [ 'viewsuppressed' ],
+			],
 			'Nonexistent log IDs included' => [
 				'revIdsCallback' => static fn () => [],
 				'logIdsCallback' => static fn () => [ 10, 9999 ],
 				'abuseLogIdsCallback' => static fn () => [],
 				'expectedResponseCallback' => static fn () => [
-					'logIps' => [ 10 => '1.2.3.4' ],
+					'logIps' => [
+						10 => '1.2.3.4',
+						// null means the ID is unavailable (but not expired)
+						9999 => null
+					],
 				],
 				'permissions' => [],
 			],
@@ -339,14 +409,38 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				],
 				'permissions' => [],
 			],
-			'AbuseFilter log' => [
+			'AbuseFilter log (one existing, one expired)' => [
 				'revIdsCallback' => static fn () => [],
 				'logIdsCallback' => static fn () => [],
 				'abuseLogIdsCallback' => static fn () => [ 1, 2 ],
 				'expectedResponseCallback' => static fn () => [
 					'abuseLogIps' => [ 1 => '1.2.3.4' ]
 				],
-				'permissions' => [ 'abusefilter-log-detail', 'abusefilter-log-private' ],
+				'permissions' => [
+					'abusefilter-log-detail',
+					'abusefilter-log-private'
+				],
+			],
+			'AbuseFilter log (existing, expired, unavailable, non-existing IDs)' => [
+				'revIdsCallback' => static fn () => [],
+				'logIdsCallback' => static fn () => [],
+				'abuseLogIdsCallback' => static fn () => [
+					1,
+					self::$expiredAFLogId,
+					self::$unavailableAFLogId,
+					9999
+				],
+				'expectedResponseCallback' => static fn () => [
+					'abuseLogIps' => [
+						1 => '1.2.3.4',
+						// null means the ID is unavailable (but not expired)
+						self::$unavailableAFLogId => null
+					]
+				],
+				'permissions' => [
+					'abusefilter-log-detail',
+					'abusefilter-log-private'
+				],
 			]
 		];
 	}
@@ -394,7 +488,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				),
 				$services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				$services->getReadOnlyMode(),
-				$extensionRegistry
+				$extensionRegistry,
+				$services->get( 'CheckUserExpiredIdsLookupService' ),
 			] )
 			->getMock();
 
@@ -412,11 +507,15 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->create( null, new FauxRequest() )
 			->getUser();
 
+		self::$tempUser = $tempUser1;
+
 		$this->addDBDataForAbuseLog( $tempUser1, $tempUser2 );
 		$this->addDBDataForLogs( $tempUser1 );
 
-		// tempUser2 is not referenced in tests; it's only a confounding factor for the code
-		self::$tempUser = $tempUser1;
+		// Add an expired log entry
+		$logEntry = $this->createLogEntry( $tempUser2 );
+		$logEntry->setTimestamp( '20150101012345' );
+		self::$expiredLogId = $logEntry->insert();
 	}
 
 	private function addDBDataForLogs( User $tempUser ): void {
@@ -502,16 +601,22 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 	private function addDBDataForAbuseLog( User $tempUser1, User $tempUser2 ): void {
 		$performer = $this->getTestSysop()->getUser();
-		$this->assertStatusGood( AbuseFilterServices::getFilterStore()->saveFilter(
+		$filterStore = AbuseFilterServices::getFilterStore();
+
+		$status = $filterStore->saveFilter(
 			$performer, null,
 			$this->getFilterFromSpecs( [
 				'id' => '1',
-				'name' => 'Test filter',
+				'name' => 'Test filter #1',
 				'privacy' => Flags::FILTER_HIDDEN,
 				'rules' => 'old_wikitext = "abc"',
 			] ),
 			MutableFilter::newDefault()
-		) );
+		);
+
+		$this->assertStatusGood( $status );
+
+		$filterId = $status->value[ 0 ];
 
 		// Insert two hits on the filter performed by different users but on the same IP
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.4' );
@@ -524,7 +629,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'user_name' => $tempUser1->getName(),
 				'old_wikitext' => 'abc',
 			] )
-		)->addLogEntries( [ 1 => [] ] );
+		)->addLogEntries( [ $filterId => [] ] );
 
 		$abuseFilterLoggerFactory = AbuseFilterServices::getAbuseLoggerFactory();
 		$abuseFilterLoggerFactory->newLogger(
@@ -535,7 +640,75 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'user_name' => $tempUser2->getName(),
 				'old_wikitext' => 'abc',
 			] )
-		)->addLogEntries( [ 1 => [] ] );
+		)->addLogEntries( [ $filterId => [] ] );
+
+		$dbw = $this->getDb();
+		$template = [
+			'afl_global' => 0,
+			'afl_filter_id' => 1,
+			'afl_user' => $tempUser1->getId(),
+			'afl_user_text' => $tempUser1->getName(),
+			'afl_ip' => '1.2.3.4',
+			'afl_ip_hex' => dechex( ip2long( '1.2.3.4' ) ),
+			'afl_action' => 'edit',
+			'afl_actions' => 'tag',
+			'afl_var_dump' => 'tt:1',
+			'afl_namespace' => 0,
+			'afl_title' => 'Main_page',
+			'afl_deleted' => 0,
+			'afl_rev_id' => 1
+		];
+
+		// Full data in a non-expired entry
+		$dbw->newInsertQueryBuilder()
+			->caller( __METHOD__ )
+			->table( 'abuse_filter_log' )
+			->row(
+				array_merge( $template, [
+					'afl_timestamp' => ConvertibleTimestamp::now()
+				] )
+			)
+			->execute();
+
+		$this->assertSame( 1, $dbw->affectedRows() );
+		self::$standardAFLogId = $dbw->insertId();
+		$this->assertGreaterThan( 0, self::$standardAFLogId );
+
+		// Simulate an expired log by setting an old timestamp as well as
+		// removing the IP data (see PurgeOldLogData.php in AbuseFilter).
+		$dbw->newInsertQueryBuilder()
+			->caller( __METHOD__ )
+			->table( 'abuse_filter_log' )
+			->row(
+				array_merge( $template, [
+					// PurgeOldLogData sets them to an empty string
+					'afl_ip' => '',
+					'afl_ip_hex' => '',
+					'afl_timestamp' => '20150101012345',
+				] )
+			)
+			->execute();
+
+		$this->assertSame( 1, $dbw->affectedRows() );
+		self::$expiredAFLogId = $dbw->insertId();
+		$this->assertGreaterThan( 0, self::$expiredAFLogId );
+
+		// Not expired, but missing IP
+		$dbw->newInsertQueryBuilder()
+			->caller( __METHOD__ )
+			->table( 'abuse_filter_log' )
+			->row(
+				array_merge( $template, [
+					'afl_ip' => '',
+					'afl_ip_hex' => '',
+					'afl_timestamp' => ConvertibleTimestamp::now(),
+				] )
+			)
+			->execute();
+
+		$this->assertSame( 1, $dbw->affectedRows() );
+		self::$unavailableAFLogId = $dbw->insertId();
+		$this->assertGreaterThan( 0, self::$unavailableAFLogId );
 	}
 
 	private function createLogEntry( UserIdentity $performer ): ManualLogEntry {

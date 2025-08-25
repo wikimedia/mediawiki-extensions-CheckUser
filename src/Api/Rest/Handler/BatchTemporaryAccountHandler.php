@@ -6,6 +6,7 @@ use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
+use MediaWiki\CheckUser\Services\CheckUserExpiredIdsLookupService;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\Config;
@@ -46,7 +47,8 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
 		TemporaryAccountLoggerFactory $loggerFactory,
 		ReadOnlyMode $readOnlyMode,
-		private readonly ExtensionRegistry $extensionRegistry
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly CheckUserExpiredIdsLookupService $expiredIdsLookupService
 	) {
 		parent::__construct(
 			$config,
@@ -137,27 +139,91 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Given an array containing several lists of identifiers, returns an
+	 * associative array whose keys are types of identifiers holding information
+	 * for each type of identifier, as follows:
+	 *
+	 * [
+	 *   'revIps' => (IP data), // (object) [ 1 => '1.2.3.4', 2 => NULL, ... ]
+	 *   'logIps' => (IP data), // (object) [ 1 => '1.2.3.4', 2 => NULL, ... ]
+	 *   'lastUsedIp' => '1.2.3.4'
+	 * ]
+	 *
+	 * 'lastUsedIp' contains the last used IP for the actor ID provided in the
+	 * input data.
+	 *
+	 * "(IP data)" above is either NULL if no IDs have been requested for a
+	 * given type, or an object where each key is an identifier having the IP
+	 * associated with that identifier as its value. For identifiers where the
+	 * IP has expired, the IP is returned as NULL; for identifiers whose data is
+	 * not available, the entry for the identifier itself is removed altogether
+	 * from the "(IP data)" object.
+	 *
+	 * The input data in $identifier is an associative array with keys named
+	 * 'actorId', 'revIds', 'logIds' & 'lastUsedIp' where:
+	 *
+	 * - lastUsedIp is a boolean determining whether the 'lastUsedIp' component
+	 *   in the response should be proved (which will be null if lastUsedIp in
+	 *   $identifier is false).
+	 * - actorId contains an Actor ID, used to populate the lastUsedIp component
+	 *   as described above if available.
+	 * - revIds contains an array of revision IDs, which should be associated
+	 *   with the actorId described above.
+	 * - logIds contains an array of log IDs, which should be associated with
+	 *   the actorId described above.
+	 * - If the Abuse Filter extension is installed, abuseLogIds contains an
+	 *   array of AbuseLog IDs.
+	 *
+	 * @param array<string,mixed> $identifier Lists of IDs.
+	 * @param IReadableDatabase $dbr Connection used to fetch data from.
 	 */
 	protected function getData( $identifier, IReadableDatabase $dbr ): array {
 		[ 'actorId' => $actorId, 'revIds' => $revIds, 'logIds' => $logIds, 'lastUsedIp' => $lastUsedIp ] = $identifier;
 
 		$data = [
-			'revIps' => count( $revIds ) > 0
-				? $this->getRevisionsIps( $actorId, $revIds, $dbr )
-				: null,
-			'logIps' => count( $logIds ) > 0
-				? $this->getLogIps( $actorId, $logIds, $dbr )
-				: null,
+			'revIps' => null,
+			'logIps' => null,
 			'lastUsedIp' => $lastUsedIp
 				? ( $this->getActorIps( $actorId, 1, $dbr )[0] ?? null )
 				: null,
 		];
 
+		if ( count( $revIds ) > 0 ) {
+			$revIPs = $this->getRevisionsIps( $actorId, $revIds, $dbr );
+			$data[ 'revIps' ] = $this->formatIPMap(
+				$revIPs,
+				$revIds,
+				$this->expiredIdsLookupService->listExpiredRevisionIdsInSet(
+					$this->listMissingIDs( $revIPs, $revIds )
+				)
+			);
+		}
+
+		if ( count( $logIds ) > 0 ) {
+			$logIPs = $this->getLogIps( $actorId, $logIds, $dbr );
+			$data[ 'logIps' ] = $this->formatIPMap(
+				$logIPs,
+				$logIds,
+				$this->expiredIdsLookupService->listExpiredLogIdsInSet(
+					$this->listMissingIDs( $logIPs, $logIds )
+				)
+			);
+		}
+
 		if ( $this->extensionRegistry->isLoaded( 'Abuse Filter' ) ) {
-			$data['abuseLogIps'] = count( $identifier['abuseLogIds'] ) > 0
-				? $this->getAbuseFilterLogIPs( $identifier['abuseLogIds'] )
-				: null;
+			$data['abuseLogIps'] = null;
+
+			if ( count( $identifier['abuseLogIds'] ) > 0 ) {
+				$afLogIdentifiers = $identifier['abuseLogIds'];
+				$afIPs = $this->getAbuseFilterLogIPs( $afLogIdentifiers );
+				$data[ 'abuseLogIps' ] = $this->formatIPMap(
+					$afIPs,
+					$afLogIdentifiers,
+					$this->expiredIdsLookupService->listExpiredAbuseLogIdsInSet(
+						$this->listMissingIDs( $afIPs, $afLogIdentifiers )
+					)
+				);
+			}
 		}
 
 		return $data;
@@ -211,6 +277,60 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		}
 
 		return $body;
+	}
+
+	/**
+	 * Given a map of IDs to IPs:
+	 *
+	 * - Removes entries for IDs that have expired.
+	 * - Adds NULLs for IDs that were requested, not expired and either not
+	 *   present in the map or having an empty value (i.e. an empty string).
+	 *
+	 * @param array<string|int,string|int> $ipMap Map of IDs to IPs.
+	 * @param array<string|int> $requestedIds List of requested IDs.
+	 * @param array<string|int> $expiredIds List of expired IDs.
+	 *
+	 * @return array<string|int,string|int|null> The updated map.
+	 */
+	private function formatIPMap(
+		array $ipMap,
+		array $requestedIds,
+		array $expiredIds
+	): array {
+		foreach ( $expiredIds as $expiredId ) {
+			unset( $ipMap[ (string)$expiredId ] );
+		}
+
+		$nonExpiredIds = array_diff( $requestedIds, $expiredIds );
+		foreach ( $nonExpiredIds as $nonExpiredId ) {
+			// Testing also for an empty string due to getIPsForAbuseFilterLogs()
+			// returning that when the IP has been deleted.
+			if ( !isset( $ipMap[ $nonExpiredId ] ) || $ipMap[ $nonExpiredId ] === '' ) {
+				$ipMap[ $nonExpiredId ] = null;
+			}
+		}
+
+		return $ipMap;
+	}
+
+	/**
+	 * Given a mapping of IDs to arbitrary data and a list of IDs, constructs a
+	 * new list with the IDs from the second list after removing the IDs present
+	 * in the mapping pointing to non-empty values.
+	 *
+	 * Ths method is used to remove the IDs from the list of all IDs that are
+	 * already present in the data array.
+	 *
+	 * @param array<string|int, string|int> $data
+	 * @param array<string|int> $allIds
+	 *
+	 * @return array<string|int>
+	 */
+	private function listMissingIDs( array $data, array $allIds ): array {
+		return array_diff(
+			$allIds,
+			array_keys( array_filter( $data ) )
+		);
 	}
 
 	/**
