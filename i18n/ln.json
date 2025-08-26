@@ -11,5 +11,8 @@
 	"grouppage-temporary-account-viewer": "{{ns:project}}:Motali IP ya compte ya ntango moke",
 	"checkuser-global-contributions-link-sidebar": "Makabo ya mokili mobimba",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Ba résultats oyo ekokani na query te.</strong> Okoki kozwa makabo soki obongoli ba paramètres ya boluki na yo.",
-	"checkuser-ip-auto-reveal-link-sidebar": "IP Komimonisa ye moko"
+	"checkuser-ip-auto-reveal-link-sidebar": "IP Komimonisa ye moko",
+	"checkuser-temporary-account-autorevoke-userright-reason": "abimisami na ye moko mpo azalaki kosala eloko te",
+	"checkuser-userinfocard-ip-revealed-count": "IP emonisi: $1 (ya nsuka etalelami $2)",
+	"checkuser-userinfocard-ip-revealed-never": "IP emonisi: $1"
 }
