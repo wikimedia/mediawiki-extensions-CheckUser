@@ -95,7 +95,7 @@ class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQue
 			$list['SuggestedInvestigations'] = [
 				'class' => SpecialSuggestedInvestigations::class,
 				'services' => [
-					'CommentStore',
+					'ConnectionProvider',
 				]
 			];
 		}

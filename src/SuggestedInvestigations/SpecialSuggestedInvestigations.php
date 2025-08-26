@@ -20,14 +20,15 @@
 
 namespace MediaWiki\CheckUser\SuggestedInvestigations;
 
-use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\Html;
+use MediaWiki\Parser\ParserOptions;
 use MediaWiki\SpecialPage\SpecialPage;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class SpecialSuggestedInvestigations extends SpecialPage {
 
 	public function __construct(
-		private readonly CommentStore $commentStore
+		private readonly IConnectionProvider $connectionProvider
 	) {
 		parent::__construct( 'SuggestedInvestigations', 'checkuser' );
 	}
@@ -39,6 +40,16 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 
 		$this->addHelpLink( 'Help:Extension:CheckUser/Suggested investigations' );
 		$this->getOutput()->addWikiMsg( 'checkuser-suggestedinvestigations-summary' );
+
+		$pager = new SuggestedInvestigationsTablePager(
+			$this->connectionProvider,
+			$this->getContext()
+		);
+
+		$this->getOutput()->addParserOutputContent(
+			$pager->getFullOutput(),
+			ParserOptions::newFromContext( $this->getContext() )
+		);
 	}
 
 	/** @inheritDoc */

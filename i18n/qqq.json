@@ -451,5 +451,12 @@
 	"checkuser-userinfocard-ip-revealed-count": "Message to show the number of times a user had its IP revealed\n\nParameters:\n* $1 - Number of times the user had its IP revealed\n* $2 - Last date/time when the IP was revealed",
 	"checkuser-userinfocard-ip-revealed-never": "Message to show the number of times a user had its IP revealed, when its IP was never revealed.\n\nParameters:\n* $1 - Number of times the user had its IP revealed, which will be 0",
 	"checkuser-suggestedinvestigations": "{{doc-special}}This page presents a list of accounts that triggered some signals and are brought to the attention of check users.",
-	"checkuser-suggestedinvestigations-summary": "Introductory message shown on [[Special:SuggestedInvestigations]]."
+	"checkuser-suggestedinvestigations-summary": "Introductory message shown on [[Special:SuggestedInvestigations]].",
+	"checkuser-suggestedinvestigations-table-caption": "Caption for the Suggested investigations table (used for accessibility)",
+	"checkuser-suggestedinvestigations-header-users": "Header of the column listing accounts to investigate in the Suggested investigations table",
+	"checkuser-suggestedinvestigations-header-signals": "Header of the column listing signals that triggered the suggestion in the Suggested investigations table",
+	"checkuser-suggestedinvestigations-header-created": "Header of the column with suggestion creation date in the Suggested investigations table",
+	"checkuser-suggestedinvestigations-header-status": "Header of the column with investigation status in the Suggested investigations table",
+	"checkuser-suggestedinvestigations-header-notes": "Header of the column with notes in the Suggested investigations table",
+	"checkuser-suggestedinvestigations-header-actions": "Header of the column with actions in the Suggested investigations table"
 }
