@@ -12,10 +12,11 @@
 			"Vinhtantran",
 			"Bluetpp",
 			"Chaiwan2009",
-			"Nvdtn19"
+			"Nvdtn19",
+			"Noeruchan"
 		]
 	},
-	"checkuser-summary": "Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR $1-32) và IPv6 (CIDR $2-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.",
+	"checkuser-summary": "Công cụ này sẽ quét các thay đổi gần đây để xuất ra các địa chỉ IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm cụm “/xff” vào cuối địa chỉ IP. IPv4 (CIDR $1-32) và IPv6 (CIDR $2-128) đều được hỗ trợ. \nKhông quá $3 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.",
 	"checkuser-desc": "Cung cấp cho những người đủ tiêu chuẩn khả năng kiểm tra địa chỉ IP và thông tin khác của người dùng khác",
 	"checkuser": "Kiểm tra người dùng",
 	"checkuserlog": "Nhật trình CheckUser",
@@ -140,6 +141,7 @@
 	"checkuser-investigateblock-failure": "Không người dùng nào bị cấm. Để ghi đè các tác vụ cấm hiện tại, đánh hộp kiểm: “{{int:checkuser-investigateblock-reblock-label}}”. Tác vụ cấm sẽ không bị ghi đè nếu tác vụ cấm mới giống hệt với tác vụ cấm hiện tại.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Người dùng|Những người dùng}} $1 mới {{PLURAL:$2|bị|đều bị}} cấm.",
 	"checkuser-investigateblock-notices-failed": "Không thể thêm thông báo vào một số trang cá nhân hoặc trang thảo luận cá nhân.",
+	"checkuser-investigateblock-warning-ips-and-users-in-targets": "Bạn sắp cấm cả tài khoản và IP cùng lúc với cùng lý do vào cùng một thời điểm sau khi sử dụng dữ liệu CheckUser. Tác vụ này có thể vi phạm chính sách bảo mật của trang web. Bạn có chắc chắn muốn thực hiện tác vụ này không?",
 	"checkuser-investigate": "Điều tra",
 	"checkuser-investigate-page-subtitle": "Cuộc điều tra hiện tại về $1",
 	"checkuser-investigate-subtitle-cancel-button-label": "Hủy bỏ",
