@@ -15,6 +15,7 @@ class HookRunner implements
 	CheckUserInsertChangesRowHook,
 	CheckUserInsertLogEventRowHook,
 	CheckUserInsertPrivateEventRowHook,
+	CheckUserSuggestedInvestigationsSignalMatchHook,
 	SpecialCheckUserGetLinksFromRowHook
 {
 
@@ -74,6 +75,17 @@ class HookRunner implements
 		$this->container->run(
 			'CheckUserInsertPrivateEventRow',
 			[ &$ip, &$xff, &$row, $user, $rc ]
+		);
+	}
+
+	/** @inheritDoc */
+	public function onCheckUserSuggestedInvestigationsSignalMatch(
+		UserIdentity $userIdentity, string $eventType, array &$signalMatchResults
+	): void {
+		$this->container->run(
+			'CheckUserSuggestedInvestigationsSignalMatch',
+			[ $userIdentity, $eventType, &$signalMatchResults ],
+			[ 'abortable' => false ]
 		);
 	}
 
