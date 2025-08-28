@@ -352,6 +352,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 ha disactivate {{GENDER:$2|su}} proprie accesso pro inspectar variabiles protegite",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|ha vidite}} le variabiles protegite associate a $3",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|ha examinate}} le variabile{{PLURAL:$4||s}} protegite associate a $3: $5",
+	"checkuser-temporary-account-autorevoke-userright-reason": "revocate automaticamente a causa de inactivitate",
 	"checkuser-ipinfo-global-contributions-url-text": "Vider contributiones global",
 	"checkuser-group-requirements": "Le usator non satisface le criterios de accesso",
 	"checkuser-userinfocard-toggle-button-aria-label": "Aperir le carta de information del usat{{GENDER:$1|or|rice}}",

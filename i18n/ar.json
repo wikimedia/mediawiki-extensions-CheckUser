@@ -374,6 +374,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 تم تعطيل وصول {{GENDER:$2|الخاص}} إلى عرض المتغيرات المحمية",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|شاهد}} متغيرا محميا مرتبطًا بـ $3",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|مشاهدة}} محمية {{PLURAL:$4|متغير|متغيرات}} مرتبطة بـ $3: $5",
+	"checkuser-temporary-account-autorevoke-userright-reason": "تم الإلغاء تلقائيًا بسبب عدم النشاط",
 	"checkuser-ipinfo-global-contributions-url-text": "عرض المساهمات العالمية",
 	"checkuser-group-requirements": "المستخدم لا يستوفي معايير الوصول",
 	"checkuser-userinfocard-toggle-button-aria-label": "افتح بطاقة معلومات {{GENDER:$1|المستخدم}}",
@@ -412,5 +413,7 @@
 	"checkuser-userinfocard-groups": "<strong>المجموعات</strong> : $1",
 	"checkuser-userinfocard-global-groups": "<strong>المجموعات العالمية</strong> : $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 تعديل|$2 تعديلات|0=لا تعديلات}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "تم اختيار عرض عناوين IP للحسابات المؤقتة"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "تم اختيار عرض عناوين IP للحسابات المؤقتة",
+	"checkuser-userinfocard-ip-revealed-count": "يكشف عنوان IP عن: $1 (آخر فحص هو $2 )",
+	"checkuser-userinfocard-ip-revealed-never": "يكشف IP: $1"
 }
