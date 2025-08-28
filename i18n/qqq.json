@@ -444,5 +444,7 @@
 	"checkuser-userinfocard-chart-tooltip-label": "The tooltip label when you mouse over the chart in UserInfoCard.\n\nParameters:\n* $1 - Date of local edit\n* $2 - Number of edits (with plural variants)",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Message shown when both the viewing authority and the viewed user have opted in to view temporary account IP addresses.",
 	"checkuser-userinfocard-ip-revealed-count": "Message to show the number of times a user had its IP revealed\n\nParameters:\n* $1 - Number of times the user had its IP revealed\n* $2 - Last date/time when the IP was revealed",
-	"checkuser-userinfocard-ip-revealed-never": "Message to show the number of times a user had its IP revealed, when its IP was never revealed.\n\nParameters:\n* $1 - Number of times the user had its IP revealed, which will be 0"
+	"checkuser-userinfocard-ip-revealed-never": "Message to show the number of times a user had its IP revealed, when its IP was never revealed.\n\nParameters:\n* $1 - Number of times the user had its IP revealed, which will be 0",
+	"checkuser-suggestedinvestigations": "{{doc-special}}This page presents a list of accounts that triggered some signals and are brought to the attention of check users.",
+	"checkuser-suggestedinvestigations-summary": "Introductory message shown on [[Special:SuggestedInvestigations]]."
 }

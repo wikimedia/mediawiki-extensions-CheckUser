@@ -6,6 +6,7 @@ use MediaWiki\Api\Hook\ApiQuery__moduleManagerHook;
 use MediaWiki\CheckUser\Api\GlobalContributions\ApiQueryGlobalContributions;
 use MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions;
 use MediaWiki\CheckUser\IPContributions\SpecialIPContributions;
+use MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Config\Config;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
@@ -87,6 +88,15 @@ class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQue
 					'CheckUserGlobalContributionsPagerFactory',
 					'StatsFactory',
 				],
+			];
+		}
+
+		if ( $this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+			$list['SuggestedInvestigations'] = [
+				'class' => SpecialSuggestedInvestigations::class,
+				'services' => [
+					'CommentStore',
+				]
 			];
 		}
 
