@@ -52,6 +52,7 @@
 				:special-central-auth-url="userCard.specialCentralAuthUrl"
 				:global-restrictions="userCard.globalRestrictions"
 				:global-restrictions-date="userCard.globalRestrictionsDate"
+				:temp-accounts-on-ip-count="userCard.tempAccountsOnIPCount"
 			></user-card-body>
 			<!--eslint-enable-->
 		</div>
@@ -123,7 +124,8 @@ module.exports = exports = {
 			ipRevealLastCheck: '',
 			hasIpRevealInfo: false,
 			globalRestrictions: null,
-			globalRestrictionsTimestamp: null
+			globalRestrictionsTimestamp: null,
+			tempAccountsOnIPCount: []
 		} );
 
 		// Methods
@@ -172,7 +174,8 @@ module.exports = exports = {
 						numberOfIpReveals,
 						ipRevealLastCheck,
 						globalRestrictions,
-						globalRestrictionsTimestamp
+						globalRestrictionsTimestamp,
+						tempAccountsOnIPCount
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -211,6 +214,7 @@ module.exports = exports = {
 					userCard.specialCentralAuthUrl = specialCentralAuthUrl;
 					userCard.canAccessTemporaryAccountIpAddresses =
 						canAccessTemporaryAccountIpAddresses;
+					userCard.tempAccountsOnIPCount = tempAccountsOnIPCount;
 
 					// Parse and format checkUserLastCheck date
 					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );

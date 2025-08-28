@@ -636,7 +636,8 @@
 						"cdxIconHeart",
 						"cdxIconSearch",
 						"cdxIconNotice",
-						"cdxIconUserTemporaryLocation"
+						"cdxIconUserTemporaryLocation",
+						"cdxIconUserTemporary"
 					]
 				}
 			],
@@ -677,7 +678,11 @@
 				"checkuser-userinfocard-global-restrictions-locked",
 				"checkuser-userinfocard-global-restrictions-locked-no-date",
 				"checkuser-userinfocard-global-restrictions-blocked",
-				"checkuser-userinfocard-global-restrictions-blocked-disabled"
+				"checkuser-userinfocard-global-restrictions-blocked-disabled",
+				"checkuser-userinfocard-temporary-account-bucketcount",
+				"checkuser-temporary-account-bucketcount-min",
+				"checkuser-temporary-account-bucketcount-range",
+				"checkuser-temporary-account-bucketcount-max"
 			],
 			"dependencies": [
 				"mediawiki.api",

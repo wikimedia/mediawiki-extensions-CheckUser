@@ -73,6 +73,7 @@ function mountComponent( props = {} ) {
 			hasIpRevealInfo: true,
 			numberOfIpReveals: 2,
 			ipRevealLastCheck: '20250102030408',
+			tempAccountsOnIpCount: [ 0, 0 ],
 			...props
 		}
 	} );
@@ -454,6 +455,39 @@ QUnit.test( 'activeWikisList computed property transforms object to array correc
 		activeWikisList[ 1 ],
 		{ wikiId: 'dewiki', url: 'https://de.wikipedia.org' },
 		'Second item in activeWikisList has correct structure'
+	);
+} );
+
+QUnit.test.each( 'should correctly display range, min, and max for temp accounts on ips count', {
+	min: [
+		{ tempAccountsOnIpCount: [ 0, 0 ], username: '~2025-1' },
+		'(checkuser-temporary-account-bucketcount-min: 0, 0)'
+	],
+	range: [
+		{ tempAccountsOnIpCount: [ 1, 2 ], username: '~2025-1' },
+		'(checkuser-temporary-account-bucketcount-range: 1, 2)'
+	],
+	max: [
+		{ tempAccountsOnIpCount: [ 11, 11 ], username: '~2025-1' },
+		'(checkuser-temporary-account-bucketcount-max: 11, 11)'
+	]
+}, ( assert, [ props, expectedString ] ) => {
+	const wrapper = mountComponent( props );
+
+	const tempAccountCountRow = findRowByLabel( wrapper, 'checkuser-userinfocard-temporary-account-bucketcount' );
+
+	assert.strictEqual(
+		tempAccountCountRow.props( 'mainValue' ),
+		expectedString,
+		'Bucket expression is correct'
+	);
+} );
+
+QUnit.test( 'temporary accounts on ip count doesn\'t display for registered users', ( assert ) => {
+	const wrapper = mountComponent( { username: 'User 1' } );
+	assert.strictEqual(
+		findRowByLabel( wrapper, 'checkuser-userinfocard-temporary-account-bucketcount' ),
+		undefined
 	);
 } );
 

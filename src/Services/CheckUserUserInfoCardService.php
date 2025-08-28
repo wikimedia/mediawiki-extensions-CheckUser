@@ -65,6 +65,7 @@ class CheckUserUserInfoCardService {
 		private readonly UserFactory $userFactory,
 		private readonly InterwikiLookup $interwikiLookup,
 		private readonly UserEditTracker $userEditTracker,
+		private readonly CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup,
 		private readonly MessageLocalizer $messageLocalizer,
 		private readonly TitleFactory $titleFactory,
 		private readonly GenderCache $genderCache,
@@ -378,6 +379,17 @@ class CheckUserUserInfoCardService {
 			$userInfo['specialCentralAuthUrl'] ??= SpecialPage::getTitleFor(
 				'CentralAuth', $this->getUserTitleKey( $user )
 			)->getLinkURL();
+		}
+
+		// If the user is a temporary account, get the number of accounts active on the same IPs/ranges
+		$userInfo['tempAccountsOnIPCount'] = [];
+		if ( $this->tempUserConfig->isTempName( $user->getName() ) ) {
+			// 11 is the maximum number of accounts we care about as defined by T388718
+			$bucketCount = $this->checkUserTemporaryAccountsByIPLookup->getBucketedCount(
+				$this->checkUserTemporaryAccountsByIPLookup
+					->getAggregateActiveTempAccountCount( $user, 11 )
+			);
+			$userInfo['tempAccountsOnIPCount'] = $bucketCount;
 		}
 
 		$this->statsFactory->withComponent( 'CheckUser' )

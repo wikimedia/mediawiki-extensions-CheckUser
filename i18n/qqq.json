@@ -458,5 +458,9 @@
 	"checkuser-suggestedinvestigations-header-created": "Header of the column with suggestion creation date in the Suggested investigations table",
 	"checkuser-suggestedinvestigations-header-status": "Header of the column with investigation status in the Suggested investigations table",
 	"checkuser-suggestedinvestigations-header-notes": "Header of the column with notes in the Suggested investigations table",
-	"checkuser-suggestedinvestigations-header-actions": "Header of the column with actions in the Suggested investigations table"
+	"checkuser-suggestedinvestigations-header-actions": "Header of the column with actions in the Suggested investigations table",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Message describing a count range of how many temporary accounts were found on similar IPs.\n * $1 - the value to present eg. {{msg-mw|checkuser-temporary-account-bucketcount-min}} (min, range, and max)",
+	"checkuser-temporary-account-bucketcount-min": "{{optional}}\n\nCount to show the number of temporary accounts found on the same IPs as the user where the number is represented as belonging within a range of counts or at the min/max bound.\nParameters:\n * $1 - an integer representing the minimum bound count",
+	"checkuser-temporary-account-bucketcount-range": "{{optional}}\n\nCount range to show the number of temporary accounts found on the same IPs as the user where the number is represented as belonging within a range of counts or at the min/max bound.\nParameters:\n * $1 - an integer representing the minimum bound count\n * $2 - an integer representing the maximum bound count",
+	"checkuser-temporary-account-bucketcount-max": "{{optional}}\n\nCount to show the number of temporary accounts found on the same IPs as the user where the number is represented as belonging within a range of counts or at the min/max bound.\nParameters:\n * $1 - an integer representing the maximum bound count"
 }

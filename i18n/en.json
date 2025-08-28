@@ -424,5 +424,9 @@
 	"checkuser-suggestedinvestigations-header-created": "Created",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
-	"checkuser-suggestedinvestigations-header-actions": "Actions"
+	"checkuser-suggestedinvestigations-header-actions": "Actions",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Temporary accounts from all associated IPs: $1",
+	"checkuser-temporary-account-bucketcount-min": "$1",
+	"checkuser-temporary-account-bucketcount-range": "$1-$2",
+	"checkuser-temporary-account-bucketcount-max": "$1+"
 }

@@ -7,6 +7,7 @@ use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
@@ -158,6 +159,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
+			$services->get( 'CheckUserTemporaryAccountsByIPLookup' ),
 			RequestContext::getMain(),
 			$services->getTitleFactory(),
 			$services->getGenderCache(),
@@ -316,6 +318,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getUserFactory(),
 			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
+			$services->get( 'CheckUserTemporaryAccountsByIPLookup' ),
 			RequestContext::getMain(),
 			$services->getTitleFactory(),
 			$services->getGenderCache(),
@@ -947,6 +950,20 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				'shouldSee' => false,
 			],
 		];
+	}
+
+	public function testAccountsOnIPsCountNotShownForRegisteredUsers() {
+		$checkUserTemporaryAccountsByIPLookup = $this->createMock( CheckUserTemporaryAccountsByIPLookup::class );
+		$checkUserTemporaryAccountsByIPLookup
+			->expects( $this->never() )
+			->method( 'getBucketedCount' );
+		$userInfoCardService = $this->getObjectUnderTest( [
+			'CheckUserTemporaryAccountsByIPLookup' => $checkUserTemporaryAccountsByIPLookup
+		] );
+		$userInfoCardService->getUserInfo(
+			$this->getTestSysop()->getAuthority(),
+			$this->getTestUser()->getUserIdentity()
+		);
 	}
 
 	private function setUserLocked(

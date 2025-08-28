@@ -78,6 +78,7 @@ const {
 	cdxIconArticles,
 	cdxIconHeart,
 	cdxIconSearch,
+	cdxIconUserTemporary,
 	cdxIconUserTemporaryLocation,
 	cdxIconNotice
 } = require( './icons.json' );
@@ -201,6 +202,10 @@ module.exports = exports = {
 		globalRestrictionsDate: {
 			type: String,
 			default: null
+		},
+		tempAccountsOnIpCount: {
+			type: Array,
+			default: () => ( [] )
 		}
 	},
 	setup( props ) {
@@ -400,6 +405,40 @@ module.exports = exports = {
 					icon: cdxIconUserTemporaryLocation,
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					messageKey: 'checkuser-userinfocard-temporary-account-viewer-opted-in'
+				} );
+			}
+
+			const tempAccountsOnIpCount = props.tempAccountsOnIpCount;
+			if ( mw.util.isTemporaryUser( props.username ) && tempAccountsOnIpCount.length === 2 ) {
+				const bucketRangeStart = tempAccountsOnIpCount[ 0 ];
+				const bucketRangeEnd = tempAccountsOnIpCount[ 1 ];
+
+				let bucketMsgKey = 'checkuser-temporary-account-bucketcount-';
+				if ( bucketRangeStart === bucketRangeEnd ) {
+					if ( bucketRangeStart === 0 ) {
+						bucketMsgKey += 'min';
+					} else {
+						bucketMsgKey += 'max';
+					}
+				} else {
+					bucketMsgKey += 'range';
+				}
+
+				// Uses:
+				// * checkuser-temporary-account-bucketcount-min
+				// * checkuser-temporary-account-bucketcount-range
+				// * checkuser-temporary-account-bucketcount-max
+				const bucketMsg = mw.msg(
+					bucketMsgKey,
+					mw.language.convertNumber( bucketRangeStart ),
+					mw.language.convertNumber( bucketRangeEnd )
+				);
+
+				rows.push( {
+					icon: cdxIconUserTemporary,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					messageKey: 'checkuser-userinfocard-temporary-account-bucketcount',
+					mainValue: bucketMsg
 				} );
 			}
 			return rows;
