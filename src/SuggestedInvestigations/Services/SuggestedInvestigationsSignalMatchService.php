@@ -15,6 +15,9 @@ class SuggestedInvestigationsSignalMatchService {
 		'CheckUserSuggestedInvestigationsEnabled',
 	];
 
+	public const EVENT_CREATE_ACCOUNT = 'createaccount';
+	public const EVENT_AUTOCREATE_ACCOUNT = 'autocreateaccount';
+
 	public function __construct(
 		private readonly ServiceOptions $options,
 		private readonly HookRunner $hookRunner
@@ -35,7 +38,8 @@ class SuggestedInvestigationsSignalMatchService {
 	 *
 	 * @param UserIdentity $userIdentity
 	 * @param string $eventType The type of event that has occurred to trigger signals being matched.
-	 *   Custom event types may be triggered by private code.
+	 *   One of the EVENT_* constants defined in this class, though custom event types may be triggered
+	 *   by private code.
 	 */
 	public function matchSignalsAgainstUser( UserIdentity $userIdentity, string $eventType ): void {
 		// Don't attempt to evaluate signals unless the feature is enabled, as we may not have database tables

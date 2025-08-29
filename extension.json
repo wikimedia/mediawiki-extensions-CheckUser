@@ -539,6 +539,12 @@
 				"MainWANObjectCache",
 				"SpecialPageFactory"
 			]
+		},
+		"SuggestedInvestigationsHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsHandler",
+			"services": [
+				"SuggestedInvestigationsSignalMatchService"
+			]
 		}
 	},
 	"Hooks": {
@@ -559,7 +565,10 @@
 		"GlobalBlockingGetRetroactiveAutoblockIPs": "GlobalBlockingHandler",
 		"GlobalPreferencesSetGlobalPreferences": "GlobalPreferencesHandler",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
-		"LocalUserCreated": "CheckUserPrivateEvents",
+		"LocalUserCreated": [
+			"SuggestedInvestigationsHandler",
+			"CheckUserPrivateEvents"
+		],
 		"LogEventsListLineEnding": "LogDisplayHandler",
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
 		"RecentChange_save": "RecentChangeSaveHandler",
