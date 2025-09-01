@@ -12,10 +12,11 @@
 			"Hide on Rosé",
 			"Bluetpp",
 			"Chaiwan2009",
-			"Nvdtn19"
+			"Nvdtn19",
+			"Noeruchan"
 		]
 	},
-	"checkuser-summary": "Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR $1-32) và IPv6 (CIDR $2-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.",
+	"checkuser-summary": "Công cụ này sẽ quét các thay đổi gần đây để xuất ra các địa chỉ IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm cụm “/xff” vào cuối địa chỉ IP. IPv4 (CIDR $1-32) và IPv6 (CIDR $2-128) đều được hỗ trợ. \nKhông quá $3 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.",
 	"checkuser-desc": "Cung cấp cho những người đủ tiêu chuẩn khả năng kiểm tra địa chỉ IP và thông tin khác của người dùng khác",
 	"checkuser": "Kiểm tra người dùng",
 	"checkuserlog": "Nhật trình CheckUser",
