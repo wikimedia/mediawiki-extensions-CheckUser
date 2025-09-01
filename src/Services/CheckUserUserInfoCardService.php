@@ -178,14 +178,14 @@ class CheckUserUserInfoCardService {
 		$groupMessages = [];
 		foreach ( $groups as $group ) {
 			if ( $this->context->msg( "group-$group" )->exists() ) {
-				$groupMessages[] = $this->context->msg( "group-$group" )->text();
+				$groupMessages[] = $this->context->msg( "group-$group" )->escaped();
 			}
 		}
 		$userInfo['groups'] = '';
 		if ( $groupMessages ) {
 			$userInfo['groups'] = $this->context->msg( 'checkuser-userinfocard-groups' )
 				->params( Message::listParam( $groupMessages, ListType::COMMA ) )
-				->text();
+				->parse();
 		}
 
 		if ( !isset( $userInfo['totalEditCount'] ) ) {
@@ -207,14 +207,14 @@ class CheckUserUserInfoCardService {
 			foreach ( $globalGroups as $group ) {
 				if ( $this->context->msg( "group-$group" )->exists() ) {
 					$globalGroupMessages[] = $this->context->msg( "group-$group" )
-						->text();
+						->escaped();
 				}
 			}
 			$userInfo['globalGroups'] = '';
 			if ( $globalGroupMessages ) {
 				$userInfo['globalGroups'] = $this->context->msg( 'checkuser-userinfocard-global-groups' )
 					->params( Message::listParam( $globalGroupMessages, ListType::COMMA ) )
-					->text();
+					->parse();
 			}
 
 			if ( $centralAuthUser->isLocked() ) {
