@@ -37,6 +37,7 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
@@ -479,6 +480,17 @@ return [
 			),
 			$globalContributionsLookup,
 			$services->getCentralIdLookup()
+		);
+	},
+	'CheckUserSuggestedInvestigationsCaseManager' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsCaseManagerService {
+		return new SuggestedInvestigationsCaseManagerService(
+			new ServiceOptions(
+				SuggestedInvestigationsCaseManagerService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
+			$services->getConnectionProvider()
 		);
 	},
 ];
