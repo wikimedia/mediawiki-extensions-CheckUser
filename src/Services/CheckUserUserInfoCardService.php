@@ -160,9 +160,7 @@ class CheckUserUserInfoCardService {
 		$userInfo['globalRestrictionsTimestamp'] = null;
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$centralAuthUser = CentralAuthUser::getInstance( $user );
-			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ?
-				CentralAuthServices::getEditCounter()->getCountFromWikis( $centralAuthUser ) :
-				0;
+			$userInfo['globalEditCount'] = $centralAuthUser->isAttached() ? $centralAuthUser->getGlobalEditCount() : 0;
 			$globalGroups = $centralAuthUser->getGlobalGroups();
 			sort( $globalGroups );
 			$globalGroupMessages = [];
