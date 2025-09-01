@@ -35,6 +35,7 @@
 			"Pamputt",
 			"Peter17",
 			"PieRRoMaN",
+			"Pyschobbens",
 			"Quentinv57",
 			"Sherbrooke",
 			"SleaY",
@@ -413,6 +414,9 @@
 	"checkuser-userinfocard-thanks": "Remerciements reçus : $1 (donnés : $2)",
 	"checkuser-userinfocard-checks": "Contrôles : $1 (dernier contrôle : $2)",
 	"checkuser-userinfocard-checks-empty": "Contrôles : $1",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Globalement {{GENDER:$1|verrouillé|verrouillée}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[ $2 |Globalement {{GENDER:$1| bloqué | bloquée}}]] depuis $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[ $2 |Globalement {{GENDER:$1| bloqué| bloquée}}]] depuis $3 (mais localement désactivé)",
 	"checkuser-userinfocard-menu-view-contributions": "Afficher les contributions de l'{{GENDER:$1|utilisateur|utilisatrice}}",
 	"checkuser-userinfocard-menu-view-global-account": "Afficher les informations du compte global {{GENDER:$1| }}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Ajouter la page {{GENDER:$1|utilisateur|utilidatrice}} à la liste de surveillance",
@@ -437,5 +441,6 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modification|$2 modifications|0=Pas de modifications}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "A choisi de voir les adresses IP des comptes temporaires",
 	"checkuser-userinfocard-ip-revealed-count": "Révélations de l’adresse IP : $1 (dernière vérification : $2)",
-	"checkuser-userinfocard-ip-revealed-never": "Révélations de l’adresse IP : $1"
+	"checkuser-userinfocard-ip-revealed-never": "Révélations de l’adresse IP : $1",
+	"checkuser-suggestedinvestigations-summary": "Cette page contient les comptes automatiquement signalés comme suspects, pour que les vérificateurs d’utilisateurs les examinent. [[mw:Help:Extension:CheckUser/Risk signals|En savoir plus sur les signaux de risque]]"
 }

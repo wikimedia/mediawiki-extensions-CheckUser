@@ -236,7 +236,7 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Pokaži IP",
 	"checkuser-tempaccount-reveal-ip-missing": "ni na voljo",
 	"checkuser-tempaccount-reveal-ip-error": "napaka",
-	"checkuser-tempaccount-specialblock-ips": "To je začasen uporabnik, ki uporablja naslednje {{PLURAL:$1|IP|IP-je}}: $2",
+	"checkuser-tempaccount-specialblock-ips": "To je začasni uporabnik, ki uporablja naslednje {{PLURAL:$1|IP|IP-je}}: $2",
 	"checkuser-temporary-account-log-name": "Dnevnik začasnih računov CheckUser",
 	"checkuser-temporary-account-log-header": "To je dnevnik:\n# ogledov IP-naslovov, ki jih uporablja začasni račun; \n# ogledov začasnihv računov, povezanih z IP-naslovom ali razponom IP-naslovov; in\n# sprememb ravni uporabniškega dostopa za ogled IP-naslovov, ki jih uporabljajo začasni računi.",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|svoj}} lastni dostop za ogled IP-naslovov začasnih računov",

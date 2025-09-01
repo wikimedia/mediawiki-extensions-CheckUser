@@ -379,6 +379,10 @@
 	"checkuser-userinfocard-thanks": "Qəbul edilmiş təşəkkür: $1 ($2 verilib)",
 	"checkuser-userinfocard-checks": "Yoxlanışlar: $1 (son yoxlanış: $2)",
 	"checkuser-userinfocard-checks-empty": "Yoxlanışlar: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "$3 tarixindən bəri [[$2|qlobal {{GENDER:$1|kiliddədir}}]]",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Qlobal {{GENDER:$1|kiliddədir}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "$3 tarixindən bəri [[$2|qlobal {{GENDER:$1|bloklanıb}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "$3 tarixindən bəri [[$2|qlobal {{GENDER:$1|bloklanıb}}]] (lokalda açılıb)",
 	"checkuser-userinfocard-menu-view-contributions": "{{GENDER:$1|İstifadəçi}} töhfələrinə bax",
 	"checkuser-userinfocard-menu-view-global-account": "{{GENDER:$1|Qlobal hesab}} məlumatlarına bax",
 	"checkuser-userinfocard-menu-add-to-watchlist": "{{GENDER:$1|İstifadəçi səhifəsini}} izləmə siyahısına əlavə et",
@@ -403,5 +407,7 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 redaktə|0=Redaktə yoxdur}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Müvəqqəti hesab IP-lərinə baxa bilməyi seçib",
 	"checkuser-userinfocard-ip-revealed-count": "IP-sinə baxılmalar: $1 (sonuncu: $2)",
-	"checkuser-userinfocard-ip-revealed-never": "IP-sinə baxılmalar: $1"
+	"checkuser-userinfocard-ip-revealed-never": "IP-sinə baxılmalar: $1",
+	"checkuser-suggestedinvestigations": "Təklif olunan araşdırmalar",
+	"checkuser-suggestedinvestigations-summary": "Bu səhifədə təftişçilərin araşdırması üçün avtomatik olaraq şübhəli hesab kimi müəyyən edilən hesablar göstəriləcək. [[mw:Help:Extension:CheckUser/Risk signals|Risk siqnalları haqqında ətraflı öyrən]]"
 }

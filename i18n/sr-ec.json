@@ -311,6 +311,10 @@
 	"checkuser-userinfocard-thanks": "Захваљено: $1 (захвалио/ла се: $2)",
 	"checkuser-userinfocard-checks": "Провера: $1 (задња провера: $2)",
 	"checkuser-userinfocard-checks-empty": "Провера: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Глобално {{GENDER:$1|закључан|закључана}}]] од $3",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Глобално {{GENDER:$1|закључан|закључана}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Глобално {{GENDER:$1|блокиран|блокирана}}]] од $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Глобално {{GENDER:$1|блокиран|блокирана}}]] од $3 (локално онемогућено)",
 	"checkuser-userinfocard-menu-view-contributions": "Види {{GENDER:$1|доприносе}}",
 	"checkuser-userinfocard-menu-view-global-account": "Информације о {{GENDER:$1|глобалном налогу}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Надгледај {{GENDER:$1|корисничку страницу}}",
@@ -327,5 +331,6 @@
 	"tooltip-t-global-contributions": "Списак доприноса са свих викија {{GENDER:$1|овог корисника|ове кориснице}}",
 	"checkuser-userinfocard-groups": "<strong>Групе</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Глобалне групе</strong>: $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 измена|$2 измене|0=Без измена}})"
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 измена|$2 измене|0=Без измена}})",
+	"checkuser-suggestedinvestigations-summary": "Ова страница садржи налоге аутоматски означене сумњивим и за чекјузере да испитају. [[mw:Help:Extension:CheckUser/Risk signals|More about risk signals]]"
 }

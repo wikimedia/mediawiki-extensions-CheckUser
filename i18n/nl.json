@@ -384,6 +384,10 @@
 	"checkuser-userinfocard-thanks": "Bedankjes ontvangen: $1 (gegeven: $2)",
 	"checkuser-userinfocard-checks": "Controles: $1 (laatste controle: $2)",
 	"checkuser-userinfocard-checks-empty": "Controles: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Globaal {{GENDER:$1|vergrendeld}}]] sinds $3",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Globaal {{GENDER:$1|vergrendeld}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Globaal {{GENDER:$1|geblokkeerd}}]] sinds $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Globaal {{GENDER:$1|geblokkeerd}}]] sinds $3 (lokaal uitgeschakeld)",
 	"checkuser-userinfocard-menu-view-contributions": "Gebruik{{GENDER:$1||st}}ersbijdragen bekijken",
 	"checkuser-userinfocard-menu-view-global-account": "Gegevens globaal account bekijken{{GENDER:$1|}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Gebruik{{GENDER:$1||st}}erspagina aan volglijst toevoegen",
@@ -408,5 +412,7 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 bewerking|$2 bewerkingen|0=Geen bewerkingen}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Inzage IP-adressen tijdelijke accounts is ingeschakeld",
 	"checkuser-userinfocard-ip-revealed-count": "IP-adresweergaven: $1 (laatste controle $2)",
-	"checkuser-userinfocard-ip-revealed-never": "IP-adresweergaven: $1"
+	"checkuser-userinfocard-ip-revealed-never": "IP-adresweergaven: $1",
+	"checkuser-suggestedinvestigations": "Voorgestelde onderzoeken",
+	"checkuser-suggestedinvestigations-summary": "Op deze pagina staan accounts die automatisch als verdacht zijn gemarkeerd, zodat gebruikerscontroleurs ze kunnen onderzoeken. [[mw:Help:Extension:CheckUser/Risk signals|Meer over risicosignalen]]"
 }

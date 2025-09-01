@@ -378,6 +378,10 @@
 	"checkuser-userinfocard-thanks": "תודות שהתקבלו: $1 (ניתנו: $2)",
 	"checkuser-userinfocard-checks": "בדיקות: $1 (בדיקה אחרונה: $2)",
 	"checkuser-userinfocard-checks-empty": "בדיקות: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|{{GENDER:$1|נעול|נעולה}} גלובלית]] מאז $3",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|{{GENDER:$1|נעול|נעולה}} גלובלית]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|{{GENDER:$1|חסום|חסומה}} גלובלית]] מאז $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|{{GENDER:$1|חסום|חסומה}} גלובלית]] מאז $3 (החשבון כבוי מקומית)",
 	"checkuser-userinfocard-menu-view-contributions": "הצגת תרומות {{GENDER:$1|המשתמש|המשתמשת}}",
 	"checkuser-userinfocard-menu-view-global-account": "הצגת מידע על {{GENDER:$1|החשבון הגלובלי}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "הוספת דף {{GENDER:$1|המשתמש|המשתמשת}} לרשימת המעקב",
@@ -402,5 +406,7 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|עריכה אחת|$2 עריכות|אין עריכות}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "בחרו לצפות בכתובות IP של חשבונות חולפים",
 	"checkuser-userinfocard-ip-revealed-count": "פעולת חשיפת IP‏: $1 (נבדק לאחרונה ב־$2)",
-	"checkuser-userinfocard-ip-revealed-never": "פעולת חשיפת IP‏: $1"
+	"checkuser-userinfocard-ip-revealed-never": "פעולת חשיפת IP‏: $1",
+	"checkuser-suggestedinvestigations": "חקירות מוצעות",
+	"checkuser-suggestedinvestigations-summary": "הדף הזה מכיל חשבונות שסומנו אוטומטית בתור חשודים לצורך בדיקה של משתמשים. [[mw:Help:Extension:CheckUser/Risk signals|עוד על אותות סיכון]]"
 }

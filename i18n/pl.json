@@ -374,7 +374,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|włączył|włączyła|włączył(-a)}} sobie dostęp do wyświetlania chronionych zmiennych",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|wyłączył|wyłączyła|wyłączył(-a)}} sobie dostęp do wyświetlania chronionych zmiennych",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|wyświetlił|wyświetliła|wyświetlił(-a)}} chronione zmienne, związane z $3",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|wyświetlił|wyświetliła|wyświetlił(-a)}} chronione zmienne związane z $3: $5",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|wyświetlił|wyświetliła|wyświetlił(-a)}} {{PLURAL:$4|chronioną zmienną związaną|chronione zmienne związane}} z $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "usunięto automatycznie z powodu nieaktywności",
 	"checkuser-ipinfo-global-contributions-url-text": "Zobacz wkład globalny",
 	"checkuser-group-requirements": "Użytkownik nie spełnia kryteriów dostępu",
@@ -391,6 +391,10 @@
 	"checkuser-userinfocard-thanks": "Otrzymane podziękowania: $1 (wysłane: $2)",
 	"checkuser-userinfocard-checks": "Sprawdzenia: $1 (ostatnio: $2)",
 	"checkuser-userinfocard-checks-empty": "Sprawdzenia: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Globalnie częściowo {{GENDER:$1|zablokowany|zablokowana|zablokowany(a)}}]] od $3",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Globalnie częściowo {{GENDER:$1|zablokowany|zablokowana|zablokowany(a)}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Globalnie {{GENDER:$1|zablokowany|zablokowana|zablokowany(a)}}]] od $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Globalnie {{GENDER:$1|zablokowany|zablokowana|zablokowany(a)}}]] od $3 (wyłączono lokalnie)",
 	"checkuser-userinfocard-menu-view-contributions": "Wyświetl wkład {{GENDER:$1|użytkownika|użytkowniczki}}",
 	"checkuser-userinfocard-menu-view-global-account": "Wyświetl informacje o koncie uniwersalnym",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Obserwuj stronę {{GENDER:$1|użytkownika|użytkowniczki}}",
@@ -413,5 +417,9 @@
 	"checkuser-userinfocard-groups": "<strong>Grupy</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Grupy globalne</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 edycja|$2 edycje|$2 edycji|0=Brak edycji}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Włączone przeglądanie adresów IP kont tymczasowych"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Włączone przeglądanie adresów IP kont tymczasowych",
+	"checkuser-userinfocard-ip-revealed-count": "Ujawnienia IP: $1 (ostatnio $2)",
+	"checkuser-userinfocard-ip-revealed-never": "Ujawnienia IP: $1",
+	"checkuser-suggestedinvestigations": "Sugerowane sprawdzenia",
+	"checkuser-suggestedinvestigations-summary": "Ta strona zawiera konta automatycznie oznaczone jako podejrzane i przeznaczone do sprawdzenia przez uprawnionych użytkowników. [[mw:Help:Extension:CheckUser/Risk signals|Więcej o czynnikach ryzyka]]."
 }

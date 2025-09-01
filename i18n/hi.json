@@ -297,10 +297,11 @@
 	"checkuser-tempaccount-reveal-blocked-description": "आपको इस सुविधा का उपयोग करने की अनुमति नहीं है, निम्न कारण से:",
 	"checkuser-tempaccount-specialblock-ips": "यह {{PLURAL:$1|IP|IP-ओं}} का उपयोग करने वाला एक अस्थायी सदस्य है: $2",
 	"checkuser-temporary-account-log-name": "IP खुलासा लॉग",
-	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|अक्षम}}",
-	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|सक्षम}}",
-	"checkuser-temporary-account-change-access-level-disable-globally": "ग्लोबल रूप से {{GENDER:$1|अक्षम}}",
-	"checkuser-temporary-account-change-access-level-enable-globally": "ग्लोबल रूप से {{GENDER:$1|सक्षम}}",
+	"logentry-checkuser-temporary-account-change-access": "$1 ने अस्थायी खातों के IP पते देखने की {{GENDER:$2|अपनी}} पहुँच को $4",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|अक्षम किया}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|सक्षम किया}}",
+	"checkuser-temporary-account-change-access-level-disable-globally": "ग्लोबल रूप से {{GENDER:$1|अक्षम किया}}",
+	"checkuser-temporary-account-change-access-level-enable-globally": "ग्लोबल रूप से {{GENDER:$1|सक्षम किया}}",
 	"log-action-filter-checkuser-temporary-account": "क्रिया का प्रकार:",
 	"log-action-filter-checkuser-temporary-account-change-access": "पहुँच बदलें",
 	"log-action-filter-checkuser-temporary-account-view-ips": "अस्थायी खाते की IP डेटा देखें",
@@ -327,6 +328,9 @@
 	"checkuser-userinfocard-groups": "<strong>समूह</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>ग्लोबल समूह</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 सम्पादन|0=कोई सम्पादन नहीं}})",
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "अस्थायी खातों के IP देखने के लिए ऑप्ट-इन किया",
 	"checkuser-userinfocard-ip-revealed-count": "IP खुलासे: $1 (आखिरी बार $2 को जाँचा गया)",
-	"checkuser-userinfocard-ip-revealed-never": "IP खुलासे: $1"
+	"checkuser-userinfocard-ip-revealed-never": "IP खुलासे: $1",
+	"checkuser-suggestedinvestigations": "सुझावित जाँच-पड़ताल",
+	"checkuser-suggestedinvestigations-summary": "इस पृष्ठ पर स्वचालित रूप से संदिग्ध चिह्नित खाते शामिल हैं ताकि सदस्य जाँचकर्ताएँ उनकी जाँच-पड़ताल कर सकें। [[mw:Help:Extension:CheckUser/Risk signals|जोखिम संकेतों के बारे में अधिक जानकारी]]"
 }

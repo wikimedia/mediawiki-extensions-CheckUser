@@ -389,6 +389,10 @@
 	"checkuser-userinfocard-thanks": "Dankeschöns erhalten: $1 (gegeben: $2)",
 	"checkuser-userinfocard-checks": "Überprüfungen: $1 (zuletzt geprüft: $2)",
 	"checkuser-userinfocard-checks-empty": "Checks: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Lokal {{GENDER:$1|geschlossen}}]] seit $3",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Lokal {{GENDER:$1|geschlossen}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Global {{GENDER:$1|gesperrt}}]] seit $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Global {{GENDER:$1|gesperrt}}]] seit $3 (lokal deaktiviert)",
 	"checkuser-userinfocard-menu-view-contributions": "Beiträge von {{GENDER:$1|Benutzer|Benutzerin}} anzeigen",
 	"checkuser-userinfocard-menu-view-global-account": "Globale Konteninformationen zu {{GENDER:$1|Benutzer|Benutzerin}} anzeigen",
 	"checkuser-userinfocard-menu-add-to-watchlist": "{{GENDER:$1|Benutzerseite}} zur Beobachtungsliste hinzufügen",
@@ -413,5 +417,7 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Bearbeitung|$2 Bearbeitungen|0=Keine Bearbeitungen}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Für die Anzeige temporärer Konto-IPs angemeldet",
 	"checkuser-userinfocard-ip-revealed-count": "Offengelegte IP-Adressen: $1 (zuletzt $2)",
-	"checkuser-userinfocard-ip-revealed-never": "Offengelegte IP-Adressen: $1"
+	"checkuser-userinfocard-ip-revealed-never": "Offengelegte IP-Adressen: $1",
+	"checkuser-suggestedinvestigations": "Vorgeschlagene Untersuchungen",
+	"checkuser-suggestedinvestigations-summary": "Diese Seite enthält automatisch als verdächtig markierte Konten, die von Check-Usern untersucht werden sollen. [[mw:Help:Extension:CheckUser/Risk signals|Mehr über Risikosignale]]"
 }
