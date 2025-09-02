@@ -228,7 +228,7 @@ module.exports = exports = {
 			-1, `Contributions/${ props.username }`
 		).getUrl( { tagfilter: 'mw-reverted' } );
 		const newArticlesLink = mw.Title.makeTitle( -1, 'Contributions' ).getUrl(
-			{ target: props.username, namespace: 'all', newOnly: 1 }
+			{ target: props.username, namespace: 0, newOnly: 1 }
 		);
 		const thanksReceivedLink = mw.Title.makeTitle( -1, 'Log/thanks' ).getUrl(
 			{ page: props.username }
