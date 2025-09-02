@@ -73,7 +73,7 @@ function getTooltip() {
  * @return {string}
  */
 function getTooltipMessage() {
-	return mw.msg( 'tempuser-expired-link-tooltip' );
+	return mw.message( 'tempuser-expired-link-tooltip' ).escaped();
 }
 
 module.exports = buildUserElement;
