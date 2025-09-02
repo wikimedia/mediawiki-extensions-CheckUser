@@ -31,6 +31,7 @@ use SpecialPageTestBase;
  * @group Database
  */
 class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
+	use SuggestedInvestigationsTestTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -63,13 +64,5 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		// This exception is thrown in `newSpecialPage` when the assertion fails
 		$this->expectException( ExpectationFailedException::class );
 		$this->executeSpecialPage();
-	}
-
-	private function enableSuggestedInvestigations() {
-		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsEnabled', true );
-	}
-
-	private function disableSuggestedInvestigations() {
-		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsEnabled', false );
 	}
 }
