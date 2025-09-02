@@ -89,10 +89,9 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	 *
 	 * @param string $target
 	 * @param Authority $authority
-	 * @param string|null $timeCutoff If set, only return wikis where user was active since this timestamp
 	 * @return string[]
 	 */
-	public function getActiveWikis( string $target, Authority $authority, ?string $timeCutoff = null ) {
+	public function getActiveWikis( string $target, Authority $authority ) {
 		$this->checkCentralAuthEnabled();
 
 		$activeWikis = [];
@@ -111,16 +110,12 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 					Check if your RangeContributionsCIDRLimit and CheckUserCIDRLimit configs are compatible."
 				);
 			}
-			$conditions = [ $targetIPConditions ];
-			if ( $timeCutoff !== null ) {
-				$conditions[] = $cuciDb->expr( 'cite_timestamp', '>=', $cuciDb->timestamp( $timeCutoff ) );
-			}
 			$activeWikisResult = $cuciDb->newSelectQueryBuilder()
 				// T397318: 'cite_timestamp' is selected to satisfy Postgres requirement where all ORDER BY
 				// fields must be present in SELECT list.
 				->select( [ 'ciwm_wiki', 'timestamp' => 'MAX(cite_timestamp)' ] )
 				->from( 'cuci_temp_edit' )
-				->where( $conditions )
+				->where( $targetIPConditions )
 				->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
 				->groupBy( 'ciwm_wiki' )
 				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
@@ -132,16 +127,12 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 			if ( !$centralId ) {
 				throw new InvalidArgumentException( "No central id found for $target" );
 			}
-			$conditions = [ 'ciu_central_id' => $centralId ];
-			if ( $timeCutoff !== null ) {
-				$conditions[] = $cuciDb->expr( 'ciu_timestamp', '>=', $cuciDb->timestamp( $timeCutoff ) );
-			}
 			$activeWikisResult = $cuciDb->newSelectQueryBuilder()
 				// T397318: 'ciu_timestamp' is selected to satisfy Postgres requirement where all ORDER BY
 				// fields must be present in SELECT list.
 				->select( [ 'ciwm_wiki', 'timestamp' => 'MAX(ciu_timestamp)' ] )
 				->from( 'cuci_user' )
-				->where( $conditions )
+				->where( [ 'ciu_central_id' => $centralId ] )
 				->join( 'cuci_wiki_map', null, 'ciu_ciwm_id = ciwm_id' )
 				->groupBy( 'ciwm_wiki' )
 				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
