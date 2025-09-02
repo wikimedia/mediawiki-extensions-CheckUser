@@ -6,9 +6,14 @@
 	},
 	"apihelp-query+checkuser-param-reason": "Талламан бахьана.",
 	"apihelp-query+checkuser-param-limit": "МогӀанийн терахь лахдар.",
+	"apihelp-query+checkuserlog-summary": "Декъашхой талларан журналера дӀайаздарш схьаэца.",
+	"apihelp-query+checkuserlog-param-user": "Чекюзеран декъашхочун цӀе.",
+	"apihelp-query+checkuserlog-param-target": "Таллам бина декъашхо, IP-адрес йа CIDR диапазон.",
 	"apihelp-query+checkuserlog-param-limit": "МогӀанийн терахь лахдар.",
 	"apihelp-query+checkuserlog-param-from": "Дагарйар дӀадолийна йолу ханна билгало.",
 	"apihelp-query+checkuserlog-param-to": "Дагарйар чекхдаьлла йолу ханна билгало.",
 	"apihelp-query+checkuserlog-example-1": "Гайта таллар [[User:Example]]",
-	"apihelp-query+globalcontributions-param-limit": "МогӀанийн терахь лахдар."
+	"apihelp-query+checkuserlog-example-2": "Гайта таллаш 192.0.2.0/24 — 2011-10-15T23:00:00Z дуьйна",
+	"apihelp-query+globalcontributions-param-limit": "МогӀанийн терахь лахдар.",
+	"apierror-checkuser-invalidmode": "Дехаран нийса йоцу раж"
 }

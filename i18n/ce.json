@@ -368,6 +368,10 @@
 	"checkuser-userinfocard-thanks": "Баркаллаш кхаьчна: $1 (делла: $2)",
 	"checkuser-userinfocard-checks": "Чекаш: $1 (тӀаьххьара чекхйаьккхина: $2)",
 	"checkuser-userinfocard-checks-empty": "Талламаш: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Глобалан {{GENDER:$1|блоктоьхна}}]] $3 дуьйна",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Глобалан {{GENDER:$1|блоктоьхна}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Глобалан {{GENDER:$1|блоктоьхна}}]] $3 дуьйна",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Глобалан {{GENDER:$1|блоктоьхна}}]] $3 дуьйна (локалан дӀадайина)",
 	"checkuser-userinfocard-menu-view-contributions": "{{GENDER:$1|Декъашхочун}} къинхьегам хьажа",
 	"checkuser-userinfocard-menu-view-global-account": "{{GENDER:$1|Глобалан аккаунтан}} информаци хьажа",
 	"checkuser-userinfocard-menu-add-to-watchlist": "{{GENDER:$1|Декъашхочун агӀо}} тергаме могӀаме тӀетоха",
@@ -392,5 +396,7 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 хийцам|0=хийцамаш бац}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Ханна аккаунтийн IP-адресаш хьажа дӀахӀоттийна",
 	"checkuser-userinfocard-ip-revealed-count": "IP гучудоккху: $1 (тӀаьххьара теллина $2)",
-	"checkuser-userinfocard-ip-revealed-never": "IP-но гучудоккху: $1"
+	"checkuser-userinfocard-ip-revealed-never": "IP-но гучудоккху: $1",
+	"checkuser-suggestedinvestigations": "Кховдийна талламаш",
+	"checkuser-suggestedinvestigations-summary": "ХӀокху агӀонан тӀехь йу авто шеконе йу аьлла билгалйаьхна аккаунташ, декъашхошна таллам бан. [[mw:Help:Extension:CheckUser/Risk signals|Кхин дӀа дийца кхерамечу сигналех лаьцна]]"
 }
