@@ -209,6 +209,7 @@
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|lubas}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|vaatas}} kasutaja $3 IP-aadresse",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|vaatas}} IP-aadressiga $3 seotud ajutisi kontosid",
+	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|vaatas}} globaalselt IP-aadressiga $3 seotud ajutisi kontosid",
 	"log-action-filter-checkuser-temporary-account": "Toimingu tüüp:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Juurdepääsu muutmine",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Juurdepääs ajutise konto IP-aadressi andmetele"

@@ -239,8 +239,9 @@
 	"checkuser-tempaccount-reveal-ip-missing": "अनुपलब्ध",
 	"checkuser-tempaccount-reveal-ip-error": "त्रुटि",
 	"checkuser-tempaccount-specialblock-ips": "यह {{PLURAL:$1|IP|IP-ओं}} का उपयोग करने वाला एक अस्थायी सदस्य है: $2",
-	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|अक्षम}}",
-	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|सक्षम}}",
+	"logentry-checkuser-temporary-account-change-access": "$1 ने अस्थायी खातों के IP पते देखने की {{GENDER:$2|अपनी}} पहुँच को $4",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|अक्षम किया}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|सक्षम किया}}",
 	"log-action-filter-checkuser-temporary-account": "क्रिया का प्रकार:",
 	"log-action-filter-checkuser-temporary-account-change-access": "पहुँच बदलें",
 	"log-action-filter-checkuser-temporary-account-view-ips": "अस्थायी खाते की IP डेटा देखें"
