@@ -456,15 +456,17 @@ return [
 		if ( $extensionRegistry->isLoaded( 'GrowthExperiments' ) ) {
 			$userImpactLookup = $services->getService( 'GrowthExperimentsUserImpactLookup' );
 		}
-		$globalContributionsLookup = null;
-		if ( $extensionRegistry->isLoaded( 'CentralAuth' ) ) {
-			$globalContributionsLookup = $services->get( 'CheckUserGlobalContributionsLookup' );
+		$globalContributionsPagerFactory = null;
+		if ( $extensionRegistry->isLoaded( 'GlobalPreferences' ) &&
+			$extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+			$globalContributionsPagerFactory = $services->get( 'CheckUserGlobalContributionsPagerFactory' );
 		}
 		return new CheckUserUserInfoCardService(
 			$userImpactLookup,
 			$services->getExtensionRegistry(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
+			$globalContributionsPagerFactory,
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
@@ -479,7 +481,7 @@ return [
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$globalContributionsLookup,
+			LoggerFactory::getInstance( 'CheckUser' ),
 			$services->getCentralIdLookup()
 		);
 	},
