@@ -44,4 +44,28 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 			'User is not autocreated' => [ false, 'createaccount' ],
 		];
 	}
+
+	public function testOnUserSetEmail() {
+		$mockUser = $this->createMock( User::class );
+
+		$this->suggestedInvestigationsSignalMatchService->expects( $this->once() )
+			->method( 'matchSignalsAgainstUser' )
+			->with( $mockUser, 'setemail' );
+
+		$email = 'test@test.com';
+		$this->sut->onUserSetEmail( $mockUser, $email );
+		DeferredUpdates::doUpdates();
+	}
+
+	public function testOnUserSetEmailAuthenticationTimestamp() {
+		$mockUser = $this->createMock( User::class );
+
+		$this->suggestedInvestigationsSignalMatchService->expects( $this->once() )
+			->method( 'matchSignalsAgainstUser' )
+			->with( $mockUser, 'confirmemail' );
+
+		$timestamp = '20250405060708';
+		$this->sut->onUserSetEmailAuthenticationTimestamp( $mockUser, $timestamp );
+		DeferredUpdates::doUpdates();
+	}
 }

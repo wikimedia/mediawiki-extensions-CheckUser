@@ -590,6 +590,8 @@
 		"UserLinkRendererUserLinkPostRender": "UserLinkRendererUserLinkPostRenderHandler",
 		"UserLogoutComplete": "CheckUserPrivateEvents",
 		"UserMergeAccountFields": "UserMerge",
+		"UserSetEmail": "SuggestedInvestigationsHandler",
+		"UserSetEmailAuthenticationTimestamp": "SuggestedInvestigationsHandler",
 		"UserToolLinksEdit": "ToolLinks",
 		"IPInfoHandlerRun": "IPInfoHandler",
 		"CentralAuthGlobalUserGroupMembershipChanged": "CentralAuthHandler"

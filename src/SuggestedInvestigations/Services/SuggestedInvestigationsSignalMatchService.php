@@ -17,6 +17,8 @@ class SuggestedInvestigationsSignalMatchService {
 
 	public const EVENT_CREATE_ACCOUNT = 'createaccount';
 	public const EVENT_AUTOCREATE_ACCOUNT = 'autocreateaccount';
+	public const EVENT_SET_EMAIL = 'setemail';
+	public const EVENT_CONFIRM_EMAIL = 'confirmemail';
 
 	public function __construct(
 		private readonly ServiceOptions $options,
