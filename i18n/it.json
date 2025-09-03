@@ -27,7 +27,8 @@
 			"Superpes15",
 			"Titore",
 			"Valepert",
-			"GryffindorD"
+			"GryffindorD",
+			"ZandDev"
 		]
 	},
 	"checkuser-summary": "Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all'IP il suffisso \"/xff\". Sono supportati IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). Non saranno restituite più di $3 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.",
@@ -45,9 +46,11 @@
 	"right-checkuser-log": "Visualizza il registro dei checkuser",
 	"right-checkuser-temporary-account-no-preference": "Visualizza gli indirizzi IP utilizzati dalle utenze temporanee senza dover attivare la preferenza",
 	"grant-checkuser": "Accede ai dati checkuser",
+	"grant-checkuser-temporary-account": "Accede ai dati checkuser per gli account temporanei",
 	"action-checkuser": "controllare gli indirizzi IP dell'utente e altre informazioni",
 	"action-checkuser-log": "vedere il registro dei checkuser",
 	"action-checkuser-temporary-account-no-preference": "visualizzare gli indirizzi IP utilizzati dalle utenze temporanee",
+	"action-checkuser-temporary-account-auto-reveal": "rivela automaticamente gli indirizzi IP usati dagli account temporanei",
 	"grouppage-checkuser": "{{ns:project}}:Check user",
 	"grouppage-temporary-account-viewer": "{{ns:project}}:Visualizzatori di IP delle utenze temporanee",
 	"checkuser-reason": "Motivo:",
@@ -194,6 +197,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Contributi",
 	"checkuser-investigate-compare-table-button-filter-label": "Filtra dai risultati",
 	"checkuser-investigate-compare-table-cell-unregistered": "Non registrato",
+	"checkuser-investigate-compare-table-cell-actions": "<b>[$1 {{PLURAL:$1|azione|azioni}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-actions": "<i>(~$1 da tutti gli utenti)</i>",
 	"checkuser-investigate-compare-table-header-username": "Nome utente",
 	"checkuser-investigate-compare-table-header-activity": "Intervallo di date",
@@ -215,8 +219,10 @@
 	"checkuser-ip-contributions-permission-error-title": "Permessi non sufficienti",
 	"checkuser-ip-contributions-target-label": "Indirizzo o intervallo IP:",
 	"checkuser-ip-contributions-target-error-no-ip": "Inserisci un indirizzo IP o un intervallo di IP valido",
+	"checkuser-ip-contributions-tab-label-contributions": "Contributi",
 	"checkuser-ip-contributions-results-title": "Contributi dell'IP tramite utenza temporanea per $1",
 	"checkuser-ip-contributions-archive-results-title": "Contributi cancellati dell'IP tramite utenza temporanea per $1",
+	"checkuser-ip-contributions-contributions-link": "contributi",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Modifiche dell'utente temporaneo per l'IP",
 	"checkuser-ip-contributions-special-contributions-button": "Modifiche tramite IP classico",
 	"checkuser-global-contributions-link": "contributi globali",
@@ -235,5 +241,6 @@
 	"checkuser-tempaccount-specialblock-ips": "Questa è un'utenza temporanea che utilizza {{PLURAL:$1|il seguente|i seguenti}} IP: $2",
 	"log-action-filter-checkuser-temporary-account": "Tipo di azione:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Modifica accesso",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|ha visualizzato}} variabili protette associate a $3"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|ha visualizzato}} variabili protette associate a $3",
+	"checkuser-userinfocard-enable-preference-help": "Mostra un'iconcina accanto ai nomi utente che permette di aprire un pop-up con delle informazioni sugli account."
 }
