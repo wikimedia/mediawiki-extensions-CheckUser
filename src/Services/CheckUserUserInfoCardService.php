@@ -3,11 +3,11 @@
 namespace MediaWiki\CheckUser\Services;
 
 use GrowthExperiments\UserImpact\UserImpactLookup;
+use InvalidArgumentException;
 use MediaWiki\Cache\GenderCache;
-use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
+use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Config\ServiceOptions;
-use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
@@ -32,7 +32,6 @@ use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\WikiMap\WikiMap;
 use MessageLocalizer;
-use Psr\Log\LoggerInterface;
 use Wikimedia\Message\ListType;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Stats\StatsFactory;
@@ -45,9 +44,8 @@ class CheckUserUserInfoCardService {
 
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserUserInfoCardCentralWikiId',
+		'CUDMaxAge',
 	];
-
-	private const PAGER_ITERATION_LIMIT = 20;
 
 	private const GLOBAL_RESTRICTIONS_LOCKED = 'locked';
 	private const GLOBAL_RESTRICTIONS_BLOCKED = 'blocked';
@@ -58,7 +56,7 @@ class CheckUserUserInfoCardService {
 		private readonly ExtensionRegistry $extensionRegistry,
 		private readonly UserRegistrationLookup $userRegistrationLookup,
 		private readonly UserGroupManager $userGroupManager,
-		private readonly ?GlobalContributionsPagerFactory $globalContributionsPagerFactory,
+		private readonly ?CheckUserGlobalContributionsLookup $globalContributionsLookup,
 		private readonly IConnectionProvider $dbProvider,
 		private readonly StatsFactory $statsFactory,
 		private readonly CheckUserPermissionManager $checkUserPermissionManager,
@@ -71,7 +69,6 @@ class CheckUserUserInfoCardService {
 		private readonly GenderCache $genderCache,
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly ServiceOptions $options,
-		private readonly LoggerInterface $logger,
 		private readonly CentralIdLookup $centralIdLookup
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
@@ -235,44 +232,22 @@ class CheckUserUserInfoCardService {
 		}
 
 		$userInfo['activeWikis'] = [];
-		if ( $this->globalContributionsPagerFactory instanceof GlobalContributionsPagerFactory ) {
-			$activeWikiIds = [];
+		if ( $this->globalContributionsLookup instanceof CheckUserGlobalContributionsLookup ) {
 			$activeWikisStart = microtime( true );
-			// Fetch the list of active wikis for a user by looking at permissions-gated
-			// global contributions. Note that this means that a user can perform publicly
-			// logged actions on other wikis but this will not appear in the "active wikis"
-			// list. When T397710 is done, we would be able to also fetch active wikis
-			// by looking at log entries as well. For now, making this edit based is fine.
-			$globalContributionsPager = $this->globalContributionsPagerFactory->createPager(
-				RequestContext::getMain(),
-				[],
-				$user
-			);
-			$offset = '';
-			$iterations = 0;
-			do {
-				// Iterate over results until we have gone through every wiki's rows.
-				$globalContributionsPager->setOffset( $offset );
-				// Set the highest possible limit here, to reduce the number of times we need to
-				// iterate over the pager results.
-				$globalContributionsPager->setLimit( 5000 );
-				$globalContributionsPager->doQuery();
-				foreach ( $globalContributionsPager->getResult() as $result ) {
-					$activeWikiIds[$result->sourcewiki] = true;
-				}
-				$queryOptions = $globalContributionsPager->getPagingQueries();
-				$offset = $queryOptions['next']['offset'] ?? '';
-				$iterations++;
-			} while ( $offset !== '' && $iterations < self::PAGER_ITERATION_LIMIT );
-			if ( $iterations === self::PAGER_ITERATION_LIMIT ) {
-				// Diagnostic logging, in case we need to increase the iterations.
-				$this->logger->info(
-					'UserInfoCard returned incomplete activeWikis for {user} due to reaching pager iteration limits', [
-						'user' => $user->getName(),
-					]
-				);
+
+			// Be consistent with what's displayed on Special:GlobalContributions and use the same
+			// cutoff for user activity
+			$checkUserDataCutoff = ConvertibleTimestamp::time() - $this->options->get( 'CUDMaxAge' );
+			$checkUserDataCutoff = ConvertibleTimestamp::convert( TS_MW, $checkUserDataCutoff );
+
+			try {
+				$activeWikiIds = $this->globalContributionsLookup->getPubliclyKnownActiveWikis(
+					$user->getName(), $authority, $checkUserDataCutoff );
+			} catch ( InvalidArgumentException ) {
+				// No central user found or viewable, assume that the user is not active on any wiki
+				$activeWikiIds = [];
 			}
-			$activeWikiIds = array_keys( $activeWikiIds );
+
 			sort( $activeWikiIds );
 			foreach ( $activeWikiIds as $wikiId ) {
 				$interWiki = $this->interwikiLookup->fetch(
@@ -287,7 +262,6 @@ class CheckUserUserInfoCardService {
 			}
 			$this->statsFactory->withComponent( 'CheckUser' )
 				->getTiming( 'userinfocardservice_active_wikis' )
-				->setLabel( 'reached_paging_limit', $iterations === self::PAGER_ITERATION_LIMIT ? '1' : '0' )
 				->observe( ( microtime( true ) - $activeWikisStart ) * 1000 );
 		}
 

@@ -11,10 +11,12 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Request\WebRequest;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\User;
+use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -85,13 +87,80 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	}
 
 	/**
-	 * Get an array of active wikis from either cuci_temp_edit or cuci_user
+	 * Get an array of wikis, where the target has made contributions that are publicly visible.
+	 * In case of the local wiki, also include contributions that may be non-public but can be seen
+	 * by the passed authority.
+	 *
+	 * @param string $target Name of the actor to check
+	 * @param Authority $authority
+	 * @param string|null $timeCutoff If set, only return wikis where user was active since this timestamp
+	 * @return list<string>
+	 */
+	public function getPubliclyKnownActiveWikis(
+		string $target, Authority $authority, ?string $timeCutoff = null
+	): array {
+		$allActiveWikis = $this->getActiveWikis( $target, $authority, $timeCutoff );
+
+		$resultingWikis = [];
+		foreach ( $allActiveWikis as $wiki ) {
+			$dbr = $this->dbProvider->getReplicaDatabase( $wiki );
+
+			$dbConditions = [
+				'actor_name' => $target
+			];
+
+			if ( $timeCutoff !== null ) {
+				$dbConditions[] = $dbr->expr( 'rev_timestamp', '>=', $dbr->timestamp( $timeCutoff ) );
+			}
+
+			// List non-public revisions only from the local wiki, where we can easily check for
+			// permissions. For remote wikis, we assume that we're not allowed to see non-public revisions.
+			if (
+				!WikiMap::isCurrentWikiDbDomain( $wiki ) ||
+				!$authority->isAllowed( 'deletedhistory' )
+			) {
+				$dbConditions[] = $dbr->bitAnd(
+						'rev_deleted', RevisionRecord::DELETED_USER
+					) . ' = 0';
+			} elseif (
+				!$authority->isAllowed( 'suppressrevision' ) &&
+				!$authority->isAllowed( 'viewsuppressed' )
+			) {
+				$dbConditions[] = $dbr->bitAnd(
+						'rev_deleted', RevisionRecord::SUPPRESSED_USER
+					) . ' != ' . RevisionRecord::SUPPRESSED_USER;
+			}
+
+			$hasVisibleActions = (bool)$dbr->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'revision' )
+				->join( 'actor', null, 'rev_actor = actor_id' )
+				->where( $dbConditions )
+				->limit( 1 )
+				->caller( __METHOD__ )
+				->fetchField();
+
+			if ( $hasVisibleActions ) {
+				$resultingWikis[] = $wiki;
+			}
+		}
+
+		return $resultingWikis;
+	}
+
+	/**
+	 * Get an array of active wikis from either cuci_temp_edit or cuci_user.
+	 *
+	 * NOTE: These tables describe all activity of the user, some of which may not be publicly visible
+	 * (e.g. suppressed revisions). If you want to display the list of active wikis, either filter
+	 * the return value of this method or use {@link getPubliclyKnownActiveWikis}.
 	 *
 	 * @param string $target
 	 * @param Authority $authority
+	 * @param string|null $timeCutoff If set, only return wikis where user was active since this timestamp
 	 * @return string[]
 	 */
-	public function getActiveWikis( string $target, Authority $authority ) {
+	public function getActiveWikis( string $target, Authority $authority, ?string $timeCutoff = null ) {
 		$this->checkCentralAuthEnabled();
 
 		$activeWikis = [];
@@ -110,12 +179,16 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 					Check if your RangeContributionsCIDRLimit and CheckUserCIDRLimit configs are compatible."
 				);
 			}
+			$conditions = [ $targetIPConditions ];
+			if ( $timeCutoff !== null ) {
+				$conditions[] = $cuciDb->expr( 'cite_timestamp', '>=', $cuciDb->timestamp( $timeCutoff ) );
+			}
 			$activeWikisResult = $cuciDb->newSelectQueryBuilder()
 				// T397318: 'cite_timestamp' is selected to satisfy Postgres requirement where all ORDER BY
 				// fields must be present in SELECT list.
 				->select( [ 'ciwm_wiki', 'timestamp' => 'MAX(cite_timestamp)' ] )
 				->from( 'cuci_temp_edit' )
-				->where( $targetIPConditions )
+				->where( $conditions )
 				->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
 				->groupBy( 'ciwm_wiki' )
 				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
@@ -127,12 +200,16 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 			if ( !$centralId ) {
 				throw new InvalidArgumentException( "No central id found for $target" );
 			}
+			$conditions = [ 'ciu_central_id' => $centralId ];
+			if ( $timeCutoff !== null ) {
+				$conditions[] = $cuciDb->expr( 'ciu_timestamp', '>=', $cuciDb->timestamp( $timeCutoff ) );
+			}
 			$activeWikisResult = $cuciDb->newSelectQueryBuilder()
 				// T397318: 'ciu_timestamp' is selected to satisfy Postgres requirement where all ORDER BY
 				// fields must be present in SELECT list.
 				->select( [ 'ciwm_wiki', 'timestamp' => 'MAX(ciu_timestamp)' ] )
 				->from( 'cuci_user' )
-				->where( [ 'ciu_central_id' => $centralId ] )
+				->where( $conditions )
 				->join( 'cuci_wiki_map', null, 'ciu_ciwm_id = ciwm_id' )
 				->groupBy( 'ciwm_wiki' )
 				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )

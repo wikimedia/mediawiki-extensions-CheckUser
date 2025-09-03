@@ -9,8 +9,11 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
+use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\User;
+use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\TestingAccessWrapper;
@@ -23,10 +26,12 @@ use Wikimedia\TestingAccessWrapper;
 class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserTempUserTestTrait;
+	use MockAuthorityTrait;
 
 	private static User $tempUser1;
 	private static User $tempUser2;
 	private static User $tempUser3;
+	private static User $tempUser4;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -60,6 +65,9 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		self::$tempUser3 = $this->getServiceContainer()
 			->getTempUserCreator()
 			->create( '~check-user-test-2024-03', new FauxRequest() )->getUser();
+		self::$tempUser4 = $this->getServiceContainer()
+			->getTempUserCreator()
+			->create( '~check-user-test-2024-04', new FauxRequest() )->getUser();
 
 		$page = $this->getNonexistingTestPage();
 
@@ -84,13 +92,24 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			'Test page', 'Test Content 4', 'test', NS_MAIN, self::$tempUser3
 		);
 
+		// Make an edit that will have its author hidden
+		$status = $this->editPage(
+			'Test page', 'Test Content 5', 'test', NS_MAIN, self::$tempUser4
+		);
+		$revId = $status->getNewRevision()->getId();
+
 		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
+
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'revision' )
+			->set( [ 'rev_deleted' => RevisionRecord::DELETED_USER ] )
+			->where( [ 'rev_id' => $revId ] )
+			->execute();
 	}
 
-	/** @dataProvider provideTestGetGlobalContributionCount */
-	public function testGetGlobalContributionCount( $targetProvider, $expectedCount ) {
+	private function getObjectUnderTest(): CheckUserGlobalContributionsLookup {
 		$services = $this->getServiceContainer();
-		$lookup = new CheckUserGlobalContributionsLookup(
+		return new CheckUserGlobalContributionsLookup(
 			$services->getConnectionProvider(),
 			$services->get( 'ExtensionRegistry' ),
 			$services->get( 'CentralIdLookup' ),
@@ -101,6 +120,11 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			$services->getMainWANObjectCache(),
 			$services->getStatsFactory()
 		);
+	}
+
+	/** @dataProvider provideTestGetGlobalContributionCount */
+	public function testGetGlobalContributionCount( $targetProvider, $expectedCount ) {
+		$lookup = $this->getObjectUnderTest();
 		$authority = RequestContext::getMain()->getAuthority();
 
 		$this->assertSame(
@@ -275,6 +299,70 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		);
 
 		$this->assertMetricCount( CheckUserGlobalContributionsLookup::API_LOOKUP_ERROR_METRIC_NAME, 1 );
+	}
+
+	/** @dataProvider provideGetActiveWikis */
+	public function testGetActiveWikis( $target ) {
+		$lookup = $this->getObjectUnderTest();
+
+		$activeWikisAllTime = $lookup->getActiveWikis(
+			$target(),
+			$this->mockAnonUltimateAuthority()
+		);
+		$this->assertArrayEquals( [ WikiMap::getCurrentWikiId() ], $activeWikisAllTime );
+
+		$activeWikisRecent = $lookup->getActiveWikis(
+			$target(),
+			$this->mockAnonUltimateAuthority(),
+			// addDBDataOnce makes edits with current date, so we need a reliable future date here
+			// to ensure we don't capture anything
+			'99990101000000'
+		);
+		$this->assertArrayEquals( [], $activeWikisRecent );
+	}
+
+	public static function provideGetActiveWikis() {
+		return [
+			'Account' => [
+				'target' => static fn () => self::$tempUser1->getName()
+			],
+			'IP address' => [
+				'target' => static fn () => '127.0.0.3'
+			]
+		];
+	}
+
+	public function testGetPubliclyKnownActiveWikis() {
+		$lookup = $this->getObjectUnderTest();
+
+		$activeWikisAllTime = $lookup->getPubliclyKnownActiveWikis(
+			self::$tempUser1->getName(),
+			$this->mockAnonUltimateAuthority()
+		);
+		$this->assertArrayEquals( [ WikiMap::getCurrentWikiId() ], $activeWikisAllTime );
+
+		$activeWikisRecent = $lookup->getPubliclyKnownActiveWikis(
+			self::$tempUser1->getName(),
+			$this->mockAnonUltimateAuthority(),
+			// addDBDataOnce makes edits with current date, so we need a reliable future date here
+			// to ensure we don't capture anything
+			'99990101000000'
+		);
+		$this->assertArrayEquals(
+			[], $activeWikisRecent,
+			false, false,
+			'No wikis should be active for future cutoff'
+		);
+
+		$activeWikisForHiddenAuthor = $lookup->getPubliclyKnownActiveWikis(
+			self::$tempUser4->getName(),
+			$this->mockAnonNullAuthority()
+		);
+		$this->assertArrayEquals(
+			[], $activeWikisForHiddenAuthor,
+			false, false,
+			'Wiki with only rev-deleted author should not be included'
+		);
 	}
 
 	/**

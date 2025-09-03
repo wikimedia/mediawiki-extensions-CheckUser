@@ -4,8 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use CentralAuthTestUser;
 use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
-use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
-use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
+use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
@@ -14,7 +13,6 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
-use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\MainConfigNames;
@@ -25,8 +23,6 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\Test\TestLogger;
-use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -48,7 +44,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp(): void {
 		parent::setUp();
-		// The GlobalContributionsPager used in CheckuserUserInfoCardService requires CentralAuth
+		// The CheckUserGlobalContributionsLookup used in CheckuserUserInfoCardService requires CentralAuth
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 
 		$this->enableAutoCreateTempUser( [
@@ -150,8 +146,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getExtensionRegistry(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$overrides[ 'CheckUserGlobalContributionsPagerFactory' ] ??
-				$services->get( 'CheckUserGlobalContributionsPagerFactory' ),
+			$overrides[ 'CheckUserGlobalContributionsLookup' ] ??
+				$services->get( 'CheckUserGlobalContributionsLookup' ),
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$overrides[ 'CheckUserPermissionManager' ] ??
@@ -169,8 +165,6 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$overrides[ 'logger' ] ??
-				LoggerFactory::getInstance( 'CheckUser' ),
 			$services->getCentralIdLookup()
 		);
 	}
@@ -187,14 +181,13 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		// Run deferred updates, to ensure that globalEditCount gets populated in CentralAuth.
 		$this->runDeferredUpdates();
 
-		$this->setService( 'CheckUserGlobalContributionsPagerFactory', function () use ( $user ) {
-			$globalContributionsPager = $this->createMock( GlobalContributionsPager::class );
-			$globalContributionsPager->method( 'getResult' )->willReturn(
-				new FakeResultWrapper( [ [ 'sourcewiki' => 'enwiki' ], [ 'sourcewiki' => 'dewiki' ] ] )
-			);
-			$globalContributionsPagerFactory = $this->createMock( GlobalContributionsPagerFactory::class );
-			$globalContributionsPagerFactory->method( 'createPager' )->willReturn( $globalContributionsPager );
-			return $globalContributionsPagerFactory;
+		$this->setService( 'CheckUserGlobalContributionsLookup', function () use ( $user ) {
+			$gcLookupMock = $this->createMock( CheckUserGlobalContributionsLookup::class );
+			$gcLookupMock
+				->method( 'getPubliclyKnownActiveWikis' )
+				->willReturn( [ 'enwiki', 'dewiki' ] );
+
+			return $gcLookupMock;
 		} );
 
 		$userInfo = $this->getObjectUnderTest()->getUserInfo(
@@ -221,55 +214,17 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$userInfo['activeWikis']
 		);
 
-		$this->setService( 'CheckUserGlobalContributionsPagerFactory', static function () use ( $user ) {
+		$this->setService( 'CheckUserGlobalContributionsLookup', static function () use ( $user ) {
 			return null;
 		} );
-		$userInfoWithoutGlobalContributionsPager = $this->getObjectUnderTest()->getUserInfo(
+		$userInfoWithoutGlobalContributionsLookup = $this->getObjectUnderTest()->getUserInfo(
 			$this->getTestUser()->getAuthority(),
 			$user
 		);
-		$this->assertSame( [], $userInfoWithoutGlobalContributionsPager['activeWikis'] );
+		$this->assertSame( [], $userInfoWithoutGlobalContributionsLookup['activeWikis'] );
 		unset( $userInfo['activeWikis'] );
-		unset( $userInfoWithoutGlobalContributionsPager['activeWikis'] );
-		$this->assertArrayEquals( $userInfo, $userInfoWithoutGlobalContributionsPager );
-	}
-
-	public function testPagingLimits() {
-		$user = $this->getTestUser()->getUser();
-		$this->setService( 'CheckUserGlobalContributionsPagerFactory', function () use ( $user ) {
-			$globalContributionsPager = $this->createMock( GlobalContributionsPager::class );
-			$globalContributionsPager->method( 'getResult' )->willReturn(
-				new FakeResultWrapper( [ [ 'sourcewiki' => 'enwiki' ], [ 'sourcewiki' => 'dewiki' ] ] )
-			);
-			$globalContributionsPager->method( 'getPagingQueries' )->willReturn(
-				// Set an arbitrary offset, this is to ensure that we reach the pager iteration limit
-				[ 'next' => [ 'offset' => '12345 ' ] ]
-			);
-			$globalContributionsPagerFactory = $this->createMock( GlobalContributionsPagerFactory::class );
-			$globalContributionsPagerFactory->method( 'createPager' )->willReturn( $globalContributionsPager );
-			return $globalContributionsPagerFactory;
-		} );
-		$logger = new TestLogger();
-		$this->getObjectUnderTest( [ 'logger' => $logger ] )->getUserInfo(
-			$this->getTestUser()->getAuthority(),
-			$user
-		);
-		$this->assertTrue(
-			$logger->hasInfoThatContains(
-				'UserInfoCard returned incomplete activeWikis for {user} due to reaching pager iteration limits'
-			)
-		);
-		// Verify that the Prometheus data is logged as intended.
-		$timing = $this->getServiceContainer()
-			->getStatsFactory()
-			->withComponent( 'CheckUser' )
-			->getTiming( 'userinfocardservice_active_wikis' );
-
-		$labelKeys = $timing->getLabelKeys();
-		$samples = $timing->getSamples();
-		$this->assertSame( 'reached_paging_limit', $labelKeys[0] );
-		$this->assertSame( '1', $samples[0]->getLabelValues()[0] );
-		$this->assertIsNumeric( $samples[0]->getValue() );
+		unset( $userInfoWithoutGlobalContributionsLookup['activeWikis'] );
+		$this->assertArrayEquals( $userInfo, $userInfoWithoutGlobalContributionsLookup );
 	}
 
 	public function testUserImpactIsEmpty() {
@@ -311,7 +266,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getExtensionRegistry(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
-			$services->get( 'CheckUserGlobalContributionsPagerFactory' ),
+			$services->get( 'CheckUserGlobalContributionsLookup' ),
 			$services->getConnectionProvider(),
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
@@ -327,7 +282,6 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			LoggerFactory::getInstance( 'CheckUser' ),
 			$services->getCentralIdLookup()
 		);
 		$targetUser = $this->getTestUser()->getUser();
@@ -526,7 +480,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		$userOptionsManager->saveOptions( $user );
 		$result = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsPagerFactory' => $this->mockPagerFactoryBySourceWikis()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
 		] )->getUserInfo(
 			$authority, $user
 		);
@@ -534,7 +488,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
 		$newUser = $this->getTestUser( [ 'noaccess' ] )->getUser();
 		$result = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsPagerFactory' => $this->mockPagerFactoryBySourceWikis()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
 		] )->getUserInfo(
 			$newUser, $user
 		);
@@ -625,7 +579,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 
 		$sut = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsPagerFactory' => $this->mockPagerFactoryBySourceWikis()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
 		] );
 
 		// A user with access to the IP reveal log (checkuser-temporary-account-log
@@ -708,7 +662,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$sut = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsPagerFactory' => $this->mockPagerFactoryBySourceWikis()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
 		] );
 
 		$result = $sut->getUserInfo( $performer, $target );
@@ -783,7 +737,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 
 		$sut = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsPagerFactory' => $this->mockPagerFactoryBySourceWikis()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
 		] );
 
 		$performerPermissions = [
@@ -1116,23 +1070,14 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @return (GlobalContributionsPagerFactory&MockObject)
+	 * @return (CheckUserGlobalContributionsLookup&MockObject)
 	 */
-	private function mockPagerFactoryBySourceWikis(): GlobalContributionsPagerFactory {
-		$gcPagerMock = $this->createMock( GlobalContributionsPager::class );
-		$gcPagerMock
-			->method( 'getResult' )
-			->willReturn(
-				new FakeResultWrapper( [
-					[ 'sourcewiki' => 'enwiki' ]
-				] )
-			);
+	private function mockContributionsLookup(): CheckUserGlobalContributionsLookup {
+		$gcLookupMock = $this->createMock( CheckUserGlobalContributionsLookup::class );
+		$gcLookupMock
+			->method( 'getPubliclyKnownActiveWikis' )
+			->willReturn( [ 'enwiki' ] );
 
-		$gcPagerFactoryMock = $this->createMock( GlobalContributionsPagerFactory::class );
-		$gcPagerFactoryMock
-			->method( 'createPager' )
-			->willReturn( $gcPagerMock );
-
-		return $gcPagerFactoryMock;
+		return $gcLookupMock;
 	}
 }
