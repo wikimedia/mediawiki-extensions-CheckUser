@@ -22,9 +22,11 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
+use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -97,14 +99,44 @@ class SuggestedInvestigationsCaseManagerService {
 	 */
 	public function addUsersToCase( int $caseId, array $users ): void {
 		$this->assertSuggestedInvestigationsEnabled();
-		if ( !$this->caseExists( $caseId ) ) {
-			throw new InvalidArgumentException( "Case ID $caseId does not exist" );
-		}
+		$this->assertCaseExists( $caseId );
+
 		if ( count( $users ) === 0 ) {
 			return;
 		}
 
 		$this->addUsersToCaseInternal( $caseId, $users );
+	}
+
+	/**
+	 * Changes the status of a given case.
+	 *
+	 * Note we don't currently restrict what status transitions are allowed
+	 * (for example, a Resolved case may be set back to Open).
+	 *
+	 * @param int $caseId The ID of the case to modify.
+	 * @param CaseStatus $status The new case status.
+	 * @param string $reason Optionally, a reason for the status change.
+	 *
+	 * @return void
+	 *
+	 * @throws InvalidArgumentException if $caseId does not match an existing case.
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
+	 */
+	public function setCaseStatus( int $caseId, CaseStatus $status, string $reason = '' ): void {
+		$this->assertSuggestedInvestigationsEnabled();
+		$this->assertCaseExists( $caseId );
+
+		$dbw = $this->getPrimaryDatabase();
+		$dbw->newUpdateQueryBuilder()
+			->table( 'cusi_case' )
+			->set( [
+				'sic_status' => $status->value,
+				'sic_status_reason' => trim( $reason )
+			] )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->execute();
 	}
 
 	/**
@@ -158,8 +190,8 @@ class SuggestedInvestigationsCaseManagerService {
 
 	/** Helper function to check if a case with given ID exists */
 	private function caseExists( int $caseId ): bool {
-		$dbw = $this->getReplicaDatabase();
-		$rowCount = $dbw->newSelectQueryBuilder()
+		$dbr = $this->getReplicaDatabase();
+		$rowCount = $dbr->newSelectQueryBuilder()
 			->select( 'COUNT(*)' )
 			->from( 'cusi_case' )
 			->where( [ 'sic_id' => $caseId ] )
@@ -169,10 +201,28 @@ class SuggestedInvestigationsCaseManagerService {
 		return $rowCount > 0;
 	}
 
-	/** Helper function to return early if SI is not enabled, so we don't interact with non-existing tables in DB */
+	/**
+	 * Asserts that a case with the given ID exists.
+	 *
+	 * @param int $caseId ID for the case to test for.
+	 * @return void
+	 *
+	 * @throws InvalidArgumentException if $caseId does not match an existing case
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
+	 */
+	private function assertCaseExists( int $caseId ): void {
+		if ( !$this->caseExists( $caseId ) ) {
+			throw new InvalidArgumentException( "Case ID $caseId does not exist" );
+		}
+	}
+
+	/**
+	 * Helper function to return early if SI is not enabled, so we don't interact with non-existing tables in DB
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
+	 */
 	private function assertSuggestedInvestigationsEnabled(): void {
 		if ( !$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
-			throw new \RuntimeException( 'Suggested Investigations is not enabled' );
+			throw new RuntimeException( 'Suggested Investigations is not enabled' );
 		}
 	}
 

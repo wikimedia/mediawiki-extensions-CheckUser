@@ -18,6 +18,7 @@
  * @file
  */
 
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
@@ -133,6 +134,36 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$this->assertSame( 0, $userCountIrrelevant, 'Again, No users should be added to any other case' );
 	}
 
+	/**
+	 * @dataProvider setCaseStatusDataProvider
+	 */
+	public function testSetCaseStatus( CaseStatus $newStatus ): void {
+		$user1 = UserIdentityValue::newRegistered( 1, 'Test user 1' );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+
+		$service = $this->createService();
+		$caseId = $service->createCase( [ $user1 ], [ $signal ] );
+
+		$service->setCaseStatus( $caseId, $newStatus );
+
+		// Assert the new state has been persisted to the DB
+		$this->assertEquals( $newStatus, $this->getCaseStatus( $caseId ) );
+	}
+
+	public static function setCaseStatusDataProvider(): array {
+		return [
+			'To Open' => [
+				'newStatus' => CaseStatus::Open
+			],
+			'To Resolved' => [
+				'newStatus' => CaseStatus::Resolved
+			],
+			'To Invalid' => [
+				'newStatus' => CaseStatus::Invalid
+			],
+		];
+	}
+
 	private function countUsers( int $caseId ): array {
 		$userCountRelevant = (int)$this->getDb()->newSelectQueryBuilder()
 			->select( 'COUNT(*)' )
@@ -147,6 +178,17 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 			->fetchField();
 
 		return [ $userCountRelevant, $userCountAll - $userCountRelevant ];
+	}
+
+	public function getCaseStatus( int $caseId ): CaseStatus {
+		$rawStatus = $this->getDb()->newSelectQueryBuilder()
+			->select( 'sic_status' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->fetchField();
+
+		return CaseStatus::from( $rawStatus );
 	}
 
 	private function createService(): SuggestedInvestigationsCaseManagerService {
