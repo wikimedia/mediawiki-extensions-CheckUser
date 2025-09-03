@@ -15,7 +15,7 @@ use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
-use MediaWiki\User\User;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -87,20 +87,34 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	}
 
 	/**
-	 * Get an array of wikis, where the target has made contributions that are publicly visible.
-	 * In case of the local wiki, also include contributions that may be non-public but can be seen
-	 * by the passed authority.
+	 * Get an array of wikis, where the target has made contributions that are publicly visible or the viewing
+	 * user has sufficient permissions to see them.
 	 *
 	 * @param string $target Name of the actor to check
-	 * @param Authority $authority
+	 * @param Authority $viewingAuthority
+	 * @param WebRequest $request
 	 * @param string|null $timeCutoff If set, only return wikis where user was active since this timestamp
 	 * @return list<string>
 	 */
-	public function getPubliclyKnownActiveWikis(
-		string $target, Authority $authority, ?string $timeCutoff = null
+	public function getActiveWikisVisibleToUser(
+		string $target, Authority $viewingAuthority, WebRequest $request, ?string $timeCutoff = null
 	): array {
-		$allActiveWikis = $this->getActiveWikis( $target, $authority, $timeCutoff );
+		$allActiveWikis = $this->getActiveWikis( $target, $viewingAuthority, $timeCutoff );
+		$wikisToFetchPermissionsFor = array_filter(
+			$allActiveWikis,
+			static fn ( $wiki ) => !WikiMap::isCurrentWikiDbDomain( $wiki )
+		);
 
+		$targetCentralId = $this->centralIdLookup->centralIdFromName( $target, $viewingAuthority );
+		$permissions = $this->getAndUpdateExternalWikiPermissions(
+			$targetCentralId,
+			$wikisToFetchPermissionsFor,
+			$viewingAuthority->getUser(),
+			$request
+		);
+
+		// Ignore the error part of external permissions - usually, the target user would have
+		// a public contribution either way, so let's not scare the audience with an error message
 		$resultingWikis = [];
 		foreach ( $allActiveWikis as $wiki ) {
 			$dbr = $this->dbProvider->getReplicaDatabase( $wiki );
@@ -113,19 +127,30 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 				$dbConditions[] = $dbr->expr( 'rev_timestamp', '>=', $dbr->timestamp( $timeCutoff ) );
 			}
 
-			// List non-public revisions only from the local wiki, where we can easily check for
-			// permissions. For remote wikis, we assume that we're not allowed to see non-public revisions.
-			if (
-				!WikiMap::isCurrentWikiDbDomain( $wiki ) ||
-				!$authority->isAllowed( 'deletedhistory' )
-			) {
+			$canSeeDeleted = false;
+			$canSeeSuppressed = false;
+			if ( WikiMap::isCurrentWikiDbDomain( $wiki ) ) {
+				if ( $viewingAuthority->isAllowed( 'deletedhistory' ) ) {
+					$canSeeDeleted = true;
+
+					$canSeeSuppressed =
+						$viewingAuthority->isAllowed( 'suppressrevision' ) ||
+						$viewingAuthority->isAllowed( 'viewsuppressed' );
+				}
+			} else {
+				if ( $permissions->hasPermission( 'deletedhistory', $wiki ) ) {
+					$canSeeDeleted = true;
+					$canSeeSuppressed =
+						$permissions->hasPermission( 'suppressrevision', $wiki ) ||
+						$permissions->hasPermission( 'viewsuppressed', $wiki );
+				}
+			}
+
+			if ( !$canSeeDeleted ) {
 				$dbConditions[] = $dbr->bitAnd(
 						'rev_deleted', RevisionRecord::DELETED_USER
 					) . ' = 0';
-			} elseif (
-				!$authority->isAllowed( 'suppressrevision' ) &&
-				!$authority->isAllowed( 'viewsuppressed' )
-			) {
+			} elseif ( !$canSeeSuppressed ) {
 				$dbConditions[] = $dbr->bitAnd(
 						'rev_deleted', RevisionRecord::SUPPRESSED_USER
 					) . ' != ' . RevisionRecord::SUPPRESSED_USER;
@@ -153,7 +178,7 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	 *
 	 * NOTE: These tables describe all activity of the user, some of which may not be publicly visible
 	 * (e.g. suppressed revisions). If you want to display the list of active wikis, either filter
-	 * the return value of this method or use {@link getPubliclyKnownActiveWikis}.
+	 * the return value of this method or use {@link getActiveWikisVisibleToUser}.
 	 *
 	 * @param string $target
 	 * @param Authority $authority
@@ -286,12 +311,12 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	/**
 	 * @param int $centralId
 	 * @param string[] $wikiIds
-	 * @param User $user
+	 * @param UserIdentity $userIdentity
 	 */
 	public function getAndUpdateExternalWikiPermissions(
 		int $centralId,
 		array $wikiIds,
-		User $user,
+		UserIdentity $userIdentity,
 		WebRequest $request
 	): ExternalPermissions {
 		$externalApiLookupError = false;
@@ -312,12 +337,12 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 			function (
 				array $wikisWithUnknownPermissions,
 				array &$ttls
-			) use ( $user, $request, &$externalApiLookupError, &$numWikisWithUnknownPermissions ) {
+			) use ( $userIdentity, $request, &$externalApiLookupError, &$numWikisWithUnknownPermissions ) {
 				$numWikisWithUnknownPermissions = count( $wikisWithUnknownPermissions );
 
 				$foundPermissions = array_fill_keys( $wikisWithUnknownPermissions, false );
 				$lookedUpPermissions = $this->apiRequestAggregator->execute(
-					$user,
+					$userIdentity,
 					[
 						'action' => 'query',
 						'prop' => 'info',

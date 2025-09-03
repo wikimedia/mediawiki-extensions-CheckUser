@@ -329,18 +329,20 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		];
 	}
 
-	public function testGetPubliclyKnownActiveWikis() {
+	public function testGetActiveWikisVisibleToUser() {
 		$lookup = $this->getObjectUnderTest();
 
-		$activeWikisAllTime = $lookup->getPubliclyKnownActiveWikis(
+		$activeWikisAllTime = $lookup->getActiveWikisVisibleToUser(
 			self::$tempUser1->getName(),
-			$this->mockAnonUltimateAuthority()
+			$this->mockAnonNullAuthority(),
+			new FauxRequest()
 		);
 		$this->assertArrayEquals( [ WikiMap::getCurrentWikiId() ], $activeWikisAllTime );
 
-		$activeWikisRecent = $lookup->getPubliclyKnownActiveWikis(
+		$activeWikisRecent = $lookup->getActiveWikisVisibleToUser(
 			self::$tempUser1->getName(),
-			$this->mockAnonUltimateAuthority(),
+			$this->mockAnonNullAuthority(),
+			new FauxRequest(),
 			// addDBDataOnce makes edits with current date, so we need a reliable future date here
 			// to ensure we don't capture anything
 			'99990101000000'
@@ -351,12 +353,24 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			'No wikis should be active for future cutoff'
 		);
 
-		$activeWikisForHiddenAuthor = $lookup->getPubliclyKnownActiveWikis(
+		$activeWikisForHiddenAuthor = $lookup->getActiveWikisVisibleToUser(
 			self::$tempUser4->getName(),
-			$this->mockAnonNullAuthority()
+			$this->mockAnonNullAuthority(),
+			new FauxRequest()
 		);
 		$this->assertArrayEquals(
 			[], $activeWikisForHiddenAuthor,
+			false, false,
+			'Wiki with only rev-deleted author should not be included'
+		);
+
+		$activeWikisForHiddenAuthorElevated = $lookup->getActiveWikisVisibleToUser(
+			self::$tempUser4->getName(),
+			$this->mockAnonUltimateAuthority(),
+			new FauxRequest()
+		);
+		$this->assertArrayEquals(
+			[ WikiMap::getCurrentWikiId() ], $activeWikisForHiddenAuthorElevated,
 			false, false,
 			'Wiki with only rev-deleted author should not be included'
 		);

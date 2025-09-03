@@ -184,7 +184,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->setService( 'CheckUserGlobalContributionsLookup', function () use ( $user ) {
 			$gcLookupMock = $this->createMock( CheckUserGlobalContributionsLookup::class );
 			$gcLookupMock
-				->method( 'getPubliclyKnownActiveWikis' )
+				->method( 'getActiveWikisVisibleToUser' )
 				->willReturn( [ 'enwiki', 'dewiki' ] );
 
 			return $gcLookupMock;
@@ -1075,7 +1075,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	private function mockContributionsLookup(): CheckUserGlobalContributionsLookup {
 		$gcLookupMock = $this->createMock( CheckUserGlobalContributionsLookup::class );
 		$gcLookupMock
-			->method( 'getPubliclyKnownActiveWikis' )
+			->method( 'getActiveWikisVisibleToUser' )
 			->willReturn( [ 'enwiki' ] );
 
 		return $gcLookupMock;

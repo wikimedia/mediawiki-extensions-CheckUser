@@ -8,6 +8,7 @@ use MediaWiki\Cache\GenderCache;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
@@ -31,7 +32,6 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\WikiMap\WikiMap;
-use MessageLocalizer;
 use Wikimedia\Message\ListType;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Stats\StatsFactory;
@@ -64,7 +64,7 @@ class CheckUserUserInfoCardService {
 		private readonly InterwikiLookup $interwikiLookup,
 		private readonly UserEditTracker $userEditTracker,
 		private readonly CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup,
-		private readonly MessageLocalizer $messageLocalizer,
+		private readonly IContextSource $context,
 		private readonly TitleFactory $titleFactory,
 		private readonly GenderCache $genderCache,
 		private readonly TempUserConfig $tempUserConfig,
@@ -138,13 +138,13 @@ class CheckUserUserInfoCardService {
 		sort( $groups );
 		$groupMessages = [];
 		foreach ( $groups as $group ) {
-			if ( $this->messageLocalizer->msg( "group-$group" )->exists() ) {
-				$groupMessages[] = $this->messageLocalizer->msg( "group-$group" )->text();
+			if ( $this->context->msg( "group-$group" )->exists() ) {
+				$groupMessages[] = $this->context->msg( "group-$group" )->text();
 			}
 		}
 		$userInfo['groups'] = '';
 		if ( $groupMessages ) {
-			$userInfo['groups'] = $this->messageLocalizer->msg( 'checkuser-userinfocard-groups' )
+			$userInfo['groups'] = $this->context->msg( 'checkuser-userinfocard-groups' )
 				->params( Message::listParam( $groupMessages, ListType::COMMA ) )
 				->text();
 		}
@@ -166,14 +166,14 @@ class CheckUserUserInfoCardService {
 			sort( $globalGroups );
 			$globalGroupMessages = [];
 			foreach ( $globalGroups as $group ) {
-				if ( $this->messageLocalizer->msg( "group-$group" )->exists() ) {
-					$globalGroupMessages[] = $this->messageLocalizer->msg( "group-$group" )
+				if ( $this->context->msg( "group-$group" )->exists() ) {
+					$globalGroupMessages[] = $this->context->msg( "group-$group" )
 						->text();
 				}
 			}
 			$userInfo['globalGroups'] = '';
 			if ( $globalGroupMessages ) {
-				$userInfo['globalGroups'] = $this->messageLocalizer->msg( 'checkuser-userinfocard-global-groups' )
+				$userInfo['globalGroups'] = $this->context->msg( 'checkuser-userinfocard-global-groups' )
 					->params( Message::listParam( $globalGroupMessages, ListType::COMMA ) )
 					->text();
 			}
@@ -241,8 +241,9 @@ class CheckUserUserInfoCardService {
 			$checkUserDataCutoff = ConvertibleTimestamp::convert( TS_MW, $checkUserDataCutoff );
 
 			try {
-				$activeWikiIds = $this->globalContributionsLookup->getPubliclyKnownActiveWikis(
-					$user->getName(), $authority, $checkUserDataCutoff );
+				$activeWikiIds = $this->globalContributionsLookup->getActiveWikisVisibleToUser(
+					$user->getName(), $authority, $this->context->getRequest(), $checkUserDataCutoff
+				);
 			} catch ( InvalidArgumentException ) {
 				// No central user found or viewable, assume that the user is not active on any wiki
 				$activeWikiIds = [];
