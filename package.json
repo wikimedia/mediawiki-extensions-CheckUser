@@ -6,9 +6,7 @@
 		"coverage": "npm run test:unit",
 		"test:grunt": "grunt test",
 		"test:unit": "jest",
-		"lint:fix": "grunt fix --fix",
-		"selenium-daily": "npm run selenium-test",
-		"selenium-test": "wdio tests/selenium/wdio.conf.js"
+		"lint:fix": "grunt fix --fix"
 	},
 	"devDependencies": {
 		"@babel/preset-env": "7.26.0",
