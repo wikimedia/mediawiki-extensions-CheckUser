@@ -22,6 +22,7 @@
 			:icon="row.icon"
 			:icon-class="row.iconClass"
 			:message-key="row.messageKey"
+			:tooltip-key="row.tooltipKey"
 			:main-value="row.mainValue"
 			:main-link="row.mainLink"
 			:main-link-log-id="row.mainLinkLogId"
@@ -438,7 +439,8 @@ module.exports = exports = {
 					icon: cdxIconUserTemporary,
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					messageKey: 'checkuser-userinfocard-temporary-account-bucketcount',
-					mainValue: bucketMsg
+					mainValue: bucketMsg,
+					tooltipKey: 'checkuser-userinfocard-temporary-account-bucketcount-tooltip'
 				} );
 			}
 			return rows;

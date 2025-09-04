@@ -680,6 +680,7 @@
 				"checkuser-userinfocard-global-restrictions-blocked",
 				"checkuser-userinfocard-global-restrictions-blocked-disabled",
 				"checkuser-userinfocard-temporary-account-bucketcount",
+				"checkuser-userinfocard-temporary-account-bucketcount-tooltip",
 				"checkuser-temporary-account-bucketcount-min",
 				"checkuser-temporary-account-bucketcount-range",
 				"checkuser-temporary-account-bucketcount-max"

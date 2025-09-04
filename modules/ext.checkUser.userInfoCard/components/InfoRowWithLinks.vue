@@ -9,8 +9,12 @@
 		- MediaWiki messages used here do not include unescaped placeholders
 		- Anchor content is escaped with jQuery's .text()
 		-->
-		<!-- eslint-disable-next-line vue/no-v-html -->
-		<span v-html="formattedMessage"></span>
+		<!-- eslint-disable vue/no-v-html -->
+		<span
+			v-tooltip:bottom="tooltipMessage"
+			v-html="formattedMessage"
+		></span>
+		<!-- eslint-enable vue/no-v-html -->
 	</info-row>
 </template>
 
@@ -18,15 +22,20 @@
 const { computed, onMounted, watch, nextTick } = require( 'vue' );
 const InfoRow = require( './InfoRow.vue' );
 const useInstrument = require( '../composables/useInstrument.js' );
+const { CdxTooltip } = require( '@wikimedia/codex' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'InfoRowWithLinks',
 	components: { InfoRow },
+	directives: {
+		tooltip: CdxTooltip
+	},
 	props: {
 		icon: { type: [ String, Object ], default: null },
 		iconClass: { type: String, default: '' },
 		messageKey: { type: String, required: true },
+		tooltipKey: { type: String, default: '' },
 		mainValue: { type: [ String, Number ], default: '' },
 		mainLink: { type: String, default: '' },
 		mainLinkLogId: { type: String, default: '' },
@@ -87,6 +96,17 @@ module.exports = exports = {
 			}
 		} );
 
+		const tooltipMessage = computed( () => {
+			if ( !props.tooltipKey ) {
+				return null;
+			}
+
+			// Possible messages here
+			// * checkuser-userinfocard-temporary-account-bucketcount-tooltip
+			// * HACK: pass eslint; other tooltips should also be named *-tooltip
+			return mw.message( props.tooltipKey ).parse();
+		} );
+
 		// We need to attach the click handlers manually here.
 		// v-html won't retain the listeners, so adding them in formattedMessage won't work.
 		function attachClickHandlers() {
@@ -112,7 +132,8 @@ module.exports = exports = {
 		} );
 
 		return {
-			formattedMessage
+			formattedMessage,
+			tooltipMessage
 		};
 	}
 };

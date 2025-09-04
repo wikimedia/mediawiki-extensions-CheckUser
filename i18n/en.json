@@ -426,6 +426,7 @@
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
 	"checkuser-suggestedinvestigations-header-actions": "Actions",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporary accounts from all associated IPs: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "An aggregate count of all temporary accounts from all IPs associated with this account",
 	"checkuser-temporary-account-bucketcount-min": "$1",
 	"checkuser-temporary-account-bucketcount-range": "$1-$2",
 	"checkuser-temporary-account-bucketcount-max": "$1+"
