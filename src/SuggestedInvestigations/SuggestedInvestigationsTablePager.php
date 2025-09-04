@@ -48,8 +48,6 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			$linkRenderer
 		);
 
-		$this->mDefaultDirection = self::QUERY_DESCENDING;
-
 		$this->userDb = $this->connectionProvider->getReplicaDatabase();
 	}
 
@@ -202,6 +200,11 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 	/** @inheritDoc */
 	public function getDefaultSort() {
 		return 'sic_created_timestamp';
+	}
+
+	/** @inheritDoc */
+	protected function getDefaultDirections() {
+		return self::DIR_DESCENDING;
 	}
 
 	/** @inheritDoc */
