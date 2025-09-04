@@ -339,5 +339,8 @@
 	"checkuser-ipinfo-global-contributions-tooltip": "이 IP 주소에서 수행한 위키 간 편집 수입니다.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|전역 편집 $1개|0=전역 편집 없음}}",
 	"checkuser-userinfocard-groups": "<strong>그룹</strong>: $1",
-	"checkuser-suggestedinvestigations-summary": "이 페이지에는 사용자가 조사할 수 있도록 자동으로 의심스러운 것으로 표시된 계정이 포함되어 있습니다. [[mw:Help:Extension:CheckUser/Risk signals|위험 신호에 대한 자세한 정보]]"
+	"checkuser-suggestedinvestigations-summary": "이 페이지에는 사용자가 조사할 수 있도록 자동으로 의심스러운 것으로 표시된 계정이 포함되어 있습니다. [[mw:Help:Extension:CheckUser/Risk signals|위험 신호에 대한 자세한 정보]]",
+	"checkuser-suggestedinvestigations-header-users": "계정",
+	"checkuser-suggestedinvestigations-header-status": "상태",
+	"checkuser-suggestedinvestigations-header-actions": "동작"
 }

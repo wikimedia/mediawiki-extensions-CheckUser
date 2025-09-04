@@ -390,6 +390,10 @@
 	"checkuser-userinfocard-thanks": "الشكر المستلم: $1 (المُعطى: $2 )",
 	"checkuser-userinfocard-checks": "الشيكات: $1 (آخر فحص: $2 )",
 	"checkuser-userinfocard-checks-empty": "الشيكات: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|{{GENDER:$1|مقفل}} عالميا]] منذ $3",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|{{GENDER:$1|مقفل}} عالميا]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|{{GENDER:$1|ممنوع}} عالميا]] منذ $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|{{GENDER:$1|ممنوع}} عالميا]] منذ $3 (تم تعطيله محليا)",
 	"checkuser-userinfocard-menu-view-contributions": "عرض مساهمات {{GENDER:$1|المستخدم}}",
 	"checkuser-userinfocard-menu-view-global-account": "عرض معلومات {{GENDER:$1|الحساب العالمي}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "أضف {{GENDER:$1|صفحة المستخدم}} إلى قائمة المراقبة",
@@ -415,5 +419,7 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 تعديل|$2 تعديلات|0=لا تعديلات}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "تم اختيار عرض عناوين IP للحسابات المؤقتة",
 	"checkuser-userinfocard-ip-revealed-count": "يكشف عنوان IP عن: $1 (آخر فحص هو $2 )",
-	"checkuser-userinfocard-ip-revealed-never": "يكشف IP: $1"
+	"checkuser-userinfocard-ip-revealed-never": "يكشف IP: $1",
+	"checkuser-suggestedinvestigations": "التحقيقات المقترحة",
+	"checkuser-suggestedinvestigations-summary": "تحتوي هذه الصفحة على حسابات تم تصنيفها تلقائيًا على أنها مشبوهة ليتمكن مستخدمو الشيكات من التحقق منها. [[mw:Help:Extension:CheckUser/Risk signals|المزيد عن إشارات المخاطر]]"
 }

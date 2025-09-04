@@ -334,6 +334,7 @@
 	"checkuser-tempaccount-no-ip-results": "Không có dữ liệu IP nào cho tài khoản tạm thời này trong $1 {{PLURAL:$1| ngày}} gần nhất",
 	"checkuser-tempaccount-reveal-ip-button-label": "Xem IP",
 	"checkuser-tempaccount-reveal-ip-missing": "không có sẵn",
+	"checkuser-tempaccount-reveal-ip-expired": "không còn có sẵn",
 	"checkuser-tempaccount-reveal-ip-error": "lỗi",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Để xem địa chỉ IP cho các tài khoản tạm thời, vui lòng chấp nhận thỏa thuận trong [[Special:Preferences|tùy chọn của bạn]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Đang tải chi tiết cấm",
@@ -408,5 +409,10 @@
 	"checkuser-userinfocard-ip-revealed-count": "Lần hiển thị IP: $1 (lần kiểm tra cuối: $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Lần hiển thị IP: $1",
 	"checkuser-suggestedinvestigations": "Kiểm tra được gợi ý",
-	"checkuser-suggestedinvestigations-summary": "Trang này chứa các tài khoản được tự động đánh dấu là đáng ngờ để các kiểm định viên có thể kiểm tra. [[mw:Special:MyLanguage/Help:Extension:CheckUser/Risk signals|Tìm hiểu thêm về tính năng này]]"
+	"checkuser-suggestedinvestigations-summary": "Trang này chứa các tài khoản được tự động đánh dấu là đáng ngờ để các kiểm định viên có thể kiểm tra. [[mw:Special:MyLanguage/Help:Extension:CheckUser/Risk signals|Tìm hiểu thêm về tính năng này]]",
+	"checkuser-suggestedinvestigations-header-users": "Tài khoản",
+	"checkuser-suggestedinvestigations-header-signals": "Các tín hiệu rủi ro",
+	"checkuser-suggestedinvestigations-header-status": "Trạng thái",
+	"checkuser-suggestedinvestigations-header-notes": "Ghi chú",
+	"checkuser-suggestedinvestigations-header-actions": "Tác vụ"
 }

@@ -345,6 +345,7 @@
 	"checkuser-tempaccount-no-ip-results": "Keine IP-Daten für diesen temporären Benutzer {{PLURAL:$1|an einem Tag|in den letzten $1 Tagen}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP-Adresse anzeigen",
 	"checkuser-tempaccount-reveal-ip-missing": "nicht verfügbar",
+	"checkuser-tempaccount-reveal-ip-expired": "nicht mehr verfügbar",
 	"checkuser-tempaccount-reveal-ip-error": "Fehler",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Um IP-Adressen für temporäre Konten zu sehen, akzeptiere bitte die Vereinbarung in [[Special:Preferences|deinen Einstellungen]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Details zur Sperre werden geladen",
@@ -419,5 +420,12 @@
 	"checkuser-userinfocard-ip-revealed-count": "Offengelegte IP-Adressen: $1 (zuletzt $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Offengelegte IP-Adressen: $1",
 	"checkuser-suggestedinvestigations": "Vorgeschlagene Untersuchungen",
-	"checkuser-suggestedinvestigations-summary": "Diese Seite enthält automatisch als verdächtig markierte Konten, die von Check-Usern untersucht werden sollen. [[mw:Help:Extension:CheckUser/Risk signals|Mehr über Risikosignale]]"
+	"checkuser-suggestedinvestigations-summary": "Diese Seite enthält automatisch als verdächtig markierte Konten, die von Check-Usern untersucht werden sollen. [[mw:Help:Extension:CheckUser/Risk signals|Mehr über Risikosignale]]",
+	"checkuser-suggestedinvestigations-table-caption": "Tabelle der vorgeschlagenen Untersuchungen",
+	"checkuser-suggestedinvestigations-header-users": "Benutzerkonten",
+	"checkuser-suggestedinvestigations-header-signals": "Risikosignale",
+	"checkuser-suggestedinvestigations-header-created": "Erstellt",
+	"checkuser-suggestedinvestigations-header-status": "Status",
+	"checkuser-suggestedinvestigations-header-notes": "Anmerkungen",
+	"checkuser-suggestedinvestigations-header-actions": "Aktionen"
 }

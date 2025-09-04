@@ -340,6 +340,7 @@
 	"checkuser-tempaccount-no-ip-results": "Geen IP-gegevens voor deze tijdelijke gebruiker gedurende de laatste $1 dag{{PLURAL:$1||en}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP-adres weergeven",
 	"checkuser-tempaccount-reveal-ip-missing": "niet beschikbaar",
+	"checkuser-tempaccount-reveal-ip-expired": "niet langer beschikbaar",
 	"checkuser-tempaccount-reveal-ip-error": "fout",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Om IP-adressen voor tijdelijke accounts te bekijken moet u de overeenkomst in [[Special:Preferences|uw voorkeuren]] accepteren.",
 	"checkuser-tempaccount-reveal-blocked-loading": "Blokkade-details worden geladen",
@@ -414,5 +415,12 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP-adresweergaven: $1 (laatste controle $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP-adresweergaven: $1",
 	"checkuser-suggestedinvestigations": "Voorgestelde onderzoeken",
-	"checkuser-suggestedinvestigations-summary": "Op deze pagina staan accounts die automatisch als verdacht zijn gemarkeerd, zodat gebruikerscontroleurs ze kunnen onderzoeken. [[mw:Help:Extension:CheckUser/Risk signals|Meer over risicosignalen]]"
+	"checkuser-suggestedinvestigations-summary": "Op deze pagina staan accounts die automatisch als verdacht zijn gemarkeerd, zodat gebruikerscontroleurs ze kunnen onderzoeken. [[mw:Help:Extension:CheckUser/Risk signals|Meer over risicosignalen]]",
+	"checkuser-suggestedinvestigations-table-caption": "Tabel met voorgestelde onderzoeken",
+	"checkuser-suggestedinvestigations-header-users": "Accounts",
+	"checkuser-suggestedinvestigations-header-signals": "Risicosignalen",
+	"checkuser-suggestedinvestigations-header-created": "Aangemaakt",
+	"checkuser-suggestedinvestigations-header-status": "Status",
+	"checkuser-suggestedinvestigations-header-notes": "Notities",
+	"checkuser-suggestedinvestigations-header-actions": "Handelingen"
 }

@@ -372,5 +372,13 @@
 	"checkuser-userinfocard-global-groups": "<strong>Järjestelmänlaajuiset ryhmät</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 muokkaus|$2 muokkausta|0=Ei muokkauksia}})",
 	"checkuser-userinfocard-ip-revealed-count": "IP-paljastuksia: $1 (viimeksi $2)",
-	"checkuser-userinfocard-ip-revealed-never": "IP-paljastuksia: $1"
+	"checkuser-userinfocard-ip-revealed-never": "IP-paljastuksia: $1",
+	"checkuser-suggestedinvestigations": "Ehdotetut tutkimukset",
+	"checkuser-suggestedinvestigations-table-caption": "Ehdotettujen tutkimusten taulukko",
+	"checkuser-suggestedinvestigations-header-users": "Tunnukset",
+	"checkuser-suggestedinvestigations-header-signals": "Riskisignaalit",
+	"checkuser-suggestedinvestigations-header-created": "Luotu",
+	"checkuser-suggestedinvestigations-header-status": "Tila",
+	"checkuser-suggestedinvestigations-header-notes": "Huomautukset",
+	"checkuser-suggestedinvestigations-header-actions": "Toiminnot"
 }

@@ -256,8 +256,8 @@
 	"checkuser-userinfocard-thanks": "Ringraziamenti ricevuti: $1 (inviati: $2)",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|{{GENDER:$1|Locked}} globalmente]] da $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|{{GENDER:$1|Locked}} globalmente]]",
-	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|{{GENDER:$1|Boccato}} globalmente]] da $3",
-	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|{{GENDER:$1|Boccato}} globalmente]] da $3 (disabilitato localmente)",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|{{GENDER:$1|Bloccato}} globalmente]] dal $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|{{GENDER:$1|Bloccato}} globalmente]] dal $3 (disabilitato localmente)",
 	"checkuser-userinfocard-menu-view-contributions": "Visualizza i contributi dell'{{GENDER:$1|utente}}",
 	"checkuser-userinfocard-menu-view-global-account": "Visualizza informazioni sull'{{GENDER:$1|utenza globale}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Aggiungi la {{GENDER:$1|pagina utente}} agli osservati speciali",
@@ -278,5 +278,11 @@
 	"tooltip-t-global-contributions": "Un elenco dei contributi di {{GENDER:$1|questo utente}} in tutti i wiki",
 	"checkuser-userinfocard-groups": "<strong>Gruppi</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 modifica|$2 modifiche|0=Nessuna modifica}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Ha abilitato la visualizzazione degli IP delle utenze temporanee"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Ha abilitato la visualizzazione degli IP delle utenze temporanee",
+	"checkuser-suggestedinvestigations-header-users": "Utenze",
+	"checkuser-suggestedinvestigations-header-signals": "Segnali di rischio",
+	"checkuser-suggestedinvestigations-header-created": "Creato",
+	"checkuser-suggestedinvestigations-header-status": "Stato",
+	"checkuser-suggestedinvestigations-header-notes": "Note",
+	"checkuser-suggestedinvestigations-header-actions": "Azioni"
 }

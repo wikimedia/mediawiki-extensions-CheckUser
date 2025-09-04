@@ -338,7 +338,7 @@
 	"checkuser-tempaccount-enable-preference-description": "Cuando utilice esta herramienta, debe asegurarse de que lo haga dentro de la política.",
 	"checkuser-tempaccount-enable-preference": "Habilitar la revelación de direcciones IP para cuentas temporales",
 	"checkuser-tempaccount-no-ip-results": "No existen datos acerca de la dirección IP de este usuario temporal para {{PLURAL:$1|el último día|los últimos $1 días}}",
-	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar dirección IP",
+	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar IP",
 	"checkuser-tempaccount-reveal-ip-missing": "no disponible",
 	"checkuser-tempaccount-reveal-ip-error": "error",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Para ver las direcciones IP de cuentas temporales, acepte el acuerdo en [[Special:Preferences|sus preferencias]].",

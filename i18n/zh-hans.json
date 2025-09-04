@@ -51,6 +51,7 @@
 			"星海",
 			"沈澄心",
 			"白布飘扬",
+			"范",
 			"铁桶"
 		]
 	},
@@ -196,7 +197,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "下一步",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "关闭",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "临时账号是什么？",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "为保护用户隐私，{{SITENAME}}现已不再公开显示未登录编辑者的IP地址。\n\n取而代之的是，已注销的编辑将被分配一个与<strong>[https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts temporary accounts]</strong>关联的自动生成的用户名，且其IP地址仅对需要查看这些信息以处理破坏行为和滥用行为的可信社区成员可见。\n\n当为已注销的编辑者创建临时账户时，会在该编辑者的浏览器中设置一个cookie。该临时账户将被应用于所有后续编辑，即使该编辑者的IP地址发生变化。",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "当用户在未登录注册账号的情况下，在本wiki上发布编辑内容时，将自动创建[https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts 临时账号]。\n\n该临时账号将自动获得一个用户名，并在账号创建时于浏览器中设置Cookie。此用户名将用于关联所有后续编辑，即使临时账号的IP地址发生变化也是如此。只有受信任的社群成员才能访问临时账号的IP地址。",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label": "临时账号用户图标。",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "查看IP信息",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "[https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info IP信息]工具可让管理员、反破坏人员以及经验丰富的用户在无需查看IP地址的情况下，更轻松地访问有关IP地址的信息。\n\n满足访问要求的用户可以在其偏好设置中启用IP信息功能。启用后，IP信息弹出窗口将显示在临时账号和传统IP地址旁。IP信息也将显示在用户贡献页面。",

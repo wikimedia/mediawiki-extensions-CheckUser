@@ -334,6 +334,7 @@
 	"checkuser-tempaccount-no-ip-results": "אין נתוני IP עבור החשבון החולף הזה {{PLURAL:$1|ליום האחרון|ליומיים האחרונים|למשך $1 הימים האחרונים}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "הצגת IP",
 	"checkuser-tempaccount-reveal-ip-missing": "לא זמינה",
+	"checkuser-tempaccount-reveal-ip-expired": "כבר לא זמינה",
 	"checkuser-tempaccount-reveal-ip-error": "שגיאה",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "כדי להציג כתובות IP עבור חשבונות חולפים, יש לקבל את ההסכם ב־[[Special:Preferences|העדפות שלך]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "טעינת פרטי חסימה",
@@ -408,5 +409,12 @@
 	"checkuser-userinfocard-ip-revealed-count": "פעולת חשיפת IP‏: $1 (נבדק לאחרונה ב־$2)",
 	"checkuser-userinfocard-ip-revealed-never": "פעולת חשיפת IP‏: $1",
 	"checkuser-suggestedinvestigations": "חקירות מוצעות",
-	"checkuser-suggestedinvestigations-summary": "הדף הזה מכיל חשבונות שסומנו אוטומטית בתור חשודים לצורך בדיקה של משתמשים. [[mw:Help:Extension:CheckUser/Risk signals|עוד על אותות סיכון]]"
+	"checkuser-suggestedinvestigations-summary": "הדף הזה מכיל חשבונות שסומנו אוטומטית בתור חשודים לצורך בדיקה של משתמשים. [[mw:Help:Extension:CheckUser/Risk signals|עוד על אותות סיכון]]",
+	"checkuser-suggestedinvestigations-table-caption": "טבלת חקירות מוצעות",
+	"checkuser-suggestedinvestigations-header-users": "חשבונות",
+	"checkuser-suggestedinvestigations-header-signals": "אותות סיכון",
+	"checkuser-suggestedinvestigations-header-created": "נוצרה",
+	"checkuser-suggestedinvestigations-header-status": "מצב",
+	"checkuser-suggestedinvestigations-header-notes": "הערות",
+	"checkuser-suggestedinvestigations-header-actions": "פעולות"
 }

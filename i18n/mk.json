@@ -371,6 +371,10 @@
 	"checkuser-userinfocard-thanks": "Примени благодарници: $1 (дадени: $2)",
 	"checkuser-userinfocard-checks": "Проверки: $1 (последна проверка: $2)",
 	"checkuser-userinfocard-checks-empty": "Проверки: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Глобално {{GENDER:$1|заклучен}}]] од $3",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Глобално {{GENDER:$1|заклучен}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Глобано {{GENDER:$1|блокиран}}]] од $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Глобално {{GENDER:$1|блокиран}}]] од $3 (месно оневозможено)",
 	"checkuser-userinfocard-menu-view-contributions": "{{GENDER:$1|Кориснички}} придонеси",
 	"checkuser-userinfocard-menu-view-global-account": "Информации за {{GENDER:$1|глобалната сметка}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Додај {{GENDER:$1|корисничка страница}} во набљудуваните",
@@ -395,5 +399,7 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 уредување|$2 уредувања|0=Нема уредувања}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Пријавен за прегледување на IP-адреси на привремени сметки",
 	"checkuser-userinfocard-ip-revealed-count": "Откривање на IP: $1 (последна проверка $2)",
-	"checkuser-userinfocard-ip-revealed-never": "Откривање на IP: $1"
+	"checkuser-userinfocard-ip-revealed-never": "Откривање на IP: $1",
+	"checkuser-suggestedinvestigations": "Предложени испитувања",
+	"checkuser-suggestedinvestigations-summary": "Оваа страница содржи сметки кои се автоматски означени како сомнителни  за да ги испитаат проверувачите. [[mw:Help:Extension:CheckUser/Risk signals|Повеќе за сигналите на ризик]]"
 }

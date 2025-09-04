@@ -192,6 +192,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "D'Dauer kann net op méi wéi 24 Stonnen agestallt ginn",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP weisen",
 	"checkuser-tempaccount-reveal-ip-missing": "net disponibel",
+	"checkuser-tempaccount-reveal-ip-expired": "net méi disponibel",
 	"checkuser-tempaccount-reveal-ip-error": "Feeler",
 	"checkuser-tempaccount-reveal-blocked-loading": "D'Detailer vun der Spär gi gelueden",
 	"checkuser-tempaccount-reveal-blocked-title": "Detailer vun der Spär weisen",
@@ -228,5 +229,10 @@
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global Ännerung|$1 global Ännerungen|0=Keng global Ännerungen}}",
 	"checkuser-userinfocard-groups": "<strong>Gruppen</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Global Gruppen</strong>: $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Ännerung|$2 Ännerungen|0=Keng Ännerungen}})"
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Ännerung|$2 Ännerungen|0=Keng Ännerungen}})",
+	"checkuser-suggestedinvestigations-header-users": "Konten",
+	"checkuser-suggestedinvestigations-header-signals": "Risikosignaler",
+	"checkuser-suggestedinvestigations-header-created": "Ugeluecht",
+	"checkuser-suggestedinvestigations-header-status": "Status",
+	"checkuser-suggestedinvestigations-header-actions": "Aktiounen"
 }
