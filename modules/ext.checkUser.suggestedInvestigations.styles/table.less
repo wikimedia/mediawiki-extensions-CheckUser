@@ -1,0 +1,27 @@
+@import 'mediawiki.skin.variables.less';
+
+.mw-checkuser-suggestedinvestigations-users {
+	list-style: none;
+	margin: 0;
+}
+
+// The "Show more" button is added by JS, so hide the extra items only if we have JS enabled
+// stylelint-disable-next-line selector-class-pattern
+html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
+	display: none;
+}
+
+.mw-checkuser-suggestedinvestigations-actions {
+	display: flex;
+	gap: @size-25;
+}
+
+.mw-checkuser-suggestedinvestigations-icon {
+	&--investigate {
+		.cdx-mixin-css-icon( @cdx-icon-search );
+	}
+
+	&--edit {
+		.cdx-mixin-css-icon( @cdx-icon-edit );
+	}
+}

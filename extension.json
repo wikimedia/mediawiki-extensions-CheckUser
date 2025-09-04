@@ -202,6 +202,7 @@
 				"InvestigateBlock",
 				"CheckUser",
 				"CheckUserLog",
+				"SuggestedInvestigations",
 				"Activeusers",
 				"Listusers",
 				"BlockList"
@@ -603,6 +604,31 @@
 		]
 	},
 	"ResourceModules": {
+		"ext.checkUser.suggestedInvestigations.styles": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"localBasePath": "modules/ext.checkUser.suggestedInvestigations.styles",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.suggestedInvestigations.styles",
+			"codexComponents": [
+				"CdxInfoChip"
+			],
+			"codexStyleOnly": true,
+			"styles": [
+				"table.less"
+			]
+		},
+		"ext.checkUser.suggestedInvestigations": {
+			"localBasePath": "modules/ext.checkUser.suggestedInvestigations",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.suggestedInvestigations",
+			"packageFiles": [
+				"index.js"
+			],
+			"messages": [
+				"checkuser-suggestedinvestigations-user-showmore"
+			],
+			"dependencies": [
+				"mediawiki.jqueryMsg"
+			]
+		},
 		"ext.checkUser.userInfoCard": {
 			"localBasePath": "",
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.userInfoCard",

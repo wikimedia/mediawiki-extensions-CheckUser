@@ -21,6 +21,7 @@
 namespace MediaWiki\CheckUser\SuggestedInvestigations;
 
 use MediaWiki\Html\Html;
+use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Parser\ParserOptions;
 use MediaWiki\SpecialPage\SpecialPage;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -28,7 +29,8 @@ use Wikimedia\Rdbms\IConnectionProvider;
 class SpecialSuggestedInvestigations extends SpecialPage {
 
 	public function __construct(
-		private readonly IConnectionProvider $connectionProvider
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly UserLinkRenderer $userLinkRenderer
 	) {
 		parent::__construct( 'SuggestedInvestigations', 'checkuser' );
 	}
@@ -43,6 +45,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 
 		$pager = new SuggestedInvestigationsTablePager(
 			$this->connectionProvider,
+			$this->userLinkRenderer,
 			$this->getContext()
 		);
 

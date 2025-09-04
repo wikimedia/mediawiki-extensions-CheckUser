@@ -20,10 +20,19 @@
 
 namespace MediaWiki\CheckUser\SuggestedInvestigations;
 
+use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Pager\CodexTablePager;
+use MediaWiki\Parser\ParserOutput;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityValue;
+use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -35,6 +44,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
+		private readonly UserLinkRenderer $userLinkRenderer,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null
 	) {
@@ -47,18 +57,162 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			$context,
 			$linkRenderer
 		);
+		// $this->mDefaultLimit does *not* set the actual default limit in the superclass, it's used to constructURLs
+		$this->mDefaultLimit = 10;
+		$this->mLimit = $this->mRequest->getInt( 'limit', $this->mDefaultLimit );
+		if ( $this->mLimit <= 0 ) {
+			$this->mLimit = $this->mDefaultLimit;
+		}
+		if ( $this->mLimit > 100 ) {
+			$this->mLimit = 100;
+		}
+		$this->mLimitsShown = [ 10, 20, 50 ];
 
 		$this->userDb = $this->connectionProvider->getReplicaDatabase();
 	}
 
-	/** @inheritDoc */
+	/**
+	 * @inheritDoc
+	 * @param string $name
+	 * @param null|string|array $value
+	 * @return string
+	 */
 	public function formatValue( $name, $value ) {
-		// TODO: Actually implement formatValue() method (T403007).
-		if ( is_array( $value ) ) {
-			return $name == 'signals' ? print_r( $value, true )
-				: implode( ', ', $value );
+		return match ( $name ) {
+			'users' => $this->formatUsersCell( $value ),
+			'signals' => $this->formatSignalsCell( $value ),
+			'sic_created_timestamp' => $this->formatTimestampCell( $value ),
+			'sic_status' => $this->formatStatusCell( CaseStatus::from( (int)$value ) ),
+			'sic_status_reason' => $this->formatStatusReasonCell( $value ),
+			'actions' => $this->formatActionsCell( $this->mCurrentRow->sic_id ),
+			default => throw new InvalidArgumentException( 'Unknown field name: ' . $name ),
+		};
+	}
+
+	/**
+	 * @param UserIdentity[] $users
+	 * @return string
+	 */
+	private function formatUsersCell( array $users ): string {
+		$formattedUsers = Html::openElement( 'ul', [ 'class' => 'mw-checkuser-suggestedinvestigations-users' ] );
+
+		// Hide users after the third by default, but only if we'd be hiding at least two users
+		$userHideThreshold = 3;
+		if ( count( $users ) <= $userHideThreshold + 1 ) {
+			$userHideThreshold++;
 		}
-		return (string)$value;
+
+		foreach ( $users as $i => $user ) {
+			$userLink = $this->userLinkRenderer->userLink( $user, $this->getContext() );
+
+			$formattedUsers .= Html::rawElement(
+				'li', [
+					'class' => $i >= $userHideThreshold ? 'mw-checkuser-suggestedinvestigations-user-defaulthide' : ''
+				],
+				$this->msg( 'checkuser-suggestedinvestigations-user-check' )
+					->rawParams( $userLink )
+					->params(
+						SpecialPage::getTitleFor( 'CheckUser', $user->getName() )->getFullText(),
+						$user->getName()
+					)
+					->parse()
+			);
+		}
+		$formattedUsers .= Html::closeElement( 'ul' );
+		return $formattedUsers;
+	}
+
+	private function formatSignalsCell( array $signals ): string {
+		// For grepping, the currently known signal messages are:
+		// * checkuser-suggestedinvestigations-signal-sharedemail
+		// * checkuser-suggestedinvestigations-signal-hcaptcha
+		$signalLabels = array_map(
+			fn ( $signal ) =>
+				$this->msg( 'checkuser-suggestedinvestigations-signal-' . $signal['name'] ),
+			$signals
+		);
+
+		return $this->getLanguage()->commaList( $signalLabels );
+	}
+
+	private function formatTimestampCell( string $timestamp ): string {
+		$lang = $this->getLanguage();
+		$user = $this->getContext()->getUser();
+		return htmlspecialchars( $lang->userTimeAndDate( $timestamp, $user ) );
+	}
+
+	private function formatStatusCell( CaseStatus $status ): string {
+		$statusKey = match ( $status ) {
+			CaseStatus::Open => 'checkuser-suggestedinvestigations-status-open',
+			CaseStatus::Resolved => 'checkuser-suggestedinvestigations-status-resolved',
+			CaseStatus::Invalid => 'checkuser-suggestedinvestigations-status-invalid',
+		};
+		$statusText = $this->msg( $statusKey )->text();
+
+		$chipType = match ( $status ) {
+			CaseStatus::Resolved => 'success',
+			CaseStatus::Invalid => 'warning',
+			default => 'notice',
+		};
+
+		$codex = new Codex();
+		return $codex->infoChip()
+			->setText( $statusText )
+			->setStatus( $chipType )
+			->setIcon( 'cdx-info-chip__icon' )
+			->build()
+			->getHtml();
+	}
+
+	private function formatStatusReasonCell( string $reason ): string {
+		return htmlspecialchars( $reason );
+	}
+
+	private function formatActionsCell( int $caseId ): string {
+		$actionsHtml = Html::openElement( 'div', [
+			'class' => 'mw-checkuser-suggestedinvestigations-actions'
+		] );
+
+		/** @var UserIdentity[] $users */
+		$users = $this->mCurrentRow->users;
+		$investigateUrl = SpecialPage::getTitleFor( 'Investigate' )->getFullURL( [
+			// Special:Investigate expects a list of usernames separated by newlines
+			// TODO: What if there are more than 10 users? (T403804)
+			'targets' => implode( "\n", array_map( static fn ( $u ) => $u->getName(), $users ) ),
+		] );
+
+		// Render the "Investigate" button as a link, because it will make it more natural: it supports by default
+		// opening in a new tab, the user won't need to wait for the JS to load, and it works even if JS is disabled.
+		// HTML structure as defined on
+		// https://doc.wikimedia.org/codex/main/components/demos/button.html#link-buttons-and-other-elements
+		$actionsHtml .= Html::openElement(
+			'a', [
+				'role' => 'button',
+				'class' => 'cdx-button cdx-button--fake-button cdx-button--fake-button--enabled ' .
+					'cdx-button--weight-quiet cdx-button--icon-only',
+				'title' => $this->msg( 'checkuser-suggestedinvestigations-action-investigate' )->text(),
+				'href' => $investigateUrl,
+			]
+		);
+		$actionsHtml .= Html::element( 'span', [
+			'class' => 'cdx-button__icon mw-checkuser-suggestedinvestigations-icon--investigate'
+		] );
+		$actionsHtml .= Html::closeElement( 'a' );
+
+		$codex = new Codex();
+		$actionsHtml .= $codex->button()
+			->setIconOnly( true )
+			->setIconClass( 'mw-checkuser-suggestedinvestigations-icon--edit' )
+			->setAttributes( [
+				'title' => $this->msg( 'checkuser-suggestedinvestigations-action-change-status' )->text(),
+				'data-case-id' => $caseId,
+			] )
+			->setWeight( 'quiet' )
+			->build()
+			->getHtml();
+
+		$actionsHtml .= Html::closeElement( 'div' );
+		return $actionsHtml;
 	}
 
 	/** @inheritDoc */
@@ -135,8 +289,8 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 	}
 
 	/**
-	 * Returns an array that maps each case ID to an array of usernames associated with that case.
-	 * @return string[][]
+	 * Returns an array that maps each case ID to an array of user identities associated with that case.
+	 * @return UserIdentity[][]
 	 */
 	private function queryUsersForCases( array $caseIds ): array {
 		if ( count( $caseIds ) === 0 ) {
@@ -185,10 +339,17 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 			$userId = $row->siu_user_id;
 			$userName = $userIdToName[$userId];
-			$usersForCases[$caseId][] = $userName;
+			$usersForCases[$caseId][] = UserIdentityValue::newRegistered( $userId, $userName );
 		}
 
 		return $usersForCases;
+	}
+
+	/** @inheritDoc */
+	public function getFullOutput(): ParserOutput {
+		$pout = parent::getFullOutput();
+		$pout->addModules( [ 'ext.checkUser.suggestedInvestigations' ] );
+		return $pout;
 	}
 
 	/** @inheritDoc */
@@ -225,5 +386,12 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			'sic_status_reason' => $this->msg( 'checkuser-suggestedinvestigations-header-notes' )->text(),
 			'actions' => $this->msg( 'checkuser-suggestedinvestigations-header-actions' )->text(),
 		];
+	}
+
+	/** @inheritDoc */
+	public function getModuleStyles(): array {
+		return array_merge( parent::getModuleStyles(), [
+			'ext.checkUser.suggestedInvestigations.styles'
+		] );
 	}
 }

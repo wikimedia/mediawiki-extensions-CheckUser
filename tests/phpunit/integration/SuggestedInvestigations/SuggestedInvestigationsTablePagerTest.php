@@ -23,7 +23,9 @@ namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\SuggestedInvestigations\SuggestedInvestigationsTablePager;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Pager\IndexPager;
+use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 
@@ -36,10 +38,12 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 
 	private static User $testUser1;
 	private static User $testUser2;
+	private static int $caseId;
 
 	public function testQuery() {
 		$pager = new SuggestedInvestigationsTablePager(
-			$this->getServiceContainer()->getConnectionProvider()
+			$this->getServiceContainer()->getConnectionProvider(),
+			$this->getServiceContainer()->getUserLinkRenderer(),
 		);
 
 		$results = $pager->reallyDoQuery( '', 10, IndexPager::QUERY_ASCENDING );
@@ -55,9 +59,40 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 			$row->users,
 		);
 		$this->assertArrayEquals(
-			[ [ 'name' => 'Lorem', 'value' => 'Test value' ] ],
+			[ [ 'name' => 'sharedemail', 'value' => 'Test value' ] ],
 			$row->signals,
 		);
+	}
+
+	public function testOutput() {
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+
+		$pager = new SuggestedInvestigationsTablePager(
+			$this->getServiceContainer()->getConnectionProvider(),
+			$this->getServiceContainer()->getUserLinkRenderer(),
+			RequestContext::getMain(),
+		);
+
+		$html = $pager->getBody();
+
+		// 1 data row + 1 header row
+		$this->assertSame( 2, substr_count( $html, '<tr' ) );
+
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-user-check:', $html );
+		$this->assertStringContainsString( 'Special:CheckUser/' . self::$testUser1->getName(), $html );
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-signal-sharedemail)', $html );
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-status-open)', $html );
+
+		$name1 = urlencode( self::$testUser1->getName() );
+		$name2 = urlencode( self::$testUser2->getName() );
+		$this->assertStringContainsString(
+			'?title=Special:Investigate&amp;targets=' . $name1 . '%0A' . $name2,
+			$html
+		);
+
+		$this->assertStringContainsString( 'data-case-id="' . self::$caseId . '"', $html );
 	}
 
 	public function addDBDataOnce() {
@@ -68,8 +103,8 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		self::$testUser1 = $user1 = $this->getMutableTestUser()->getUser();
 		self::$testUser2 = $user2 = $this->getMutableTestUser()->getUser();
 
-		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'Test value', false );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'sharedemail', 'Test value', false );
 
-		$caseManager->createCase( [ $user1, $user2 ], [ $signal ] );
+		self::$caseId = $caseManager->createCase( [ $user1, $user2 ], [ $signal ] );
 	}
 }

@@ -96,6 +96,7 @@ class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQue
 				'class' => SpecialSuggestedInvestigations::class,
 				'services' => [
 					'ConnectionProvider',
+					'UserLinkRenderer',
 				]
 			];
 		}
