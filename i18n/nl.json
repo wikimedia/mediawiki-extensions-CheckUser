@@ -422,5 +422,8 @@
 	"checkuser-suggestedinvestigations-header-created": "Aangemaakt",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Notities",
-	"checkuser-suggestedinvestigations-header-actions": "Handelingen"
+	"checkuser-suggestedinvestigations-header-actions": "Handelingen",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Tijdelijke accounts van alle bijbehorende IP-adressen: $1",
+	"checkuser-temporary-account-bucketcount-range": "$1–$2",
+	"checkuser-temporary-account-bucketcount-max": "meer dan $1"
 }

@@ -417,5 +417,6 @@
 	"checkuser-suggestedinvestigations-header-created": "Yaradılıb",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Qeydlər",
-	"checkuser-suggestedinvestigations-header-actions": "Fəaliyyətlər"
+	"checkuser-suggestedinvestigations-header-actions": "Fəaliyyətlər",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Bütün əlaqəli IP-lərdəki müvəqqəti hesablar: $1"
 }

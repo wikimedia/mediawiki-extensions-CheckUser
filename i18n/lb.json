@@ -234,5 +234,6 @@
 	"checkuser-suggestedinvestigations-header-signals": "Risikosignaler",
 	"checkuser-suggestedinvestigations-header-created": "Ugeluecht",
 	"checkuser-suggestedinvestigations-header-status": "Status",
-	"checkuser-suggestedinvestigations-header-actions": "Aktiounen"
+	"checkuser-suggestedinvestigations-header-actions": "Aktiounen",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Temporär Konte vun allen associéierten IPen: $1"
 }

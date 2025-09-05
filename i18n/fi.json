@@ -308,6 +308,7 @@
 	"checkuser-tempaccount-no-ip-results": "Tälle tilapäisellä käyttäjälle ei löydy IP-tietoja {{PLURAL:$1|viimeisen|viimeisten}} $1 päivän ajalta",
 	"checkuser-tempaccount-reveal-ip-button-label": "Näytä IP",
 	"checkuser-tempaccount-reveal-ip-missing": "ei saatavissa",
+	"checkuser-tempaccount-reveal-ip-expired": "ei enää saatavilla",
 	"checkuser-tempaccount-reveal-ip-error": "virhe",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Katsoaksesi tilapäisten tunnusten IP-osoitteita sinun tulee hyväksy sopimus [[Special:Preferences|asetuksissasi]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Ladataan eston tietoja",
@@ -348,6 +349,10 @@
 	"checkuser-userinfocard-thanks": "Kiitoksia saatu: $1 (annettu: $2)",
 	"checkuser-userinfocard-checks": "Tarkastuksia: $1 (viimeisin tarkastus: $2)",
 	"checkuser-userinfocard-checks-empty": "Tarkastuksia: $1",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Järjestelmänlaajuisesti {{GENDER:$1|lukittu}}]] $3 alkaen",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Järjestelmänlaajuisesti {{GENDER:$1|lukittu}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Järjestelmänlaajuisesti {{GENDER:$1|estetty}}]] $3 alkaen",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Järjestelmänlaajuisesti {{GENDER:$1|estetty}}]] $3 alkaen (paikallisesti pois käytöstä)",
 	"checkuser-userinfocard-menu-view-contributions": "Näytä {{GENDER:$1|käyttäjän}} muokkaukset",
 	"checkuser-userinfocard-menu-view-global-account": "Näytä järjestelmänlaajuiset {{GENDER:$1|käyttäjätiedot}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Lisää {{GENDER:$1|käyttäjäsivu}} tarkkailulistalle",
@@ -374,11 +379,13 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP-paljastuksia: $1 (viimeksi $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP-paljastuksia: $1",
 	"checkuser-suggestedinvestigations": "Ehdotetut tutkimukset",
+	"checkuser-suggestedinvestigations-summary": "Tämä sivu sisältää automaattisesti epäilyttäviksi merkittyjä tunnuksia osoitepaljastimen käyttäjien tutkittavaksi. [[mw:Help:Extension:CheckUser/Riskisignaalit|Lisätietoja riskisignaaleista]]",
 	"checkuser-suggestedinvestigations-table-caption": "Ehdotettujen tutkimusten taulukko",
 	"checkuser-suggestedinvestigations-header-users": "Tunnukset",
 	"checkuser-suggestedinvestigations-header-signals": "Riskisignaalit",
 	"checkuser-suggestedinvestigations-header-created": "Luotu",
 	"checkuser-suggestedinvestigations-header-status": "Tila",
 	"checkuser-suggestedinvestigations-header-notes": "Huomautukset",
-	"checkuser-suggestedinvestigations-header-actions": "Toiminnot"
+	"checkuser-suggestedinvestigations-header-actions": "Toiminnot",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Tilapäiset tunnukset kaikista liittyvistä IP-osoitteista: $1"
 }

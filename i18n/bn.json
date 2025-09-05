@@ -325,5 +325,6 @@
 	"tooltip-t-global-contributions": "সকল উইকিতে {{GENDER:$1|এই ব্যবহারকারীর}} অবদানের তালিকা",
 	"checkuser-userinfocard-groups": "<strong>গ্রুপ</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>বৈশ্বিক গ্রুপ</strong>: $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2টি সম্পাদনা|0=কোনো সম্পাদনা নেই}})"
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2টি সম্পাদনা|0=কোনো সম্পাদনা নেই}})",
+	"checkuser-userinfocard-temporary-account-bucketcount": "সমস্ত সংশ্লিষ্ট আইপি থেকে অস্থায়ী অ্যাকাউন্ট: $1"
 }

@@ -427,5 +427,6 @@
 	"checkuser-suggestedinvestigations-header-created": "Erstellt",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Anmerkungen",
-	"checkuser-suggestedinvestigations-header-actions": "Aktionen"
+	"checkuser-suggestedinvestigations-header-actions": "Aktionen",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Temporäre Konten von allen zugehörigen IP-Adressen: $1"
 }

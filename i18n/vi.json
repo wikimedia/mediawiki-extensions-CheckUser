@@ -290,8 +290,8 @@
 	"checkuser-ip-contributions-archive-results-title": "Đóng góp IP bị xoá của tài khoản tạm thời $1",
 	"checkuser-ip-contributions-deleted-contributions-link": "đóng góp bị xóa của người dùng",
 	"checkuser-ip-contributions-contributions-link": "đóng góp",
-	"checkuser-ip-contributions-special-ip-contributions-button": "Sửa đổi IP của tài khoản tạm thời",
-	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Sửa đổi IP của tài khoản tạm thời",
+	"checkuser-ip-contributions-special-ip-contributions-button": "Sửa đổi bằng tài khoản tạm thời của IP này",
+	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Sửa đổi bằng tài khoản tạm thời của IP này",
 	"checkuser-ip-contributions-special-contributions-button": "Sửa đổi IP cũ",
 	"checkuser-global-contributions-link": "đóng góp toàn cục",
 	"checkuser-global-contributions-link-sidebar": "Đóng góp toàn cục",
@@ -414,5 +414,6 @@
 	"checkuser-suggestedinvestigations-header-signals": "Các tín hiệu rủi ro",
 	"checkuser-suggestedinvestigations-header-status": "Trạng thái",
 	"checkuser-suggestedinvestigations-header-notes": "Ghi chú",
-	"checkuser-suggestedinvestigations-header-actions": "Tác vụ"
+	"checkuser-suggestedinvestigations-header-actions": "Tác vụ",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Tài khoản tạm thời từ tất cả các IP liên quan: $1"
 }

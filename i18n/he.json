@@ -416,5 +416,8 @@
 	"checkuser-suggestedinvestigations-header-created": "נוצרה",
 	"checkuser-suggestedinvestigations-header-status": "מצב",
 	"checkuser-suggestedinvestigations-header-notes": "הערות",
-	"checkuser-suggestedinvestigations-header-actions": "פעולות"
+	"checkuser-suggestedinvestigations-header-actions": "פעולות",
+	"checkuser-userinfocard-temporary-account-bucketcount": "חשבונות חולפים מכל כתובות ה־IP המשויכות: $1",
+	"checkuser-temporary-account-bucketcount-range": "$1 עד $2",
+	"checkuser-temporary-account-bucketcount-max": "יותר מ־$1"
 }

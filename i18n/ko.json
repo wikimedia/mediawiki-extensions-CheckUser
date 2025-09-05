@@ -342,5 +342,6 @@
 	"checkuser-suggestedinvestigations-summary": "이 페이지에는 사용자가 조사할 수 있도록 자동으로 의심스러운 것으로 표시된 계정이 포함되어 있습니다. [[mw:Help:Extension:CheckUser/Risk signals|위험 신호에 대한 자세한 정보]]",
 	"checkuser-suggestedinvestigations-header-users": "계정",
 	"checkuser-suggestedinvestigations-header-status": "상태",
+	"checkuser-suggestedinvestigations-header-notes": "참고",
 	"checkuser-suggestedinvestigations-header-actions": "동작"
 }

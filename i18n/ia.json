@@ -406,5 +406,6 @@
 	"checkuser-suggestedinvestigations-header-created": "Create",
 	"checkuser-suggestedinvestigations-header-status": "Stato",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
-	"checkuser-suggestedinvestigations-header-actions": "Actiones"
+	"checkuser-suggestedinvestigations-header-actions": "Actiones",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1"
 }

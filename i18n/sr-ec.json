@@ -332,5 +332,10 @@
 	"checkuser-userinfocard-groups": "<strong>Групе</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Глобалне групе</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 измена|$2 измене|0=Без измена}})",
-	"checkuser-suggestedinvestigations-summary": "Ова страница садржи налоге аутоматски означене сумњивим и за чекјузере да испитају. [[mw:Help:Extension:CheckUser/Risk signals|More about risk signals]]"
+	"checkuser-suggestedinvestigations-summary": "Ова страница садржи налоге аутоматски означене сумњивим и за чекјузере да испитају. [[mw:Help:Extension:CheckUser/Risk signals|More about risk signals]]",
+	"checkuser-suggestedinvestigations-header-users": "Налози",
+	"checkuser-suggestedinvestigations-header-created": "Отворени",
+	"checkuser-suggestedinvestigations-header-status": "Статус",
+	"checkuser-suggestedinvestigations-header-notes": "Напомене",
+	"checkuser-suggestedinvestigations-header-actions": "Радње"
 }

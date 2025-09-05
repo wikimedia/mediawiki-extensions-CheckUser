@@ -417,7 +417,7 @@
 	"checkuser-userinfocard-global-restrictions-blocked-disabled": "$3より[[$2|グローバル{{GENDER:$1|ブロック}}]]中 (ローカルでは無効)",
 	"checkuser-userinfocard-menu-view-contributions": "{{GENDER:$1|利用者}}の投稿記録を表示",
 	"checkuser-userinfocard-menu-view-global-account": "{{GENDER:$1|グローバルアカウント}}情報を表示",
-	"checkuser-userinfocard-menu-add-to-watchlist": "{{GENDER:$1|利用者ページ}}をウォッチリストに追加",
+	"checkuser-userinfocard-menu-add-to-watchlist": "{{GENDER:$1|利用者ページ}}をウォッチ",
 	"checkuser-userinfocard-menu-remove-from-watchlist": "{{GENDER:$1|利用者ページ}}をウォッチリストから除去",
 	"checkuser-userinfocard-menu-check-ip": "{{GENDER:$1|利用者}}のIPアドレスをチェック",
 	"checkuser-userinfocard-menu-block-user": "{{GENDER:$1|利用者}}をブロック",
@@ -448,5 +448,6 @@
 	"checkuser-suggestedinvestigations-header-created": "作成日時",
 	"checkuser-suggestedinvestigations-header-status": "状態",
 	"checkuser-suggestedinvestigations-header-notes": "備考",
-	"checkuser-suggestedinvestigations-header-actions": "操作"
+	"checkuser-suggestedinvestigations-header-actions": "操作",
+	"checkuser-userinfocard-temporary-account-bucketcount": "接続元が共通の仮アカウント: $1"
 }

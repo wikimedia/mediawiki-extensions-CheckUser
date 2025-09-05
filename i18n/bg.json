@@ -135,6 +135,7 @@
 	"checkuser-ip-contributions-subtitle": "Показване на резултати от {{PLURAL:$1|последния ден|последните $1 дни}}.",
 	"checkuser-ip-contributions-target-label": "IP адрес или диапазон:",
 	"checkuser-ip-contributions-search-form-wrapper": "Търсене на приноси от IP адреси",
+	"checkuser-ip-contributions-deleted-contributions-link": "изтрити потребителски приноси",
 	"checkuser-ip-contributions-special-ip-contributions-button": "IP редакции от временни потребители",
 	"checkuser-ip-contributions-special-contributions-button": "IP редакции (стари)",
 	"checkuser-global-contributions-link": "глобални приноси",

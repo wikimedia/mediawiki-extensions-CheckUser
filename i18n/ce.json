@@ -324,6 +324,7 @@
 	"checkuser-tempaccount-no-ip-results": "ТӀаьххьарчу $1 {{PLURAL:$1|денна}} IP-хаамаш бац хӀокху ханна декъашхочунна",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP гайта",
 	"checkuser-tempaccount-reveal-ip-missing": "тӀецакхочу",
+	"checkuser-tempaccount-reveal-ip-expired": "кхин лелаш дац",
 	"checkuser-tempaccount-reveal-ip-error": "гӀалат",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Цхьана ханна йолчу аккаунтийн IP-адресаш хьажа, дехар до, [[Special:Preferences|хьайн лаамаш]] чохь болу барт тӀеэца.",
 	"checkuser-tempaccount-reveal-blocked-loading": "Блокан деталаш чуйахар",
@@ -398,5 +399,12 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP гучудоккху: $1 (тӀаьххьара теллина $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP-но гучудоккху: $1",
 	"checkuser-suggestedinvestigations": "Кховдийна талламаш",
-	"checkuser-suggestedinvestigations-summary": "ХӀокху агӀонан тӀехь йу авто шеконе йу аьлла билгалйаьхна аккаунташ, декъашхошна таллам бан. [[mw:Help:Extension:CheckUser/Risk signals|Кхин дӀа дийца кхерамечу сигналех лаьцна]]"
+	"checkuser-suggestedinvestigations-summary": "ХӀокху агӀонан тӀехь йу авто шеконе йу аьлла билгалйаьхна аккаунташ, декъашхошна таллам бан. [[mw:Help:Extension:CheckUser/Risk signals|Кхин дӀа дийца кхерамечу сигналех лаьцна]]",
+	"checkuser-suggestedinvestigations-table-caption": "Кховдийна талламийн таблица",
+	"checkuser-suggestedinvestigations-header-users": "Аккаунташ",
+	"checkuser-suggestedinvestigations-header-signals": "Кхераме сигналаш",
+	"checkuser-suggestedinvestigations-header-created": "Кхоьллина",
+	"checkuser-suggestedinvestigations-header-status": "Статус",
+	"checkuser-suggestedinvestigations-header-notes": "Билгалдахарш",
+	"checkuser-suggestedinvestigations-header-actions": "Ардамаш"
 }
