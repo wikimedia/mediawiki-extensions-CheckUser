@@ -208,12 +208,9 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			new FauxRequest()
 		);
 
-		$this->assertSame( [
-			'otherwiki' => [
-				'checkuser-temporary-account' => [ 'error' ],
-				'checkuser-temporary-account-no-preference' => [],
-			]
-		], $permissions[ 'permissions' ] );
+		$this->assertTrue( $permissions->hasPermission( 'checkuser-temporary-account-no-preference', 'otherwiki' ) );
+		$this->assertFalse( $permissions->hasPermission( 'checkuser-temporary-account', 'otherwiki' ) );
+		$this->assertSame( [ 'otherwiki' ], $permissions->getKnownWikis() );
 
 		// Expect only the cache miss counter to increment
 		$this->assertMetricCount( CheckUserGlobalContributionsLookup::EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME, 1 );

@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
+use MediaWiki\CheckUser\GlobalContributions\ExternalPermissions;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentFormatter\RevisionCommentBatch;
@@ -451,9 +452,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		// test calls formatComment() directly, we need to set up the permission
 		// data that otherwise would be set up by a call to fetchWikisToQuery()
 		// initiated by IndexPager::getBody().
-		//
-		// This is used by userHasExternalPermission().
-		$pager->permissions = [ $sourceWiki => $permissions ];
+		$pager->permissions = new ExternalPermissions( [ $sourceWiki => $permissions ] );
 
 		if ( $row->sourcewiki === 'otherwiki' ) {
 			$this->revisionStore
@@ -931,7 +930,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideExternalWikiPermissions
 	 */
-	public function testExternalWikiPermissions( $permissions, $expectedCount ) {
+	public function testExternalWikiPermissions( array $rawPermissions, array $permissions, int $expectedCount ) {
 		$localWiki = WikiMap::getCurrentWikiId();
 		$externalWiki = 'otherwiki';
 
@@ -947,12 +946,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		// Mock making the permission API call
 		$globalContributionsLookup->method( 'getAndUpdateExternalWikiPermissions' )
-			->willReturn( [
-				'permissions' => [
-					'otherwiki' => $permissions,
-				],
-				'externalApiLookupError' => false,
-			] );
+			->willReturn( new ExternalPermissions( [ 'otherwiki' => $rawPermissions ] ) );
 
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
@@ -962,32 +956,41 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$wikis = $pager->fetchWikisToQuery();
 
 		$this->assertCount( $expectedCount, $wikis );
-		$this->assertArrayHasKey( $externalWiki, $pager->permissions );
-		$this->assertSame( array_keys( $permissions ), array_keys( $pager->permissions[$externalWiki] ) );
+		$this->assertSame(
+			$permissions,
+			$pager->permissions->getPermissionsOnWiki( 'otherwiki' )
+		);
 	}
 
 	public static function provideExternalWikiPermissions() {
 		return [
 			'Can always reveal IP at external wiki' => [
-				'actions' => [
+				'rawPermissions' => [
 					'checkuser-temporary-account' => [ 'error' ],
 					'checkuser-temporary-account-no-preference' => [],
 				],
-				1,
+				'permissions' => [
+					'checkuser-temporary-account-no-preference',
+				],
+				'expectedCount' => 1,
 			],
 			'Can reveal IP at external wiki with preference' => [
-				'actions' => [
+				'rawPermissions' => [
 					'checkuser-temporary-account' => [],
 					'checkuser-temporary-account-no-preference' => [ 'error' ],
 				],
-				0,
+				'permissions' => [
+					'checkuser-temporary-account',
+				],
+				'expectedCount' => 0,
 			],
 			'Can not reveal IP at external wiki' => [
-				'actions' => [
+				'rawPermissions' => [
 					'checkuser-temporary-account' => [ 'error' ],
 					'checkuser-temporary-account-no-preference' => [ 'error' ],
 				],
-				0,
+				'permissions' => [],
+				'expectedCount' => 0,
 			]
 		];
 	}
@@ -1004,7 +1007,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager = TestingAccessWrapper::newFromObject( $pager );
 		$wikis = $pager->getExternalWikiPermissions( [] );
 
-		$this->assertSame( [], $pager->permissions );
+		$this->assertFalse( $pager->permissions->hasAnyWiki() );
 	}
 
 	public function testExternalWikiPermissionsNotCheckedForUser() {
@@ -1015,6 +1018,9 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$globalContributionsLookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
 		$globalContributionsLookup->method( 'getActiveWikis' )
 			->willReturn( [ $localWiki, $externalWiki ] );
+
+		$globalContributionsLookup->expects( $this->never() )
+			->method( 'getAndUpdateExternalWikiPermissions' );
 
 		// Mock the central user exists
 		$centralIdLookup = $this->createMock( CentralIdLookup::class );
@@ -1030,7 +1036,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$wikis = $pager->fetchWikisToQuery();
 
 		$this->assertCount( 2, $wikis );
-		$this->assertSame( [], $pager->permissions );
+		$this->assertFalse( $pager->permissions->hasAnyWiki() );
 	}
 
 	/**
@@ -1073,10 +1079,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			],
 		);
 		$globalContributionsLookup->method( 'getAndUpdateExternalWikiPermissions' )
-			->willReturn( [
-				'externalApiLookupError' => false,
-				'permissions' => $permsByWiki
-			] );
+			->willReturn( new ExternalPermissions( $permsByWiki ) );
 
 		$parentSizeMap = [];
 		foreach ( $expectedParentSizeLookups as $wikiId => $parentRevIds ) {
@@ -1530,7 +1533,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager->currentPage = Title::makeTitle( 0, 'Test page' );
 		$pager->currentRevRecord = null;
 		$pager->needsToEnableGlobalPreferenceAtWiki = false;
-		$pager->externalApiLookupError = false;
 
 		$this->assertSame(
 			"<section class=\"mw-pager-body plainlinks\">\n",

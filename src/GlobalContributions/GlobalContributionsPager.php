@@ -66,10 +66,9 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private JobQueueGroup $jobQueueGroup;
 	private UserLinkRenderer $userLinkRenderer;
 	private RevisionStoreFactory $revisionStoreFactory;
-	private array $permissions = [];
+	private ExternalPermissions $permissions;
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
-	private bool $externalApiLookupError = false;
 	private bool $centralUserExists = true;
 
 	/**
@@ -131,6 +130,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
 		$this->userLinkRenderer = $userLinkRenderer;
 		$this->revisionStoreFactory = $revisionStoreFactory;
+		$this->permissions = new ExternalPermissions();
 	}
 
 	/**
@@ -143,21 +143,16 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$centralId = $this->centralIdLookup->centralIdFromLocalUser( $this->getUser() );
 		if ( !$centralId ) {
 			// No central permissions to check for, return an empty array without caching it
-			$this->permissions = [];
+			$this->permissions = new ExternalPermissions();
 			return;
 		}
 
-		$permissions = $this->globalContributionsLookup->getAndUpdateExternalWikiPermissions(
+		$this->permissions = $this->globalContributionsLookup->getAndUpdateExternalWikiPermissions(
 			$centralId,
 			$wikiIds,
 			$this->getUser(),
 			$this->getRequest()
 		);
-		$this->permissions = $permissions['permissions'];
-
-		if ( $permissions['externalApiLookupError'] ) {
-			$this->externalApiLookupError = true;
-		}
 	}
 
 	/**
@@ -217,12 +212,12 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
 					if (
 						( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIpNoPreference ) ||
-						$this->userHasExternalPermission( 'checkuser-temporary-account-no-preference', $wikiId )
+						$this->permissions->hasPermission( 'checkuser-temporary-account-no-preference', $wikiId )
 					) {
 						$wikisToQuery[] = $wikiId;
 					} elseif (
 						( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIp ) ||
-						$this->userHasExternalPermission( 'checkuser-temporary-account', $wikiId )
+						$this->permissions->hasPermission( 'checkuser-temporary-account', $wikiId )
 					) {
 						if ( $hasEnabledGlobalPreference ) {
 							$wikisToQuery[] = $wikiId;
@@ -326,14 +321,14 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				// them. These filters are added for the local query in ContributionsPager::getQueryInfo.
 				// Since external permissions are not looked up if the target is a registered user,
 				// these will not be shown to anyone for a registered user target, until T389187.
-				if ( !$this->userHasExternalPermission( 'deletedhistory', $wikiId ) ) {
+				if ( !$this->permissions->hasPermission( 'deletedhistory', $wikiId ) ) {
 					$wikiConds[] = $dbr->bitAnd(
 						$this->revisionDeletedField, RevisionRecord::DELETED_USER
 					) . ' = 0';
 				}
 				if (
-					!$this->userHasExternalPermission( 'suppressrevision', $wikiId ) &&
-					!$this->userHasExternalPermission( 'viewsuppressed', $wikiId )
+					!$this->permissions->hasPermission( 'suppressrevision', $wikiId ) &&
+					!$this->permissions->hasPermission( 'viewsuppressed', $wikiId )
 				) {
 					$wikiConds[] = $dbr->bitAnd(
 						$this->revisionDeletedField, RevisionRecord::SUPPRESSED_USER
@@ -556,7 +551,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			] );
 		}
 
-		if ( $this->externalApiLookupError ) {
+		if ( $this->permissions->hasEncounteredLookupError() ) {
 			$startBody .= new MessageWidget( [
 				'type' => 'error',
 				'label' => new HtmlSnippet(
@@ -1069,22 +1064,6 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	}
 
 	/**
-	 * Check for errors, which includes permission errors if they don't have the right
-	 * and also block errors if they are blocked.
-	 *
-	 * Must be called after ::getExternalWikiPermissions.
-	 *
-	 * @param string $right
-	 * @param string $wikiId
-	 * @return bool The user has the permission on the wiki
-	 */
-	private function userHasExternalPermission( $right, $wikiId ) {
-		return isset( $this->permissions[$wikiId] ) &&
-			isset( $this->permissions[$wikiId][$right] ) &&
-			count( $this->permissions[$wikiId][$right] ) === 0;
-	}
-
-	/**
 	 * @param mixed $row
 	 * @return bool
 	 */
@@ -1108,7 +1087,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		if ( !$this->externalRevisionIsDeleted( $row ) ) {
 			return true;
 		}
-		return $this->userHasExternalPermission( 'deletedtext', $row->sourcewiki );
+		return $this->permissions->hasPermission( 'deletedtext', $row->sourcewiki );
 	}
 
 	/**
@@ -1119,7 +1098,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		if ( !$this->externalCommentIsDeleted( $row ) ) {
 			return true;
 		}
-		return $this->userHasExternalPermission( 'deletedhistory', $row->sourcewiki );
+		return $this->permissions->hasPermission( 'deletedhistory', $row->sourcewiki );
 	}
 
 	/**
@@ -1127,6 +1106,6 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @return bool
 	 */
 	public function hasExternalApiLookupError(): bool {
-		return $this->externalApiLookupError;
+		return $this->permissions->hasEncounteredLookupError();
 	}
 }

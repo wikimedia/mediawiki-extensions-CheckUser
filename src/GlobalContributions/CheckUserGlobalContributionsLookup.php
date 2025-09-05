@@ -287,14 +287,13 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	 * @param int $centralId
 	 * @param string[] $wikiIds
 	 * @param User $user
-	 * @return array array containing 1. an array of permissions results 2. a bool indicating if any errors occurred
 	 */
 	public function getAndUpdateExternalWikiPermissions(
 		int $centralId,
 		array $wikiIds,
 		User $user,
 		WebRequest $request
-	) {
+	): ExternalPermissions {
 		$externalApiLookupError = false;
 		$numWikisWithUnknownPermissions = 0;
 
@@ -366,11 +365,11 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 				->incrementBy( $numWikisWithKnownPermissions );
 		}
 
-		return [
-			'externalApiLookupError' => $externalApiLookupError,
+		return new ExternalPermissions(
 			// Since the cache preserves order, it is safe to combine the arrays
-			'permissions' => array_combine( $wikiIds, $permissions )
-		];
+			array_combine( $wikiIds, $permissions ),
+			$externalApiLookupError
+		);
 	}
 
 	/**
