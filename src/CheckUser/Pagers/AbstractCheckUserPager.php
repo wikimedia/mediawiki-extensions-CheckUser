@@ -572,7 +572,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	}
 
 	/**
-	 *
 	 * Returns a empty HTML OOUI fieldset which is collapsible.
 	 * Used by checkUserHelper.js and it's where the wikitext
 	 *  table is added into the results page.

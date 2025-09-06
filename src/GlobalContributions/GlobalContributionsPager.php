@@ -50,7 +50,6 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  *
  * This pager uses data from the CheckUser table as it can reveal IP activity
  * which only CU should have knowledge of. Therefore, data is limited to 90 days.
- *
  */
 class GlobalContributionsPager extends ContributionsPager implements CheckUserQueryInterface {
 

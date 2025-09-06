@@ -147,7 +147,6 @@ class UserAgentClientHintsManager {
 	 * @param string $type
 	 * @return StatusValue
 	 * @see insertClientHintValues, which invokes this method.
-	 *
 	 */
 	private function insertMappingRows(
 		array $clientHintMapping, int $foreignId, string $type
