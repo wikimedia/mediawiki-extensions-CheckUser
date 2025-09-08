@@ -68,5 +68,6 @@
 	"checkuser-autocreate-action": "je automatski napravljen",
 	"checkuser-create-action": "je napravljen",
 	"checkuser-email-action": "slanje e-mail korisniku \"$1\"",
-	"checkuser-reset-action": "poništi šifru za korisnika \"$1\""
+	"checkuser-reset-action": "poništi šifru za korisnika \"$1\"",
+	"checkuser-investigate-compare-table-header-activity": "Vremenski opseg"
 }
