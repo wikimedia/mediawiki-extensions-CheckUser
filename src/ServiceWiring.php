@@ -515,7 +515,9 @@ return [
 				SuggestedInvestigationsSignalMatchService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->get( 'CheckUserHookRunner' )
+			$services->get( 'CheckUserHookRunner' ),
+			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
+			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' )
 		);
 	}
 ];

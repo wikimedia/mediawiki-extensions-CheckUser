@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
 
 use MediaWiki\CheckUser\Hook\HookRunner;
+use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
 
@@ -22,7 +23,9 @@ class SuggestedInvestigationsSignalMatchService {
 
 	public function __construct(
 		private readonly ServiceOptions $options,
-		private readonly HookRunner $hookRunner
+		private readonly HookRunner $hookRunner,
+		private readonly SuggestedInvestigationsCaseLookupService $caseLookup,
+		private readonly SuggestedInvestigationsCaseManagerService $caseManager,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -33,7 +36,7 @@ class SuggestedInvestigationsSignalMatchService {
 	 * This method will create or modify any suggested investigation cases based on the results of matching against
 	 * the signals. The caller just needs to call this method to initiate the process.
 	 *
-	 * NOTE: Private code handles may handle this hook, so updating it's signature may break code not visible
+	 * NOTE: Private code handles may handle this hook, so updating its signature may break code not visible
 	 * in codesearch.
 	 *
 	 * @since 1.45
@@ -50,11 +53,49 @@ class SuggestedInvestigationsSignalMatchService {
 			return;
 		}
 
+		if ( !$userIdentity->isRegistered() ) {
+			// Make sure we only process registered users
+			return;
+		}
+
 		$signalMatchResults = [];
 		$this->hookRunner->onCheckUserSuggestedInvestigationsSignalMatch(
 			$userIdentity, $eventType, $signalMatchResults
 		);
 
-		// TODO: Use $signalMatchResults to create or modify suggested investigation cases in T403223
+		foreach ( $signalMatchResults as $signalMatchResult ) {
+			if ( !$signalMatchResult->isMatch() ) {
+				continue;
+			}
+
+			$this->addUserToCaseOrCreateNew( $userIdentity, $signalMatchResult );
+		}
+	}
+
+	/**
+	 * Attaches a user to all existing open SI cases with the same signal (if it allows for merging).
+	 * Otherwise, creates a new case for the user and signal.
+	 */
+	private function addUserToCaseOrCreateNew(
+		UserIdentity $user,
+		SuggestedInvestigationsSignalMatchResult $signal
+	): void {
+		$mergeableCaseIds = [];
+		if ( $signal->valueMatchAllowsMerging() ) {
+			$mergeableCaseIds = $this->caseLookup->getCasesForSignal( $signal );
+		}
+
+		$signals = [ $signal ];
+		$users = [ $user ];
+		if ( count( $mergeableCaseIds ) === 0 ) {
+			$this->hookRunner->onCheckUserSuggestedInvestigationsBeforeCaseCreated(
+				$signals, $users
+			);
+			$this->caseManager->createCase( $users, $signals );
+		} else {
+			foreach ( $mergeableCaseIds as $caseId ) {
+				$this->caseManager->addUsersToCase( $caseId, $users );
+			}
+		}
 	}
 }
