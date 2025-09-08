@@ -620,6 +620,7 @@
 			"localBasePath": "modules/ext.checkUser.suggestedInvestigations",
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.suggestedInvestigations",
 			"packageFiles": [
+				"components/CharacterLimitedTextArea.vue",
 				"index.js"
 			],
 			"messages": [
