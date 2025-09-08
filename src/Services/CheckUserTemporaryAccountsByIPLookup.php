@@ -125,8 +125,12 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 
 		$dbr = $this->connectionProvider->getReplicaDatabase();
 
-		// T327906: 'cuc_timestamp' is selected to satisfy a Postgres requirement
-		// where all ORDER BY fields must be present in SELECT list.
+		// If no limit is supplied, set the default to CheckUserMaximumRowCount.
+		$limit = $this->getQueryLimit( $limit );
+
+		// Get accounts from cu_changes and cu_log_event, sorted by timestamp descending.
+		// They'll be combined so that in case of duplicate entries, the more recent
+		// timestamp can be prioritized. Save the account name as the key for de-duping.
 		$ipConds = $this->checkUserLookupUtils->getIPTargetExpr(
 			$ip,
 			false,
@@ -135,30 +139,48 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		if ( $ipConds === null ) {
 			throw new InvalidArgumentException( "Unable to acquire subquery for $ip" );
 		}
-
-		// If no limit is supplied, set the default to CheckUserMaximumRowCount.
-		$limit = $this->getQueryLimit( $limit );
-
-		$rows = $dbr->newSelectQueryBuilder()
+		$distinctCuChangesAccountRows = $dbr->newSelectQueryBuilder()
 			->fields( [ 'actor_name', 'timestamp' => 'MAX(cuc_timestamp)' ] )
 			->table( self::CHANGES_TABLE )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
 			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
-			->where(
-				$ipConds
-			)
+			->where( $ipConds )
 			->groupBy( 'actor_name' )
 			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
 			->limit( $limit )
 			->caller( __METHOD__ )
 			->fetchResultSet();
-
-		$accounts = [];
-		foreach ( $rows as $row ) {
-			$accounts[] = $row->actor_name;
+		$distinctCuChangesAccounts = [];
+		foreach ( $distinctCuChangesAccountRows as $accountRow ) {
+			$distinctCuChangesAccounts[$accountRow->actor_name] = $accountRow->timestamp;
 
 		}
-		return $accounts;
+
+		$ipConds = $this->checkUserLookupUtils->getIPTargetExpr(
+			$ip,
+			false,
+			self::LOG_EVENT_TABLE
+		);
+		if ( $ipConds === null ) {
+			throw new InvalidArgumentException( "Unable to acquire subquery for $ip" );
+		}
+		$distinctCuLogEventAccountRows = $dbr->newSelectQueryBuilder()
+			->fields( [ 'actor_name', 'timestamp' => 'MAX(cule_timestamp)' ] )
+			->table( 'cu_log_event' )
+			->join( 'actor', null, 'actor_id=cule_actor' )
+			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
+			->where( $ipConds )
+			->groupBy( 'actor_name' )
+			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
+			->limit( $limit )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+		$distinctCuLogEventAccounts = [];
+		foreach ( $distinctCuLogEventAccountRows as $accountRow ) {
+			$distinctCuLogEventAccounts[$accountRow->actor_name] = $accountRow->timestamp;
+		}
+
+		return $this->sortEntitiesByTimestamp( $limit, $distinctCuChangesAccounts, $distinctCuLogEventAccounts );
 	}
 
 	/**
@@ -253,6 +275,41 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	}
 
 	/**
+	 * For use by account <=> ip functions that need to sort through the results of
+	 * multiple databases and return a final list. Queries are independent and may
+	 * return duplicate identifiers when combined without additional processing.
+	 * Given an arbitrary number of arrays which conform to the expected schema, return
+	 * a single array of entity ids sorted by timestamp descending and sliced to limit
+	 *
+	 * @param int $limit
+	 * @param string[] ...$entities [ ip/account => timestamp ]
+	 * @return string[] [ ip/account ]
+	 */
+	private function sortEntitiesByTimestamp( $limit, ...$entities ) {
+		$sorted = [];
+		foreach ( $entities as $entitySet ) {
+			foreach ( $entitySet as $entity => $timestamp ) {
+				if ( !isset( $sorted[$entity] ) ) {
+					$sorted[$entity] = $timestamp;
+				} elseif ( $sorted[$timestamp] < $timestamp ) {
+					$sorted[$entity] = $timestamp;
+				}
+			}
+		}
+
+		// Results may be out of order, re-order them by timestamp descending
+		uasort( $sorted, static function ( $a, $b ) {
+			return ( $a <=> $b ) * -1;
+		} );
+
+		// Drop the timestamp as we only care about the entity value which is now sorted in descending time order
+		$sorted = array_keys( $sorted );
+
+		// Slice to respect the limit and return the final result
+		return array_slice( $sorted, 0, $limit );
+	}
+
+	/**
 	 * Given a temporary account, return all IPs associated with it via public actions only.
 	 * This function should be called from a wrapper so that `checkPermissions()` can
 	 * be run if necessary. Functions like `getAggregateActiveTempAccountCount()`
@@ -273,7 +330,10 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		// If no limit is supplied, set the default to CheckUserMaximumRowCount.
 		$limit = $this->getQueryLimit( $limit );
 
-		$distinctCuChangesIPs = $dbr->newSelectQueryBuilder()
+		// Get IPs from cu_changes and cu_log_event, sorted by timestamp descending.
+		// They'll be combined so that in case of duplicate entries, the more recent
+		// timestamp can be prioritized. Save the IP as the key for de-duping.
+		$distinctCuChangesIPRows = $dbr->newSelectQueryBuilder()
 			->select( [ 'cuc_ip_hex', 'timestamp' => 'MAX(cuc_timestamp)' ] )
 			->groupBy( 'cuc_ip_hex' )
 			->from( 'cu_changes' )
@@ -288,18 +348,13 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->caller( __METHOD__ )
 			->fetchResultSet();
 
-		// These results are guaranteed to be in descending order but as it'll be combined with
-		// the results of a second query, save the timestamp now so that in case of duplicate entries,
-		// the more recent timestamp can be prioritized. Save the IP as the key for de-duping.
-		foreach ( $distinctCuChangesIPs as $ipRow ) {
+		$distinctCuChangesIPs = [];
+		foreach ( $distinctCuChangesIPRows as $ipRow ) {
 			$ip = IPUtils::formatHex( $ipRow->cuc_ip_hex );
-			$ips[ $ip ] = $ipRow->timestamp;
-		}
-		if ( count( $ips ) >= $limit ) {
-			return array_slice( array_keys( $ips ), 0, $limit );
+			$distinctCuChangesIPs[$ip] = $ipRow->timestamp;
 		}
 
-		$distinctCuLogEventIPs = $dbr->newSelectQueryBuilder()
+		$distinctCuLogEventIPRows = $dbr->newSelectQueryBuilder()
 			->select( [ 'cule_ip_hex', 'timestamp' => 'MAX(cule_timestamp)' ] )
 			->groupBy( 'cule_ip_hex' )
 			->from( 'cu_log_event' )
@@ -314,26 +369,13 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->caller( __METHOD__ )
 			->fetchResultSet();
 
-		// If an IP was found again in the second query, save the latest timestamp
-		foreach ( $distinctCuLogEventIPs as $ipRow ) {
+		$distinctCuLogEventIPs = [];
+		foreach ( $distinctCuLogEventIPRows as $ipRow ) {
 			$ip = IPUtils::formatHex( $ipRow->cule_ip_hex );
-			if ( !isset( $ips[ $ip ] ) ) {
-				$ips[ $ip ] = $ipRow->timestamp;
-			} elseif ( $ips[ $ip ] < $ipRow->timestamp ) {
-				$ips[ $ip ] = $ipRow->timestamp;
-			}
+			$distinctCuLogEventIPs[$ip] = $ipRow->timestamp;
 		}
 
-		// Results may be out of order, re-order them by timestamp
-		uasort( $ips, static function ( $a, $b ) {
-			return $a <=> $b;
-		} );
-
-		// Drop the timestamp as we only care about the IPs which should now be sorted in descending time order
-		$ips = array_keys( $ips );
-
-		// Slice to respect the limit and return the final result
-		return array_slice( $ips, 0, $limit );
+		return $this->sortEntitiesByTimestamp( $limit, $distinctCuChangesIPs, $distinctCuLogEventIPs );
 	}
 
 	private function checkPermissions( Authority $authority ): StatusValue {

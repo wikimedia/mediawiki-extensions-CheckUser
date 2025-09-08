@@ -130,6 +130,12 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'expectedCount' => 1,
 				'expectedAccounts' => [ '~check-user-test-03' ],
 			],
+			'Account is returned from cu_log_event lookup' => [
+				'ip' => '1.2.3.4',
+				'limit' => null,
+				'expectedCount' => 1,
+				'expectedAccounts' => [ '~check-user-test-04' ],
+			],
 			'Limit parameter is respected' => [
 				'ip' => '127.0.0.1',
 				'limit' => 0,
