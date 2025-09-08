@@ -347,6 +347,7 @@
 	"checkuser-tempaccount-no-ip-results": "Brak danych o IP dla tego tymczasowego użytkownika za {{PLURAL:$1|ostatni dzień|ostatnie $1 dni|ostatnich $1 dni}}.",
 	"checkuser-tempaccount-reveal-ip-button-label": "Pokaż adres IP",
 	"checkuser-tempaccount-reveal-ip-missing": "niedostępny",
+	"checkuser-tempaccount-reveal-ip-expired": "już niedostępny",
 	"checkuser-tempaccount-reveal-ip-error": "błąd",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Aby wyświetlić wkład adresy IP kont tymczasowych, zaakceptuj warunki w [[Special:Preferences|swoich preferencjach]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Ładowanie szczegółów blokady",

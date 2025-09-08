@@ -327,6 +327,7 @@
 	"checkuser-tempaccount-no-ip-results": "Нема податоци за IP-адресата на овој привремен корисник од {{PLURAL:$1|изминатиов ден|изминативе $1 дена}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
 	"checkuser-tempaccount-reveal-ip-missing": "недостапно",
+	"checkuser-tempaccount-reveal-ip-expired": "повеќе недостапно",
 	"checkuser-tempaccount-reveal-ip-error": "грешка",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "За да гледате IP-адреси на привремени сметки, прифатете го доворото во [[Special:Preferences|вашите нагодувања]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Вчитувам поединости за блокот",
@@ -400,6 +401,15 @@
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Пријавен за прегледување на IP-адреси на привремени сметки",
 	"checkuser-userinfocard-ip-revealed-count": "Откривање на IP: $1 (последна проверка $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Откривање на IP: $1",
-	"checkuser-suggestedinvestigations": "Предложени испитувања",
-	"checkuser-suggestedinvestigations-summary": "Оваа страница содржи сметки кои се автоматски означени како сомнителни  за да ги испитаат проверувачите. [[mw:Help:Extension:CheckUser/Risk signals|Повеќе за сигналите на ризик]]"
+	"checkuser-suggestedinvestigations": "Предложени иследувања",
+	"checkuser-suggestedinvestigations-summary": "Оваа страница содржи сметки кои се автоматски означени како сомнителни  за да ги испитаат проверувачите. [[mw:Help:Extension:CheckUser/Risk signals|Повеќе за сигналите на ризик]]",
+	"checkuser-suggestedinvestigations-table-caption": "Табела на предложени иследувања",
+	"checkuser-suggestedinvestigations-header-users": "Сметки",
+	"checkuser-suggestedinvestigations-header-signals": "Сигнали на ризик",
+	"checkuser-suggestedinvestigations-header-created": "Создадено",
+	"checkuser-suggestedinvestigations-header-status": "Статус",
+	"checkuser-suggestedinvestigations-header-notes": "Белешки",
+	"checkuser-suggestedinvestigations-header-actions": "Дејства",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Привремени сметки за сите поврзани IP-адреси: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Збирна сметка на сите привремени сметки од сите IP-адреси поврзани со оваа сметка"
 }

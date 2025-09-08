@@ -343,5 +343,6 @@
 	"checkuser-suggestedinvestigations-header-users": "계정",
 	"checkuser-suggestedinvestigations-header-status": "상태",
 	"checkuser-suggestedinvestigations-header-notes": "참고",
-	"checkuser-suggestedinvestigations-header-actions": "동작"
+	"checkuser-suggestedinvestigations-header-actions": "동작",
+	"checkuser-userinfocard-temporary-account-bucketcount": "연결된 모든 IP의 임시 계정: $1"
 }

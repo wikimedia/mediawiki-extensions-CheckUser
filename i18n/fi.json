@@ -379,7 +379,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP-paljastuksia: $1 (viimeksi $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP-paljastuksia: $1",
 	"checkuser-suggestedinvestigations": "Ehdotetut tutkimukset",
-	"checkuser-suggestedinvestigations-summary": "Tämä sivu sisältää automaattisesti epäilyttäviksi merkittyjä tunnuksia osoitepaljastimen käyttäjien tutkittavaksi. [[mw:Help:Extension:CheckUser/Riskisignaalit|Lisätietoja riskisignaaleista]]",
+	"checkuser-suggestedinvestigations-summary": "Tämä sivu sisältää automaattisesti epäilyttäviksi merkittyjä tunnuksia osoitepaljastimen käyttäjien tutkittavaksi. [[mw:Help:Extension:CheckUser/Risk signals|Lisätietoja riskisignaaleista]]",
 	"checkuser-suggestedinvestigations-table-caption": "Ehdotettujen tutkimusten taulukko",
 	"checkuser-suggestedinvestigations-header-users": "Tunnukset",
 	"checkuser-suggestedinvestigations-header-signals": "Riskisignaalit",
@@ -387,5 +387,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Tila",
 	"checkuser-suggestedinvestigations-header-notes": "Huomautukset",
 	"checkuser-suggestedinvestigations-header-actions": "Toiminnot",
-	"checkuser-userinfocard-temporary-account-bucketcount": "Tilapäiset tunnukset kaikista liittyvistä IP-osoitteista: $1"
+	"checkuser-userinfocard-temporary-account-bucketcount": "Tilapäiset tunnukset kaikista liittyvistä IP-osoitteista: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Kaikkiin tähän tunnukseen liittyvistä IP-osoitteista tulevien tilapäisten tunnusten yhteenlaskettu määtä"
 }

@@ -418,6 +418,7 @@
 	"checkuser-suggestedinvestigations-header-notes": "הערות",
 	"checkuser-suggestedinvestigations-header-actions": "פעולות",
 	"checkuser-userinfocard-temporary-account-bucketcount": "חשבונות חולפים מכל כתובות ה־IP המשויכות: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "ספירה מצטברת של כל החשבונות החולפים מכל כתובות ה־IP המשויכות לחשבון הזה",
 	"checkuser-temporary-account-bucketcount-range": "$1 עד $2",
 	"checkuser-temporary-account-bucketcount-max": "יותר מ־$1"
 }

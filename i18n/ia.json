@@ -407,5 +407,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Stato",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
 	"checkuser-suggestedinvestigations-header-actions": "Actiones",
-	"checkuser-userinfocard-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1"
+	"checkuser-userinfocard-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Numero aggregate de tote le contos temporari de tote le adresses IP associate a iste conto"
 }

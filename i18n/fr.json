@@ -40,6 +40,7 @@
 			"Sherbrooke",
 			"SleaY",
 			"Thibaut120094",
+			"TimHBD",
 			"Urhixidur",
 			"VIGNERON",
 			"Verdy p",
@@ -453,5 +454,6 @@
 	"checkuser-suggestedinvestigations-header-status": "État",
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
 	"checkuser-suggestedinvestigations-header-actions": "Actions",
-	"checkuser-userinfocard-temporary-account-bucketcount": "Comptes temporaires avec une IP en commun : $1"
+	"checkuser-userinfocard-temporary-account-bucketcount": "Comptes temporaires avec une IP en commun : $1",
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un nombre total de tous les comptes temporaires de toutes les adresses IP associées à ce compte"
 }
