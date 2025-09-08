@@ -277,7 +277,6 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 					return null;
 				}
 				return [
-					'cul_type' => [ 'userips', 'useredits', 'investigate' ],
 					'cul_target_id' => $id,
 				];
 			default:

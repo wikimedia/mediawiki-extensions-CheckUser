@@ -143,10 +143,6 @@ CREATE TABLE /*_*/cu_log (
 
 CREATE INDEX cul_actor_time ON /*_*/cu_log (cul_actor, cul_timestamp);
 
-CREATE INDEX cul_type_target ON /*_*/cu_log (
-  cul_type, cul_target_id, cul_timestamp
-);
-
 CREATE INDEX cul_target ON /*_*/cu_log (cul_target_id, cul_timestamp);
 
 CREATE INDEX cul_target_hex ON /*_*/cu_log (cul_target_hex, cul_timestamp);

@@ -407,6 +407,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'cul_target',
 			"$base/$dbType/patch-cu_log-add-index-cul_target.sql"
 		);
+		$updater->dropExtensionIndex(
+			'cu_log',
+			'cul_type_target',
+			"$base/$dbType/patch-cu_log-drop-index-cul_type_target.sql"
+		);
 		$updater->addExtensionUpdateOnVirtualDomain( [
 			self::VIRTUAL_DB_DOMAIN, 'addTable', 'cusi_case',
 			"$base/$dbType/patch-cusi_case-def.sql", true,

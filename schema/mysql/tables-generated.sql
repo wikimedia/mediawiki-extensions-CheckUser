@@ -130,9 +130,6 @@ CREATE TABLE /*_*/cu_log (
   cul_range_start VARBINARY(255) DEFAULT '' NOT NULL,
   cul_range_end VARBINARY(255) DEFAULT '' NOT NULL,
   INDEX cul_actor_time (cul_actor, cul_timestamp),
-  INDEX cul_type_target (
-    cul_type, cul_target_id, cul_timestamp
-  ),
   INDEX cul_target (cul_target_id, cul_timestamp),
   INDEX cul_target_hex (cul_target_hex, cul_timestamp),
   INDEX cul_range_start (cul_range_start, cul_timestamp),

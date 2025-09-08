@@ -166,7 +166,6 @@ class CheckUserLogService {
 			};
 		} elseif ( is_int( $result ) ) {
 			return [
-				'cul_type' => [ 'userips', 'useredits', 'investigate' ],
 				'cul_target_id' => $result,
 			];
 		}

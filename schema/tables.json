@@ -549,11 +549,6 @@
 				"unique": false
 			},
 			{
-				"name": "cul_type_target",
-				"columns": [ "cul_type", "cul_target_id", "cul_timestamp" ],
-				"unique": false
-			},
-			{
 				"name": "cul_target",
 				"columns": [ "cul_target_id", "cul_timestamp" ],
 				"unique": false
