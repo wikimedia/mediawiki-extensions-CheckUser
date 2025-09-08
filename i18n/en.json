@@ -432,6 +432,7 @@
 	"checkuser-suggestedinvestigations-status-open": "Open",
 	"checkuser-suggestedinvestigations-status-resolved": "Closed",
 	"checkuser-suggestedinvestigations-status-invalid": "Invalid",
+	"checkuser-suggestedinvestigations-status-description-invalid": "Select this to indicate false positives",
 	"checkuser-suggestedinvestigations-action-investigate": "Investigate users",
 	"checkuser-suggestedinvestigations-action-change-status": "Change status",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporary accounts from all associated IPs: $1",
