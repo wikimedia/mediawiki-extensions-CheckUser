@@ -6,9 +6,9 @@
 			"පසිඳු කාවින්ද"
 		]
 	},
-	"checkuser": "صارف کو چیک کریں",
-	"checkuserlog": "صارف لاگ ان کریں چیک کریں",
-	"checkuser-contribs-log": "حال ہی میں صارف کي",
+	"checkuser": "صارف کی جانچ پڑتال کریں",
+	"checkuserlog": "نوشتہ صارف پڑتال",
+	"checkuser-contribs-log": "صارف کی جانچ پڑتال",
 	"group-checkuser": "پڑتال کنندگان",
 	"group-checkuser-member": "{{GENDER:$1|پڑتال کنندہ}}",
 	"group-checkuser-temporary-account-viewer": "ناظرین آئی پی برائے عارضی کھاتہ",

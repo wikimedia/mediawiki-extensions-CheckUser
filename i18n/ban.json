@@ -5,6 +5,7 @@
 			"Dreamy Jazz"
 		]
 	},
+	"group-checkuser": "Panuréksa anganggé",
 	"grant-checkuser": "Ngaksés data panuréksa",
 	"checkuser-investigateblock-warning-confirmaction": "Pinaka ragané seken-seken jagi ngamargiang, turéksa kolom \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" ring wagian metén."
 }
