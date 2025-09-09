@@ -29,6 +29,6 @@ interface CheckUserSuggestedInvestigationsSignalMatchHook {
 	 *   the user.
 	 */
 	public function onCheckUserSuggestedInvestigationsSignalMatch(
-		UserIdentity $userIdentity, string $eventType, array &$signalMatchResults
+		$userIdentity, string $eventType, array &$signalMatchResults
 	): void;
 }
