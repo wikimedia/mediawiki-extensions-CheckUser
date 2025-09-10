@@ -180,6 +180,13 @@ class SpecialCheckUserLog extends SpecialPage {
 				);
 			}
 
+			if ( $this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+				$links[] = $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
+					$this->msg( 'checkuser-show-suggestedinvestigations' )->text()
+				);
+			}
+
 			$this->getOutput()->addSubtitle( Html::rawElement(
 					'span',
 					[ "class" => "mw-checkuser-links-no-parentheses" ],

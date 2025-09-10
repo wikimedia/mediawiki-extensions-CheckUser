@@ -976,6 +976,13 @@ class SpecialInvestigate extends FormSpecialPage {
 			),
 		];
 
+		if ( $this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+			$links[] = $this->getLinkRenderer()->makeKnownLink(
+				self::getTitleValueFor( 'SuggestedInvestigations' ),
+				$this->msg( 'checkuser-show-suggestedinvestigations' )->text()
+			);
+		}
+
 		$this->subtitleLinksHookRunner->onCheckUserSubtitleLinks( $this->getContext(), $links );
 
 		$subtitle = implode( ' | ', array_filter( $links, static function ( $link ) {

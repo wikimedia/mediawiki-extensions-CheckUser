@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Investigate;
 use CentralAuthTestUser;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
+use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\HookContainer\HookRunner;
@@ -29,6 +30,8 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group Database
  */
 class SpecialInvestigateTest extends FormSpecialPageTestCase {
+
+	use SuggestedInvestigationsTestTrait;
 
 	private static User $testCheckUser;
 	private static User $testSuppressor;
@@ -390,6 +393,18 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 			$response->getHeader( 'Location' ),
 			'The response should be a redirect after submitting the form using POST.'
 		);
+	}
+
+	public function testLinkToSuggestedInvestigationsPresentOnlyIfFeatureEnabled() {
+		$this->disableSuggestedInvestigations();
+
+		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+		$this->assertStringNotContainsString( '(checkuser-show-suggestedinvestigations', $html );
+
+		$this->enableSuggestedInvestigations();
+
+		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+		$this->assertStringContainsString( '(checkuser-show-suggestedinvestigations', $html );
 	}
 
 	public function addDBDataOnce() {

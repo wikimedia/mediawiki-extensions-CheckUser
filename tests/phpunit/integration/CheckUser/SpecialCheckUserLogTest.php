@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Exception\UserBlockedError;
@@ -26,6 +27,8 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager
  */
 class SpecialCheckUserLogTest extends SpecialPageTestBase {
+
+	use SuggestedInvestigationsTestTrait;
 
 	private static User $testCheckUser;
 	private static User $blockedCheckUser;
@@ -211,6 +214,18 @@ class SpecialCheckUserLogTest extends SpecialPageTestBase {
 		[ $html ] = $this->executeSpecialPage( '', $request, null, $this->getTestCheckUser(), true );
 		// Verify that one log entry has the highlight class
 		$this->assertStringContainsString( 'mw-checkuser-log-highlight-entry', $html );
+	}
+
+	public function testLinkToSuggestedInvestigationsPresentOnlyIfFeatureEnabled() {
+		$this->disableSuggestedInvestigations();
+
+		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+		$this->assertStringNotContainsString( '(checkuser-show-suggestedinvestigations', $html );
+
+		$this->enableSuggestedInvestigations();
+
+		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+		$this->assertStringContainsString( '(checkuser-show-suggestedinvestigations', $html );
 	}
 
 	public function addDBDataOnce() {

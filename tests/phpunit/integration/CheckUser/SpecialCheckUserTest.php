@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\CheckUser\Tests\SpecialCheckUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
@@ -34,6 +35,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 	use MockAuthorityTrait;
 	use SpecialCheckUserTestTrait;
+	use SuggestedInvestigationsTestTrait;
 	use TempUserTestTrait;
 
 	private static UserIdentity $usernameTarget;
@@ -299,6 +301,18 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			->assertRowValue( [
 				$testCheckUser->getName(), 'Test check', self::$usernameTarget->getName(), 'useredits',
 			] );
+	}
+
+	public function testLinkToSuggestedInvestigationsPresentOnlyIfFeatureEnabled() {
+		$this->disableSuggestedInvestigations();
+
+		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+		$this->assertStringNotContainsString( '(checkuser-show-suggestedinvestigations', $html );
+
+		$this->enableSuggestedInvestigations();
+
+		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+		$this->assertStringContainsString( '(checkuser-show-suggestedinvestigations', $html );
 	}
 
 	public function testSubmitFormForGetUsersCheckWithResults() {

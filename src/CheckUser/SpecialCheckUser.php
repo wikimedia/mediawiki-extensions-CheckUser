@@ -245,6 +245,16 @@ class SpecialCheckUser extends SpecialPage {
 				);
 			}
 		}
+		if ( $this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+			$links[] = Html::rawElement(
+				'span',
+				[],
+				$this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
+					$this->msg( 'checkuser-show-suggestedinvestigations' )->text()
+				)
+			);
+		}
 
 		if ( count( $links ) ) {
 			$out->addSubtitle( Html::rawElement(
