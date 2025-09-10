@@ -415,6 +415,16 @@
 	"checkuser-suggestedinvestigations-header-status": "Estado",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
 	"checkuser-suggestedinvestigations-header-actions": "Accións",
+	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|comprobar {{GENDER:$3|o ususuario|a usuaria}}]])",
+	"checkuser-suggestedinvestigations-user-showmore": "Mostrar $1 {{PLURAL:$1|conta|contas}} máis",
+	"checkuser-suggestedinvestigations-signal-sharedemail": "Correo electrónico compartido confirmado ou non confirmado",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha sospeitoso",
+	"checkuser-suggestedinvestigations-status-open": "Aberta",
+	"checkuser-suggestedinvestigations-status-resolved": "Pechada",
+	"checkuser-suggestedinvestigations-status-invalid": "Non válida",
+	"checkuser-suggestedinvestigations-status-description-invalid": "Selecciona isto para indicar falsos positivos",
+	"checkuser-suggestedinvestigations-action-investigate": "Investigar os usuarios",
+	"checkuser-suggestedinvestigations-action-change-status": "Cambiar o estado",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Contas temporais de todos os enderezos IP asociados: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un reconto agregado de todas as contas temporais de todos os enderezos IP asociados a esta conta"
 }

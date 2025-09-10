@@ -337,5 +337,11 @@
 	"checkuser-suggestedinvestigations-header-created": "Отворени",
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Напомене",
-	"checkuser-suggestedinvestigations-header-actions": "Радње"
+	"checkuser-suggestedinvestigations-header-actions": "Радње",
+	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|провери {{GENDER:$3|корисникљ|корисницу}}]])",
+	"checkuser-suggestedinvestigations-status-resolved": "Затворено",
+	"checkuser-suggestedinvestigations-status-description-invalid": "Изаберите ово да означите лажно позитивне",
+	"checkuser-suggestedinvestigations-action-investigate": "Истражи кориснике",
+	"checkuser-suggestedinvestigations-action-change-status": "Промени статус",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Привремени налози са свих повезаних IP адреса: $1"
 }

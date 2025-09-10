@@ -410,6 +410,16 @@
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Белешки",
 	"checkuser-suggestedinvestigations-header-actions": "Дејства",
+	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|провери {{GENDER:$3|корисник|корисничка}}]])",
+	"checkuser-suggestedinvestigations-user-showmore": "Прикажи +$1 {{PLURAL:$1|сметки}}",
+	"checkuser-suggestedinvestigations-signal-sharedemail": "Потврдена или непотврдена споделена е-пошта",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "Сомнителна hCaptcha",
+	"checkuser-suggestedinvestigations-status-open": "Отворено",
+	"checkuser-suggestedinvestigations-status-resolved": "Затворено",
+	"checkuser-suggestedinvestigations-status-invalid": "Неважечко",
+	"checkuser-suggestedinvestigations-status-description-invalid": "Изберете го ова за да укажете лажни погодоци",
+	"checkuser-suggestedinvestigations-action-investigate": "Иследи корисници",
+	"checkuser-suggestedinvestigations-action-change-status": "Смени статус",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Привремени сметки за сите поврзани IP-адреси: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Збирна сметка на сите привремени сметки од сите IP-адреси поврзани со оваа сметка"
 }

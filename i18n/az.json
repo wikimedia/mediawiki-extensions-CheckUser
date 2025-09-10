@@ -418,6 +418,16 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Qeydlər",
 	"checkuser-suggestedinvestigations-header-actions": "Fəaliyyətlər",
+	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|{{GENDER:$3|istifadəçini}} yoxla]])",
+	"checkuser-suggestedinvestigations-user-showmore": "+$1 {{PLURAL:$1|hesabı}} göstər",
+	"checkuser-suggestedinvestigations-signal-sharedemail": "Təsdiqlənmiş və ya təsdiqlənməmiş paylaşılan e-poçt",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "Şübhəli hCaptcha",
+	"checkuser-suggestedinvestigations-status-open": "Açıq",
+	"checkuser-suggestedinvestigations-status-resolved": "Bağlı",
+	"checkuser-suggestedinvestigations-status-invalid": "Etibarsız",
+	"checkuser-suggestedinvestigations-status-description-invalid": "Yalan pozitivləri göstərmək üçün bunu seçin",
+	"checkuser-suggestedinvestigations-action-investigate": "İstifadəçiləri araşdır",
+	"checkuser-suggestedinvestigations-action-change-status": "Statusu dəyişdir",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Bütün əlaqəli IP-lərdəki müvəqqəti hesablar: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Bu hesabla əlaqəli bütün IP-lərdən olan bütün müvəqqəti hesabların ümumi sayı"
 }

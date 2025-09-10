@@ -326,5 +326,7 @@
 	"checkuser-userinfocard-groups": "<strong>গ্রুপ</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>বৈশ্বিক গ্রুপ</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2টি সম্পাদনা|0=কোনো সম্পাদনা নেই}})",
+	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|{{GENDER:$3|ব্যবহারকারীকে}} পরীক্ষা করুন]])",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "সন্দেহজনক এইচক্যাপচা",
 	"checkuser-userinfocard-temporary-account-bucketcount": "সমস্ত সংশ্লিষ্ট আইপি থেকে অস্থায়ী অ্যাকাউন্ট: $1"
 }
