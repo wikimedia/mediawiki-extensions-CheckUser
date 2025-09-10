@@ -51,5 +51,7 @@
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} collects user-agent client hint data to assist in moderating vandalism and abuse. See https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints for more details.",
 	"apihelp-logout-param-checkuserclienthints": "Client hints data supplied alongside requests to ApiLogout. For internal use only.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "The provided auto-reveal expiry is invalid.",
-	"checkuser-ip-auto-reveal-missing-permission": "You do not have the permission needed to use IP auto-reveal."
+	"checkuser-ip-auto-reveal-missing-permission": "You do not have the permission needed to use IP auto-reveal.",
+	"checkuser-suggestedinvestigations-case-update-case-not-found": "The provided case ID does not exist",
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "The suggested investigations feature is not enabled"
 }
