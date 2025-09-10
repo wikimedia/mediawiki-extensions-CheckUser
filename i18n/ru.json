@@ -304,6 +304,7 @@
 	"checkuser-ip-auto-reveal-on-dialog-primary-action": "Включить",
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "Срок:",
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Выбрать срок",
+	"checkuser-tempaccount-reveal-ip-button-label": "Показать IP",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2",
 	"checkuser-temporary-account-change-access-level-disable-globally": "глобально {{GENDER:$1|отключен}}",

@@ -56,5 +56,7 @@
 	"checkuser-showmain": "Prebaci na glavni obrazac provjeravača",
 	"logentry-checkuser-private-event-autocreate-account": "je automatski napravljen",
 	"logentry-checkuser-private-event-create-account": "je napravljen",
-	"checkuser-investigateblock-warning-confirmaction": "Ako ste sigurni da želite nastaviti, kliknite na \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" polje na dnu stranice."
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Šta je privremeni račun?",
+	"checkuser-investigateblock-warning-confirmaction": "Ako ste sigurni da želite nastaviti, kliknite na \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" polje na dnu stranice.",
+	"checkuser-investigate-compare-table-header-activity": "Vremenski opseg"
 }
