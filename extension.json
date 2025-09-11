@@ -632,7 +632,7 @@
 			"packageFiles": [
 				"index.js",
 				"rest.js",
-				"components/CharacterLimitedTextArea.vue"
+				"components/CharacterLimitedTextInput.vue"
 			],
 			"messages": [
 				"checkuser-suggestedinvestigations-user-showmore",

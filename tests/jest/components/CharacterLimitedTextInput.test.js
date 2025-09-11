@@ -4,14 +4,12 @@ const { mount } = require( '@vue/test-utils' );
 
 jest.mock( 'mediawiki.String', () => ( {
 	codePointLength: ( str ) => str.length,
-	trimCodePointLength: ( safeVal, newVal, codePointLimit ) => ( {
-		newVal: newVal.slice( 0, codePointLimit )
-	} )
+	trimCodePointLength: ( safeVal, newVal, codePointLimit ) => ( { newVal: newVal.slice( 0, codePointLimit ) } )
 } ), { virtual: true } );
 
-const CharacterLimitedTextArea = require( '../../../modules/ext.checkUser.suggestedInvestigations/components/CharacterLimitedTextArea.vue' );
+const CharacterLimitedTextInput = require( '../../../modules/ext.checkUser.suggestedInvestigations/components/CharacterLimitedTextInput.vue' );
 
-describe( 'CharacterLimitedTextArea', () => {
+describe( 'CharacterLimitedTextInput', () => {
 	beforeEach( () => {
 		const mwConvertNumber = jest.fn();
 		mwConvertNumber.mockImplementation( ( number ) => String( number ) );
@@ -19,7 +17,7 @@ describe( 'CharacterLimitedTextArea', () => {
 	} );
 
 	function render( props = {} ) {
-		const wrapper = mount( CharacterLimitedTextArea, {
+		const wrapper = mount( CharacterLimitedTextInput, {
 			props: Object.assign( {
 				codePointLimit: 600,
 				textContent: '',
@@ -33,11 +31,11 @@ describe( 'CharacterLimitedTextArea', () => {
 	it( 'should update content and not show character count when far from the limit', async () => {
 		const wrapper = render();
 
-		const initialCharacterCount = wrapper.find( '.ext-checkuser-dialog__textarea-character-count' );
+		const initialCharacterCount = wrapper.find( '.ext-checkuser-suggestedinvestigations-dialog__reason-character-count' );
 
-		await wrapper.find( 'textarea' ).setValue( 'test' );
+		await wrapper.find( 'input' ).setValue( 'test' );
 
-		const newCharacterCount = wrapper.find( '.ext-checkuser-dialog__textarea-character-count' );
+		const newCharacterCount = wrapper.find( '.ext-checkuser-suggestedinvestigations-dialog__reason-character-count' );
 
 		const emitted = wrapper.emitted();
 
@@ -49,11 +47,11 @@ describe( 'CharacterLimitedTextArea', () => {
 	it( 'shows character count when near the limit', async () => {
 		const wrapper = render( { codePointLimit: 100 } );
 
-		const initialCharacterCount = wrapper.find( '.ext-checkuser-dialog__textarea-character-count' );
+		const initialCharacterCount = wrapper.find( '.ext-checkuser-suggestedinvestigations-dialog__reason-character-count' );
 
-		await wrapper.find( 'textarea' ).setValue( 'test' );
+		await wrapper.find( 'input' ).setValue( 'test' );
 
-		const newCharacterCount = wrapper.find( '.ext-checkuser-dialog__textarea-character-count' );
+		const newCharacterCount = wrapper.find( '.ext-checkuser-suggestedinvestigations-dialog__reason-character-count' );
 
 		expect( initialCharacterCount.exists() ).toBe( false );
 		expect( newCharacterCount.text() ).toBe( '96' );
@@ -62,10 +60,10 @@ describe( 'CharacterLimitedTextArea', () => {
 	it( 'limits character count after exceeding the limit', async () => {
 		const wrapper = render( { codePointLimit: 6 } );
 
-		await wrapper.find( 'textarea' ).setValue( 'abcdefghi' );
+		await wrapper.find( 'input' ).setValue( 'abcdefghi' );
 
-		const newCharacterCount = wrapper.find( '.ext-checkuser-dialog__textarea-character-count' );
-		const newValue = wrapper.find( 'textarea' ).element.value;
+		const newCharacterCount = wrapper.find( '.ext-checkuser-suggestedinvestigations-dialog__reason-character-count' );
+		const newValue = wrapper.find( 'input' ).element.value;
 
 		expect( newCharacterCount.text() ).toBe( '0' );
 		expect( newValue ).toBe( 'abcdef' );
@@ -74,14 +72,14 @@ describe( 'CharacterLimitedTextArea', () => {
 	it( 'does not show character count without input even if initial limit is small', async () => {
 		const wrapper = render( { codePointLimit: 50 } );
 
-		const initialCharacterCount = wrapper.find( '.ext-checkuser-dialog__textarea-character-count' );
+		const initialCharacterCount = wrapper.find( '.ext-checkuser-suggestedinvestigations-dialog__reason-character-count' );
 
 		expect( initialCharacterCount.exists() ).toBe( false );
 	} );
 
-	it( 'should forward other props to textarea wrapper component', () => {
+	it( 'should forward other props to input wrapper component', () => {
 		const wrapper = render( { class: 'foo' } );
 
-		expect( wrapper.find( '.cdx-text-area' ).classes() ).toContain( 'foo' );
+		expect( wrapper.find( '.cdx-text-input' ).classes() ).toContain( 'foo' );
 	} );
 } );

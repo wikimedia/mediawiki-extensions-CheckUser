@@ -1,26 +1,26 @@
 <template>
-	<cdx-text-area
+	<cdx-text-input
 		v-bind="$attrs"
 		v-model="computedTextContent"
-	></cdx-text-area>
+	></cdx-text-input>
 	<span
 		v-if="remainingCharacters !== ''"
-		class="ext-checkuser-dialog__textarea-character-count">
+		class="ext-checkuser-suggestedinvestigations-dialog__reason-character-count">
 		{{ remainingCharacters }}
 	</span>
 </template>
 
 <script>
-const { CdxTextArea } = require( '@wikimedia/codex' );
+const { CdxTextInput } = require( '@wikimedia/codex' );
 const { computed, watch } = require( 'vue' );
 const { codePointLength, trimCodePointLength } = require( 'mediawiki.String' );
 
 // A Codex textarea with a character limit.
 // @vue/component
 module.exports = exports = {
-	name: 'CharacterLimitedTextArea',
+	name: 'CharacterLimitedTextInput',
 	components: {
-		CdxTextArea
+		CdxTextInput
 	},
 	inheritAttrs: false,
 	props: {
@@ -81,7 +81,7 @@ module.exports = exports = {
 <style lang="less">
 @import ( reference ) 'mediawiki.skin.variables.less';
 
-.ext-checkuser-dialog__textarea-character-count {
+.ext-checkuser-suggestedinvestigations-dialog__reason-character-count {
 	color: @color-subtle;
 	float: right;
 }
