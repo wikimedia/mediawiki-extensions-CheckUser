@@ -4,7 +4,6 @@ use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
-use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Investigate\Pagers\ComparePagerFactory;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPagerFactory;
@@ -107,12 +106,6 @@ return [
 	},
 	'CheckUserDurationManager' => static function ( MediaWikiServices $services ): DurationManager {
 		return new DurationManager();
-	},
-	'CheckUserGuidedTourLauncher' => static function ( MediaWikiServices $services ): TourLauncher {
-		return new TourLauncher(
-			ExtensionRegistry::getInstance(),
-			$services->getLinkRenderer()
-		);
 	},
 	'CheckUserPreliminaryCheckPagerFactory' => static function (
 		MediaWikiServices $services

@@ -2,9 +2,7 @@
 
 namespace MediaWiki\CheckUser\Investigate;
 
-use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\CheckUserSubtitleLinksHook;
-use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Investigate\Pagers\ComparePager;
 use MediaWiki\CheckUser\Investigate\Pagers\PagerFactory;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
@@ -52,7 +50,6 @@ class SpecialInvestigate extends FormSpecialPage {
 	private TokenQueryManager $tokenQueryManager;
 	private DurationManager $durationManager;
 	private EventLogger $eventLogger;
-	private TourLauncher $tourLauncher;
 	private CheckUserSubtitleLinksHook $subtitleLinksHookRunner;
 	private PermissionManager $permissionManager;
 	private CheckUserLogService $checkUserLogService;
@@ -75,12 +72,6 @@ class SpecialInvestigate extends FormSpecialPage {
 	/** @var int */
 	private const MAX_TARGETS = 10;
 
-	/** @var string */
-	public const TOUR_INVESTIGATE = 'checkuserinvestigate';
-
-	/** @var string */
-	public const TOUR_INVESTIGATE_FORM = 'checkuserinvestigateform';
-
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		Language $contentLanguage,
@@ -91,7 +82,6 @@ class SpecialInvestigate extends FormSpecialPage {
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
 		EventLogger $eventLogger,
-		TourLauncher $tourLauncher,
 		CheckUserSubtitleLinksHook $subtitleLinksHookRunner,
 		PermissionManager $permissionManager,
 		CheckUserLogService $checkUserLogService,
@@ -109,7 +99,6 @@ class SpecialInvestigate extends FormSpecialPage {
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->durationManager = $durationManager;
 		$this->eventLogger = $eventLogger;
-		$this->tourLauncher = $tourLauncher;
 		$this->subtitleLinksHookRunner = $subtitleLinksHookRunner;
 		$this->permissionManager = $permissionManager;
 		$this->checkUserLogService = $checkUserLogService;
@@ -165,8 +154,6 @@ class SpecialInvestigate extends FormSpecialPage {
 			$this->addBlockForm();
 			$this->addTabs( $par )->addTabContent( $par );
 			$this->getOutput()->addHTML( $this->getLayout() );
-		} else {
-			$this->launchTour( self::TOUR_INVESTIGATE_FORM );
 		}
 
 		// Add the links after any previous HTML has been cleared.
@@ -363,10 +350,6 @@ class SpecialInvestigate extends FormSpecialPage {
 							'label' => new HtmlSnippet( $message )
 						] ) );
 					}
-
-					// Only start the tour if there are results on the page.
-					$this->launchTour( self::TOUR_INVESTIGATE );
-
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
 					$messageKey = $this->usingFilters() ?
@@ -917,62 +900,21 @@ class SpecialInvestigate extends FormSpecialPage {
 	}
 
 	/**
-	 * Launches the tour unless the user has already completed or canceled it.
-	 *
-	 * @param string $tour
-	 * @return void
-	 */
-	private function launchTour( string $tour ): void {
-		$user = $this->getUser();
-
-		switch ( $tour ) {
-			case self::TOUR_INVESTIGATE_FORM:
-				$preference = Preferences::INVESTIGATE_FORM_TOUR_SEEN;
-				$step = 'targets';
-				break;
-			case self::TOUR_INVESTIGATE:
-				$preference = Preferences::INVESTIGATE_TOUR_SEEN;
-				$step = 'useragents';
-				break;
-			default:
-				return;
-		}
-
-		if ( $this->userOptionsManager->getOption( $user, $preference ) ) {
-			return;
-		}
-
-		$this->tourLauncher->launchTour( $tour, $step );
-	}
-
-	/**
 	 * Add the subtitle to the page.
 	 */
 	private function addSubtitle(): void {
 		$subpage = false;
 		$token = null;
-		$tour = self::TOUR_INVESTIGATE_FORM;
 
 		if ( $this->getTokenData() !== [] ) {
 			$token = $this->getTokenWithoutPaginationData();
 			$subpage = $this->getTabParam( 'compare' );
-			$tour = self::TOUR_INVESTIGATE;
 		}
 
 		$links = [
 			$this->getLinkRenderer()->makeLink(
 				self::getTitleValueFor( 'CheckUser' ),
 				$this->msg( 'checkuser-showmain' )->text()
-			),
-			$this->tourLauncher->makeTourLink(
-				$tour,
-				$this->getPageTitle( $subpage ),
-				$this->msg( 'checkuser-investigate-subtitle-link-restart-tour' )->text(),
-				[],
-				[
-					'token' => $token,
-					'duration' => $this->getDuration() ?: null,
-				]
 			),
 		];
 

@@ -18,12 +18,6 @@ use StatusValue;
 
 class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 
-	/** @var string */
-	public const INVESTIGATE_TOUR_SEEN = 'checkuser-investigate-tour-seen';
-
-	/** @var string */
-	public const INVESTIGATE_FORM_TOUR_SEEN = 'checkuser-investigate-form-tour-seen';
-
 	/**
 	 * @var string The name for the hidden preference used to note if a user has seen the
 	 *   Temporary Accounts onboarding dialog.
@@ -77,14 +71,6 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 	 * @inheritDoc
 	 */
 	public function onGetPreferences( $user, &$preferences ) {
-		$preferences[self::INVESTIGATE_TOUR_SEEN] = [
-			'type' => 'api',
-		];
-
-		$preferences[self::INVESTIGATE_FORM_TOUR_SEEN] = [
-			'type' => 'api',
-		];
-
 		$preferences[self::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN] = [
 			'type' => 'api',
 		];

@@ -22,37 +22,6 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 		$dir = dirname( __DIR__, 2 ) . '/modules/';
 		$modules = [];
 
-		if ( $this->extensionRegistry->isLoaded( 'GuidedTour' ) ) {
-			$modules[ 'ext.guidedTour.tour.checkuserinvestigateform' ] = [
-				'localBasePath' => $dir . 'ext.guidedTour.tour.checkuserinvestigateform',
-				'remoteExtPath' => "CheckUser/modules",
-				'scripts' => "checkuserinvestigateform.js",
-				'dependencies' => 'ext.guidedTour',
-				'messages' => [
-					'checkuser-investigate-tour-targets-title',
-					'checkuser-investigate-tour-targets-desc'
-				]
-			];
-			$modules[ 'ext.guidedTour.tour.checkuserinvestigate' ] = [
-				'localBasePath' => $dir . 'ext.guidedTour.tour.checkuserinvestigate',
-				'remoteExtPath' => "CheckUser/module",
-				'scripts' => 'checkuserinvestigate.js',
-				'dependencies' => [ 'ext.guidedTour', 'ext.checkUser' ],
-				'messages' => [
-					'checkuser-investigate-tour-useragents-title',
-					'checkuser-investigate-tour-useragents-desc',
-					'checkuser-investigate-tour-addusertargets-title',
-					'checkuser-investigate-tour-addusertargets-desc',
-					'checkuser-investigate-tour-filterip-title',
-					'checkuser-investigate-tour-filterip-desc',
-					'checkuser-investigate-tour-block-title',
-					'checkuser-investigate-tour-block-desc',
-					'checkuser-investigate-tour-copywikitext-title',
-					'checkuser-investigate-tour-copywikitext-desc',
-				],
-			];
-		}
-
 		if ( $this->extensionRegistry->isLoaded( 'IPInfo' ) ) {
 			$modules[ 'ext.checkUser.ipInfo.hooks' ] = [
 				'localBasePath' => $dir . 'ext.checkUser.ipInfo.hooks',
