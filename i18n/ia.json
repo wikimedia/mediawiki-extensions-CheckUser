@@ -407,6 +407,16 @@
 	"checkuser-suggestedinvestigations-header-status": "Stato",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
 	"checkuser-suggestedinvestigations-header-actions": "Actiones",
+	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|verificar le usat{{GENDER:$3|or|rice}}]])",
+	"checkuser-suggestedinvestigations-user-showmore": "Monstrar plus de $1 conto{{PLURAL:$1||s}}",
+	"checkuser-suggestedinvestigations-signal-sharedemail": "Adresse de e-mail commun, confirmate o non",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha suspecte",
+	"checkuser-suggestedinvestigations-status-open": "Aperte",
+	"checkuser-suggestedinvestigations-status-resolved": "Clause",
+	"checkuser-suggestedinvestigations-status-invalid": "Invalide",
+	"checkuser-suggestedinvestigations-status-description-invalid": "Selige iste option pro indicar un false positivo",
+	"checkuser-suggestedinvestigations-action-investigate": "Investigar usatores",
+	"checkuser-suggestedinvestigations-action-change-status": "Cambiar stato",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Numero aggregate de tote le contos temporari de tote le adresses IP associate a iste conto"
 }

@@ -332,5 +332,6 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP खुलासे: $1 (आखिरी बार $2 को जाँचा गया)",
 	"checkuser-userinfocard-ip-revealed-never": "IP खुलासे: $1",
 	"checkuser-suggestedinvestigations": "सुझावित जाँच-पड़ताल",
-	"checkuser-suggestedinvestigations-summary": "इस पृष्ठ पर स्वचालित रूप से संदिग्ध चिह्नित खाते शामिल हैं ताकि सदस्य जाँचकर्ताएँ उनकी जाँच-पड़ताल कर सकें। [[mw:Help:Extension:CheckUser/Risk signals|जोखिम संकेतों के बारे में अधिक जानकारी]]"
+	"checkuser-suggestedinvestigations-summary": "इस पृष्ठ पर स्वचालित रूप से संदिग्ध चिह्नित खाते शामिल हैं ताकि सदस्य जाँचकर्ताएँ उनकी जाँच-पड़ताल कर सकें। [[mw:Help:Extension:CheckUser/Risk signals|जोखिम संकेतों के बारे में अधिक जानकारी]]",
+	"checkuser-suggestedinvestigations-status-open": "खोलें"
 }

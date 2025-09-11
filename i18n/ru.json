@@ -339,6 +339,7 @@
 	"checkuser-userinfocard-menu-view-global-account": "Посмотреть данные глобальной {{GENDER:$1|учётной записи}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Добавить страницу {{GENDER:$1|участника|участницы}} в список наблюдения",
 	"checkuser-userinfocard-menu-remove-from-watchlist": "Удалить страницу {{GENDER:$1|участника|участницы}} из списка наблюдения",
+	"checkuser-userinfocard-menu-block-user": "Заблокировать участни{{GENDER:$1|ка|цу}}",
 	"checkuser-userinfocard-menu-provide-feedback": "Оставить отзыв об этой функции",
 	"checkuser-userinfocard-menu-turn-off": "Выключить эту функцию",
 	"checkuser-userinfocard-enable-preference-description": "Включить [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|карточку с информацией о пользователе]]",

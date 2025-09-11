@@ -454,6 +454,16 @@
 	"checkuser-suggestedinvestigations-header-status": "État",
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
 	"checkuser-suggestedinvestigations-header-actions": "Actions",
+	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|vérifier {{GENDER:$3|user}}]])",
+	"checkuser-suggestedinvestigations-user-showmore": "Afficher +$1 {{PLURAL:$1|comptes}}",
+	"checkuser-suggestedinvestigations-signal-sharedemail": "Courriel partagé (confirmé ou non)",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha suspect",
+	"checkuser-suggestedinvestigations-status-open": "Ouverte",
+	"checkuser-suggestedinvestigations-status-resolved": "Fermée",
+	"checkuser-suggestedinvestigations-status-invalid": "Invalide",
+	"checkuser-suggestedinvestigations-status-description-invalid": "Sélectionnez cette option pour indiquer un faux positif",
+	"checkuser-suggestedinvestigations-action-investigate": "Investiguer les utilisateurs",
+	"checkuser-suggestedinvestigations-action-change-status": "Changer l’état",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Comptes temporaires avec une IP en commun : $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un nombre total de tous les comptes temporaires de toutes les adresses IP associées à ce compte"
 }

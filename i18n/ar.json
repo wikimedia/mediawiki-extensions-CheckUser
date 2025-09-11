@@ -430,5 +430,16 @@
 	"checkuser-suggestedinvestigations-header-status": "الحالة",
 	"checkuser-suggestedinvestigations-header-notes": "ملاحظات",
 	"checkuser-suggestedinvestigations-header-actions": "الإجراءات",
-	"checkuser-userinfocard-temporary-account-bucketcount": "الحسابات المؤقتة من جميع عناوين IP المرتبطة: $1"
+	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|تحقق من {{GENDER:$3|المستخدم}}]])",
+	"checkuser-suggestedinvestigations-user-showmore": "إظهار + $1 {{PLURAL:$1| حسابات}}",
+	"checkuser-suggestedinvestigations-signal-sharedemail": "البريد الإلكتروني المشترك المؤكد أو غير المؤكد",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha مشبوه",
+	"checkuser-suggestedinvestigations-status-open": "مفتوح",
+	"checkuser-suggestedinvestigations-status-resolved": "مغلق",
+	"checkuser-suggestedinvestigations-status-invalid": "غير صالح",
+	"checkuser-suggestedinvestigations-status-description-invalid": "حدد هذا للإشارة إلى نتائج إيجابية خاطئة",
+	"checkuser-suggestedinvestigations-action-investigate": "التحقيق مع المستخدمين",
+	"checkuser-suggestedinvestigations-action-change-status": "تغيير الحالة",
+	"checkuser-userinfocard-temporary-account-bucketcount": "الحسابات المؤقتة من جميع عناوين IP المرتبطة: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "إجمالي عدد الحسابات المؤقتة من جميع عناوين IP المرتبطة بهذا الحساب"
 }
