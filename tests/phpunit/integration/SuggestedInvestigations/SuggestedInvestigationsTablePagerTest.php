@@ -28,6 +28,8 @@ use MediaWiki\Pager\IndexPager;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Parsoid\Utils\DOMCompat;
+use Wikimedia\Parsoid\Utils\DOMUtils;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\SuggestedInvestigationsTablePager
@@ -92,7 +94,27 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 			$html
 		);
 
-		$this->assertStringContainsString( 'data-case-id="' . self::$caseId . '"', $html );
+		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
+			$html, 'mw-checkuser-suggestedinvestigations-change-status-button'
+		);
+		$this->assertStringContainsString( 'data-case-id="' . self::$caseId . '"', $changeStatusButtonHtml );
+		$this->assertStringContainsString( 'data-case-status="open"', $changeStatusButtonHtml );
+		$this->assertStringContainsString( 'data-case-status-reason=""', $changeStatusButtonHtml );
+	}
+
+	/**
+	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
+	 * the HTML of that Element.
+	 *
+	 * @param string $html The HTML to search through
+	 * @param string $class The CSS class to search for, excluding the "." character
+	 * @return string
+	 */
+	private function assertAndGetByElementClass( string $html, string $class ): string {
+		$specialPageDocument = DOMUtils::parseHTML( $html );
+		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
+		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
+		return DOMCompat::getOuterHTML( $element[0] );
 	}
 
 	public function addDBDataOnce() {

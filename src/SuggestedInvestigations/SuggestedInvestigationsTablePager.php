@@ -84,7 +84,11 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			'sic_created_timestamp' => $this->formatTimestampCell( $value ),
 			'sic_status' => $this->formatStatusCell( CaseStatus::from( (int)$value ) ),
 			'sic_status_reason' => $this->formatStatusReasonCell( $value ),
-			'actions' => $this->formatActionsCell( $this->mCurrentRow->sic_id ),
+			'actions' => $this->formatActionsCell(
+				$this->mCurrentRow->sic_id,
+				CaseStatus::from( (int)$this->mCurrentRow->sic_status ),
+				$this->mCurrentRow->sic_status_reason
+			),
 			default => throw new InvalidArgumentException( 'Unknown field name: ' . $name ),
 		};
 	}
@@ -168,7 +172,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		return htmlspecialchars( $reason );
 	}
 
-	private function formatActionsCell( int $caseId ): string {
+	private function formatActionsCell( int $caseId, CaseStatus $status, string $reason ): string {
 		$actionsHtml = Html::openElement( 'div', [
 			'class' => 'mw-checkuser-suggestedinvestigations-actions'
 		] );
@@ -206,6 +210,9 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			->setAttributes( [
 				'title' => $this->msg( 'checkuser-suggestedinvestigations-action-change-status' )->text(),
 				'data-case-id' => $caseId,
+				'data-case-status' => strtolower( $status->name ),
+				'data-case-status-reason' => $reason,
+				'class' => 'mw-checkuser-suggestedinvestigations-change-status-button',
 			] )
 			->setWeight( 'quiet' )
 			->build()
