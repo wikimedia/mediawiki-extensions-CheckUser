@@ -39,7 +39,7 @@
 
 	let suggestedInvestigationsChangeStatusApp = null;
 
-	$( '.mw-checkuser-suggestedinvestigations-change-status-button' ).on( 'click', ( event ) => {
+	$( '.mw-checkuser-suggestedinvestigations-change-status-button' ).on( 'click', function ( event ) {
 		event.preventDefault();
 
 		// Unmount the previous instance of the change status dialog, if any
@@ -47,8 +47,13 @@
 			suggestedInvestigationsChangeStatusApp.unmount();
 		}
 
+		const args = {
+			initialStatus: $( this ).data( 'case-status' ),
+			initialStatusReason: $( this ).data( 'case-status-reason' )
+		};
+
 		suggestedInvestigationsChangeStatusApp = Vue.createMwApp(
-			ChangeInvestigationStatusDialog
+			ChangeInvestigationStatusDialog, args
 		);
 		suggestedInvestigationsChangeStatusApp
 			.mount( '#ext-suggestedinvestigations-change-status-app' );

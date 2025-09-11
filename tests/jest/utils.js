@@ -127,8 +127,23 @@ function getSaveGlobalPreferenceButton( rootElement, globalPreferencesInstalled 
 	return saveGlobalPreferenceButton;
 }
 
+/**
+ * Mocks mediawiki.String so that require calls work.
+ * Returns a jest.fn() for the codePointLength function.
+ *
+ * @return {jest.fn}
+ */
+function mockCodePointLength() {
+	const codePointLength = jest.fn();
+	jest.mock( 'mediawiki.String', () => ( {
+		codePointLength: codePointLength
+	} ), { virtual: true } );
+	return codePointLength;
+}
+
 module.exports = {
 	mockApiSaveOption,
+	mockCodePointLength,
 	waitFor,
 	mockJSConfig,
 	waitForAndExpectTextToExistInElement,

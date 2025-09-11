@@ -631,6 +631,7 @@
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.suggestedInvestigations",
 			"packageFiles": [
 				"index.js",
+				"Constants.js",
 				"rest.js",
 				"components/ChangeInvestigationStatusDialog.vue",
 				"components/CharacterLimitedTextInput.vue"
@@ -641,6 +642,16 @@
 				"checkuser-suggestedinvestigations-change-status-dialog-close-label",
 				"checkuser-suggestedinvestigations-change-status-dialog-text",
 				"checkuser-suggestedinvestigations-change-status-dialog-title",
+				"checkuser-suggestedinvestigations-change-status-dialog-status-list-header",
+				"checkuser-suggestedinvestigations-change-status-dialog-status-reason-header",
+				"checkuser-suggestedinvestigations-change-status-dialog-reason-description-resolved",
+				"checkuser-suggestedinvestigations-change-status-dialog-reason-description-invalid",
+				"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-resolved",
+				"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid",
+				"checkuser-suggestedinvestigations-status-open",
+				"checkuser-suggestedinvestigations-status-resolved",
+				"checkuser-suggestedinvestigations-status-invalid",
+				"checkuser-suggestedinvestigations-status-description-invalid",
 				"checkuser-suggestedinvestigations-user-showmore",
 				"checkuser-suggestedinvestigations-user-showless"
 			],
