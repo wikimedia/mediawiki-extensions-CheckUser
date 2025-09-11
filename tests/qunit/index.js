@@ -33,3 +33,4 @@ require( './ext.checkUser.userInfoCard/components/UserCardView.test.js' );
 require( './ext.checkUser.userInfoCard/components/UserInfoCardError.test.js' );
 require( './ext.checkUser.userInfoCard/composables/useInstrument.test.js' );
 require( './ext.checkUser.userInfoCard/composables/useWatchList.test.js' );
+require( './ext.checkUser.suggestedInvestigations/rest.test.js' );

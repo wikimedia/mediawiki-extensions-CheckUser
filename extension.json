@@ -631,6 +631,7 @@
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.suggestedInvestigations",
 			"packageFiles": [
 				"index.js",
+				"rest.js",
 				"components/CharacterLimitedTextArea.vue"
 			],
 			"messages": [
@@ -1069,6 +1070,7 @@
 			"tests/qunit/ext.checkUser.userInfoCard/components/UserInfoCardError.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/composables/useInstrument.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/composables/useWatchList.test.js",
+			"tests/qunit/ext.checkUser.suggestedInvestigations/rest.test.js",
 			"modules/ext.checkUser.ipInfo.hooks/infobox.js",
 			{
 				"name": "modules/ext.checkUser.tempAccounts/icons.json",
@@ -1091,6 +1093,7 @@
 			"ext.checkUser",
 			"ext.checkUser.clientHints",
 			"ext.checkUser.tempAccounts",
+			"ext.checkUser.suggestedInvestigations",
 			"ext.checkUser.userInfoCard",
 			"sinonjs",
 			"vue",
