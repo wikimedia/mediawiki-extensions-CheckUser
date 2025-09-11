@@ -20,6 +20,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations;
 
+use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\SuggestedInvestigations\SuggestedInvestigationsTablePager;
@@ -40,9 +41,14 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 
 	private static User $testUser1;
 	private static User $testUser2;
-	private static int $caseId;
+
+	public function setUp(): void {
+		parent::setUp();
+		$this->enableSuggestedInvestigations();
+	}
 
 	public function testQuery() {
+		$caseId = $this->addCaseWithTwoUsers();
 		$pager = new SuggestedInvestigationsTablePager(
 			$this->getServiceContainer()->getConnectionProvider(),
 			$this->getServiceContainer()->getUserLinkRenderer(),
@@ -53,7 +59,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$this->assertSame( 1, $results->numRows() );
 
 		$row = $results->fetchObject();
-		$this->assertSame( '1', $row->sic_id );
+		$this->assertSame( $caseId, (int)$row->sic_id );
 		$this->assertSame( '0', $row->sic_status );
 		$this->assertSame( '', $row->sic_status_reason );
 		$this->assertArrayEquals(
@@ -67,6 +73,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testOutput() {
+		$caseId = $this->addCaseWithTwoUsers();
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
 		$context->setLanguage( 'qqx' );
@@ -74,7 +81,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$pager = new SuggestedInvestigationsTablePager(
 			$this->getServiceContainer()->getConnectionProvider(),
 			$this->getServiceContainer()->getUserLinkRenderer(),
-			RequestContext::getMain(),
+			$context,
 		);
 
 		$html = $pager->getBody();
@@ -93,13 +100,41 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 			'?title=Special:Investigate&amp;targets=' . $name1 . '%0A' . $name2,
 			$html
 		);
+		$this->assertStringContainsString( 'title="(checkuser-suggestedinvestigations-action-investigate)"', $html );
 
 		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
 			$html, 'mw-checkuser-suggestedinvestigations-change-status-button'
 		);
-		$this->assertStringContainsString( 'data-case-id="' . self::$caseId . '"', $changeStatusButtonHtml );
+		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status="open"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status-reason=""', $changeStatusButtonHtml );
+	}
+
+	public function testInvestigateDisabledWhenTooManyUsers() {
+		$caseId = $this->addCaseWithManyUsers();
+
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+
+		$pager = new SuggestedInvestigationsTablePager(
+			$this->getServiceContainer()->getConnectionProvider(),
+			$this->getServiceContainer()->getUserLinkRenderer(),
+			$context,
+		);
+
+		$html = $pager->getBody();
+
+		// 1 data row + 1 header row
+		$this->assertSame( 2, substr_count( $html, '<tr' ) );
+
+		$this->assertStringNotContainsString( '?title=Special:Investigate', $html );
+
+		$usersLimit = SpecialInvestigate::MAX_TARGETS;
+		$this->assertStringContainsString(
+			'title="(checkuser-suggestedinvestigations-action-investigate-disabled: ' . $usersLimit . ')"',
+			$html );
+		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $html );
 	}
 
 	/**
@@ -117,8 +152,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		return DOMCompat::getOuterHTML( $element[0] );
 	}
 
-	public function addDBDataOnce() {
-		$this->enableSuggestedInvestigations();
+	private function addCaseWithTwoUsers() {
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
 
@@ -127,6 +161,20 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'sharedemail', 'Test value', false );
 
-		self::$caseId = $caseManager->createCase( [ $user1, $user2 ], [ $signal ] );
+		return $caseManager->createCase( [ $user1, $user2 ], [ $signal ] );
+	}
+
+	private function addCaseWithManyUsers() {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		$users = [];
+		for ( $i = 0; $i < SpecialInvestigate::MAX_TARGETS + 1; $i++ ) {
+			$users[] = $this->getMutableTestUser()->getUser();
+		}
+
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'sharedemail', 'Test value', false );
+
+		return $caseManager->createCase( $users, [ $signal ] );
 	}
 }

@@ -423,6 +423,7 @@
 	"checkuser-suggestedinvestigations-status-invalid": "Invalid",
 	"checkuser-suggestedinvestigations-status-description-invalid": "Select this to indicate false positives",
 	"checkuser-suggestedinvestigations-action-investigate": "Investigate users",
+	"checkuser-suggestedinvestigations-action-investigate-disabled": "Can only investigate up to $1 accounts",
 	"checkuser-suggestedinvestigations-action-change-status": "Change status",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Close",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Cancel",

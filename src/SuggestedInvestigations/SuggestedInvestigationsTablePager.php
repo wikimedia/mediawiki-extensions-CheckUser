@@ -22,6 +22,7 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
@@ -179,22 +180,42 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 		/** @var UserIdentity[] $users */
 		$users = $this->mCurrentRow->users;
-		$investigateUrl = SpecialPage::getTitleFor( 'Investigate' )->getFullURL( [
-			// Special:Investigate expects a list of usernames separated by newlines
-			// TODO: What if there are more than 10 users? (T403804)
-			'targets' => implode( "\n", array_map( static fn ( $u ) => $u->getName(), $users ) ),
-		] );
+
+		$investigateEnabled = false;
+		$investigateUrl = null;
+
+		// Enable the "Investigate" button only if there are not too many targets
+		if ( count( $users ) <= SpecialInvestigate::MAX_TARGETS ) {
+			$investigateEnabled = true;
+			$investigateUrl = SpecialPage::getTitleFor( 'Investigate' )->getFullURL( [
+				// Special:Investigate expects a list of usernames separated by newlines
+				'targets' => implode( "\n", array_map( static fn ( $u ) => $u->getName(), $users ) ),
+			] );
+		}
 
 		// Render the "Investigate" button as a link, because it will make it more natural: it supports by default
 		// opening in a new tab, the user won't need to wait for the JS to load, and it works even if JS is disabled.
 		// HTML structure as defined on
 		// https://doc.wikimedia.org/codex/main/components/demos/button.html#link-buttons-and-other-elements
+		$investigateButtonClasses = [
+			'cdx-button',
+			'cdx-button--fake-button',
+			$investigateEnabled ? 'cdx-button--fake-button--enabled' : 'cdx-button--fake-button--disabled',
+			'cdx-button--weight-quiet',
+			'cdx-button--icon-only'
+		];
+
+		$investigateButtonTitle = $this->msg( 'checkuser-suggestedinvestigations-action-investigate' )->text();
+		if ( !$investigateEnabled ) {
+			$investigateButtonTitle = $this->msg( 'checkuser-suggestedinvestigations-action-investigate-disabled' )
+				->numParams( SpecialInvestigate::MAX_TARGETS )->text();
+		}
+
 		$actionsHtml .= Html::openElement(
 			'a', [
 				'role' => 'button',
-				'class' => 'cdx-button cdx-button--fake-button cdx-button--fake-button--enabled ' .
-					'cdx-button--weight-quiet cdx-button--icon-only',
-				'title' => $this->msg( 'checkuser-suggestedinvestigations-action-investigate' )->text(),
+				'class' => $investigateButtonClasses,
+				'title' => $investigateButtonTitle,
 				'href' => $investigateUrl,
 			]
 		);

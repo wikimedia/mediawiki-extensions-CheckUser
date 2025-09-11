@@ -69,8 +69,8 @@ class SpecialInvestigate extends FormSpecialPage {
 	/** @var string|null */
 	private $tokenWithoutPaginationData;
 
-	/** @var int */
-	private const MAX_TARGETS = 10;
+	/** @var int Maximum number of targets that can be entered into the first search form on Special:Investigate */
+	public const MAX_TARGETS = 10;
 
 	public function __construct(
 		LinkRenderer $linkRenderer,

@@ -14,6 +14,13 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 .mw-checkuser-suggestedinvestigations-actions {
 	display: flex;
 	gap: @size-25;
+
+	// stylelint-disable-next-line selector-class-pattern
+	.cdx-button--fake-button--disabled {
+		// Codex doesn't specify any cursor for disabled link-buttons,
+		// but Vector does so for all links, so let's reset it here.
+		cursor: default;
+	}
 }
 
 .mw-checkuser-suggestedinvestigations-icon {
