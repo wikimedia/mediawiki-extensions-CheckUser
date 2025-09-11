@@ -8,15 +8,29 @@
 			return;
 		}
 
-		// Else, append a button
-		const $button = $( '<button>' )
+		const numUsers = mw.language.convertNumber( $hiddenByDefault.length );
+
+		// If there's a collapsible part, create buttons to show/hide the hidden items
+		const $showLessButton = $( '<button>' );
+		const $showMoreButton = $( '<button>' )
 			.addClass( 'cdx-button cdx-button--weight-quiet cdx-button--action-progressive' )
 			.attr( 'type', 'button' )
-			.text( mw.msg( 'checkuser-suggestedinvestigations-user-showmore', $hiddenByDefault.length ) )
+			.text( mw.msg( 'checkuser-suggestedinvestigations-user-showmore', numUsers ) )
 			.on( 'click', () => {
 				$hiddenByDefault.removeClass( 'mw-checkuser-suggestedinvestigations-user-defaulthide' );
-				$button.remove();
+				$showMoreButton.detach();
+				$list.after( $showLessButton );
 			} );
-		$list.after( $button );
+
+		$showLessButton.addClass( 'cdx-button cdx-button--weight-quiet cdx-button--action-progressive' )
+			.attr( 'type', 'button' )
+			.text( mw.msg( 'checkuser-suggestedinvestigations-user-showless', numUsers ) )
+			.on( 'click', () => {
+				$hiddenByDefault.addClass( 'mw-checkuser-suggestedinvestigations-user-defaulthide' );
+				$showLessButton.detach();
+				$list.after( $showMoreButton );
+			} );
+
+		$list.after( $showMoreButton );
 	} );
 }() );

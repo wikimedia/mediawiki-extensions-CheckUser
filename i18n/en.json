@@ -428,6 +428,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Actions",
 	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|check {{GENDER:$3|user}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Show +$1 {{PLURAL:$1|accounts}}",
+	"checkuser-suggestedinvestigations-user-showless": "Hide last $1 {{PLURAL:$1|accounts}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Confirmed or unconfirmed shared e-mail",
 	"checkuser-suggestedinvestigations-signal-hcaptcha": "Suspicious hCaptcha",
 	"checkuser-suggestedinvestigations-status-open": "Open",

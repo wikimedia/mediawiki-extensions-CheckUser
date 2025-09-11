@@ -624,7 +624,8 @@
 				"components/CharacterLimitedTextArea.vue"
 			],
 			"messages": [
-				"checkuser-suggestedinvestigations-user-showmore"
+				"checkuser-suggestedinvestigations-user-showmore",
+				"checkuser-suggestedinvestigations-user-showless"
 			],
 			"dependencies": [
 				"mediawiki.jqueryMsg"
