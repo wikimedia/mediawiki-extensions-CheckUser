@@ -1,6 +1,6 @@
 const Constants = {
 	caseStatuses: {
-		NOT_STARTED: 'checkuser-suggestedinvestigations-status-open',
+		OPEN: 'checkuser-suggestedinvestigations-status-open',
 		RESOLVED: 'checkuser-suggestedinvestigations-status-resolved',
 		INVALID: 'checkuser-suggestedinvestigations-status-invalid'
 	},
