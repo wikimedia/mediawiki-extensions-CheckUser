@@ -632,14 +632,27 @@
 			"packageFiles": [
 				"index.js",
 				"rest.js",
+				"components/ChangeInvestigationStatusDialog.vue",
 				"components/CharacterLimitedTextInput.vue"
 			],
 			"messages": [
+				"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn",
+				"checkuser-suggestedinvestigations-change-status-dialog-submit-btn",
+				"checkuser-suggestedinvestigations-change-status-dialog-close-label",
+				"checkuser-suggestedinvestigations-change-status-dialog-text",
+				"checkuser-suggestedinvestigations-change-status-dialog-title",
 				"checkuser-suggestedinvestigations-user-showmore",
 				"checkuser-suggestedinvestigations-user-showless"
 			],
 			"dependencies": [
-				"mediawiki.jqueryMsg"
+				"@wikimedia/codex",
+				"jquery.lengthLimit",
+				"mediawiki.api",
+				"mediawiki.base",
+				"mediawiki.jqueryMsg",
+				"mediawiki.language",
+				"mediawiki.String",
+				"vue"
 			]
 		},
 		"ext.checkUser.userInfoCard": {

@@ -41,7 +41,11 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		$this->addNavigationLinks();
 
 		$this->addHelpLink( 'Help:Extension:CheckUser/Suggested investigations' );
-		$this->getOutput()->addWikiMsg( 'checkuser-suggestedinvestigations-summary' );
+
+		$output = $this->getOutput();
+		$output->addHtml( '<div id="ext-suggestedinvestigations-change-status-app"></div>' );
+		$output->addWikiMsg( 'checkuser-suggestedinvestigations-summary' );
+		$output->addModules( 'ext.checkUser.suggestedInvestigations' );
 
 		$pager = new SuggestedInvestigationsTablePager(
 			$this->connectionProvider,
@@ -49,7 +53,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$this->getContext()
 		);
 
-		$this->getOutput()->addParserOutputContent(
+		$output->addParserOutputContent(
 			$pager->getFullOutput(),
 			ParserOptions::newFromContext( $this->getContext() )
 		);

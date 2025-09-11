@@ -33,4 +33,24 @@
 
 		$list.after( $showMoreButton );
 	} );
+
+	const Vue = require( 'vue' );
+	const ChangeInvestigationStatusDialog = require( './components/ChangeInvestigationStatusDialog.vue' );
+
+	let suggestedInvestigationsChangeStatusApp = null;
+
+	$( '.mw-checkuser-suggestedinvestigations-change-status-button' ).on( 'click', ( event ) => {
+		event.preventDefault();
+
+		// Unmount the previous instance of the change status dialog, if any
+		if ( suggestedInvestigationsChangeStatusApp !== null ) {
+			suggestedInvestigationsChangeStatusApp.unmount();
+		}
+
+		suggestedInvestigationsChangeStatusApp = Vue.createMwApp(
+			ChangeInvestigationStatusDialog
+		);
+		suggestedInvestigationsChangeStatusApp
+			.mount( '#ext-suggestedinvestigations-change-status-app' );
+	} );
 }() );
