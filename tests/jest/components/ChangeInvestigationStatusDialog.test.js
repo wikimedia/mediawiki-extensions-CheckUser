@@ -1,10 +1,10 @@
 'use strict';
 
-const { mockCodePointLength } = require( '../utils.js' );
+const { mockByteLength } = require( '../utils.js' );
 
 // Need to run this here as the import of ChangeInvestigationStatusDialog.vue
 // without mediawiki.String defined causes errors in running these tests.
-mockCodePointLength();
+mockByteLength();
 
 const ChangeInvestigationStatusDialog = require( '../../../modules/ext.checkUser.suggestedInvestigations/components/ChangeInvestigationStatusDialog.vue' ),
 	utils = require( '@vue/test-utils' ),

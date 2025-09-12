@@ -3,8 +3,8 @@
 const { mount } = require( '@vue/test-utils' );
 
 jest.mock( 'mediawiki.String', () => ( {
-	codePointLength: ( str ) => str.length,
-	trimCodePointLength: ( safeVal, newVal, codePointLimit ) => ( { newVal: newVal.slice( 0, codePointLimit ) } )
+	byteLength: ( str ) => str.length,
+	trimByteLength: ( safeVal, newVal, byteLimit ) => ( { newVal: newVal.slice( 0, byteLimit ) } )
 } ), { virtual: true } );
 
 const CharacterLimitedTextInput = require( '../../../modules/ext.checkUser.suggestedInvestigations/components/CharacterLimitedTextInput.vue' );
@@ -19,7 +19,7 @@ describe( 'CharacterLimitedTextInput', () => {
 	function render( props = {} ) {
 		const wrapper = mount( CharacterLimitedTextInput, {
 			props: Object.assign( {
-				codePointLimit: 600,
+				byteLimit: 600,
 				textContent: '',
 				'onUpdate:text-content': ( textContent ) => wrapper.setProps( { textContent } )
 			}, props )
@@ -45,7 +45,7 @@ describe( 'CharacterLimitedTextInput', () => {
 	} );
 
 	it( 'shows character count when near the limit', async () => {
-		const wrapper = render( { codePointLimit: 100 } );
+		const wrapper = render( { byteLimit: 100 } );
 
 		const initialCharacterCount = wrapper.find( '.ext-checkuser-suggestedinvestigations-dialog__reason-character-count' );
 
@@ -58,7 +58,7 @@ describe( 'CharacterLimitedTextInput', () => {
 	} );
 
 	it( 'limits character count after exceeding the limit', async () => {
-		const wrapper = render( { codePointLimit: 6 } );
+		const wrapper = render( { byteLimit: 6 } );
 
 		await wrapper.find( 'input' ).setValue( 'abcdefghi' );
 
@@ -70,7 +70,7 @@ describe( 'CharacterLimitedTextInput', () => {
 	} );
 
 	it( 'does not show character count without input even if initial limit is small', async () => {
-		const wrapper = render( { codePointLimit: 50 } );
+		const wrapper = render( { byteLimit: 50 } );
 
 		const initialCharacterCount = wrapper.find( '.ext-checkuser-suggestedinvestigations-dialog__reason-character-count' );
 

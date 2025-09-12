@@ -13,7 +13,7 @@
 <script>
 const { CdxTextInput } = require( '@wikimedia/codex' );
 const { computed, watch } = require( 'vue' );
-const { codePointLength, trimCodePointLength } = require( 'mediawiki.String' );
+const { byteLength, trimByteLength } = require( 'mediawiki.String' );
 
 // A Codex textarea with a character limit.
 // @vue/component
@@ -25,9 +25,9 @@ module.exports = exports = {
 	inheritAttrs: false,
 	props: {
 		/**
-		 * The maximum number of Unicode code points accepted by this textarea.
+		 * The maximum number of bytes accepted by this textarea.
 		 */
-		codePointLimit: { type: Number, required: true },
+		byteLimit: { type: Number, required: true },
 		/**
 		 * The value of this text field.
 		 * Must be bound with `v-model:text-content`.
@@ -38,7 +38,7 @@ module.exports = exports = {
 		'update:text-content'
 	],
 	setup( props, ctx ) {
-		const codePointLimit = props.codePointLimit;
+		const byteLimit = props.byteLimit;
 
 		const computedTextContent = computed( {
 			get: () => props.textContent,
@@ -50,7 +50,7 @@ module.exports = exports = {
 				return '';
 			}
 
-			const remaining = codePointLimit - codePointLength( computedTextContent.value );
+			const remaining = byteLimit - byteLength( computedTextContent.value );
 
 			// Only show the character counter as the user is approaching the limit,
 			// to avoid confusion stemming from our definition of a character not matching
@@ -64,8 +64,8 @@ module.exports = exports = {
 		} );
 
 		watch( computedTextContent, () => {
-			if ( codePointLength( computedTextContent.value ) > codePointLimit ) {
-				const { newVal } = trimCodePointLength( '', computedTextContent.value, codePointLimit );
+			if ( byteLength( computedTextContent.value ) > byteLimit ) {
+				const { newVal } = trimByteLength( '', computedTextContent.value, byteLimit );
 				computedTextContent.value = newVal;
 			}
 		} );

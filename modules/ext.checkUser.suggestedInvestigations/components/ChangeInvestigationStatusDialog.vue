@@ -56,7 +56,7 @@
 			</p>
 			<character-limited-text-input
 				v-model:text-content="statusReason"
-				:code-point-limit="255"
+				:byte-limit="255"
 				class="
 					ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason__input
 				"
@@ -207,16 +207,8 @@ module.exports = exports = {
 @import ( reference ) 'mediawiki.skin.variables.less';
 
 .ext-checkuser-suggestedinvestigations-change-status-dialog {
-	.ext-checkuser-suggestedinvestigations-change-status-reason {
-		/* stylelint-disable-next-line selector-class-pattern */
-		.cdx-label__description {
-			font-weight: normal;
-		}
-	}
-
 	.ext-checkuser-suggestedinvestigations-change-status-dialog-footer {
 		float: right;
-		margin-top: @spacing-100;
 
 		.ext-checkuser-suggestedinvestigations-change-status-dialog-footer__cancel-btn {
 			margin-right: @spacing-50;
@@ -227,6 +219,10 @@ module.exports = exports = {
 	.ext-checkuser-suggestedinvestigations-change-status-description {
 		margin-top: 0;
 		color: @color-subtle;
+	}
+
+	.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason {
+		margin-bottom: @spacing-150;
 	}
 }
 </style>
