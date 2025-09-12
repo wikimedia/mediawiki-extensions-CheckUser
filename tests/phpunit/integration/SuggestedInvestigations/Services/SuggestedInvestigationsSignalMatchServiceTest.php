@@ -11,6 +11,7 @@ use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInves
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService
@@ -203,6 +204,77 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		);
 
 		$service->matchSignalsAgainstUser( $user, 'test-event' );
+	}
+
+	/** @dataProvider provideIgnoreIfTheresInvalidCase */
+	public function testIgnoreIfTheresInvalidCase( bool $mergeable, int $expectedLogCount, int $expectedCaseCount ) {
+		// Users with two different groups to get different ids
+		$user1 = $this->getTestUser()->getUser();
+		$user2 = $this->getTestSysop()->getUser();
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'test-signal', 'test-value', $mergeable );
+
+		// Create an invalid case with user1
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
+		$invalidCaseId = $caseManager->createCase( [ $user1 ], [ $signal ] );
+		$caseManager->setCaseStatus( $invalidCaseId, CaseStatus::Invalid );
+
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsSignalMatch',
+			static function (
+				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults
+			) use ( $signal ) {
+				$hookProvidedSignalMatchResults[] = $signal;
+			}
+		);
+
+		// Ensure that a message is logged only if we skip creating a case
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $this->exactly( $expectedLogCount ) )
+			->method( 'info' )
+			->with(
+				'Not creating a Suggested Investigations case for signal "{signal}" with value "{value}",'
+				 . ' because there is already an invalid case for this signal.',
+				[
+					'signal' => 'test-signal',
+					'value' => 'test-value',
+				]
+			);
+		$this->setLogger( 'CheckUser', $logger );
+
+		// Trigger the invalid signal again, this time with $user2
+		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user2, 'test-event' );
+
+		// If the signal is mergeable, there should be only one case, with only one user
+		// Otherwise, two cases, each with one user
+		/** @var SuggestedInvestigationsCaseLookupService $caseLookup */
+		$caseLookup = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseLookup' );
+		$cases = $caseLookup->getCasesForSignal( $signal, [ CaseStatus::Invalid, CaseStatus::Open ] );
+		$this->assertCount( $expectedCaseCount, $cases );
+
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cusi_user' )
+			->where( [ 'siu_user_id' => [ $user1->getId(), $user2->getId() ] ] )
+			->caller( __METHOD__ )
+			// We expect one user per case, so case count == user count
+			->assertFieldValue( $expectedCaseCount );
+	}
+
+	public function provideIgnoreIfTheresInvalidCase(): array {
+		return [
+			'Signal allows merging' => [
+				'mergeable' => true,
+				'expectedLogCount' => 1,
+				'expectedCaseCount' => 1,
+			],
+			'Signal does not allow merging' => [
+				'mergeable' => false,
+				'expectedLogCount' => 0,
+				'expectedCaseCount' => 2,
+			],
+		];
 	}
 
 	private function getObjectUnderTest(): SuggestedInvestigationsSignalMatchService {

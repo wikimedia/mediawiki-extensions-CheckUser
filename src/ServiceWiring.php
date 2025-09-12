@@ -511,7 +511,8 @@ return [
 			),
 			$services->get( 'CheckUserHookRunner' ),
 			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
-			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' )
+			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' ),
+			LoggerFactory::getInstance( 'CheckUser' ),
 		);
 	}
 ];

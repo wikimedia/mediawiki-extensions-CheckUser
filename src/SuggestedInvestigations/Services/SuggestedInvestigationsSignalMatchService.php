@@ -8,6 +8,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCas
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
+use Psr\Log\LoggerInterface;
 
 /**
  * Service that matches signals against users when events occur.
@@ -28,6 +29,7 @@ class SuggestedInvestigationsSignalMatchService {
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsCaseLookupService $caseLookup,
 		private readonly SuggestedInvestigationsCaseManagerService $caseManager,
+		private readonly LoggerInterface $logger,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -80,14 +82,33 @@ class SuggestedInvestigationsSignalMatchService {
 
 	/**
 	 * Checks if there are any existing open SI cases with the same signal.
-	 * * If there are, attaches the user to all of them.
+	 * * If there's at least one invalid case, does nothing.
+	 * * If there are only open ones, attaches the user to all of them.
 	 * * If there aren't, creates a new SI case for the user and signal.
 	 */
 	private function processMergeableSignal(
 		UserIdentity $user,
 		SuggestedInvestigationsSignalMatchResult $signal
 	): void {
-		$mergeableCases = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Open ] );
+		$mergeableCases = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Open, CaseStatus::Invalid ] );
+
+		$hasInvalidCase = array_any(
+			$mergeableCases,
+			static fn ( $case ) => $case->getStatus() === CaseStatus::Invalid
+		);
+
+		if ( $hasInvalidCase ) {
+			// Ignore the signal if there's an invalid case already
+			$this->logger->info(
+				'Not creating a Suggested Investigations case for signal "{signal}" with value "{value}", because'
+					. ' there is already an invalid case for this signal.',
+				[
+					'signal' => $signal->getName(),
+					'value' => $signal->getValue(),
+				]
+			);
+			return;
+		}
 
 		if ( count( $mergeableCases ) === 0 ) {
 			$this->createNewCase( $user, $signal );
