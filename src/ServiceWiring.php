@@ -497,7 +497,8 @@ return [
 				SuggestedInvestigationsCaseLookupService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getConnectionProvider()
+			$services->getConnectionProvider(),
+			LoggerFactory::getInstance( 'CheckUser' ),
 		);
 	},
 	'SuggestedInvestigationsSignalMatchService' => static function (

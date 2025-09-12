@@ -22,8 +22,10 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCase;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
 
@@ -36,6 +38,7 @@ class SuggestedInvestigationsCaseLookupService {
 	public function __construct(
 		private readonly ServiceOptions $options,
 		private readonly IConnectionProvider $dbProvider,
+		private readonly LoggerInterface $logger,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -44,12 +47,13 @@ class SuggestedInvestigationsCaseLookupService {
 	 * Looks up cases that match a given signal. Ignores the allowMerging flag on the signal.
 	 * @throws InvalidArgumentException if a negative signal match is provided
 	 * @param SuggestedInvestigationsSignalMatchResult $signal
-	 * @param bool $onlyOpen If true, only return cases that are open.
-	 * @return int[]
+	 * @param CaseStatus[]|null $statuses If set, only cases with these statuses will be returned.
+	 * If null, all cases will be returned.
+	 * @return SuggestedInvestigationsCase[]
 	 */
 	public function getCasesForSignal(
 		SuggestedInvestigationsSignalMatchResult $signal,
-		bool $onlyOpen = true
+		?array $statuses = null
 	): array {
 		if ( !$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
 			throw new RuntimeException( 'Suggested Investigations is not enabled' );
@@ -59,22 +63,44 @@ class SuggestedInvestigationsCaseLookupService {
 			throw new InvalidArgumentException( 'Cannot look up for a negative signal match' );
 		}
 
+		if ( $statuses === [] ) {
+			return [];
+		}
+
 		$dbr = $this->dbProvider->getReplicaDatabase();
 
 		$queryBuilder = $dbr->newSelectQueryBuilder()
-			->select( 'sis_sic_id' )
+			->select( [ 'sic_id', 'sic_status', 'sic_status_reason' ] )
 			->from( 'cusi_signal' )
+			->join( 'cusi_case', null, 'sis_sic_id = sic_id' )
 			->where( [
 				'sis_name' => $signal->getName(),
 				'sis_value' => $signal->getValue(),
 			] )
 			->caller( __METHOD__ );
 
-		if ( $onlyOpen ) {
-			$queryBuilder->join( 'cusi_case', null, 'sis_sic_id = sic_id' )
-				->where( [ 'sic_status' => CaseStatus::Open->value ] );
+		// @phan-suppress-next-line PhanImpossibleTypeComparison Phan thinks null is matched by `=== []` but it's not
+		if ( $statuses !== null ) {
+			$queryBuilder->where( [
+				'sic_status' => array_map( static fn ( $s ) => $s->value, $statuses )
+			] );
 		}
 
-		return array_map( 'intval', $queryBuilder->fetchFieldValues() );
+		$rows = $queryBuilder->fetchResultSet();
+		$cases = [];
+		foreach ( $rows as $row ) {
+			$caseStatus = CaseStatus::tryFrom( (int)$row->sic_status );
+			if ( $caseStatus === null ) {
+				$this->logger->error(
+					'Invalid status "{status}" of a Suggested Investigations case with id "{caseId}"',
+					[ 'status' => $row->sic_status, 'caseId' => $row->sic_id ]
+				);
+				continue;
+			}
+
+			$cases[] = new SuggestedInvestigationsCase( (int)$row->sic_id, $caseStatus, $row->sic_status_reason );
+		}
+
+		return $cases;
 	}
 }

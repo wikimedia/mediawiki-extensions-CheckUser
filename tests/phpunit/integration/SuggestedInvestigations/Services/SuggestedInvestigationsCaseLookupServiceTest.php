@@ -24,6 +24,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigations
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\User\UserIdentityValue;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
@@ -34,6 +35,7 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 
 	private static int $openCase;
 	private static int $closedCase;
+	private static int $badStatusCase;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -51,7 +53,7 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		);
 	}
 
-	public function testLookupForOpenCase() {
+	public function testLookupForOpenCaseWithNoFilter() {
 		$service = $this->createService();
 
 		$cases = $service->getCasesForSignal(
@@ -59,31 +61,67 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		);
 
 		$this->assertCount( 1, $cases );
-		$this->assertSame( self::$openCase, $cases[0] );
+		$this->assertSame( self::$openCase, $cases[0]->getId() );
 	}
 
-	/** @dataProvider provideLookupForClosedCase */
-	public function testLookupForClosedCase( $onlyOpen ) {
+	/** @dataProvider provideLookupForClosedCaseWithFilter */
+	public function testLookupForClosedCaseWithFilter( bool $onlyOpen ) {
 		$service = $this->createService();
+
+		$statusFilter = $onlyOpen ? [ CaseStatus::Open ] : [ CaseStatus::Open, CaseStatus::Resolved ];
 
 		$cases = $service->getCasesForSignal(
 			SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Dolor', 'sit amet', false ),
-			$onlyOpen
+			$statusFilter
 		);
 
 		if ( $onlyOpen ) {
 			$this->assertCount( 0, $cases );
 		} else {
 			$this->assertCount( 1, $cases );
-			$this->assertSame( self::$closedCase, $cases[0] );
+			$this->assertSame( self::$closedCase, $cases[0]->getId() );
+			$this->assertSame( CaseStatus::Resolved, $cases[0]->getStatus() );
+			$this->assertSame( 'Test reason', $cases[0]->getReason() );
 		}
 	}
 
-	public function provideLookupForClosedCase() {
+	public function provideLookupForClosedCaseWithFilter(): array {
 		return [
 			'Looks up only for open cases' => [ 'onlyOpen' => true ],
 			'Looks up for all cases' => [ 'onlyOpen' => false ],
 		];
+	}
+
+	public function testLookupForCaseWithEmptyFilter() {
+		$service = $this->createService();
+
+		$cases = $service->getCasesForSignal(
+			SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false ),
+			[]
+		);
+
+		$this->assertCount( 0, $cases );
+	}
+
+	public function testLookupWithBadCaseStatus() {
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $this->once() )
+			->method( 'error' )
+			->with(
+				'Invalid status "{status}" of a Suggested Investigations case with id "{caseId}"',
+				[
+					'status' => 99,
+					'caseId' => self::$badStatusCase,
+				]
+			);
+		$this->setLogger( 'CheckUser', $logger );
+
+		$service = $this->createService();
+		$cases = $service->getCasesForSignal(
+			SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Bad status', 'value', false )
+		);
+
+		$this->assertCount( 0, $cases );
 	}
 
 	public function addDBDataOnce() {
@@ -108,7 +146,21 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 				SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Dolor', 'sit amet', false ),
 			]
 		);
-		$caseManager->setCaseStatus( self::$closedCase, CaseStatus::Resolved );
+		$caseManager->setCaseStatus( self::$closedCase, CaseStatus::Resolved, 'Test reason' );
+
+		self::$badStatusCase = $caseManager->createCase(
+			[ $user1 ],
+			[
+				SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Bad status', 'value', false ),
+			]
+		);
+		// Directly manipulate the DB to set a bad status
+		$this->getDB()->newUpdateQueryBuilder()
+			->update( 'cusi_case' )
+			->set( [ 'sic_status' => 99 ] )
+			->where( [ 'sic_id' => self::$badStatusCase ] )
+			->caller( __METHOD__ )
+			->execute();
 	}
 
 	private function createService(): SuggestedInvestigationsCaseLookupService {

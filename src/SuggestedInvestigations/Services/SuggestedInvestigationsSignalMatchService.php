@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
 
 use MediaWiki\CheckUser\Hook\HookRunner;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
@@ -80,21 +81,21 @@ class SuggestedInvestigationsSignalMatchService {
 		UserIdentity $user,
 		SuggestedInvestigationsSignalMatchResult $signal
 	): void {
-		$mergeableCaseIds = [];
+		$mergeableCases = [];
 		if ( $signal->valueMatchAllowsMerging() ) {
-			$mergeableCaseIds = $this->caseLookup->getCasesForSignal( $signal );
+			$mergeableCases = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Open ] );
 		}
 
 		$signals = [ $signal ];
 		$users = [ $user ];
-		if ( count( $mergeableCaseIds ) === 0 ) {
+		if ( count( $mergeableCases ) === 0 ) {
 			$this->hookRunner->onCheckUserSuggestedInvestigationsBeforeCaseCreated(
 				$signals, $users
 			);
 			$this->caseManager->createCase( $users, $signals );
 		} else {
-			foreach ( $mergeableCaseIds as $caseId ) {
-				$this->caseManager->addUsersToCase( $caseId, $users );
+			foreach ( $mergeableCases as $case ) {
+				$this->caseManager->addUsersToCase( $case->getId(), $users );
 			}
 		}
 	}

@@ -73,7 +73,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		/** @var SuggestedInvestigationsCaseLookupService $caseLookup */
 		$caseLookup = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseLookup' );
 
-		$openCases = $caseLookup->getCasesForSignal( $signal );
+		$openCases = $caseLookup->getCasesForSignal( $signal, [ CaseStatus::Open ] );
 		$this->assertCount( $mergeable ? 1 : 2, $openCases );
 
 		// The user should be added to a single case: either $openCase (if mergeable) or a new case (if not).
