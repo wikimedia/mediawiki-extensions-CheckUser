@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
 
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCase;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
@@ -69,34 +70,56 @@ class SuggestedInvestigationsSignalMatchService {
 				continue;
 			}
 
-			$this->addUserToCaseOrCreateNew( $userIdentity, $signalMatchResult );
+			if ( $signalMatchResult->valueMatchAllowsMerging() ) {
+				$this->processMergeableSignal( $userIdentity, $signalMatchResult );
+			} else {
+				$this->createNewCase( $userIdentity, $signalMatchResult );
+			}
 		}
 	}
 
 	/**
-	 * Attaches a user to all existing open SI cases with the same signal (if it allows for merging).
-	 * Otherwise, creates a new case for the user and signal.
+	 * Checks if there are any existing open SI cases with the same signal.
+	 * * If there are, attaches the user to all of them.
+	 * * If there aren't, creates a new SI case for the user and signal.
 	 */
-	private function addUserToCaseOrCreateNew(
+	private function processMergeableSignal(
 		UserIdentity $user,
 		SuggestedInvestigationsSignalMatchResult $signal
 	): void {
-		$mergeableCases = [];
-		if ( $signal->valueMatchAllowsMerging() ) {
-			$mergeableCases = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Open ] );
-		}
+		$mergeableCases = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Open ] );
 
+		if ( count( $mergeableCases ) === 0 ) {
+			$this->createNewCase( $user, $signal );
+		} else {
+			$this->addUserToCases( $user, $mergeableCases );
+		}
+	}
+
+	/**
+	 * Creates a new SI case for the user and signal.
+	 */
+	private function createNewCase(
+		UserIdentity $user,
+		SuggestedInvestigationsSignalMatchResult $signal
+	): void {
 		$signals = [ $signal ];
 		$users = [ $user ];
-		if ( count( $mergeableCases ) === 0 ) {
-			$this->hookRunner->onCheckUserSuggestedInvestigationsBeforeCaseCreated(
-				$signals, $users
-			);
-			$this->caseManager->createCase( $users, $signals );
-		} else {
-			foreach ( $mergeableCases as $case ) {
-				$this->caseManager->addUsersToCase( $case->getId(), $users );
-			}
+		$this->hookRunner->onCheckUserSuggestedInvestigationsBeforeCaseCreated(
+			$signals, $users
+		);
+		$this->caseManager->createCase( $users, $signals );
+	}
+
+	/**
+	 * Adds the given user to all the SI cases provided.
+	 * @param UserIdentity $user
+	 * @param SuggestedInvestigationsCase[] $cases
+	 */
+	private function addUserToCases( UserIdentity $user, array $cases ): void {
+		$users = [ $user ];
+		foreach ( $cases as $case ) {
+			$this->caseManager->addUsersToCase( $case->getId(), $users );
 		}
 	}
 }
