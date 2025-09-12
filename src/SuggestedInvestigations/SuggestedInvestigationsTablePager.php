@@ -83,8 +83,8 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			'users' => $this->formatUsersCell( $value ),
 			'signals' => $this->formatSignalsCell( $value ),
 			'sic_created_timestamp' => $this->formatTimestampCell( $value ),
-			'sic_status' => $this->formatStatusCell( CaseStatus::from( (int)$value ) ),
-			'sic_status_reason' => $this->formatStatusReasonCell( $value ),
+			'sic_status' => $this->formatStatusCell( CaseStatus::from( (int)$value ), $this->mCurrentRow->sic_id ),
+			'sic_status_reason' => $this->formatStatusReasonCell( $value, $this->mCurrentRow->sic_id ),
 			'actions' => $this->formatActionsCell(
 				$this->mCurrentRow->sic_id,
 				CaseStatus::from( (int)$this->mCurrentRow->sic_status ),
@@ -146,7 +146,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		return htmlspecialchars( $lang->userTimeAndDate( $timestamp, $user ) );
 	}
 
-	private function formatStatusCell( CaseStatus $status ): string {
+	private function formatStatusCell( CaseStatus $status, int $caseId ): string {
 		$statusKey = match ( $status ) {
 			CaseStatus::Open => 'checkuser-suggestedinvestigations-status-open',
 			CaseStatus::Resolved => 'checkuser-suggestedinvestigations-status-resolved',
@@ -161,16 +161,26 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		};
 
 		$codex = new Codex();
-		return $codex->infoChip()
+		$statusChip = $codex->infoChip()
 			->setText( $statusText )
 			->setStatus( $chipType )
 			->setIcon( 'cdx-info-chip__icon' )
 			->build()
 			->getHtml();
+
+		return Html::rawElement(
+			'div',
+			[ 'data-case-id' => $caseId, 'class' => 'mw-checkuser-suggestedinvestigations-status' ],
+			$statusChip
+		);
 	}
 
-	private function formatStatusReasonCell( string $reason ): string {
-		return htmlspecialchars( $reason );
+	private function formatStatusReasonCell( string $reason, int $caseId ): string {
+		return Html::element(
+			'span',
+			[ 'data-case-id' => $caseId, 'class' => 'mw-checkuser-suggestedinvestigations-status-reason' ],
+			$reason
+		);
 	}
 
 	private function formatActionsCell( int $caseId, CaseStatus $status, string $reason ): string {

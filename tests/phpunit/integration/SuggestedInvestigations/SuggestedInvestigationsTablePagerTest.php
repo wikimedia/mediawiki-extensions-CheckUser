@@ -108,6 +108,18 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status="open"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status-reason=""', $changeStatusButtonHtml );
+
+		// Validate that both the status reason and status cells have the associated suggested investigations case
+		// ID as data attributes.
+		$statusReasonCell = $this->assertAndGetByElementClass(
+			$html, 'mw-checkuser-suggestedinvestigations-status-reason'
+		);
+		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusReasonCell );
+
+		$statusCell = $this->assertAndGetByElementClass(
+			$html, 'mw-checkuser-suggestedinvestigations-status'
+		);
+		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusCell );
 	}
 
 	public function testInvestigateDisabledWhenTooManyUsers() {
@@ -134,7 +146,11 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString(
 			'title="(checkuser-suggestedinvestigations-action-investigate-disabled: ' . $usersLimit . ')"',
 			$html );
-		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $html );
+
+		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
+			$html, 'mw-checkuser-suggestedinvestigations-change-status-button'
+		);
+		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 	}
 
 	/**
