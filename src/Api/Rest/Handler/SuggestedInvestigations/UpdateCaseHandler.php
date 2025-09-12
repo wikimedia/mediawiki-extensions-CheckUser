@@ -46,11 +46,11 @@ class UpdateCaseHandler extends SimpleHandler {
 	 */
 	public function run(): Response {
 		// We cannot easily conditionally enable REST API routes (unlike Special pages), so we should instead
-		// return a 403. If it becomes possible to conditionally enable REST API routes based on config, that
+		// return a 404. If it becomes possible to conditionally enable REST API routes based on config, that
 		// method should be used instead.
 		if ( !$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
 			throw new LocalizedHttpException(
-				MessageValue::new( 'checkuser-suggestedinvestigations-feature-not-enabled' ),
+				MessageValue::new( 'checkuser-suggestedinvestigations-case-update-feature-not-enabled' ),
 				404
 			);
 		}
@@ -81,7 +81,7 @@ class UpdateCaseHandler extends SimpleHandler {
 			$this->caseManager->setCaseStatus( $caseId, $newStatus, $reason );
 		} catch ( InvalidArgumentException ) {
 			throw new LocalizedHttpException(
-				MessageValue::new( 'checkuser-suggestedinvestigations-case-not-found' ),
+				MessageValue::new( 'checkuser-suggestedinvestigations-case-update-case-not-found' ),
 				400
 			);
 		}

@@ -52,7 +52,7 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testWhenFeatureIsNotEnabled() {
 		$this->disableSuggestedInvestigations();
 		$this->expectExceptionObject( new LocalizedHttpException(
-			new MessageValue( 'checkuser-suggestedinvestigations-feature-not-enabled' ), 404
+			new MessageValue( 'checkuser-suggestedinvestigations-case-update-feature-not-enabled' ), 404
 		) );
 		$this->executeHandler(
 			$this->getObjectUnderTest(),
@@ -104,7 +104,8 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 				0, [ 'status' => 'resolved', 'reason' => 'abc' ], 'paramvalidator-outofrange-min',
 			],
 			'Case ID does not exist' => [
-				1, [ 'status' => 'resolved', 'reason' => 'abc' ], 'checkuser-suggestedinvestigations-case-not-found',
+				1, [ 'status' => 'resolved', 'reason' => 'abc' ],
+				'checkuser-suggestedinvestigations-case-update-case-not-found',
 			],
 		];
 	}
