@@ -431,6 +431,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Aktionen",
 	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|prüfe {{GENDER:$3|Benutzer|Benutzerin}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Anzeigen von +$1 {{PLURAL:$1|Konto|Konten}}",
+	"checkuser-suggestedinvestigations-user-showless": "Letzte $1 {{PLURAL:$1|Konten}} ausblenden",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Bestätigte oder unbestätigte geteilte E-Mail",
 	"checkuser-suggestedinvestigations-signal-hcaptcha": "Verdächtiges hCaptcha",
 	"checkuser-suggestedinvestigations-status-open": "Offen",

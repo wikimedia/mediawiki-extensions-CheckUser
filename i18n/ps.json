@@ -177,6 +177,7 @@
 	"checkuser-investigate-compare-table-header-ip": "وېب‌پته",
 	"checkuser-investigate-compare-table-header-useragent": "کارن پلاوی",
 	"checkuser-ip-contributions": "د وېبپتې د ونډو پلټل",
+	"checkuser-ip-contributions-permission-error-description": "د وېبپتې لپاره د لنډمهاله گڼون ونډو ليدلو لپاره، مهرباني وکړئ په [[Special:Preferences|ستاسې غوره‌توبونه]] کې تړون‌ليک ومنئ.",
 	"checkuser-ip-contributions-tab-label-contributions": "ونډې",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "ړنگې‌شوې ونډې",
 	"checkuser-ip-contributions-search-form-wrapper": "د وېبپتې د ونډو پلټل",

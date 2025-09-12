@@ -53,5 +53,7 @@
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} sammelt Daten über die „User-Agent Client Hints“ zur Unterstützung bei der Moderation von Vandalismus und Missbrauch. Weitere Details findest du unter https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints.",
 	"apihelp-logout-param-checkuserclienthints": "Client-Hinweisdaten, die zusammen mit Anfragen an ApiLogout bereitgestellt werden. Nur für die interne Verwendung.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Das angegebene Ablaufdatum für die automatische Anzeige ist ungültig.",
-	"checkuser-ip-auto-reveal-missing-permission": "Du verfügst nicht über die erforderliche Berechtigung zur Verwendung der automatischen IP-Offenlegung."
+	"checkuser-ip-auto-reveal-missing-permission": "Du verfügst nicht über die erforderliche Berechtigung zur Verwendung der automatischen IP-Offenlegung.",
+	"checkuser-suggestedinvestigations-case-update-case-not-found": "Die angegebene Fall-ID existiert nicht",
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Die Funktion „Vorgeschlagene Untersuchungen“ ist nicht aktiviert"
 }
