@@ -84,7 +84,11 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			'signals' => $this->formatSignalsCell( $value ),
 			'sic_created_timestamp' => $this->formatTimestampCell( $value ),
 			'sic_status' => $this->formatStatusCell( CaseStatus::from( (int)$value ), $this->mCurrentRow->sic_id ),
-			'sic_status_reason' => $this->formatStatusReasonCell( $value, $this->mCurrentRow->sic_id ),
+			'sic_status_reason' => $this->formatStatusReasonCell(
+				$value,
+				CaseStatus::from( (int)$this->mCurrentRow->sic_status ),
+				$this->mCurrentRow->sic_id
+			),
 			'actions' => $this->formatActionsCell(
 				$this->mCurrentRow->sic_id,
 				CaseStatus::from( (int)$this->mCurrentRow->sic_status ),
@@ -175,7 +179,10 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		);
 	}
 
-	private function formatStatusReasonCell( string $reason, int $caseId ): string {
+	private function formatStatusReasonCell( string $reason, CaseStatus $status, int $caseId ): string {
+		if ( $status === CaseStatus::Invalid && $reason === '' ) {
+			$reason = $this->msg( 'checkuser-suggestedinvestigations-status-reason-default-invalid' )->text();
+		}
 		return Html::element(
 			'span',
 			[ 'data-case-id' => $caseId, 'class' => 'mw-checkuser-suggestedinvestigations-status-reason' ],

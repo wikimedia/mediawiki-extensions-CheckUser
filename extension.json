@@ -653,6 +653,7 @@
 				"checkuser-suggestedinvestigations-status-resolved",
 				"checkuser-suggestedinvestigations-status-invalid",
 				"checkuser-suggestedinvestigations-status-description-invalid",
+				"checkuser-suggestedinvestigations-status-reason-default-invalid",
 				"checkuser-suggestedinvestigations-user-showmore",
 				"checkuser-suggestedinvestigations-user-showless"
 			],

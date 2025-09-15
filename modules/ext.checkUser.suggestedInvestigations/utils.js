@@ -20,10 +20,16 @@ function updateCaseStatusOnPage( caseId, status, reason ) {
 	// Update the pager row to reflect the new values for the status and status reason
 	// so we can avoid refreshing the page (refreshing the page may change the order of
 	// the cases on the screen)
+	// If the status is invalid and no reason is provided, then the reason defaults to
+	// the message checkuser-suggestedinvestigations-status-reason-default-invalid
 	const statusReasonElement = document.querySelector(
 		'.mw-checkuser-suggestedinvestigations-status-reason' + caseIdDataSelector
 	);
-	statusReasonElement.textContent = reason;
+	if ( reason === '' && status === 'invalid' ) {
+		statusReasonElement.textContent = mw.msg( 'checkuser-suggestedinvestigations-status-reason-default-invalid' );
+	} else {
+		statusReasonElement.textContent = reason;
+	}
 
 	// Because there isn't a good way to render Vue HTML outside the component or to infuse
 	// CSS-only elements into Vue components, it will be easier to change the CSS classes for

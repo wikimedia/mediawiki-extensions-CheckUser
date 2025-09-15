@@ -21,6 +21,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations;
 
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\SuggestedInvestigations\SuggestedInvestigationsTablePager;
@@ -151,6 +152,40 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 			$html, 'mw-checkuser-suggestedinvestigations-change-status-button'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
+	}
+
+	/** @dataProvider provideDefaultReasonWhenStatusIsInvalid */
+	public function testDefaultReasonWhenStatusIsInvalid( $reasonInDatabase, $reasonDisplayedInPager ) {
+		$caseId = $this->addCaseWithTwoUsers();
+
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+		$caseManager->setCaseStatus( $caseId, CaseStatus::Invalid, $reasonInDatabase );
+
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+
+		$pager = new SuggestedInvestigationsTablePager(
+			$this->getServiceContainer()->getConnectionProvider(),
+			$this->getServiceContainer()->getUserLinkRenderer(),
+			$context,
+		);
+
+		$html = $pager->getBody();
+
+		// Validate that the status reason contains the default for the invalid status
+		$statusReasonCell = $this->assertAndGetByElementClass(
+			$html, 'mw-checkuser-suggestedinvestigations-status-reason'
+		);
+		$this->assertStringContainsString( $reasonDisplayedInPager, $statusReasonCell );
+	}
+
+	public static function provideDefaultReasonWhenStatusIsInvalid(): array {
+		return [
+			'Empty reason in database' => [ '', '(checkuser-suggestedinvestigations-status-reason-default-invalid)' ],
+			'Non-empty reason in database' => [ 'testingabc', 'testingabc' ],
+		];
 	}
 
 	/**
