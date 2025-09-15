@@ -165,10 +165,6 @@
 	"checkuser-investigate-compare-table-header-activity": "Datumsberäich",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Browser",
-	"checkuser-investigate-subtitle-link-restart-tour": "Tour nei starten",
-	"checkuser-investigate-tour-addusertargets-title": "Braucht Dir méi Kontext?",
-	"checkuser-investigate-tour-block-title": "Spären?",
-	"checkuser-investigate-tour-copywikitext-title": "Wëllt Dir d'Date kopéieren?",
 	"checkuser-ip-contributions": "No IP-Kontributioune sichen",
 	"checkuser-ip-contributions-target-label": "IP-Adress oder -Beräich:",
 	"checkuser-ip-contributions-target-error-no-ip": "Gitt eng gülteg IP-Adress oder IP-Adressberäich an",
@@ -237,5 +233,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Aktiounen",
 	"checkuser-suggestedinvestigations-status-invalid": "Ongülteg",
 	"checkuser-suggestedinvestigations-action-change-status": "Status änneren",
+	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Zoumaachen",
+	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Ofbriechen",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporär Konte vun allen associéierten IPen: $1"
 }

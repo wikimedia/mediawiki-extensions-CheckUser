@@ -71,7 +71,6 @@
 	"checkuser-investigateblock-warning-confirmaction": "Si esteu segur que voleu fer-ho, marqueu el camp «{{int:checkuser-investigateblock-confirm-blocks-label}}» a la part inferior.",
 	"checkuser-investigate-preliminary-table-header-name": "Nom d'usuari",
 	"checkuser-investigate-compare-table-header-username": "Nom d'usuari",
-	"checkuser-investigate-tour-addusertargets-title": "Necessiteu més context?",
 	"checkuser-global-contributions-link": "contribucions globals",
 	"checkuser-global-contributions-link-sidebar": "Contribucions globals",
 	"checkuser-global-contributions-summary": "Obtén les edicions fetes per un usuari en tots els projectes wikii els darrers $1 {{PLURAL:$1|dia|dies}}.",

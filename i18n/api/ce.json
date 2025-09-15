@@ -48,5 +48,7 @@
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} гулйо лелоран агентийн клиентийн хьехамийн хаамаш, вандализм а, зедар а нисдарехь гӀо дан. Хьажа https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints.",
 	"apihelp-logout-param-checkuserclienthints": "Клиенто хьехам бо ApiLogout-на дехаршца цхьаьна дӀакхачийна хаамаш. Чоьхьарчу декъашхочун бен.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Авто гучудаккхаран хан чекхйалар нийса дац.",
-	"checkuser-ip-auto-reveal-missing-permission": "IP-адрес авто гучудаккхар функци лело оьшуш йолу бакъо йац хьан."
+	"checkuser-ip-auto-reveal-missing-permission": "IP-адрес авто гучудаккхар функци лело оьшуш йолу бакъо йац хьан.",
+	"checkuser-suggestedinvestigations-case-update-case-not-found": "Билгалдаьккхина гӀуллакхан идентификатор йац",
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Кховдийна талламийн функци дӀахӀоттийна йац"
 }

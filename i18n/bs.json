@@ -59,6 +59,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Šta je privremeni račun?",
 	"checkuser-investigateblock-warning-confirmaction": "Ako ste sigurni da želite nastaviti, kliknite na \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" polje na dnu stranice.",
 	"checkuser-investigate-compare-table-header-activity": "Vremenski opseg",
+	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Datum registracije}}: $1 ($2)",
 	"checkuser-userinfocard-active-wikis-label": "Aktivnost na wikijima",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktivne blokade na svim wikijima: $1",

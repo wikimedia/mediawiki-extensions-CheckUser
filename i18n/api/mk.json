@@ -49,5 +49,7 @@
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} ги собира податоците за корисничко-клиентски совети во поддршка на борбата со вандализмот и злоупотребата. Повеќе поединости ќе најдете на https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints.",
 	"apihelp-logout-param-checkuserclienthints": "Податоци за клиентските совети се даваат заедно со барањата до ApiLogout. Само за внатрешна употреба.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Укажаниот рок на автооткривање е неважечки.",
-	"checkuser-ip-auto-reveal-missing-permission": "Ја немате потребната дозвола за да користите автооткривање на IP-адреси."
+	"checkuser-ip-auto-reveal-missing-permission": "Ја немате потребната дозвола за да користите автооткривање на IP-адреси.",
+	"checkuser-suggestedinvestigations-case-update-case-not-found": "Укажаната назнака на случајот не постои",
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Предложената функција за иследување не е овозможена"
 }

@@ -138,8 +138,6 @@
 	"checkuser-investigate-compare-table-header-activity": "Datumski raspon",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Korisnički vršilac",
-	"checkuser-investigate-tour-targets-title": "Provjeravate više korisnika i IP adresa?",
-	"checkuser-investigate-tour-targets-desc": "Dodajte do $1 {{PLURAL:$1|korisničkog imena ili IP-a|korisničkih imena ili IP-ova}} i dobijte sve informacije na jednom mjestu. Ne brinite, stvorit ćemo zaseban dnevnik čekjuzera za svakog od njih.",
 	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
 	"checkuser-ip-auto-reveal-link-sidebar": "Otkrij IP adrese",
 	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP"

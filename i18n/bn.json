@@ -219,10 +219,6 @@
 	"checkuser-investigate-compare-table-header-activity": "তারিখের পরিসীমা",
 	"checkuser-investigate-compare-table-header-ip": "আইপি",
 	"checkuser-investigate-compare-table-header-useragent": "ব্যবহারকারী এজেন্ট",
-	"checkuser-investigate-subtitle-link-restart-tour": "ট্যুর পুনরাম্ভ করুন",
-	"checkuser-investigate-tour-targets-title": "একাধিক ব্যবহারকারী ও আইপি পরীক্ষা করছেন?",
-	"checkuser-investigate-tour-block-title": "বাধা দিতে চান?",
-	"checkuser-investigate-tour-copywikitext-title": "উপাত্ত অনুলিপি করতে চান?",
 	"checkuser-ip-contributions": "আইপি অবদানের জন্য অনুসন্ধান করুন",
 	"checkuser-ip-contributions-permission-error-title": "অনুমতি ত্রুটি",
 	"checkuser-ip-contributions-subtitle": "গত $1 {{PLURAL:$1|দিনের}} ফলাফল দেখানো হচ্ছে।",
@@ -328,5 +324,9 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2টি সম্পাদনা|0=কোনো সম্পাদনা নেই}})",
 	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|{{GENDER:$3|ব্যবহারকারীকে}} পরীক্ষা করুন]])",
 	"checkuser-suggestedinvestigations-signal-hcaptcha": "সন্দেহজনক এইচক্যাপচা",
+	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "বন্ধ করুন",
+	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "বাতিল",
+	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "জমা দিন",
+	"checkuser-suggestedinvestigations-change-status-dialog-text": "এই তদন্তের জন্য একটি নতুন স্থিতি নির্বাচন করুন",
 	"checkuser-userinfocard-temporary-account-bucketcount": "সমস্ত সংশ্লিষ্ট আইপি থেকে অস্থায়ী অ্যাকাউন্ট: $1"
 }

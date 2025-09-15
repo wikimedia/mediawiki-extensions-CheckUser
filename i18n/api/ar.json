@@ -56,5 +56,7 @@
 	"checkuser-api-useragent-clienthints-explanation": "يجمع موقع {{SITENAME}} بيانات تلميحات عميل وكيل المستخدم للمساعدة في إدارة التخريب والإساءة. راجع https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints لمزيد من التفاصيل.",
 	"apihelp-logout-param-checkuserclienthints": "بيانات تلميحات العميل المقدمة مع الطلبات المقدمة إلى ApiLogout. للاستخدام الداخلي فقط.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "تاريخ انتهاء الصلاحية للكشف التلقائي المقدم غير صالح.",
-	"checkuser-ip-auto-reveal-missing-permission": "ليس لديك الإذن اللازم لاستخدام الكشف التلقائي عن عنوان IP."
+	"checkuser-ip-auto-reveal-missing-permission": "ليس لديك الإذن اللازم لاستخدام الكشف التلقائي عن عنوان IP.",
+	"checkuser-suggestedinvestigations-case-update-case-not-found": "معرف الحالة المقدم غير موجود",
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "لم يتم تفعيل ميزة التحقيقات المقترحة"
 }

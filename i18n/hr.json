@@ -106,8 +106,6 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Doprinosi",
 	"checkuser-investigate-compare-table-cell-unregistered": "Neregistrirani",
 	"checkuser-investigate-compare-table-header-username": "Suradničko ime",
-	"checkuser-investigate-tour-addusertargets-title": "Potrebnost širega konteksta?",
-	"checkuser-investigate-tour-filterip-title": "Sužavanje Vaše istrage?",
 	"checkuser-global-contributions-link": "globalni doprinosi",
 	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
 	"checkuser-global-contributions-summary": "Zatražite izmjene koje je suradnik napravio na svim projektima {{PLURAL:$1|1=od jučer|u posljednji $1 dan|u posljednja $1 dana|u posljednjih $1 dana}}.",

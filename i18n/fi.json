@@ -400,6 +400,17 @@
 	"checkuser-suggestedinvestigations-status-description-invalid": "Valitse tämä merkitäksesi vääriä positiivisia tuloksia",
 	"checkuser-suggestedinvestigations-action-investigate": "Tutki käyttäjiä",
 	"checkuser-suggestedinvestigations-action-change-status": "Vaihda tilaa",
+	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Sulje",
+	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Peruuta",
+	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "Lähetä",
+	"checkuser-suggestedinvestigations-change-status-dialog-title": "Vaihda tilaa",
+	"checkuser-suggestedinvestigations-change-status-dialog-text": "Valitse uusi tila tälle tutkinnalle",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Tila",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-reason-header": "Lisää huomautus",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-description-resolved": "Ilmoita, mitä toimenpiteitä tehtiin",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-description-invalid": "Jos huomautusta ei lisätä, näytetään ”väärä positiivinen”",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-resolved": "esim. suoritettu toiminpide: käyttäjät estetty",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid": "esim. nämä eivät olleet epäilyttäviä käyttäjiä",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tilapäiset tunnukset kaikista liittyvistä IP-osoitteista: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Kaikkiin tähän tunnukseen liittyvistä IP-osoitteista tulevien tilapäisten tunnusten yhteenlaskettu määtä"
 }
