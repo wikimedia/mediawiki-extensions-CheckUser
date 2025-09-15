@@ -1,26 +1,40 @@
 'use strict';
 
-const { mockByteLength } = require( '../utils.js' );
+const utils = require( '@vue/test-utils' ),
+	{ nextTick } = require( 'vue' ),
+	{ waitFor, mockByteLength } = require( '../utils.js' );
 
 // Need to run this here as the import of ChangeInvestigationStatusDialog.vue
 // without mediawiki.String defined causes errors in running these tests.
 mockByteLength();
 
-const ChangeInvestigationStatusDialog = require( '../../../modules/ext.checkUser.suggestedInvestigations/components/ChangeInvestigationStatusDialog.vue' ),
-	utils = require( '@vue/test-utils' ),
-	{ nextTick } = require( 'vue' ),
-	{ waitFor } = require( '../utils.js' );
+const mockSetCaseStatus = jest.fn();
+jest.mock(
+	'../../../modules/ext.checkUser.suggestedInvestigations/rest.js',
+	() => ( { setCaseStatus: mockSetCaseStatus } )
+);
+
+const mockUpdateCaseStatusOnPage = jest.fn();
+jest.mock(
+	'../../../modules/ext.checkUser.suggestedInvestigations/utils.js',
+	() => ( { updateCaseStatusOnPage: mockUpdateCaseStatusOnPage } )
+);
+
+const ChangeInvestigationStatusDialog = require( '../../../modules/ext.checkUser.suggestedInvestigations/components/ChangeInvestigationStatusDialog.vue' );
 
 const renderComponent = ( props ) => utils.mount( ChangeInvestigationStatusDialog, {
-	props: Object.assign( {}, { initialStatus: 'open', initialStatusReason: '' }, props )
+	props: Object.assign( {}, { caseId: 1, initialStatus: 'open', initialStatusReason: '' }, props )
 } );
 
 /**
  * Perform tests common to all tests of the suggested investigations change status
  * dialog and then return the dialog component
  *
- * @param {{ initialStatus: 'open'|'resolved'|'invalid', initialStatusReason: string }} props
- *   Passed through to {@link renderComponent}
+ * @param {{
+ *          caseId: number,
+ *          initialStatus: 'open'|'resolved'|'invalid',
+ *          initialStatusReason: string
+ *        }} props Passed through to {@link renderComponent}
  * @return {{ wrapper, dialog }} The dialog component and wrapper
  */
 const commonComponentTest = async ( props ) => {
@@ -135,6 +149,10 @@ const commonValidateStatusReasonField = ( dialog, status, expectedStatusReason )
 describe( 'Suggested Investigations change status dialog', () => {
 	beforeEach( () => {
 		jest.spyOn( mw.language, 'convertNumber' ).mockImplementation( ( number ) => number );
+
+		const mockFallbackLanguageChain = jest.fn();
+		mockFallbackLanguageChain.mockImplementation( () => [ 'en' ] );
+		mw.language.getFallbackLanguageChain = mockFallbackLanguageChain;
 	} );
 
 	afterEach( () => {
@@ -238,5 +256,144 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Expect the dialog has been closed
 		expect( wrapper.vm.open ).toEqual( false );
+	} );
+
+	it( 'Makes API request when "Submit" button pressed with successful API response', async () => {
+		mockSetCaseStatus.mockResolvedValue( { caseId: 123, status: 'resolved', reason: 'test' } );
+
+		const { dialog, wrapper } = await commonComponentTest( { caseId: 123, initialStatus: 'invalid' } );
+
+		// Add something to the status reason field
+		const reasonInputField = dialog.find(
+			'.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason__input input'
+		);
+		await reasonInputField.setValue( 'test' );
+
+		// Switch the status radio to "resolved" and wait for the change to be propagated
+		const resolvedStatusRadioOption = dialog.find(
+			'input[name=checkuser-suggestedinvestigations-change-status-dialog-status-option][value=resolved]'
+		);
+		await resolvedStatusRadioOption.setChecked();
+		await nextTick();
+
+		// Press the submit button
+		const submitButton = dialog.find(
+			'.ext-checkuser-suggestedinvestigations-change-status-dialog-footer__submit-btn'
+		);
+		await submitButton.trigger( 'click' );
+
+		// Expect the dialog has been closed, that an API request was made to update the status,
+		// and the code to update the DOM outside the component has been made.
+		expect( wrapper.vm.open ).toEqual( false );
+		expect( mockSetCaseStatus ).toHaveBeenCalledWith( 123, 'resolved', 'test' );
+		expect( mockUpdateCaseStatusOnPage ).toHaveBeenCalledWith( 123, 'resolved', 'test' );
+	} );
+
+	const failedAPIResponseTestCases = {
+		'Makes API request when "Submit" button pressed with failed API response': [
+			{
+				then: () => ( { catch: ( catchCallback ) => {
+					catchCallback( 'ignored', { exception: 'ignored', xhr: { responseJSON: { messageTranslations: { de: 'ignored', en: 'testing error' } } } } );
+					return {};
+				} } )
+			},
+			'testing error'
+		],
+		'Makes API request when "Submit" button pressed with failed API response with no localised translations': [
+			{
+				then: () => ( { catch: ( catchCallback ) => {
+					catchCallback( 'ignored', { exception: 'test error' } );
+					return {};
+				} } )
+			},
+			'test error'
+		]
+	};
+
+	for ( const [
+		testName, [ mockJQueryDeferredPromise, expectedErrorMessage ]
+	] of Object.entries( failedAPIResponseTestCases ) ) {
+		it( testName, async () => {
+			mockSetCaseStatus.mockReturnValue( mockJQueryDeferredPromise );
+
+			const { dialog, wrapper } = await commonComponentTest( { caseId: 123, initialStatus: 'resolved' } );
+
+			// Add something to the status reason field
+			const reasonInputField = dialog.find(
+				'.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason__input input'
+			);
+			await reasonInputField.setValue( 'test' );
+
+			// Switch the status radio to "invalid" and wait for the change to be propagated
+			const invalidStatusRadioOption = dialog.find(
+				'input[name=checkuser-suggestedinvestigations-change-status-dialog-status-option][value=invalid]'
+			);
+			await invalidStatusRadioOption.setChecked();
+			await nextTick();
+
+			// Press the submit button
+			const submitButton = dialog.find(
+				'.ext-checkuser-suggestedinvestigations-change-status-dialog-footer__submit-btn'
+			);
+			await submitButton.trigger( 'click' );
+
+			// Expect that the dialog did not close, expect a call to the API,
+			// and expect that the error message is shown
+			expect( wrapper.vm.open ).toEqual( true );
+			expect( mockSetCaseStatus ).toHaveBeenCalledWith( 123, 'invalid', 'test' );
+			expect( mockUpdateCaseStatusOnPage ).not.toHaveBeenCalled();
+
+			const errorMessage = dialog.find(
+				'.ext-checkuser-suggestedinvestigations-change-status-dialog-error-message'
+			);
+			expect( errorMessage.exists() ).toEqual( true );
+			expect( errorMessage.text() ).toEqual( expectedErrorMessage );
+		} );
+	}
+
+	it( 'Makes only one API request when "Submit" button pressed multiple times', async () => {
+		// Mock the rest.setCaseStatus method to only resolve when we want it to
+		// so that we can test race-condition handling.
+		const promisesToResolve = [];
+		mockSetCaseStatus.mockImplementation( () => ( {
+			then: ( thenHandler ) => {
+				promisesToResolve.push( thenHandler );
+				return { catch: () => {} };
+			}
+		} ) );
+
+		const { dialog, wrapper } = await commonComponentTest( { caseId: 123, initialStatus: 'invalid' } );
+
+		// Add something to the status reason field
+		const reasonInputField = dialog.find(
+			'.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason__input input'
+		);
+		await reasonInputField.setValue( 'test' );
+
+		// Switch the status radio to "resolved" and wait for the change to be propagated
+		const resolvedStatusRadioOption = dialog.find(
+			'input[name=checkuser-suggestedinvestigations-change-status-dialog-status-option][value=resolved]'
+		);
+		await resolvedStatusRadioOption.setChecked();
+
+		// Press the submit button several times
+		const submitButton = dialog.find(
+			'.ext-checkuser-suggestedinvestigations-change-status-dialog-footer__submit-btn'
+		);
+		await submitButton.trigger( 'click' );
+		await submitButton.trigger( 'click' );
+		await submitButton.trigger( 'click' );
+
+		promisesToResolve.forEach( ( promiseResolver ) => {
+			promiseResolver( { caseId: 123, status: 'resolved', reason: 'test' } );
+		} );
+
+		expect( wrapper.vm.open ).toEqual( false );
+
+		// Expect that the methods to call the API and update the DOM were only called once
+		expect( mockSetCaseStatus ).toHaveBeenCalledTimes( 1 );
+		expect( mockSetCaseStatus ).toHaveBeenCalledWith( 123, 'resolved', 'test' );
+		expect( mockUpdateCaseStatusOnPage ).toHaveBeenCalledTimes( 1 );
+		expect( mockUpdateCaseStatusOnPage ).toHaveBeenCalledWith( 123, 'resolved', 'test' );
 	} );
 } );

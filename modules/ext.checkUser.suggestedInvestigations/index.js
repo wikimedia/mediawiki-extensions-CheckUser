@@ -48,8 +48,9 @@
 		}
 
 		const args = {
-			initialStatus: $( this ).data( 'case-status' ),
-			initialStatusReason: $( this ).data( 'case-status-reason' )
+			caseId: Number( $( this ).attr( 'data-case-id' ) ),
+			initialStatus: $( this ).attr( 'data-case-status' ),
+			initialStatusReason: $( this ).attr( 'data-case-status-reason' )
 		};
 
 		suggestedInvestigationsChangeStatusApp = Vue.createMwApp(

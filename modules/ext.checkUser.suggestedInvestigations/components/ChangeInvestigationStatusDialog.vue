@@ -8,6 +8,13 @@
 		:use-close-button="true"
 		class="ext-checkuser-suggestedinvestigations-change-status-dialog"
 	>
+		<cdx-message
+			v-if="statusUpdateErrorMessage !== ''"
+			class="ext-checkuser-suggestedinvestigations-change-status-dialog-error-message"
+			type="error"
+		>
+			{{ statusUpdateErrorMessage }}
+		</cdx-message>
 		<p class="ext-checkuser-suggestedinvestigations-change-status-dialog-description">
 			{{ $i18n( 'checkuser-suggestedinvestigations-change-status-dialog-text' ).text() }}
 		</p>
@@ -26,6 +33,7 @@
 				v-model="selectedStatus"
 				name="checkuser-suggestedinvestigations-change-status-dialog-status-option"
 				:input-value="radio.value"
+				@change="onFormFieldChange"
 			>
 				{{ radio.label }}
 				<p
@@ -61,6 +69,7 @@
 					ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason__input
 				"
 				:placeholder="statusReasonPlaceholder"
+				@change="onFormFieldChange"
 			>
 			</character-limited-text-input>
 		</cdx-field>
@@ -81,6 +90,7 @@
 				"
 				weight="primary"
 				action="progressive"
+				@click="onSubmitButtonClick"
 			>
 				{{ $i18n(
 					'checkuser-suggestedinvestigations-change-status-dialog-submit-btn'
@@ -92,8 +102,10 @@
 
 <script>
 const { ref, watch, computed } = require( 'vue' ),
-	{ CdxButton, CdxDialog, CdxField, CdxRadio } = require( '@wikimedia/codex' ),
+	{ CdxButton, CdxDialog, CdxField, CdxRadio, CdxMessage } = require( '@wikimedia/codex' ),
 	Constants = require( '../Constants.js' ),
+	{ setCaseStatus } = require( '../rest.js' ),
+	{ updateCaseStatusOnPage } = require( '../utils.js' ),
 	CharacterLimitedTextInput = require( './CharacterLimitedTextInput.vue' );
 
 // @vue/component
@@ -104,9 +116,17 @@ module.exports = exports = {
 		CdxDialog,
 		CdxField,
 		CdxRadio,
+		CdxMessage,
 		CharacterLimitedTextInput
 	},
 	props: {
+		/**
+		 * The case ID of the suggested investigations case that we are changing the status of.
+		 */
+		caseId: {
+			type: Number,
+			required: true
+		},
 		/**
 		 * The selected status for the case being updated vid the dialog.
 		 * This should be set to the current status when creating the component.
@@ -126,6 +146,8 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const open = ref( true );
+		const formSubmissionInProgress = ref( false );
+		const statusUpdateErrorMessage = ref( '' );
 
 		const selectedStatus = ref( props.initialStatus );
 		const statusReason = ref( props.initialStatusReason );
@@ -185,8 +207,62 @@ module.exports = exports = {
 
 		const showStatusReasonField = computed( () => selectedStatus.value !== 'open' || hasStatusReasonHadText.value );
 
+		/**
+		 * Fired when any form fields have their value changed.
+		 * Used to clear any error message set in the form.
+		 */
+		function onFormFieldChange() {
+			statusUpdateErrorMessage.value = '';
+		}
+
 		function onCancelButtonClick() {
 			open.value = false;
+		}
+
+		/**
+		 * Handles a click of the submit button which includes making a REST API request
+		 * to update the status of the investigation and displaying any errors if they occur.
+		 */
+		function onSubmitButtonClick() {
+			// Ignore duplicate attempts to press the submit button to avoid race conditions
+			if ( formSubmissionInProgress.value ) {
+				return;
+			}
+
+			formSubmissionInProgress.value = true;
+			statusUpdateErrorMessage.value = '';
+
+			setCaseStatus( props.caseId, selectedStatus.value, statusReason.value )
+				.then( ( data ) => {
+					updateCaseStatusOnPage( props.caseId, data.status, data.reason );
+
+					open.value = false;
+					formSubmissionInProgress.value = false;
+				} )
+				.catch( ( err, errObject ) => {
+					formSubmissionInProgress.value = false;
+
+					let errMessage = errObject.exception;
+					if (
+						errObject.xhr &&
+						errObject.xhr.responseJSON &&
+						errObject.xhr.responseJSON.messageTranslations
+					) {
+						// If we have translated messages for this error, then try to find a
+						// translation to display to the user using the language fallback chain
+						// to find the most appropriate language that is defined
+						const messageTranslations = errObject.xhr.responseJSON.messageTranslations;
+						const fallbackChain = mw.language.getFallbackLanguageChain();
+
+						for ( const language of fallbackChain ) {
+							if ( messageTranslations[ language ] ) {
+								errMessage = messageTranslations[ language ];
+								break;
+							}
+						}
+					}
+					statusUpdateErrorMessage.value = errMessage;
+				} );
 		}
 
 		return {
@@ -197,7 +273,10 @@ module.exports = exports = {
 			statusReasonSubtitle,
 			statusReasonPlaceholder,
 			statusRadioOptions,
-			onCancelButtonClick
+			statusUpdateErrorMessage,
+			onFormFieldChange,
+			onCancelButtonClick,
+			onSubmitButtonClick
 		};
 	}
 };
@@ -223,6 +302,10 @@ module.exports = exports = {
 
 	.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason {
 		margin-bottom: @spacing-150;
+	}
+
+	.ext-checkuser-suggestedinvestigations-change-status-dialog-error-message {
+		padding-top: @spacing-75;
 	}
 }
 </style>

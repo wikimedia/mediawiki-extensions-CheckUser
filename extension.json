@@ -633,6 +633,7 @@
 				"index.js",
 				"Constants.js",
 				"rest.js",
+				"utils.js",
 				"components/ChangeInvestigationStatusDialog.vue",
 				"components/CharacterLimitedTextInput.vue"
 			],
@@ -1094,6 +1095,7 @@
 			"tests/qunit/ext.checkUser.userInfoCard/composables/useInstrument.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/composables/useWatchList.test.js",
 			"tests/qunit/ext.checkUser.suggestedInvestigations/rest.test.js",
+			"tests/qunit/ext.checkUser.suggestedInvestigations/utils.test.js",
 			"modules/ext.checkUser.ipInfo.hooks/infobox.js",
 			{
 				"name": "modules/ext.checkUser.tempAccounts/icons.json",
