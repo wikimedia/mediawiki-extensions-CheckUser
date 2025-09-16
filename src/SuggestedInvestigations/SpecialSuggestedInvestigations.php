@@ -46,6 +46,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		$output->addHtml( '<div id="ext-suggestedinvestigations-change-status-app"></div>' );
 		$output->addWikiMsg( 'checkuser-suggestedinvestigations-summary' );
 		$output->addModules( 'ext.checkUser.suggestedInvestigations' );
+		$output->addModuleStyles( 'ext.checkUser.styles' );
 
 		$pager = new SuggestedInvestigationsTablePager(
 			$this->connectionProvider,
