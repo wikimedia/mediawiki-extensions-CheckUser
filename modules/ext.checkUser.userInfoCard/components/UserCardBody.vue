@@ -515,6 +515,7 @@ p.ext-checkuser-userinfocard-groups {
 	left: 0;
 	right: 0;
 	background: @color-inverted;
+	/* @noflip */
 	background: linear-gradient( 360deg, rgba( 255, 255, 255, 1 ) 0%, rgba( 255, 255, 255, 0 ) 100% );
 }
 </style>
