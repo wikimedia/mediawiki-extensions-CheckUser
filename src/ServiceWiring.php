@@ -464,7 +464,6 @@ return [
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
-			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
 			$services->get( 'CheckUserTemporaryAccountsByIPLookup' ),
 			new DerivativeContext( RequestContext::getMain() ),

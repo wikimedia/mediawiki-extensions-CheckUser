@@ -14,7 +14,6 @@ use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLookup;
-use MediaWiki\Interwiki\InterwikiLookup;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\MediaWikiServices;
@@ -61,7 +60,6 @@ class CheckUserUserInfoCardService {
 		private readonly StatsFactory $statsFactory,
 		private readonly CheckUserPermissionManager $checkUserPermissionManager,
 		private readonly UserFactory $userFactory,
-		private readonly InterwikiLookup $interwikiLookup,
 		private readonly UserEditTracker $userEditTracker,
 		private readonly CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup,
 		private readonly IContextSource $context,
@@ -251,13 +249,11 @@ class CheckUserUserInfoCardService {
 
 			sort( $activeWikiIds );
 			foreach ( $activeWikiIds as $wikiId ) {
-				$interWiki = $this->interwikiLookup->fetch(
-					rtrim( $wikiId, 'wiki' )
-				);
-				if ( !$interWiki ) {
+				$wiki = WikiMap::getWiki( $wikiId );
+				if ( !$wiki ) {
 					continue;
 				}
-				$userInfo['activeWikis'][$wikiId] = $interWiki->getUrl(
+				$userInfo['activeWikis'][$wikiId] = $wiki->getUrl(
 					'Special:Contributions/' . $this->getUserTitleKey( $user )
 				);
 			}
@@ -343,9 +339,9 @@ class CheckUserUserInfoCardService {
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$centralWikiId = $this->options->get( 'CheckUserUserInfoCardCentralWikiId' );
 			if ( $centralWikiId ) {
-				$interWiki = $this->interwikiLookup->fetch( rtrim( $centralWikiId, 'wiki' ) );
-				if ( $interWiki ) {
-					$userInfo['specialCentralAuthUrl'] = $interWiki->getURL(
+				$centralWiki = WikiMap::getWiki( $centralWikiId );
+				if ( $centralWiki ) {
+					$userInfo['specialCentralAuthUrl'] = $centralWiki->getURL(
 						'Special:CentralAuth/' . $this->getUserTitleKey( $user )
 					);
 				}

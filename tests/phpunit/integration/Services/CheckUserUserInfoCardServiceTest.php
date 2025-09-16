@@ -10,6 +10,7 @@ use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
@@ -96,27 +97,6 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			->caller( __METHOD__ )
 			->execute();
 
-		$this->getDb()->newInsertQueryBuilder()
-			->insertInto( 'interwiki' )
-			->rows( [
-				[
-					'iw_prefix' => 'en',
-					'iw_url' => 'https://en.wikipedia.org/wiki/$1',
-					'iw_api' => '',
-					'iw_wikiid' => '',
-					'iw_local' => 1,
-				],
-				[
-					'iw_prefix' => 'de',
-					'iw_url' => 'https://de.wikipedia.org/wiki/$1',
-					'iw_api' => '',
-					'iw_wikiid' => '',
-					'iw_local' => 1,
-				]
-			] )
-			->caller( __METHOD__ )
-			->execute();
-
 		$tempUserCreator = $this->getServiceContainer()->getTempUserCreator();
 		$result1 = $tempUserCreator->create( '~check-user-test-1', new FauxRequest() );
 		$result2 = $tempUserCreator->create( '~check-user-test-2', new FauxRequest() );
@@ -153,7 +133,6 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$overrides[ 'CheckUserPermissionManager' ] ??
 				$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
-			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
 			$services->get( 'CheckUserTemporaryAccountsByIPLookup' ),
 			RequestContext::getMain(),
@@ -185,10 +164,12 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$gcLookupMock = $this->createMock( CheckUserGlobalContributionsLookup::class );
 			$gcLookupMock
 				->method( 'getActiveWikisVisibleToUser' )
-				->willReturn( [ 'enwiki', 'dewiki' ] );
+				->willReturn( [ 'enwiki', 'dewiki', 'mkwiki', 'nonexistentwiki' ] );
 
 			return $gcLookupMock;
 		} );
+
+		$this->setWikiFarm();
 
 		$userInfo = $this->getObjectUnderTest()->getUserInfo(
 			$this->getTestUser()->getAuthority(),
@@ -210,6 +191,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			[
 				'dewiki' => 'https://de.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),
 				'enwiki' => 'https://en.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),
+				'mkwiki' => 'https://mk.wikipedia.org/wiki/Special:Contributions/' . $user->getName(),
 			],
 			$userInfo['activeWikis']
 		);
@@ -271,7 +253,6 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getStatsFactory(),
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserFactory(),
-			$services->getInterwikiLookup(),
 			$services->getUserEditTracker(),
 			$services->get( 'CheckUserTemporaryAccountsByIPLookup' ),
 			RequestContext::getMain(),
@@ -543,6 +524,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideExecuteWhenSpecialCentralAuthUrlDefined */
 	public function testExecuteWhenSpecialCentralAuthUrlDefined( $centralWikiId, $expectedUrlWithoutUsername ) {
 		$this->overrideConfigValue( 'CheckUserUserInfoCardCentralWikiId', $centralWikiId );
+		$this->setWikiFarm();
 
 		$targetUser = $this->getTestUser()->getUser();
 
@@ -1067,6 +1049,24 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			->rows( $rows )
 			->caller( __METHOD__ )
 			->execute();
+	}
+
+	private function setWikiFarm(): void {
+		$conf = new SiteConfiguration();
+		$conf->settings = [
+			'wgServer' => [
+				'enwiki' => 'https://en.wikipedia.org',
+				'dewiki' => 'https://de.wikipedia.org',
+				'mkwiki' => 'https://mk.wikipedia.org',
+			],
+			'wgArticlePath' => [
+				'enwiki' => '/wiki/$1',
+				'dewiki' => '/wiki/$1',
+				'mkwiki' => '/wiki/$1',
+			],
+		];
+		$conf->suffixes = [ 'wiki' ];
+		$this->setMwGlobals( 'wgConf', $conf );
 	}
 
 	/**
