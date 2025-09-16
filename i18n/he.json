@@ -240,7 +240,7 @@
 	"checkuser-investigate-tour-copywikitext-desc": "{{GENDER:|העתק|העתיקי|נא להעתיק}} את טבלת ההשוואה בלחיצה אחת {{GENDER:|וקח|וקחי|ולקחת}} אותה ל־CUWiki. {{GENDER:|שים לב שאתה מעתיק|שימי לב שאת מעתיקה|נא לשים לב לכך שהעתקת}} רק את מה שמוצג ולא את כל דפי החקירה.",
 	"checkuser-ip-contributions": "חיפוש תרומות IP",
 	"checkuser-ip-contributions-permission-error-title": "שגיאת הרשאה",
-	"checkuser-ip-contributions-permission-error-description": "כדי לצפות בתרומות חשבון חולף עבור כתובת IP, נא לקבל את ההסכם ב[[Special:Preferences|העדפות שלך]].",
+	"checkuser-ip-contributions-permission-error-description": "כדי לצפות בתרומות של חשבונות חולפים בכתובת IP מסוימת, נא לקבל את ההסכם ב[[Special:Preferences|העדפות שלך]].",
 	"checkuser-ip-contributions-subtitle": "הצגת תוצאות {{PLURAL:$1|מהיום האחרון|מהיומיים האחרונים|מ־$1 הימים האחרונים}}.",
 	"checkuser-ip-contributions-target-label": "כתובת IP או טווח:",
 	"checkuser-ip-contributions-target-error-no-ip": "נא להזין כתובת IP תקינה או טווח IP תקין",

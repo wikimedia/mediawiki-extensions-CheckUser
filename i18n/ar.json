@@ -260,7 +260,7 @@
 	"checkuser-ip-contributions-tab-label-contributions": "المساهمات",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "مساهمات المستخدم المحذوفة",
 	"checkuser-ip-contributions-search-form-wrapper": "بحث عن مساهمات IP",
-	"checkuser-ip-contributions-results-title": "مساهمات IP للمستخدم المؤقت مقابل $1",
+	"checkuser-ip-contributions-results-title": "مساهمات عنوان الآيبي للحساب المؤقت مقابل $1",
 	"checkuser-ip-contributions-archive-results-title": "تم حذف مساهمات IP للمستخدم المؤقت مقابل $1",
 	"checkuser-ip-contributions-deleted-contributions-link": "مساهمات المستخدم المحذوفة",
 	"checkuser-ip-contributions-contributions-link": "مساهمات",
