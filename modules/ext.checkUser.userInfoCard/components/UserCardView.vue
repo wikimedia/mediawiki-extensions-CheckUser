@@ -143,8 +143,10 @@ module.exports = exports = {
 				token,
 				username: props.username
 			};
+			// T404682
+			const language = mw.config.get( 'wgUserLanguage' );
 
-			rest.post( '/checkuser/v0/userinfo', payload )
+			rest.post( '/checkuser/v0/userinfo?uselang=' + language, payload )
 				.then( ( userInfo ) => {
 					if ( !userInfo ) {
 						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data' ) );
