@@ -405,6 +405,7 @@
 	"checkuser-suggestedinvestigations-status-invalid": "Бакъдоцург",
 	"checkuser-suggestedinvestigations-status-description-invalid": "ХӀара вариант схьахаржа, харц дика агӀонаш билгалйаха",
 	"checkuser-suggestedinvestigations-action-investigate": "Таллам бе декъашхошна",
+	"checkuser-suggestedinvestigations-action-investigate-disabled": "$1 кхаччалц бен таллам бан йиш йац",
 	"checkuser-suggestedinvestigations-action-change-status": "Хийца статус",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "ДӀачӀагӀа",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Йухайаккхар",

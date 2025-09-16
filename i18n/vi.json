@@ -407,6 +407,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Tác vụ",
 	"checkuser-suggestedinvestigations-status-invalid": "Không hợp lệ",
 	"checkuser-suggestedinvestigations-action-change-status": "Thay đổi trạng thái",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Trạng thái",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tài khoản tạm thời từ tất cả các IP liên quan: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Tổng số tài khoản tạm thời từ tất cả địa chỉ IP được liên kết với tài khoản này"
 }

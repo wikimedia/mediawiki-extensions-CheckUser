@@ -416,6 +416,7 @@
 	"checkuser-suggestedinvestigations-status-invalid": "Etibarsız",
 	"checkuser-suggestedinvestigations-status-description-invalid": "Yalan pozitivləri göstərmək üçün bunu seçin",
 	"checkuser-suggestedinvestigations-action-investigate": "İstifadəçiləri araşdır",
+	"checkuser-suggestedinvestigations-action-investigate-disabled": "Maksimum $1 hesabı araşdıra bilərsiniz",
 	"checkuser-suggestedinvestigations-action-change-status": "Statusu dəyişdir",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Bağla",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "İmtina",

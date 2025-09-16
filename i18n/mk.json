@@ -408,6 +408,7 @@
 	"checkuser-suggestedinvestigations-status-invalid": "Неважечко",
 	"checkuser-suggestedinvestigations-status-description-invalid": "Изберете го ова за да укажете лажни погодоци",
 	"checkuser-suggestedinvestigations-action-investigate": "Иследи корисници",
+	"checkuser-suggestedinvestigations-action-investigate-disabled": "Може да се иследуваат само до $1 сметки",
 	"checkuser-suggestedinvestigations-action-change-status": "Смени статус",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Затвори",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Откажи",
