@@ -13,12 +13,6 @@ use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\WikiMap\WikiMap;
 
-// The name of onSpecialPage_initList raises the following phpcs error. As the
-// name is defined in core, this is an unavoidable issue and therefore the check
-// is disabled.
-//
-// phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
-
 /**
  * Conditionally register special pages and API modules that have additional dependencies
  * or require extra configuration.
