@@ -427,7 +427,7 @@
 	"checkuser-suggestedinvestigations-status-description-invalid": "Wähle diese Option, um Fehlalarme anzuzeigen",
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Falsch positiv",
 	"checkuser-suggestedinvestigations-action-investigate": "Benutzer untersuchen",
-	"checkuser-suggestedinvestigations-action-investigate-disabled": "Kann nur bis zu $1 Konten untersuchen",
+	"checkuser-suggestedinvestigations-action-investigate-disabled": "Kann nur {{PLURAL:$1|ein Konto|bis zu $1}} Konten untersuchen",
 	"checkuser-suggestedinvestigations-action-change-status": "Status ändern",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Schließen",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Abbrechen",

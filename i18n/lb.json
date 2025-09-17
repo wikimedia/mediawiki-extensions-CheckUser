@@ -235,5 +235,7 @@
 	"checkuser-suggestedinvestigations-action-change-status": "Status änneren",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Zoumaachen",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Ofbriechen",
+	"checkuser-suggestedinvestigations-change-status-dialog-title": "Status änneren",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Status",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporär Konte vun allen associéierten IPen: $1"
 }

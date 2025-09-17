@@ -53,5 +53,7 @@
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} verzamelt gegevens over client-hints van de browser om te helpen bij het modereren van vandalisme en misbruik. Zie https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints voor meer informatie.",
 	"apihelp-logout-param-checkuserclienthints": "“Client hints”-gegevens die worden meegestuurd met verzoeken aan ApiLogout. Alleen voor intern gebruik.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "De opgegeven vervaldatum voor automatisch onthullen is onjuist.",
-	"checkuser-ip-auto-reveal-missing-permission": "U beschikt niet over de benodigde toestemming om het automatisch onthullen van IP-adressen te gebruiken."
+	"checkuser-ip-auto-reveal-missing-permission": "U beschikt niet over de benodigde toestemming om het automatisch onthullen van IP-adressen te gebruiken.",
+	"checkuser-suggestedinvestigations-case-update-case-not-found": "De opgegeven gevals-ID bestaat niet",
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "De functie voor voorgestelde onderzoeken is niet ingeschakeld"
 }
