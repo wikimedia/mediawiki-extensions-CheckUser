@@ -1,6 +1,6 @@
 'use strict';
 
-jest.mock( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/icons.json', () => ( {
+jest.mock( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/icons.json', () => ( {
 	cdxIconNext: '',
 	cdxIconPrevious: ''
 } ), { virtual: true } );
@@ -18,10 +18,10 @@ jest.mock( '@wikimedia/codex', () => {
 	);
 } );
 
-const TempAccountsOnboardingDialog = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingDialog.vue' ),
+const TempAccountsOnboardingDialog = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingDialog.vue' ),
 	utils = require( '@vue/test-utils' ),
 	{ nextTick } = require( 'vue' ),
-	{ mockApiSaveOption, waitFor } = require( '../utils.js' );
+	{ mockApiSaveOption, waitFor } = require( '../../utils.js' );
 
 const renderComponent = ( slots, props ) => utils.mount( TempAccountsOnboardingDialog, {
 	props: Object.assign( {}, { steps: [] }, props ),

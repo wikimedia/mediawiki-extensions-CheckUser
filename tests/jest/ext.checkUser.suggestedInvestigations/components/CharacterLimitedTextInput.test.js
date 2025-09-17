@@ -7,7 +7,7 @@ jest.mock( 'mediawiki.String', () => ( {
 	trimByteLength: ( safeVal, newVal, byteLimit ) => ( { newVal: newVal.slice( 0, byteLimit ) } )
 } ), { virtual: true } );
 
-const CharacterLimitedTextInput = require( '../../../modules/ext.checkUser.suggestedInvestigations/components/CharacterLimitedTextInput.vue' );
+const CharacterLimitedTextInput = require( '../../../../modules/ext.checkUser.suggestedInvestigations/components/CharacterLimitedTextInput.vue' );
 
 describe( 'CharacterLimitedTextInput', () => {
 	beforeEach( () => {

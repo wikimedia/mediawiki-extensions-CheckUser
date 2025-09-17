@@ -1,19 +1,11 @@
 'use strict';
 
-const TempAccountsOnboardingStep = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingStep.vue' ),
+const TempAccountsOnboardingIntroStep = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIntroStep.vue' ),
 	utils = require( '@vue/test-utils' );
 
-const renderComponent = ( props, slots ) => utils.mount( TempAccountsOnboardingStep, {
-	props: Object.assign( {}, props ),
-	slots: Object.assign( {}, slots )
-} );
-
-describe( 'Temporary Accounts step component', () => {
+describe( 'First step of temporary accounts onboarding dialog', () => {
 	it( 'renders correctly', () => {
-		const wrapper = renderComponent(
-			{ stepName: 'testing-step', imageAriaLabel: 'Aria label for image' },
-			{ title: 'Testing title', content: 'Testing content' }
-		);
+		const wrapper = utils.mount( TempAccountsOnboardingIntroStep );
 		expect( wrapper.exists() ).toEqual( true );
 
 		// Check the root element exists
@@ -28,7 +20,7 @@ describe( 'Temporary Accounts step component', () => {
 			'.ext-checkuser-temp-account-onboarding-dialog-image'
 		);
 		expect( imageElement.classes() ).toContain(
-			'ext-checkuser-image-temp-accounts-onboarding-testing-step'
+			'ext-checkuser-image-temp-accounts-onboarding-temp-accounts'
 		);
 
 		// Expect that the main body is present, and contains the title and content
@@ -38,11 +30,15 @@ describe( 'Temporary Accounts step component', () => {
 		expect( mainBodyElement.exists() ).toEqual( true );
 		const titleElement = mainBodyElement.find( 'h5' );
 		expect( titleElement.exists() ).toEqual( true );
-		expect( titleElement.text() ).toEqual( 'Testing title' );
+		expect( titleElement.text() ).toEqual(
+			'(checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title)'
+		);
 		const contentElement = mainBodyElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-content'
 		);
 		expect( contentElement.exists() ).toEqual( true );
-		expect( contentElement.text() ).toEqual( 'Testing content' );
+		expect( contentElement.text() ).toEqual(
+			'(checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content)'
+		);
 	} );
 } );

@@ -854,7 +854,7 @@
 				"initOnHook.js",
 				"api.js",
 				"rest.js",
-				"ShowIPButton.vue",
+				"components/ShowIPButton.vue",
 				"AbuseLog.js",
 				"SpecialBlock.js",
 				"SpecialContributions.js",

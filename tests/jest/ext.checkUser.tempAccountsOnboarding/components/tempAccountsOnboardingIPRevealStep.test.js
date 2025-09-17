@@ -1,8 +1,8 @@
 'use strict';
 
-const TempAccountsOnboardingIPRevealStep = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIPRevealStep.vue' ),
+const TempAccountsOnboardingIPRevealStep = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIPRevealStep.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockJSConfig, mockApiSaveOption, waitForAndExpectTextToExistInElement, mockStorageSessionGetValue, getSaveGlobalPreferenceButton } = require( '../utils.js' );
+	{ mockJSConfig, mockApiSaveOption, waitForAndExpectTextToExistInElement, mockStorageSessionGetValue, getSaveGlobalPreferenceButton } = require( '../../utils.js' );
 
 /**
  * Mocks mw.storage.session.get to return a specific value when asked for

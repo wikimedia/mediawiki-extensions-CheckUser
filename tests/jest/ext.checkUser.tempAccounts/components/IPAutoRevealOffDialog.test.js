@@ -5,19 +5,19 @@
 const mockNowInSeconds = 1741604813;
 const mockExpiryInSeconds = mockNowInSeconds + 3600;
 const mockSetAutoRevealStatus = jest.fn().mockResolvedValue();
-jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () => ( {
+jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () => ( {
 	setAutoRevealStatus: mockSetAutoRevealStatus
 } ) );
-jest.mock( '../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
+jest.mock( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 
 // Mock ipReveal methods to check they are called properly
 const mockDisableAutoReveal = jest.fn();
-jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
+jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
 	disableAutoReveal: mockDisableAutoReveal
 } ) );
 
-const IPAutoRevealOffDialog = require( '../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOffDialog.vue' );
-const useInstrument = require( '../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
+const IPAutoRevealOffDialog = require( '../../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOffDialog.vue' );
+const useInstrument = require( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 const { nextTick } = require( 'vue' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog } = require( '@wikimedia/codex' );
@@ -114,7 +114,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 	} );
 
 	it( 'shows error on default action if new expiry is greater than 24 hours', async () => {
-		require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' ).setAutoRevealStatus.mockRejectedValue();
+		require( '../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' ).setAutoRevealStatus.mockRejectedValue();
 
 		// Set expiry to a day from now
 		const expiry = String( mockNowInSeconds + 86400 );

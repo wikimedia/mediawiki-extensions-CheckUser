@@ -2,12 +2,12 @@
 
 // Mock ipReveal methods to check they are called properly
 const mockEnableAutoReveal = jest.fn();
-jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
+jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
 	enableAutoReveal: mockEnableAutoReveal
 } ) );
 
 // Mock dynamic package file
-jest.mock( '../../../modules/ext.checkUser.tempAccounts/durations.json', () => ( [
+jest.mock( '../../../../modules/ext.checkUser.tempAccounts/durations.json', () => ( [
 	{
 		translation: '30 minutes',
 		seconds: 1800
@@ -17,10 +17,10 @@ jest.mock( '../../../modules/ext.checkUser.tempAccounts/durations.json', () => (
 		seconds: 3600
 	}
 ] ), { virtual: true } );
-jest.mock( '../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
+jest.mock( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 
-const IPAutoRevealOnDialog = require( '../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOnDialog.vue' );
-const useInstrument = require( '../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
+const IPAutoRevealOnDialog = require( '../../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOnDialog.vue' );
+const useInstrument = require( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog, CdxSelect } = require( '@wikimedia/codex' );
 

@@ -71,9 +71,9 @@
 <script>
 const { computed, defineComponent, ref, watch } = require( 'vue' );
 const { CdxButton, CdxIcon, CdxMessage, CdxPopover, CdxProgressIndicator, CdxToggleButton } = require( '@wikimedia/codex' );
-const { cdxIconInfo } = require( './icons.json' );
-const { performFullRevealRequest } = require( './rest.js' );
-const { getFormattedBlockDetails } = require( './api.js' );
+const { cdxIconInfo } = require( './../icons.json' );
+const { performFullRevealRequest } = require( './../rest.js' );
+const { getFormattedBlockDetails } = require( './../api.js' );
 
 module.exports = exports = defineComponent( {
 	name: 'ShowIPButton',

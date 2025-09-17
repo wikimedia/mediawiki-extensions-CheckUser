@@ -1,13 +1,13 @@
 'use strict';
 
-jest.mock( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/icons.json', () => ( {
+jest.mock( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/icons.json', () => ( {
 	cdxIconNext: '',
 	cdxIconPrevious: ''
 } ), { virtual: true } );
 
-const App = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/App.vue' ),
+const App = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/App.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ waitFor, mockJSConfig } = require( '../utils.js' );
+	{ waitFor, mockJSConfig } = require( '../../utils.js' );
 
 const renderComponent = () => utils.mount( App );
 

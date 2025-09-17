@@ -1,6 +1,6 @@
 'use strict';
 
-const TempAccountsOnboardingStepper = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingStepper.vue' ),
+const TempAccountsOnboardingStepper = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingStepper.vue' ),
 	utils = require( '@vue/test-utils' );
 
 const renderComponent = ( props ) => {

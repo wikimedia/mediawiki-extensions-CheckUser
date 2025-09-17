@@ -1,8 +1,8 @@
 'use strict';
 
-const TempAccountsOnboardingPreference = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingPreference.vue' ),
+const TempAccountsOnboardingPreference = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingPreference.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockApiSaveOption, waitFor, waitForAndExpectTextToExistInElement, getSaveGlobalPreferenceButton, mockJSConfig } = require( '../utils.js' );
+	{ mockApiSaveOption, waitFor, waitForAndExpectTextToExistInElement, getSaveGlobalPreferenceButton, mockJSConfig } = require( '../../utils.js' );
 
 const renderComponent = ( props ) => {
 	const defaultProps = {

@@ -1,6 +1,6 @@
 'use strict';
 
-jest.mock( '../../../modules/ext.checkUser.tempAccounts/icons.json', () => ( {
+jest.mock( '../../../../modules/ext.checkUser.tempAccounts/icons.json', () => ( {
 	cdxIconInfo: ''
 } ), { virtual: true } );
 
@@ -15,16 +15,16 @@ global.mw.language.listToText = jest.fn().mockImplementation(
 	( list ) => list.join( ', ' )
 );
 jest.mock(
-	'../../../modules/ext.checkUser.tempAccounts/rest.js',
+	'../../../../modules/ext.checkUser.tempAccounts/rest.js',
 	() => ( { performFullRevealRequest: mockPerformFullRevealRequest } )
 );
 
 jest.mock(
-	'../../../modules/ext.checkUser.tempAccounts/api.js',
+	'../../../../modules/ext.checkUser.tempAccounts/api.js',
 	() => ( { getFormattedBlockDetails } )
 );
 
-const ShowIPButton = require( '../../../modules/ext.checkUser.tempAccounts/ShowIPButton.vue' );
+const ShowIPButton = require( '../../../../modules/ext.checkUser.tempAccounts/components/ShowIPButton.vue' );
 
 const renderComponent = ( props ) => mount( ShowIPButton, {
 	props,

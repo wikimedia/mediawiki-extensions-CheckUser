@@ -2,7 +2,7 @@
 
 const utils = require( '@vue/test-utils' ),
 	{ nextTick } = require( 'vue' ),
-	{ waitFor, mockByteLength } = require( '../utils.js' );
+	{ waitFor, mockByteLength } = require( '../../utils.js' );
 
 // Need to run this here as the import of ChangeInvestigationStatusDialog.vue
 // without mediawiki.String defined causes errors in running these tests.
@@ -10,17 +10,17 @@ mockByteLength();
 
 const mockSetCaseStatus = jest.fn();
 jest.mock(
-	'../../../modules/ext.checkUser.suggestedInvestigations/rest.js',
+	'../../../../modules/ext.checkUser.suggestedInvestigations/rest.js',
 	() => ( { setCaseStatus: mockSetCaseStatus } )
 );
 
 const mockUpdateCaseStatusOnPage = jest.fn();
 jest.mock(
-	'../../../modules/ext.checkUser.suggestedInvestigations/utils.js',
+	'../../../../modules/ext.checkUser.suggestedInvestigations/utils.js',
 	() => ( { updateCaseStatusOnPage: mockUpdateCaseStatusOnPage } )
 );
 
-const ChangeInvestigationStatusDialog = require( '../../../modules/ext.checkUser.suggestedInvestigations/components/ChangeInvestigationStatusDialog.vue' );
+const ChangeInvestigationStatusDialog = require( '../../../../modules/ext.checkUser.suggestedInvestigations/components/ChangeInvestigationStatusDialog.vue' );
 
 const renderComponent = ( props ) => utils.mount( ChangeInvestigationStatusDialog, {
 	props: Object.assign( {}, { caseId: 1, initialStatus: 'open', initialStatusReason: '' }, props )

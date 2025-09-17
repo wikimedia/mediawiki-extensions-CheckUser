@@ -21,7 +21,7 @@ function onLoad() {
 		if ( mw.config.get( 'wgUseCodexSpecialBlock' ) ) {
 			mw.hook( 'codex.userlookup' ).add( ( components ) => {
 				// Codex and Vue are fully loaded at this point.
-				const ShowIPButton = require( './ShowIPButton.vue' );
+				const ShowIPButton = require( './components/ShowIPButton.vue' );
 				components.value.push( ShowIPButton );
 			} );
 			return;
