@@ -15,7 +15,7 @@ $( () => {
 	// Track the currently active button and user info
 	let activeButton = null;
 	let activeUsername = null;
-	mw.hook( 'wikipage.content' ).add( ( $content ) => {
+	const attachInfoCardHandlers = ( $content ) => {
 		// FIXME: The popover will lose its position when "Live update" mode
 		// is enabled. See T397609 for follow-up work.
 		// Set up event listeners for the user info card buttons
@@ -54,5 +54,10 @@ $( () => {
 				}
 			} );
 		} );
-	} );
+	};
+
+	mw.hook( 'wikipage.content' ).add( attachInfoCardHandlers );
+	// T402196 - user link on permalink pages is outside #mw-content-text,
+	// so it's not covered by the hook above
+	attachInfoCardHandlers( $( '#contentSub' ) );
 } );
