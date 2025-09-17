@@ -278,6 +278,7 @@
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Да видите IP адресе привремених налога, молимо прихватите уговор у [[Special:Preferences|Вашим подешавањима]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Учитавање детаља блокаде",
 	"checkuser-tempaccount-reveal-blocked-title": "Детаљи блокаде",
+	"checkuser-tempaccount-reveal-blocked-description": "Немате дозволу да користите ову могућност из следећег разлога:",
 	"checkuser-tempaccount-specialblock-ips": "Ово је привремени корисник који користи следеће {{PLURAL:$1|IP адресе}}: $2",
 	"checkuser-temporary-account-log-name": "IP адресе привремених налога",
 	"logentry-checkuser-temporary-account-change-access": "$1 је $4 {{GENDER:$2|себи}} приступ IP адресама привремених налога",

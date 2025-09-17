@@ -58,5 +58,6 @@
 	"logentry-checkuser-private-event-create-account": "je napravljen",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Šta je privremeni račun?",
 	"checkuser-investigateblock-warning-confirmaction": "Ako ste sigurni da želite nastaviti, kliknite na \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" polje na dnu stranice.",
-	"checkuser-investigate-compare-table-header-activity": "Vremenski opseg"
+	"checkuser-investigate-compare-table-header-activity": "Vremenski opseg",
+	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP"
 }
