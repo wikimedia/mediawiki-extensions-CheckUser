@@ -21,6 +21,7 @@
 namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
 
 use InvalidArgumentException;
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCase;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
@@ -67,7 +68,7 @@ class SuggestedInvestigationsCaseLookupService {
 			return [];
 		}
 
-		$dbr = $this->dbProvider->getReplicaDatabase();
+		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
 
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [ 'sic_id', 'sic_status', 'sic_status_reason' ] )
