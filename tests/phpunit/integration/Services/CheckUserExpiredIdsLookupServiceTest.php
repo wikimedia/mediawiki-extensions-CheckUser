@@ -3,16 +3,15 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\Services\CheckUserExpiredIdsLookupService;
+use MediaWiki\CheckUser\Tests\Integration\AbuseFilter\FilterFactoryProxyTrait;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\CommentStore\CommentStoreComment;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Content\WikitextContent;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
-use MediaWiki\Extension\AbuseFilter\Filter\Filter;
 use MediaWiki\Extension\AbuseFilter\Filter\Flags;
 use MediaWiki\Extension\AbuseFilter\Filter\MutableFilter;
-use MediaWiki\Extension\AbuseFilter\Tests\Integration\FilterFromSpecsTestTrait;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Page\WikiPage;
@@ -23,9 +22,6 @@ use MediaWiki\Revision\RevisionStoreFactory;
 use MediaWiki\Revision\SlotRecord;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use TestUser;
-use TestUserRegistry;
-use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -38,6 +34,7 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 
 	use CheckUserCommonTraitTest;
 	use CheckUserTempUserTestTrait;
+	use FilterFactoryProxyTrait;
 
 	private const CURRENT_TIMESTAMP = 1754031600;
 	private const MAX_DATA_AGE_SECONDS = 60;
@@ -420,48 +417,5 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 				$services->getConnectionProvider(),
 			$extensionRegistry
 		);
-	}
-
-	/**
-	 * Returns a factory class that wraps a call to getFilterFromSpecs() from
-	 * the FilterFromSpecsTestTrait provided by AbuseFilter, therefore acting as
-	 * a proxy for the original trait.
-	 *
-	 * A factory class is used instead of applying the method directly to the
-	 * test case class since, when applied to the test class directly, it will
-	 * fail to load unless AbuseFilter is available in the extension directory
-	 * AND loaded in LocalSettings.php.
-	 *
-	 * The anonymous class returned by this method allows for calling the
-	 * private method from the trait, while allowing for not trying to load the
-	 * trait at all if AbuseFilter is not loaded.
-	 */
-	private function getFilterFactoryProxy(): object {
-		return new class( $this, $this->getDb() ) {
-			use FilterFromSpecsTestTrait;
-
-			private MediaWikiIntegrationTestCase $parent;
-			private IDatabase $dbw;
-
-			public function __construct(
-				MediaWikiIntegrationTestCase $parent,
-				IDatabase $dbw
-			) {
-				$this->parent = $parent;
-				$this->dbw = $dbw;
-			}
-
-			public function getFilter( array $specs ): Filter {
-				return $this->getFilterFromSpecs( $specs );
-			}
-
-			protected function getDb(): IDatabase {
-				return $this->dbw;
-			}
-
-			protected function getTestUser( $groups = [] ): TestUser {
-				return TestUserRegistry::getImmutableTestUser( $groups );
-			}
-		};
 	}
 }

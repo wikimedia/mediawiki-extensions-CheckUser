@@ -9,11 +9,11 @@ use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
+use MediaWiki\CheckUser\Tests\Integration\AbuseFilter\FilterFactoryProxyTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
 use MediaWiki\Extension\AbuseFilter\Filter\Flags;
 use MediaWiki\Extension\AbuseFilter\Filter\MutableFilter;
-use MediaWiki\Extension\AbuseFilter\Tests\Integration\FilterFromSpecsTestTrait;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Logging\ManualLogEntry;
@@ -41,7 +41,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
-	use FilterFromSpecsTestTrait;
+	use FilterFactoryProxyTrait;
 	use HandlerTestTrait;
 	use MockServiceDependenciesTrait;
 	use TempUserTestTrait;
@@ -50,8 +50,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	private static int $pageCreationLogId;
 	private static int $expiredLogId;
 	private static int $standardAFLogId;
-	private static int $expiredAFLogId;
-	private static int $unavailableAFLogId;
+	private static int $expiredAFLogId = -1;
+	private static int $unavailableAFLogId = -1;
 	private static array $logIdsForPerformLogsLookupTest;
 
 	/**
@@ -600,12 +600,16 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function addDBDataForAbuseLog( User $tempUser1, User $tempUser2 ): void {
+		if ( !ExtensionRegistry::getInstance()->isLoaded( 'Abuse Filter' ) ) {
+			return;
+		}
+
 		$performer = $this->getTestSysop()->getUser();
 		$filterStore = AbuseFilterServices::getFilterStore();
 
 		$status = $filterStore->saveFilter(
 			$performer, null,
-			$this->getFilterFromSpecs( [
+			$this->getFilterFactoryProxy()->getFilter( [
 				'id' => '1',
 				'name' => 'Test filter #1',
 				'privacy' => Flags::FILTER_HIDDEN,
