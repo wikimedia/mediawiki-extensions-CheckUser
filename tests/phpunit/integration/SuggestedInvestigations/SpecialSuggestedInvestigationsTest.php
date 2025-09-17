@@ -21,10 +21,13 @@
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations;
 
 use MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Request\FauxRequest;
 use PHPUnit\Framework\ExpectationFailedException;
 use SpecialPageTestBase;
+use Wikimedia\Parsoid\Utils\DOMCompat;
+use Wikimedia\Parsoid\Utils\DOMUtils;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations
@@ -53,11 +56,53 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	public function testLoadSpecialPageWithRequiredRight() {
 		$checkuser = $this->getTestUser( [ 'checkuser' ] )->getUser();
 
-		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $checkuser, true );
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsGetSignals',
+			static function ( &$signals ) {
+				$signals = [ 'dev-signal-1', 'dev-signal-2' ];
+			}
+		);
+
+		$context = RequestContext::getMain();
+		$context->setUser( $checkuser );
+		$context->setLanguage( 'qqx' );
+
+		[ $html ] = $this->executeSpecialPage(
+			'', new FauxRequest(), null, null, true, $context
+		);
+
+		$descriptionHtml = $this->assertAndGetByElementClass(
+			$html, 'ext-checkuser-suggestedinvestigations-description'
+		);
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-summary',
-			$html
+			$descriptionHtml
 		);
+		$this->assertAndGetByElementClass(
+			$descriptionHtml, 'ext-checkuser-suggestedinvestigations-signals-popover-icon'
+		);
+
+		$actualJsConfigVars = $context->getOutput()->getJsConfigVars();
+		$this->assertArrayHasKey( 'wgCheckUserSuggestedInvestigationsSignals', $actualJsConfigVars );
+		$this->assertArrayEquals(
+			[ 'dev-signal-1', 'dev-signal-2' ],
+			$actualJsConfigVars['wgCheckUserSuggestedInvestigationsSignals']
+		);
+	}
+
+	/**
+	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
+	 * the HTML inside that Element.
+	 *
+	 * @param string $html The HTML to search through
+	 * @param string $class The CSS class to search for, excluding the "." character
+	 * @return string The HTML inside the given class
+	 */
+	private function assertAndGetByElementClass( string $html, string $class ): string {
+		$specialPageDocument = DOMUtils::parseHTML( $html );
+		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
+		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
+		return DOMCompat::getInnerHTML( $element[0] );
 	}
 
 	/** @dataProvider provideUnavailableSpecialPage */

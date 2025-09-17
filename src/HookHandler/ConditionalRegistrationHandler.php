@@ -94,6 +94,7 @@ class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQue
 				'services' => [
 					'ConnectionProvider',
 					'UserLinkRenderer',
+					'CheckUserHookRunner',
 				]
 			];
 		}

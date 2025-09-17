@@ -59,4 +59,24 @@
 		suggestedInvestigationsChangeStatusApp
 			.mount( '#ext-suggestedinvestigations-change-status-app' );
 	} );
+
+	// Render the signals popover when the popover open icon is clicked
+	const SignalsPopover = require( './components/SignalsPopover.vue' );
+	let suggestedInvestigationsSignalsPopover = null;
+
+	$( '.ext-checkuser-suggestedinvestigations-signals-popover-icon' ).on( 'click', function ( event ) {
+		event.preventDefault();
+
+		if ( suggestedInvestigationsSignalsPopover === null ) {
+			const args = { anchor: this };
+			suggestedInvestigationsSignalsPopover = Vue.createMwApp( SignalsPopover, args )
+				.mount( '#ext-suggestedinvestigations-signals-popover-app' );
+		} else {
+			if ( suggestedInvestigationsSignalsPopover.isPopoverOpen() ) {
+				suggestedInvestigationsSignalsPopover.closePopover();
+			} else {
+				suggestedInvestigationsSignalsPopover.openPopover();
+			}
+		}
+	} );
 }() );

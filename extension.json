@@ -501,7 +501,9 @@
 		"RLRegisterModules": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\RLRegisterModulesHandler",
 			"services": [
-				"ExtensionRegistry"
+				"ExtensionRegistry",
+				"CheckUserHookRunner",
+				"MainConfig"
 			]
 		},
 		"UserMerge": {
@@ -627,49 +629,8 @@
 			],
 			"codexStyleOnly": true,
 			"styles": [
-				"table.less"
-			]
-		},
-		"ext.checkUser.suggestedInvestigations": {
-			"localBasePath": "modules/ext.checkUser.suggestedInvestigations",
-			"remoteExtPath": "CheckUser/modules/ext.checkUser.suggestedInvestigations",
-			"packageFiles": [
-				"index.js",
-				"Constants.js",
-				"rest.js",
-				"utils.js",
-				"components/ChangeInvestigationStatusDialog.vue",
-				"components/CharacterLimitedTextInput.vue"
-			],
-			"messages": [
-				"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn",
-				"checkuser-suggestedinvestigations-change-status-dialog-submit-btn",
-				"checkuser-suggestedinvestigations-change-status-dialog-close-label",
-				"checkuser-suggestedinvestigations-change-status-dialog-text",
-				"checkuser-suggestedinvestigations-change-status-dialog-title",
-				"checkuser-suggestedinvestigations-change-status-dialog-status-list-header",
-				"checkuser-suggestedinvestigations-change-status-dialog-status-reason-header",
-				"checkuser-suggestedinvestigations-change-status-dialog-reason-description-resolved",
-				"checkuser-suggestedinvestigations-change-status-dialog-reason-description-invalid",
-				"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-resolved",
-				"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid",
-				"checkuser-suggestedinvestigations-status-open",
-				"checkuser-suggestedinvestigations-status-resolved",
-				"checkuser-suggestedinvestigations-status-invalid",
-				"checkuser-suggestedinvestigations-status-description-invalid",
-				"checkuser-suggestedinvestigations-status-reason-default-invalid",
-				"checkuser-suggestedinvestigations-user-showmore",
-				"checkuser-suggestedinvestigations-user-showless"
-			],
-			"dependencies": [
-				"@wikimedia/codex",
-				"jquery.lengthLimit",
-				"mediawiki.api",
-				"mediawiki.base",
-				"mediawiki.jqueryMsg",
-				"mediawiki.language",
-				"mediawiki.String",
-				"vue"
+				"table.less",
+				"specialpage.less"
 			]
 		},
 		"ext.checkUser.userInfoCard": {

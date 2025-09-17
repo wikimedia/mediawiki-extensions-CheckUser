@@ -20,6 +20,7 @@
 
 namespace MediaWiki\CheckUser\SuggestedInvestigations;
 
+use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Parser\ParserOptions;
@@ -30,7 +31,8 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
-		private readonly UserLinkRenderer $userLinkRenderer
+		private readonly UserLinkRenderer $userLinkRenderer,
+		private readonly HookRunner $hookRunner,
 	) {
 		parent::__construct( 'SuggestedInvestigations', 'checkuser' );
 	}
@@ -44,7 +46,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 
 		$output = $this->getOutput();
 		$output->addHtml( '<div id="ext-suggestedinvestigations-change-status-app"></div>' );
-		$output->addWikiMsg( 'checkuser-suggestedinvestigations-summary' );
+		$output->addHTML( '<div id="ext-suggestedinvestigations-signals-popover-app"></div>' );
 		$output->addModules( 'ext.checkUser.suggestedInvestigations' );
 		$output->addModuleStyles( 'ext.checkUser.styles' );
 
@@ -58,6 +60,37 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$pager->getFullOutput(),
 			ParserOptions::newFromContext( $this->getContext() )
 		);
+	}
+
+	/**
+	 * Adds the suggested investigations summary to the page, including the signals popover icon
+	 * used to inform the user what the risk signals mean.
+	 *
+	 * @inheritDoc
+	 */
+	protected function outputHeader( $summaryMessageKey = '' ): void {
+		$descriptionHtml = Html::rawElement(
+			'span', [], $this->msg( 'checkuser-suggestedinvestigations-summary' )->parse()
+		);
+		$descriptionHtml .= Html::element(
+			'span',
+			[
+				'class' => 'ext-checkuser-suggestedinvestigations-signals-popover-icon',
+				'title' => $this->msg(
+					'checkuser-suggestedinvestigations-risk-signals-popover-open-label'
+				)->text(),
+				'aria-label' => $this->msg(
+					'checkuser-suggestedinvestigations-risk-signals-popover-open-label'
+				)->text(),
+			]
+		);
+		$this->getOutput()->addHTML( Html::rawElement(
+			'div', [ 'class' => 'ext-checkuser-suggestedinvestigations-description' ], $descriptionHtml
+		) );
+
+		$signals = [];
+		$this->hookRunner->onCheckUserSuggestedInvestigationsGetSignals( $signals );
+		$this->getOutput()->addJsConfigVars( 'wgCheckUserSuggestedInvestigationsSignals', $signals );
 	}
 
 	/** @inheritDoc */
