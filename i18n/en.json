@@ -370,6 +370,7 @@
 	"checkuser-userinfocard-past-blocks": "Past blocks: $1",
 	"checkuser-userinfocard-global-edits": "Global edits: $1",
 	"checkuser-userinfocard-local-edits": "Local edits: $1 (reverted: $2)",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Local edits: $1",
 	"checkuser-userinfocard-new-articles": "New articles: $1",
 	"checkuser-userinfocard-thanks": "Thanks received: $1 (given: $2)",
 	"checkuser-userinfocard-checks": "Checks: $1 (last checked: $2)",

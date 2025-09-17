@@ -127,19 +127,19 @@ module.exports = exports = {
 		},
 		localEditsReverted: {
 			type: Number,
-			default: 0
+			default: null
 		},
 		newArticles: {
 			type: Number,
-			default: 0
+			default: null
 		},
 		thanksReceived: {
 			type: Number,
-			default: 0
+			default: null
 		},
 		thanksSent: {
 			type: Number,
-			default: 0
+			default: null
 		},
 		checks: {
 			type: Number,
@@ -314,35 +314,45 @@ module.exports = exports = {
 				mainLinkLogId: 'past_blocks'
 			} );
 
-			rows.push( ...[
-				{
-					icon: cdxIconEdit,
-					iconClass: 'ext-checkuser-userinfocard-icon',
-					messageKey: 'checkuser-userinfocard-global-edits',
-					mainValue: mw.language.convertNumber( props.globalEdits ),
-					mainLink: globalEditsLink,
-					mainLinkLogId: 'global_edits'
-				},
-				{
-					icon: cdxIconEdit,
-					iconClass: 'ext-checkuser-userinfocard-icon',
-					messageKey: 'checkuser-userinfocard-local-edits',
-					mainValue: mw.language.convertNumber( props.localEdits ),
-					mainLink: localEditsLink,
-					mainLinkLogId: 'local_edits',
-					suffixValue: mw.language.convertNumber( props.localEditsReverted ),
-					suffixLink: localRevertedEditsLink,
-					suffixLinkLogId: 'reverted_local_edits'
-				},
-				{
+			rows.push( {
+				icon: cdxIconEdit,
+				iconClass: 'ext-checkuser-userinfocard-icon',
+				messageKey: 'checkuser-userinfocard-global-edits',
+				mainValue: mw.language.convertNumber( props.globalEdits ),
+				mainLink: globalEditsLink,
+				mainLinkLogId: 'global_edits'
+			} );
+
+			const localEditsRow = {
+				icon: cdxIconEdit,
+				iconClass: 'ext-checkuser-userinfocard-icon',
+				mainValue: mw.language.convertNumber( props.localEdits ),
+				mainLink: localEditsLink,
+				mainLinkLogId: 'local_edits'
+			};
+			if ( props.localEditsReverted !== null ) {
+				localEditsRow.messageKey = 'checkuser-userinfocard-local-edits';
+				localEditsRow.suffixValue = mw.language.convertNumber( props.localEditsReverted );
+				localEditsRow.suffixLink = localRevertedEditsLink;
+				localEditsRow.suffixLinkLogId = 'reverted_local_edits';
+			} else {
+				localEditsRow.messageKey = 'checkuser-userinfocard-local-edits-reverts-unknown';
+			}
+			rows.push( localEditsRow );
+
+			if ( props.newArticles !== null ) {
+				rows.push( {
 					icon: cdxIconArticles,
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					messageKey: 'checkuser-userinfocard-new-articles',
 					mainValue: formatCount( props.newArticles, maxEdits ),
 					mainLink: newArticlesLink,
 					mainLinkLogId: 'new_articles'
-				},
-				{
+				} );
+			}
+
+			if ( props.thanksReceived !== null && props.thanksSent !== null ) {
+				rows.push( {
 					icon: cdxIconHeart,
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					messageKey: 'checkuser-userinfocard-thanks',
@@ -352,8 +362,8 @@ module.exports = exports = {
 					suffixValue: formatCount( props.thanksSent, maxThanks ),
 					suffixLink: thanksSentLink,
 					suffixLinkLogId: 'thanks_sent'
-				}
-			] );
+				} );
+			}
 
 			if ( canViewCheckUserLog ) {
 				if ( props.lastChecked ) {

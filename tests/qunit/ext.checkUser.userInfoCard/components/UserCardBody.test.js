@@ -278,6 +278,29 @@ QUnit.test( 'passes correct props to past blocks row', ( assert ) => {
 	);
 } );
 
+QUnit.test( 'hides data from GrowthExperiments if unavailable', ( assert ) => {
+	// These properties are not set in the response if GE is not enabled,
+	// so set them to undefined and not null
+	const wrapper = mountComponent( {
+		localEditsReverted: undefined,
+		newArticles: undefined,
+		thanksReceived: undefined,
+		thanksSent: undefined
+	} );
+
+	const localEditsWithRevertsRow = findRowByLabel( wrapper, 'checkuser-userinfocard-local-edits' );
+	assert.strictEqual( undefined, localEditsWithRevertsRow, 'Local edits with reverts row is not rendered' );
+
+	const localEditsNoRevertsRow = findRowByLabel( wrapper, 'checkuser-userinfocard-local-edits-reverts-unknown' );
+	assert.notStrictEqual( undefined, localEditsNoRevertsRow, 'Local edits no reverts row is not rendered' );
+
+	const newArticlesRow = findRowByLabel( wrapper, 'checkuser-userinfocard-new-articles' );
+	assert.strictEqual( undefined, newArticlesRow, 'New articles row is not rendered' );
+
+	const thanksRow = findRowByLabel( wrapper, 'checkuser-userinfocard-thanks' );
+	assert.strictEqual( undefined, thanksRow, 'Thanks row is not rendered' );
+} );
+
 QUnit.test( 'renders user groups', ( assert ) => {
 	const wrapper = mountComponent( { groups: '<strong>Groups</strong>: Administrators, Check users' } );
 	const groupsParagraph = wrapper.find( '.ext-checkuser-userinfocard-groups' );

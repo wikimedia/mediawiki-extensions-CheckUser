@@ -715,6 +715,7 @@
 				"checkuser-userinfocard-past-blocks",
 				"checkuser-userinfocard-global-edits",
 				"checkuser-userinfocard-local-edits",
+				"checkuser-userinfocard-local-edits-reverts-unknown",
 				"checkuser-userinfocard-new-articles",
 				"checkuser-userinfocard-thanks",
 				"checkuser-userinfocard-checks",

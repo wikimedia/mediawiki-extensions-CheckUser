@@ -404,6 +404,7 @@
 	"checkuser-userinfocard-past-blocks": "Consolidated message for the past blocks in the user info card.\n\nParameters:\n* $1 - Number of past blocks",
 	"checkuser-userinfocard-global-edits": "Consolidated message for global edits row in the user info card.\n\nParameters:\n* $1 - Number of global edits",
 	"checkuser-userinfocard-local-edits": "Consolidated message for local edits row in the user info card.\n\nParameters:\n* $1 - Number of local edits\n* $2 - Number of reverted edits",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Consolidated message for local edits row in the user info card, used if the number of reverted edits is unknown.\n\nParameters:\n* $1 - Number of local edits",
 	"checkuser-userinfocard-new-articles": "Consolidated message for new articles row in the user info card.\n\nParameters:\n* $1 - Number of new articles created",
 	"checkuser-userinfocard-thanks": "Consolidated message for thanks row in the user info card.\n\nParameters:\n* $1 - Number of thanks received\n* $2 - Number of thanks given",
 	"checkuser-userinfocard-checks": "Consolidated message for checks row in the user info card.\n\nParameters:\n* $1 - Number of checks performed\n* $2 - Last checked date/time",
