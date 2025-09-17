@@ -429,6 +429,7 @@
 	"checkuser-userinfocard-enable-preference-description": "The label for a preference for enabling the user info card feature.",
 	"checkuser-userinfocard-enable-preference-help": "The help text for a preference for enabling the user info card feature.",
 	"checkuser-userinfocard-activity-chart-label": "Label for the edit activity chart section in the user info card.\n\nParameters:\n* $1 - Number of local edits",
+	"checkuser-userinfocard-last-edit-timestamp-label": "Label for the footer message showing the timestamp of the latest edit made by the user.\n\nParameters:\n* $1 - Formatted timestamp for the last edit",
 	"checkuser-userinfocard-count-exceeds-max-to-display": "{{optional}}\nDisplayed in the UserInfoCard when a numeric value exceeds a configurable limit (by default 1000).\n\nParameters:\n* $1 - The maximum number that can be displayed. This is followed by a plus sign to indicate that the actual count is larger.",
 	"checkuser-ipinfo-global-contributions-label": "Label for global contributions property in IPInfo's infobox widget",
 	"checkuser-ipinfo-global-contributions-tooltip": "Description of the global contributions property in IPInfo's infobox widget",

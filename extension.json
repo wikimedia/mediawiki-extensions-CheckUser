@@ -700,6 +700,7 @@
 				"checkuser-userinfocard-error-no-data",
 				"checkuser-userinfocard-error-generic",
 				"checkuser-userinfocard-activity-chart-label",
+				"checkuser-userinfocard-last-edit-timestamp-label",
 				"checkuser-userinfocard-count-exceeds-max-to-display",
 				"checkuser-userinfocard-groups",
 				"checkuser-userinfocard-global-groups",

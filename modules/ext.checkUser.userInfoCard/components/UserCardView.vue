@@ -46,6 +46,7 @@
 				:active-wikis="userCard.activeWikis"
 				:recent-local-edits="userCard.recentLocalEdits"
 				:total-local-edits="userCard.totalLocalEdits"
+				:last-edit-timestamp="userCard.lastEditTimestamp"
 				:number-of-ip-reveals="userCard.numberOfIpReveals"
 				:ip-reveal-last-check="userCard.ipRevealLastCheck"
 				:has-ip-reveal-info="userCard.hasIpRevealInfo"
@@ -113,6 +114,7 @@ module.exports = exports = {
 			pastBlocksCount: 0,
 			localEditCount: 0,
 			localEditRevertedCount: null,
+			lastEditTimestamp: '',
 			newArticlesCount: null,
 			checkUserChecks: 0,
 			checkUserLastCheck: '',
@@ -159,6 +161,7 @@ module.exports = exports = {
 						gender,
 						firstRegistration,
 						localRegistration,
+						lastEditTimestamp,
 						globalEditCount,
 						thanksReceived,
 						thanksGiven,
@@ -201,6 +204,11 @@ module.exports = exports = {
 						'';
 					userCard.joinedRelativeTime = firstRegDate ?
 						DateFormatter.formatRelativeTimeOrDate( firstRegDate ) :
+						'';
+
+					const lastEditDate = parseMediaWikiTimestamp( lastEditTimestamp );
+					userCard.lastEditTimestamp = lastEditDate ?
+						DateFormatter.formatTimeAndDate( lastEditDate ) :
 						'';
 
 					// If localRegistration is null, the account is registered but was done so

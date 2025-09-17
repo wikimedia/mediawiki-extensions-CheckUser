@@ -100,3 +100,32 @@ QUnit.test( 'setup function returns the correct activityChartLabel', ( assert ) 
 		'activityChartLabel is set correctly from mw.msg'
 	);
 } );
+
+QUnit.test( 'Renders the timestamp of the last edit if provided', ( assert ) => {
+	const wrapper = mountComponent( {
+		lastEditTimestamp: '10:42, 17 (september) 2025'
+	} );
+
+	const lastEditTimestampTag = wrapper.find( '.ext-checkuser-userinfocard-latest-edit-label' );
+	assert.true(
+		lastEditTimestampTag.exists(),
+		'Paragraph holding the last edit timestamp exists'
+	);
+	assert.strictEqual(
+		lastEditTimestampTag.text(),
+		'checkuser-userinfocard-last-edit-timestamp-label: 10:42, 17 (september) 2025',
+		'Paragraph holding the last edit timestamp displays correct information'
+	);
+} );
+
+QUnit.test( 'Does not render the timestamp of the last edit if not provided', ( assert ) => {
+	const wrapper = mountComponent( {
+		lastEditTimestamp: ''
+	} );
+
+	const lastEditTimestampTag = wrapper.findComponent( '.ext-checkuser-userinfocard-latest-edit-label' );
+	assert.false(
+		lastEditTimestampTag.exists(),
+		'Paragraph holding the last edit timestamp does not exist'
+	);
+} );

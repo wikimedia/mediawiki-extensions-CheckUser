@@ -9,8 +9,16 @@
 			y-accessor="count"
 		></c-sparkline>
 	</div>
-	<p class="ext-checkuser-userinfocard-activity-chart-label">
-		{{ activityChartLabel }}
+	<p>
+		<span
+			class="ext-checkuser-userinfocard-activity-chart-label">
+			{{ activityChartLabel }}
+		</span>
+		<span
+			v-if="latestEditMessage"
+			class="ext-checkuser-userinfocard-latest-edit-label">
+			{{ latestEditMessage }}
+		</span>
 	</p>
 </template>
 
@@ -35,6 +43,10 @@ module.exports = exports = {
 		totalLocalEdits: {
 			type: Number,
 			required: true
+		},
+		lastEditTimestamp: {
+			type: String,
+			required: true
 		}
 	},
 	setup( props ) {
@@ -42,10 +54,17 @@ module.exports = exports = {
 		const activityChartLabel = mw.msg(
 			'checkuser-userinfocard-activity-chart-label', props.totalLocalEdits
 		);
+		const latestEditMessage = props.lastEditTimestamp ?
+			mw.msg(
+				'checkuser-userinfocard-last-edit-timestamp-label',
+				props.lastEditTimestamp
+			) :
+			'';
 
 		return {
 			activityChartLabel,
-			componentId
+			componentId,
+			latestEditMessage
 		};
 	}
 };
@@ -59,6 +78,11 @@ module.exports = exports = {
 }
 
 .ext-checkuser-userinfocard-activity-chart-label {
+	display: block;
+	font-size: @font-size-x-small;
+}
+
+.ext-checkuser-userinfocard-latest-edit-label {
 	font-size: @font-size-x-small;
 }
 </style>

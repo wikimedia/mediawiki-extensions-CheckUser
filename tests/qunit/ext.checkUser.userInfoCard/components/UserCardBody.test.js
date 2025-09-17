@@ -66,6 +66,7 @@ function mountComponent( props = {} ) {
 			thanksSent: 15,
 			checks: 5,
 			lastChecked: '2024-12-31',
+			lastEditTimestamp: '',
 			activeWikis: {},
 			recentLocalEdits: [],
 			hasEditInLast60Days: false,

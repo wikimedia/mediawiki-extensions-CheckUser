@@ -66,6 +66,7 @@
 			:username="username"
 			:recent-local-edits="recentLocalEdits"
 			:total-local-edits="totalLocalEdits"
+			:last-edit-timestamp="lastEditTimestamp"
 		></user-activity-chart>
 		<div class="ext-checkuser-userinfocard-gradient"></div>
 	</div>
@@ -183,6 +184,10 @@ module.exports = exports = {
 		totalLocalEdits: {
 			type: Number,
 			default: 0
+		},
+		lastEditTimestamp: {
+			type: String,
+			default: ''
 		},
 		specialCentralAuthUrl: {
 			type: String,

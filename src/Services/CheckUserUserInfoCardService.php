@@ -103,12 +103,17 @@ class CheckUserUserInfoCardService {
 		if ( !$userImpact ) {
 			return $userData;
 		}
+
 		$userData['totalEditCount'] = $userImpact->getTotalEditsCount();
 		$userData['thanksGiven'] = $userImpact->getGivenThanksCount();
 		$userData['thanksReceived'] = $userImpact->getReceivedThanksCount();
 		$userData['editCountByDay'] = $userImpact->getEditCountByDay();
 		$userData['revertedEditCount'] = $userImpact->getRevertedEditCount();
 		$userData['newArticlesCount'] = $userImpact->getTotalArticlesCreatedCount();
+		$userData['lastEditTimestamp'] = wfTimestampOrNull(
+			TS_MW,
+			$userImpact->getLastEditTimestamp()
+		);
 
 		return $userData;
 	}

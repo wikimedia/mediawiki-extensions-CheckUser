@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use CentralAuthTestUser;
 use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
+use GrowthExperiments\UserImpact\UserImpact;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
@@ -225,6 +226,162 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		$this->assertArrayNotHasKey( 'thanksGiven', $userInfo );
 		$this->assertArrayHasKey( 'name', $userInfo );
+	}
+
+	/**
+	 * @dataProvider userImpactDataPointsAreIncludedDataProvider
+	 */
+	public function testUserImpactDataPointsAreIncluded(
+		array $expectedKeys,
+		array $expectedMissingKeys,
+		array $expectedData,
+		bool $hasUserImpact,
+		int $totalEditsCount,
+		int $givenThanksCount,
+		int $receivedThanksCount,
+		int $revertedEditCount,
+		int $totalArticlesCreatedCount,
+		?int $lastEditTimestamp,
+		array $editCountByDay
+	): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+
+		$performer = $this->getTestUser()->getAuthority();
+		$target = $this->getTestUser()->getUserIdentity();
+
+		$userImpactMock = $this->createMock( UserImpact::class );
+		$userImpactLookup = $this->createMock( ComputedUserImpactLookup::class );
+		$userImpactLookup
+			->method( 'getUserImpact' )
+			->with( $target )
+			->willReturn( $hasUserImpact ? $userImpactMock : null );
+
+		$impactValues = [
+			'getTotalEditsCount' => $totalEditsCount,
+			'getGivenThanksCount' => $givenThanksCount,
+			'getReceivedThanksCount' => $receivedThanksCount,
+			'getEditCountByDay' => $editCountByDay,
+			'getRevertedEditCount' => $revertedEditCount,
+			'getTotalArticlesCreatedCount' => $totalArticlesCreatedCount,
+			'getLastEditTimestamp' => $lastEditTimestamp,
+		];
+
+		foreach ( $impactValues as $method => $value ) {
+			$userImpactMock
+				->method( $method )
+				->willReturn( $value );
+		}
+
+		$this->setService( 'GrowthExperimentsUserImpactLookup', $userImpactLookup );
+
+		$userInfo = $this->getObjectUnderTest()->getUserInfo( $performer, $target );
+
+		$this->assertArrayContains(
+			$expectedData + [ 'name' => $target->getName() ],
+			$userInfo
+		);
+
+		foreach ( $expectedKeys as $key ) {
+			$this->assertArrayHasKey( $key, $userInfo );
+		}
+		foreach ( $expectedMissingKeys as $key ) {
+			$this->assertArrayNotHasKey( $key, $userInfo );
+		}
+	}
+
+	public static function userImpactDataPointsAreIncludedDataProvider(): array {
+		$defaultExpectedKeys = [
+			'activeLocalBlocksAllWikis',
+			'activeWikis',
+			'canAccessTemporaryAccountIpAddresses',
+			'firstRegistration',
+			'gender',
+			'groups',
+			'localRegistration',
+			'pastBlocksOnLocalWiki',
+			'userPageIsKnown',
+		];
+		$editCountByDay1 = [
+			'2025-01-01' => 1,
+			'2025-01-02' => 2,
+			'2025-01-03' => 3,
+			'2025-01-04' => 4,
+		];
+		$editCountByDay2 = [
+			'2025-02-01' => 10,
+			'2025-03-02' => 9,
+			'2025-04-03' => 8,
+			'2025-05-04' => 7,
+		];
+
+		return [
+			'Without user impact data' => [
+				'expectedKeys' => $defaultExpectedKeys,
+				'expectedMissingKeys' => [
+					'editCountByDay',
+					'lastEditTimestamp',
+				],
+				'expectedData' => [
+					'totalEditCount' => 0,
+				],
+				'hasUserImpact' => false,
+				'totalEditsCount' => 10,
+				'givenThanksCount' => 50,
+				'receivedThanksCount' => 100,
+				'revertedEditCount' => 2,
+				'totalArticlesCreatedCount' => 3,
+				'lastEditTimestamp' => null,
+				'editCountByDay' => [],
+			],
+			'With user impact data and last edit timestamp available' => [
+				'expectedKeys' => $defaultExpectedKeys + [
+					'editCountByDay',
+					'lastEditTimestamp',
+				],
+				'expectedMissingKeys' => [],
+				'expectedData' => [
+					'totalEditCount' => 20,
+					'thanksGiven' => 60,
+					'thanksReceived' => 200,
+					'revertedEditCount' => 20,
+					'newArticlesCount' => 30,
+					'lastEditTimestamp' => '20250101100000',
+					'editCountByDay' => $editCountByDay1,
+				],
+				'hasUserImpact' => true,
+				'totalEditsCount' => 20,
+				'givenThanksCount' => 60,
+				'receivedThanksCount' => 200,
+				'revertedEditCount' => 20,
+				'totalArticlesCreatedCount' => 30,
+				'lastEditTimestamp' => strtotime( '2025-01-01T12:00:00+0200' ),
+				'editCountByDay' => $editCountByDay1,
+			],
+			'With user impact data but last edit timestamp unavailable' => [
+				'expectedKeys' => $defaultExpectedKeys + [
+					'editCountByDay',
+					'lastEditTimestamp',
+				],
+				'expectedMissingKeys' => [],
+				'expectedData' => [
+					'totalEditCount' => 10,
+					'thanksGiven' => 50,
+					'thanksReceived' => 100,
+					'revertedEditCount' => 2,
+					'newArticlesCount' => 3,
+					'lastEditTimestamp' => null,
+					'editCountByDay' => $editCountByDay2,
+				],
+				'hasUserImpact' => true,
+				'totalEditsCount' => 10,
+				'givenThanksCount' => 50,
+				'receivedThanksCount' => 100,
+				'revertedEditCount' => 2,
+				'totalArticlesCreatedCount' => 3,
+				'lastEditTimestamp' => null,
+				'editCountByDay' => $editCountByDay2,
+			],
+		];
 	}
 
 	public function testExecuteInvalidUser() {
