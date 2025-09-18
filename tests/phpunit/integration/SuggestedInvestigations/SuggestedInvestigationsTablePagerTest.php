@@ -42,6 +42,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 
 	private static User $testUser1;
 	private static User $testUser2;
+	private const SIGNAL = 'signalname';
 
 	public function setUp(): void {
 		parent::setUp();
@@ -68,7 +69,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 			$row->users,
 		);
 		$this->assertArrayEquals(
-			[ [ 'name' => 'sharedemail', 'value' => 'Test value' ] ],
+			[ [ 'name' => self::SIGNAL, 'value' => 'Test value' ] ],
 			$row->signals,
 		);
 	}
@@ -92,7 +93,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-user-check:', $html );
 		$this->assertStringContainsString( 'Special:CheckUser/' . self::$testUser1->getName(), $html );
-		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-signal-sharedemail)', $html );
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-signal-' . self::SIGNAL . ')', $html );
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-status-open)', $html );
 
 		$name1 = urlencode( self::$testUser1->getName() );
@@ -210,7 +211,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		self::$testUser1 = $user1 = $this->getMutableTestUser()->getUser();
 		self::$testUser2 = $user2 = $this->getMutableTestUser()->getUser();
 
-		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'sharedemail', 'Test value', false );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
 
 		return $caseManager->createCase( [ $user1, $user2 ], [ $signal ] );
 	}
@@ -224,7 +225,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 			$users[] = $this->getMutableTestUser()->getUser();
 		}
 
-		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'sharedemail', 'Test value', false );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
 
 		return $caseManager->createCase( $users, [ $signal ] );
 	}
