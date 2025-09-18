@@ -31,8 +31,8 @@ require_once "$IP/maintenance/Maintenance.php";
 class CreateFakeSuggestedInvestigationCases extends Maintenance {
 
 	private const VALID_SIGNALS = [
-		[ 'name' => 'hcaptcha', 'maxUsersInCaseWithThisSignal' => 1, 'valueType' => 'boolean' ],
-		[ 'name' => 'sharedemail', 'maxUsersInCaseWithThisSignal' => INF, 'valueType' => 'string' ],
+		[ 'name' => 'dev-signal-1', 'maxUsersInCaseWithThisSignal' => 1, 'valueType' => 'boolean' ],
+		[ 'name' => 'dev-signal-2', 'maxUsersInCaseWithThisSignal' => INF, 'valueType' => 'string' ],
 	];
 
 	public function __construct() {
