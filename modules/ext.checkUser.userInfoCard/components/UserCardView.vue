@@ -29,6 +29,7 @@
 				:gender="userCard.gender"
 				:joined-date="userCard.joinedDate"
 				:joined-relative="userCard.joinedRelativeTime"
+				:is-registered-with-unknown-time="userCard.isRegisteredWithUnknownTime"
 				:active-blocks="userCard.activeBlocksCount"
 				:past-blocks="userCard.pastBlocksCount"
 				:global-edits="userCard.globalEditCount"
@@ -104,6 +105,7 @@ module.exports = exports = {
 			gender: 'unknown',
 			joinedDate: '',
 			joinedRelativeTime: '',
+			isRegisteredWithUnknownTime: false,
 			globalEditCount: 0,
 			thanksReceivedCount: null,
 			thanksGivenCount: null,
@@ -156,6 +158,7 @@ module.exports = exports = {
 						name,
 						gender,
 						firstRegistration,
+						localRegistration,
 						globalEditCount,
 						thanksReceived,
 						thanksGiven,
@@ -199,6 +202,12 @@ module.exports = exports = {
 					userCard.joinedRelativeTime = firstRegDate ?
 						DateFormatter.formatRelativeTimeOrDate( firstRegDate ) :
 						'';
+
+					// If localRegistration is null, the account is registered but was done so
+					// before user_registration timestamps were recorded. Pass this bool check
+					// through so that these accounts can be correctly identified later.
+					const isRegisteredWithUnknownTime = localRegistration === null;
+					userCard.isRegisteredWithUnknownTime = isRegisteredWithUnknownTime;
 
 					userCard.globalEditCount = globalEditCount;
 					userCard.thanksReceivedCount = thanksReceived;

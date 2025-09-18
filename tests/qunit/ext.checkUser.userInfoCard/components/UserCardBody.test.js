@@ -55,6 +55,7 @@ function mountComponent( props = {} ) {
 			gender: 'female',
 			joinedDate: '2020-01-01',
 			joinedRelative: '5 years ago',
+			isRegisteredWithUnknownTime: false,
 			activeBlocks: 2,
 			pastBlocks: 3,
 			globalEdits: 1000,
@@ -103,6 +104,18 @@ QUnit.test( 'displays joined date information correctly', ( assert ) => {
 		joinedParagraph.text(),
 		'(checkuser-userinfocard-joined: 2020-01-01, 5 years ago, female)',
 		'Joined paragraph displays correct information'
+	);
+} );
+
+QUnit.test( 'displays registration date unknown information correctly', ( assert ) => {
+	const wrapper = mountComponent( { isRegisteredWithUnknownTime: true } );
+
+	const joinedParagraph = wrapper.find( '.ext-checkuser-userinfocard-joined' );
+	assert.true( joinedParagraph.exists(), 'Joined paragraph exists' );
+	assert.strictEqual(
+		joinedParagraph.text(),
+		'(checkuser-userinfocard-joined-unknowndate: female)',
+		'Joined paragraph displays unknown date indicator'
 	);
 } );
 

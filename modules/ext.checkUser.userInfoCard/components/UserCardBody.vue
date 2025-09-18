@@ -109,6 +109,10 @@ module.exports = exports = {
 			type: String,
 			default: ''
 		},
+		isRegisteredWithUnknownTime: {
+			type: Boolean,
+			default: false
+		},
 		activeBlocks: {
 			type: Number,
 			default: 0
@@ -211,7 +215,12 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const logEvent = useInstrument();
-		const joined = mw.msg( 'checkuser-userinfocard-joined', props.joinedDate, props.joinedRelative, props.gender );
+
+		// Users with no local registration date created their account
+		// before that data was being logged. Reflect that accordingly:
+		const joined = props.isRegisteredWithUnknownTime ?
+			mw.msg( 'checkuser-userinfocard-joined-unknowndate', props.gender ) :
+			mw.msg( 'checkuser-userinfocard-joined', props.joinedDate, props.joinedRelative, props.gender );
 
 		const formattedGroups = computed( () => props.groups );
 		const formattedGlobalGroups = computed( () => props.globalGroups );
