@@ -453,7 +453,7 @@
 	"checkuser-suggestedinvestigations-status-description-invalid": "Sélectionnez cette option pour indiquer un faux positif",
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Faux positif",
 	"checkuser-suggestedinvestigations-action-investigate": "Investiguer les utilisateurs",
-	"checkuser-suggestedinvestigations-action-investigate-disabled": "Investigation limitée à $1 comptes au maximum",
+	"checkuser-suggestedinvestigations-action-investigate-disabled": "Investigation limitée à $1 {{PLURAL:$1|compte|comptes}} au maximum",
 	"checkuser-suggestedinvestigations-action-change-status": "Changer l’état",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Fermer",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Annuler",
