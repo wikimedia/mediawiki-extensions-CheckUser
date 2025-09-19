@@ -414,7 +414,7 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Stato",
 	"checkuser-suggestedinvestigations-change-status-dialog-status-reason-header": "Adder un nota",
 	"checkuser-suggestedinvestigations-change-status-dialog-reason-description-resolved": "Indicar si un mesura ha essite prendite",
-	"checkuser-suggestedinvestigations-change-status-dialog-reason-description-invalid": "Si necun nota es addite, le parolas “false positivo” apparera",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-description-invalid": "Si necun nota es addite, le parolas “{{int:checkuser-suggestedinvestigations-status-reason-default-invalid}}” apparera",
 	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-resolved": "p.ex. mesura prendite: usatores blocate",
 	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid": "p.ex. istes non es contos suspecte",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1",
