@@ -72,8 +72,9 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		$descriptionHtml = Html::rawElement(
 			'span', [], $this->msg( 'checkuser-suggestedinvestigations-summary' )->parse()
 		);
-		$descriptionHtml .= Html::element(
-			'span',
+
+		$popoverIcon = Html::element(
+			'button',
 			[
 				'class' => 'ext-checkuser-suggestedinvestigations-signals-popover-icon',
 				'title' => $this->msg(
@@ -82,8 +83,15 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 				'aria-label' => $this->msg(
 					'checkuser-suggestedinvestigations-risk-signals-popover-open-label'
 				)->text(),
+				'type' => 'button',
 			]
 		);
+		$descriptionHtml .= Html::rawElement(
+			'div',
+			[ 'class' => 'ext-checkuser-suggestedinvestigations-signals-popover-icon-wrapper' ],
+			$popoverIcon
+		);
+
 		$this->getOutput()->addHTML( Html::rawElement(
 			'div', [ 'class' => 'ext-checkuser-suggestedinvestigations-description' ], $descriptionHtml
 		) );
