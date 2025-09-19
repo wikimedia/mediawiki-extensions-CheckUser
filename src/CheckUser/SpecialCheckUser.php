@@ -245,7 +245,10 @@ class SpecialCheckUser extends SpecialPage {
 				);
 			}
 		}
-		if ( $this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+		if (
+			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+			!$this->getConfig()->get( 'CheckUserSuggestedInvestigationsHidden' )
+		) {
 			$links[] = Html::rawElement(
 				'span',
 				[],

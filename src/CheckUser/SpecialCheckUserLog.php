@@ -180,7 +180,10 @@ class SpecialCheckUserLog extends SpecialPage {
 				);
 			}
 
-			if ( $this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+			if (
+				$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+				!$this->getConfig()->get( 'CheckUserSuggestedInvestigationsHidden' )
+			) {
 				$links[] = $this->getLinkRenderer()->makeKnownLink(
 					SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
 					$this->msg( 'checkuser-show-suggestedinvestigations' )->text()

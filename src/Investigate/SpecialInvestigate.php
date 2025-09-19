@@ -918,7 +918,10 @@ class SpecialInvestigate extends FormSpecialPage {
 			),
 		];
 
-		if ( $this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+		if (
+			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+			!$this->getConfig()->get( 'CheckUserSuggestedInvestigationsHidden' )
+		) {
 			$links[] = $this->getLinkRenderer()->makeKnownLink(
 				self::getTitleValueFor( 'SuggestedInvestigations' ),
 				$this->msg( 'checkuser-show-suggestedinvestigations' )->text()
