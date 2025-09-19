@@ -33,6 +33,14 @@ trait SuggestedInvestigationsTestTrait {
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsEnabled', false );
 	}
 
+	private function hideSuggestedInvestigations(): void {
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsHidden', true );
+	}
+
+	private function unhideSuggestedInvestigations(): void {
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsHidden', false );
+	}
+
 	/**
 	 * Defined by MediaWikiIntegrationTestCase, we declare it here so that
 	 * we can be sure it exists in the classes using this trait.

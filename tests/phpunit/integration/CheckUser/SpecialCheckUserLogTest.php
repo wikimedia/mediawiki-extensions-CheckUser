@@ -216,16 +216,53 @@ class SpecialCheckUserLogTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( 'mw-checkuser-log-highlight-entry', $html );
 	}
 
-	public function testLinkToSuggestedInvestigationsPresentOnlyIfFeatureEnabled() {
-		$this->disableSuggestedInvestigations();
+	/** @dataProvider provideLinkToSuggestedInvestigationsPresent */
+	public function testLinkToSuggestedInvestigationsPresent(
+		bool $enabled, bool $hidden, bool $linkExpected
+	) {
+		if ( $enabled ) {
+			$this->enableSuggestedInvestigations();
+		} else {
+			$this->disableSuggestedInvestigations();
+		}
+		if ( $hidden ) {
+			$this->hideSuggestedInvestigations();
+		} else {
+			$this->unhideSuggestedInvestigations();
+		}
 
 		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
-		$this->assertStringNotContainsString( '(checkuser-show-suggestedinvestigations', $html );
 
-		$this->enableSuggestedInvestigations();
+		if ( $linkExpected ) {
+			$this->assertStringContainsString( '(checkuser-show-suggestedinvestigations', $html );
+		} else {
+			$this->assertStringNotContainsString( '(checkuser-show-suggestedinvestigations', $html );
+		}
+	}
 
-		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
-		$this->assertStringContainsString( '(checkuser-show-suggestedinvestigations', $html );
+	public static function provideLinkToSuggestedInvestigationsPresent() {
+		return [
+			'Feature disabled, not hidden' => [
+				'enabled' => false,
+				'hidden' => false,
+				'linkExpected' => false,
+			],
+			'Feature enabled, not hidden' => [
+				'enabled' => true,
+				'hidden' => false,
+				'linkExpected' => true,
+			],
+			'Feature disabled, hidden' => [
+				'enabled' => false,
+				'hidden' => true,
+				'linkExpected' => false,
+			],
+			'Feature enabled, hidden' => [
+				'enabled' => true,
+				'hidden' => true,
+				'linkExpected' => false,
+			],
+		];
 	}
 
 	public function addDBDataOnce() {

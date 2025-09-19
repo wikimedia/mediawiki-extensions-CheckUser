@@ -85,7 +85,10 @@ class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQue
 			];
 		}
 
-		if ( $this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+		if (
+			$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+			!$this->config->get( 'CheckUserSuggestedInvestigationsHidden' )
+		) {
 			$list['SuggestedInvestigations'] = [
 				'class' => SpecialSuggestedInvestigations::class,
 				'services' => [

@@ -36,6 +36,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->enableSuggestedInvestigations();
+		$this->unhideSuggestedInvestigations();
 	}
 
 	protected function newSpecialPage(): SpecialSuggestedInvestigations {
@@ -59,10 +60,38 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		);
 	}
 
-	public function testDisabledSpecialPage() {
-		$this->disableSuggestedInvestigations();
+	/** @dataProvider provideUnavailableSpecialPage */
+	public function testUnavailableSpecialPage( bool $enabled, bool $hidden ) {
+		if ( $enabled ) {
+			$this->enableSuggestedInvestigations();
+		} else {
+			$this->disableSuggestedInvestigations();
+		}
+		if ( $hidden ) {
+			$this->hideSuggestedInvestigations();
+		} else {
+			$this->unhideSuggestedInvestigations();
+		}
+
 		// This exception is thrown in `newSpecialPage` when the assertion fails
 		$this->expectException( ExpectationFailedException::class );
 		$this->executeSpecialPage();
+	}
+
+	public static function provideUnavailableSpecialPage() {
+		return [
+			'Feature disabled, not hidden' => [
+				'enabled' => false,
+				'hidden' => false,
+			],
+			'Feature disabled, hidden' => [
+				'enabled' => false,
+				'hidden' => true,
+			],
+			'Feature enabled, hidden' => [
+				'enabled' => true,
+				'hidden' => true,
+			],
+		];
 	}
 }
