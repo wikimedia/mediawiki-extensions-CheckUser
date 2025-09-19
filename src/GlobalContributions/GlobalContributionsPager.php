@@ -124,7 +124,9 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			->where( $targetIPConditions )
 			->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
 			->caller( __METHOD__ );
-		return $queryBuilder->fetchFieldValues();
+		$wikis = $queryBuilder->fetchFieldValues();
+		$skippedWikis = $this->getConfig()->get( 'CheckUserGlobalContributionsSkippedWikiIds' );
+		return array_diff( $wikis, $skippedWikis );
 	}
 
 	public function doQuery() {
