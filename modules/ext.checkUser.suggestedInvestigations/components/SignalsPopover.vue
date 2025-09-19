@@ -9,7 +9,7 @@
 		:close-button-label="$i18n(
 			'checkuser-suggestedinvestigations-risk-signals-popover-close-label'
 		).text()"
-		class="ext-checkuser-suggestedinvestigations-change-status-dialog"
+		class="ext-checkuser-suggestedinvestigations-signals-popover"
 	>
 		<!--
 		Security Note: This use of v-html is considered acceptable because:

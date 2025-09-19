@@ -31,7 +31,7 @@ const commonComponentTest = async ( props ) => {
 
 	// Check the dialog element exists.
 	const popover = wrapper.find(
-		'.ext-checkuser-suggestedinvestigations-change-status-dialog'
+		'.ext-checkuser-suggestedinvestigations-signals-popover'
 	);
 	expect( popover.exists() ).toEqual( true );
 
@@ -41,9 +41,6 @@ const commonComponentTest = async ( props ) => {
 	);
 	expect( popover.attributes() ).toHaveProperty(
 		'closebuttonlabel', '(checkuser-suggestedinvestigations-risk-signals-popover-close-label)'
-	);
-	expect( popover.attributes() ).toHaveProperty(
-		'class', 'ext-checkuser-suggestedinvestigations-change-status-dialog'
 	);
 
 	// Expect the body to have the expected content (body is stored inside the default slot)
