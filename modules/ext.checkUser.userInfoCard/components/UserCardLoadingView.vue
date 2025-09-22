@@ -22,10 +22,13 @@ module.exports = exports = {
 };
 </script>
 
-<style>
+<style lang="less">
+@import 'mediawiki.skin.variables.less';
+
 .ext-checkuser-userinfocard-loading-indicator {
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
+	margin-bottom: @spacing-150;
 }
 </style>
