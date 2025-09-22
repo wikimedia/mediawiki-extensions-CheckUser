@@ -631,7 +631,13 @@ function hideAllIps( $content, autoRevealStatus ) {
 	// On all other pages, replace IPs that are not pre-revealed with buttons
 	const $userLinks = getUserLinks( $content );
 	const $userLinksToHide = $userLinks.filter( function () {
-		return !ipRevealUtils.getRevealedStatus( $( this ).attr( 'data-mw-target' ) );
+		if ( ipRevealUtils.getRevealedStatus( $( this ).attr( 'data-mw-target' ) ) ) {
+			return false;
+		}
+		if ( $( this ).next( '.ext-checkuser-tempaccount-reveal-ip' ).length === 0 ) {
+			return false;
+		}
+		return true;
 	} );
 	$userLinksToHide.next( '.ext-checkuser-tempaccount-reveal-ip' ).remove();
 	addButtonsToUserLinks( $userLinksToHide );

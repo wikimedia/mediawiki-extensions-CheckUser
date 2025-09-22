@@ -538,11 +538,14 @@ QUnit.test( 'Test disableAutoReveal replaces IPs with buttons', function ( asser
 	Object.entries( revisionLines ).forEach( ( [ revId, username ] ) => {
 		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
 		$qunitFixture.append( $revisionLine );
-		const $tempAccountUserLink = makeTempUserLink( username );
-		const $revealedIp = $( '<span>' ).addClass( 'ext-checkuser-tempaccount-reveal-ip' ).append(
-			$( '<a>' ).addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
-		);
-		$revisionLine.append( $tempAccountUserLink, $revealedIp );
+		if ( revId !== '3' ) {
+			// Leave one line without an IP, to ensure a button is not added (T404720)
+			const $tempAccountUserLink = makeTempUserLink( username );
+			const $revealedIp = $( '<span>' ).addClass( 'ext-checkuser-tempaccount-reveal-ip' ).append(
+				$( '<a>' ).addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
+			);
+			$revisionLine.append( $tempAccountUserLink, $revealedIp );
+		}
 	} );
 
 	// Check that auto-reveal mode is switched off
@@ -560,7 +563,7 @@ QUnit.test( 'Test disableAutoReveal replaces IPs with buttons', function ( asser
 	);
 	assert.strictEqual(
 		$( '.ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
-		3,
+		2,
 		'IP reveal buttons added'
 	);
 } );
