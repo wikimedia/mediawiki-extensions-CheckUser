@@ -3,7 +3,6 @@ namespace MediaWiki\CheckUser\Tests\Integration\AbuseFilter;
 
 use MediaWiki\Extension\AbuseFilter\Filter\Filter;
 use MediaWiki\Extension\AbuseFilter\Tests\Integration\FilterFromSpecsTestTrait;
-use MediaWikiIntegrationTestCase;
 use TestUser;
 use TestUserRegistry;
 use Wikimedia\Rdbms\IDatabase;
@@ -25,17 +24,12 @@ trait FilterFactoryProxyTrait {
 	 * trait at all if AbuseFilter is not loaded.
 	 */
 	private function getFilterFactoryProxy(): object {
-		return new class( $this, $this->getDb() ) {
+		return new class( $this->getDb() ) {
 			use FilterFromSpecsTestTrait;
 
-			private MediaWikiIntegrationTestCase $parent;
 			private IDatabase $dbw;
 
-			public function __construct(
-				MediaWikiIntegrationTestCase $parent,
-				IDatabase $dbw
-			) {
-				$this->parent = $parent;
+			public function __construct( IDatabase $dbw ) {
 				$this->dbw = $dbw;
 			}
 
