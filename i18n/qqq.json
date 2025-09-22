@@ -278,6 +278,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Entry for a table cell in [[Special:Investigate]].",
 	"checkuser-investigate-filters-legend": "Heading for the filters form on [[Special:Investigate]].",
 	"checkuser-investigate-filters-exclude-targets-label": "Label for the hide targets filter on [[Special:Investigate]].",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "Label for the hide temporary accounts filter on [[Special:Investigate]].",
 	"checkuser-investigate-timeline-notice-no-results": "Message shown in [[Special:Investigate]] when there are no results for a Timeline investigation.",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Message shown in [[Special:Investigate]] when there are no results for a Timeline investigation that has filters.",
 	"checkuser-investigate-compare-copy-button-label": "Label for a button in [[Special:Investigate]]",

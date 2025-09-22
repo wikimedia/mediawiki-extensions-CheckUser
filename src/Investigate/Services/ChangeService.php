@@ -16,8 +16,8 @@ abstract class ChangeService implements CheckUserQueryInterface {
 
 	protected IConnectionProvider $dbProvider;
 	protected CheckUserLookupUtils $checkUserLookupUtils;
+	protected TempUserConfig $tempUserConfig;
 	private UserIdentityLookup $userIdentityLookup;
-	private TempUserConfig $tempUserConfig;
 
 	public function __construct(
 		IConnectionProvider $dbProvider,
@@ -165,42 +165,34 @@ abstract class ChangeService implements CheckUserQueryInterface {
 		SelectQueryBuilder $queryBuilder,
 		string $table
 	): SelectQueryBuilder {
+		$temporaryAccountsFilterExpr = $this->tempUserConfig->getMatchCondition(
+			$dbr,
+			'actor_name',
+			IExpression::NOT_LIKE
+		);
+
 		// These tables don't store a username directly but only an actor ID:
 		// the 'actor_name' below comes from joining with the actor table.
-		switch ( $table ) {
-			case self::PRIVATE_LOG_EVENT_TABLE:
-				// We cannot use cu_private_event.cupe_title here because that
-				// column is not indexed.
-				$queryBuilder->andWhere(
-					$dbr->orExpr( [
-						// Explicitly adding rows where cupe_actor is null
-						// so that events such as Failed Logins that do not have
-						// a value in cupe_actor are still listed.
-						$dbr->expr( 'cupe_actor', '=', null ),
-						$this->tempUserConfig->getMatchCondition(
-							$dbr,
-							'actor_name',
-							IExpression::NOT_LIKE
-						)
-					] )
-				);
-
-				break;
+		$condition = match ( $table ) {
+			// We cannot use cu_private_event.cupe_title here because that
+			// column is not indexed.
+			self::PRIVATE_LOG_EVENT_TABLE => $dbr->orExpr( [
+					// Explicitly adding rows where cupe_actor is null
+					// so that events such as Failed Logins that do not have
+					// a value in cupe_actor are still listed.
+					$dbr->expr( 'cupe_actor', '=', null ),
+					$temporaryAccountsFilterExpr
+				] ),
 
 			// cule_actor & cuc_actor are declared as NOT NULL, so there is no
 			// need to explicitly keep rows where the actor ID is NULL for the
 			// log and changes tables as it happened for cu_private_event.
-			case self::CHANGES_TABLE:
-			case self::LOG_EVENT_TABLE:
-				$queryBuilder->andWhere(
-					$this->tempUserConfig->getMatchCondition(
-						$dbr,
-						'actor_name',
-						IExpression::NOT_LIKE
-					)
-				);
+			self::CHANGES_TABLE, self::LOG_EVENT_TABLE => $temporaryAccountsFilterExpr,
+			default => null,
+		};
 
-				break;
+		if ( $condition ) {
+			$queryBuilder->andWhere( $condition );
 		}
 
 		return $queryBuilder;

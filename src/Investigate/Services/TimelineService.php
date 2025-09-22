@@ -44,6 +44,14 @@ class TimelineService extends ChangeService {
 					$table, $ipTargets, true, $excludeTargets, $start, $limit
 				);
 				if ( $ipTargetsQuery !== null ) {
+					if ( $excludeTempAccounts ) {
+						$ipTargetsQuery = $this->excludeTempAccountsFromQuery(
+							$dbr,
+							$ipTargetsQuery,
+							$table
+						);
+					}
+
 					$unionQueryBuilder->add( $ipTargetsQuery );
 					$hasValidQuery = true;
 				}
@@ -64,7 +72,26 @@ class TimelineService extends ChangeService {
 		}
 
 		if ( !$hasValidQuery ) {
-			throw new LogicException( 'Cannot get query info when $targets is empty or contains all invalid targets.' );
+			// Required to prevent an error when a single temp account is
+			// requested in the timeline while filtering out temp accounts
+			if ( $excludeTempAccounts &&
+				count( $ipTargets ) === 0 && count( $userTargets ) > 0 &&
+				$this->containsOnlyTempNames( $userTargets )
+			) {
+				// If the conditions are empty but user targets were provided,
+				// AND we were asked to skip temp accounts, it may be the case
+				// that all $userTargets refer to temp accounts.
+				//
+				// In that case, adding a dummy SELECT matching no rows to the
+				// UNION query is needed to prevent the query from failing
+				// (EXPLAIN for the resulting query is reported by the RDBMS as
+				// an "Impossible WHERE")
+				$unionQueryBuilder->add( $this->getDummyQueryBuilder() );
+			} else {
+				throw new LogicException(
+					'Cannot get query info when $targets is empty or contains all invalid targets.'
+				);
+			}
 		}
 
 		$derivedTable = $unionQueryBuilder->getSQL();
@@ -77,6 +104,42 @@ class TimelineService extends ChangeService {
 				'log_type', 'log_action', 'log_params', 'log_deleted', 'log_id',
 			],
 		];
+	}
+
+	private function getDummyQueryBuilder(): SelectQueryBuilder {
+		$fields = [
+			'namespace' => $this->castValueToType( 'Null', 'int' ),
+			'title' => $this->castValueToType( 'Null', 'text' ),
+			'timestamp' => $this->castValueToType( 'Null', 'timestampz' ),
+			'page_id' => $this->castValueToType( 'Null', 'int' ),
+			'ip' => $this->castValueToType( 'Null', 'varchar' ),
+			'xff' => $this->castValueToType( 'Null', 'text' ),
+			'agent' => $this->castValueToType( 'Null', 'text' ),
+			'id' => $this->castValueToType( 'Null', 'int' ),
+			'user' => $this->castValueToType( 'Null', 'int' ),
+			'user_text' => $this->castValueToType( 'Null', 'varbinary' ),
+			'actor' => $this->castValueToType( 'Null', 'int' ),
+			'comment_text' => $this->castValueToType( 'Null', 'text' ),
+			'comment_data' => $this->castValueToType( 'Null', 'text' ),
+			'type' => $this->castValueToType( 'Null', 'int' ),
+			'this_oldid' => $this->castValueToType( 'Null', 'int' ),
+			'last_oldid' => $this->castValueToType( 'Null', 'int' ),
+			'minor' => $this->castValueToType( 'Null', 'int' ),
+			// Fields relevant to cu_log_event and cu_private_event
+			'log_type' => $this->castValueToType( 'Null', 'varbinary' ),
+			'log_action' => $this->castValueToType( 'Null', 'varbinary' ),
+			'log_params' => $this->castValueToType( 'Null', 'blob' ),
+			'log_deleted' => $this->castValueToType( 'Null', 'smallint' ),
+			'log_id' => $this->castValueToType( 'Null', 'int' ),
+		];
+
+		return $this->dbProvider->getReplicaDatabase()->newSelectQueryBuilder()
+			->select( $fields )
+			->from( 'cu_changes' )
+			->join( 'actor', null, 'actor_id=cuc_actor' )
+			->join( 'comment', null, 'comment_id=cuc_comment_id' )
+			->where( '1=0' )
+			->caller( __METHOD__ );
 	}
 
 	/**
@@ -287,6 +350,25 @@ class TimelineService extends ChangeService {
 			$queryBuilder->orderBy( 'cupe_timestamp', SelectQueryBuilder::SORT_DESC );
 		}
 		return $queryBuilder;
+	}
+
+	/**
+	 * Determines whether a given list of usernames contains only temporary
+	 * account names.
+	 *
+	 * If the array is empty, returns true.
+	 *
+	 * @param string[] $userTargets An array of usernames
+	 * @return bool
+	 */
+	private function containsOnlyTempNames( array $userTargets ): bool {
+		foreach ( $userTargets as $target ) {
+			if ( !$this->tempUserConfig->isTempName( $target ) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**

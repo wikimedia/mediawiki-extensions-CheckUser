@@ -78,7 +78,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		UserOptionsManager $userOptionsManager,
 		PagerFactory $preliminaryCheckPagerFactory,
 		PagerFactory $comparePagerFactory,
-		PagerFactory $timelinePagerFactory,
+		TimelinePagerFactory $timelinePagerFactory,
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
 		EventLogger $eventLogger,
@@ -662,6 +662,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		// Filters for both Compare & Timeline
 		$compareTab = $this->getTabParam( 'compare' );
 		$timelineTab = $this->getTabParam( 'timeline' );
+		$filterTempAccounts = (bool)$data['FilterTempAccounts'];
 
 		// Filters for both Compare & Timeline
 		if ( in_array( $this->par, [ $compareTab, $timelineTab ], true ) ) {
@@ -679,6 +680,13 @@ class SpecialInvestigate extends FormSpecialPage {
 				],
 			];
 			$fields['Duration'] = $duration;
+			$fields['FilterTempAccounts'] = [
+				'type' => 'check',
+				'name' => 'filter-temp-accounts',
+				'label-message' => 'checkuser-investigate-filters-exclude-temp-accounts-label',
+				'required' => false,
+				'default' => $filterTempAccounts
+			];
 		}
 
 		if ( $this->par === $compareTab ) {
@@ -733,6 +741,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	public function onSubmit( array $data ) {
 		$update = [
+			'FilterTempAccounts' => isset( $data['FilterTempAccounts'] ) && $data['FilterTempAccounts'],
 			'offset' => null,
 		];
 
@@ -886,7 +895,10 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @return bool
 	 */
 	private function usingFilters(): bool {
-		return count( $this->getTokenData()['exclude-targets'] ?? [] ) > 0
+		$tokenData = $this->getTokenData();
+
+		return count( $tokenData['exclude-targets'] ?? [] ) > 0
+			|| ( $tokenData['FilterTempAccounts'] ?? false )
 			|| $this->getDuration() !== '';
 	}
 

@@ -244,6 +244,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki not found",
 	"checkuser-investigate-filters-legend": "Filters",
 	"checkuser-investigate-filters-exclude-targets-label": "Hide the following users or IPs",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "Filter out temporary accounts",
 	"checkuser-investigate-timeline-notice-no-results": "There are no results: there has been no recorded activity from these users or IPs in the last 90 days",
 	"checkuser-investigate-timeline-notice-no-results-filters": "There are no results matching these filtering criteria. Try removing some filters to broaden the search.",
 	"checkuser-investigate-compare-copy-button-label": "Show wikitext",

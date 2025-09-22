@@ -8,12 +8,14 @@ use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Tests\Integration\Investigate\CompareTabTestDataTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\Platform\MySQLPlatform;
 use Wikimedia\Rdbms\Platform\PostgresPlatform;
 use Wikimedia\Rdbms\Platform\SqlitePlatform;
@@ -109,6 +111,9 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				]
 			);
 
+		/** @var $tempUserConfig TempUserConfig */
+		$tempUserConfig = $this->getServiceContainer()->get( 'TempUserConfig' );
+
 		$compareService = new CompareService(
 			new ServiceOptions(
 				CompareService::CONSTRUCTOR_OPTIONS,
@@ -117,7 +122,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			$dbProvider,
 			$userIdentityLookup,
 			$this->getServiceContainer()->get( 'CheckUserLookupUtils' ),
-			$this->getServiceContainer()->get( 'TempUserConfig' )
+			$tempUserConfig
 		);
 
 		$queryInfo = $compareService->getQueryInfo(
@@ -146,18 +151,6 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			$start = $this->getDb()->timestamp( $start );
 		}
 
-		if ( $options['excludeTempAccounts'] ) {
-			$this->assertStringContainsString(
-				'actor_name NOT LIKE \'~%\'',
-				$queryInfo['tables']['a']
-			);
-		} else {
-			$this->assertStringNotContainsString(
-				'actor_name NOT LIKE \'~%\'',
-				$queryInfo['tables']['a']
-			);
-		}
-
 		foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
 			$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );
 			$columnPrefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
@@ -168,6 +161,26 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					$columnPrefix . "timestamp >= '$start'", $queryInfo['tables']['a']
 				);
 			}
+		}
+
+		if ( $options['excludeTempAccounts'] ) {
+			$this->assertStringContainsString(
+				$tempUserConfig->getMatchCondition(
+					$this->getDb(),
+					'actor_name',
+					IExpression::NOT_LIKE
+				)->toSql( $this->getDb() ),
+				$queryInfo['tables']['a']
+			);
+		} else {
+			$this->assertStringNotContainsString(
+				$tempUserConfig->getMatchCondition(
+					$this->getDb(),
+					'actor_name',
+					IExpression::NOT_LIKE
+				)->toSql( $this->getDb() ),
+				$queryInfo['tables']['a']
+			);
 		}
 	}
 
