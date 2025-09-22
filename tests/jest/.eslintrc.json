@@ -1,14 +1,12 @@
 {
 	"root": true,
 	"extends": [
-		"wikimedia/common",
-		"wikimedia/vue/common",
-		"wikimedia/jquery",
+		"wikimedia/server",
 		"wikimedia/mediawiki",
-		"wikimedia/language/es2022"
+		"wikimedia/jest"
 	],
-	"env": {
-		"jest": true,
-		"node": true
+	"rules": {
+		"jest/valid-title": "off",
+		"jest/expect-expect": [ "warn", { "assertFunctionNames": [ "expect", "commonComponentTest" ] } ]
 	}
 }
