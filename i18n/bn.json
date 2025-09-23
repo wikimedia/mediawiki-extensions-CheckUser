@@ -296,6 +296,7 @@
 	"checkuser-userinfocard-past-blocks": "অতীতে বাধাপ্রাপ্ত: $1 বার",
 	"checkuser-userinfocard-global-edits": "বৈশ্বিক সম্পাদনা: $1টি",
 	"checkuser-userinfocard-local-edits": "স্থানীয় সম্পাদনা: $1টি (বাতিল: $2টি)",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "স্থানীয় সম্পাদনা: $1",
 	"checkuser-userinfocard-new-articles": "নতুন নিবন্ধ: $1টি",
 	"checkuser-userinfocard-thanks": "ধন্যবাদ পেয়েছেন: $1 বার (দিয়েছেন: $2 বার)",
 	"checkuser-userinfocard-checks": "পরীক্ষা: $1টি (সর্বশেষ: $2)",
@@ -327,6 +328,9 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "বন্ধ করুন",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "বাতিল",
 	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "জমা দিন",
+	"checkuser-suggestedinvestigations-change-status-dialog-title": "স্থিতি পরিবর্তন করুন",
 	"checkuser-suggestedinvestigations-change-status-dialog-text": "এই তদন্তের জন্য একটি নতুন স্থিতি নির্বাচন করুন",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "স্থিতি",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "বন্ধ করুন",
 	"checkuser-userinfocard-temporary-account-bucketcount": "সমস্ত সংশ্লিষ্ট আইপি থেকে অস্থায়ী অ্যাকাউন্ট: $1"
 }

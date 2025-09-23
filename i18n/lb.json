@@ -204,6 +204,7 @@
 	"checkuser-userinfocard-past-blocks": "Vergaange Spären: $1",
 	"checkuser-userinfocard-global-edits": "Global Ännerungen: $1",
 	"checkuser-userinfocard-local-edits": "Lokal Ännerungen: $1 (zréckgesat: $2)",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Lokal Ännerungen: $1",
 	"checkuser-userinfocard-new-articles": "Nei Artikelen: $1",
 	"checkuser-userinfocard-thanks": "Mercie kritt: $1 (ginn: $2)",
 	"checkuser-userinfocard-menu-view-contributions": "{{GENDER:$1|Benotzerkontributioune}} weisen",
@@ -237,5 +238,6 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Ofbriechen",
 	"checkuser-suggestedinvestigations-change-status-dialog-title": "Status änneren",
 	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Status",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Zoumaachen",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporär Konte vun allen associéierten IPen: $1"
 }

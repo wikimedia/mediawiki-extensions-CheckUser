@@ -224,5 +224,13 @@
 	"checkuser-userinfocard-enable-preference-help": "د کارن‌نومونو سره يوه تڼۍ وښاياست؛ ترڅو د گڼون په اړه يو مالوماتي بړبوکيزه پرانيځي.",
 	"checkuser-ipinfo-global-contributions-label": "ټوليزې ونډې",
 	"checkuser-userinfocard-groups": "<strong>ډلې</strong>: $1",
-	"checkuser-userinfocard-global-groups": "<strong>ټوليزې ډلې</strong>:$1"
+	"checkuser-userinfocard-global-groups": "<strong>ټوليزې ډلې</strong>:$1",
+	"checkuser-suggestedinvestigations-status-open": "پرانېستل",
+	"checkuser-suggestedinvestigations-status-resolved": "تړل شوی",
+	"checkuser-suggestedinvestigations-action-change-status": "دريځ بدلول",
+	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "تړل",
+	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "ناگارل",
+	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "سپارل",
+	"checkuser-suggestedinvestigations-change-status-dialog-text": "دې گروېږنې لپاره يو نوی دريځ غوره‌کول",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-reason-header": "يو يادښت ورگډول"
 }

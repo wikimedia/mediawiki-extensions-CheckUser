@@ -409,5 +409,5 @@
 	"checkuser-userinfocard-ip-revealed-count": "Ujawnienia IP: $1 (ostatnio $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Ujawnienia IP: $1",
 	"checkuser-suggestedinvestigations": "Sugerowane sprawdzenia",
-	"checkuser-suggestedinvestigations-summary": "Ta strona zawiera konta automatycznie oznaczone jako podejrzane i przeznaczone do sprawdzenia przez uprawnionych użytkowników. [[mw:Help:Extension:CheckUser/Risk signals|Więcej o czynnikach ryzyka]]."
+	"checkuser-suggestedinvestigations-summary": "Ta strona zawiera konta automatycznie oznaczone jako podejrzane i przeznaczone do sprawdzenia przez uprawnionych użytkowników."
 }
