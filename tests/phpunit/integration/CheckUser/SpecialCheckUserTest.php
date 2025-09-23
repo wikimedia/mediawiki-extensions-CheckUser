@@ -270,13 +270,20 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		);
 	}
 
-	public function testSubmitFormForGetActionsCheckWithResults() {
+	/** @dataProvider provideSubmitFormForGetActionsCheckWithResults */
+	public function testSubmitFormForGetActionsCheckWithResults( $tempAccountsHidden ) {
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
 
 		$testCheckUser = $this->getTestCheckUser();
-		$request = new FauxRequest( [ 'checktype' => 'subactions', 'reason' => 'Test check' ], true );
+		$request = new FauxRequest(
+			[
+				'checktype' => 'subactions', 'reason' => 'Test check',
+				'wpHideTemporaryAccounts' => $tempAccountsHidden,
+			],
+			true
+		);
 		[ $html ] = $this->executeSpecialPage( '1.2.3.4', $request, null, $testCheckUser );
 
 		$this->commonVerifyFormFieldsPresent( $html );
@@ -288,10 +295,21 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
-		// Verify the temporary account edit is shown
-		$this->assertStringContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+		// Verify the temporary account edit is shown or not shown, depending on the state of the filters
+		if ( $tempAccountsHidden ) {
+			$this->assertStringNotContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+		} else {
+			$this->assertStringContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+		}
 
 		$this->verifyCheckUserLogEntryCreated( $testCheckUser, 'Test check', '1.2.3.4', 'ipedits' );
+	}
+
+	public static function provideSubmitFormForGetActionsCheckWithResults(): array {
+		return [
+			'Temporary accounts hidden' => [ true ],
+			'Temporary accounts not hidden' => [ false ],
+		];
 	}
 
 	public function testSubmitFormForGetActionsCheckOnUsernameWithResults() {
@@ -369,14 +387,19 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		];
 	}
 
-	public function testSubmitFormForGetUsersCheckWithResults() {
+	/** @dataProvider provideSubmitFormForGetUsersCheckWithResults */
+	public function testSubmitFormForGetUsersCheckWithResults( $tempAccountsHidden ) {
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
 
 		$testCheckUser = $this->getTestCheckUser();
 		$request = new FauxRequest(
-			[ 'checktype' => 'subipusers', 'reason' => 'Test check', 'user' => '1.2.3.4' ], true
+			[
+				'checktype' => 'subipusers', 'reason' => 'Test check', 'user' => '1.2.3.4',
+				'wpHideTemporaryAccounts' => $tempAccountsHidden,
+			],
+			true
 		);
 		[ $html ] = $this->executeSpecialPage( '', $request, null, $testCheckUser );
 
@@ -389,10 +412,21 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
-		// Verify the temporary account is shown
-		$this->assertStringContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+		// Verify the temporary account is shown or not shown, depending on the state of the filters
+		if ( $tempAccountsHidden ) {
+			$this->assertStringNotContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+		} else {
+			$this->assertStringContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+		}
 
 		$this->verifyCheckUserLogEntryCreated( $testCheckUser, 'Test check', '1.2.3.4', 'ipusers' );
+	}
+
+	public static function provideSubmitFormForGetUsersCheckWithResults(): array {
+		return [
+			'Temporary accounts hidden' => [ true ],
+			'Temporary accounts not hidden' => [ false ],
+		];
 	}
 
 	/**

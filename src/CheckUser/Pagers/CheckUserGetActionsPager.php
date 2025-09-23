@@ -36,6 +36,7 @@ use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
@@ -46,6 +47,7 @@ use Psr\Log\LoggerInterface;
 use stdClass;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IExpression;
 
 class CheckUserGetActionsPager extends AbstractCheckUserPager {
 
@@ -107,6 +109,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		LogFormatterFactory $logFormatterFactory,
 		UserOptionsLookup $userOptionsLookup,
 		DatabaseBlockStore $blockStore,
+		TempUserConfig $tempUserConfig,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -114,7 +117,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
 			$userIdentityLookup, $checkUserLogService, $userFactory, $checkUserLookupUtils,
-			$userOptionsLookup, $blockStore, $context, $linkRenderer, $limit );
+			$userOptionsLookup, $blockStore, $tempUserConfig, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
@@ -490,6 +493,23 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				$queryInfo['conds'][] = $ipExpr;
 			}
 		}
+
+		// Hide temporary accounts if requested (this is set to false by default)
+		if (
+			$this->tempUserConfig->isKnown() &&
+			IPUtils::isIPAddress( $this->target->getName() ) &&
+			$this->opts->getValue( 'wpHideTemporaryAccounts' )
+		) {
+			$temporaryAccountsFilterExpr = $this->tempUserConfig->getMatchCondition(
+				$this->getDatabase(), 'actor_name', IExpression::NOT_LIKE
+			);
+			if ( $table === self::PRIVATE_LOG_EVENT_TABLE ) {
+				$temporaryAccountsFilterExpr = $this->getDatabase()->expr( 'cupe_actor', '=', null )
+					->orExpr( $temporaryAccountsFilterExpr );
+			}
+			$queryInfo['conds'][] = $temporaryAccountsFilterExpr;
+		}
+
 		return $queryInfo;
 	}
 
@@ -639,8 +659,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getStartBody(): string {
-		return $this->getCheckUserHelperFieldsetHTML() . $this->getNavigationBar()
-			. '<div id="checkuserresults" class="mw-checkuser-get-actions-results mw-checkuser-get-edits-results">';
+		return $this->getCheckUserResultsFilterFieldset() . $this->getCheckUserHelperFieldsetHTML() .
+			$this->getNavigationBar() .
+			'<div id="checkuserresults" class="mw-checkuser-get-actions-results mw-checkuser-get-edits-results">';
 	}
 
 	/** @inheritDoc */

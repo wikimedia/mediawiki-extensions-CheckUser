@@ -30,6 +30,7 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
@@ -81,6 +82,7 @@ class SpecialCheckUser extends SpecialPage {
 	private LogFormatterFactory $logFormatterFactory;
 	private UserOptionsLookup $userOptionsLookup;
 	private DatabaseBlockStore $blockStore;
+	private TempUserConfig $tempUserConfig;
 
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -104,7 +106,8 @@ class SpecialCheckUser extends SpecialPage {
 		CheckUserLookupUtils $checkUserLookupUtils,
 		LogFormatterFactory $logFormatterFactory,
 		UserOptionsLookup $userOptionsLookup,
-		DatabaseBlockStore $blockStore
+		DatabaseBlockStore $blockStore,
+		TempUserConfig $tempUserConfig
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -130,6 +133,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->logFormatterFactory = $logFormatterFactory;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->blockStore = $blockStore;
+		$this->tempUserConfig = $tempUserConfig;
 	}
 
 	/** @inheritDoc */
@@ -162,6 +166,9 @@ class SpecialCheckUser extends SpecialPage {
 		$opts->add( 'limit', 0 );
 		$opts->add( 'dir', '' );
 		$opts->add( 'token', '' );
+		foreach ( AbstractCheckUserPager::FILTER_FIELDS as $field => $default ) {
+			$opts->add( $field, $default );
+		}
 		$opts->fetchValuesFromRequest( $request );
 
 		// If the client has provided a token, they are trying to paginate.
@@ -445,6 +452,12 @@ class SpecialCheckUser extends SpecialPage {
 				'id' => 'checkreason',
 				'name' => 'reason',
 			],
+			// Persist the "Hide temporary accounts" filter when changing things like the check type or period
+			// in the main search form
+			'HideTemporaryAccounts' => [
+				'type' => 'hidden',
+				'default' => $this->opts->getValue( 'wpHideTemporaryAccounts' ),
+			],
 		];
 
 		$form = HTMLForm::factory( 'ooui', $fields, $this->getContext() );
@@ -499,7 +512,8 @@ class SpecialCheckUser extends SpecialPage {
 				$this->userFactory,
 				$this->checkUserLookupUtils,
 				$this->userOptionsLookup,
-				$this->blockStore
+				$this->blockStore,
+				$this->tempUserConfig
 			),
 			self::SUBTYPE_GET_USERS => new CheckUserGetUsersPager(
 				$this->opts,
@@ -522,7 +536,8 @@ class SpecialCheckUser extends SpecialPage {
 				$this->clientHintsFormatter,
 				$this->userOptionsLookup,
 				$this->blockStore,
-				$this->linkBatchFactory
+				$this->linkBatchFactory,
+				$this->tempUserConfig
 			),
 			self::SUBTYPE_GET_ACTIONS => new CheckUserGetActionsPager(
 				$this->opts,
@@ -548,7 +563,8 @@ class SpecialCheckUser extends SpecialPage {
 				$this->clientHintsFormatter,
 				$this->logFormatterFactory,
 				$this->userOptionsLookup,
-				$this->blockStore
+				$this->blockStore,
+				$this->tempUserConfig
 			),
 			default => null
 		};

@@ -1161,7 +1161,8 @@
 				"CheckUserLookupUtils",
 				"LogFormatterFactory",
 				"UserOptionsLookup",
-				"DatabaseBlockStore"
+				"DatabaseBlockStore",
+				"TempUserConfig"
 			]
 		},
 		"CheckUserLog": {

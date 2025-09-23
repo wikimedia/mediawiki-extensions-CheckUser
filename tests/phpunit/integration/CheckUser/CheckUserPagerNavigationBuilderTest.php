@@ -26,6 +26,7 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 		$opts->add( 'limit', '' );
 		$opts->add( 'dir', '' );
 		$opts->add( 'offset', '' );
+		$opts->add( 'wpHideTemporaryAccounts', true );
 
 		$opts->setValue( 'reason', 'testing reason' );
 
@@ -45,6 +46,12 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 
 		$submitButton = $this->assertAndGetByElementClass( $formHtml, 'mw-checkuser-paging-links' );
 		$this->assertSame( 'prev text', $submitButton->getAttribute( 'value' ) );
+
+		// Expect that the paging links have the temporary accounts hide filter, so that the current value persists
+		// across pages
+		$hideTemporaryAccountsField = DOMCompat::querySelector( $form, 'input[name="wpHideTemporaryAccounts"]' );
+		$this->assertNotNull( $hideTemporaryAccountsField );
+		$this->assertSame( '1', $hideTemporaryAccountsField->getAttribute( 'value' ) );
 
 		/** @var TokenManager $tokenManager */
 		$tokenManager = $this->getServiceContainer()->get( 'CheckUserTokenManager' );

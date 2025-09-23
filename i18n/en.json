@@ -61,6 +61,8 @@
 	"checkuser-month": "last 30 days",
 	"checkuser-month-2": "last 60 days",
 	"checkuser-all": "all",
+	"checkuser-filter-title": "Filters",
+	"checkuser-filter-hide-temporary-accounts": "Hide temporary accounts",
 	"checkuser-cidr-label": "Find common range and affected IP addresses for a list of IP addresses",
 	"checkuser-cidr-res": "Common CIDR:",
 	"checkuser-cidr-affected-ips": "Affected IP addresses:",

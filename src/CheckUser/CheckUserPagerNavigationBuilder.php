@@ -83,6 +83,19 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 			$this->tokenQueryManager->updateToken( $this->request, $fieldData ),
 			[ 'class' => 'mw-checkuser-paging-links-token' ]
 		);
+
+		// Append filter fields to the form, as these are not managed through the token and therefore need to
+		// be set on each POST request (otherwise they will revert back to their default value).
+		$filterFields = array_filter(
+			array_keys( AbstractCheckUserPager::FILTER_FIELDS ),
+			static function ( $field ) use ( $opts ) {
+				return $opts->validateName( $field );
+			}
+		);
+		foreach ( $filterFields as $field ) {
+			$formFields[] = Html::hidden( $field, $opts->getValue( $field ) );
+		}
+
 		$formFields[] = Html::submitButton(
 			$text,
 			[
