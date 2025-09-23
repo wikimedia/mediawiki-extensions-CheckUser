@@ -76,11 +76,12 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 		$formFields = [ Html::hidden(
 			'wpEditToken',
 			$this->csrfTokenSet->getToken(),
-			[ 'id' => 'wpEditToken' ]
+			[ 'id' => 'wpEditToken', 'class' => 'mw-checkuser-paging-links-edit-token' ]
 		) ];
 		$formFields[] = Html::hidden(
 			'token',
-			$this->tokenQueryManager->updateToken( $this->request, $fieldData )
+			$this->tokenQueryManager->updateToken( $this->request, $fieldData ),
+			[ 'class' => 'mw-checkuser-paging-links-token' ]
 		);
 		$formFields[] = Html::submitButton(
 			$text,
