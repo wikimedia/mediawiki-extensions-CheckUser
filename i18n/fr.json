@@ -396,6 +396,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "Fermer",
 	"checkuser-userinfocard-open-menu-aria-label": "Ouvrir le menu de la carte d'information {{GENDER:$1| utilisateur|utilisatrice}}",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Inscription}} : $1 ($2)",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Inscription}} : avant 2005",
 	"checkuser-userinfocard-active-wikis-label": "Wikis actifs",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocages actifs sur d’autres wikis : $1",
 	"checkuser-userinfocard-past-blocks": "Blocages précédents : $1",
@@ -468,6 +469,12 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-reason-description-invalid": "Si aucune note n'est ajoutée, « {{int:checkuser-suggestedinvestigations-status-reason-default-invalid}} » sera affiché",
 	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-resolved": "par exemple, action entreprise : utilisateurs bloqués",
 	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid": "par exemple, ce ne sont pas des comptes suspects",
+	"checkuser-suggestedinvestigations-risk-signals-popover-title": "Signaux de risque",
+	"checkuser-suggestedinvestigations-risk-signals-popover-body-intro": "Ces signaux sont des indicateurs d’une éventuelle activité malintentionnée.",
+	"checkuser-suggestedinvestigations-risk-signals-popover-body-hcaptcha": "<strong>{{int:checkuser-suggestedinvestigations-signal-hcaptcha}}</strong> : Ce compte a été signalé par hCaptcha lors de la création du compte.",
+	"checkuser-suggestedinvestigations-risk-signals-popover-body-sharedemail": "<strong>{{int:checkuser-suggestedinvestigations-signal-sharedemail}}</strong> : Ces comptes partagent un même courriel attaché, même si certains n'ont peut-être pas [[mw:Special:MyLanguage/Help:Email confirmation|confirmé ce courriel]]. Cela peut indiquer une activité malveillante.",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Fermer",
+	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "En savoir plus sur les signaux de risque dans une fenêtre contextuelle",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Comptes temporaires avec une IP en commun : $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Nombre de comptes temporaires dont l'une des adresses IP associées est également associée à ce compte temporaire"
 }

@@ -199,6 +199,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "Zoumaachen",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|Benotzerinfokaartemenü}} opmaachen",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Bäigetrueden}}: $1 ($2)",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Bäigetrueden}}: virun 2005",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv Wikien",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktiv Späre vun alle Wikien: $1",
 	"checkuser-userinfocard-past-blocks": "Vergaange Spären: $1",

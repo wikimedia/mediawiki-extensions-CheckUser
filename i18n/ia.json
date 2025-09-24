@@ -423,6 +423,10 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid": "p.ex. istes non es contos suspecte",
 	"checkuser-suggestedinvestigations-risk-signals-popover-title": "Signales de risco",
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-intro": "Iste signales es indicatores de possibile activitates maligne.",
+	"checkuser-suggestedinvestigations-risk-signals-popover-body-hcaptcha": "<strong>{{int:checkuser-suggestedinvestigations-signal-hcaptcha}}</strong>: Iste conto ha essite signalate per hCaptcha durante su creation.",
+	"checkuser-suggestedinvestigations-risk-signals-popover-body-sharedemail": "<strong>{{int:checkuser-suggestedinvestigations-signal-sharedemail}}</strong>: Iste contos usa le mesme adresse de e-mail, benque alcun contos pote non haber [[mw:Special:MyLanguage/Help:Email confirmation|confirmate iste adresse de e-mail]]. Isto pote indicar activitates maligne.",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Clauder",
+	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Leger plus sur le signales de risco in un quadro informative",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Numero aggregate de tote le contos temporari de tote le adresses IP associate a iste conto"
 }
