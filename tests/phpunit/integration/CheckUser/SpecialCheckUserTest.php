@@ -30,6 +30,9 @@ use Wikimedia\TestingAccessWrapper;
  * @group Database
  *
  * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
+ * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager
+ * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager
+ * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager
  */
 class SpecialCheckUserTest extends SpecialPageTestBase {
 
@@ -39,6 +42,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	use TempUserTestTrait;
 
 	private static UserIdentity $usernameTarget;
+	private static UserIdentity $tempAccountTarget;
 
 	protected function newSpecialPage() {
 		return $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
@@ -261,19 +265,36 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-ips-results' );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 
-		// Verify that the check was logged
-		$this->newSelectQueryBuilder()
-			->select( [ 'actor_name', 'comment_text', 'cul_target_text', 'cul_type' ] )
-			->from( 'cu_log' )
-			->join( 'actor', null, 'actor_id=cul_actor' )
-			->join( 'comment', null, 'comment_id=cul_reason_id' )
-			->caller( __METHOD__ )
-			->assertRowValue( [
-				$testCheckUser->getName(), 'Test check', self::$usernameTarget->getName(), 'userips',
-			] );
+		$this->verifyCheckUserLogEntryCreated(
+			$testCheckUser, 'Test check', self::$usernameTarget->getName(), 'userips'
+		);
 	}
 
 	public function testSubmitFormForGetActionsCheckWithResults() {
+		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
+		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+
+		$testCheckUser = $this->getTestCheckUser();
+		$request = new FauxRequest( [ 'checktype' => 'subactions', 'reason' => 'Test check' ], true );
+		[ $html ] = $this->executeSpecialPage( '1.2.3.4', $request, null, $testCheckUser );
+
+		$this->commonVerifyFormFieldsPresent( $html );
+		$this->verifyCidrFormExists( $html );
+		$this->assertAndGetByElementClass( $html, 'mw-checkuser-helper-fieldset' );
+
+		// Verify that the results contain the IP '1.2.3.4' and target username
+		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-actions-results' );
+		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
+		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
+
+		// Verify the temporary account edit is shown
+		$this->assertStringContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+
+		$this->verifyCheckUserLogEntryCreated( $testCheckUser, 'Test check', '1.2.3.4', 'ipedits' );
+	}
+
+	public function testSubmitFormForGetActionsCheckOnUsernameWithResults() {
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
@@ -291,16 +312,12 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
-		// Verify that the check was logged
-		$this->newSelectQueryBuilder()
-			->select( [ 'actor_name', 'comment_text', 'cul_target_text', 'cul_type' ] )
-			->from( 'cu_log' )
-			->join( 'actor', null, 'actor_id=cul_actor' )
-			->join( 'comment', null, 'comment_id=cul_reason_id' )
-			->caller( __METHOD__ )
-			->assertRowValue( [
-				$testCheckUser->getName(), 'Test check', self::$usernameTarget->getName(), 'useredits',
-			] );
+		// Verify the temporary account edit is not shown, as the check was on a specific user and not their IP
+		$this->assertStringNotContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+
+		$this->verifyCheckUserLogEntryCreated(
+			$testCheckUser, 'Test check', self::$usernameTarget->getName(), 'useredits'
+		);
 	}
 
 	/** @dataProvider provideLinkToSuggestedInvestigationsPresent */
@@ -372,7 +389,18 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
-		// Verify that the check was logged
+		// Verify the temporary account is shown
+		$this->assertStringContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+
+		$this->verifyCheckUserLogEntryCreated( $testCheckUser, 'Test check', '1.2.3.4', 'ipusers' );
+	}
+
+	/**
+	 * Verifies that one row exists in cu_log which has the expected properties
+	 */
+	private function verifyCheckUserLogEntryCreated(
+		UserIdentity $expectedPerformer, string $expectedReason, string $expectedTarget, string $expectedLogType
+	): void {
 		$this->newSelectQueryBuilder()
 			->select( [ 'actor_name', 'comment_text', 'cul_target_text', 'cul_type' ] )
 			->from( 'cu_log' )
@@ -380,7 +408,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			->join( 'comment', null, 'comment_id=cul_reason_id' )
 			->caller( __METHOD__ )
 			->assertRowValue( [
-				$testCheckUser->getName(), 'Test check', '1.2.3.4', 'ipusers',
+				$expectedPerformer->getName(), $expectedReason, $expectedTarget, $expectedLogType,
 			] );
 	}
 
@@ -399,7 +427,12 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			$testPage, 'Test content2', 'Test summary', NS_MAIN,
 			$this->getServiceContainer()->getUserFactory()->newAnonymous( '1.2.3.4' )
 		);
+		$this->enableAutoCreateTempUser();
+		$tempUser = $this->getServiceContainer()->getTempUserCreator()
+			->create( null, new FauxRequest() )->getUser();
+		$this->editPage( $testPage, 'Test content3', 'Test summary', NS_MAIN, $tempUser );
 
 		self::$usernameTarget = $usernameTarget->getUserIdentity();
+		self::$tempAccountTarget = $tempUser;
 	}
 }
