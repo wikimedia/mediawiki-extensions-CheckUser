@@ -111,7 +111,8 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			),
 			$dbProvider,
 			$userIdentityLookup,
-			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
+			$this->getServiceContainer()->get( 'CheckUserLookupUtils' ),
+			$this->getServiceContainer()->get( 'TempUserConfig' )
 		);
 
 		$queryInfo = $compareService->getQueryInfo(

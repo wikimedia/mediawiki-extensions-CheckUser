@@ -99,6 +99,7 @@ class TimelinePager extends ReverseChronologicalPager {
 		return $this->timelineService->getQueryInfo(
 			$this->filteredTargets,
 			$this->excludeTargets,
+			false,
 			$this->start,
 			$this->mLimit
 		);

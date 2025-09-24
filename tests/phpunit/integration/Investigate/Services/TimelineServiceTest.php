@@ -24,7 +24,14 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideGetQueryInfo
 	 */
-	public function testGetQueryInfo( $targets, $excludeTargets, $start, $limit, $expected ) {
+	public function testGetQueryInfo(
+		array $targets,
+		array $excludeTargets,
+		bool $excludeTempAccounts,
+		string $start,
+		int $limit,
+		array $expected
+	): void {
 		$user1 = $this->createMock( UserIdentity::class );
 		$user1->method( 'getId' )
 			->willReturn( 11111 );
@@ -33,22 +40,38 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		$user2->method( 'getId' )
 			->willReturn( 22222 );
 
+		$tempUser1 = $this->createMock( UserIdentity::class );
+		$tempUser1->method( 'getId' )
+			->willReturn( 33333 );
+		$tempUser2 = $this->createMock( UserIdentity::class );
+		$tempUser2->method( 'getId' )
+			->willReturn( 44444 );
+
 		$userIdentityLookup = $this->createMock( UserIdentityLookup::class );
 		$userIdentityLookup->method( 'getUserIdentityByName' )
 			->willReturnMap(
 				[
 					[ 'User1', 0, $user1, ],
 					[ 'User2', 0, $user2, ],
+					[ '~2025-1', 0, $tempUser1, ],
+					[ '~2025-2', 0, $tempUser2, ],
 				]
 			);
 
 		$timelineService = new TimelineService(
 			$this->getServiceContainer()->getConnectionProvider(),
 			$userIdentityLookup,
-			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
+			$this->getServiceContainer()->get( 'CheckUserLookupUtils' ),
+			$this->getServiceContainer()->getTempUserConfig()
 		);
 
-		$queryInfo = $timelineService->getQueryInfo( $targets, $excludeTargets, $start, $limit );
+		$queryInfo = $timelineService->getQueryInfo(
+			$targets,
+			$excludeTargets,
+			$excludeTempAccounts,
+			$start,
+			$limit
+		);
 
 		foreach ( $expected['targets'] as $target ) {
 			$this->assertStringContainsString( $target, $queryInfo['tables']['a'] );
@@ -85,55 +108,94 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public static function provideGetQueryInfo() {
+	public static function provideGetQueryInfo(): array {
 		$range = IPUtils::parseRange( '127.0.0.1/24' );
 		return [
 			'Valid username' => [
-				[ 'User1' ], [], '', 500,
-				[
+				'targets' => [ 'User1' ],
+				'excludeTargets' => [],
+				'excludeTempAccounts' => false,
+				'start' => '',
+				'limit' => 500,
+				'expected' => [
 					'targets' => [ '11111' ],
 					'conds' => [ 'actor_user' ],
 				],
 			],
 			'Valid username, with start' => [
-				[ 'User1' ], [], '111', 500,
-				[
+				'targets' => [ 'User1' ],
+				'excludeTargets' => [],
+				'excludeTempAccounts' => false,
+				'start' => '111',
+				'limit' => 500,
+				'expected' => [
 					'targets' => [ '11111' ],
 					'conds' => [ 'actor_user' ],
 				],
 			],
 			'Valid IP' => [
-				[ '1.2.3.4' ], [], '', 500,
-				[
+				'targets' => [ '1.2.3.4' ],
+				'excludeTargets' => [],
+				'excludeTempAccounts' => false,
+				'start' => '',
+				'limit' => 500,
+				'expected' => [
 					'targets' => [ IPUtils::toHex( '1.2.3.4' ) ],
 					'conds' => [ 'cuc_ip_hex' ],
 				],
 			],
 			'Multiple valid targets' => [
-				[ '1.2.3.4', 'User1' ], [], '', 500,
-				[
-					'targets' => [ '11111', IPUtils::toHex( '1.2.3.4' ) ],
+				'targets' => [ '1.2.3.4', 'User1', '~2025-1' ],
+				'excludeTargets' => [],
+				'excludeTempAccounts' => false,
+				'start' => '',
+				'limit' => 500,
+				'expected' => [
+					'targets' => [ '11111', IPUtils::toHex( '1.2.3.4' ), '33333' ],
 					'conds' => [ 'cuc_ip_hex', 'actor_user' ],
 				],
 			],
 			'Multiple valid targets with some excluded' => [
-				[ '1.2.3.4', 'User1' ], [ 'User2' ], '', 500,
-				[
+				'targets' => [ '1.2.3.4', 'User1' ],
+				'excludeTargets' => [ 'User2' ],
+				'excludeTempAccounts' => false,
+				'start' => '',
+				'limit' => 500,
+				'expected' => [
 					'targets' => [ '11111', IPUtils::toHex( '1.2.3.4' ) ],
 					'excludedTargets' => [ '22222' ],
 					'conds' => [ 'cuc_ip_hex', 'actor_user' ],
 				],
 			],
+			'Multiple valid targets, excluding temporary accounts' => [
+				'targets' => [ '1.2.3.4', 'User1', '~2025-1' ],
+				'excludeTargets' => [],
+				'excludeTempAccounts' => true,
+				'start' => '',
+				'limit' => 500,
+				'expected' => [
+					'targets' => [ '11111', IPUtils::toHex( '1.2.3.4' ) ],
+					'conds' => [ 'cuc_ip_hex', 'actor_user' ],
+				],
+			],
 			'Valid IP range' => [
-				[ '127.0.0.1/24', 'User1' ], [], '', 500,
-				[
+				'targets' => [ '127.0.0.1/24', 'User1' ],
+				'excludeTargets' => [],
+				'excludeTempAccounts' => true,
+				'start' => '',
+				'limit' => 500,
+				'expected' => [
 					'targets' => [ '11111' ] + $range,
 					'conds' => [ 'cuc_ip_hex >=', 'cuc_ip_hex <=', 'actor_user' ],
 				],
 			],
 			'Some valid targets' => [
-				[ 'User1', 'InvalidUser', '1.1..23', '::1' ], [], '', 20,
-				[
+				'targets' => [ 'User1', 'InvalidUser', '1.1..23', '::1' ],
+				'excludeTargets' => [],
+				'excludeTempAccounts' => true,
+				'start' => '',
+				'limit' => 20,
+				'expected' => [
 					'targets' => [ '11111', IPUtils::toHex( '::1' ) ],
 					'conds' => [ 'actor_user', 'cuc_ip_hex' ],
 				],
@@ -144,7 +206,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideGetQueryInfoForInvalidTargets */
 	public function testGetQueryInfoForInvalidTargets( $targets ) {
 		$this->expectException( LogicException::class );
-		$this->getServiceContainer()->get( 'CheckUserTimelineService' )->getQueryInfo( $targets, [], '', 500 );
+		$this->getServiceContainer()->get( 'CheckUserTimelineService' )->getQueryInfo( $targets, [], false, '', 500 );
 	}
 
 	public static function provideGetQueryInfoForInvalidTargets() {
@@ -165,7 +227,8 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		$timelineService = new TimelineService(
 			$mockConnectionProvider,
 			$this->getServiceContainer()->getUserIdentityLookup(),
-			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
+			$this->getServiceContainer()->get( 'CheckUserLookupUtils' ),
+			$this->getServiceContainer()->getTempUserConfig()
 		);
 		// Call the method under test
 		$timelineService = TestingAccessWrapper::newFromObject( $timelineService );

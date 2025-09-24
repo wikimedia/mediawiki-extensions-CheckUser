@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Investigate\Services;
 use LogicException;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -27,9 +28,15 @@ class CompareService extends ChangeService {
 		ServiceOptions $options,
 		IConnectionProvider $dbProvider,
 		UserIdentityLookup $userIdentityLookup,
-		CheckUserLookupUtils $checkUserLookupUtils
+		CheckUserLookupUtils $checkUserLookupUtils,
+		TempUserConfig $tempUserConfig
 	) {
-		parent::__construct( $dbProvider, $userIdentityLookup, $checkUserLookupUtils );
+		parent::__construct(
+			$dbProvider,
+			$userIdentityLookup,
+			$checkUserLookupUtils,
+			$tempUserConfig
+		);
 
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->limit = $options->get( 'CheckUserInvestigateMaximumRowCount' );

@@ -84,14 +84,16 @@ return [
 			),
 			$services->getDBLoadBalancerFactory(),
 			$services->getUserIdentityLookup(),
-			$services->get( 'CheckUserLookupUtils' )
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getTempUserConfig()
 		);
 	},
 	'CheckUserTimelineService' => static function ( MediaWikiServices $services ): TimelineService {
 		return new TimelineService(
 			$services->getDBLoadBalancerFactory(),
 			$services->getUserIdentityLookup(),
-			$services->get( 'CheckUserLookupUtils' )
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getTempUserConfig()
 		);
 	},
 	'CheckUserTokenManager' => static function ( MediaWikiServices $services ): TokenManager {

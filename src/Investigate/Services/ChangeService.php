@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Investigate\Services;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -14,15 +15,18 @@ abstract class ChangeService implements CheckUserQueryInterface {
 	protected IConnectionProvider $dbProvider;
 	protected CheckUserLookupUtils $checkUserLookupUtils;
 	private UserIdentityLookup $userIdentityLookup;
+	private TempUserConfig $tempUserConfig;
 
 	public function __construct(
 		IConnectionProvider $dbProvider,
 		UserIdentityLookup $userIdentityLookup,
-		CheckUserLookupUtils $checkUserLookupUtils
+		CheckUserLookupUtils $checkUserLookupUtils,
+		TempUserConfig $tempUserConfig
 	) {
 		$this->dbProvider = $dbProvider;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
+		$this->tempUserConfig = $tempUserConfig;
 	}
 
 	/**
@@ -142,5 +146,22 @@ abstract class ChangeService implements CheckUserQueryInterface {
 		// TODO: T360712: Add ID fields to the start conds to ensure unique ordering
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		return $dbr->expr( self::RESULT_TABLE_TO_PREFIX[$table] . 'timestamp', '>=', $dbr->timestamp( $start ) );
+	}
+
+	/**
+	 * Given a list of usernames, returns a new array where all temporary
+	 * account names have been removed.
+	 *
+	 * Note that evaluating whether a username represents a temp account is
+	 * delegated to the TempUserConfig instance passed through the constructor.
+	 *
+	 * @param string[] $usernames A list of usernames.
+	 * @return string[]
+	 */
+	protected function removeTempNamesFromArray( array $usernames ): array {
+		return array_filter(
+			$usernames,
+			fn ( $target ) => !$this->tempUserConfig->isTempName( $target )
+		);
 	}
 }

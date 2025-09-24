@@ -311,7 +311,8 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 			),
 			$services->getDBLoadBalancerFactory(),
 			$userIdentityLookup,
-			$services->get( 'CheckUserLookupUtils' )
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getTempUserConfig()
 		);
 
 		$durationManager = $this->createMock( DurationManager::class );

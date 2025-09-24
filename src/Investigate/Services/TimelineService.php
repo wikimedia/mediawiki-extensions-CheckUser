@@ -14,11 +14,18 @@ class TimelineService extends ChangeService {
 	 *
 	 * @param string[] $targets The targets of the check
 	 * @param string[] $excludeTargets The targets to exclude from the check
+	 * @param bool $excludeTempAccounts Whether to ignore temporary accounts targets
 	 * @param string $start The start offset
 	 * @param int $limit The limit for the check
 	 * @return array
 	 */
-	public function getQueryInfo( array $targets, array $excludeTargets, string $start, int $limit ): array {
+	public function getQueryInfo(
+		array $targets,
+		array $excludeTargets,
+		bool $excludeTempAccounts,
+		string $start,
+		int $limit
+	): array {
 		// Split the targets into users and IP addresses, so that two queries can be made (one for the users and one
 		// for the IPs) and then unioned together.
 		$ipTargets = array_filter( $targets, [ IPUtils::class, 'isIPAddress' ] );
@@ -42,8 +49,12 @@ class TimelineService extends ChangeService {
 				}
 			}
 			if ( count( $userTargets ) ) {
+				$newUserTargets = $excludeTempAccounts ?
+					$this->removeTempNamesFromArray( $userTargets ) :
+					$userTargets;
+
 				$userTargetsQuery = $this->getQueryBuilderForTable(
-					$table, $userTargets, false, $excludeTargets, $start, $limit
+					$table, $newUserTargets, false, $excludeTargets, $start, $limit
 				);
 				if ( $userTargetsQuery !== null ) {
 					$unionQueryBuilder->add( $userTargetsQuery );
