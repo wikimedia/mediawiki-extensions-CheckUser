@@ -330,9 +330,11 @@ class ComparePager extends TablePager {
 	 * @inheritDoc
 	 */
 	public function getQueryInfo() {
+		// @fixme (T404981) replace false with data obtained from the token
 		return $this->compareService->getQueryInfo(
 			$this->filteredTargets,
 			$this->excludeTargets,
+			false,
 			$this->start
 		);
 	}

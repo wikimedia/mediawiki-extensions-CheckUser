@@ -95,12 +95,17 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$user2->method( 'getId' )
 			->willReturn( 22222 );
 
+		$tempUser = $this->createMock( UserIdentity::class );
+		$tempUser->method( 'getId' )
+			->willReturn( 33333 );
+
 		$userIdentityLookup = $this->createMock( UserIdentityLookup::class );
 		$userIdentityLookup->method( 'getUserIdentityByName' )
 			->willReturnMap(
 				[
 					[ 'User1', 0, $user, ],
 					[ 'User2', 0, $user2, ],
+					[ '~2025-1', 0, $tempUser, ],
 				]
 			);
 
@@ -118,6 +123,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$queryInfo = $compareService->getQueryInfo(
 			$options['targets'],
 			$options['excludeTargets'],
+			$options['excludeTempAccounts'],
 			$options['start']
 		);
 
@@ -139,6 +145,19 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		if ( $start !== '' ) {
 			$start = $this->getDb()->timestamp( $start );
 		}
+
+		if ( $options['excludeTempAccounts'] ) {
+			$this->assertStringContainsString(
+				'actor_name NOT LIKE \'~%\'',
+				$queryInfo['tables']['a']
+			);
+		} else {
+			$this->assertStringNotContainsString(
+				'actor_name NOT LIKE \'~%\'',
+				$queryInfo['tables']['a']
+			);
+		}
+
 		foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
 			$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );
 			$columnPrefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
@@ -155,13 +174,14 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	public static function provideGetQueryInfo() {
 		return [
 			'Valid username, excluded IP' => [
-				[
+				'options' => [
 					'targets' => [ 'User1' ],
 					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
+					'excludeTempAccounts' => false,
 					'limit' => 100000,
 					'start' => '',
 				],
-				[
+				'expected' => [
 					'targets' => [ '11111' ],
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
 					'limit' => '33334',
@@ -169,55 +189,62 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			'Valid username, excluded IP, with start' => [
-				[
+				'options' => [
 					'targets' => [ 'User1' ],
 					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
+					'excludeTempAccounts' => false,
 					'limit' => 10000,
 					'start' => '20230405060708',
 				],
-				[
+				'expected' => [
 					'targets' => [ '11111' ],
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
+					'excludeTempAccounts' => false,
 					'limit' => '3334',
 					'start' => '20230405060708'
 				],
 			],
 			'Single valid IP, excluded username' => [
-				[
+				'options' => [
 					'targets' => [ '0:0:0:0:0:0:0:1' ],
 					'excludeTargets' => [ 'User1' ],
+					'excludeTempAccounts' => false,
 					'limit' => 100000,
 					'start' => '',
 				],
-				[
+				'expected' => [
 					'targets' => [ 'v6-00000000000000000000000000000001' ],
 					'excludeTargets' => [ '11111' ],
+					'excludeTempAccounts' => false,
 					'limit' => '33334',
 					'start' => ''
 				],
 			],
 			'Valid username and IP, excluded username and IP' => [
-				[
+				'options' => [
 					'targets' => [ 'User1', '1.2.3.4' ],
 					'excludeTargets' => [ 'User2', '1.2.3.5' ],
+					'excludeTempAccounts' => false,
 					'limit' => 100,
 					'start' => '',
 				],
-				[
+				'expected' => [
 					'targets' => [ '11111', '01020304' ],
 					'excludeTargets' => [ '22222', '01020305' ],
+					'excludeTempAccounts' => false,
 					'limit' => '17',
 					'start' => ''
 				],
 			],
 			'Two valid IPs' => [
-				[
+				'options' => [
 					'targets' => [ '0:0:0:0:0:0:0:1', '1.2.3.4' ],
 					'excludeTargets' => [],
+					'excludeTempAccounts' => false,
 					'limit' => 100000,
 					'start' => '',
 				],
-				[
+				'expected' => [
 					'targets' => [
 						'v6-00000000000000000000000000000001',
 						'01020304'
@@ -227,18 +254,54 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'start' => ''
 				],
 			],
+			'Valid IP, user account and temp account' => [
+				'options' => [
+					'targets' => [ '1.2.3.4', 'User1', '~2025-1' ],
+					'excludeTargets' => [],
+					'excludeTempAccounts' => false,
+					'limit' => 100000,
+					'start' => '',
+				],
+				'expected' => [
+					'targets' => [
+						'33333',
+						'01020304'
+					],
+					'excludeTargets' => [],
+					'limit' => '11112',
+					'start' => ''
+				],
+			],
+			'Valid IP, user account and temp account, temp accounts excluded' => [
+				'options' => [
+					'targets' => [ '1.2.3.4', 'User1', '~2025-1' ],
+					'excludeTargets' => [],
+					'excludeTempAccounts' => true,
+					'limit' => 100000,
+					'start' => '',
+				],
+				'expected' => [
+					'targets' => [
+						'01020304'
+					],
+					'excludeTargets' => [],
+					'limit' => '11112',
+					'start' => ''
+				],
+			],
 			'Valid IP addresses and IP range' => [
-				[
+				'options' => [
 					'targets' => [
 						'0:0:0:0:0:0:0:1',
 						'1.2.3.4',
 						'1.2.3.4/16',
 					],
 					'excludeTargets' => [],
+					'excludeTempAccounts' => false,
 					'limit' => 100000,
 					'start' => '',
 				],
-				[
+				'expected' => [
 					'targets' => [
 						'v6-00000000000000000000000000000001',
 						'01020304',
@@ -251,11 +314,20 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			'IP range outside of range limits with valid user target' => [
-				[
-					'targets' => [ 'User1', '1.2.3.4/1', ], 'excludeTargets' => [], 'limit' => 100000,
+				'options' => [
+					'targets' => [ 'User1', '1.2.3.4/1', ],
+					'excludeTargets' => [],
+					'excludeTempAccounts' => false,
+					'limit' => 100000,
 					'start' => '',
 				],
-				[ 'targets' => [ '11111' ], 'excludeTargets' => [], 'limit' => 16667, 'start' => '' ],
+				'expected' => [
+					'targets' => [ '11111' ],
+					'excludeTargets' => [],
+					'excludeTempAccounts' => false,
+					'limit' => 16667,
+					'start' => ''
+				],
 			],
 		];
 	}
@@ -263,7 +335,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	public function testGetQueryInfoNoTargets() {
 		$this->expectException( LogicException::class );
 
-		$this->getCompareService()->getQueryInfo( [], [], '' );
+		$this->getCompareService()->getQueryInfo( [], [], false, '' );
 	}
 
 	/**
