@@ -410,7 +410,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP reveals: $1 (last checked $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP reveals: $1",
 	"checkuser-suggestedinvestigations": "Suggested investigations",
-	"checkuser-suggestedinvestigations-summary": "This page contains accounts automatically flagged as suspicious for check users to investigate.",
+	"checkuser-suggestedinvestigations-summary": "This page contains accounts automatically flagged as potentially suspicious for check users to investigate.",
 	"checkuser-suggestedinvestigations-table-caption": "Table of suggested investigations",
 	"checkuser-suggestedinvestigations-header-users": "Accounts",
 	"checkuser-suggestedinvestigations-header-signals": "Risk signals",
