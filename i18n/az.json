@@ -389,6 +389,7 @@
 	"checkuser-userinfocard-enable-preference-description": "[[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|İstifadəçi məlumat kartını]] aktivləşdir",
 	"checkuser-userinfocard-enable-preference-help": "Hesab haqqında məlumat olan pəncərə açmaq üçün istifadəçi adlarının yanında düymə göstər.",
 	"checkuser-userinfocard-activity-chart-label": "Son 60 gündəki redaktə fəaliyyəti ({{PLURAL:$1|$1 redaktə|0=redaktə yoxdur}})",
+	"checkuser-userinfocard-last-edit-timestamp-label": "Son redaktə: $1",
 	"checkuser-ipinfo-global-contributions-label": "Qlobal töhfələr",
 	"checkuser-ipinfo-global-contributions-tooltip": "Bu IP ünvanından edilən çarpaz viki redaktələrinin sayı.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 qlobal redaktə|0=Qlobal redaktə yoxdur}}",

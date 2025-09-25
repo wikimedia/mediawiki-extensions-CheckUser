@@ -378,6 +378,7 @@
 	"checkuser-userinfocard-enable-preference-description": "ДӀахӀоттаде [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|декъашхочун информацин карта]]",
 	"checkuser-userinfocard-enable-preference-help": "Декъашхойн цӀерашна уллехь нуьйда гайта, хьайн аккаунтах лаьцна информаци йолу кор схьаделла.",
 	"checkuser-userinfocard-activity-chart-label": "ТӀаьххьарчу 60 дийнахь хийцаран жигаралла ({{PLURAL:$1|$1 хийцам|0=Цхьа а хийцам бац}})",
+	"checkuser-userinfocard-last-edit-timestamp-label": "ТӀаьххьара хийцам: $1",
 	"checkuser-ipinfo-global-contributions-label": "Декъашхочун глобалан къинхьегам",
 	"checkuser-ipinfo-global-contributions-tooltip": "ХӀокху IP-адрес тӀехь бина вики-йукъара хийцамийн дукхалла.",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобалан хийцам|0=Глобалан хийцамаш бац}}",
