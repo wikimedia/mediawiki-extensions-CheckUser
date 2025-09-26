@@ -222,6 +222,7 @@
 	"checkuser-userinfocard-enable-preference-description": "D'[[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|Benotzerinfokaart]] aktivéieren",
 	"checkuser-userinfocard-enable-preference-help": "Weist e Knäppchen nieft dem Benotzernumm fir e Popover mat Informatiounen iwwer de Kont ze weisen.",
 	"checkuser-userinfocard-activity-chart-label": "Ännerungsaktivitéit iwwer déi lescht 60 Deeg ({{PLURAL:$1|$1 Ännerung|$1 Ännerungen|0=Keng Ännerung}})",
+	"checkuser-userinfocard-last-edit-timestamp-label": "Lescht Ännerung: $1",
 	"checkuser-userinfocard-count-exceeds-max-to-display": "méi wéi $1",
 	"checkuser-ipinfo-global-contributions-label": "Global Kontributiounen",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global Ännerung|$1 global Ännerungen|0=Keng global Ännerungen}}",

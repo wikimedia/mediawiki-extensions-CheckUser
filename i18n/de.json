@@ -79,6 +79,8 @@
 	"checkuser-month": "letzte 30 Tage",
 	"checkuser-month-2": "letzte 60 Tage",
 	"checkuser-all": "alle",
+	"checkuser-filter-title": "Filter",
+	"checkuser-filter-hide-temporary-accounts": "Temporäre Konten ausblenden",
 	"checkuser-cidr-label": "Gemeinsamen Adressbereich und betroffene Adressen für eine Liste von IP-Adressen ermitteln",
 	"checkuser-cidr-res": "Gemeinschaftlicher IP-Adressbereich:",
 	"checkuser-cidr-affected-ips": "Betroffene IP-Adressen:",
