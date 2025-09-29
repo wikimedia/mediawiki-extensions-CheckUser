@@ -49,7 +49,7 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 			'userRegistrationLookup' => $services->getUserRegistrationLookup(),
 			'centralIdLookup' => $services->get( 'CentralIdLookup' ),
 			'wanCache' => $services->getMainWANObjectCache(),
-			'specialPageFactory' => $services->getSpecialPageFactory()
+			'specialPageFactory' => $services->getSpecialPageFactory(),
 		], $overrideServices );
 
 		return new GroupsHandler( ...array_values( $arguments ) );
@@ -83,15 +83,15 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 		] );
 
 		$addableGroups = [ 'temporary-account-viewer' ];
-		$unaddableGroups = [];
+		$restrictedGroups = [];
 		$handler->onSpecialUserRightsChangeableGroups(
 			$this->getTestUser()->getAuthority(),
 			$this->getTestUser()->getUser(),
 			$addableGroups,
-			$unaddableGroups
+			$restrictedGroups,
 		);
 
-		$this->assertSame( $expected, $unaddableGroups );
+		$this->assertSame( $expected, $restrictedGroups );
 	}
 
 	public static function provideOnSpecialUserRightsChangeableGroups() {
@@ -102,7 +102,13 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'Group set in config but not configured' => [
 				'config' => [ 'temporary-account-viewer' => [] ],
-				'expected' => [],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => true,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Target does not meet requirements, reason not configured' => [
 				'config' => [
@@ -112,7 +118,13 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 						'exemptGroups' => [],
 					],
 				],
-				'expected' => [ 'temporary-account-viewer' => 'checkuser-group-requirements' ],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Target does not meet requirements, reason is configured' => [
 				'config' => [
@@ -120,11 +132,16 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 						'edits' => 400,
 						'age' => 86400 * 30 * 12,
 						'exemptGroups' => [],
-						'reason' => 'checkuser-group-requirements-temporary-account-viewer'
+						'reason' => 'checkuser-group-requirements-temporary-account-viewer',
 					],
 				],
-				'expected' => [ 'temporary-account-viewer' =>
-					'checkuser-group-requirements-temporary-account-viewer' ],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements-temporary-account-viewer',
+					],
+				],
 			],
 			'Target does not meet edit requirement, but does meet age requirement' => [
 				'config' => [
@@ -134,7 +151,13 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 						'exemptGroups' => [],
 					],
 				],
-				'expected' => [ 'temporary-account-viewer' => 'checkuser-group-requirements' ],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Target does not meet account age requirement, but meets edit count requirement' => [
 				'config' => [
@@ -144,7 +167,13 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 						'exemptGroups' => [],
 					],
 				],
-				'expected' => [ 'temporary-account-viewer' => 'checkuser-group-requirements' ],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Target does not meet requirements, but performer is exempt' => [
 				'config' => [
@@ -154,7 +183,13 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 						'exemptGroups' => [ 'sysop' ],
 					],
 				],
-				'expected' => [],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => true,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Target meets requirements' => [
 				'config' => [
@@ -164,7 +199,13 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 						'exemptGroups' => [],
 					],
 				],
-				'expected' => [],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => true,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Target meets requirements exactly' => [
 				'config' => [
@@ -174,7 +215,13 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 						'exemptGroups' => [],
 					],
 				],
-				'expected' => [],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => true,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 		];
 	}
@@ -212,15 +259,15 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 		] );
 
 		$addableGroups = [ 'temporary-account-viewer' ];
-		$unaddableGroups = [];
+		$restrictedGroups = [];
 		$handler->onSpecialUserRightsChangeableGroups(
 			$this->getTestUser()->getAuthority(),
 			$this->getTestUser()->getUser(),
 			$addableGroups,
-			$unaddableGroups
+			$restrictedGroups
 		);
 
-		$this->assertSame( $expected, $unaddableGroups );
+		$this->assertSame( $expected, $restrictedGroups );
 	}
 
 	public static function provideOnSpecialUserRightsChangeableGroupsDataNotFound() {
@@ -230,13 +277,25 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 			'Not allowed if target edit count not found, even though meets age requirement' => [
 				'editCount' => null,
 				'registration' => $now - ( 86400 * 30 * 60 ),
-				'expected' => [ 'temporary-account-viewer' => 'checkuser-group-requirements' ],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			// Registration date may be unavailable for very old accounts
 			'Allowed if target account age not found and meets edit count requirement' => [
 				'editCount' => 1000,
 				'registration' => null,
-				'expected' => [],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => true,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 		];
 	}
@@ -296,15 +355,15 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 
 		$addableGroups = [ 'temporary-account-viewer' ];
-		$unaddableGroups = [];
+		$restrictedGroups = [];
 		$handler->onSpecialUserRightsChangeableGroups(
 			$this->getTestUser()->getAuthority(),
 			$this->getTestUser()->getUser(),
 			$addableGroups,
-			$unaddableGroups
+			$restrictedGroups
 		);
 
-		$this->assertSame( $expected, $unaddableGroups );
+		$this->assertSame( $expected, $restrictedGroups );
 	}
 
 	public static function provideOnSpecialUserRightsChangeableGroupsGlobalGroupExempt() {
@@ -313,25 +372,49 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 				'exists' => false,
 				'attached' => false,
 				'exempt' => false,
-				'expected' => [ 'temporary-account-viewer' => 'checkuser-group-requirements' ],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Central user not attached' => [
 				'exists' => true,
 				'attached' => false,
 				'exempt' => false,
-				'expected' => [ 'temporary-account-viewer' => 'checkuser-group-requirements' ],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Central user has no exempt groups' => [
 				'exists' => true,
 				'attached' => true,
 				'exempt' => false,
-				'expected' => [ 'temporary-account-viewer' => 'checkuser-group-requirements' ],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => false,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 			'Central user has exempt global group' => [
 				'exists' => true,
 				'attached' => true,
 				'exempt' => true,
-				'expected' => [],
+				'expected' => [
+					'temporary-account-viewer' => [
+						'condition-met' => false,
+						'ignore-condition' => true,
+						'message' => 'checkuser-group-requirements',
+					],
+				],
 			],
 		];
 	}
@@ -375,17 +458,23 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 		] );
 
 		$addableGroups = [ 'temporary-account-viewer' ];
-		$unaddableGroups = [];
+		$restrictedGroups = [];
 		$handler->onSpecialUserRightsChangeableGroups(
 			$this->getTestUser()->getAuthority(),
 			$this->getTestUser()->getUser(),
 			$addableGroups,
-			$unaddableGroups
+			$restrictedGroups
 		);
 
 		$this->assertSame(
-			[ 'temporary-account-viewer' => 'checkuser-group-requirements' ],
-			$unaddableGroups
+			[
+				'temporary-account-viewer' => [
+					'condition-met' => false,
+					'ignore-condition' => false,
+					'message' => 'checkuser-group-requirements',
+				],
+			],
+			$restrictedGroups
 		);
 	}
 

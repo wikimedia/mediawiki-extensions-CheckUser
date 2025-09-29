@@ -60,7 +60,7 @@ class GroupsHandler implements
 		Authority $authority,
 		UserIdentity $target,
 		array $addableGroups,
-		array &$unaddableGroups
+		array &$restrictedGroups
 	): void {
 		$spec = $this->config->get( 'CheckUserGroupRequirements' );
 		$groupsToCheck = array_intersect( array_keys( $spec ), $addableGroups );
@@ -97,14 +97,6 @@ class GroupsHandler implements
 		foreach ( $groupsToCheck as $group ) {
 			$groupSpec = $spec[$group];
 
-			if (
-				isset( $groupSpec['exemptGroups'] ) &&
-				count( array_intersect( $performerGroups, $groupSpec['exemptGroups'] ) ) > 0
-			) {
-				// The performer is exempt from requirements checking
-				continue;
-			}
-
 			// Treat the edit count as 0 if null is returned
 			$editCountPasses = !isset( $groupSpec['edits'] ) || $editCount >= $groupSpec['edits'];
 
@@ -121,12 +113,15 @@ class GroupsHandler implements
 				!isset( $accountAge ) ||
 				$accountAge >= $groupSpec['age'];
 
-			if ( $editCountPasses && $accountAgePasses ) {
-				// The target meets all requirements that are set
-				continue;
-			}
+			$conditionMet = $editCountPasses && $accountAgePasses;
+			$ignoreCondition = isset( $groupSpec['exemptGroups'] ) &&
+				count( array_intersect( $performerGroups, $groupSpec['exemptGroups'] ) ) > 0;
 
-			$unaddableGroups[$group] = $groupSpec['reason'] ?? 'checkuser-group-requirements';
+			$restrictedGroups[$group] = [
+				'condition-met' => $conditionMet,
+				'ignore-condition' => $ignoreCondition,
+				'message' => $groupSpec['reason'] ?? 'checkuser-group-requirements',
+			];
 		}
 	}
 
