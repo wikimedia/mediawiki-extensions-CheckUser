@@ -318,8 +318,15 @@ function enableMultiReveal( $element ) {
 			let $triggerNext;
 
 			$userButtons.each( function () {
-				if ( !ips || ips.length === 0 ) {
+				if ( !ips ) {
+					// If there's no IP information at all (i.e. ips is null),
+					// then the IP is considered unavailable.
 					replaceButton( $( this ), false, true );
+				} else if ( ips.length === 0 ) {
+					// If IPs are missing from the response, then they should be
+					// considered expired (if they were unavailable, the backend
+					// would have returned null for them instead).
+					replaceButton( $( this ), undefined, true );
 				} else {
 					const revId = getRevisionId( $( this ) );
 					const logId = getLogId( $( this ) );
