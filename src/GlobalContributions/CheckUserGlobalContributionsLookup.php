@@ -100,18 +100,10 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 		string $target, Authority $viewingAuthority, WebRequest $request, ?string $timeCutoff = null
 	): array {
 		$allActiveWikis = $this->getActiveWikis( $target, $viewingAuthority, $timeCutoff );
-		$wikisToFetchPermissionsFor = array_filter(
-			$allActiveWikis,
-			static fn ( $wiki ) => !WikiMap::isCurrentWikiDbDomain( $wiki )
-		);
 
-		$targetCentralId = $this->centralIdLookup->centralIdFromName( $target, $viewingAuthority );
-		$permissions = $this->getAndUpdateExternalWikiPermissions(
-			$targetCentralId,
-			$wikisToFetchPermissionsFor,
-			$viewingAuthority->getUser(),
-			$request
-		);
+		// TODO: T405890, Reintroduce proper external permissions check, while ensuring it doesn't cause
+		// account autocreation (T405194).
+		$permissions = new ExternalPermissions();
 
 		// Ignore the error part of external permissions - usually, the target user would have
 		// a public contribution either way, so let's not scare the audience with an error message
