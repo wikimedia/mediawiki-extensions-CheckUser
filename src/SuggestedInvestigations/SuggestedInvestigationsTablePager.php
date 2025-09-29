@@ -40,6 +40,14 @@ use Wikimedia\Rdbms\IReadableDatabase;
 
 class SuggestedInvestigationsTablePager extends CodexTablePager {
 
+	/**
+	 * The unique sort fields for the sort options for unique paginate
+	 */
+	private const INDEX_FIELDS = [
+		'sic_created_timestamp' => [ 'sic_created_timestamp', 'sic_id' ],
+		'sic_status' => [ 'sic_status', 'sic_created_timestamp', 'sic_id' ],
+	];
+
 	/** Database with the users table */
 	private IReadableDatabase $userDb;
 
@@ -415,10 +423,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 	/** @inheritDoc */
 	public function getIndexField() {
-		return [
-			'sic_created_timestamp' => [ 'sic_created_timestamp', 'sic_id' ],
-			'sic_status' => [ 'sic_status', 'sic_created_timestamp', 'sic_id' ],
-		];
+		return [ self::INDEX_FIELDS[$this->mSort] ];
 	}
 
 	/** @inheritDoc */
