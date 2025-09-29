@@ -99,6 +99,8 @@
 	"checkuser-month": "過去 30 日間",
 	"checkuser-month-2": "過去 60 日間",
 	"checkuser-all": "すべて",
+	"checkuser-filter-title": "絞り込み",
+	"checkuser-filter-hide-temporary-accounts": "仮アカウントを隠す",
 	"checkuser-cidr-label": "IPアドレス一覧から共通レンジとアドレス数を検索",
 	"checkuser-cidr-res": "共通CIDR:",
 	"checkuser-cidr-affected-ips": "アドレス数:",

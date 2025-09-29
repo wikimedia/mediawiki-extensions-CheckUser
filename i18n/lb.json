@@ -46,6 +46,8 @@
 	"checkuser-month": "lescht 30 Deeg",
 	"checkuser-month-2": "lescht 60 Deeg",
 	"checkuser-all": "all",
+	"checkuser-filter-title": "Filteren",
+	"checkuser-filter-hide-temporary-accounts": "Temporär Konte verstoppen",
 	"checkuser-cidr-label": "Gemeinsamen Adressberäich a betraffen Adressen fir eng Lëscht vun IP-Adresse fannen",
 	"checkuser-cidr-res": "Gemeinsam CIDR:",
 	"checkuser-empty": "Dës Lëscht ass eidel.",

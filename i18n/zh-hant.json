@@ -34,11 +34,11 @@
 			"沈澄心"
 		]
 	},
-	"checkuser-summary": "本工具會掃描近期變更的內容以獲得某位使用者用過的IP位址、或顯示某個IP位址的編輯/使用者資料。\n可透過在IP位址後附加「/xff」的XFF標頭，來檢索客戶端IP位址的用戶與編輯紀錄。本工具有支援IPv4（CIDR $1-32）與IPv6（CIDR $2-128）。\n基於效能上的考量，本工具只允許查詢最近$3筆編輯。\n請確認你的操作符合政策規範。",
+	"checkuser-summary": "本工具會掃描近期變更的內容以獲得某位使用者用過的IP位址、或顯示某個IP位址的編輯資料或使用者資料。\n可透過在IP位址後附加「/xff」的XFF標頭，來檢索客戶端IP位址的使用者與編輯紀錄。本工具有支援IPv4（CIDR $1-32）與IPv6（CIDR $2-128）。\n因效能上的考量，本工具只會回傳最近$3筆的編輯。\n請依照政策使用此工具。",
 	"checkuser-desc": "授權使用者適當的權限使之能夠檢查使用者的IP位址與其他資訊",
-	"checkuser": "查核使用者",
-	"checkuserlog": "查核使用者的日誌",
-	"checkuser-contribs": "查核使用者的IP位址",
+	"checkuser": "使用者查核員",
+	"checkuserlog": "使用者查核員的日誌",
+	"checkuser-contribs": "檢查使用者的IP位址",
 	"checkuser-contribs-log": "使用者檢查",
 	"checkuser-contribs-log-initiator": "由該使用者完成的檢查",
 	"group-checkuser": "使用者查核員",
@@ -46,12 +46,12 @@
 	"group-temporary-account-viewer": "臨時帳號IP檢視者",
 	"group-temporary-account-viewer-member": "{{GENDER:$1|臨時帳號IP檢視者}}",
 	"right-checkuser": "檢查使用者的 IP 位址與其它資訊",
-	"right-checkuser-log": "檢視使用者檢查日誌",
+	"right-checkuser-log": "檢視使用者查核員日誌",
 	"right-checkuser-temporary-account": "檢視臨時帳號使用的 IP 位址",
 	"right-checkuser-temporary-account-no-preference": "查看臨時帳號使用的 IP 位址，無需開啟偏好設定",
 	"right-checkuser-temporary-account-log": "檢視臨時帳號使用 IP 位址的日誌",
 	"right-checkuser-temporary-account-auto-reveal": "自動揭示臨時帳號所使用的IP位址",
-	"grant-checkuser": "存取使用者查核資料",
+	"grant-checkuser": "存取使用者查核員資料",
 	"grant-checkuser-temporary-account": "存取臨時帳號的檢查使用者資料",
 	"action-checkuser": "檢查使用者的 IP 位址與其他資訊",
 	"action-checkuser-log": "檢視使用者檢查日誌",
@@ -85,6 +85,8 @@
 	"checkuser-month": "最近 30 天",
 	"checkuser-month-2": "最近 60 天",
 	"checkuser-all": "全部",
+	"checkuser-filter-title": "過濾器",
+	"checkuser-filter-hide-temporary-accounts": "隱藏臨時帳戶",
 	"checkuser-cidr-label": "尋找 IP 位址清單中共同的範圍與影響的 IP 位址",
 	"checkuser-cidr-res": "通用 CIDR：",
 	"checkuser-cidr-affected-ips": "受影響的 IP 位址：",
@@ -324,5 +326,6 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "更改權限",
 	"log-action-filter-checkuser-temporary-account-view-ips": "存取臨時帳號 IP 資料",
 	"tooltip-t-global-contributions": "檢視{{GENDER:$1|該使用者}}的全域貢獻清單",
-	"checkuser-userinfocard-chart-tooltip-label": "$1（{{PLURAL:$2|$2次編輯|0=無編輯}}）"
+	"checkuser-userinfocard-chart-tooltip-label": "$1（{{PLURAL:$2|$2次編輯|0=無編輯}}）",
+	"checkuser-suggestedinvestigations-summary": "此頁面包含自動標記為潛在可疑的帳戶，供查核使用者進行調查。"
 }

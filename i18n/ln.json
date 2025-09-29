@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"BOKOBA VEROLY"
+			"BOKOBA VEROLY",
+			"Marphy 123"
 		]
 	},
 	"group-temporary-account-viewer": "Bato oyo batalaka makambo ya IP mpo na mwa ntango",
@@ -9,10 +10,15 @@
 	"right-checkuser-temporary-account-auto-reveal": "Bimisa automatiquement ba adresses IP oyo ba comptes temporaires esalela",
 	"action-checkuser-temporary-account-auto-reveal": "emonisaka mbala moko adrɛsi IP oyo basalelaka na ba compte ya ntango mokuse",
 	"grouppage-temporary-account-viewer": "{{ns:project}}:Motali IP ya compte ya ntango moke",
+	"checkuser-filter-title": "Ba filtres",
+	"checkuser-filter-hide-temporary-accounts": "Bomba ba comptes temporaires",
 	"checkuser-global-contributions-link-sidebar": "Makabo ya mokili mobimba",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Ba résultats oyo ekokani na query te.</strong> Okoki kozwa makabo soki obongoli ba paramètres ya boluki na yo.",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP Komimonisa ye moko",
 	"checkuser-temporary-account-autorevoke-userright-reason": "abimisami na ye moko mpo azalaki kosala eloko te",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1| Asanganaki}}: liboso ya 2005",
+	"checkuser-userinfocard-last-edit-timestamp-label": "Bobongisi ya sika: $1",
 	"checkuser-userinfocard-ip-revealed-count": "IP emonisi: $1 (ya nsuka etalelami $2)",
-	"checkuser-userinfocard-ip-revealed-never": "IP emonisi: $1"
+	"checkuser-userinfocard-ip-revealed-never": "IP emonisi: $1",
+	"checkuser-suggestedinvestigations-summary": "Lokasa oyo ezali na ba comptes oyo etiamaki drapeau automatiquement lokola oyo ekoki kozala suspect mpo ba usagers ya chèque ba enquêter."
 }

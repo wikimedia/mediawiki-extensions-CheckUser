@@ -76,6 +76,8 @@
 	"checkuser-month": "ultimi 30 giorni",
 	"checkuser-month-2": "ultimi 60 giorni",
 	"checkuser-all": "tutti gli edit",
+	"checkuser-filter-title": "Filtri",
+	"checkuser-filter-hide-temporary-accounts": "Nascondi utenze temporanee",
 	"checkuser-cidr-label": "Trova l'intervallo comune e gli indirizzi interessati per una lista di IP",
 	"checkuser-cidr-res": "CIDR comune:",
 	"checkuser-cidr-affected-ips": "Indirizzi IP interessati:",

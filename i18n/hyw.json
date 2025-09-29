@@ -2,9 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Azniv Stepanian",
+			"Marphy 123",
 			"Շահէն"
 		]
 	},
 	"checkuser-investigate-preliminary-table-header-groups": "Խումբեր",
-	"checkuser-investigate-compare-table-button-contribs-label": "Ներդրումներ"
+	"checkuser-investigate-compare-table-button-contribs-label": "Ներդրումներ",
+	"checkuser-suggestedinvestigations-summary": "This page contains accounts automatically flagged as potentially suspicious for check users to investigate."
 }

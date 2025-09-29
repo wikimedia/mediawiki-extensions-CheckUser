@@ -69,6 +69,7 @@
 	"checkuser-month": "последњих 30 дана",
 	"checkuser-month-2": "последњих 60 дана",
 	"checkuser-all": "све",
+	"checkuser-filter-title": "Филтери",
 	"checkuser-cidr-label": "Проналажење заједничког опсега и погођених адресе за списак IP адреса",
 	"checkuser-cidr-res": "Заједнички CIDR:",
 	"checkuser-cidr-affected-ips": "Погођене IP адресе:",

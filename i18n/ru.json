@@ -99,6 +99,7 @@
 	"checkuser-month": "последние 30 дней",
 	"checkuser-month-2": "последние 60 дней",
 	"checkuser-all": "все",
+	"checkuser-filter-title": "Фильтры",
 	"checkuser-cidr-label": "Найти общий диапазон и затрагиваемые адреса для списка IP",
 	"checkuser-cidr-res": "Общая CIDR:",
 	"checkuser-cidr-affected-ips": "Затронутые IP-адреса:",
