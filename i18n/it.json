@@ -62,6 +62,8 @@
 	"checkuser-cidr-label": "Trova l'intervallo comune e gli indirizzi interessati per una lista di IP",
 	"checkuser-cidr-res": "CIDR comune:",
 	"checkuser-cidr-affected-ips": "Indirizzi IP interessati:",
+	"checkuser-cidr-too-small": "L'intervallo è troppo grande",
+	"checkuser-range-outside-limit": "L'intervallo $1 eccede il limite consentito.",
 	"checkuser-empty": "Il registro non contiene dati.",
 	"checkuser-nomatch": "Nessun risultato trovato.",
 	"checkuser-nomatch-edits": "Nessun risultato trovato.\nUltimo edit risalente alle $2 del $1.",

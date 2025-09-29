@@ -9,7 +9,8 @@
 			"McDutchie",
 			"Toliño",
 			"Xosé",
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"Xosecalvo"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta analiza os cambios recentes para recuperar os enderezos IP utilizados por un usuario ou amosar as edicións ou os datos de usuario dun enderezo IP.\nOs usuarios e as edicións dun cliente IP poden recuperarse a través de cabeceiras XFF, engadindo o sufixo \"/xff\" ao enderezo IP. Admítense os protocolos IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNon se devolverán máis de $3 edicións por motivos de rendemento.\nUtiliza isto de acordo coas normas.",
