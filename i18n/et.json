@@ -83,6 +83,7 @@
 	"checkuser-log-search-reason": "Põhjus:",
 	"checkuser-log-search-reason-help": "Filtreeri logikanded, millel on see põhjus.",
 	"checkuser-ipeditcount": "~$1 kõigilt kasutajatelt",
+	"checkuser-time-range": "$1 – $2",
 	"checkuser-showmain": "Mine leheküljele {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Mine leheküljele {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, $1 hankis kasutaja $2 IP-aadressid",

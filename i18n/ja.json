@@ -44,7 +44,8 @@
 			"青子守歌",
 			"Omotecho",
 			"Chqaz",
-			"Dragoniez"
+			"Dragoniez",
+			"Shulmj"
 		]
 	},
 	"checkuser-summary": "このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。\nIPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名を検索できます。\nIPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。\nパフォーマンス上の理由により、最大$3件の編集しか表示できません。\n方針に従って使用してください。",
@@ -174,8 +175,8 @@
 	"logentry-checkuser-private-event-email-sent": "利用者「$4」にメールを{{GENDER:$2|送信しました}}",
 	"logentry-checkuser-private-event-autocreate-account": "自動的に作成",
 	"logentry-checkuser-private-event-create-account": "作成済",
-	"group-checkuser.css": "/* ここに記述したCSSは利用者調査者のみに影響します */",
-	"group-checkuser.js": "/* ここに記述したJSは利用者調査者のみに影響します */",
+	"group-checkuser.css": "/* ここに記述したCSSコードは利用者調査者のみに影響します */",
+	"group-checkuser.js": "/* ここに記述したJavaScriptコードは利用者調査者のみに影響します */",
 	"checkuser-rest-access-denied": "あなたにはこの操作を実行する権限がありません",
 	"checkuser-rest-access-denied-blocked-user": "アカウントがブロックされているため、操作を実行する権限がありません",
 	"checkuser-link-investigate-label": "{{#special:investigate}}を試す",
