@@ -72,7 +72,7 @@ class PageDisplay implements BeforePageDisplayHook {
 		$title = $out->getTitle();
 		if ( $title->isSpecial( 'Block' ) ) {
 			$out->addJsConfigVars( [
-				'wgCUDMaxAge' => $this->config->get( 'CUDMaxAge' )
+				'wgCUDMaxAge' => $this->config->get( 'CUDMaxAge' ),
 			] );
 		}
 

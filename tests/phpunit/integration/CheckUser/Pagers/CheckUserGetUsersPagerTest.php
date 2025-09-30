@@ -108,22 +108,22 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			new ClientHintsLookupResults(
 				[
 					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [
-						1 => 0
+						1 => 0,
 					],
 					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [
-						123 => 0
-					]
+						123 => 0,
+					],
 				],
 				[
 					0 => $exampleClientHintsDataObject,
-				]
+				],
 			),
 			[
 				'userText' => '127.0.0.1',
 				'editCount' => 123,
 				'agentsList' => [ 'Testing useragent2', 'Testing user agent' ],
-				'clientHintsList' => [ $formattedExampleClientHintsDataObject ]
-			]
+				'clientHintsList' => [ $formattedExampleClientHintsDataObject ],
+			],
 		);
 	}
 
@@ -156,8 +156,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 				[
 					'userText' => '127.0.0.1',
 					'editCount' => 123,
-					'agentsList' => [ 'Testing useragent2', 'Testing user agent' ]
-				]
+					'agentsList' => [ 'Testing useragent2', 'Testing user agent' ],
+				],
 			],
 		];
 	}
@@ -219,7 +219,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			'userText' => $authorityCanSeeUser ? $hiddenUser->getName() : '',
 			'editCount' => 123,
 			'agentsList' => [ 'Testing useragent2', 'Testing user agent' ],
-			'clientHintsList' => []
+			'clientHintsList' => [],
 		];
 		$this->assertArrayEquals(
 			$expectedTemplateParams,
@@ -264,7 +264,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			'canPerformBlocksOrLocks' => $canPerformBlocks,
 			'userText' => '127.0.0.1',
 			'editCount' => 1,
-			'agentsList' => [ 'Testing user agent' ]
+			'agentsList' => [ 'Testing user agent' ],
 		];
 		// Add a fake row to the mResult so that we can say at least one row is present. The data is read from
 		// userSets, so this row can be anything.
@@ -388,7 +388,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_ip_hex_time' ] ],
 					// Verify that fields and join_conds set as arrays, but we are not testing their values.
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 			'cu_log_event table' => [
 				false, 'cu_log_event',
@@ -397,7 +397,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_ip_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 			'cu_private_event table' => [
 				false, 'cu_private_event',
@@ -406,7 +406,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_ip_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 			'cu_changes table with XFF IP' => [
 				true, 'cu_changes',
@@ -415,7 +415,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_xff_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 		];
 	}

@@ -136,16 +136,16 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 	public static function provideTestGetGlobalContributionCount() {
 		return [
 			'IP used by 2 temp accounts' => [
-				'target' => static fn () => '127.0.0.1', 'expectedCount' => 2
+				'target' => static fn () => '127.0.0.1', 'expectedCount' => 2,
 			],
 			'temp account that edited from an IP used by another temp account' => [
-				'target' => static fn () => self::$tempUser1->getName(), 'expectedCount' => 1
+				'target' => static fn () => self::$tempUser1->getName(), 'expectedCount' => 1,
 			],
 			'temp account that edited from 2 IPs' => [
-				'target' => static fn () => self::$tempUser2->getName(), 'expectedCount' => 2
+				'target' => static fn () => self::$tempUser2->getName(), 'expectedCount' => 2,
 			],
 			'temp account that edited from an IP used by another registered account' => [
-				'target' => static fn () => self::$tempUser3->getName(), 'expectedCount' => 1
+				'target' => static fn () => self::$tempUser3->getName(), 'expectedCount' => 1,
 			],
 		];
 	}
@@ -167,7 +167,7 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 							'actions' => [
 								'checkuser-temporary-account' => [ 'error' ],
 								'checkuser-temporary-account-no-preference' => [],
-							]
+							],
 						],
 					],
 				],
@@ -321,11 +321,11 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 	public static function provideGetActiveWikis() {
 		return [
 			'Account' => [
-				'target' => static fn () => self::$tempUser1->getName()
+				'target' => static fn () => self::$tempUser1->getName(),
 			],
 			'IP address' => [
-				'target' => static fn () => '127.0.0.3'
-			]
+				'target' => static fn () => '127.0.0.3',
+			],
 		];
 	}
 

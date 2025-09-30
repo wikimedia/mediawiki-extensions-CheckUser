@@ -13,7 +13,7 @@ $cfg['directory_list'] = array_merge(
 		'../../extensions/GrowthExperiments',
 		'../../extensions/IPInfo',
 		'../../extensions/TorBlock',
-		'../../extensions/UserMerge'
+		'../../extensions/UserMerge',
 	]
 );
 
@@ -28,7 +28,7 @@ $cfg['exclude_analysis_directory_list'] = array_merge(
 		'../../extensions/GrowthExperiments',
 		'../../extensions/IPInfo',
 		'../../extensions/TorBlock',
-		'../../extensions/UserMerge'
+		'../../extensions/UserMerge',
 	]
 );
 

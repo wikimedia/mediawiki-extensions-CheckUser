@@ -188,7 +188,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 					'type' => 'error',
 					'label' => new HtmlSnippet(
 						$this->msg( 'checkuser-ip-contributions-target-error-no-ip-banner', $target )->parse()
-					)
+					),
 				] )
 			);
 		} elseif ( $target && !$this->isValidIPOrQueryableRange( $target, $this->getConfig() ) ) {

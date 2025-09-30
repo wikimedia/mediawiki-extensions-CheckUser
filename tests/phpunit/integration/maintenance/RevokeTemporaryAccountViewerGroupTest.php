@@ -64,7 +64,7 @@ class RevokeTemporaryAccountViewerGroupTest extends MaintenanceBaseTestCase {
 			->from( 'logging' )
 			->where( [
 				'log_type' => 'rights',
-				'log_action' => 'rights'
+				'log_action' => 'rights',
 			] )
 			->assertEmptyResult();
 
@@ -96,7 +96,7 @@ class RevokeTemporaryAccountViewerGroupTest extends MaintenanceBaseTestCase {
 					User::newSystemUser( User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ] ),
 					$dbr
 				),
-				'log_title' => $inactivePrivilegedUser->getUser()->getTitleKey()
+				'log_title' => $inactivePrivilegedUser->getUser()->getTitleKey(),
 			] )
 			->fetchFieldValues();
 		$this->assertCount( 1, $logCommentIds );
@@ -105,7 +105,7 @@ class RevokeTemporaryAccountViewerGroupTest extends MaintenanceBaseTestCase {
 			->select( 'comment_text' )
 			->from( 'comment' )
 			->where( [
-				'comment_id' => $logCommentIds[0]
+				'comment_id' => $logCommentIds[0],
 			] )
 			->fetchField();
 		$this->assertIsString( $logComment );

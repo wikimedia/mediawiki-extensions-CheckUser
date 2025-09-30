@@ -96,7 +96,7 @@ class SpecialCheckUserTest extends MediaWikiUnitTestCase {
 			'Empty reason with wgCheckUserForceSummary as false' => [ false, '', true ],
 			'Non-empty reason with wgCheckUserForceSummary as false' => [ false, 'Test Reason', true ],
 			'Empty reason with wgCheckUserForceSummary as true' => [ true, '', false ],
-			'Non-empty reason with wgCheckUserForceSummary as true' => [ true, 'Test Reason', true ]
+			'Non-empty reason with wgCheckUserForceSummary as true' => [ true, 'Test Reason', true ],
 		];
 	}
 }

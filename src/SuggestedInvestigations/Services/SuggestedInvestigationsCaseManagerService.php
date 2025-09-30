@@ -71,7 +71,7 @@ class SuggestedInvestigationsCaseManagerService {
 			$dbw->newInsertQueryBuilder()
 				->insert( 'cusi_case' )
 				->row( [
-					'sic_created_timestamp' => $dbw->timestamp()
+					'sic_created_timestamp' => $dbw->timestamp(),
 				] )
 				->caller( __METHOD__ )
 				->execute();
@@ -132,7 +132,7 @@ class SuggestedInvestigationsCaseManagerService {
 			->table( 'cusi_case' )
 			->set( [
 				'sic_status' => $status->value,
-				'sic_status_reason' => trim( $reason )
+				'sic_status_reason' => trim( $reason ),
 			] )
 			->where( [ 'sic_id' => $caseId ] )
 			->caller( __METHOD__ )

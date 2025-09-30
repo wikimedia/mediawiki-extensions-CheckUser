@@ -228,11 +228,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$wrapper = $this->wrapPager(
 			$this->getPagerWithOverrides( [
 				'UserName' => '127.0.0.1',
-				'RevisionStore' => $this->revisionStore
+				'RevisionStore' => $this->revisionStore,
 			] )
 		);
 		$wrapper->formattedComments = [
-			$row->rev_id => '<span>Formatted comment</span>'
+			$row->rev_id => '<span>Formatted comment</span>',
 		];
 
 		// We can't call populateAttributes directly because TestingAccessWrapper
@@ -316,7 +316,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'rev_timestamp' => '20240101000000',
-			'rev_deleted' => $isHidden ? '1' : '0'
+			'rev_deleted' => $isHidden ? '1' : '0',
 		] );
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
 
@@ -383,11 +383,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$wrapper = $this->wrapPager(
 			$this->getPagerWithOverrides( [
 				'UserName' => '127.0.0.1',
-				'RevisionStore' => $this->revisionStore
+				'RevisionStore' => $this->revisionStore,
 			] )
 		);
 		$wrapper->formattedComments = [
-			$row->rev_id => '<span>Formatted comment</span>'
+			$row->rev_id => '<span>Formatted comment</span>',
 		];
 
 		// We can't call formatTopMarkText directly because TestingAccessWrapper
@@ -476,7 +476,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		} else {
 			// Setup values expected by the parent class
 			$pager->formattedComments = [
-				$row->rev_id => $formattedComment
+				$row->rev_id => $formattedComment,
 			];
 
 			// Ensure formatRevisions is not called by GlobalContributionsPager
@@ -564,11 +564,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				],
 				'hasRevisionRecord' => false,
 				'permissions' => [
-					'deletedhistory' => []
+					'deletedhistory' => [],
 				],
 				'canAccessLocalComment' => false,
 				'hasStoredComment' => true,
-				'formattedComment'  => 'Formatted comment'
+				'formattedComment'  => 'Formatted comment',
 			],
 			'External wiki, deleted comment, has other permission' => [
 				'expected' => $summaryUnavailableMessage,
@@ -584,7 +584,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				],
 				'canAccessLocalComment' => false,
 				'hasStoredComment' => true,
-				'formattedComment'  => 'Formatted comment'
+				'formattedComment'  => 'Formatted comment',
 			],
 			'External wiki, deleted comment, multiple permissions not granting access' => [
 				'expected' => $summaryUnavailableMessage,
@@ -596,11 +596,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'hasRevisionRecord' => false,
 				'permissions' => [
 					'deletedtext' => [],
-					'something-else' => []
+					'something-else' => [],
 				],
 				'canAccessLocalComment' => false,
 				'hasStoredComment' => true,
-				'formattedComment'  => 'Formatted comment'
+				'formattedComment'  => 'Formatted comment',
 			],
 			'External wiki, deleted comment, multiple permissions granting access ' => [
 				'expected' => 'Formatted comment',
@@ -612,11 +612,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'hasRevisionRecord' => false,
 				'permissions' => [
 					'deletedtext' => [],
-					'deletedhistory' => []
+					'deletedhistory' => [],
 				],
 				'canAccessLocalComment' => false,
 				'hasStoredComment' => true,
-				'formattedComment'  => 'Formatted comment'
+				'formattedComment'  => 'Formatted comment',
 			],
 			'Local wiki, has access to comment' => [
 				// Comments for records from the local wiki are delegated to the
@@ -655,7 +655,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'sourcewiki' => $sourcewiki ?? WikiMap::getCurrentWikiId(),
 			'rev_user' => 123,
 			'rev_user_text' => $username,
-			'rev_deleted' => $isDeleted ? '4' : '8'
+			'rev_deleted' => $isDeleted ? '4' : '8',
 		] );
 		if ( $hasRevisionRecord ) {
 			$mockRevRecord = $this->createMock( RevisionRecord::class );
@@ -718,7 +718,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$this->revisionStoreFactory,
 				$context,
 				[ 'revisionsOnly' => true ],
-				new UserIdentityValue( 0, '127.0.0.1' )
+				new UserIdentityValue( 0, '127.0.0.1' ),
 			] )
 			->getMock();
 		$pager->expects( $this->any() )
@@ -857,7 +857,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	public function testFormatTags( $hasTags ) {
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
-			'ts_tags' => $hasTags ? 'sometag' : null
+			'ts_tags' => $hasTags ? 'sometag' : null,
 		] );
 
 		// formatRow() calls getTemplateParams(), which calls formatUserLink(),
@@ -892,7 +892,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager = $this->getPagerWithOverrides( [
 			'Context' => $context,
 			'RevisionStore' => $this->revisionStore,
-			'UserName' => '127.0.0.1'
+			'UserName' => '127.0.0.1',
 		] );
 
 		$this->revisionStore
@@ -950,7 +950,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
-			'GlobalContributionsLookup' => $globalContributionsLookup
+			'GlobalContributionsLookup' => $globalContributionsLookup,
 		] );
 		$pager = TestingAccessWrapper::newFromObject( $pager );
 		$wikis = $pager->fetchWikisToQuery();
@@ -991,7 +991,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				],
 				'permissions' => [],
 				'expectedCount' => 0,
-			]
+			],
 		];
 	}
 
@@ -1292,54 +1292,54 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'otherwiki' => self::makeMockResult( [
 				'20250109000000',
 				'20250108000000',
-			] )
+			] ),
 		];
 
 		yield '5 rows, limit=4, first page' => [
 			'resultsByWiki' => $testResults,
 			'paginationParams' => [
-				'limit' => 4
+				'limit' => 4,
 			],
 			'expectedParentSizeLookups' => [
 				'testwiki' => [ 1 ],
-				'otherwiki' => [ 1 ]
+				'otherwiki' => [ 1 ],
 			],
 			// 4 rows shown + 1 row for the next page link
 			'expectedCount' => 5,
 			'expectedPrevQuery' => false,
 			'expectedNextQuery' => [
 				'offset' => '20250108000000|-1|2',
-				'limit' => 4
+				'limit' => 4,
 			],
 			'expectedDiffSizes' => [ 0, 0, 0, 95 ],
 			'expectRevisionsReturned' => [
 				'testwiki' => true,
-				'otherwiki' => true
-			]
+				'otherwiki' => true,
+			],
 		];
 
 		yield '5 rows, limit=4, second page' => [
 			'resultsByWiki' => $testResults,
 			'paginationParams' => [
 				'offset' => '20250108000000|-1|2',
-				'limit' => 4
+				'limit' => 4,
 			],
 			'expectedParentSizeLookups' => [
 				'testwiki' => [ 1 ],
-				'otherwiki' => [ 1 ]
+				'otherwiki' => [ 1 ],
 			],
 			'expectedCount' => 1,
 			'expectedPrevQuery' => [
 				'dir' => 'prev',
 				'offset' => '20250107000000|0|2',
-				'limit' => 4
+				'limit' => 4,
 			],
 			'expectedNextQuery' => false,
 			'expectedDiffSizes' => [ 95 ],
 			'expectRevisionsReturned' => [
 				'testwiki' => true,
-				'otherwiki' => false
-			]
+				'otherwiki' => false,
+			],
 		];
 
 		yield '5 rows, limit=4, backwards from second page' => [
@@ -1347,23 +1347,23 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'paginationParams' => [
 				'dir' => 'prev',
 				'offset' => '20250107000000|0|2',
-				'limit' => 4
+				'limit' => 4,
 			],
 			'expectedParentSizeLookups' => [
 				'testwiki' => [ 2 ],
-				'otherwiki' => [ 1 ]
+				'otherwiki' => [ 1 ],
 			],
 			'expectedCount' => 4,
 			'expectedPrevQuery' => false,
 			'expectedNextQuery' => [
 				'offset' => '20250108000000|-1|2',
-				'limit' => 4
+				'limit' => 4,
 			],
 			'expectedDiffSizes' => [ 0, 0, 95, 95 ],
 			'expectRevisionsReturned' => [
 				'testwiki' => true,
-				'otherwiki' => true
-			]
+				'otherwiki' => true,
+			],
 		];
 
 		$resultsWithIdenticalTimestamps = [
@@ -1373,53 +1373,53 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			] ),
 			'otherwiki' => self::makeMockResult( [
 				'20250108000000',
-			] )
+			] ),
 		];
 
 		yield '3 rows, identical timestamps, limit=2, first page' => [
 			'resultsByWiki' => $resultsWithIdenticalTimestamps,
 			'paginationParams' => [
-				'limit' => 2
+				'limit' => 2,
 			],
 			'expectedParentSizeLookups' => [
 				'testwiki' => [ 1 ],
-				'otherwiki' => [ 1 ]
+				'otherwiki' => [ 1 ],
 			],
 			// 2 rows shown + 1 row for the next page link
 			'expectedCount' => 3,
 			'expectedPrevQuery' => false,
 			'expectedNextQuery' => [
 				'offset' => '20250108000000|0|2',
-				'limit' => 2
+				'limit' => 2,
 			],
 			'expectedDiffSizes' => [ 0, 95 ],
 			'expectRevisionsReturned' => [
 				'testwiki' => true,
-				'otherwiki' => false
-			]
+				'otherwiki' => false,
+			],
 		];
 
 		yield '3 rows, identical timestamps, limit=2, second page' => [
 			'resultsByWiki' => $resultsWithIdenticalTimestamps,
 			'paginationParams' => [
 				'offset' => '20250108000000|0|2',
-				'limit' => 2
+				'limit' => 2,
 			],
 			'expectedParentSizeLookups' => [
-				'otherwiki' => [ 1 ]
+				'otherwiki' => [ 1 ],
 			],
 			'expectedCount' => 1,
 			'expectedPrevQuery' => [
 				'dir' => 'prev',
 				'offset' => '20250108000000|-1|2',
-				'limit' => 2
+				'limit' => 2,
 			],
 			'expectedNextQuery' => false,
 			'expectedDiffSizes' => [ 95 ],
 			'expectRevisionsReturned' => [
 				'testwiki' => false,
-				'otherwiki' => true
-			]
+				'otherwiki' => true,
+			],
 		];
 
 		yield '3 rows, identical timestamps, limit=2, backwards from second page' => [
@@ -1427,22 +1427,22 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'paginationParams' => [
 				'dir' => 'prev',
 				'offset' => '20250108000000|-1|2',
-				'limit' => 2
+				'limit' => 2,
 			],
 			'expectedParentSizeLookups' => [
-				'testwiki' => [ 1 ]
+				'testwiki' => [ 1 ],
 			],
 			'expectedCount' => 2,
 			'expectedPrevQuery' => false,
 			'expectedNextQuery' => [
 				'offset' => '20250108000000|0|2',
-				'limit' => 2
+				'limit' => 2,
 			],
 			'expectedDiffSizes' => [ 0, 95 ],
 			'expectRevisionsReturned' => [
 				'testwiki' => true,
-				'otherwiki' => false
-			]
+				'otherwiki' => false,
+			],
 		];
 	}
 

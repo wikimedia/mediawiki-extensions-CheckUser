@@ -104,7 +104,7 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 	public static function provideTestPopulation() {
 		return [
 			'recentchanges row count 4' => [
-				4, 2, null, 2
+				4, 2, null, 2,
 			],
 		];
 	}

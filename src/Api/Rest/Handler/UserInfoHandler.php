@@ -69,8 +69,8 @@ class UserInfoHandler extends SimpleHandler {
 			self::USERNAME_PARAM_NAME => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
-				ParamValidator::PARAM_REQUIRED => true
-			]
+				ParamValidator::PARAM_REQUIRED => true,
+			],
 		];
 	}
 

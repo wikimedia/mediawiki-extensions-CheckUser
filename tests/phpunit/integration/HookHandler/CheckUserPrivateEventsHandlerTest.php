@@ -306,7 +306,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 					[
 						$actualEventId,
 						[ 'Sec-CH-UA-Full-Version-List' => '?0', 'Sec-CH-UA-Bitness' => '"32"' ],
-						'privatelog'
+						'privatelog',
 					],
 					$context
 				);
@@ -490,7 +490,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 					$this->getDb()->anyString(),
 					'4::hash',
 					$this->getDb()->anyString()
-				) )
+				) ),
 			],
 			false
 		);
@@ -513,7 +513,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 					$this->getDb()->anyString(),
 					$account->getName(),
 					$this->getDb()->anyString()
-				) )
+				) ),
 			]
 		);
 		// Add wgCheckUserClientHintsPrivateEventId so that Client Hints data is sent
@@ -563,7 +563,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	public static function provideOnLocalUserCreated() {
 		return [
 			'New user was autocreated' => [ true ],
-			'New user was not autocreated' => [ false ]
+			'New user was not autocreated' => [ false ],
 		];
 	}
 
@@ -580,7 +580,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 				'cupe_actor'  => $user->getActorId(),
 				'cupe_namespace' => NS_USER,
 				'cupe_title' => $user->getName(),
-				'cupe_log_action' => 'create-account'
+				'cupe_log_action' => 'create-account',
 			]
 		);
 	}
@@ -673,7 +673,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->where( [
 				'actor_user' => $user->getId(),
 				'cupe_log_action' => 'autocreate-account',
-				'cupe_log_type' => 'checkuser-private-event'
+				'cupe_log_type' => 'checkuser-private-event',
 			] )
 			->caller( __METHOD__ )
 			->assertFieldValue( '1' );

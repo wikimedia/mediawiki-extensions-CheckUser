@@ -112,7 +112,7 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 			$dbr = $this->dbProvider->getReplicaDatabase( $wiki );
 
 			$dbConditions = [
-				'actor_name' => $target
+				'actor_name' => $target,
 			];
 
 			if ( $timeCutoff !== null ) {

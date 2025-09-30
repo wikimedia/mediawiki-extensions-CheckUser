@@ -89,10 +89,10 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			'pathParams' => [],
 			'queryParams' => [
 				'dataContext' => 'infobox',
-				'language' => 'en'
+				'language' => 'en',
 			],
 			'headers' => [ 'Content-Type' => 'application/json' ],
-			'bodyContents' => json_encode( [ 'token' => 'valid-csrf-token' ] )
+			'bodyContents' => json_encode( [ 'token' => 'valid-csrf-token' ] ),
 		];
 
 		$idType = gettype( $identifier );
@@ -212,15 +212,15 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 				'context' => 'infobox',
 				'expectedOutput' => [
 					'ipinfo-source-checkuser' => [
-						'globalContributionsCount' => 0
-					]
-				]
+						'globalContributionsCount' => 0,
+					],
+				],
 			],
 			'popup data context shouldn\'t append data' => [
 				'target' => static fn () => self::$tempUserNoEdits->getName(),
 				'authority' => static fn () => self::$tempUserNoEdits,
 				'context' => 'popup',
-				'expectedOutput' => []
+				'expectedOutput' => [],
 			],
 		];
 	}

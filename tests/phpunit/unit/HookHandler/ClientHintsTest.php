@@ -37,7 +37,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' ],
-				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders()
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 			] ),
 			$specialPageFactoryMock
 		);
@@ -454,7 +454,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			'Sec-CH-UA-Model' => 'model',
 			'Sec-CH-UA-Platform' => 'platform',
 			'Sec-CH-UA-Platform-Version' => 'platformVersion',
-			'Sec-CH-UA-WoW64' => ''
+			'Sec-CH-UA-WoW64' => '',
 		];
 	}
 

@@ -163,7 +163,7 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Setting status to resolved with no provided reason' => [
 				'originalStatus' => CaseStatus::Open, 'newStatus' => CaseStatus::Resolved,
-				'newStatusAsString' => 'resolved', 'reason' => null, 'expectedReason' => ''
+				'newStatusAsString' => 'resolved', 'reason' => null, 'expectedReason' => '',
 			],
 			'Setting status to resolved with an associated reason' => [
 				'originalStatus' => CaseStatus::Open, 'newStatus' => CaseStatus::Resolved,

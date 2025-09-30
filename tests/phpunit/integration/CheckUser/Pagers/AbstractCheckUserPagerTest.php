@@ -118,7 +118,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	public static function provideUserWasBlocked() {
 		return [
 			'User was previously blocked' => [ true ],
-			'User never previously blocked' => [ false ]
+			'User never previously blocked' => [ false ],
 		];
 	}
 

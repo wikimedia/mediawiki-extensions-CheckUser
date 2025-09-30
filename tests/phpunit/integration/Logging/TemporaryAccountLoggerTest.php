@@ -147,19 +147,19 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Local access enabled' => [
 				'logAccessEnabled',
-				TemporaryAccountLogger::ACTION_ACCESS_ENABLED
+				TemporaryAccountLogger::ACTION_ACCESS_ENABLED,
 			],
 			'Local access disabled' => [
 				'logAccessDisabled',
-				TemporaryAccountLogger::ACTION_ACCESS_DISABLED
+				TemporaryAccountLogger::ACTION_ACCESS_DISABLED,
 			],
 			'Global access enabled' => [
 				'logGlobalAccessEnabled',
-				TemporaryAccountLogger::ACTION_GLOBAL_ACCESS_ENABLED
+				TemporaryAccountLogger::ACTION_GLOBAL_ACCESS_ENABLED,
 			],
 			'Global access disabled' => [
 				'logGlobalAccessDisabled',
-				TemporaryAccountLogger::ACTION_GLOBAL_ACCESS_DISABLED
+				TemporaryAccountLogger::ACTION_GLOBAL_ACCESS_DISABLED,
 			],
 		];
 	}

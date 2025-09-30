@@ -173,7 +173,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'revIps' => [ 1 => '1.2.3.4' ],
 				'logIps' => [ 1 => '5.6.7.8' ],
 				'lastUsedIp' => '9.8.7.6',
-			]
+			],
 		];
 		if ( $abuseFilterLoaded ) {
 			$expectedData['~12345']['abuseLogIps'] = null;
@@ -239,7 +239,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				return new FakeResultWrapper( array_values( array_map( static function ( $id ) {
 					return [
 						'log_id' => $id,
-						'log_deleted' => $id !== 1000 ? 0 : LogPage::DELETED_RESTRICTED | LogPage::DELETED_USER
+						'log_deleted' => $id !== 1000 ? 0 : LogPage::DELETED_RESTRICTED | LogPage::DELETED_USER,
 					];
 				}, array_intersect( $ids, [ 10, 100, 1000, self::$pageCreationLogId ] ) ) ) );
 			} );
@@ -321,7 +321,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 					'logIps' => [
 						10 => '1.2.3.4',
 						// null means the ID is unavailable (but not expired)
-						1000 => null
+						1000 => null,
 					],
 				],
 				'permissions' => [],
@@ -352,7 +352,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'logIdsCallback' => static fn () => [
 					10,
 					self::$expiredLogId,
-					9999
+					9999,
 				],
 				'abuseLogIdsCallback' => static fn () => [],
 				'expectedResponseCallback' => static fn () => [
@@ -362,7 +362,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 						10 => '1.2.3.4',
 						// 9999 is considered unavailable since there is no
 						// log entry with such ID.
-						9999 => null
+						9999 => null,
 					],
 				],
 				'permissions' => [ 'viewsuppressed' ],
@@ -372,7 +372,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'logIdsCallback' => static fn () => [
 					10,
 					self::$expiredLogId,
-					9999
+					9999,
 				],
 				'abuseLogIdsCallback' => static fn () => [],
 				'expectedResponseCallback' => static fn () => [
@@ -382,7 +382,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 						10 => '1.2.3.4',
 						// 9999 is considered unavailable since there is no
 						// log entry with such ID.
-						9999 => null
+						9999 => null,
 					],
 				],
 				'permissions' => [ 'viewsuppressed' ],
@@ -395,7 +395,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 					'logIps' => [
 						10 => '1.2.3.4',
 						// null means the ID is unavailable (but not expired)
-						9999 => null
+						9999 => null,
 					],
 				],
 				'permissions' => [],
@@ -414,11 +414,11 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'logIdsCallback' => static fn () => [],
 				'abuseLogIdsCallback' => static fn () => [ 1, 2 ],
 				'expectedResponseCallback' => static fn () => [
-					'abuseLogIps' => [ 1 => '1.2.3.4' ]
+					'abuseLogIps' => [ 1 => '1.2.3.4' ],
 				],
 				'permissions' => [
 					'abusefilter-log-detail',
-					'abusefilter-log-private'
+					'abusefilter-log-private',
 				],
 			],
 			'AbuseFilter log (existing, expired, unavailable, non-existing IDs)' => [
@@ -428,20 +428,20 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 					1,
 					self::$expiredAFLogId,
 					self::$unavailableAFLogId,
-					9999
+					9999,
 				],
 				'expectedResponseCallback' => static fn () => [
 					'abuseLogIps' => [
 						1 => '1.2.3.4',
 						// null means the ID is unavailable (but not expired)
-						self::$unavailableAFLogId => null
-					]
+						self::$unavailableAFLogId => null,
+					],
 				],
 				'permissions' => [
 					'abusefilter-log-detail',
-					'abusefilter-log-private'
+					'abusefilter-log-private',
 				],
-			]
+			],
 		];
 	}
 
@@ -564,7 +564,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->addDBDataForCreationLog( $tempUser, $actorId );
 
 		self::$logIdsForPerformLogsLookupTest = [
-			$this->createLogEntry( $tempUser )->insert(), $this->createLogEntry( $tempUser )->insert()
+			$this->createLogEntry( $tempUser )->insert(), $this->createLogEntry( $tempUser )->insert(),
 		];
 	}
 
@@ -660,7 +660,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'afl_namespace' => 0,
 			'afl_title' => 'Main_page',
 			'afl_deleted' => 0,
-			'afl_rev_id' => 1
+			'afl_rev_id' => 1,
 		];
 
 		// Full data in a non-expired entry
@@ -669,7 +669,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->table( 'abuse_filter_log' )
 			->row(
 				array_merge( $template, [
-					'afl_timestamp' => ConvertibleTimestamp::now()
+					'afl_timestamp' => ConvertibleTimestamp::now(),
 				] )
 			)
 			->execute();
@@ -722,7 +722,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$logEntry->setTarget( $this->getExistingTestPage() );
 		$logEntry->setParameters( [
 			'4::target' => wfRandomString(),
-			'5::noredir' => '0'
+			'5::noredir' => '0',
 		] );
 		return $logEntry;
 	}

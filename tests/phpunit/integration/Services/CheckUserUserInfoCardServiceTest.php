@@ -50,7 +50,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 
 		$this->enableAutoCreateTempUser( [
-			[ 'genPattern' => '~check-user-test-$1' ]
+			[ 'genPattern' => '~check-user-test-$1' ],
 		] );
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
 	}
@@ -474,7 +474,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 					'cul_reason_id' => 1,
 					'cul_reason_plaintext_id' => 2,
 					'cul_actor' => $user->getActorId(),
-				]
+				],
 			] )
 			->caller( __METHOD__ )
 			->execute();
@@ -622,7 +622,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		$userOptionsManager->saveOptions( $user );
 		$result = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
 		] )->getUserInfo(
 			$authority, $user
 		);
@@ -630,7 +630,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
 		$newUser = $this->getTestUser( [ 'noaccess' ] )->getUser();
 		$result = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
 		] )->getUserInfo(
 			$newUser, $user
 		);
@@ -722,14 +722,14 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 
 		$sut = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
 		] );
 
 		// A user with access to the IP reveal log (checkuser-temporary-account-log
 		// permission) but that can't see deleted history.
 		$performer = $this->mockRegisteredAuthorityWithPermissions( [
 			'checkuser-temporary-account-log',
-			'checkuser-temporary-account-no-preference'
+			'checkuser-temporary-account-no-preference',
 		] );
 
 		$userInfo1 = $sut->getUserInfo( $performer, self::$tempUser1 );
@@ -773,7 +773,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			// true for canAccessTemporaryAccountIPAddresses().
 			$permissions = [
 				'checkuser-temporary-account-no-preference',
-				'checkuser-temporary-account-log'
+				'checkuser-temporary-account-log',
 			];
 		}
 
@@ -805,7 +805,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$sut = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
 		] );
 
 		$result = $sut->getUserInfo( $performer, $target );
@@ -864,7 +864,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				'canAccessIPRevealLog' => true,
 				'tempUsersEnabled' => true,
 				'targetIsATemporaryAccount' => true,
-			]
+			],
 		];
 	}
 
@@ -880,13 +880,13 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
 
 		$sut = $this->getObjectUnderTest( [
-			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup()
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
 		] );
 
 		$performerPermissions = [
 			'checkuser-log',
 			'checkuser-temporary-account-log',
-			'checkuser-temporary-account-no-preference'
+			'checkuser-temporary-account-no-preference',
 		];
 
 		if ( $suppressedRevisionAllowed ) {
@@ -1055,7 +1055,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			->expects( $this->never() )
 			->method( 'getBucketedCount' );
 		$userInfoCardService = $this->getObjectUnderTest( [
-			'CheckUserTemporaryAccountsByIPLookup' => $checkUserTemporaryAccountsByIPLookup
+			'CheckUserTemporaryAccountsByIPLookup' => $checkUserTemporaryAccountsByIPLookup,
 		] );
 		$userInfoCardService->getUserInfo(
 			$this->getTestSysop()->getAuthority(),
@@ -1124,7 +1124,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			'log_namespace' => NS_USER,
 			'log_deleted' => 0x0,
 			'log_comment_id' => $comment->id,
-			'log_params' => LogEntryBase::makeParamBlob( [] )
+			'log_params' => LogEntryBase::makeParamBlob( [] ),
 		];
 		$prototypeUser1 = array_merge(
 			$prototype,
@@ -1194,8 +1194,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			// Non-temp user
 			array_merge( $prototype, [
 				'log_timestamp' => $db->timestamp( '20250102030412' ),
-				'log_title' => 'Wrong User'
-			] )
+				'log_title' => 'Wrong User',
+			] ),
 		];
 
 		// insertInto() requires columns to be in the same order for each row,

@@ -124,7 +124,9 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 			$formattedUsers .= Html::rawElement(
 				'li', [
-					'class' => $i >= $userHideThreshold ? 'mw-checkuser-suggestedinvestigations-user-defaulthide' : ''
+					'class' => $i >= $userHideThreshold ?
+						'mw-checkuser-suggestedinvestigations-user-defaulthide'
+						: '',
 				],
 				$this->msg( 'checkuser-suggestedinvestigations-user-check' )
 					->rawParams( $userLink )
@@ -200,7 +202,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 	private function formatActionsCell( int $caseId, CaseStatus $status, string $reason ): string {
 		$actionsHtml = Html::openElement( 'div', [
-			'class' => 'mw-checkuser-suggestedinvestigations-actions'
+			'class' => 'mw-checkuser-suggestedinvestigations-actions',
 		] );
 
 		/** @var UserIdentity[] $users */
@@ -227,7 +229,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			'cdx-button--fake-button',
 			$investigateEnabled ? 'cdx-button--fake-button--enabled' : 'cdx-button--fake-button--disabled',
 			'cdx-button--weight-quiet',
-			'cdx-button--icon-only'
+			'cdx-button--icon-only',
 		];
 
 		$investigateButtonTitle = $this->msg( 'checkuser-suggestedinvestigations-action-investigate' )->text();
@@ -245,7 +247,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			]
 		);
 		$actionsHtml .= Html::element( 'span', [
-			'class' => 'cdx-button__icon mw-checkuser-suggestedinvestigations-icon--investigate'
+			'class' => 'cdx-button__icon mw-checkuser-suggestedinvestigations-icon--investigate',
 		] );
 		$actionsHtml .= Html::closeElement( 'a' );
 
@@ -295,14 +297,14 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 	public function getQueryInfo() {
 		return [
 			'tables' => [
-				'cusi_case'
+				'cusi_case',
 			],
 			'fields' => [
 				'sic_id',
 				'sic_status',
 				'sic_created_timestamp',
-				'sic_status_reason'
-			]
+				'sic_status_reason',
+			],
 		];
 	}
 
@@ -320,7 +322,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			->select( [ 'sis_sic_id', 'sis_name', 'sis_value' ] )
 			->from( 'cusi_signal' )
 			->where( [
-				'sis_sic_id' => $caseIds
+				'sis_sic_id' => $caseIds,
 			] )
 			->caller( __METHOD__ )
 			->fetchResultSet();
@@ -334,7 +336,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 			$signalsForCases[$caseId][] = [
 				'name' => $row->sis_name,
-				'value' => $row->sis_value
+				'value' => $row->sis_value,
 			];
 		}
 
@@ -355,7 +357,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			->select( [ 'siu_sic_id', 'siu_user_id' ] )
 			->from( 'cusi_user' )
 			->where( [
-				'siu_sic_id' => $caseIds
+				'siu_sic_id' => $caseIds,
 			] )
 			->caller( __METHOD__ )
 			->fetchResultSet();
@@ -373,7 +375,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 				->select( [ 'user_id', 'user_name' ] )
 				->from( 'user' )
 				->where( [
-					'user_id' => $userIdChunk
+					'user_id' => $userIdChunk,
 				] )
 				->caller( __METHOD__ )
 				->fetchResultSet();
@@ -441,7 +443,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 	/** @inheritDoc */
 	public function getModuleStyles(): array {
 		return array_merge( parent::getModuleStyles(), [
-			'ext.checkUser.suggestedInvestigations.styles'
+			'ext.checkUser.suggestedInvestigations.styles',
 		] );
 	}
 }

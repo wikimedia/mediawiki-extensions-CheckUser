@@ -29,7 +29,7 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
 class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 
 	public const CONSTRUCTOR_OPTIONS = [
-		'CheckUserMaximumRowCount'
+		'CheckUserMaximumRowCount',
 	];
 	private JobQueueGroup $jobQueueGroup;
 	private IConnectionProvider $connectionProvider;
@@ -249,8 +249,8 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 				'ranges' => [
 					[ 1, 2 ],
 					[ 3, 5 ],
-					[ 6, 10 ]
-				]
+					[ 6, 10 ],
+				],
 			];
 		}
 		if ( !$count ) {
@@ -270,7 +270,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			}
 		}
 		return [
-			$bucketStart, $bucketEnd
+			$bucketStart, $bucketEnd,
 		];
 	}
 
@@ -362,7 +362,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->useIndex( 'cule_actor_ip_time' )
 			->join( 'actor', null, 'cule_actor=actor_id' )
 			->where( [
-				'actor_name' => $user->getName()
+				'actor_name' => $user->getName(),
 			] )
 			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
 			->limit( $limit )

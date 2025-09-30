@@ -225,7 +225,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 						'comment_text' => '', 'comment_data' => null, 'actor' => null,
 						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
 					],
-				]
+				],
 			],
 			// Testing limit where the number of rows is less than the specified limit
 			'Limit 100, order DESC, InvestigateTestUser2 as target' => [

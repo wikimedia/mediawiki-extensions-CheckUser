@@ -309,7 +309,7 @@ class SpecialInvestigate extends FormSpecialPage {
 					$message = $this->msg( 'checkuser-investigate-preliminary-notice-ip-targets', $link )->parse();
 					$this->addHTML( new MessageWidget( [
 						'type' => 'notice',
-						'label' => new HtmlSnippet( $message )
+						'label' => new HtmlSnippet( $message ),
 					] ) );
 				}
 
@@ -347,7 +347,7 @@ class SpecialInvestigate extends FormSpecialPage {
 						)->parse();
 						$this->addHTML( new MessageWidget( [
 							'type' => 'warning',
-							'label' => new HtmlSnippet( $message )
+							'label' => new HtmlSnippet( $message ),
 						] ) );
 					}
 					$this->addParserOutput( $pager->getFullOutput() );
@@ -358,7 +358,7 @@ class SpecialInvestigate extends FormSpecialPage {
 					$message = $this->msg( $messageKey )->parse();
 					$this->addHTML( new MessageWidget( [
 						'type' => 'warning',
-						'label' => new HtmlSnippet( $message )
+						'label' => new HtmlSnippet( $message ),
 					] ) );
 				}
 
@@ -385,7 +385,7 @@ class SpecialInvestigate extends FormSpecialPage {
 					$message = $this->msg( $messageKey )->parse();
 					$this->addHTML( new MessageWidget( [
 						'type' => 'warning',
-						'label' => new HtmlSnippet( $message )
+						'label' => new HtmlSnippet( $message ),
 					] ) );
 				}
 
@@ -499,8 +499,8 @@ class SpecialInvestigate extends FormSpecialPage {
 					'align' => 'top',
 					'infusable' => true,
 					'classes' => [
-						'ext-checkuser-investigate-subtitle-targets-layout'
-					]
+						'ext-checkuser-investigate-subtitle-targets-layout',
+					],
 				]
 			);
 			if ( $userCanBlock ) {
@@ -528,8 +528,8 @@ class SpecialInvestigate extends FormSpecialPage {
 							'items' => [
 								$blockAccountsButton,
 								$blockIpsButton,
-							]
-						] )
+							],
+						] ),
 					] ),
 					[
 						'align' => 'top',
@@ -540,9 +540,9 @@ class SpecialInvestigate extends FormSpecialPage {
 
 			$blockFieldset = new FieldsetLayout( [
 				'classes' => [
-					'ext-checkuser-investigate-subtitle-fieldset'
+					'ext-checkuser-investigate-subtitle-fieldset',
 				],
-				'items' => $items
+				'items' => $items,
 			] );
 
 			$this->getOutput()->prependHTML(
@@ -685,7 +685,7 @@ class SpecialInvestigate extends FormSpecialPage {
 				'name' => 'filter-temp-accounts',
 				'label-message' => 'checkuser-investigate-filters-exclude-temp-accounts-label',
 				'required' => false,
-				'default' => $filterTempAccounts
+				'default' => $filterTempAccounts,
 			];
 		}
 

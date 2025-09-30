@@ -52,10 +52,10 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		$userIdentityLookup->method( 'getUserIdentityByName' )
 			->willReturnMap(
 				[
-					[ 'User1', 0, $user1, ],
-					[ 'User2', 0, $user2, ],
-					[ '~2025-1', 0, $tempUser1, ],
-					[ '~2025-2', 0, $tempUser2, ],
+					[ 'User1', 0, $user1 ],
+					[ 'User2', 0, $user2 ],
+					[ '~2025-1', 0, $tempUser1 ],
+					[ '~2025-2', 0, $tempUser2 ],
 				]
 			);
 

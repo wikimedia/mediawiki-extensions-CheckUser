@@ -49,7 +49,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 	public static function provideIsNavigationBarShown() {
 		return [
 			[ 0, false ],
-			[ 2, true ]
+			[ 2, true ],
 		];
 	}
 
@@ -114,7 +114,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
-				]
+				],
 			],
 			'When using postgres DB' => [
 				'postgres',
@@ -131,7 +131,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
-				]
+				],
 			],
 		];
 	}
@@ -168,7 +168,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
-				]
+				],
 			],
 			'When using postgres DB' => [
 				'postgres',
@@ -185,7 +185,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
-				]
+				],
 			],
 		];
 	}

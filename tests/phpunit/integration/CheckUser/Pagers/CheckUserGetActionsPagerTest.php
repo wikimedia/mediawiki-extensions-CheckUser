@@ -57,8 +57,8 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		return [
 			'All message keys to be cached' => [ [
 				'diff', 'hist', 'minoreditletter', 'newpageletter',
-				'blocklink', 'checkuser-log-link-text', 'checkuser-logs-link-text'
-			] ]
+				'blocklink', 'checkuser-log-link-text', 'checkuser-logs-link-text',
+			] ],
 		];
 	}
 
@@ -187,9 +187,9 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'ipLink' => $wrapper->getSelfLink( $normalisedIP,
 					[
 						'user' => $normalisedIP,
-						'reason' => ''
+						'reason' => '',
 					]
-				)
+				),
 			]
 		);
 	}
@@ -232,23 +232,23 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			'Legacy log parameters' => [
 				[
 					'4::target' => 'Testing',
-					'5::noredir' => '0'
+					'5::noredir' => '0',
 				],
 				LogPage::makeParamBlob( [
 					'4::target' => 'Testing',
-					'5::noredir' => '0'
+					'5::noredir' => '0',
 				] ),
 			],
 			'Normal log parameters' => [
 				[
 					'4::target' => 'Testing',
-					'5::noredir' => '0'
+					'5::noredir' => '0',
 				],
 				LogEntryBase::makeParamBlob( [
 					'4::target' => 'Testing',
-					'5::noredir' => '0'
+					'5::noredir' => '0',
 				] ),
-			]
+			],
 		];
 	}
 
@@ -258,7 +258,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		$moveLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
 		$moveLogEntry->setParameters( [
 			'4::target' => 'Testing',
-			'5::noredir' => '0'
+			'5::noredir' => '0',
 		] );
 		$this->testFormatRow(
 			[
@@ -271,7 +271,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'user' => $moveLogEntry->getPerformerIdentity()->getId(),
 				'log_params' => LogEntryBase::makeParamBlob( [
 					'4::target' => 'Testing',
-					'5::noredir' => '0'
+					'5::noredir' => '0',
 				] ),
 				'comment_text' => 'test',
 				'client_hints_reference_id' => 1,
@@ -424,7 +424,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_ip_hex_time' ] ],
 					// Verify that fields and join_conds set as arrays, but we are not testing their values.
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 			'cu_log_event table for IP address' => [
 				UserIdentityValue::newAnonymous( '127.0.0.1' ), false, 'cu_log_event',
@@ -433,7 +433,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_ip_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 			'cu_private_event table for IP address' => [
 				UserIdentityValue::newAnonymous( '127.0.0.1' ), false, 'cu_private_event',
@@ -442,7 +442,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_ip_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 			'cu_private_event table for XFF IP address' => [
 				UserIdentityValue::newAnonymous( '127.0.0.1' ), true, 'cu_private_event',
@@ -451,7 +451,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_xff_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 			'cu_log_event table for user target' => [
 				UserIdentityValue::newRegistered( 1, 'Testing' ), null, 'cu_log_event',
@@ -460,7 +460,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 					'conds' => [ 'actor_user' => 1 ],
 					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_actor_ip_time' ] ],
 					'fields' => [], 'join_conds' => [],
-				]
+				],
 			],
 		];
 	}

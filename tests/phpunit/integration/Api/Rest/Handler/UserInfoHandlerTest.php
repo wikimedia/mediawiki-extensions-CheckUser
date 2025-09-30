@@ -26,8 +26,8 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	private static array $postRequestParams = [
 		'method' => 'POST',
 		'headers' => [
-			'Content-Type' => 'application/json'
-		]
+			'Content-Type' => 'application/json',
+		],
 	];
 
 	protected function setUp(): void {
@@ -55,8 +55,8 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getObjectUnderTest(),
 			new RequestData( self::$postRequestParams + [
 				'bodyContents' => json_encode( [
-					'username' => $this->getTestUser()->getUser()->getName()
-				] )
+					'username' => $this->getTestUser()->getUser()->getName(),
+				] ),
 			] )
 		);
 	}
@@ -69,8 +69,8 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getObjectUnderTest(),
 			new RequestData( self::$postRequestParams + [
 				'bodyContents' => json_encode( [
-					'username' => 'non-existing user'
-				] )
+					'username' => 'non-existing user',
+				] ),
 			] ),
 			[],
 			[],
@@ -88,7 +88,7 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getObjectUnderTest(),
 			new RequestData( self::$postRequestParams + [
 				'bodyContents' => json_encode( [
-					'username' => $user->getName()
+					'username' => $user->getName(),
 				] ),
 			] ),
 			[],
@@ -111,8 +111,8 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 		$user = $this->getTestUser()->getUser();
 		$requestParams = self::$postRequestParams + [
 			'bodyContents' => json_encode( [
-				'username' => $user->getName()
-			] )
+				'username' => $user->getName(),
+			] ),
 		];
 
 		$this->editPage( 'Test', 'Test', 'Test', NS_MAIN, $user );

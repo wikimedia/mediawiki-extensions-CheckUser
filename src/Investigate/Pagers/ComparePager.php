@@ -117,7 +117,7 @@ class ComparePager extends TablePager {
 			parent::getTableClass(),
 			$sortableClass,
 			'ext-checkuser-investigate-table',
-			'ext-checkuser-investigate-table-compare'
+			'ext-checkuser-investigate-table-compare',
 		] );
 	}
 

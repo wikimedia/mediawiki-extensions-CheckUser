@@ -69,12 +69,12 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 					'rc_namespace' => NS_SPECIAL,
 					'rc_title' => 'Log',
 					'rc_source' => RecentChange::SRC_LOG,
-					'rc_log_type' => ''
+					'rc_log_type' => '',
 				] ),
 				'cu_private_event',
 				[ 'cupe_title', 'cupe_namespace' ],
 				[ 'Log', NS_SPECIAL ],
-			]
+			],
 		];
 	}
 
@@ -158,9 +158,9 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 					$currentTime - 2,
 					$currentTime - $defaultMaxAge + 100,
 					$currentTime,
-					$currentTime + 10
+					$currentTime + 10,
 				],
-				4
+				4,
 			],
 			'Two entries to prune with two to be left' => [
 				$currentTime,
@@ -169,9 +169,9 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 					$currentTime - $defaultMaxAge - 20000,
 					$currentTime - $defaultMaxAge - 100,
 					$currentTime,
-					$currentTime + 10
+					$currentTime + 10,
 				],
-				2
+				2,
 			],
 			'Four entries to prune with no left' => [
 				$currentTime,
@@ -180,10 +180,10 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 					$currentTime - $defaultMaxAge - 20000,
 					$currentTime - $defaultMaxAge - 100,
 					$currentTime - $defaultMaxAge - 1,
-					$currentTime - $defaultMaxAge - 100000
+					$currentTime - $defaultMaxAge - 100000,
 				],
-				0
-			]
+				0,
+			],
 		];
 	}
 }

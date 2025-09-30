@@ -332,7 +332,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 				'cite_ciwm_id' => $wikiId,
 				'cite_ip_hex' => $row->cite_ip_hex,
 				// Use the timestamp as a CAS check to prevent races with concurrent updates to these rows
-				'cite_timestamp' => $row->cite_timestamp
+				'cite_timestamp' => $row->cite_timestamp,
 			] );
 		}
 
@@ -359,7 +359,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 				'ciu_ciwm_id' => $wikiId,
 				'ciu_central_id' => $row->ciu_central_id,
 				// Use the timestamp as a CAS check to prevent races with concurrent updates to these rows
-				'ciu_timestamp' => $row->ciu_timestamp
+				'ciu_timestamp' => $row->ciu_timestamp,
 			] );
 		}
 

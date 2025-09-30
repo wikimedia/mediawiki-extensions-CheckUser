@@ -43,13 +43,13 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 
 			if ( $this->config->has( 'GEUserImpactMaxEdits' ) ) {
 				$output->addJsConfigVars( [
-					'wgCheckUserGEUserImpactMaxEdits' => $this->config->get( 'GEUserImpactMaxEdits' )
+					'wgCheckUserGEUserImpactMaxEdits' => $this->config->get( 'GEUserImpactMaxEdits' ),
 				] );
 			}
 
 			if ( $this->config->has( 'GEUserImpactMaxThanks' ) ) {
 				$output->addJsConfigVars( [
-					'wgCheckUserGEUserImpactMaxThanks' => $this->config->get( 'GEUserImpactMaxThanks' )
+					'wgCheckUserGEUserImpactMaxThanks' => $this->config->get( 'GEUserImpactMaxThanks' ),
 				] );
 			}
 
@@ -65,7 +65,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 				[
 					'class' =>
 						'cdx-button__icon ext-checkuser-userinfocard-button__icon ' .
-						"ext-checkuser-userinfocard-button__icon--$iconClass"
+						"ext-checkuser-userinfocard-button__icon--$iconClass",
 				]
 			);
 			$markup = Html::rawElement(
@@ -80,7 +80,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 					'class' => "ext-checkuser-userinfocard-button cdx-button " .
 						'cdx-button--action-default cdx-button--weight-quiet cdx-button--fake-button ' .
 						'cdx-button--fake-button--enabled cdx-button--icon-only',
-					'data-username' => $targetUser->getName()
+					'data-username' => $targetUser->getName(),
 				],
 				$icon
 			);

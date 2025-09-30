@@ -127,7 +127,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 				# Fields should be an array
 				'fields' => [
 					'client_hints_reference_id' => 'cupe_id',
-					'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+					'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
 				],
 				# Tables array should have at least cu_private_event
 				'tables' => [ 'cu_private_event' ],
@@ -244,7 +244,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					'infosets' => [],
 					'agentsets' => [],
 					'clienthints' => [],
-				]
+				],
 			],
 			'One row in the result' => [
 				new FakeResultWrapper( [
@@ -273,9 +273,9 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					'clienthints' => [
 						'Test' => new ClientHintsReferenceIds( [
 							UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 1 ],
-						] )
+						] ),
 					],
-				]
+				],
 			],
 			'Multiple rows in the result' => [
 				new FakeResultWrapper( [
@@ -334,7 +334,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						'timestamp' => $smallestFakeTimestamp,
 						'client_hints_reference_id' => 456,
 						'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
-					]
+					],
 				] ),
 				// Expected ClientHintsReferenceIds used for lookup
 				new ClientHintsReferenceIds( [
@@ -357,7 +357,9 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					'ids' => [ 'Test' => 1, 'Testing' => 2, '127.0.0.1' => 0 ],
 					'infosets' => [
 						'Test' => [
-							[ '127.0.0.1', '125.6.5.4' ], [ '127.0.0.2', null ], [ '127.0.0.1', null ]
+							[ '127.0.0.1', '125.6.5.4' ],
+							[ '127.0.0.2', null ],
+							[ '127.0.0.1', null ],
 						],
 						'Testing' => [ [ '127.0.0.2', null ] ],
 						'127.0.0.1' => [ [ '127.0.0.1', null ] ],
@@ -379,8 +381,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						'127.0.0.1' => new ClientHintsReferenceIds( [
 							UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 456 ],
 						] ),
-					]
-				]
+					],
+				],
 			],
 		];
 	}

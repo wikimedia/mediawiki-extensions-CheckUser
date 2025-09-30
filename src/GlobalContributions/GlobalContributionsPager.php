@@ -459,7 +459,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				'page_is_new',
 				// Set our synthetic wiki sequence number field to an initial value.
 				// This will be overridden in reallyDoQuery().
-				'wiki_seq_no' => '1'
+				'wiki_seq_no' => '1',
 			] );
 
 		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
@@ -497,7 +497,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	public function getIndexField() {
 		return [
-			[ 'rev_timestamp', 'wiki_seq_no', 'rev_id' ]
+			[ 'rev_timestamp', 'wiki_seq_no', 'rev_id' ],
 		];
 	}
 
@@ -547,7 +547,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 							'Special:GlobalPreferences'
 						)
 					)->parse()
-				)
+				),
 			] );
 		}
 
@@ -556,7 +556,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				'type' => 'error',
 				'label' => new HtmlSnippet(
 					$this->msg( 'checkuser-global-contributions-api-lookup-error' )->parse()
-				)
+				),
 			] );
 		}
 
@@ -585,7 +585,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 							'Special:GlobalPreferences'
 						)
 					)->parse()
-				)
+				),
 			] );
 		}
 
@@ -598,7 +598,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 						'checkuser-global-contributions-no-results-no-central-user',
 						$this->target
 					)->parse()
-				)
+				),
 			] );
 		}
 
@@ -613,7 +613,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 					$this->msg( 'checkuser-global-contributions-no-results-no-permissions' )
 						->params( $this->target )
 						->parse()
-				)
+				),
 			] );
 		}
 
@@ -636,7 +636,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 					'checkuser-global-contributions-no-results-no-visible-contribs',
 					$this->target
 				)->parse()
-			)
+			),
 		] );
 	}
 
@@ -730,7 +730,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				),
 				[
 					'curid' => $row->rev_page,
-					'action' => 'history'
+					'action' => 'history',
 				]
 			),
 			new HtmlArmor( $this->messages['hist'] ),
@@ -802,7 +802,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 
 		return Html::element( 'span', [
-			'class' => 'mw-changeslist-time'
+			'class' => 'mw-changeslist-time',
 		], $time ) . $dateLink;
 	}
 

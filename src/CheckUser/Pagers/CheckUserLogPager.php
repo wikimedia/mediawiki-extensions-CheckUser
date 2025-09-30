@@ -219,7 +219,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		$cul_type = [
 			'ipedits' => 'ipactions',
 			'ipedits-xff' => 'ipactions-xff',
-			'useredits' => 'useractions'
+			'useredits' => 'useractions',
 		][$row->cul_type] ?? $row->cul_type;
 		$rowContent = $this->msg( 'checkuser-log-entry-' . $cul_type )
 			->rawParams(
@@ -342,7 +342,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	public function selectFields(): array {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_type', 'cul_target_id',
-			'cul_target_text', 'actor_name', 'actor_user', 'actor_id'
+			'cul_target_text', 'actor_name', 'actor_user', 'actor_id',
 		];
 	}
 

@@ -80,11 +80,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					'ipusers',
 				],
 				ApiBase::PARAM_HELP_MSG_PER_VALUE => [
-					'edits' => 'apihelp-query+checkuser-paramvalue-request-actions'
+					'edits' => 'apihelp-query+checkuser-paramvalue-request-actions',
 				],
 				EnumDef::PARAM_DEPRECATED_VALUES => [
 					'edits' => true,
-				]
+				],
 			],
 			'target'   => [
 				ParamValidator::PARAM_REQUIRED => true,
@@ -93,7 +93,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			],
 			'reason'   => [
 				ParamValidator::PARAM_DEFAULT => '',
-				ParamValidator::PARAM_REQUIRED => $this->getConfig()->get( 'CheckUserForceSummary' )
+				ParamValidator::PARAM_REQUIRED => $this->getConfig()->get( 'CheckUserForceSummary' ),
 			],
 			'limit'    => [
 				ParamValidator::PARAM_DEFAULT => 500,
@@ -103,7 +103,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				IntegerDef::PARAM_MAX2 => $this->getConfig()->get( 'CheckUserMaximumRowCount' ),
 			],
 			'timecond' => [
-				ParamValidator::PARAM_DEFAULT => '-2 weeks'
+				ParamValidator::PARAM_DEFAULT => '-2 weeks',
 			],
 			'xff'      => null,
 		];

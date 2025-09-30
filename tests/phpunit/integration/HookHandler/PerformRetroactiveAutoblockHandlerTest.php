@@ -85,7 +85,7 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 		$block = $blockStore->newUnsaved( [
 			'targetUser' => $target,
 			'enableAutoblock' => true,
-			'by' => $this->getTestSysop()->getUserIdentity()
+			'by' => $this->getTestSysop()->getUserIdentity(),
 		] );
 		$blockResult = $blockStore->insertBlock( $block );
 		$this->assertIsArray( $blockResult, 'The block on the target could not be performed' );

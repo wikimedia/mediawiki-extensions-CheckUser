@@ -89,7 +89,7 @@ class UpdateCaseHandler extends SimpleHandler {
 		return $this->getResponseFactory()->createJson( [
 			'caseId' => $caseId,
 			'status' => $status,
-			'reason' => $reason
+			'reason' => $reason,
 		] );
 	}
 

@@ -83,7 +83,7 @@ class CheckUserLogService {
 			'cul_target_text' => trim( $target ),
 			'cul_target_hex' => $targetHex,
 			'cul_range_start' => $rangeStart,
-			'cul_range_end' => $rangeEnd
+			'cul_range_end' => $rangeEnd,
 		];
 
 		$plaintextReason = $this->getPlaintextReason( $reason );
@@ -103,7 +103,7 @@ class CheckUserLogService {
 						->insertInto( 'cu_log' )
 						->row(
 							[
-								'cul_timestamp' => $dbw->timestamp( $timestamp )
+								'cul_timestamp' => $dbw->timestamp( $timestamp ),
 							] + $data
 						)
 						->caller( $fname )
@@ -150,7 +150,7 @@ class CheckUserLogService {
 						->orExpr(
 							$dbr->expr( 'cul_range_end', '>=', $result[0] )
 								->and( 'cul_range_start', '<=', $result[0] )
-						)
+						),
 				],
 				2 => [
 					$dbr->orExpr( [
@@ -158,7 +158,7 @@ class CheckUserLogService {
 							->and( 'cul_target_hex', '<=', $result[1] ),
 						$dbr->expr( 'cul_range_end', '>=', $result[0] )
 							->and( 'cul_range_start', '<=', $result[1] ),
-					] )
+					] ),
 				],
 				default => throw new LogicException(
 					"Array returned from ::verifyTarget had the wrong number of items."

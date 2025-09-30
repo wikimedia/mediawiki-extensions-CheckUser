@@ -36,7 +36,7 @@ class DurationMessages {
 				'seconds' => $duration,
 				'translation' => $context->msg( 'checkuser-ip-auto-reveal-on-dialog-select-duration' )
 					->durationParams( $duration )
-					->text()
+					->text(),
 			];
 		}
 		return $translations;

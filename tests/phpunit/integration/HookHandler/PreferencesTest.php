@@ -328,7 +328,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 1,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the option is kept disabled' => [
 				'modifiedOptions' => [
@@ -338,7 +338,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 0,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the option is not provided' => [
 				'modifiedOptions' => [
@@ -348,7 +348,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					'anotheroption' => 0,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the option is kept enabled while other is changed' => [
 				'modifiedOptions' => [
@@ -360,7 +360,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					'anotheroption' => 1,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the option is kept disabled while other is changed' => [
 				'modifiedOptions' => [
@@ -372,7 +372,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					'anotheroption' => 1,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the option is switched to enabled, single change' => [
 				'modifiedOptions' => [
@@ -382,7 +382,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 0,
 				],
 				'logAccessEnabled' => true,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the option is switched to disabled, single change' => [
 				'modifiedOptions' => [
@@ -392,7 +392,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 1,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => true
+				'logAccessDisabled' => true,
 			],
 			'When the option is switched to enabled, multiple changes' => [
 				'modifiedOptions' => [
@@ -404,7 +404,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					'anotheroption' => 1,
 				],
 				'logAccessEnabled' => true,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the option is switched to disabled, multiple changes' => [
 				'modifiedOptions' => [
@@ -416,7 +416,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					'anotheroption' => 1,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => true
+				'logAccessDisabled' => true,
 			],
 			'When the new value is NULL and the option was previously set' => [
 				// T382010
@@ -427,7 +427,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 1,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => true
+				'logAccessDisabled' => true,
 			],
 			'When the new value is NULL and the option was previously unset' => [
 				// T382010
@@ -438,7 +438,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 0,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the new value is false and the option was previously set' => [
 				'modifiedOptions' => [
@@ -448,7 +448,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 1,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => true
+				'logAccessDisabled' => true,
 			],
 			'When the new value is false and the option was previously unset' => [
 				'modifiedOptions' => [
@@ -458,7 +458,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 0,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the new value is true and the option was previously set' => [
 				'modifiedOptions' => [
@@ -468,7 +468,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 1,
 				],
 				'logAccessEnabled' => false,
-				'logAccessDisabled' => false
+				'logAccessDisabled' => false,
 			],
 			'When the new value is true and the option was previously unset' => [
 				'modifiedOptions' => [
@@ -478,8 +478,8 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 					Preferences::ENABLE_IP_REVEAL => 0,
 				],
 				'logAccessEnabled' => true,
-				'logAccessDisabled' => false
-			]
+				'logAccessDisabled' => false,
+			],
 		];
 	}
 

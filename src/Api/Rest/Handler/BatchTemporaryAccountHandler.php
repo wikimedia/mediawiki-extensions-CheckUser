@@ -355,7 +355,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 					],
 					$optionalUserProperties
 				) ),
-			]
+			],
 		] + parent::getBodyParamSettings();
 	}
 

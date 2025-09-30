@@ -45,7 +45,7 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 			return Html::element(
 				'span',
 				[
-					'class' => $class
+					'class' => $class,
 				],
 				$text
 			);
@@ -99,7 +99,7 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 		$formFields[] = Html::submitButton(
 			$text,
 			[
-				'class' => $class . ' mw-checkuser-paging-links'
+				'class' => $class . ' mw-checkuser-paging-links',
 			]
 		);
 		return Html::rawElement(
@@ -108,7 +108,7 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 				'method' => 'post',
 				'class' => 'mw-checkuser-paging-links-form',
 				'rel' => $rel,
-				'title' => $tooltip
+				'title' => $tooltip,
 			],
 			implode( '', $formFields )
 		);

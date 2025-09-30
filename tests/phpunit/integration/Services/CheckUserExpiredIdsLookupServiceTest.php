@@ -78,7 +78,7 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 			'ServiceOptions' => new ServiceOptions(
 				CheckUserExpiredIdsLookupService::CONSTRUCTOR_OPTIONS,
 				[ 'CUDMaxAge' => $CUDMaxAge ]
-			)
+			),
 		] );
 
 		// [ A => 2, B => 3, ...]
@@ -113,8 +113,8 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 			'Returns the expected results if the MaxAge is non-zero' => [
 				'expectedRevisionIDsByUniqueIdentifier' => [ 'E' ],
 				'CUDMaxAge' => self::MAX_DATA_AGE_SECONDS,
-				'inputRevisionsByUniqueIdentifier' => [ 'A', 'B', 'C', 'D', 'E' ]
-			]
+				'inputRevisionsByUniqueIdentifier' => [ 'A', 'B', 'C', 'D', 'E' ],
+			],
 		];
 	}
 
@@ -140,7 +140,7 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 			'ServiceOptions' => new ServiceOptions(
 				CheckUserExpiredIdsLookupService::CONSTRUCTOR_OPTIONS,
 				[ 'CUDMaxAge' => $CUDMaxAge ]
-			)
+			),
 		] );
 
 		// [ A => 2, B => 3, ...]
@@ -176,8 +176,8 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 			'Returns the expected results if the MaxAge is non-zero' => [
 				'expectedLogIdsByUniqueIdentifier' => [ 'E' ],
 				'CUDMaxAge' => self::MAX_DATA_AGE_SECONDS,
-				'inputLogIdsByUniqueIdentifier' => [ 'A', 'B', 'C' ]
-			]
+				'inputLogIdsByUniqueIdentifier' => [ 'A', 'B', 'C' ],
+			],
 		];
 	}
 
@@ -200,7 +200,7 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 				CheckUserExpiredIdsLookupService::CONSTRUCTOR_OPTIONS,
 				[ 'CUDMaxAge' => $CUDMaxAge ]
 			),
-			'isAbuseFilterLoaded' => $isAbuseFilterLoaded
+			'isAbuseFilterLoaded' => $isAbuseFilterLoaded,
 		] );
 
 		$mapper = static fn ( int $index ) => self::$afLogIDs[ $index ];
@@ -218,38 +218,38 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 				'expectedAbuseLogIDsByUniqueIdentifier' => [],
 				'isAbuseFilterLoaded' => true,
 				'CUDMaxAge' => 0,
-				'inputAbuseLogEntryIndices' => [ 0, 1 ]
+				'inputAbuseLogEntryIndices' => [ 0, 1 ],
 			],
 			'Returns an empty array if the input array is empty' => [
 				'expectedAbuseLogIDsByUniqueIdentifier' => [],
 				'isAbuseFilterLoaded' => true,
 				'CUDMaxAge' => 1,
-				'inputAbuseLogEntryIndices' => []
+				'inputAbuseLogEntryIndices' => [],
 			],
 			'Does nothing if AbuseFilter is not loaded' => [
 				'expectedAbuseLogIDsByUniqueIdentifier' => [],
 				'isAbuseFilterLoaded' => false,
 				'CUDMaxAge' => 1,
-				'inputAbuseLogEntryIndices' => [ 0, 1 ]
+				'inputAbuseLogEntryIndices' => [ 0, 1 ],
 			],
 			'Returns the expected results if testing both an expired and a non-expired ID' => [
 				'expectedAbuseLogIDsByUniqueIdentifier' => [ '2' ],
 				'isAbuseFilterLoaded' => true,
 				'CUDMaxAge' => 1,
-				'inputAbuseLogEntryIndices' => [ 0, 1 ]
+				'inputAbuseLogEntryIndices' => [ 0, 1 ],
 			],
 			'Returns the expected results if testing only a non-expired ID' => [
 				'expectedAbuseLogIDsByUniqueIdentifier' => [],
 				'isAbuseFilterLoaded' => true,
 				'CUDMaxAge' => 1,
-				'inputAbuseLogEntryIndices' => [ 0 ]
+				'inputAbuseLogEntryIndices' => [ 0 ],
 			],
 			'Returns the expected results if testing only an expired ID' => [
 				'expectedAbuseLogIDsByUniqueIdentifier' => [ '2' ],
 				'isAbuseFilterLoaded' => true,
 				'CUDMaxAge' => 1,
-				'inputAbuseLogEntryIndices' => [ 1 ]
-			]
+				'inputAbuseLogEntryIndices' => [ 1 ],
+			],
 		];
 	}
 
@@ -261,7 +261,7 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 			'B' => self::CURRENT_TIMESTAMP - ( self::MAX_DATA_AGE_SECONDS / 2 ),
 			'C' => self::CURRENT_TIMESTAMP - ( self::MAX_DATA_AGE_SECONDS - 1 ),
 			'D' => self::CURRENT_TIMESTAMP - self::MAX_DATA_AGE_SECONDS,
-			'E' => self::CURRENT_TIMESTAMP - ( self::MAX_DATA_AGE_SECONDS + 1 )
+			'E' => self::CURRENT_TIMESTAMP - ( self::MAX_DATA_AGE_SECONDS + 1 ),
 		];
 
 		// Revision table
@@ -372,7 +372,7 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 
 		return [
 			'id' => $logId,
-			'entry' => $logEntry
+			'entry' => $logEntry,
 		];
 	}
 

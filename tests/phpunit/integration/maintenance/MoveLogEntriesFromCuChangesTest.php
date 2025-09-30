@@ -117,15 +117,9 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 
 	public static function provideBatchSize() {
 		return [
-			'cu_changes row count 3 and batch size 1' => [
-				6, 4
-			],
-			'cu_changes row count 10 and batch size 5' => [
-				10, 5
-			],
-			'cu_changes row count 10 and batch size 100' => [
-				10, 100
-			],
+			'cu_changes row count 3 and batch size 1' => [ 6, 4 ],
+			'cu_changes row count 10 and batch size 5' => [ 10, 5 ],
+			'cu_changes row count 10 and batch size 100' => [ 10, 100 ],
 		];
 	}
 

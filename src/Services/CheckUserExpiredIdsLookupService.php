@@ -105,7 +105,7 @@ class CheckUserExpiredIdsLookupService {
 				->from( $tableName )
 				->where( [
 					$columnName => $batch,
-					$dbr->expr( $timestampColumnName, '<', $cutoff )
+					$dbr->expr( $timestampColumnName, '<', $cutoff ),
 				] )
 				->caller( __METHOD__ )
 				->fetchFieldValues();

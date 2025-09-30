@@ -444,7 +444,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 		// Apply index and IP WHERE conditions.
 		$queryInfo['options']['USE INDEX'] = [
-			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table )
+			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table ),
 		];
 		$ipExpr = $this->checkUserLookupUtils->getIPTargetExpr( $this->target->getName(), $this->xfor, $table );
 		if ( $ipExpr !== null ) {
@@ -553,7 +553,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			'div',
 			[
 				'id' => 'checkuserresults',
-				'class' => implode( ' ', $divClasses )
+				'class' => implode( ' ', $divClasses ),
 			]
 		);
 

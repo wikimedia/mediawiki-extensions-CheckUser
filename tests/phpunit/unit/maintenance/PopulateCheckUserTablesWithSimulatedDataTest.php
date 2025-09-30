@@ -70,7 +70,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 			'Three IPs, one excluded' => [
 				[ '127.0.0.1', '127.0.0.2', '127.0.0.3' ],
 				[ '127.0.0.2' ],
-				[ '127.0.0.1', '127.0.0.3' ]
+				[ '127.0.0.1', '127.0.0.3' ],
 			],
 		];
 	}
@@ -90,7 +90,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 			'Three IPs, three excluded' => [
 				[ '127.0.0.1', '127.0.0.2', '127.0.0.3' ],
 				[ '127.0.0.1', '127.0.0.2', '127.0.0.3' ],
-			]
+			],
 		];
 	}
 

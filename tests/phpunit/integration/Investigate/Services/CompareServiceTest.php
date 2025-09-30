@@ -105,9 +105,9 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$userIdentityLookup->method( 'getUserIdentityByName' )
 			->willReturnMap(
 				[
-					[ 'User1', 0, $user, ],
-					[ 'User2', 0, $user2, ],
-					[ '~2025-1', 0, $tempUser, ],
+					[ 'User1', 0, $user ],
+					[ 'User2', 0, $user2 ],
+					[ '~2025-1', 0, $tempUser ],
 				]
 			);
 
@@ -198,7 +198,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'targets' => [ '11111' ],
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
 					'limit' => '33334',
-					'start' => ''
+					'start' => '',
 				],
 			],
 			'Valid username, excluded IP, with start' => [
@@ -214,7 +214,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
 					'excludeTempAccounts' => false,
 					'limit' => '3334',
-					'start' => '20230405060708'
+					'start' => '20230405060708',
 				],
 			],
 			'Single valid IP, excluded username' => [
@@ -230,7 +230,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'excludeTargets' => [ '11111' ],
 					'excludeTempAccounts' => false,
 					'limit' => '33334',
-					'start' => ''
+					'start' => '',
 				],
 			],
 			'Valid username and IP, excluded username and IP' => [
@@ -246,7 +246,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'excludeTargets' => [ '22222', '01020305' ],
 					'excludeTempAccounts' => false,
 					'limit' => '17',
-					'start' => ''
+					'start' => '',
 				],
 			],
 			'Two valid IPs' => [
@@ -260,11 +260,11 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				'expected' => [
 					'targets' => [
 						'v6-00000000000000000000000000000001',
-						'01020304'
+						'01020304',
 					],
 					'excludeTargets' => [],
 					'limit' => '16667',
-					'start' => ''
+					'start' => '',
 				],
 			],
 			'Valid IP, user account and temp account' => [
@@ -278,11 +278,11 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				'expected' => [
 					'targets' => [
 						'33333',
-						'01020304'
+						'01020304',
 					],
 					'excludeTargets' => [],
 					'limit' => '11112',
-					'start' => ''
+					'start' => '',
 				],
 			],
 			'Valid IP, user account and temp account, temp accounts excluded' => [
@@ -295,11 +295,11 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				],
 				'expected' => [
 					'targets' => [
-						'01020304'
+						'01020304',
 					],
 					'excludeTargets' => [],
 					'limit' => '11112',
-					'start' => ''
+					'start' => '',
 				],
 			],
 			'Valid IP addresses and IP range' => [
@@ -323,12 +323,12 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					],
 					'excludeTargets' => [],
 					'limit' => '11112',
-					'start' => ''
+					'start' => '',
 				],
 			],
 			'IP range outside of range limits with valid user target' => [
 				'options' => [
-					'targets' => [ 'User1', '1.2.3.4/1', ],
+					'targets' => [ 'User1', '1.2.3.4/1' ],
 					'excludeTargets' => [],
 					'excludeTempAccounts' => false,
 					'limit' => 100000,
@@ -339,7 +339,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'excludeTargets' => [],
 					'excludeTempAccounts' => false,
 					'limit' => 16667,
-					'start' => ''
+					'start' => '',
 				],
 			],
 		];
@@ -392,7 +392,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Empty targets array' => [ [], [] ],
 			'Targets are all within limits' => [
-				[ 'targets' => [ '1.2.3.4', 'User1', '1.2.3.5' ], 'limit' => 100, ], [],
+				[ 'targets' => [ '1.2.3.4', 'User1', '1.2.3.5' ], 'limit' => 100 ], [],
 			],
 			'One target is over limit' => [
 				[

@@ -43,7 +43,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		'move' => [ 'move', 'move_redir' ],
 		'delete' => [ 'delete', 'restore' ],
 		'suppress' => [ 'delete' ],
-		'merge' => [ 'merge' ]
+		'merge' => [ 'merge' ],
 	];
 
 	/** @var array<string,?ClientHintsData> */
@@ -753,12 +753,12 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		if ( $type === 'move' ) {
 			$logEntry->setParameters( [
 				'4::target' => $this->getPrefix() . wfRandomString(),
-				'5::noredir' => '0'
+				'5::noredir' => '0',
 			] );
 		} elseif ( $type === 'merge' ) {
 			$logEntry->setParameters( [
 				'4::dest' => $this->getPrefix() . wfRandomString(),
-				'5::mergepoint' => $logEntry->getTimestamp()
+				'5::mergepoint' => $logEntry->getTimestamp(),
 			] );
 		} elseif ( $type === 'delete' && $action === 'undelete' ) {
 			$logEntry->setParameters( [

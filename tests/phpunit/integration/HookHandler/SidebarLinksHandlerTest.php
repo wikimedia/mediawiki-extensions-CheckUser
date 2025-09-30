@@ -131,12 +131,12 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'expected' => [
 					'navigation' => [ 'navigation array' ],
 					'TOOLBOX' => [ 'TOOLBOX array' ],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'sidebar' => [
 					'navigation' => [ 'navigation array' ],
 					'TOOLBOX' => [ 'TOOLBOX array' ],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'hasRelevantUser' => false,
 				'hasAccess' => false,
@@ -145,12 +145,12 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'expected' => [
 					'navigation' => [ 'navigation array' ],
 					'TOOLBOX' => [ 'TOOLBOX array' ],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'sidebar' => [
 					'navigation' => [ 'navigation array' ],
 					'TOOLBOX' => [ 'TOOLBOX array' ],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'hasRelevantUser' => true,
 				'hasAccess' => false,
@@ -188,7 +188,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					'TOOLBOX' => [
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 						'global-contributions' => [
 							'id' => 't-global-contributions',
@@ -198,24 +198,24 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 						],
 						'whatlinkshere' => [
 							'id' => 't-whatlinkshere',
-							'text' => 'What links here'
+							'text' => 'What links here',
 						],
 					],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'sidebar' => [
 					'navigation' => [ 'navigation array' ],
 					'TOOLBOX' => [
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 						'whatlinkshere' => [
 							'id' => 't-whatlinkshere',
-							'text' => 'What links here'
+							'text' => 'What links here',
 						],
 					],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'hasRelevantUser' => true,
 				'hasAccess' => true,
@@ -226,11 +226,11 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					'TOOLBOX' => [
 						'whatlinkshere' => [
 							'id' => 't-whatlinkshere',
-							'text' => 'What links here'
+							'text' => 'What links here',
 						],
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 						'global-contributions' => [
 							'id' => 't-global-contributions',
@@ -241,27 +241,27 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 						'something-else' => [
 							'id' => 't-something-else',
 							'text' => 'something-else',
-						]
+						],
 					],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'sidebar' => [
 					'navigation' => [ 'navigation array' ],
 					'TOOLBOX' => [
 						'whatlinkshere' => [
 							'id' => 't-whatlinkshere',
-							'text' => 'What links here'
+							'text' => 'What links here',
 						],
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 						'something-else' => [
 							'id' => 't-something-else',
 							'text' => 'something-else',
-						]
+						],
 					],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'hasRelevantUser' => true,
 				'hasAccess' => true,
@@ -272,38 +272,38 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					'TOOLBOX' => [
 						'whatlinkshere' => [
 							'id' => 't-whatlinkshere',
-							'text' => 'What links here'
+							'text' => 'What links here',
 						],
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 						'global-contributions' => [
 							'id' => 't-global-contributions',
 							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
 							'tooltip-params' => [ 'Relevant User name' ],
-						]
+						],
 					],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'sidebar' => [
 					'navigation' => [ 'navigation array' ],
 					'TOOLBOX' => [
 						'whatlinkshere' => [
 							'id' => 't-whatlinkshere',
-							'text' => 'What links here'
+							'text' => 'What links here',
 						],
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 					],
-					'LANGUAGES' => [ 'LANGUAGES array' ]
+					'LANGUAGES' => [ 'LANGUAGES array' ],
 				],
 				'hasRelevantUser' => true,
 				'hasAccess' => true,
-			]
+			],
 		];
 	}
 
@@ -366,7 +366,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					'TOOLBOX' => [
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 					],
 				],
@@ -377,7 +377,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					'TOOLBOX' => [
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 						'checkuser-ip-auto-reveal' => [
 							'id' => 't-checkuser-ip-auto-reveal',
@@ -394,7 +394,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					'TOOLBOX' => [
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 					],
 				],
@@ -405,7 +405,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					'TOOLBOX' => [
 						'contributions' => [
 							'id' => 't-contributions',
-							'text' => 'User contributions'
+							'text' => 'User contributions',
 						],
 						'checkuser-ip-auto-reveal' => [
 							'id' => 't-checkuser-ip-auto-reveal',

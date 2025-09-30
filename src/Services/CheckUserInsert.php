@@ -140,7 +140,7 @@ class CheckUserInsert {
 						[
 							'rc_id' => $rc->getAttribute( 'rc_id' ),
 							'rc_logid' => $rc->getAttribute( 'rc_logid' ),
-							'exception' => new \RuntimeException()
+							'exception' => new \RuntimeException(),
 						]
 					);
 				}
@@ -273,7 +273,7 @@ class CheckUserInsert {
 		$xff = $request->getHeader( 'X-Forwarded-For' );
 
 		$row = [
-			'cule_log_id' => $logEntry->getId()
+			'cule_log_id' => $logEntry->getId(),
 		];
 
 		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before

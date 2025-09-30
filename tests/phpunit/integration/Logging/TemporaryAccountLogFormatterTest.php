@@ -174,7 +174,7 @@ class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 				'extra' => [
 					'text' => 'Sysop viewed protected variable associated with ~2024-01: user_unnamed_ip',
 					'api' => [
-						'variables' => [ 'user_unnamed_ip' ]
+						'variables' => [ 'user_unnamed_ip' ],
 					],
 				],
 			],
@@ -191,7 +191,7 @@ class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 					'text' => 'Sysop viewed protected variables associated with ~2024-01: '
 						. 'user_unnamed_ip, protected_var2',
 					'api' => [
-						'variables' => [ 'user_unnamed_ip', 'protected_var2' ]
+						'variables' => [ 'user_unnamed_ip', 'protected_var2' ],
 					],
 				],
 			],

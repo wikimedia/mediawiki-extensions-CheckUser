@@ -42,9 +42,9 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 					'callback' => 'MediaWiki\\ResourceLoader\\CodexModule::getIcons',
 					'callbackParam' => [
 						'cdxIconNext',
-						'cdxIconPrevious'
+						'cdxIconPrevious',
 					],
-				]
+				],
 			],
 			'messages' => [
 				'checkuser-temporary-accounts-onboarding-dialog-title',
@@ -79,14 +79,14 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-globally-enabled',
 				'checkuser-tempaccount-enable-preference',
-				'checkuser-tempaccount-enable-preference-description'
+				'checkuser-tempaccount-enable-preference-description',
 			],
 			'dependencies' => [
 				'vue',
 				'@wikimedia/codex',
 				'mediawiki.api',
 				'mediawiki.user',
-				'mediawiki.jqueryMsg'
+				'mediawiki.jqueryMsg',
 			],
 		];
 
@@ -96,14 +96,14 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 				'remoteExtPath' => "CheckUser/modules",
 				'scripts' => [
 					'infobox.js',
-					'init.js'
+					'init.js',
 				],
 				'messages' => [
 					'checkuser-ipinfo-global-contributions-label',
 					'checkuser-ipinfo-global-contributions-tooltip',
 					'checkuser-ipinfo-global-contributions-value',
 					'checkuser-ipinfo-global-contributions-url-text',
-				]
+				],
 			];
 			$modules[ 'ext.checkUser.tempAccountOnboarding' ]['messages'][] = 'ipinfo-preference-use-agreement';
 		}

@@ -131,7 +131,7 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 
 		$lookup = $this->getLookupWithOverrides( [
 			'checkUserLookupUtils' => $checkUserLookupUtils,
-			'config' => $config
+			'config' => $config,
 		] );
 		$result = $lookup->getActiveWikis( '1.2.3.4/24', $this->createMock( Authority::class ) );
 	}

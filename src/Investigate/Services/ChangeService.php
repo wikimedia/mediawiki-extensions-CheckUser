@@ -181,7 +181,7 @@ abstract class ChangeService implements CheckUserQueryInterface {
 					// so that events such as Failed Logins that do not have
 					// a value in cupe_actor are still listed.
 					$dbr->expr( 'cupe_actor', '=', null ),
-					$temporaryAccountsFilterExpr
+					$temporaryAccountsFilterExpr,
 				] ),
 
 			// cule_actor & cuc_actor are declared as NOT NULL, so there is no

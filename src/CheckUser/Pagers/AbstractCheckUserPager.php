@@ -248,7 +248,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 				[],
 				[
 					'type' => 'block',
-					'page' => $userPage->getPrefixedText()
+					'page' => $userPage->getPrefixedText(),
 				]
 			);
 
@@ -405,7 +405,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 				[
 					'type' => 'block',
 					// @todo Use TitleFormatter and PageReference to avoid the global state
-					'page' => Title::makeTitle( NS_USER, $user->getName() )->getPrefixedText()
+					'page' => Title::makeTitle( NS_USER, $user->getName() )->getPrefixedText(),
 				]
 			);
 			$flags[] = Html::rawElement( 'strong', [ 'class' => 'mw-changeslist-links' ], $blocklog );
@@ -474,7 +474,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 				'log_type' => [ 'block', 'suppress' ],
 				'log_action' => 'block',
 				'log_namespace' => $userpage->getNamespace(),
-				'log_title' => $userpage->getDBkey()
+				'log_title' => $userpage->getDBkey(),
 			] )
 			->useIndex( 'log_page_time' )
 			->caller( __METHOD__ )

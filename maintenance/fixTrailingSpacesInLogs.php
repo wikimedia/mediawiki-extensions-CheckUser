@@ -59,7 +59,7 @@ class FixTrailingSpacesInLogs extends LoggedUpdateMaintenance {
 				->set( [ 'cul_target_text = TRIM(cul_target_text)' ] )
 				->where( [
 					$dbw->expr( 'cul_id', '>', $prevId ),
-					$dbw->expr( 'cul_id', '<=', $curId )
+					$dbw->expr( 'cul_id', '<=', $curId ),
 				] )
 				->caller( __METHOD__ )
 				->execute();

@@ -153,13 +153,13 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	public static function setCaseStatusDataProvider(): array {
 		return [
 			'To Open' => [
-				'newStatus' => CaseStatus::Open
+				'newStatus' => CaseStatus::Open,
 			],
 			'To Resolved' => [
-				'newStatus' => CaseStatus::Resolved
+				'newStatus' => CaseStatus::Resolved,
 			],
 			'To Invalid' => [
-				'newStatus' => CaseStatus::Invalid
+				'newStatus' => CaseStatus::Invalid,
 			],
 		];
 	}

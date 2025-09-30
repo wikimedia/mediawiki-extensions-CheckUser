@@ -102,7 +102,7 @@ class UserAgentClientHintsManager {
 			->table( 'cu_useragent_clienthints_map' )
 			->where( [
 				'uachm_reference_type' => $this->getMapIdByType( $type ),
-				'uachm_reference_id' => $referenceId
+				'uachm_reference_id' => $referenceId,
 			] )
 			->caller( __METHOD__ )
 			->fetchRowCount();

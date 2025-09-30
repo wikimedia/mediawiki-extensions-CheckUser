@@ -60,7 +60,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 				$registry,
 				$ugmf,
 				$bsf,
-				$options['localWikiId']
+				$options['localWikiId'],
 			] )
 			->onlyMethods( [ 'isUserBlocked' ] )
 			->getMock();
@@ -86,7 +86,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 					'user_registration' => $user['registration'],
 					'user_editcount' => $user['editcount'],
 					'wiki' => $options['localWikiId'],
-				]
+				],
 			] );
 		}
 

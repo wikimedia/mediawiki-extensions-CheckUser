@@ -147,7 +147,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->doCheckUserApiRequest(
 			[
 				'curequest' => 'actions',
-				'cutarget' => $this->getTestUser()->getUserIdentity()->getName()
+				'cutarget' => $this->getTestUser()->getUserIdentity()->getName(),
 			]
 		);
 	}
@@ -276,7 +276,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'editcount' => 1,
 						'address' => '127.0.0.1',
 					],
-				]
+				],
 			],
 			'ipusers check on 127.0.0.1/24' => [
 				'ipusers', 'ipusers', '127.0.0.1/24', '-3 months', null,
@@ -287,7 +287,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'editcount' => 2,
 						'agents' => [ 'user-agent-for-edits', 'user-agent-for-logs' ],
 						'ips' => [ '127.0.0.2', '127.0.0.1' ],
-						'start' => '2023-04-05T06:07:08Z'
+						'start' => '2023-04-05T06:07:08Z',
 					],
 					[
 						'name' => 'CheckUserAPITestUser1',
@@ -295,9 +295,9 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'editcount' => 2,
 						'agents' => [ 'user-agent-for-edits', 'user-agent-for-logs' ],
 						'ips' => [ '127.0.0.2', '127.0.0.1' ],
-						'start' => '2023-04-05T06:07:07Z'
+						'start' => '2023-04-05T06:07:07Z',
 					],
-				]
+				],
 			],
 			'ipusers XFF check on 127.2.3.4' => [
 				'ipusers', 'ipusers', '127.2.3.4', '-3 months', true,
@@ -308,9 +308,9 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'editcount' => 2,
 						'agents' => [ 'user-agent-for-logout', 'user-agent-for-edits' ],
 						'ips' => [ '1.2.3.4' ],
-						'start' => '2023-04-05T06:07:11Z'
+						'start' => '2023-04-05T06:07:11Z',
 					],
-				]
+				],
 			],
 			'actions XFF check on 127.2.3.4' => [
 				'actions', 'edits', '127.2.3.4', '-3 months', true,
@@ -335,7 +335,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'summary' => 'Test1233',
 						'xff' => '127.2.3.4',
 					],
-				]
+				],
 			],
 			'actions check on CheckUserAPITestUser2' => [
 				'actions', 'edits', 'CheckUserAPITestUser2', '2023-04-05T06:07:09Z', true,
@@ -350,7 +350,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'summary' => 'Test1232',
 						'minor' => 'm',
 					],
-				]
+				],
 			],
 			'actions on 1.2.3.5 (IP performer when temporary accounts are enabled)' => [
 				'actions',
@@ -371,7 +371,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 							[ '', '', '', 'CheckUserAPITestUser1' ]
 						)->text(),
 					],
-				]
+				],
 			],
 			'ipusers on 1.2.3.5 (IP performer when temporary accounts are enabled)' => [
 				'ipusers',
@@ -387,7 +387,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'agents' => [ 'user-agent-for-password-reset' ],
 						'name' => '1.2.3.5',
 					],
-				]
+				],
 			],
 		];
 	}
@@ -452,7 +452,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 					'editcount' => 2,
 					'agents' => [ 'user-agent-for-logout', 'user-agent-for-edits' ],
 					'ips' => [ '1.2.3.4' ],
-					'start' => '2023-04-05T06:07:11Z'
+					'start' => '2023-04-05T06:07:11Z',
 				],
 			]
 		);

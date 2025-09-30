@@ -80,7 +80,7 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 				'type' => 'api',
 				'validation-callback' => function ( mixed $preferenceValue, array $alldata, HTMLForm $form ) {
 					return $this->validateAutoRevealPreferenceValue( $preferenceValue, $form->getAuthority() );
-				}
+				},
 			];
 		}
 
@@ -215,7 +215,7 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 	/** @inheritDoc */
 	public function onUserGetDefaultOptions( &$defaultOptions ) {
 		$defaultOptions += [
-			self::ENABLE_USER_INFO_CARD => false
+			self::ENABLE_USER_INFO_CARD => false,
 		];
 	}
 

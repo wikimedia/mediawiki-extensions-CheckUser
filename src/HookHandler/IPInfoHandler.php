@@ -34,7 +34,7 @@ class IPInfoHandler implements IPInfoIPInfoHandlerHook {
 				$performer
 			);
 			$dataContainer['ipinfo-source-checkuser'] = [
-				'globalContributionsCount' => $globalContributionsCount
+				'globalContributionsCount' => $globalContributionsCount,
 			];
 		} catch ( LogicException ) {
 			// Do nothing if the count could not be found and passed through

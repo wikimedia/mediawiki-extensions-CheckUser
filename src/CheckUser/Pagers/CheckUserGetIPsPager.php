@@ -271,7 +271,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 
 		// Apply index, group by IP / IP hex, and filter results to just the target user.
 		$queryInfo['options']['USE INDEX'] = [
-			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table )
+			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table ),
 		];
 		$queryInfo['options']['GROUP BY'] = [ 'ip', 'ip_hex' ];
 		$queryInfo['conds']['actor_user'] = $this->target->getId();

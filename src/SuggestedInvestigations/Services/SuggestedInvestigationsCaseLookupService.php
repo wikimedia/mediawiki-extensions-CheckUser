@@ -83,7 +83,7 @@ class SuggestedInvestigationsCaseLookupService {
 		// @phan-suppress-next-line PhanImpossibleTypeComparison Phan thinks null is matched by `=== []` but it's not
 		if ( $statuses !== null ) {
 			$queryBuilder->where( [
-				'sic_status' => array_map( static fn ( $s ) => $s->value, $statuses )
+				'sic_status' => array_map( static fn ( $s ) => $s->value, $statuses ),
 			] );
 		}
 

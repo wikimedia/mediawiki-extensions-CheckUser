@@ -231,7 +231,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$templateParams['ipLink'] = $this->getSelfLink( $ip,
 			[
 				'user' => $ip,
-				'reason' => $this->opts->getValue( 'reason' )
+				'reason' => $this->opts->getValue( 'reason' ),
 			]
 		);
 
@@ -245,7 +245,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			$templateParams['xff'] = $this->getSelfLink( $row->xff,
 				[
 					'user' => $client . '/xff',
-					'reason' => $this->opts->getValue( 'reason' )
+					'reason' => $this->opts->getValue( 'reason' ),
 				]
 			);
 		}
@@ -361,7 +361,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 						[
 							'curid' => $row->page_id,
 							'diff' => $row->this_oldid,
-							'oldid' => $row->last_oldid
+							'oldid' => $row->last_oldid,
 						]
 					)
 				);
@@ -374,7 +374,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 					[],
 					[
 						'curid' => $title->exists() ? $row->page_id : null,
-						'action' => 'history'
+						'action' => 'history',
 					]
 				)
 			);
@@ -426,7 +426,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		if ( $this->message === [] ) {
 			$msgKeys = [
 				'diff', 'hist', 'minoreditletter', 'newpageletter',
-				'blocklink', 'checkuser-log-link-text', 'checkuser-logs-link-text'
+				'blocklink', 'checkuser-log-link-text', 'checkuser-logs-link-text',
 			];
 			foreach ( $msgKeys as $msg ) {
 				$this->message[$msg] = $this->msg( $msg )->escaped();
@@ -457,7 +457,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 					$edits,
 					// don't render parentheses in HTML markup (CSS will provide)
 					false
-				)
+				),
 			];
 		}
 
@@ -482,7 +482,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		}
 
 		$queryInfo['options']['USE INDEX'] = [
-			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table )
+			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table ),
 		];
 
 		if ( $this->xfor === null ) {
@@ -543,7 +543,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
 			'join_conds' => [
-				'actor_cuc_user' => [ 'JOIN', 'actor_cuc_user.actor_id=cuc_actor' ]
+				'actor_cuc_user' => [ 'JOIN', 'actor_cuc_user.actor_id=cuc_actor' ],
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
@@ -579,7 +579,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT,
 			],
 			'tables' => [
-				'cu_log_event', 'logging_cule_log_id' => 'logging', 'actor_log_actor' => 'actor'
+				'cu_log_event', 'logging_cule_log_id' => 'logging', 'actor_log_actor' => 'actor',
 			] + $commentQuery['tables'],
 			'conds' => [],
 			'join_conds' => [
@@ -591,13 +591,13 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		if ( $this->mDb->getType() == 'postgres' ) {
 			// On postgres the cuc_type type is a smallint.
 			$queryInfo['fields'] += [
-				'type' => 'CAST(' . RC_LOG . ' AS smallint)'
+				'type' => 'CAST(' . RC_LOG . ' AS smallint)',
 			];
 		} else {
 			// Other DBs can handle converting RC_LOG to the
 			// correct type.
 			$queryInfo['fields'] += [
-				'type' => RC_LOG
+				'type' => RC_LOG,
 			];
 		}
 		return $queryInfo;
@@ -638,20 +638,20 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
 			'join_conds' => [
-				'actor_cupe_actor' => [ $joinType, 'actor_cupe_actor.actor_id=cupe_actor' ]
+				'actor_cupe_actor' => [ $joinType, 'actor_cupe_actor.actor_id=cupe_actor' ],
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
 		if ( $this->mDb->getType() == 'postgres' ) {
 			// On postgres the cuc_type type is a smallint.
 			$queryInfo['fields'] += [
-				'type' => 'CAST(' . RC_LOG . ' AS smallint)'
+				'type' => 'CAST(' . RC_LOG . ' AS smallint)',
 			];
 		} else {
 			// Other DBs can handle converting RC_LOG to the
 			// correct type.
 			$queryInfo['fields'] += [
-				'type' => RC_LOG
+				'type' => RC_LOG,
 			];
 		}
 		return $queryInfo;

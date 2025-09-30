@@ -516,6 +516,6 @@ return [
 			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' ),
 			LoggerFactory::getInstance( 'CheckUser' ),
 		);
-	}
+	},
 ];
 // @codeCoverageIgnoreEnd

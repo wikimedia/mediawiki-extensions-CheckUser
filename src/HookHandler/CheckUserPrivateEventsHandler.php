@@ -165,7 +165,7 @@ class CheckUserPrivateEventsHandler implements
 				// The following messages are generated here:
 				// * logentry-checkuser-private-event-autocreate-account
 				// * logentry-checkuser-private-event-create-account
-				'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
+				'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account',
 			],
 			__METHOD__,
 			$user
@@ -214,7 +214,7 @@ class CheckUserPrivateEventsHandler implements
 				'cupe_namespace'  => NS_USER,
 				'cupe_log_action' => 'password-reset-email-sent',
 				'cupe_title'      => $account->getName(),
-				'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::receiver' => $account->getName() ] )
+				'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::receiver' => $account->getName() ] ),
 			],
 			__METHOD__,
 			$user

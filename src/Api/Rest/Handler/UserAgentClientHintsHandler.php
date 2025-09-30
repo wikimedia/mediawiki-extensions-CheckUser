@@ -121,7 +121,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		return $this->getResponseFactory()->createJson( [
 			'value' => $this->getResponseFactory()->formatMessage(
 				new MessageValue( 'checkuser-api-useragent-clienthints-explanation' )
-			)
+			),
 		] );
 	}
 
@@ -262,7 +262,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		return [
 			'brands' => [
 				self::PARAM_SOURCE => 'body',
-				ParamValidator::PARAM_TYPE => 'array'
+				ParamValidator::PARAM_TYPE => 'array',
 			],
 			'mobile' => [
 				self::PARAM_SOURCE => 'body',
@@ -274,15 +274,15 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 			],
 			'architecture' => [
 				self::PARAM_SOURCE => 'body',
-				ParamValidator::PARAM_TYPE => 'string'
+				ParamValidator::PARAM_TYPE => 'string',
 			],
 			'bitness' => [
 				self::PARAM_SOURCE => 'body',
-				ParamValidator::PARAM_TYPE => 'string'
+				ParamValidator::PARAM_TYPE => 'string',
 			],
 			'fullVersionList' => [
 				self::PARAM_SOURCE => 'body',
-				ParamValidator::PARAM_TYPE => 'array'
+				ParamValidator::PARAM_TYPE => 'array',
 			],
 			'model' => [
 				self::PARAM_SOURCE => 'body',

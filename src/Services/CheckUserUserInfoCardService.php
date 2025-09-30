@@ -479,7 +479,7 @@ class CheckUserUserInfoCardService {
 		$row = $dbr->newSelectQueryBuilder()
 			->select( [
 				'count' => 'COUNT(*)',
-				'last' => 'MAX(log_timestamp)'
+				'last' => 'MAX(log_timestamp)',
 			] )
 			->from( 'logging' )
 			->where( $conditions )
@@ -494,7 +494,7 @@ class CheckUserUserInfoCardService {
 			'numberOfIpReveals' => intval( $row->count ),
 			'ipRevealLastCheck' => $row->last ?
 				ConvertibleTimestamp::convert( TS_MW, $row->last ) :
-				null
+				null,
 		];
 	}
 

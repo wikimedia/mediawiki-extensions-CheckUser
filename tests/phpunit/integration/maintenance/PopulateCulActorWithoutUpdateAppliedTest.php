@@ -42,7 +42,7 @@ class PopulateCulActorWithoutUpdateAppliedTest extends MaintenanceBaseTestCase {
 				'cul_target_id' => $testTarget->getId(),
 				'cul_target_text' => $testTarget->getName(),
 				'cul_reason_id' => 0,
-				'cul_reason_plaintext_id' => 0
+				'cul_reason_plaintext_id' => 0,
 			] )
 			->caller( __METHOD__ )
 			->execute();

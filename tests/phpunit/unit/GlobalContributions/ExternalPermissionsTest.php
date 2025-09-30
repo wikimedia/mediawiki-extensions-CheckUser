@@ -34,9 +34,9 @@ class ExternalPermissionsTest extends MediaWikiUnitTestCase {
 				'deletedhistory' => [],
 				'suppressrevision' => [
 					'code' => 'permissiondenied',
-					'text' => 'Error text here'
-				]
-			]
+					'text' => 'Error text here',
+				],
+			],
 		] );
 
 		$this->assertTrue( $permissions->hasPermission( 'deletedhistory', 'wiki1' ) );
@@ -51,9 +51,9 @@ class ExternalPermissionsTest extends MediaWikiUnitTestCase {
 				'deletedhistory' => [],
 				'suppressrevision' => [
 					'code' => 'permissiondenied',
-					'text' => 'Error text here'
-				]
-			]
+					'text' => 'Error text here',
+				],
+			],
 		] );
 
 		$this->assertSame(
@@ -72,8 +72,8 @@ class ExternalPermissionsTest extends MediaWikiUnitTestCase {
 
 		$permissions = new ExternalPermissions( [
 			'wiki1' => [
-				'deletedhistory' => []
-			]
+				'deletedhistory' => [],
+			],
 		] );
 		$this->assertTrue( $permissions->hasAnyWiki(), 'Should have some wikis' );
 
@@ -87,15 +87,15 @@ class ExternalPermissionsTest extends MediaWikiUnitTestCase {
 
 		$permissions = new ExternalPermissions( [
 			'wiki1' => [
-				'deletedhistory' => []
+				'deletedhistory' => [],
 			],
 			'wiki2' => [
 				'suppressrevision' => [
 					'code' => 'permissiondenied',
-					'text' => 'Error text here'
-				]
+					'text' => 'Error text here',
+				],
 			],
-			'wiki3' => []
+			'wiki3' => [],
 		] );
 		$this->assertSame(
 			[ 'wiki1', 'wiki2', 'wiki3' ],

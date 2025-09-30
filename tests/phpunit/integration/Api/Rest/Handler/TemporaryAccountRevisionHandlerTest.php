@@ -325,7 +325,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->expectException( LocalizedHttpException::class );
 		$request = new RequestData();
 		$config = [
-			'path' => '/foo'
+			'path' => '/foo',
 		];
 		$this->initHandler( $handler, $request, $config, [], null, $this->getSession( false ) );
 		// Invoking the method to be tested
@@ -338,7 +338,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->executeHandlerAndGetBodyData(
 			$this->getTemporaryAccountRevisionHandler(),
 			$this->getRequestData( [
-				'ids' => []
+				'ids' => [],
 			] ),
 			[],
 			[],
@@ -360,7 +360,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( StatusValue::newGood( [ $mockRevision, $mockRevision ] ) );
 		$data = $this->executeHandlerAndGetBodyData(
 			$this->getTemporaryAccountRevisionHandler( [
-				'revisionStore' => $mockRevisionStore
+				'revisionStore' => $mockRevisionStore,
 			] ),
 			$this->getRequestData( [
 				'name' => '*Unregistered 1',
@@ -397,7 +397,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 			);
 		$data = $this->executeHandlerAndGetBodyData(
 			$this->getTemporaryAccountRevisionHandler( [
-				'revisionStore' => $mockRevisionStore
+				'revisionStore' => $mockRevisionStore,
 			] ),
 			$this->getRequestData( [
 				'name' => '*Unregistered 1',
