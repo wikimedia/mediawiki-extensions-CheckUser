@@ -115,12 +115,35 @@ class CheckUserUserInfoCardService {
 			$userData['revertedEditCount'] = null;
 		}
 		$userData['newArticlesCount'] = $userImpact->getTotalArticlesCreatedCount();
+		if ( !$this->shouldShowNewArticlesCount( $user, $userImpact->getTotalEditsCount() ) ) {
+			// FIXME: Temporary workaround for T399096
+			$userData['newArticlesCount'] = null;
+		}
 		$userData['lastEditTimestamp'] = wfTimestampOrNull(
 			TS_MW,
 			$userImpact->getLastEditTimestamp()
 		);
 
 		return $userData;
+	}
+
+	private function shouldShowNewArticlesCount( UserIdentity $userIdentity, int $editCount ): bool {
+		$user = $this->userFactory->newFromUserIdentity( $userIdentity );
+		if ( !$user->getRegistration() ) {
+			// Old account, no registration date, hide the new articles count
+			return false;
+		}
+		if ( $user->getRegistration() <= '20180701000000' ) {
+			// Account registered before July 2018, when page creations were first logged,
+			// hide the new articles count
+			return false;
+		}
+		if ( $editCount >= 1_000 ) {
+			// Assume the user has more than 1K edits/log entries, which can make
+			// the GrowthExperiments UserImpact query inaccurate.
+			return false;
+		}
+		return true;
 	}
 
 	/**

@@ -348,7 +348,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 					'thanksGiven' => 60,
 					'thanksReceived' => 200,
 					'revertedEditCount' => null,
-					'newArticlesCount' => 30,
+					'newArticlesCount' => null,
 					'lastEditTimestamp' => '20250101100000',
 					'editCountByDay' => $editCountByDay1,
 				],
