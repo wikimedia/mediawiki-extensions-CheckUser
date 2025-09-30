@@ -287,6 +287,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		foreach ( $expectedMissingKeys as $key ) {
 			$this->assertArrayNotHasKey( $key, $userInfo );
 		}
+		// T401466
+		if ( $userInfo['totalEditCount'] >= 1_000 ) {
+			$this->assertNull( $userInfo['revertedEditCount'] );
+		}
 	}
 
 	public static function userImpactDataPointsAreIncludedDataProvider(): array {
@@ -340,16 +344,16 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				],
 				'expectedMissingKeys' => [],
 				'expectedData' => [
-					'totalEditCount' => 20,
+					'totalEditCount' => 1000,
 					'thanksGiven' => 60,
 					'thanksReceived' => 200,
-					'revertedEditCount' => 20,
+					'revertedEditCount' => null,
 					'newArticlesCount' => 30,
 					'lastEditTimestamp' => '20250101100000',
 					'editCountByDay' => $editCountByDay1,
 				],
 				'hasUserImpact' => true,
-				'totalEditsCount' => 20,
+				'totalEditsCount' => 1000,
 				'givenThanksCount' => 60,
 				'receivedThanksCount' => 200,
 				'revertedEditCount' => 20,

@@ -109,6 +109,11 @@ class CheckUserUserInfoCardService {
 		$userData['thanksReceived'] = $userImpact->getReceivedThanksCount();
 		$userData['editCountByDay'] = $userImpact->getEditCountByDay();
 		$userData['revertedEditCount'] = $userImpact->getRevertedEditCount();
+		// If the number of edits is at or over GEUserImpactMaxEdits, then don't attempt to show
+		// reverted edit count (T401466)
+		if ( $userData['totalEditCount'] >= 1_000 ) {
+			$userData['revertedEditCount'] = null;
+		}
 		$userData['newArticlesCount'] = $userImpact->getTotalArticlesCreatedCount();
 		$userData['lastEditTimestamp'] = wfTimestampOrNull(
 			TS_MW,
