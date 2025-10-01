@@ -15,7 +15,14 @@ QUnit.module( 'ext.checkUser.userInfoCard.useInstrument', QUnit.newMwEnvironment
 		// Create stub for the instrument
 		submitInteractionStub = this.sandbox.stub();
 		instrumentStub = { submitInteraction: submitInteractionStub };
-		newInstrumentStub = this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+
+		if ( 'eventLog' in mw ) {
+			newInstrumentStub = this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+		} else {
+			newInstrumentStub = this.sandbox.stub().returns( instrumentStub );
+			// Stub missing mw.eventLog
+			this.sandbox.define( mw, 'eventLog', { newInstrument: newInstrumentStub } );
+		}
 
 		// Store references in this context for backward compatibility
 		this.configStub = configStub;
