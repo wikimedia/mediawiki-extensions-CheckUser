@@ -304,7 +304,7 @@
 	"checkuser-global-contributions-target-label": "اسم المستخدم، عنوان IP أو النطاق:",
 	"checkuser-global-contributions-target-placeholder": "اسم المستخدم أو عنوان IP أو النطاق",
 	"checkuser-global-contributions-search-form-wrapper": "البحث عن المساهمات العالمية",
-	"checkuser-global-contributions-results-title": "مساهمات المستخدم العالمية ل$1",
+	"checkuser-global-contributions-results-title": "مساهمات $1 العالمية",
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>لا توجد نتائج مطابقة للاستعلام.</strong> قد لا يكون لديك إذن لعرض عناوين IP المستخدمة بواسطة الحسابات المؤقتة.",
 	"checkuser-global-contributions-no-results-no-global-preference": "<strong>لا توجد نتائج مطابقة للاستعلام.</strong> قد تكون هذه النتائج غير كاملة لأنك بحاجة إلى قبول الاتفاقية في [ $1 تفضيلاتك العالمية].",
 	"checkuser-global-contributions-no-global-preference": "قد تكون هذه النتائج غير كاملة لأنك بحاجة إلى قبول الاتفاقية في [$1 تفضيلاتك العالمية].",
