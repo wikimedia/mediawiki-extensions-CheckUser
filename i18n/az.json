@@ -243,6 +243,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Viki tapılmadı",
 	"checkuser-investigate-filters-legend": "Filtrlər",
 	"checkuser-investigate-filters-exclude-targets-label": "Aşağıdakı istifadəçiləri və ya IPləri gizlət",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "Müvəqqəti hesabları gizlət",
 	"checkuser-investigate-timeline-notice-no-results": "Heç bir nəticə yoxdur. bu istifadəçilərdən və ya IPlərdən son 90 gün ərzində heç bir fəaliyyət qeydə alınmayıb.",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Bu filtr meyarlarına uyğun heç bir nəticə yoxdur. Axtarışı genişləndirmək üçün bəzi filtrləri silməyə çalışın.",
 	"checkuser-investigate-compare-copy-button-label": "Vikimətni göstər",

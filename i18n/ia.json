@@ -389,7 +389,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "Revelationes IP: $1 (ultime consultation $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Revelationes IP: $1",
 	"checkuser-suggestedinvestigations": "Investigationes suggerite",
-	"checkuser-suggestedinvestigations-summary": "Iste pagina contine contos automaticamente marcate como suspecte que debe esser investigate per le verificatores de usatores.",
+	"checkuser-suggestedinvestigations-summary": "Iste pagina contine contos automaticamente marcate como potentialmente suspecte que debe esser investigate per le verificatores de usatores.",
 	"checkuser-suggestedinvestigations-table-caption": "Tabella de investigationes suggerite",
 	"checkuser-suggestedinvestigations-header-users": "Contos",
 	"checkuser-suggestedinvestigations-header-signals": "Signales de risco",

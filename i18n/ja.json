@@ -276,6 +276,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "ウィキが見つかりませんでした",
 	"checkuser-investigate-filters-legend": "フィルター",
 	"checkuser-investigate-filters-exclude-targets-label": "次の利用者またはIPアドレスを非表示にする",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "仮アカウントを除外",
 	"checkuser-investigate-timeline-notice-no-results": "結果がありませんでした: 直近90日以内の利用者またはIPアドレスからの活動は記録されていません。",
 	"checkuser-investigate-timeline-notice-no-results-filters": "これらのフィルター条件に合致する結果はありません。フィルターの一部を解除して、検索範囲を拡大してみてください。",
 	"checkuser-investigate-compare-copy-button-label": "ウィキテキストを表示",

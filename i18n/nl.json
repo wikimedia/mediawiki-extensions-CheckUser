@@ -249,6 +249,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki niet gevonden",
 	"checkuser-investigate-filters-legend": "Filters",
 	"checkuser-investigate-filters-exclude-targets-label": "De volgende gebruikers of IP's verbergen",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "Tijdelijke accounts eruit filteren",
 	"checkuser-investigate-timeline-notice-no-results": "Er zijn geen resultaten: deze gebruikers of IP-adressen hebben de afgelopen 90 dagen geen veranderingen doorgevoerd",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Er zijn geen resultaten die aan deze filtervoorwaarden voldoen. Probeer een aantal filters te verwijderen om breder te zoeken.",
 	"checkuser-investigate-compare-copy-button-label": "Toon wikitekst",

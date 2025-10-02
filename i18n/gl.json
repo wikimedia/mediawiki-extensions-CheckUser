@@ -241,6 +241,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Non se atopou o wiki",
 	"checkuser-investigate-filters-legend": "Filtros",
 	"checkuser-investigate-filters-exclude-targets-label": "Agochar os seguintes usuarios ou enderezos IP",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "Filtrar as contas temporais",
 	"checkuser-investigate-timeline-notice-no-results": "Non hai resultados: non se rexistrou ningunha actividade destes usuarios ou enderezos IP nos últimos 90 días",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Non hai resultados que coincidan con estes criterios de filtrado. Intenta eliminar algúns filtros para ampliar a busca.",
 	"checkuser-investigate-compare-copy-button-label": "Mostrar o texto wiki",
