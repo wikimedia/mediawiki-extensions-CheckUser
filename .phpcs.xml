@@ -4,6 +4,12 @@
 	<rule ref="Generic.Files.LineLength">
 		<exclude-pattern>CheckUser\.alias\.php</exclude-pattern>
 	</rule>
+	<rule ref="MediaWiki.Arrays.TrailingComma">
+		<properties>
+			<property name="singleLine" value="false" />
+			<property name="multiLine" value="true" />
+		</properties>
+	</rule>
 	<file>.</file>
 	<arg name="extensions" value="php" />
 	<arg name="encoding" value="UTF-8" />
