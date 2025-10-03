@@ -243,6 +243,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "ויקי לא נמצא",
 	"checkuser-investigate-filters-legend": "מסננים",
 	"checkuser-investigate-filters-exclude-targets-label": "הסתרת המשתמשים או כתובות ה־IP האלה",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "לא לכלול חשבונות חולפים",
 	"checkuser-investigate-timeline-notice-no-results": "אין תוצאות: לא הייתה פעילות רשומה מהמשתמשים או מכתובות ה־IP האלה ב־90 הימים האחרונים",
 	"checkuser-investigate-timeline-notice-no-results-filters": "אין תוצאות שמתאימות לחיפוש הזה. נא לנסות להסיר חלק מהמסננים כדי להרחיב את החיפוש.",
 	"checkuser-investigate-compare-copy-button-label": "להציג קוד ויקי",

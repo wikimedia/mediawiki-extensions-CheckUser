@@ -252,6 +252,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Вікі не знайдено",
 	"checkuser-investigate-filters-legend": "Фільтри",
 	"checkuser-investigate-filters-exclude-targets-label": "Приховати вказаних користувачів чи IP-адреси",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "Відфільтрувати тимчасові облікові записи",
 	"checkuser-investigate-timeline-notice-no-results": "Немає результатів: у цих користувачів чи IP не було активності за останні 90 днів",
 	"checkuser-investigate-timeline-notice-no-results-filters": "За цими критеріями нічого не знайдено. Спробуйте вилучити певні фільтри для розширення області пошуку.",
 	"checkuser-investigate-compare-copy-button-label": "Показати вікітекст",

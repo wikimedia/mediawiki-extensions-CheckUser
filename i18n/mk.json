@@ -236,6 +236,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Викито не е пронајдено",
 	"checkuser-investigate-filters-legend": "Филтри",
 	"checkuser-investigate-filters-exclude-targets-label": "Скриј ги следиве корисници или IP-адреси",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "Изземи привремени сметки",
 	"checkuser-investigate-timeline-notice-no-results": "Нема исход: нема заведена активност од овие корисници или IP-адреси во изминативе 90 дена",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Нема исход што одговара на филтрираното. Отстранете некои филтри за да го проширите пребарувањето.",
 	"checkuser-investigate-compare-copy-button-label": "Прик. викитекст",
