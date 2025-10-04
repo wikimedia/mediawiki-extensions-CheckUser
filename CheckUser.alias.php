@@ -15,7 +15,7 @@ $specialPageAliases['en'] = [
 	'GlobalContributions' => [ 'GlobalContributions', 'GlobalContribs' ],
 	'Investigate' => [ 'Investigate' ],
 	'InvestigateBlock' => [ 'InvestigateBlock' ],
-	'IPContributions' => [ 'IPContributions' ],
+	'IPContributions' => [ 'IPContributions', 'IPContribs' ],
 	'SuggestedInvestigations' => [ 'SuggestedInvestigations' ],
 ];
 
