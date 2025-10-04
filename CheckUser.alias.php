@@ -525,6 +525,7 @@ $specialPageAliases['vep'] = [
 $specialPageAliases['vi'] = [
 	'CheckUser' => [ 'Kiểm_tra_người_dùng' ],
 	'CheckUserLog' => [ 'Nhật_trình_kiểm_tra_người_dùng' ],
+	'IPContributions' => [ 'Đóng_góp_IP' ],
 ];
 
 /** Chinese (中文) */
