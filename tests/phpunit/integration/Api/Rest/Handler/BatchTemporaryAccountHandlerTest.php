@@ -276,14 +276,13 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			$expectedResponseCallback()
 		);
 
-		$this->assertArrayEquals(
-			[
-				$userName => $expectedResponse,
-				'autoReveal' => false,
-			],
-			$data,
-			false, true
-		);
+		$expected = [ $userName => $expectedResponse ];
+		// When GlobalPreferences is available
+		if ( $handler->getAutoRevealLookup()->isAutoRevealAvailable() ) {
+			$expected['autoReveal'] = false;
+		}
+
+		$this->assertArrayEquals( $expected, $data, false, true );
 	}
 
 	public static function provideExecuteForSpecificTypeOfIds() {

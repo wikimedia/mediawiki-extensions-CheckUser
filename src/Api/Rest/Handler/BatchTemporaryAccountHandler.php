@@ -376,6 +376,13 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	/**
 	 * @inheritDoc
 	 */
+	public function getAutoRevealLookup(): CheckUserTemporaryAccountAutoRevealLookup {
+		return $this->autoRevealLookup;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	protected function getBlockManager(): BlockManager {
 		return $this->blockManager;
 	}
