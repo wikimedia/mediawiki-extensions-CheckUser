@@ -84,13 +84,18 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getTestUser()->getAuthority()
 		);
 
-		$this->assertSame( [
+		$expected = [
 			'~12345' => [
 				'revIps' => [ 1 => '1.2.3.4' ],
 				'logIps' => [ 1 => '5.6.7.8' ],
 				'lastUsedIp' => '9.8.7.6',
 			],
-			'autoReveal' => false,
-		], $data );
+		];
+		// When GlobalPreferences is available
+		if ( $handler->getCheckUserAutoRevealLookup()->isAutoRevealAvailable() ) {
+			$expected['autoReveal'] = false;
+		}
+
+		$this->assertSame( $expected, $data );
 	}
 }

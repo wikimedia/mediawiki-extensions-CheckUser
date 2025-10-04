@@ -193,7 +193,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		return $this->userNameUtils;
 	}
 
-	protected function getCheckUserAutoRevealLookup(): CheckUserTemporaryAccountAutoRevealLookup {
+	public function getCheckUserAutoRevealLookup(): CheckUserTemporaryAccountAutoRevealLookup {
 		return $this->checkUserTemporaryAccountAutoRevealLookup;
 	}
 }
