@@ -9,6 +9,7 @@
 			"Bananax47",
 			"ChrisPtDe",
 			"Cigaryno",
+			"Danÿa",
 			"DavidL",
 			"Derugon",
 			"DreZhsh",
@@ -481,5 +482,5 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Fermer",
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "En savoir plus sur les signaux de risque dans une fenêtre contextuelle",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Comptes temporaires avec une IP en commun : $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Nombre de comptes temporaires dont l'une des adresses IP associées est également associée à ce compte temporaire"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Nombre de comptes temporaires dont l’une des adresses IP associées est également associée à ce compte temporaire"
 }

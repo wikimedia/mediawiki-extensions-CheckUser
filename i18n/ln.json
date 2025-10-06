@@ -12,7 +12,6 @@
 	"grouppage-temporary-account-viewer": "{{ns:project}}:Motali IP ya compte ya ntango moke",
 	"checkuser-filter-title": "Ba filtres",
 	"checkuser-filter-hide-temporary-accounts": "Bomba ba comptes temporaires",
-	"checkuser-investigate-filters-exclude-temp-accounts-label": "Filtrer ba comptes temporaires",
 	"checkuser-global-contributions-link-sidebar": "Makabo ya mokili mobimba",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Ba résultats oyo ekokani na query te.</strong> Okoki kozwa makabo soki obongoli ba paramètres ya boluki na yo.",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP Komimonisa ye moko",

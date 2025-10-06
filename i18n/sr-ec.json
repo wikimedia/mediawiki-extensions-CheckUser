@@ -333,7 +333,9 @@
 	"checkuser-userinfocard-error-title": "Дошло је до грешке",
 	"checkuser-userinfocard-error-generic": "Дошло је до грешке. Покушајте поново касније.",
 	"checkuser-userinfocard-enable-preference-description": "[[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|Инфо картица корисника]]",
+	"checkuser-userinfocard-enable-preference-help": "Приказује дугме поред корисничког имена за информације о налогу.",
 	"checkuser-userinfocard-activity-chart-label": "Уређивачка активност у претходних 60 дана ({{PLURAL:$1|$1 измене|$1 измена|0=Нема измена}})",
+	"checkuser-userinfocard-last-edit-timestamp-label": "Последња измена: $1",
 	"checkuser-ipinfo-global-contributions-label": "Глобални доприноси",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|Глобалних измена: $1|0=Нема глобалних измена}}",
 	"tooltip-t-global-contributions": "Списак доприноса са свих викија {{GENDER:$1|овог корисника|ове кориснице}}",
@@ -356,7 +358,11 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Затвори",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Откажи",
 	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "Проследи",
+	"checkuser-suggestedinvestigations-change-status-dialog-title": "Промени статус",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Статус",
 	"checkuser-suggestedinvestigations-change-status-dialog-status-reason-header": "Додај напомену",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-resolved": "нпр. предузета радња: блокирани корисници",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid": "нпр. ово нису сумњиви налози",
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Затвори",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Привремени налози са свих повезаних IP адреса: $1"
 }

@@ -255,6 +255,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "لم يعثر على الويكي",
 	"checkuser-investigate-filters-legend": "المرشحات",
 	"checkuser-investigate-filters-exclude-targets-label": "أخفِ المستخدمين أو عناوين البروتوكولات التالية",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "تصفية الحسابات المؤقتة",
 	"checkuser-investigate-timeline-notice-no-results": "لا توجد أي نتائج: لم يكن هناك أي نشاط مسجل لهؤلاء المستخدمين أو عناوين البروتوكولات في آخر 90 يومًا",
 	"checkuser-investigate-timeline-notice-no-results-filters": "لا توجد نتائج مطابقة لمعايير الترشيح هذه. حاول إزالة بعض المرشحات لتوسيع البحث.",
 	"checkuser-investigate-compare-copy-button-label": "أظهر نص الويكي",

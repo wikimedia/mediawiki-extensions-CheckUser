@@ -361,6 +361,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "Đóng",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|}}Mở menu thẻ thông tin người dùng",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|}}Tham gia vào $1 ($2)",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Đã tham gia}} trước năm 2005",
 	"checkuser-userinfocard-active-wikis-label": "Wiki hoạt động tích cực",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Số lệnh cấm đang có hiệu lực tại các wiki khác: $1",
 	"checkuser-userinfocard-past-blocks": "Lần cấm trước: $1",
@@ -412,7 +413,11 @@
 	"checkuser-suggestedinvestigations-header-actions": "Tác vụ",
 	"checkuser-suggestedinvestigations-status-invalid": "Không hợp lệ",
 	"checkuser-suggestedinvestigations-action-change-status": "Thay đổi trạng thái",
+	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Hủy bỏ",
+	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "Gửi",
+	"checkuser-suggestedinvestigations-change-status-dialog-title": "Thay đổi trạng thái",
 	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Trạng thái",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Đóng",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tài khoản tạm thời từ tất cả các IP liên quan: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Tổng số tài khoản tạm thời từ tất cả địa chỉ IP được liên kết với tài khoản này"
 }
