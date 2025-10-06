@@ -138,7 +138,7 @@ QUnit.test( 'renders correct number of InfoRowWithLinks components with no permi
 	} );
 
 	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
-	assert.strictEqual( infoRows.length, 6, 'Renders 6 InfoRowWithLinks components when no permissions are granted' );
+	assert.strictEqual( infoRows.length, 5, 'Renders 5 InfoRowWithLinks components when no permissions are granted' );
 } );
 
 QUnit.test.each( 'should cap thanks and new articles counts when at or above configured limit', {
@@ -290,6 +290,28 @@ QUnit.test( 'passes correct props to past blocks row', ( assert ) => {
 		'',
 		'Past blocks row has no suffix link log ID'
 	);
+} );
+
+QUnit.test( 'does not render past blocks row when permission is not granted', ( assert ) => {
+	mw.config.set( 'wgCheckUserCanBlock', false );
+	const wrapper = mountComponent();
+	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
+	const pastBlocksRow = infoRows.find( ( row ) => row.props( 'messageKey' ).includes( 'checkuser-userinfocard-past-blocks' ) );
+	assert.strictEqual( pastBlocksRow, undefined, 'Past blocks row does not exist when permission is not granted' );
+	const activeBlocksRow = infoRows.find( ( row ) => row.props( 'messageKey' ).includes( 'checkuser-userinfocard-active-blocks' ) );
+	assert.true( activeBlocksRow.exists(), 'Active blocks row exists regardless of permissions' );
+} );
+
+QUnit.test( 'does not render active blocks row or past blocks row when count is zero', ( assert ) => {
+	const wrapper = mountComponent( {
+		pastBlocks: 0,
+		activeBlocks: 0
+	} );
+	const infoRows = wrapper.findAllComponents( { name: 'InfoRowWithLinks' } );
+	const pastBlocksRow = infoRows.find( ( row ) => row.props( 'messageKey' ).includes( 'checkuser-userinfocard-past-blocks' ) );
+	assert.strictEqual( pastBlocksRow, undefined, 'Past blocks row does not exist when count is zero' );
+	const activeBlocksRow = infoRows.find( ( row ) => row.props( 'messageKey' ).includes( 'checkuser-userinfocard-active-blocks' ) );
+	assert.strictEqual( activeBlocksRow, undefined, 'Active blocks row does not exist when count is zero' );
 } );
 
 QUnit.test( 'hides data from GrowthExperiments if unavailable', ( assert ) => {
@@ -466,7 +488,7 @@ QUnit.test( 'setup function returns correct values with no permissions', ( asser
 
 	assert.strictEqual(
 		wrapper.vm.infoRows.length,
-		6,
+		5,
 		'infoRows has correct length with no permissions'
 	);
 } );

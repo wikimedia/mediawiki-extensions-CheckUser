@@ -81,8 +81,7 @@ const {
 	cdxIconHeart,
 	cdxIconSearch,
 	cdxIconUserTemporary,
-	cdxIconUserTemporaryLocation,
-	cdxIconNotice
+	cdxIconUserTemporaryLocation
 } = require( './icons.json' );
 const InfoRow = require( './InfoRow.vue' );
 const InfoRowWithLinks = require( './InfoRowWithLinks.vue' );
@@ -304,29 +303,30 @@ module.exports = exports = {
 		const infoRows = computed( () => {
 			const rows = [];
 
-			// Active blocks row
-			rows.push( {
-				icon: props.activeBlocks > 0 ? cdxIconAlert : cdxIconNotice,
-				iconClass: props.activeBlocks > 0 ?
-					'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks' :
-					'ext-checkuser-userinfocard-icon',
-				messageKey: 'checkuser-userinfocard-active-blocks-from-all-wikis',
-				mainValue: mw.language.convertNumber( props.activeBlocks ),
-				mainLink: props.specialCentralAuthUrl,
-				mainLinkLogId: 'active_blocks'
-			} );
+			// Active blocks: display this only when the number of active blocks is greater than 0
+			if ( props.activeBlocks > 0 ) {
+				rows.push( {
+					icon: cdxIconAlert,
+					iconClass: 'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks',
+					messageKey: 'checkuser-userinfocard-active-blocks-from-all-wikis',
+					mainValue: mw.language.convertNumber( props.activeBlocks ),
+					mainLink: props.specialCentralAuthUrl,
+					mainLinkLogId: 'active_blocks'
+				} );
+			}
 
-			// Past blocks row
-			rows.push( {
-				icon: props.pastBlocks > 0 ? cdxIconAlert : cdxIconNotice,
-				iconClass: props.pastBlocks > 0 ?
-					'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks' :
-					'ext-checkuser-userinfocard-icon',
-				messageKey: 'checkuser-userinfocard-past-blocks',
-				mainValue: mw.language.convertNumber( props.pastBlocks ),
-				mainLink: pastBlocksLink,
-				mainLinkLogId: 'past_blocks'
-			} );
+			// Past blocks: display this only when the number of past blocks is greater than 0
+			// and if the user has the ability to create blocks.
+			if ( mw.config.get( 'wgCheckUserCanBlock' ) && props.pastBlocks > 0 ) {
+				rows.push( {
+					icon: cdxIconAlert,
+					iconClass: 'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks',
+					messageKey: 'checkuser-userinfocard-past-blocks',
+					mainValue: mw.language.convertNumber( props.pastBlocks ),
+					mainLink: pastBlocksLink,
+					mainLinkLogId: 'past_blocks'
+				} );
+			}
 
 			rows.push( {
 				icon: cdxIconEdit,
