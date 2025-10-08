@@ -76,7 +76,6 @@ class UserAgentClientHintsLookupTest extends MediaWikiUnitTestCase {
 		// T287318 - TestingAccessWrapper::__call does not support pass-by-reference
 		$classReflection = new ReflectionClass( $objectUnderTest );
 		$methodReflection = $classReflection->getMethod( 'generateUniqueClientHintsIdCombinations' );
-		$methodReflection->setAccessible( true );
 
 		$this->assertArrayEquals(
 			$expectedReturnArray,
