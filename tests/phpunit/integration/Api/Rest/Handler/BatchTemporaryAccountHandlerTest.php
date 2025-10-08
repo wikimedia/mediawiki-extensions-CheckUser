@@ -651,7 +651,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'afl_filter_id' => 1,
 			'afl_user' => $tempUser1->getId(),
 			'afl_user_text' => $tempUser1->getName(),
-			'afl_ip' => '1.2.3.4',
 			'afl_ip_hex' => dechex( ip2long( '1.2.3.4' ) ),
 			'afl_action' => 'edit',
 			'afl_actions' => 'tag',
@@ -684,8 +683,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->table( 'abuse_filter_log' )
 			->row(
 				array_merge( $template, [
-					// PurgeOldLogData sets them to an empty string
-					'afl_ip' => '',
 					'afl_ip_hex' => '',
 					'afl_timestamp' => '20150101012345',
 				] )
@@ -702,7 +699,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->table( 'abuse_filter_log' )
 			->row(
 				array_merge( $template, [
-					'afl_ip' => '',
 					'afl_ip_hex' => '',
 					'afl_timestamp' => ConvertibleTimestamp::now(),
 				] )
