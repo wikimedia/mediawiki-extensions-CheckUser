@@ -297,5 +297,6 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 је {{GENDER:$2|омогућио|омогућила}} себи приступ заштићеним променљивама",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 је {{GENDER:$2|онемогућио|онемогућила}} себи приступ заштићеним променљивама",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 је {{GENDER:$2|видео|видела}} заштићене променљиве повезане са $3",
-	"ext-ipinfo-global-contributions-url-text": "Глобални доприноси"
+	"ext-ipinfo-global-contributions-url-text": "Глобални доприноси",
+	"checkuser-userinfocard-enable-preference-help": "Приказује дугме поред корисничког имена за информације о налогу."
 }

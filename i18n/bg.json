@@ -146,6 +146,7 @@
 	"checkuser-global-contributions-target-label": "Потребителско име, IP адрес или IP диапазон:",
 	"checkuser-global-contributions-target-placeholder": "Потребителско име, IP адрес или IP диапазон",
 	"checkuser-global-contributions-search-form-wrapper": "Търсене на глобални приноси",
+	"checkuser-global-contributions-results-title": "Глобални приноси на $1",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Няма резултати, съответстващи на заявката.</strong> Потребителят „$1“ няма видими приноси.",
 	"checkuser-ip-auto-reveal-link-sidebar": "Автоматично разкриване на IP-та",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Разкриването на IP-та е включено</strong>",
