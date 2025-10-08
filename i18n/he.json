@@ -361,7 +361,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "סגירה",
 	"checkuser-userinfocard-open-menu-aria-label": "פתיחת תפריט כרטיס פרטי {{GENDER:$1|המשתמש|המשתמשת}}",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|הצטרף|הצטרפה}}: $1 ($2)",
-	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|הצטרף|הצטרפה}}: לפני 2005",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|הצטרף|הצטרפה}}: בשנת 2005 או לפניה",
 	"checkuser-userinfocard-active-wikis-label": "אתרי ויקי שהחשבון פעיל בהם",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "חסימות פעילות מכל אתרי הוויקי: $1",
 	"checkuser-userinfocard-past-blocks": "חסימות קודמות: $1",

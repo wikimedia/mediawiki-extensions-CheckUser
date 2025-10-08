@@ -362,7 +362,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "Bağla",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|İstifadəçi}} məlumat kartı menyusunu aç",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Qoşulma tarixi}}: $1 ($2)",
-	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Qoşulub}}: 2005-ci ildən əvvəl",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Qoşulub}}: 2005-ci ildə və ya əvvəl",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv vikilər",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Bütün vikilərdəki aktiv bloklar: $1",
 	"checkuser-userinfocard-past-blocks": "Keçmiş bloklar: $1",

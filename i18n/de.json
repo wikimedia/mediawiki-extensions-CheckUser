@@ -372,7 +372,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "Schließen",
 	"checkuser-userinfocard-open-menu-aria-label": "Menü der Infokarte zu {{GENDER:$1|Benutzer|Benutzerin}} öffnen",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Beigetreten}}: $1 ($2)",
-	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Beigetreten}}: vor 2005",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Beigetreten}}: im Jahr 2005 oder früher",
 	"checkuser-userinfocard-active-wikis-label": "Aktive Wikis",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktive Sperren aus allen Wikis: $1",
 	"checkuser-userinfocard-past-blocks": "Vergangene Sperren: $1",

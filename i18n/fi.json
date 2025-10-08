@@ -70,6 +70,7 @@
 	"checkuser-month": "viimeiset 30 päivää",
 	"checkuser-month-2": "viimeiset 60 päivää",
 	"checkuser-all": "kaikki",
+	"checkuser-filter-title": "Suodattimet",
 	"checkuser-filter-hide-temporary-accounts": "Piilota tilapäiset tunnukset",
 	"checkuser-cidr-label": "Etsi yleinen osoiteavaruus annetulle IP-luettelolle",
 	"checkuser-cidr-res": "Yleinen CIDR:",

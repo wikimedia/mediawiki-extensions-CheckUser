@@ -6,9 +6,5 @@
 		]
 	},
 	"group-temporary-account-viewer": "Bantu yina ke talaka masolo ya IP sambu na ntangu fioti",
-	"grouppage-temporary-account-viewer": "{{ns:project}}:Temporary account IP viewer",
-	"checkuser-filter-title": "Ba filtre",
-	"checkuser-filter-hide-temporary-accounts": "Bumba masolo ya ntangu fioti",
-	"checkuser-userinfocard-last-edit-timestamp-label": "Nsuka-nsuka: $1",
-	"checkuser-suggestedinvestigations-summary": "Lutiti yai kele ti masolo yina bo ke tulaka na mbala mosi nde yo lenda vanda mbi sambu na bantu yina ke sadila yo na kusala bansosa."
+	"grouppage-temporary-account-viewer": "{{ns:project}}:Temporary account IP viewer"
 }
