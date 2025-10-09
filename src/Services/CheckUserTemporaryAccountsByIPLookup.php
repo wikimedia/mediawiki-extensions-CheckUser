@@ -291,7 +291,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			foreach ( $entitySet as $entity => $timestamp ) {
 				if ( !isset( $sorted[$entity] ) ) {
 					$sorted[$entity] = $timestamp;
-				} elseif ( $sorted[$timestamp] < $timestamp ) {
+				} elseif ( $sorted[$entity] < $timestamp ) {
 					$sorted[$entity] = $timestamp;
 				}
 			}
