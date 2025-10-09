@@ -343,7 +343,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "Sulje",
 	"checkuser-userinfocard-open-menu-aria-label": "Avaa {{GENDER:$1|käyttäjätietokortin}} valikko",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Liittyi}}: $1 ($2)",
-	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Liittyi}} ennen vuotta 2005",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Liittyi}} 2005 tai sitä ennen",
 	"checkuser-userinfocard-active-wikis-label": "Aktiiviset wikit",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktiiviset estot kaikissa wikeissä: $1",
 	"checkuser-userinfocard-past-blocks": "Vanhat estot: $1",

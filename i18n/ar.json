@@ -224,7 +224,7 @@
 	"checkuser-investigate": "فحص",
 	"checkuser-investigate-page-subtitle": "التحقيق الحالي حول $1",
 	"checkuser-investigate-subtitle-block-accounts-button-label": "منع الحسابات",
-	"checkuser-investigate-subtitle-block-ips-button-label": "حظر عناوين IP",
+	"checkuser-investigate-subtitle-block-ips-button-label": "منع عناوين IP",
 	"checkuser-investigate-subtitle-cancel-button-label": "إلغاء",
 	"checkuser-investigate-subtitle-continue-button-label": "استمرار",
 	"checkuser-investigate-indicator-new-investigation": "تحقق جديد",

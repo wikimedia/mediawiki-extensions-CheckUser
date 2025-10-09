@@ -367,7 +367,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "Sluiten",
 	"checkuser-userinfocard-open-menu-aria-label": "Menu met gebruik{{GENDER:$1||st}}ersinfokaart openen",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Ingeschreven}}: $1 ($2)",
-	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Ingeschreven}}: vóór 2005",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Ingeschreven}}: in of vóór 2005",
 	"checkuser-userinfocard-active-wikis-label": "Actieve wiki’s",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Actieve blokkades van alle wiki’s: $1",
 	"checkuser-userinfocard-past-blocks": "Verstreken blokkades: $1",

@@ -359,7 +359,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "Pechar",
 	"checkuser-userinfocard-open-menu-aria-label": "Abrir o menú da ficha de información {{GENDER:$1|do usuario|da usuaria}}",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Uniuse}} o $1 ($2)",
-	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Uniuse}} antes do 2005",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Uniuse}} no ano 2005 ou antes",
 	"checkuser-userinfocard-active-wikis-label": "Wikis activos",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Bloqueos activos de todos os wikis: $1",
 	"checkuser-userinfocard-past-blocks": "Bloqueos pasados: $1",

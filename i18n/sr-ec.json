@@ -309,7 +309,7 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Глобални доприноси",
 	"checkuser-userinfocard-close-button-aria-label": "Затвори",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Придружио|Придружила}} се: $1 ($2)",
-	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Придружио|Придружила}} се: пре 2005",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Придружио|Придружила}} се: 2005 или раније",
 	"checkuser-userinfocard-active-wikis-label": "Активни викији",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Активне блокаде: $1",
 	"checkuser-userinfocard-past-blocks": "Претходне блокаде: $1",
