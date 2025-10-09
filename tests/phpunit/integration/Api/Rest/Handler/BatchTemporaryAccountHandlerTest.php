@@ -610,7 +610,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			$performer, null,
 			$this->getFilterFactoryProxy()->getFilter( [
 				'id' => '1',
-				'name' => 'Test filter #1',
+				'name' => 'Test filter',
 				'privacy' => Flags::FILTER_HIDDEN,
 				'rules' => 'old_wikitext = "abc"',
 			] ),

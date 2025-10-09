@@ -100,7 +100,7 @@ class GlobalPreferencesHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'checkuser-temporary-account-enable' => '1' ],
 				'',
 			],
-			'IP reveal global preference starts disabled and not changed #2' => [
+			'IP reveal global preference starts disabled and not changed' => [
 				[ 'checkuser-temporary-account-enable' => '0' ],
 				[ 'checkuser-temporary-account-enable' => '0' ],
 				'',
@@ -125,12 +125,12 @@ class GlobalPreferencesHandlerTest extends MediaWikiIntegrationTestCase {
 				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
 				'logAutoRevealAccessEnabled',
 			],
-			'IP reveal global preference starts enabled and not changed #3' => [
+			'IP reveal global preference starts enabled and not changed' => [
 				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
 				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
 				'',
 			],
-			'IP reveal global preference starts disabled and not changed #4' => [
+			'IP reveal global preference starts disabled and not changed' => [
 				[ Preferences::ENABLE_IP_AUTO_REVEAL => 0 ],
 				[ Preferences::ENABLE_IP_AUTO_REVEAL => 0 ],
 				'',
