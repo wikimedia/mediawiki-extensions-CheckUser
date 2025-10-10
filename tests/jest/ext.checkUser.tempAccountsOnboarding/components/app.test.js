@@ -101,23 +101,23 @@ describe( 'Main app component', () => {
 			'.ext-checkuser-image-temp-accounts-onboarding-temp-accounts'
 		).exists() );
 
-		// Expect that the IPInfo step is the second step
-		const ipInfoStepImage = rootElement.find(
-			'.ext-checkuser-image-temp-accounts-onboarding-ip-info'
-		);
-		expect( ipInfoStepImage.exists() ).toEqual( true );
-
-		// Click the next button again and wait for the DOM to be updated.
-		await nextButton.trigger( 'click' );
-		await waitFor( () => !wrapper.find(
-			'.ext-checkuser-image-temp-accounts-onboarding-ip-info'
-		).exists() );
-
-		// Expect that the third step is the IP reveal step.
+		// Expect that the second step is the IP reveal step
 		const ipRevealStepImage = rootElement.find(
 			'.ext-checkuser-image-temp-accounts-onboarding-ip-reveal'
 		);
 		expect( ipRevealStepImage.exists() ).toEqual( true );
+
+		// Click the next button again and wait for the DOM to be updated.
+		await nextButton.trigger( 'click' );
+		await waitFor( () => !wrapper.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-ip-reveal'
+		).exists() );
+
+		// Expect that the IPInfo step is the third step
+		const ipInfoStepImage = rootElement.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-ip-info'
+		);
+		expect( ipInfoStepImage.exists() ).toEqual( true );
 
 		// Double check this by checking that the 'steps' prop has three steps.
 		expect( wrapper.vm.steps ).toHaveLength( 3 );
