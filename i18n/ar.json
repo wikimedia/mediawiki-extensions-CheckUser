@@ -374,7 +374,7 @@
 	"checkuser-userinfocard-close-button-aria-label": "إغلاق",
 	"checkuser-userinfocard-open-menu-aria-label": "افتح قائمة بطاقة معلومات {{GENDER:$1|المستخدم}}",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|انضم}}: $1 ($2)",
-	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1| انضم}}: قبل عام 2005",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|انضم}}: في عام 2005 أو قبله",
 	"checkuser-userinfocard-active-wikis-label": "نشط في الويكيات",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "المنع النشط من جميع الويكيات: $1",
 	"checkuser-userinfocard-past-blocks": "عمليات المنع السابقة: $1",
