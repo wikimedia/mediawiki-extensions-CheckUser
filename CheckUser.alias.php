@@ -267,6 +267,8 @@ $specialPageAliases['it'] = [
 $specialPageAliases['ja'] = [
 	'CheckUser' => [ 'チェックユーザー', 'チェックユーザ', '利用者調査' ],
 	'CheckUserLog' => [ 'チェックユーザー記録', '利用者調査記録' ],
+	'GlobalContributions' => [ 'グローバル投稿記録' ],
+	'IPContributions' => [ 'IP投稿記録' ],
 ];
 
 /** Georgian (ქართული) */
