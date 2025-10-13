@@ -3,7 +3,8 @@
 		"authors": [
 			"Bencemac",
 			"Wolf Rex",
-			"Dj"
+			"Dj",
+			"Tacsipacsi"
 		]
 	},
 	"apihelp-query+checkuser-description": "A megadott felhasználónév által használt IP-címek vagy egy megadott IP-cím által használt felhasználónevek ellenőrzése.",
