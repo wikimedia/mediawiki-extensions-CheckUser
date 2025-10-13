@@ -321,7 +321,7 @@
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Choose an option",
 	"checkuser-ip-auto-reveal-on-dialog-select-duration": "$1",
 	"checkuser-ip-auto-reveal-off-dialog-title": "IP Auto-reveal is on",
-	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Time remaining: <strong>$1</strong>",
+	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Time remaining: <strong>$2 {{PLURAL:$2|day|days}}, $1</strong>",
 	"checkuser-ip-auto-reveal-off-dialog-text-info": "For privacy reasons this feature will automatically turn off at the end of the duration. [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/Temporary_Accounts/Access_to_IP#Automatically_showing_IPs_for_temporary_accounts Learn more]",
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "The duration cannot be set to more than $1",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10min",

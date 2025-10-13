@@ -777,8 +777,9 @@
 					"name": "durations.json",
 					"callback": "MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getTranslatedDurations",
 					"callbackParam": [
-						1800,
-						3600
+						3600,
+						86400,
+						7776000
 					]
 				},
 				{

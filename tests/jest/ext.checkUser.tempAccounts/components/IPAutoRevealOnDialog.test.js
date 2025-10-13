@@ -9,12 +9,16 @@ jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => (
 // Mock dynamic package file
 jest.mock( '../../../../modules/ext.checkUser.tempAccounts/durations.json', () => ( [
 	{
-		translation: '30 minutes',
-		seconds: 1800
-	},
-	{
 		translation: '1 hour',
 		seconds: 3600
+	},
+	{
+		translation: '1 day',
+		seconds: 86400
+	},
+	{
+		translation: '90 days',
+		seconds: 7776000
 	}
 ] ), { virtual: true } );
 jest.mock( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );

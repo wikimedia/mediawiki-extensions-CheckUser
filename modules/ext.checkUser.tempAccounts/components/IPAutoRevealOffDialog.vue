@@ -123,18 +123,23 @@ module.exports = exports = {
 	},
 	methods: {
 		formatExpiryTime( secondsUntilExpiry ) {
+			const daysUntilExpiry = Math.floor( secondsUntilExpiry / ( 3600 * 24 ) );
 			const hoursUntilExpiry = Math.floor( secondsUntilExpiry / 3600 );
 			const minutesUntilExpiry = Math.floor( secondsUntilExpiry / 60 );
 
+			const remainderHours = hoursUntilExpiry % 24;
 			const remainderMinutes = minutesUntilExpiry % 60;
 			const remainderSeconds = secondsUntilExpiry % 60;
 
-			const displayTime =
-				String( hoursUntilExpiry ) + ':' +
+			const displayTime = String( remainderHours ) + ':' +
 				( remainderMinutes < 10 ? '0' : '' ) + String( remainderMinutes ) + ':' +
 				( remainderSeconds < 10 ? '0' : '' ) + String( remainderSeconds );
 
-			return mw.message( 'checkuser-ip-auto-reveal-off-dialog-text-expiry', displayTime ).parse();
+			return mw.message(
+				'checkuser-ip-auto-reveal-off-dialog-text-expiry',
+				displayTime,
+				daysUntilExpiry
+			).parse();
 
 		}
 	},
