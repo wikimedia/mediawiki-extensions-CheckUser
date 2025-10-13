@@ -8,6 +8,7 @@ use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
@@ -245,6 +246,11 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 	) {
 		ConvertibleTimestamp::setFakeTime( '20230406060708' );
 
+		$serviceOptions = new ServiceOptions(
+			CheckUserTemporaryAccountAutoRevealLookup::CONSTRUCTOR_OPTIONS,
+			$this->getServiceContainer()->getMainConfig()
+		);
+
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
 			->willReturn( CheckUserPermissionStatus::newGood() );
@@ -256,7 +262,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $preferences );
 
 		$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
-			$preferencesFactory, $checkUserPermissionManager
+			$serviceOptions, $preferencesFactory, $checkUserPermissionManager
 		);
 
 		$jobQueueGroup = $this->createMock( JobQueueGroup::class );

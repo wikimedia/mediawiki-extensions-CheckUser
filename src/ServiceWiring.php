@@ -249,6 +249,10 @@ return [
 		MediaWikiServices $services
 	): CheckUserTemporaryAccountAutoRevealLookup {
 		return new CheckUserTemporaryAccountAutoRevealLookup(
+			new ServiceOptions(
+				CheckUserTemporaryAccountAutoRevealLookup::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			$services->getPreferencesFactory(),
 			$services->get( 'CheckUserPermissionManager' )
 		);

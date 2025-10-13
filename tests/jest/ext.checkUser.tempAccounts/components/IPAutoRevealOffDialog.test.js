@@ -113,10 +113,10 @@ describe( 'IP auto-reveal Off dialog', () => {
 		expect( logEvent ).toHaveBeenCalledWith( 'session_extend' );
 	} );
 
-	it( 'shows error on default action if new expiry is greater than 24 hours', async () => {
+	it( 'shows error on default action if new expiry is greater than the maximum allowed', async () => {
 		require( '../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' ).setAutoRevealStatus.mockRejectedValue();
 
-		// Set expiry to a day from now
+		// Set expiry to maximum allowed
 		const expiry = String( mockNowInSeconds + 86400 );
 		const wrapper = renderComponent( { expiryTimestamp: expiry } );
 		await nextTick();

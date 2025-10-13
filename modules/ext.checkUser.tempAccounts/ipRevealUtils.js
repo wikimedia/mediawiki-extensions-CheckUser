@@ -44,15 +44,15 @@ function getAutoRevealStatusPreferenceName() {
 
 /**
  * Check whether the expiry time for auto-reveal mode is valid. A valid expiry is in the future
- * and less than 1 day in the future.
+ * and less than the maximum allowed expiry.
  *
  * @param {number} expiry
  * @return {boolean}
  */
 function isExpiryValid( expiry ) {
 	const nowInSeconds = Date.now() / 1000;
-	const oneDayInSeconds = 86400;
-	return ( expiry > nowInSeconds ) && ( expiry <= ( nowInSeconds + oneDayInSeconds ) );
+	const maxExpiry = mw.config.get( 'wgCheckUserAutoRevealMaximumExpiry' );
+	return ( expiry > nowInSeconds ) && ( expiry <= ( nowInSeconds + maxExpiry ) );
 }
 
 /**

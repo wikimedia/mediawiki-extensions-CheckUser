@@ -10,6 +10,7 @@ use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\CheckUser\Tests\Integration\AbuseFilter\FilterFactoryProxyTrait;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
 use MediaWiki\Extension\AbuseFilter\Filter\Flags;
@@ -70,6 +71,11 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$this->enableAutoCreateTempUser();
 
+		$serviceOptions = new ServiceOptions(
+			CheckUserTemporaryAccountAutoRevealLookup::CONSTRUCTOR_OPTIONS,
+			$this->getServiceContainer()->getMainConfig()
+		);
+
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
 			->willReturn( CheckUserPermissionStatus::newGood() );
@@ -91,7 +97,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 					[]
 				);
 			$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
-				$preferencesFactory, $checkUserPermissionManager
+				$serviceOptions, $preferencesFactory, $checkUserPermissionManager
 			);
 		} else {
 			$autoRevealLookup = $this->createMock(

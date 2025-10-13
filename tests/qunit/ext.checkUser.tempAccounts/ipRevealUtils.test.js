@@ -92,8 +92,8 @@ QUnit.test( 'Test getAutoRevealStatus with expiry in the past', function ( asser
 
 QUnit.test( 'Test getAutoRevealStatus with expiry too far in the future', function ( assert ) {
 	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
-	const oneDayInSeconds = 86400;
-	const invalidExpiry = Math.round( this.mockTime / 1000 ) + oneDayInSeconds + 100;
+	const maximumExpiry = 86400;
+	const invalidExpiry = Math.round( this.mockTime / 1000 ) + maximumExpiry + 100;
 	const apiMock = this.sandbox.mock( mw.Api.prototype );
 	apiMock.expects( 'get' )
 		.withArgs( {
@@ -125,6 +125,7 @@ QUnit.test( 'Test getAutoRevealStatus with expiry too far in the future', functi
 
 QUnit.test( 'Test getAutoRevealStatus with expiry in the future', function ( assert ) {
 	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
+	mw.config.set( 'wgCheckUserAutoRevealMaximumExpiry', 86400 );
 	const futureTimestamp = Math.round( this.mockTime / 1000 ) + 3600;
 	const apiMock = this.sandbox.mock( mw.Api.prototype );
 	apiMock.expects( 'get' )
@@ -165,6 +166,7 @@ QUnit.test( 'Test getAutoRevealStatus with API failure', function ( assert ) {
 } );
 
 QUnit.test( 'Test setAutoRevealStatus (enable)', function ( assert ) {
+	mw.config.set( 'wgCheckUserAutoRevealMaximumExpiry', 86400 );
 	const relativeExpiry = 3600;
 	const expectedExpiry = Math.round( this.mockTime / 1000 ) + relativeExpiry;
 	const apiMock = this.sandbox.mock( mw.Api.prototype );

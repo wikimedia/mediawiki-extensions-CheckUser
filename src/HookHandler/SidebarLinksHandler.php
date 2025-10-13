@@ -120,6 +120,9 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 
 		$out->addJSConfigVars( [
 			'wgCheckUserTemporaryAccountAutoRevealAllowed' => true,
+			'wgCheckUserAutoRevealMaximumExpiry' => $this->config->get(
+				'CheckUserAutoRevealMaximumExpiry'
+			),
 		] );
 
 		$linkMessageKey = $this->autoRevealLookup->isAutoRevealOn( $skin->getAuthority() ) ?
