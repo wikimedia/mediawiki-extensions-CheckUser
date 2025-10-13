@@ -97,7 +97,7 @@
 			"description": "Number of seconds for which the temporary account API response is fresh"
 		},
 		"CheckUserAutoRevealMaximumExpiry": {
-			"value": 86400,
+			"value": 7776000,
 			"description": "Maximum number of seconds for which the temporary account auto-reveal feature may be kept on"
 		},
 		"CheckUserGroupRequirements": {
