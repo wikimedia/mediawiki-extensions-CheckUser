@@ -259,7 +259,7 @@
 	"checkuser-tempaccount-specialblock-ips": "Questa è un'utenza temporanea che utilizza {{PLURAL:$1|il seguente|i seguenti}} IP: $2",
 	"checkuser-temporary-account-log-header": "Questo è un registro delle:\n# Visualizzazioni degli indirizzi IP utilizzati da un'utenza temporanea\n# Visualizzazioni delle utenze temporanee associate a un indirizzo IP o a un intervallo di indirizzi IP\n# Modifiche ai livelli di accesso degli utenti per la visualizzazione degli indirizzi IP utilizzati dalle utenze temporanee",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 il {{GENDER:$2|suo|suo|suo}} accesso a visualizzare gli indirizzi IP delle utenze temporanee",
-	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|disattivato}}",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|ha disabilitato}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|ha abilitato}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|ha visualizzato}} gli indirizzi IP di $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|ha visualizzato}} le utenze temporanee di $3",
