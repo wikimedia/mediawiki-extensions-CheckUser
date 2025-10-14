@@ -13,6 +13,7 @@ use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserGroupAssignmentService;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNamePrefixSearch;
@@ -42,6 +43,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		UserFactory $userFactory,
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
+		UserGroupAssignmentService $userGroupAssignmentService,
 		IPContributionsPagerFactory $pagerFactory,
 		CheckUserPermissionManager $checkUserPermissionManager
 	) {
@@ -55,6 +57,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 			$userFactory,
 			$userIdentityLookup,
 			$blockStore,
+			$userGroupAssignmentService,
 			'IPContributions'
 		);
 		$this->pagerFactory = $pagerFactory;

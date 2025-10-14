@@ -12,6 +12,7 @@ use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserGroupAssignmentService;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNamePrefixSearch;
@@ -51,6 +52,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserFactory $userFactory,
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
+		UserGroupAssignmentService $userGroupAssignmentService,
 		CentralIdLookup $centralIdLookup,
 		GlobalContributionsPagerFactory $pagerFactory,
 		StatsFactory $statsFactory
@@ -65,6 +67,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			$userFactory,
 			$userIdentityLookup,
 			$blockStore,
+			$userGroupAssignmentService,
 			'GlobalContributions'
 		);
 		$this->centralIdLookup = $centralIdLookup;
