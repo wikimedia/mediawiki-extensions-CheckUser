@@ -21,10 +21,13 @@
 		:messages="checkboxFieldMessages"
 	>
 		<cdx-checkbox
-			:model-value="preferenceValue"
-			@update:model-value="onPreferenceChange"
+			v-for="( checkbox ) in checkboxes"
+			:key="checkbox.name"
+			:model-value="preferenceValues[ checkbox.name ].isChecked"
+			@update:model-value="newIsChecked =>
+				onPreferencesChange( checkbox.name, newIsChecked )"
 		>
-			<span v-i18n-html="checkboxMessageKey"></span>
+			<span v-i18n-html="checkbox.checkboxMessageKey"></span>
 		</cdx-checkbox>
 	</cdx-field>
 	<cdx-field class="ext-checkuser-temp-account-onboarding-dialog-save-preference">
@@ -61,20 +64,25 @@ module.exports = exports = {
 		CdxField
 	},
 	props: {
-		/** The initial value of the preference */
-		initialValue: { type: [ String, Boolean ], required: true },
-		/** The key to store the checked status in mw.storage.session */
-		checkedStatusStorageKey: { type: String, required: true },
-		/** The name of the preference used to update the preference via the API */
-		name: { type: String, required: true },
-		/** The message key for the text for the preference checkbox */
-		checkboxMessageKey: { type: String, required: true },
 		/** The message key for the text above the preference checkbox (optional) */
 		checkboxDescriptionMessageKey: { type: String, required: false, default: '' },
 		/** The text used as the section title displayed above the preference */
 		sectionTitle: { type: String, required: true },
 		/** The message key for the text below the preference checkbox (optional) */
-		preferencePostscript: { type: String, required: false, default: '' }
+		preferencePostscript: { type: String, required: false, default: '' },
+		/**
+		 * An array of objects where each object contains all the information needed
+		 * to generate a preferences checkbox:
+		 *   - name: name of the preference to be updated
+		 *   - initialIsChecked: the initial checked state of the checkbox
+		 *   - checkboxMessageKey: the key of the message used as the checkbox label
+		 *   - checkedStatusStorageKey: the key for the value that's saved to session storage
+		 *                              after an update
+		 *   - setValue: an object determining that value to update the preference to
+		 *               depending on whether or not the checkbox is checked. It should
+		 *               be set like: { checked: 1, unchecked 0 }
+		 */
+		checkboxes: { type: Array, required: true }
 	},
 	setup( props, { expose } ) {
 		/**
@@ -128,14 +136,25 @@ module.exports = exports = {
 			success: mw.msg( 'checkuser-temporary-accounts-onboarding-dialog-preference-success' )
 		} ) );
 
-		// Keep a track of the value of the preference value on the client
+		// Keep track of the value of the preference value on the client
 		// and also separately server, along with any mismatch in these values.
-		const preferenceValue = ref( props.initialValue );
-		const serverPreferenceValue = ref( props.initialValue );
-		const preferenceCheckboxStateNotYetSaved = computed(
-			() => preferenceValue.value !== serverPreferenceValue.value
-		);
 		const preferenceUpdateInProgress = ref( false );
+		const preferenceValues = ref( {} );
+		const serverPreferenceValues = ref( {} );
+		props.checkboxes.forEach( ( checkbox ) => {
+			preferenceValues.value[ checkbox.name ] = {
+				isChecked: checkbox.initialIsChecked
+			};
+			serverPreferenceValues.value[ checkbox.name ] = {
+				isChecked: checkbox.initialIsChecked
+			};
+		} );
+		const preferenceCheckboxStatesNotYetSaved = computed(
+			() => props.checkboxes.some( ( checkbox ) => (
+				preferenceValues.value[ checkbox.name ].isChecked !==
+				serverPreferenceValues.value[ checkbox.name ].isChecked
+			) )
+		);
 
 		/**
 		 * Handles a click of the "Save preference" button.
@@ -147,16 +166,41 @@ module.exports = exports = {
 			}
 
 			preferenceUpdateInProgress.value = true;
-			const newPreferenceValue = preferenceValue.value;
+			const newPreferenceValues = {};
+			for ( const key in preferenceValues.value ) {
+				// Convert the checkbox checked status to values to save to preferences
+				if ( Object.prototype.hasOwnProperty.call( preferenceValues.value, key ) ) {
+					const checkboxValues = props.checkboxes
+						.find( ( checkbox ) => checkbox.name === key )
+						.setValue;
+					if ( !checkboxValues ) {
+						return;
+					}
+					const newValue = preferenceValues.value[ key ].isChecked ?
+						checkboxValues.checked : checkboxValues.unchecked;
+					newPreferenceValues[ key ] = newValue;
+				}
+			}
 			const api = new mw.Api();
-			api.saveOption( props.name, newPreferenceValue ? 1 : 0, { global: 'create' } ).then(
+			api.saveOptions( newPreferenceValues, { global: 'create' } ).then(
 				() => {
 					preferenceUpdateInProgress.value = false;
 					lastOptionsUpdateError.value = '';
-					serverPreferenceValue.value = newPreferenceValue;
-					mw.storage.session.set(
-						props.checkedStatusStorageKey, newPreferenceValue ? 'checked' : ''
-					);
+					serverPreferenceValues.value = preferenceValues.value;
+					for ( const key in newPreferenceValues ) {
+						if ( Object.prototype.hasOwnProperty.call( newPreferenceValues, key ) ) {
+							const storageKey = props.checkboxes
+								.find( ( checkbox ) => checkbox.name === key )
+								.checkedStatusStorageKey;
+							if ( !storageKey ) {
+								return;
+							}
+							mw.storage.session.set(
+								storageKey,
+								newPreferenceValues[ key ] ? 'checked' : ''
+							);
+						}
+					}
 				},
 				( error, result ) => {
 					preferenceUpdateInProgress.value = false;
@@ -172,13 +216,14 @@ module.exports = exports = {
 		}
 
 		/**
-		 * Handles when the IPInfo preference checkbox is checked or unchecked.
+		 * Save the state of the checkboxes on the step
 		 *
-		 * @param {boolean} newValue Whether the preference checkbox is checked
+		 * @param {string} key Key of the preference checkbox to update
+		 * @param {boolean} newIsChecked Whether the preference checkbox is checked
 		 */
-		function onPreferenceChange( newValue ) {
+		function onPreferencesChange( key, newIsChecked ) {
 			// Set the ref value to indicate the new state
-			preferenceValue.value = newValue;
+			preferenceValues.value[ key ].isChecked = newIsChecked;
 			lastOptionsUpdateError.value = false;
 			attemptedToMoveWithoutPressingSave.value = false;
 		}
@@ -192,7 +237,7 @@ module.exports = exports = {
 		 * @return {boolean}
 		 */
 		function canMoveToAnotherStep() {
-			const returnValue = !preferenceCheckboxStateNotYetSaved.value ||
+			const returnValue = !preferenceCheckboxStatesNotYetSaved.value ||
 				!!lastOptionsUpdateError.value;
 			attemptedToMoveWithoutPressingSave.value = !returnValue;
 			return returnValue;
@@ -206,7 +251,7 @@ module.exports = exports = {
 		 * @return {boolean}
 		 */
 		function shouldWarnBeforeClosingDialog() {
-			const returnValue = preferenceCheckboxStateNotYetSaved.value &&
+			const returnValue = preferenceCheckboxStatesNotYetSaved.value &&
 				!lastOptionsUpdateError.value;
 			attemptedToMoveWithoutPressingSave.value = returnValue;
 			return returnValue;
@@ -229,11 +274,11 @@ module.exports = exports = {
 		return {
 			checkboxFieldErrorState,
 			checkboxFieldMessages,
-			preferenceValue,
 			savePreferenceButtonText,
-			onPreferenceChange,
 			onSavePreferenceButtonClick,
-			parseWithParagraphBreaks
+			parseWithParagraphBreaks,
+			preferenceValues,
+			onPreferencesChange
 		};
 	}
 };

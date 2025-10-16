@@ -28,13 +28,10 @@
 			<temp-accounts-onboarding-preference
 				v-if="shouldShowIPRevealPreference"
 				ref="preferenceRef"
-				name="checkuser-temporary-account-enable"
-				:initial-value="initialIPRevealPreferenceValue"
-				checked-status-storage-key="mw-checkuser-ip-reveal-preference-checked-status"
-				:checkbox-message-key="checkboxMessageKey"
 				:checkbox-description-message-key="checkboxDescriptionMessageKey"
 				:section-title="preferenceSectionTitle"
 				:preference-postscript="preferencePostscript"
+				:checkboxes="checkboxes"
 			></temp-accounts-onboarding-preference>
 		</template>
 	</temp-accounts-onboarding-step>
@@ -94,15 +91,16 @@ module.exports = exports = {
 		// GlobalPreferences extension is installed.
 		let contentMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content';
 		let preferenceSectionTitleMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title';
-		let checkboxMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text';
+		let ipRevealCheckboxMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text';
 		let preferencePostscriptKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text';
 		let preferencePostscript = '';
 		if ( mw.config.get( 'wgCheckUserGlobalPreferencesExtensionLoaded' ) ) {
 			contentMessageKey += '-with-global-preferences';
 			preferenceSectionTitleMessageKey += '-with-global-preferences';
-			checkboxMessageKey += '-with-global-preferences';
+			ipRevealCheckboxMessageKey += '-with-global-preferences';
 			preferencePostscriptKey += '-with-global-preferences';
 		}
+
 		if ( mw.config.get( 'wgCheckUserTemporaryAccountAutoRevealPossible' ) ) {
 			// Message contains a duration and needs to be translated via Message::durationParams
 			preferencePostscript = require( './../defaultAutoRevealDuration.json' );
@@ -126,6 +124,19 @@ module.exports = exports = {
 		// * checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title
 		// * checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences
 		const preferenceSectionTitle = mw.msg( preferenceSectionTitleMessageKey );
+
+		const checkboxes = [
+			{
+				checkedStatusStorageKey: 'mw-checkuser-ip-reveal-preference-checked-status',
+				checkboxMessageKey: ipRevealCheckboxMessageKey,
+				initialIsChecked: initialIPRevealPreferenceValue,
+				name: 'checkuser-temporary-account-enable',
+				setValue: {
+					checked: 1,
+					unchecked: 0
+				}
+			}
+		];
 
 		/**
 		 * Returns whether this step will allow dialog to navigate to another step.
@@ -160,11 +171,10 @@ module.exports = exports = {
 			preferenceNotice,
 			preferenceRef,
 			preferenceSectionTitle,
-			checkboxMessageKey,
 			checkboxDescriptionMessageKey,
-			initialIPRevealPreferenceValue,
 			shouldShowIPRevealPreference,
-			preferencePostscript
+			preferencePostscript,
+			checkboxes
 		};
 	}
 };

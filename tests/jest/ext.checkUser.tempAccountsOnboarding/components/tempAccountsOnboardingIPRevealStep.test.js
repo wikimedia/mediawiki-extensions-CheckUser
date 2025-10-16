@@ -2,7 +2,7 @@
 
 const TempAccountsOnboardingIPRevealStep = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIPRevealStep.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockJSConfig, mockApiSaveOption, waitForAndExpectTextToExistInElement, mockStorageSessionGetValue, getSaveGlobalPreferenceButton } = require( '../../utils.js' );
+	{ mockJSConfig, mockApiSaveOptions, waitForAndExpectTextToExistInElement, mockStorageSessionGetValue, getSaveGlobalPreferenceButton } = require( '../../utils.js' );
 
 /**
  * Mocks mw.storage.session.get to return a specific value when asked for
@@ -291,7 +291,7 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 			wgCheckUserIPRevealPreferenceLocallyChecked: false,
 			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
-		const apiSaveOptionMock = mockApiSaveOption( true );
+		const apiSaveOptionsMock = mockApiSaveOptions( true );
 
 		const { mainBodyElement, wrapper } = commonTestRendersCorrectly();
 
@@ -305,7 +305,7 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		// and check that an API call is made to set the preference.
 		ipRevealPreferenceCheckbox.setChecked();
 		await ipRevealSavePreferenceButton.trigger( 'click' );
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'checkuser-temporary-account-enable', 1, { global: 'create' } );
+		expect( apiSaveOptionsMock ).toHaveBeenLastCalledWith( { 'checkuser-temporary-account-enable': 1 }, { global: 'create' } );
 
 		// Expect that the preference checkbox has a success message shown to indicate the
 		// preference was updated successfully.

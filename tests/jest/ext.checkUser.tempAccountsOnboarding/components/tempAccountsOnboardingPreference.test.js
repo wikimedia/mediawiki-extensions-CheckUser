@@ -2,15 +2,12 @@
 
 const TempAccountsOnboardingPreference = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingPreference.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockApiSaveOption, waitFor, waitForAndExpectTextToExistInElement, getSaveGlobalPreferenceButton, mockJSConfig } = require( '../../utils.js' );
+	{ mockApiSaveOptions, waitFor, waitForAndExpectTextToExistInElement, getSaveGlobalPreferenceButton, mockJSConfig } = require( '../../utils.js' );
 
 const renderComponent = ( props ) => {
 	const defaultProps = {
-		initialValue: false,
-		checkedStatusStorageKey: '',
-		name: '',
-		checkboxMessageKey: '',
-		sectionTitle: ''
+		sectionTitle: '',
+		checkboxes: []
 	};
 	return utils.mount( TempAccountsOnboardingPreference, {
 		props: Object.assign( {}, defaultProps, props )
@@ -57,11 +54,19 @@ describe( 'Temporary accounts preference component', () => {
 	it( 'Renders correctly when checkbox not initially checked', () => {
 		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: false } );
 		const wrapper = renderComponent( {
-			initialValue: false,
-			name: 'test-preference',
-			checkboxMessageKey: 'test-message-key',
 			sectionTitle: 'Test section title',
-			checkboxDescriptionMessageKey: 'test-description-message-key'
+			checkboxDescriptionMessageKey: 'test-description-message-key',
+			checkboxes: [
+				{
+					initialIsChecked: false,
+					checkboxMessageKey: 'test-message-key',
+					name: 'test-preference',
+					setValue: {
+						checked: 1,
+						unchecked: 0
+					}
+				}
+			]
 		} );
 
 		// Expect that the structure of the component is correct along with the text
@@ -78,29 +83,37 @@ describe( 'Temporary accounts preference component', () => {
 
 	it( 'Does nothing if preference checkbox is checked but not saved', async () => {
 		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
-		const apiSaveOptionMock = mockApiSaveOption( true );
+		const apiSaveOptionsMock = mockApiSaveOptions( true );
 		const mockStorageSessionSet = mockStorageSession();
 
-		const wrapper = renderComponent( { initialValue: false } );
+		const wrapper = renderComponent( { checkboxes: [ { initialIsChecked: false } ] } );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
 
 		// Check the preference, but check that no API call is made by doing that. The user
 		// would need to press save preference button to make the change
 		preferenceCheckbox.setChecked();
-		expect( apiSaveOptionMock ).toHaveBeenCalledTimes( 0, { global: 'create' } );
+		expect( apiSaveOptionsMock ).toHaveBeenCalledTimes( 0, { global: 'create' } );
 		expect( mockStorageSessionSet ).toHaveBeenCalledTimes( 0 );
 	} );
 
 	it( 'Updates preference value after checkbox and submit pressed', async () => {
 		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
-		const apiSaveOptionMock = mockApiSaveOption( true );
+		const apiSaveOptionsMock = mockApiSaveOptions( true );
 		const mockStorageSessionSet = mockStorageSession();
 
 		const wrapper = renderComponent( {
-			initialValue: false,
-			checkedStatusStorageKey: 'test-preference-storage-key',
-			name: 'test-preference'
+			checkboxes: [
+				{
+					initialIsChecked: false,
+					checkedStatusStorageKey: 'test-preference-storage-key',
+					name: 'test-preference',
+					setValue: {
+						checked: 1,
+						unchecked: 0
+					}
+				}
+			]
 		} );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
@@ -114,7 +127,7 @@ describe( 'Temporary accounts preference component', () => {
 		preferenceCheckbox.setChecked();
 		await savePreferenceButton.trigger( 'click' );
 		expect( mockStorageSessionSet ).toHaveBeenLastCalledWith( 'test-preference-storage-key', 'checked' );
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'test-preference', 1, { global: 'create' } );
+		expect( apiSaveOptionsMock ).toHaveBeenLastCalledWith( { 'test-preference': 1 }, { global: 'create' } );
 
 		// Expect that the preference checkbox has a success message shown to indicate the
 		// preference was updated successfully.
@@ -146,12 +159,12 @@ describe( 'Temporary accounts preference component', () => {
 			preferenceFieldset, '(checkuser-temporary-accounts-onboarding-dialog-preference-success)'
 		);
 		expect( mockStorageSessionSet ).toHaveBeenLastCalledWith( 'test-preference-storage-key', '' );
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'test-preference', 0, { global: 'create' } );
+		expect( apiSaveOptionsMock ).toHaveBeenLastCalledWith( { 'test-preference': 0 }, { global: 'create' } );
 	} );
 
 	it( 'Prevents step move if preference checked but not saved', async () => {
 		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
-		const wrapper = renderComponent( { initialValue: false } );
+		const wrapper = renderComponent( { checkboxes: [ { initialIsChecked: false } ] } );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
 		const preferenceFieldset = wrapper.find(
@@ -175,7 +188,7 @@ describe( 'Temporary accounts preference component', () => {
 
 	it( 'Prevents dialog close if preference checked but not saved', async () => {
 		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
-		const wrapper = renderComponent( { initialValue: false } );
+		const wrapper = renderComponent( { checkboxes: [ { initialIsChecked: false } ] } );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
 		const preferenceFieldset = wrapper.find(
@@ -198,14 +211,22 @@ describe( 'Temporary accounts preference component', () => {
 
 	it( 'Displays error message if preference check failed', async () => {
 		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
-		const apiSaveOptionMock = mockApiSaveOption(
+		const apiSaveOptionsMock = mockApiSaveOptions(
 			false, { error: { info: 'Wiki is in read only mode' } }
 		);
 
 		const wrapper = renderComponent( {
-			initialValue: false,
-			checkedStatusStorageKey: 'test-preference-storage-key',
-			name: 'test-preference'
+			checkboxes: [
+				{
+					initialIsChecked: false,
+					checkedStatusStorageKey: 'test-preference-storage-key',
+					name: 'test-preference',
+					setValue: {
+						checked: 1,
+						unchecked: 0
+					}
+				}
+			]
 		} );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
@@ -224,7 +245,7 @@ describe( 'Temporary accounts preference component', () => {
 			'(checkuser-temporary-accounts-onboarding-dialog-preference-error' +
 			', Wiki is in read only mode)'
 		);
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'test-preference', 1, { global: 'create' } );
+		expect( apiSaveOptionsMock ).toHaveBeenLastCalledWith( { 'test-preference': 1 }, { global: 'create' } );
 
 		// Check that if the preference failed to save, the user can still move
 		// forward to another step and/or close the dialog.
@@ -234,12 +255,20 @@ describe( 'Temporary accounts preference component', () => {
 
 	it( 'Displays error code if preference check failed and no message returned', async () => {
 		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
-		const apiSaveOptionMock = mockApiSaveOption( false, {}, 'error-code' );
+		const apiSaveOptionsMock = mockApiSaveOptions( false, {}, 'error-code' );
 
 		const wrapper = renderComponent( {
-			initialValue: false,
-			checkedStatusStorageKey: 'test-preference-storage-key',
-			name: 'test-preference'
+			checkboxes: [
+				{
+					initialIsChecked: false,
+					checkedStatusStorageKey: 'test-preference-storage-key',
+					name: 'test-preference',
+					setValue: {
+						checked: 1,
+						unchecked: 0
+					}
+				}
+			]
 		} );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
@@ -254,26 +283,34 @@ describe( 'Temporary accounts preference component', () => {
 
 		// Expect that an error appears indicating the preference update failed.
 		await waitForAndExpectTextToExistInElement( preferenceFieldset, 'error-code' );
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'test-preference', 1, { global: 'create' } );
+		expect( apiSaveOptionsMock ).toHaveBeenLastCalledWith( { 'test-preference': 1 }, { global: 'create' } );
 	} );
 
 	it( 'Only submits one preference change on race condition', async () => {
 		mockJSConfig( { wgCheckUserGlobalPreferencesExtensionLoaded: true } );
-		// Mock the api.saveOption() method to only resolve when we want it to
+		// Mock the api.saveOptions() method to only resolve when we want it to
 		// so that we can test race-condition handling.
-		const apiSaveOptionMock = jest.fn();
+		const apiSaveOptionsMock = jest.fn();
 		const promisesToResolve = [];
-		apiSaveOptionMock.mockReturnValue( new Promise( ( resolve ) => {
+		apiSaveOptionsMock.mockReturnValue( new Promise( ( resolve ) => {
 			promisesToResolve.push( resolve );
 		} ) );
 		jest.spyOn( mw, 'Api' ).mockImplementation( () => ( {
-			saveOption: apiSaveOptionMock
+			saveOptions: apiSaveOptionsMock
 		} ) );
 
 		const wrapper = renderComponent( {
-			initialValue: false,
-			checkedStatusStorageKey: 'test-preference-storage-key',
-			name: 'test-preference'
+			checkboxes: [
+				{
+					initialIsChecked: false,
+					checkedStatusStorageKey: 'test-preference-storage-key',
+					name: 'test-preference',
+					setValue: {
+						checked: 1,
+						unchecked: 0
+					}
+				}
+			]
 		} );
 
 		const preferenceCheckbox = getPreferenceCheckbox( wrapper );
@@ -289,9 +326,9 @@ describe( 'Temporary accounts preference component', () => {
 		savePreferenceButton.trigger( 'click' );
 		savePreferenceButton.trigger( 'click' );
 
-		// Expect that api.saveOption has only been called once, as the first call is still
+		// Expect that api.saveOptions has only been called once, as the first call is still
 		// not been resolved.
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'test-preference', 1, { global: 'create' } );
+		expect( apiSaveOptionsMock ).toHaveBeenLastCalledWith( { 'test-preference': 1 }, { global: 'create' } );
 		expect( promisesToResolve ).toHaveLength( 1 );
 
 		promisesToResolve.forEach( ( promiseResolver ) => {

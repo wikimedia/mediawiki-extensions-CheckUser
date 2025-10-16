@@ -21,13 +21,10 @@
 			<temp-accounts-onboarding-preference
 				v-if="shouldShowIPInfoPreference"
 				ref="preferenceRef"
-				name="ipinfo-use-agreement"
-				:initial-value="initialIPInfoPreferenceValue"
-				checked-status-storage-key="mw-checkuser-ipinfo-preference-checked-status"
-				checkbox-message-key="ipinfo-preference-use-agreement"
 				:section-title="$i18n(
 					'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title'
 				).text()"
+				:checkboxes="checkboxes"
 			></temp-accounts-onboarding-preference>
 		</template>
 	</temp-accounts-onboarding-step>
@@ -68,6 +65,19 @@ module.exports = exports = {
 			'checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content'
 		).parse().split( '\n\n' );
 
+		const checkboxes = [
+			{
+				checkedStatusStorageKey: 'mw-checkuser-ipinfo-preference-checked-status',
+				checkboxMessageKey: 'ipinfo-preference-use-agreement',
+				initialValue: initialIPInfoPreferenceValue,
+				name: 'ipinfo-use-agreement',
+				setValue: {
+					checked: 1,
+					unchecked: 0
+				}
+			}
+		];
+
 		/**
 		 * Returns whether this step will allow dialog to navigate to another step.
 		 *
@@ -98,9 +108,9 @@ module.exports = exports = {
 		expose( { canMoveToAnotherStep, shouldWarnBeforeClosingDialog } );
 		return {
 			shouldShowIPInfoPreference,
-			initialIPInfoPreferenceValue,
 			paragraphs,
-			preferenceRef
+			preferenceRef,
+			checkboxes
 		};
 	}
 };

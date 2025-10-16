@@ -32,6 +32,37 @@ function mockApiSaveOption( shouldBeSuccessful, mockResponse, mockErrorCode ) {
 }
 
 /**
+ * Mocks mw.Api().saveOptions() and returns a jest.fn()
+ * that is used as the saveOptions() method. This can
+ * be used to expect that the saveOptions() method is
+ * called with the correct arguments.
+ *
+ * @param {boolean} shouldBeSuccessful If the call to mw.Api().saveOptions() should be a success
+ * @param {Object} [mockResponse] Optional. The response from the API.
+ * @param {string} [mockErrorCode] Optional. If the request is mocked to fail, this defines
+ *   the error code returned to the reject handler.
+ * @return {jest.fn}
+ */
+function mockApiSaveOptions( shouldBeSuccessful, mockResponse, mockErrorCode ) {
+	const apiSaveOptions = jest.fn();
+	if ( shouldBeSuccessful ) {
+		apiSaveOptions.mockResolvedValue( mockResponse || { options: 'success' } );
+	} else {
+		// Create a mock that acts like $.Deferred(), which means that the reject
+		// handler can be passed two arguments.
+		apiSaveOptions.mockReturnValue( {
+			then: ( _, rejectHandler ) => rejectHandler(
+				mockErrorCode || 'errorcode', mockResponse || { error: { info: 'Error' } }
+			)
+		} );
+	}
+	jest.spyOn( mw, 'Api' ).mockImplementation( () => ( {
+		saveOptions: apiSaveOptions
+	} ) );
+	return apiSaveOptions;
+}
+
+/**
  * Waits for the return value of a given function to be true.
  * Will wait for a maximum of 1 second for the condition to be true.
  *
@@ -143,6 +174,7 @@ function mockByteLength() {
 
 module.exports = {
 	mockApiSaveOption,
+	mockApiSaveOptions,
 	mockByteLength,
 	waitFor,
 	mockJSConfig,

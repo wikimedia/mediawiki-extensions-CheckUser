@@ -2,7 +2,7 @@
 
 const TempAccountsOnboardingIPInfoStep = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIPInfoStep.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockApiSaveOption, waitForAndExpectTextToExistInElement, mockJSConfig, mockStorageSessionGetValue, getSaveGlobalPreferenceButton } = require( '../../utils.js' );
+	{ mockApiSaveOptions, waitForAndExpectTextToExistInElement, mockJSConfig, mockStorageSessionGetValue, getSaveGlobalPreferenceButton } = require( '../../utils.js' );
 
 const renderComponent = () => utils.mount( TempAccountsOnboardingIPInfoStep );
 
@@ -187,7 +187,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 			wgCheckUserIPInfoPreferenceChecked: false,
 			wgCheckUserGlobalPreferencesExtensionLoaded: false
 		} );
-		const apiSaveOptionMock = mockApiSaveOption( true );
+		const apiSaveOptionsMock = mockApiSaveOptions( true );
 
 		const { rootElement, wrapper } = commonTestRendersCorrectly();
 
@@ -201,7 +201,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// and check that an API call is made to set the preference.
 		ipInfoPreferenceCheckbox.setChecked();
 		await ipInfoSavePreferenceButton.trigger( 'click' );
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1, { global: 'create' } );
+		expect( apiSaveOptionsMock ).toHaveBeenLastCalledWith( { 'ipinfo-use-agreement': 1 }, { global: 'create' } );
 
 		// Expect that the preference checkbox has a success message shown to indicate the
 		// preference was updated successfully.
