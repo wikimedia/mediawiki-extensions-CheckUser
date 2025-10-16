@@ -315,6 +315,7 @@
 	"checkuser-userinfocard-past-blocks": "Претходне блокаде: $1",
 	"checkuser-userinfocard-global-edits": "Глобалних измена: $1",
 	"checkuser-userinfocard-local-edits": "Локалних измена: $1 (враћено: $2)",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Локалних измена: $1",
 	"checkuser-userinfocard-new-articles": "Нови чланци: $1",
 	"checkuser-userinfocard-thanks": "Захваљено: $1 (захвалио/ла се: $2)",
 	"checkuser-userinfocard-checks": "Провера: $1 (задња провера: $2)",
