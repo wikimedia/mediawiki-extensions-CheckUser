@@ -6,15 +6,13 @@ use MediaWiki\Config\Config;
 use MediaWiki\ResourceLoader\Context;
 
 /**
- * Used by ResourceLoader to generate a virtual file containing translated durations for
- * the IP auto-reveal feature.
+ * Used by ResourceLoader to generate virtual files containing translated durations for the
+ * IP auto-reveal feature. This allows translations that must be done using PHP to be accessed
+ * by client-side modules.
  */
 class DurationMessages {
 	/**
-	 * Generate duration objects containing core translations of durations, used as the contents of
-	 * a virtual ResourceLoader package file. This allows translations that must be done using PHP
-	 * to be accessed by client-side modules. These objects are used for building a select in
-	 * IPAutoRevealOnDialog.vue.
+	 * Get translations of options for the select in IPAutoRevealOnDialog.vue.
 	 *
 	 * @param Context $context
 	 * @param Config $config
@@ -29,7 +27,7 @@ class DurationMessages {
 		Context $context,
 		Config $config,
 		array $durations
-	) {
+	): array {
 		$translations = [];
 		foreach ( $durations as $duration ) {
 			$translations[] = [
