@@ -782,6 +782,10 @@
 					]
 				},
 				{
+					"name": "maxDurationError.json",
+					"callback": "MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getTranslatedMaxDuration"
+				},
+				{
 					"name": "icons.json",
 					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
 					"callbackParam": [

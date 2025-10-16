@@ -16,6 +16,10 @@ jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => (
 	disableAutoReveal: mockDisableAutoReveal
 } ) );
 
+jest.mock( '../../../../modules/ext.checkUser.tempAccounts/maxDurationError.json', () => ( {
+	translation: 'Duration error message'
+} ), { virtual: true } );
+
 const IPAutoRevealOffDialog = require( '../../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOffDialog.vue' );
 const useInstrument = require( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 const { nextTick } = require( 'vue' );

@@ -39,4 +39,23 @@ class DurationMessages {
 		}
 		return $translations;
 	}
+
+	/**
+	 * Get a translation of the maximum duration for IP auto-reveal.
+	 *
+	 * @param Context $context
+	 * @param Config $config
+	 *
+	 * @return string[]
+	 */
+	public static function getTranslatedMaxDuration(
+		Context $context,
+		Config $config
+	): array {
+		return [
+			'translation' => $context->msg( 'checkuser-ip-auto-reveal-off-dialog-error-extend-limit' )
+				->durationParams( $config->get( 'CheckUserAutoRevealMaximumExpiry' ) )
+				->text(),
+		];
+	}
 }

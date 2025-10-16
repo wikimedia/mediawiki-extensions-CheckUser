@@ -12,11 +12,11 @@
 		<!-- eslint-disable vue/no-v-html -->
 		<p v-html="expiry"></p>
 		<cdx-message
-			v-if="showExtendError"
+			v-if="extendError !== ''"
 			type="error"
 			:inline="true"
 		>
-			<p>{{ $i18n( 'checkuser-ip-auto-reveal-off-dialog-error-extend-limit' ).text() }}</p>
+			<p>{{ extendError }}</p>
 		</cdx-message>
 		<template #footer-text>
 			<p v-i18n-html:checkuser-ip-auto-reveal-off-dialog-text-info></p>
@@ -30,6 +30,9 @@ const { CdxDialog, CdxMessage } = require( '@wikimedia/codex' );
 const { setAutoRevealStatus } = require( './../ipRevealUtils.js' );
 const { disableAutoReveal } = require( './../ipReveal.js' );
 const useInstrument = require( '../useInstrument.js' );
+
+// The duration message for the error was translated using PHP's Message::durationParams.
+const maxDurationError = require( './../maxDurationError.json' );
 
 // @vue/component
 module.exports = exports = {
@@ -52,7 +55,7 @@ module.exports = exports = {
 		const logEvent = useInstrument();
 
 		const open = ref( true );
-		const showExtendError = ref( false );
+		const extendError = ref( '' );
 
 		const defaultAction = {
 			label: mw.msg( 'checkuser-ip-auto-reveal-off-dialog-extend-action' )
@@ -80,7 +83,7 @@ module.exports = exports = {
 					logEvent( 'session_extend' );
 				},
 				() => {
-					showExtendError.value = true;
+					extendError.value = maxDurationError.translation;
 				}
 			);
 		}
@@ -103,7 +106,7 @@ module.exports = exports = {
 
 		return {
 			open,
-			showExtendError,
+			extendError,
 			defaultAction,
 			primaryAction,
 			onExtend,
