@@ -391,6 +391,7 @@
 	"checkuser-userinfocard-menu-block-user": "Block {{GENDER:$1|user}}",
 	"checkuser-userinfocard-menu-provide-feedback": "Give feedback about this feature",
 	"checkuser-userinfocard-menu-turn-off": "Turn off this feature",
+	"checkuser-userinfocard-menu-view-xtools": "View XTools",
 	"checkuser-userinfocard-loading-label": "Loading user info",
 	"checkuser-userinfocard-error-title": "An error has occurred",
 	"checkuser-userinfocard-error-no-data": "Unable to retrieve information for this user. Please try again later.",

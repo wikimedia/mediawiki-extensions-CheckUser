@@ -224,6 +224,30 @@ QUnit.test( 'watchlist label changes based on initial state', ( assert ) => {
 	);
 } );
 
+QUnit.test( 'shows XTools link when configured', ( assert ) => {
+	mw.config.set( 'wgCheckUserUserInfoCardShowXToolsLink', true );
+	mw.config.set( 'wgDBname', 'enwiki' );
+	const wrapper = mountComponent( { username: 'TestUser' } );
+	const menuItems = wrapper.vm.menuItems;
+
+	const xToolsItem = menuItems.find( ( item ) => item.value === 'view-xtools' );
+	assert.notStrictEqual( xToolsItem, undefined, 'view-xtools item is present' );
+	assert.strictEqual(
+		xToolsItem.url,
+		'https://xtools.wmcloud.org/ec/enwiki/TestUser',
+		'XTools link is correct'
+	);
+} );
+
+QUnit.test( 'hides XTools link when not configured', ( assert ) => {
+	mw.config.set( 'wgCheckUserUserInfoCardShowXToolsLink', false );
+	const wrapper = mountComponent();
+	const menuItems = wrapper.vm.menuItems;
+
+	const xToolsItem = menuItems.find( ( item ) => item.value === 'view-xtools' );
+	assert.strictEqual( xToolsItem, undefined, 'view-xtools item is not present' );
+} );
+
 // TODO: T386440 - Fix the test and remove the skip
 // This test fails when running in conjunction with the other test components in this folder.
 // When running this test file alone, this test is passing.

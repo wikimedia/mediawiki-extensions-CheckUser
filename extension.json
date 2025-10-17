@@ -60,6 +60,10 @@
 			"value": false,
 			"description": "The wiki ID of the central wiki used by UserInfoCard to create links for special pages that should be on a central wiki (such as Special:CentralAuth). If false, then the local wiki is used as the target of the link."
 		},
+		"CheckUserUserInfoCardShowXToolsLink": {
+			"value": false,
+			"description": "Whether to show 'View XTools' link in the user info card menu."
+		},
 		"CheckUserCAMultiLock": {
 			"value": false,
 			"description": "Whether to add a link to Special:MultiLock by CentralAuth to the Special:CheckUser's mass block form. This requires CentralAuth extension to be installed on the wiki. To enable this, set this to an array with a central wiki's database name and an array with the name(s) of the global group(s) to add the link for. Example: [ 'centralDB' => 'metawiki', 'groups' => [ 'steward' ] ]"
@@ -703,6 +707,7 @@
 				"checkuser-userinfocard-menu-block-user",
 				"checkuser-userinfocard-menu-provide-feedback",
 				"checkuser-userinfocard-menu-turn-off",
+				"checkuser-userinfocard-menu-view-xtools",
 				"checkuser-userinfocard-loading-label",
 				"checkuser-userinfocard-error-title",
 				"checkuser-userinfocard-error-no-data",

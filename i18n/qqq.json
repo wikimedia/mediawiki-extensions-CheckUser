@@ -425,6 +425,7 @@
 	"checkuser-userinfocard-menu-block-user": "Menu item: Block user\n\nParameters:\n* $1 - The gender of the user who is shown in the UserInfoCard",
 	"checkuser-userinfocard-menu-provide-feedback": "Menu item: Provide feedback about the CheckUser extension",
 	"checkuser-userinfocard-menu-turn-off": "Menu item: Turn off this feature",
+	"checkuser-userinfocard-menu-view-xtools": "The label for the menu item that links to the user's XTools page.",
 	"checkuser-userinfocard-loading-label": "Aria label for the loading indicator. Due to technical limitations, GENDER cannot be used in this message.",
 	"checkuser-userinfocard-error-title": "Error title for the error message",
 	"checkuser-userinfocard-error-no-data": "Error message when the user info API returns no data for a user. Due to technical limitations, GENDER cannot be used in this message.",

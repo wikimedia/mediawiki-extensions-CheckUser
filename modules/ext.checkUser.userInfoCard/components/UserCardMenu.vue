@@ -91,6 +91,16 @@ module.exports = exports = {
 				value: 'toggle-watchlist'
 			} );
 
+			const showXToolsLink = mw.config.get( 'wgCheckUserUserInfoCardShowXToolsLink' );
+			if ( showXToolsLink ) {
+				const xToolsUrl = `https://xtools.wmcloud.org/ec/${ mw.config.get( 'wgDBname' ) }/${ encodeURIComponent( props.username ) }`;
+				items.push( {
+					label: mw.msg( 'checkuser-userinfocard-menu-view-xtools' ),
+					value: 'view-xtools',
+					url: xToolsUrl
+				} );
+			}
+
 			if ( canViewIPAddresses ) {
 				items.push( {
 					label: mw.msg( 'checkuser-userinfocard-menu-check-ip', props.gender ),
