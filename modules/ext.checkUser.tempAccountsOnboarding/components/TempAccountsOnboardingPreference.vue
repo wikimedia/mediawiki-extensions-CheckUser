@@ -176,8 +176,14 @@ module.exports = exports = {
 					if ( !checkboxValues ) {
 						return;
 					}
-					const newValue = preferenceValues.value[ key ].isChecked ?
+					let newValue = preferenceValues.value[ key ].isChecked ?
 						checkboxValues.checked : checkboxValues.unchecked;
+
+					// Dynamically calculated values are supported
+					if ( typeof newValue === 'function' ) {
+						newValue = newValue();
+					}
+
 					newPreferenceValues[ key ] = newValue;
 				}
 			}

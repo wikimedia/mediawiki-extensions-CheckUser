@@ -78,6 +78,7 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text',
+				'checkuser-temporary-accounts-onboarding-dialog-ip-autoreveal-preference-checkbox-text',
 				// phpcs:ignore Generic.Files.LineLength.TooLong
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text-with-global-preferences',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled',

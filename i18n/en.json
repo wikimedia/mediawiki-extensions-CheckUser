@@ -183,6 +183,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title": "Turn on IP Reveal",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text-with-global-preferences": "Turn on the \"{{int:checkuser-tempaccount-reveal-ip-button-label}}\" button, which will reveal IP addresses of temporary accounts on all wikis where you meet the access requirements.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text": "{{int:checkuser-tempaccount-enable-preference}}",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-autoreveal-preference-checkbox-text": "Turn on \"{{int:checkuser-ip-auto-reveal-link-sidebar}}\" mode, which will automatically reveal the IP addresses of temporary accounts. Users should take care not to inadvertently disclose IP addresses to others.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled": "IP Reveal has been enabled on the current wiki.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-globally-enabled": "IP Reveal has been enabled globally on all wikis where you meet the access requirements.",
 	"checkuser-rest-access-denied": "You do not have permission to perform the action",

@@ -138,6 +138,21 @@ module.exports = exports = {
 			}
 		];
 
+		if ( mw.config.get( 'wgCheckUserTemporaryAccountAutoRevealPossible' ) ) {
+			checkboxes.push(
+				{
+					checkedStatusStorageKey: 'mw-checkuser-ip-autoreveal-preference-checked-status',
+					checkboxMessageKey: 'checkuser-temporary-accounts-onboarding-dialog-ip-autoreveal-preference-checkbox-text',
+					initialIsChecked: false,
+					name: 'checkuser-temporary-account-enable-auto-reveal',
+					setValue: {
+						checked: () => Math.round( Date.now() / 1000 ) + mw.config.get( 'wgCheckUserAutoRevealMaximumExpiry' ),
+						unchecked: 0
+					}
+				}
+			);
+		}
+
 		/**
 		 * Returns whether this step will allow dialog to navigate to another step.
 		 *

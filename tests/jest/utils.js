@@ -128,6 +128,25 @@ function mockStorageSessionGetValue( key, value ) {
 }
 
 /**
+ * Mocks mw.storage.session.get to return a specific value when asked for a given key
+ * and supports multiple key:value pairs.
+ *
+ * @param {Object} values An object of storage key:storage value pairs. Values should
+ *                        only be false|null|'checked'|''
+ */
+function mockStorageSessionGetValues( values ) {
+	jest.spyOn( mw.storage.session, 'get' ).mockImplementation( ( actualKey ) => {
+		if ( values[ actualKey ] !== undefined ) {
+			return values[ actualKey ];
+		}
+		throw new Error(
+			'mockStorageSessionGetValues: Did not expect a call to get the value of ' + actualKey +
+			' for mw.storage.session.get'
+		);
+	} );
+}
+
+/**
  * Returns the button element which is wrapped in an element that
  * has the class 'ext-checkuser-temp-account-onboarding-dialog-save-preference'.
  *
@@ -180,5 +199,6 @@ module.exports = {
 	mockJSConfig,
 	waitForAndExpectTextToExistInElement,
 	mockStorageSessionGetValue,
+	mockStorageSessionGetValues,
 	getSaveGlobalPreferenceButton
 };

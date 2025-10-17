@@ -2,7 +2,10 @@
 
 const TempAccountsOnboardingIPRevealStep = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIPRevealStep.vue' ),
 	utils = require( '@vue/test-utils' ),
-	{ mockJSConfig, mockApiSaveOptions, waitForAndExpectTextToExistInElement, mockStorageSessionGetValue, getSaveGlobalPreferenceButton } = require( '../../utils.js' );
+	{ mockJSConfig, mockApiSaveOptions, waitForAndExpectTextToExistInElement, mockStorageSessionGetValue, mockStorageSessionGetValues, getSaveGlobalPreferenceButton } = require( '../../utils.js' );
+
+// Mock dynamic package file
+jest.mock( '../../../../modules/ext.checkUser.tempAccountsOnboarding/defaultAutoRevealDuration.json', () => 'foo', { virtual: true } );
 
 /**
  * Mocks mw.storage.session.get to return a specific value when asked for
@@ -74,6 +77,24 @@ function getIPRevealPreferenceCheckbox( mainBodyElement, globalPreferencesInstal
 	if ( globalPreferencesInstalled ) {
 		expectedCheckboxMessageKey += '-with-global-preferences';
 	}
+	expect( ipInfoPreference.text() ).toContain( expectedCheckboxMessageKey );
+	const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
+	expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
+	return ipInfoPreferenceCheckbox;
+}
+
+/**
+ * Gets the IP auto-reveal preference checkbox element after checking that it exists.
+ *
+ * @param {*} mainBodyElement The root element for the IP reveal step
+ * @return {*} The IP reveal checkbox element
+ */
+function getIPAutoRevealPreferenceCheckbox( mainBodyElement ) {
+	const ipInfoPreference = mainBodyElement.find(
+		'.ext-checkuser-temp-account-onboarding-dialog-preference'
+	);
+	expect( ipInfoPreference.exists() ).toEqual( true );
+	const expectedCheckboxMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-autoreveal-preference-checkbox-text';
 	expect( ipInfoPreference.text() ).toContain( expectedCheckboxMessageKey );
 	const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
 	expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
@@ -281,6 +302,29 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		expect( preferenceNotice.text() ).toEqual(
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled)'
 		);
+	} );
+
+	it( 'Renders correctly when the IP auto-reveal preference is available', () => {
+		mockStorageSessionGetValues( {
+			'mw-checkuser-ip-reveal-preference-checked-status': false,
+			'mw-checkuser-ip-autoreveal-preference-checked-status': false
+		} );
+		mockJSConfig( {
+			wgCheckUserGlobalPreferencesExtensionLoaded: true,
+			wgCheckUserIPRevealPreferenceGloballyChecked: false,
+			wgCheckUserIPRevealPreferenceLocallyChecked: false,
+			wgCheckUserTemporaryAccountAutoRevealPossible: true
+		} );
+
+		const { mainBodyElement } = commonTestRendersCorrectly();
+
+		// Both the IP Reveal and the IP Auto-reveal checkboxes should be present
+		const ipRevealPreferenceCheckbox = getIPRevealPreferenceCheckbox( mainBodyElement, false );
+		expect( ipRevealPreferenceCheckbox.element.checked ).toEqual( false );
+		const ipAutoRevealPreferenceCheckbox = getIPAutoRevealPreferenceCheckbox( mainBodyElement );
+		expect( ipAutoRevealPreferenceCheckbox.element.checked ).toEqual( false );
+
+		getSaveGlobalPreferenceButton( mainBodyElement, true );
 	} );
 
 	it( 'Updates IP reveal preference value after checkbox and submit pressed', async () => {
