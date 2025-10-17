@@ -2,13 +2,12 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
-use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Maintenance\Maintenance;
 use MediaWiki\Permissions\UltimateAuthority;
-use MediaWiki\Specials\SpecialUserRights;
 use MediaWiki\User\User;
+use MediaWiki\User\UserGroupAssignmentService;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
@@ -37,6 +36,7 @@ class RevokeTemporaryAccountViewerGroup extends Maintenance {
 	protected LoggerInterface $logger;
 	protected UserGroupManager $userGroupManager;
 	protected UserIdentityLookup $userIdentityLookup;
+	protected UserGroupAssignmentService $userGroupAssignmentService;
 
 	protected UltimateAuthority $maintenanceScriptAuthority;
 
@@ -67,6 +67,7 @@ class RevokeTemporaryAccountViewerGroup extends Maintenance {
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->userGroupManager = $services->getUserGroupManager();
 		$this->userIdentityLookup = $services->getUserIdentityLookup();
+		$this->userGroupAssignmentService = $services->getUserGroupAssignmentService();
 	}
 
 	/**
@@ -85,22 +86,18 @@ class RevokeTemporaryAccountViewerGroup extends Maintenance {
 	 * @return int|bool true if success, user id to be marked if failure
 	 */
 	private function revokeTempAccountViewerGroupMembership( UserIdentity $userIdentity ) {
-		// Instantiate Special:UserRights which is the access point to logged user group management
-		$specialUserRights = new SpecialUserRights();
-
 		// Remove user from group
-		$authority = $this->maintenanceScriptAuthority;
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setAuthority( $authority );
-		$specialUserRights->setContext( $context );
-		$revokedMembership = $specialUserRights->doSaveUserGroups(
+		$context = RequestContext::getMain();
+		$revokedMembership = $this->userGroupAssignmentService->saveChangesToUserGroups(
+			$this->maintenanceScriptAuthority,
 			$userIdentity,
 			[],
 			[ 'temporary-account-viewer' ],
+			[],
 			$context->msg( 'checkuser-temporary-account-autorevoke-userright-reason' )->text()
 		);
 
-		// doSaveUserGroups() will return the removed groups in the second array. If it's empty, there was a problem.
+		// saveChangesToUserGroups() returns the removed groups in the second array. If it's empty, there was a problem.
 		if (
 			!count( $revokedMembership[1] ) ||
 			!in_array( 'temporary-account-viewer', $revokedMembership[1] )
