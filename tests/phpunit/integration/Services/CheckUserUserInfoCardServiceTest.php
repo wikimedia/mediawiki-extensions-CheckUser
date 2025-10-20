@@ -49,6 +49,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		// The CheckUserGlobalContributionsLookup used in CheckuserUserInfoCardService requires CentralAuth
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+
 		$this->enableAutoCreateTempUser( [
 			[ 'genPattern' => '~check-user-test-$1' ],
 		] );
