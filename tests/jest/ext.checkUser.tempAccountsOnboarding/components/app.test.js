@@ -22,7 +22,8 @@ describe( 'Main app component', () => {
 			wgCheckUserIPInfoExtensionLoaded: false,
 			wgCheckUserGlobalPreferencesExtensionLoaded: false,
 			wgCheckUserIPRevealPreferenceGloballyChecked: false,
-			wgCheckUserIPRevealPreferenceLocallyChecked: false
+			wgCheckUserIPRevealPreferenceLocallyChecked: false,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const wrapper = renderComponent();
@@ -73,7 +74,8 @@ describe( 'Main app component', () => {
 			wgCheckUserUserHasIPInfoRight: true,
 			wgCheckUserGlobalPreferencesExtensionLoaded: false,
 			wgCheckUserIPRevealPreferenceGloballyChecked: true,
-			wgCheckUserIPRevealPreferenceLocallyChecked: true
+			wgCheckUserIPRevealPreferenceLocallyChecked: true,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const wrapper = renderComponent();

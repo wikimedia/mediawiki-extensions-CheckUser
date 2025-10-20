@@ -86,7 +86,8 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		mockJSConfig( {
 			wgCheckUserGlobalPreferencesExtensionLoaded: false,
 			wgCheckUserIPRevealPreferenceGloballyChecked: true,
-			wgCheckUserIPRevealPreferenceLocallyChecked: true
+			wgCheckUserIPRevealPreferenceLocallyChecked: true,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const { mainBodyElement } = commonTestRendersCorrectly();
@@ -118,7 +119,8 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		mockJSConfig( {
 			wgCheckUserGlobalPreferencesExtensionLoaded: true,
 			wgCheckUserIPRevealPreferenceGloballyChecked: true,
-			wgCheckUserIPRevealPreferenceLocallyChecked: true
+			wgCheckUserIPRevealPreferenceLocallyChecked: true,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const { mainBodyElement } = commonTestRendersCorrectly();
@@ -153,7 +155,8 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		mockJSConfig( {
 			wgCheckUserGlobalPreferencesExtensionLoaded: true,
 			wgCheckUserIPRevealPreferenceGloballyChecked: false,
-			wgCheckUserIPRevealPreferenceLocallyChecked: false
+			wgCheckUserIPRevealPreferenceLocallyChecked: false,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const { mainBodyElement } = commonTestRendersCorrectly();
@@ -178,7 +181,8 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		mockJSConfig( {
 			wgCheckUserGlobalPreferencesExtensionLoaded: true,
 			wgCheckUserIPRevealPreferenceGloballyChecked: false,
-			wgCheckUserIPRevealPreferenceLocallyChecked: false
+			wgCheckUserIPRevealPreferenceLocallyChecked: false,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const { mainBodyElement } = commonTestRendersCorrectly();
@@ -217,7 +221,8 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		mockJSConfig( {
 			wgCheckUserGlobalPreferencesExtensionLoaded: false,
 			wgCheckUserIPRevealPreferenceGloballyChecked: false,
-			wgCheckUserIPRevealPreferenceLocallyChecked: false
+			wgCheckUserIPRevealPreferenceLocallyChecked: false,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const { mainBodyElement } = commonTestRendersCorrectly();
@@ -247,7 +252,8 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		mockJSConfig( {
 			wgCheckUserGlobalPreferencesExtensionLoaded: true,
 			wgCheckUserIPRevealPreferenceGloballyChecked: false,
-			wgCheckUserIPRevealPreferenceLocallyChecked: true
+			wgCheckUserIPRevealPreferenceLocallyChecked: true,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const { mainBodyElement } = commonTestRendersCorrectly();
@@ -282,7 +288,8 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		mockJSConfig( {
 			wgCheckUserGlobalPreferencesExtensionLoaded: true,
 			wgCheckUserIPRevealPreferenceGloballyChecked: false,
-			wgCheckUserIPRevealPreferenceLocallyChecked: false
+			wgCheckUserIPRevealPreferenceLocallyChecked: false,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 		const apiSaveOptionMock = mockApiSaveOption( true );
 
@@ -317,7 +324,8 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		mockJSConfig( {
 			wgCheckUserGlobalPreferencesExtensionLoaded: false,
 			wgCheckUserIPRevealPreferenceGloballyChecked: false,
-			wgCheckUserIPRevealPreferenceLocallyChecked: false
+			wgCheckUserIPRevealPreferenceLocallyChecked: false,
+			wgCheckUserTemporaryAccountAutoRevealPossible: false
 		} );
 
 		const { mainBodyElement, wrapper } = commonTestRendersCorrectly();

@@ -211,6 +211,11 @@ class PageDisplay implements BeforePageDisplayHook {
 					$this->userOptionsLookup->getBoolOption( $out->getUser(), Preferences::ENABLE_IP_REVEAL ),
 				'wgCheckUserGlobalPreferencesExtensionLoaded' =>
 					$this->extensionRegistry->isLoaded( 'GlobalPreferences' ),
+				'wgCheckUserTemporaryAccountAutoRevealPossible' =>
+					// A more permissive check than CheckUserPermissionManager::canAutoRevealIPAddresses
+					// because user won't have necessarily enabled IP reveal for temporary accounts which is
+					// a prereq for auto-reveal
+					$out->getAuthority()->isAllowed( 'checkuser-temporary-account-auto-reveal' ),
 			] );
 		}
 	}

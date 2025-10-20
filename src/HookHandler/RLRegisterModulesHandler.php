@@ -45,6 +45,10 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 						'cdxIconPrevious',
 					],
 				],
+				[
+					'name' => 'defaultAutoRevealDuration.json',
+					'callback' => 'MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getAutoRevealMaximumExpiry',
+				],
 			],
 			'messages' => [
 				'checkuser-temporary-accounts-onboarding-dialog-title',
@@ -80,6 +84,11 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-globally-enabled',
 				'checkuser-tempaccount-enable-preference',
 				'checkuser-tempaccount-enable-preference-description',
+				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text',
+				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text-with-global-preferences',
+				// phpcs:ignore Generic.Files.LineLength.TooLong
+				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text-with-global-preferences-with-autoreveal',
+				'checkuser-ip-auto-reveal-link-sidebar',
 			],
 			'dependencies' => [
 				'vue',

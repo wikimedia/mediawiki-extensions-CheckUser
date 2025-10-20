@@ -34,6 +34,7 @@
 				:checkbox-message-key="checkboxMessageKey"
 				:checkbox-description-message-key="checkboxDescriptionMessageKey"
 				:section-title="preferenceSectionTitle"
+				:preference-postscript="preferencePostscript"
 			></temp-accounts-onboarding-preference>
 		</template>
 	</temp-accounts-onboarding-step>
@@ -94,10 +95,24 @@ module.exports = exports = {
 		let contentMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content';
 		let preferenceSectionTitleMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title';
 		let checkboxMessageKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text';
+		let preferencePostscriptKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text';
+		let preferencePostscript = '';
 		if ( mw.config.get( 'wgCheckUserGlobalPreferencesExtensionLoaded' ) ) {
 			contentMessageKey += '-with-global-preferences';
 			preferenceSectionTitleMessageKey += '-with-global-preferences';
 			checkboxMessageKey += '-with-global-preferences';
+			preferencePostscriptKey += '-with-global-preferences';
+		}
+		if ( mw.config.get( 'wgCheckUserTemporaryAccountAutoRevealPossible' ) ) {
+			// Message contains a duration and needs to be translated via Message::durationParams
+			preferencePostscript = require( './../defaultAutoRevealDuration.json' );
+		}
+
+		// Otherwise preferencePostscript can be translated normally
+		if ( !preferencePostscript ) {
+			// * checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text
+			// * checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text-with-global-preferences
+			preferencePostscript = mw.message( preferencePostscriptKey ).parse();
 		}
 
 		// Parse the message as would be for content in a page, such that two newlines creates a new
@@ -148,8 +163,18 @@ module.exports = exports = {
 			checkboxMessageKey,
 			checkboxDescriptionMessageKey,
 			initialIPRevealPreferenceValue,
-			shouldShowIPRevealPreference
+			shouldShowIPRevealPreference,
+			preferencePostscript
 		};
 	}
 };
 </script>
+
+<style lang="less">
+@import 'mediawiki.skin.variables.less';
+
+.ext-checkuser-temp-account-onboarding-dialog-preference-postscript {
+	padding-top: @spacing-100;
+	font-size: @font-size-small;
+}
+</style>

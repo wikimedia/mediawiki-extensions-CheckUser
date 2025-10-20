@@ -2,11 +2,18 @@
 	<h6 class="ext-checkuser-temp-account-onboarding-dialog-preference-title">
 		{{ sectionTitle }}
 	</h6>
-	<p
+	<div
 		v-if="checkboxDescriptionMessageKey !== ''"
-		v-i18n-html="checkboxDescriptionMessageKey"
 		class="ext-checkuser-temp-account-onboarding-dialog-preference-description"
-	></p>
+	>
+		<!-- eslint-disable vue/no-v-html-->
+		<p
+			v-for="( paragraph, key ) in parseWithParagraphBreaks( checkboxDescriptionMessageKey )"
+			:key="key"
+			v-html="paragraph"
+		></p>
+		<!-- eslint-enable vue/no-v-html-->
+	</div>
 	<cdx-field
 		:is-fieldset="true"
 		class="ext-checkuser-temp-account-onboarding-dialog-preference"
@@ -28,6 +35,13 @@
 			{{ savePreferenceButtonText }}
 		</cdx-button>
 	</cdx-field>
+	<!-- eslint-disable vue/no-v-html-->
+	<p
+		v-if="preferencePostscript !== ''"
+		class="ext-checkuser-temp-account-onboarding-dialog-preference-postscript"
+		v-html="preferencePostscript"
+	></p>
+	<!-- eslint-enable vue/no-v-html-->
 </template>
 
 <script>
@@ -58,7 +72,9 @@ module.exports = exports = {
 		/** The message key for the text above the preference checkbox (optional) */
 		checkboxDescriptionMessageKey: { type: String, required: false, default: '' },
 		/** The text used as the section title displayed above the preference */
-		sectionTitle: { type: String, required: true }
+		sectionTitle: { type: String, required: true },
+		/** The message key for the text below the preference checkbox (optional) */
+		preferencePostscript: { type: String, required: false, default: '' }
 	},
 	setup( props, { expose } ) {
 		/**
@@ -196,6 +212,17 @@ module.exports = exports = {
 			return returnValue;
 		}
 
+		/**
+		 * Manually process the paragraph breaks in messages
+		 *
+		 * @param {string} messageKey
+		 * @return {string[]} - array of strings split on the double newline
+		 */
+		function parseWithParagraphBreaks( messageKey ) {
+			// * wikimedia-checkuser-tempaccount-enable-preference-description
+			// * HACK: linter gets mad if only one message key is present
+			return mw.message( messageKey ).parse().split( '\n\n' );
+		}
 		// Expose method to check if we can move to another step so that the step can expose this
 		// to the overall dialog component.
 		expose( { canMoveToAnotherStep, shouldWarnBeforeClosingDialog } );
@@ -205,7 +232,8 @@ module.exports = exports = {
 			preferenceValue,
 			savePreferenceButtonText,
 			onPreferenceChange,
-			onSavePreferenceButtonClick
+			onSavePreferenceButtonClick,
+			parseWithParagraphBreaks
 		};
 	}
 };

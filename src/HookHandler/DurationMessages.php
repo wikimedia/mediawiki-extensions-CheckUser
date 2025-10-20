@@ -58,4 +58,20 @@ class DurationMessages {
 				->text(),
 		];
 	}
+
+	/**
+	 * Returns the maximum expiry time of the IP auto-reveal feature as a duration.
+	 * Used by the IP reveal step in the temporary accounts onboarding dialog.
+	 */
+	public static function getAutoRevealMaximumExpiry(
+		Context $context,
+		Config $config
+	): string {
+		// phpcs:ignore Generic.Files.LineLength.TooLong
+		$msgKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text-with-global-preferences-with-autoreveal';
+		$maxExpiry = $config->get( 'CheckUserAutoRevealMaximumExpiry' );
+		return $context->msg( $msgKey )
+			->durationParams( $maxExpiry )
+			->parse();
+	}
 }
