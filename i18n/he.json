@@ -384,6 +384,7 @@
 	"checkuser-userinfocard-menu-block-user": "חסימת {{GENDER:$1|משתמש|משתמשת}}",
 	"checkuser-userinfocard-menu-provide-feedback": "שליחת משוב על התכונה הזאת",
 	"checkuser-userinfocard-menu-turn-off": "כיבוי האפשרות הזאת",
+	"checkuser-userinfocard-menu-view-xtools": "צפייה ב־XTools",
 	"checkuser-userinfocard-loading-label": "טעימת פרטי המשתמש",
 	"checkuser-userinfocard-error-title": "אירעה שגיאה",
 	"checkuser-userinfocard-error-no-data": "לא ניתן לאחזר מידע עבור המשתמש הזה. נא לנסות שוב מאוחר יותר.",

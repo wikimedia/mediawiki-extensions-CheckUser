@@ -395,6 +395,7 @@
 	"checkuser-userinfocard-menu-block-user": "{{GENDER:$1|Benutzer|Benutzerin}} sperren",
 	"checkuser-userinfocard-menu-provide-feedback": "Rückmeldungen über diese Funktion hinterlassen",
 	"checkuser-userinfocard-menu-turn-off": "Diese Funktion deaktivieren",
+	"checkuser-userinfocard-menu-view-xtools": "XTools anzeigen",
 	"checkuser-userinfocard-loading-label": "Benutzerinformationen werden geladen",
 	"checkuser-userinfocard-error-title": "Es ist ein Fehler aufgetreten",
 	"checkuser-userinfocard-error-no-data": "Informationen zu diesem Benutzer konnten nicht abgerufen werden. Bitte versuche es später noch einmal.",

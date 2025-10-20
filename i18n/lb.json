@@ -218,6 +218,7 @@
 	"checkuser-userinfocard-menu-block-user": "{{GENDER:$1|Benotzer|Benotzerin}} spären",
 	"checkuser-userinfocard-menu-provide-feedback": "Feedback zu dëser Funktioun ginn",
 	"checkuser-userinfocard-menu-turn-off": "Dës Funktionalitéit desaktivéiren",
+	"checkuser-userinfocard-menu-view-xtools": "XTools weisen",
 	"checkuser-userinfocard-loading-label": "Benotzerinformatioune gi gelueden",
 	"checkuser-userinfocard-error-title": "Et ass e Feeler geschitt",
 	"checkuser-userinfocard-error-generic": "Et ass eppes schifgaangen. Probéiert wgl. méi spéit nach eng Kéier.",

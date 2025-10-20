@@ -425,6 +425,7 @@
 	"checkuser-userinfocard-menu-block-user": "Bloquer l’utilisat{{GENDER:$1|eur|rice}}",
 	"checkuser-userinfocard-menu-provide-feedback": "Fournir des commentaires sur cette fonctionnalité",
 	"checkuser-userinfocard-menu-turn-off": "Désactiver cette fonctionnalité",
+	"checkuser-userinfocard-menu-view-xtools": "Voir XTools",
 	"checkuser-userinfocard-loading-label": "Chargement des informations utilisateur",
 	"checkuser-userinfocard-error-title": "Une erreur s’est produite",
 	"checkuser-userinfocard-error-no-data": "Impossible de récupérer les informations de cet utilisateur. Veuillez réessayer ultérieurement.",

@@ -382,6 +382,7 @@
 	"checkuser-userinfocard-menu-block-user": "Bloquear {{GENDER:$1|o usuario|a usuaria}}",
 	"checkuser-userinfocard-menu-provide-feedback": "Deixa un comentario sobre esta característica",
 	"checkuser-userinfocard-menu-turn-off": "Desactivar esta característica",
+	"checkuser-userinfocard-menu-view-xtools": "Ver XTools",
 	"checkuser-userinfocard-loading-label": "A cargar a información do usuario",
 	"checkuser-userinfocard-error-title": "Houbo un erro",
 	"checkuser-userinfocard-error-no-data": "Produciuse un error ao recuperar a información deste usuario. Inténtao de novo máis tarde.",

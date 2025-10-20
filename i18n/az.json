@@ -385,6 +385,7 @@
 	"checkuser-userinfocard-menu-block-user": "{{GENDER:$1|İstifadəçini}} blokla",
 	"checkuser-userinfocard-menu-provide-feedback": "Bu funksiya haqqında rəy bildir",
 	"checkuser-userinfocard-menu-turn-off": "Bu funksiyanı söndür",
+	"checkuser-userinfocard-menu-view-xtools": "XTools-a bax",
 	"checkuser-userinfocard-loading-label": "İstifadəçi məlumatı yüklənir",
 	"checkuser-userinfocard-error-title": "Xəta baş verdi",
 	"checkuser-userinfocard-error-no-data": "Bu istifadəçi üçün məlumat əldə etmək mümkün deyil. Zəhmət olmasa, daha sonra yenidən cəhd edin.",

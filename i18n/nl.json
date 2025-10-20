@@ -390,6 +390,7 @@
 	"checkuser-userinfocard-menu-block-user": "Gebruik{{GENDER:$1||st}}er blokkeren",
 	"checkuser-userinfocard-menu-provide-feedback": "Terugkoppeling achterlaten over deze functie",
 	"checkuser-userinfocard-menu-turn-off": "Deze functie uitschakelen",
+	"checkuser-userinfocard-menu-view-xtools": "XTools bekijken",
 	"checkuser-userinfocard-loading-label": "Gebruikersinfo wordt geladen",
 	"checkuser-userinfocard-error-title": "Er is een fout opgetreden",
 	"checkuser-userinfocard-error-no-data": "Er kan geen informatie voor deze gebruiker worden opgehaald. Probeer het later opnieuw.",
