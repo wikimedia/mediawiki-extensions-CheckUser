@@ -36,6 +36,7 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
@@ -492,7 +493,8 @@ return [
 				SuggestedInvestigationsCaseManagerService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getConnectionProvider()
+			$services->getConnectionProvider(),
+			$services->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' )
 		);
 	},
 	'CheckUserSuggestedInvestigationsCaseLookup' => static function (
@@ -520,6 +522,15 @@ return [
 			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' ),
 			LoggerFactory::getInstance( 'CheckUser' ),
 		);
+	},
+	'CheckUserSuggestedInvestigationsInstrumentationClient' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsInstrumentationClient {
+		$eventLoggingMetricsClientFactory = null;
+		if ( $services->has( 'EventLogging.MetricsClientFactory' ) ) {
+			$eventLoggingMetricsClientFactory = $services->get( 'EventLogging.MetricsClientFactory' );
+		}
+		return new SuggestedInvestigationsInstrumentationClient( $eventLoggingMetricsClientFactory );
 	},
 ];
 // @codeCoverageIgnoreEnd

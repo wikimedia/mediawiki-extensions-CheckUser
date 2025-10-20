@@ -21,6 +21,7 @@
 namespace MediaWiki\CheckUser\SuggestedInvestigations;
 
 use MediaWiki\CheckUser\Hook\HookRunner;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Parser\ParserOptions;
@@ -33,6 +34,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		private readonly IConnectionProvider $connectionProvider,
 		private readonly UserLinkRenderer $userLinkRenderer,
 		private readonly HookRunner $hookRunner,
+		private readonly SuggestedInvestigationsInstrumentationClient $instrumentationClient,
 	) {
 		parent::__construct( 'SuggestedInvestigations', 'checkuser' );
 	}
@@ -54,6 +56,17 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$this->connectionProvider,
 			$this->userLinkRenderer,
 			$this->getContext()
+		);
+
+		$this->instrumentationClient->submitInteraction(
+			$this->getContext(),
+			'page_load',
+			[
+				'action_context' => json_encode( [
+					'is_paging_results' => $pager->mOffset || $pager->mIsBackwards,
+					'limit' => $pager->mLimit,
+				] ),
+			]
 		);
 
 		$output->addParserOutputContent(

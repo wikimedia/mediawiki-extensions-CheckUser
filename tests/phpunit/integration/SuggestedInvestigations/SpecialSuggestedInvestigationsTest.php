@@ -20,10 +20,12 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations;
 
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Request\FauxRequest;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use PHPUnit\Framework\ExpectationFailedException;
 use SpecialPageTestBase;
 use Wikimedia\Parsoid\Utils\DOMCompat;
@@ -35,6 +37,7 @@ use Wikimedia\Parsoid\Utils\DOMUtils;
  */
 class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	use SuggestedInvestigationsTestTrait;
+	use MockAuthorityTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -136,6 +139,36 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			'Feature enabled, hidden' => [
 				'enabled' => true,
 				'hidden' => true,
+			],
+		];
+	}
+
+	/** @dataProvider providePageLoadInstrumentation */
+	public function testPageLoadInstrumentation( $queryParameters, $expectedActionContext ) {
+		$context = RequestContext::getMain();
+		$context->setUser( $this->getTestUser( [ 'checkuser' ] )->getUser() );
+		$context->setRequest( new FauxRequest( $queryParameters ) );
+
+		// Mock SuggestedInvestigationsInstrumentationClient so that we can check the correct event is created
+		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
+		$client->expects( $this->once() )
+			->method( 'submitInteraction' )
+			->with( $context, 'page_load', [ 'action_context' => json_encode( $expectedActionContext ) ] );
+		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
+
+		$this->executeSpecialPage( '', null, null, null, false, $context );
+	}
+
+	public static function providePageLoadInstrumentation(): array {
+		return [
+			'Page load with no additional query parameters' => [ [], [ 'is_paging_results' => false, 'limit' => 10 ] ],
+			'Page load with offset and custom limit' => [
+				[ 'offset' => '20250405060708', 'limit' => 20 ],
+				[ 'is_paging_results' => true, 'limit' => 20 ],
+			],
+			'Page load with no offset but backwards direction and custom limit' => [
+				[ 'dir' => 'prev' ],
+				[ 'is_paging_results' => true, 'limit' => 10 ],
 			],
 		];
 	}
