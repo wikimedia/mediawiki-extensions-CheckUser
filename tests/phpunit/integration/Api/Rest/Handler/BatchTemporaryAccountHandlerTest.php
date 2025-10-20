@@ -89,6 +89,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( new UserIdentityValue( 12345, '~12345' ) );
 
 		if ( $autoRevealAvailable ) {
+			$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
 			$preferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
 			$preferencesFactory->method( 'getGlobalPreferencesValues' )
 				->willReturn(

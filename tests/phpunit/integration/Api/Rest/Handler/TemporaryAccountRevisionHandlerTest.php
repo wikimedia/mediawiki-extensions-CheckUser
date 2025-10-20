@@ -244,6 +244,8 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		int $loggerExpects,
 		array $preferences
 	) {
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
+
 		ConvertibleTimestamp::setFakeTime( '20230406060708' );
 
 		$serviceOptions = new ServiceOptions(
