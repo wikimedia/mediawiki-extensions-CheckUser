@@ -18,11 +18,17 @@
  * @file
  */
 
+namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Services;
+
+use InvalidArgumentException;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\User\UserIdentityValue;
+use MediaWikiIntegrationTestCase;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService
@@ -44,6 +50,33 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$signals = [
 			SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false ),
 		];
+
+		// Mock SuggestedInvestigationsInstrumentationClient so that we can check the correct event is created
+		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
+		$method = __METHOD__;
+		$client->expects( $this->once() )
+			->method( 'submitInteraction' )
+			->willReturnCallback( function ( $context, $action, $interactionData ) use ( $method ) {
+				$this->assertSame( RequestContext::getMain(), $context );
+				$this->assertSame( 'case_open', $action );
+
+				// We have to compare against the case ID from the database and not what is returned by ::createCase,
+				// because ::createCase does not return until after this callback is run
+				$caseIdFromDatabase = $this->getDb()->newSelectQueryBuilder()
+					->select( 'sic_id' )
+					->from( 'cusi_case' )
+					->caller( $method )
+					->fetchField();
+				$this->assertSame(
+					[
+						'action_context' => json_encode( [
+							'case_id' => (int)$caseIdFromDatabase, 'signals' => [ 'Lorem' ], 'number_of_users' => 2,
+						] ),
+					],
+					$interactionData
+				);
+			} );
+		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
 		$service = $this->createService();
 		$caseId = $service->createCase( $users, $signals );
@@ -120,6 +153,21 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		// The first is already added to this case
 		$usersToAdd = [ $user1, $user2 ];
 
+		// Mock SuggestedInvestigationsInstrumentationClient so that we can check the correct event is created
+		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
+		$client->expects( $this->exactly( 2 ) )
+			->method( 'submitInteraction' )
+			->with(
+				RequestContext::getMain(),
+				'case_updated',
+				[
+					'action_context' => json_encode( [
+						'case_id' => $caseId, 'signals' => [ 'Lorem' ], 'number_of_users' => 2,
+					] ),
+				]
+			);
+		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
+
 		$service = $this->createService();
 		$service->addUsersToCase( $caseId, $usersToAdd );
 
@@ -137,14 +185,42 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	/**
 	 * @dataProvider setCaseStatusDataProvider
 	 */
-	public function testSetCaseStatus( CaseStatus $newStatus ): void {
+	public function testSetCaseStatus(
+		CaseStatus $oldStatus, CaseStatus $newStatus, string $reason,
+		bool $shouldCreateInstrumentationEvent, bool $expectedHasNote,
+		string $expectedActionSubtype
+	): void {
 		$user1 = UserIdentityValue::newRegistered( 1, 'Test user 1' );
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
 
 		$service = $this->createService();
 		$caseId = $service->createCase( [ $user1 ], [ $signal ] );
+		$service->setCaseStatus( $caseId, $oldStatus );
 
-		$service->setCaseStatus( $caseId, $newStatus );
+		// Mock SuggestedInvestigationsInstrumentationClient so that we can check the correct event is created
+		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
+		if ( $shouldCreateInstrumentationEvent ) {
+			$client->expects( $this->once() )
+				->method( 'submitInteraction' )
+				->with(
+					RequestContext::getMain(),
+					'case_status_change',
+					[
+						'action_context' => json_encode( [
+							'case_id' => $caseId, 'signals' => [ 'Lorem' ], 'number_of_users' => 1,
+							'has_note' => $expectedHasNote,
+						] ),
+						'action_subtype' => $expectedActionSubtype,
+					]
+				);
+		} else {
+			$client->expects( $this->never() )
+				->method( 'submitInteraction' );
+		}
+		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
+
+		$service = $this->createService();
+		$service->setCaseStatus( $caseId, $newStatus, $reason );
 
 		// Assert the new state has been persisted to the DB
 		$this->assertEquals( $newStatus, $this->getCaseStatus( $caseId ) );
@@ -152,14 +228,37 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 
 	public static function setCaseStatusDataProvider(): array {
 		return [
-			'To Open' => [
+			'From Resolved to Open' => [
+				'oldStatus' => CaseStatus::Resolved,
 				'newStatus' => CaseStatus::Open,
+				'reason' => '  ',
+				'shouldCreateInstrumentationEvent' => true,
+				'expectedHasNote' => false,
+				'expectedActionSubtype' => 'open',
 			],
-			'To Resolved' => [
+			'From Open to Resolved' => [
+				'oldStatus' => CaseStatus::Open,
 				'newStatus' => CaseStatus::Resolved,
+				'reason' => 'case closed',
+				'shouldCreateInstrumentationEvent' => true,
+				'expectedHasNote' => true,
+				'expectedActionSubtype' => 'resolved',
 			],
-			'To Invalid' => [
+			'From Open to Invalid' => [
+				'oldStatus' => CaseStatus::Open,
 				'newStatus' => CaseStatus::Invalid,
+				'reason' => '',
+				'shouldCreateInstrumentationEvent' => true,
+				'expectedHasNote' => false,
+				'expectedActionSubtype' => 'invalid',
+			],
+			'From Resolved to Resolved' => [
+				'oldStatus' => CaseStatus::Resolved,
+				'newStatus' => CaseStatus::Resolved,
+				'reason' => 'case closed',
+				'shouldCreateInstrumentationEvent' => false,
+				'expectedHasNote' => false,
+				'expectedActionSubtype' => '',
 			],
 		];
 	}
