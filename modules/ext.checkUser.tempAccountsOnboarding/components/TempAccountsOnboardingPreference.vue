@@ -24,6 +24,7 @@
 			v-for="( checkbox ) in checkboxes"
 			:key="checkbox.name"
 			:model-value="preferenceValues[ checkbox.name ].isChecked"
+			:disabled="getCheckboxIsDisabled( checkbox.name )"
 			@update:model-value="newIsChecked =>
 				onPreferencesChange( checkbox.name, newIsChecked )"
 		>
@@ -81,6 +82,10 @@ module.exports = exports = {
 		 *   - setValue: an object determining that value to update the preference to
 		 *               depending on whether or not the checkbox is checked. It should
 		 *               be set like: { checked: 1, unchecked 0 }
+		 *   - isDisabled: an object that declares parameters to check against while rendered
+		 *                 in order to disable/enable the checkbox. It should be set like:
+		 *                 { otherCheckboxName: { checkboxProperty: bool } }
+		 *                 Currently, only the isChecked checkboxProperty is supported.
 		 */
 		checkboxes: { type: Array, required: true }
 	},
@@ -151,8 +156,9 @@ module.exports = exports = {
 		} );
 		const preferenceCheckboxStatesNotYetSaved = computed(
 			() => props.checkboxes.some( ( checkbox ) => (
-				preferenceValues.value[ checkbox.name ].isChecked !==
-				serverPreferenceValues.value[ checkbox.name ].isChecked
+				( preferenceValues.value[ checkbox.name ].isChecked !==
+				serverPreferenceValues.value[ checkbox.name ].isChecked ) &&
+				!getCheckboxIsDisabled( checkbox.name )
 			) )
 		);
 
@@ -174,8 +180,14 @@ module.exports = exports = {
 						.find( ( checkbox ) => checkbox.name === key )
 						.setValue;
 					if ( !checkboxValues ) {
-						return;
+						continue;
 					}
+
+					// Like in an HTML form if a checkbox is disabled, its value shouldn't be used
+					if ( getCheckboxIsDisabled( key ) ) {
+						continue;
+					}
+
 					let newValue = preferenceValues.value[ key ].isChecked ?
 						checkboxValues.checked : checkboxValues.unchecked;
 
@@ -264,6 +276,42 @@ module.exports = exports = {
 		}
 
 		/**
+		 * Compare a checkbox's `isDisabled` parameters to the current state
+		 * of the checkboxes. It depends on props.checkboxes to describe what
+		 * checkboxes are available to check against and prefereceValues.value
+		 * to describe the current state of those checkboxes
+		 *
+		 * @param {string} name checkbox.name
+		 * @return {boolean}
+		 */
+		function getCheckboxIsDisabled( name ) {
+			const thisCheckbox = props.checkboxes
+				.find( ( el ) => el.name === name );
+			if ( !thisCheckbox ) {
+				return false;
+			}
+			const disabledParams = thisCheckbox.isDisabled;
+			if ( !disabledParams ) {
+				// No parameters to check, checkbox is always enabled
+				return false;
+			}
+
+			// Gather all the requirement checks. All need to pass for this check to return true
+			const requirements = [];
+
+			// Check against each parameter in each checkbox
+			for ( const checkboxName in disabledParams ) {
+				const checkbox = preferenceValues.value[ checkboxName ];
+				for ( const requirement in disabledParams[ checkboxName ] ) {
+					requirements.push(
+						checkbox[ requirement ] === disabledParams[ checkboxName ][ requirement ]
+					);
+				}
+			}
+			return requirements.reduce( ( acc, curr ) => acc && curr, true );
+		}
+
+		/**
 		 * Manually process the paragraph breaks in messages
 		 *
 		 * @param {string} messageKey
@@ -284,7 +332,8 @@ module.exports = exports = {
 			onSavePreferenceButtonClick,
 			parseWithParagraphBreaks,
 			preferenceValues,
-			onPreferencesChange
+			onPreferencesChange,
+			getCheckboxIsDisabled
 		};
 	}
 };
