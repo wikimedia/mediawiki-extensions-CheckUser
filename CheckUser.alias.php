@@ -265,9 +265,11 @@ $specialPageAliases['it'] = [
 
 /** Japanese (日本語) */
 $specialPageAliases['ja'] = [
-	'CheckUser' => [ 'チェックユーザー', 'チェックユーザ', '利用者調査' ],
-	'CheckUserLog' => [ 'チェックユーザー記録', '利用者調査記録' ],
+	'CheckUser' => [ 'チェックユーザー' ],
+	'CheckUserLog' => [ 'チェックユーザー記録' ],
 	'GlobalContributions' => [ 'グローバル投稿記録' ],
+	'Investigate' => [ '調査' ],
+	'InvestigateBlock' => [ '調査ブロック' ],
 	'IPContributions' => [ 'IP投稿記録' ],
 ];
 
