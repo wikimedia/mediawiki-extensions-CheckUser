@@ -327,6 +327,48 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		getSaveGlobalPreferenceButton( mainBodyElement, true );
 	} );
 
+	it( 'Ignores IP auto-reveal if IP reveal is not also checked', async () => {
+		mockStorageSessionGetValues( {
+			'mw-checkuser-ip-reveal-preference-checked-status': false,
+			'mw-checkuser-ip-autoreveal-preference-checked-status': false
+		} );
+		mockJSConfig( {
+			wgCheckUserGlobalPreferencesExtensionLoaded: true,
+			wgCheckUserIPRevealPreferenceGloballyChecked: false,
+			wgCheckUserIPRevealPreferenceLocallyChecked: false,
+			wgCheckUserTemporaryAccountAutoRevealPossible: true
+		} );
+		const apiSaveOptionsMock = mockApiSaveOptions( true );
+
+		const { mainBodyElement } = commonTestRendersCorrectly();
+
+		// Both the IP Reveal and the IP Auto-reveal checkboxes should be present
+		const ipRevealPreferenceCheckbox = getIPRevealPreferenceCheckbox( mainBodyElement, false );
+		expect( ipRevealPreferenceCheckbox.element.checked ).toEqual( false );
+		const ipAutoRevealPreferenceCheckbox = getIPAutoRevealPreferenceCheckbox( mainBodyElement );
+		expect( ipAutoRevealPreferenceCheckbox.element.checked ).toEqual( false );
+
+		// Check both, asserting that IP auto-reveal can be checked
+		ipRevealPreferenceCheckbox.setChecked( true );
+		ipAutoRevealPreferenceCheckbox.setChecked( true );
+		expect( ipRevealPreferenceCheckbox.element.checked ).toEqual( true );
+		expect( ipAutoRevealPreferenceCheckbox.element.checked ).toEqual( true );
+
+		// Uncheck IP reveal, expecting that because IP reveal is unchecked,
+		// IP auto-reveal becomes disabled and then, per HTML spec, unchecked
+		ipRevealPreferenceCheckbox.setChecked( false );
+		expect( ipRevealPreferenceCheckbox.element.checked ).toEqual( false );
+		expect( ipAutoRevealPreferenceCheckbox.element.checked ).toEqual( false );
+
+		// On preference update, expect that only the IP reveal preference is updated
+		const ipRevealSavePreferenceButton = getSaveGlobalPreferenceButton( mainBodyElement, true );
+		await ipRevealSavePreferenceButton.trigger( 'click' );
+		expect( apiSaveOptionsMock ).toHaveBeenLastCalledWith(
+			{
+				'checkuser-temporary-account-enable': 0
+			}, { global: 'create' } );
+	} );
+
 	it( 'Updates IP reveal preference value after checkbox and submit pressed', async () => {
 		mockIPRevealPreferenceCheckedSessionStorageValue( '' );
 		mockJSConfig( {
