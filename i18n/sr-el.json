@@ -141,7 +141,6 @@
 	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Kliknite „Sačuvaj podešavanja” pre nastavljanja",
 	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Sačuvaj podešavanja",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Otkrivanje IP adrese",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "IP info omogućava adminima, patrolerima i drugim iskusnim urednicima otkrivanje IP adrese povezane sa privremenim nalogom.\n\nKorisnici koji ispunjavaju kriterijume mogu uključiti IP info u svojim [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|podešavanjima]]. Pošto se uključi, pojaviće „Prikaži IP” opcija pored privremenih naloga.",
 	"checkuser-rest-access-denied": "Nemate dozvolu da izvršite ovu radnju",
 	"checkuser-rest-access-denied-blocked-user": "Nemate dozvolu da izvršite ovu radnju zato što vam je nalog blokiran",
 	"checkuser-link-investigate-label": "Probajte {{#special:investigate}}",

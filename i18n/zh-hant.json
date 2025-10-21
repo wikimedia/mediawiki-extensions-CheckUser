@@ -188,7 +188,6 @@
 	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "儲存偏好設定",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "揭示IP位址",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base": "IP顯示功能可讓管理員、反破壞人員以及經驗豐富的使用者查看與某一臨時賬號關聯的IP地址。",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "{{int:checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base}}\n\n符合存取條件的使用者需要在其[[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|偏好設定]]中啟用IP顯示功能。啟用後，「{{int:checkuser-tempaccount-reveal-ip-button-label}}」按鈕將顯示在臨時帳號一側。",
 	"checkuser-rest-access-denied": "您無權執行操作",
 	"checkuser-rest-access-denied-blocked-user": "因您的帳號已被封鎖，您無權執行操作",
 	"checkuser-link-investigate-label": "嘗試{{#special:investigate}}",

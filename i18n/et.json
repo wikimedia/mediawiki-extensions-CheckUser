@@ -128,7 +128,6 @@
 	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Salvesta globaalsed eelistused",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "IP-aadressi avaldamine",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base": "IP-aadressi avaldamise funktsioon võimaldab administraatoritel, vandalismitõrjujatel ja kogenud kasutajatel pärida ajutise kontoga seotud IP-aadresse.",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "{{int:checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base}}\n\nKasutajatel, kes vastavad juurdepääsunõuetele, võib olla tarvis lubada enda [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|eelistustes]] IP-aadresside avaldamise funktsiooni. Kui see on lubatud, näidatakse ajutiste kontode juures nuppu \"{{int:checkuser-tempaccount-reveal-ip-button-label}}\".",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences": "IP-aadresside avaldamise lubamine globaalselt",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title": "IP-aadresside avaldamise lubamine",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text-with-global-preferences": "Luba ajutiste kontode IP-aadresside avaldamine kõigis vikides, kus vastad juurdepääsunõuetele",

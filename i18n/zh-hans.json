@@ -212,7 +212,6 @@
 	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "保存全局设置",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "显示IP地址",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base": "IP显示功能可使管理员、反破坏工作者以及有经验的用户查看与某一临时账号关联的IP地址。",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "{{int:checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base}}\n\n符合访问条件的用户需要在其[[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|参数设置]]中启用IP显示功能。启用后，“{{int:checkuser-tempaccount-reveal-ip-button-label}}”按钮将显示在临时账号一侧。",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-with-global-preferences": "{{int:checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base}}\n\n符合访问条件的用户需要在其[[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|参数设置]]或[[Special:GlobalPreferences#mw-prefsection-personal-checkuser-tempaccount|全域参数设置]]中启用IP显示功能。启用后，“{{int:checkuser-tempaccount-reveal-ip-button-label}}”按钮将显示在临时账号一侧。",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "该图像显示了IP显示工具使用后的效果，与临时账号关联的IP地址皆已显示。功能按钮的文本为“{{int:checkuser-tempaccount-reveal-ip-button-label}}”，显示在临时账号用户名旁。",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences": "在全域启用IP显示",

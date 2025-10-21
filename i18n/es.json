@@ -199,7 +199,6 @@
 	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Haga clic en «Guardar preferencia» antes de continuar.",
 	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Guardar preferencia",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Revelar una dirección IP",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "La función de revelación de IP le permite a administradores, a usuarios que luchan contra vándalos y a usuarios experimentados poder revelar la IP asociada a una cuenta temporal.\n\nLos usuarios que cumplan los requisitos de acceso pueden habilitar la función de revelación de IP en sus [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|preferencias]]. Una vez activada, un botón que dice «Mostrar dirección IP» aparecerá junto a las cuentas temporales.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Imagen que muestra la herramienta de revelación de IP después de su uso, donde se muestra la dirección IP asociada con la cuenta temporal. El botón apretado para ver esto tiene el texto «Mostrar dirección IP» y se muestra junto al nombre de usuario de la cuenta temporal.",
 	"checkuser-rest-access-denied": "No tienes permiso para realizar esta acción.",
 	"checkuser-rest-access-denied-blocked-user": "No tienes permiso para efectuar la acción porque tu cuenta está bloqueada",
