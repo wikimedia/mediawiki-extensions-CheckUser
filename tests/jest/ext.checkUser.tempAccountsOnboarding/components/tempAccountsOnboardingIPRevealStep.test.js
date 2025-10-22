@@ -1,6 +1,7 @@
 'use strict';
 
 const TempAccountsOnboardingIPRevealStep = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingIPRevealStep.vue' ),
+	TempAccountsOnboardingPreference = require( '../../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingPreference.vue' ),
 	utils = require( '@vue/test-utils' ),
 	{ mockJSConfig, mockApiSaveOptions, waitForAndExpectTextToExistInElement, mockStorageSessionGetValue, mockStorageSessionGetValues, getSaveGlobalPreferenceButton } = require( '../../utils.js' );
 
@@ -340,25 +341,38 @@ describe( 'IP reveal step of temporary accounts onboarding dialog', () => {
 		} );
 		const apiSaveOptionsMock = mockApiSaveOptions( true );
 
-		const { mainBodyElement } = commonTestRendersCorrectly();
+		const { mainBodyElement, wrapper } = commonTestRendersCorrectly();
 
-		// Both the IP Reveal and the IP Auto-reveal checkboxes should be present
+		const preferenceWrapper = wrapper.findComponent( TempAccountsOnboardingPreference );
+		expect( preferenceWrapper.exists() ).toBe( true );
+		const preferenceVM = preferenceWrapper.vm;
+
+		// Assert that the auto-reveal checkbox is disabled at load
+		expect(
+			preferenceVM.checkboxDisabledStates[ 'checkuser-temporary-account-enable-auto-reveal' ]
+		).toEqual( true );
+
+		// Check both and assert that the UI matches the internal checkbox state
+		preferenceVM.preferenceValues[ 'checkuser-temporary-account-enable' ].isChecked = true;
+		preferenceVM.preferenceValues[ 'checkuser-temporary-account-enable-auto-reveal' ].isChecked = true;
+		await wrapper.vm.$nextTick();
+		expect(
+			preferenceVM.checkboxDisabledStates[ 'checkuser-temporary-account-enable-auto-reveal' ]
+		).toEqual( false );
 		const ipRevealPreferenceCheckbox = getIPRevealPreferenceCheckbox( mainBodyElement, false );
-		expect( ipRevealPreferenceCheckbox.element.checked ).toEqual( false );
-		const ipAutoRevealPreferenceCheckbox = getIPAutoRevealPreferenceCheckbox( mainBodyElement );
-		expect( ipAutoRevealPreferenceCheckbox.element.checked ).toEqual( false );
-
-		// Check both, asserting that IP auto-reveal can be checked
-		ipRevealPreferenceCheckbox.setChecked( true );
-		ipAutoRevealPreferenceCheckbox.setChecked( true );
 		expect( ipRevealPreferenceCheckbox.element.checked ).toEqual( true );
+		const ipAutoRevealPreferenceCheckbox = getIPAutoRevealPreferenceCheckbox( mainBodyElement );
 		expect( ipAutoRevealPreferenceCheckbox.element.checked ).toEqual( true );
 
 		// Uncheck IP reveal, expecting that because IP reveal is unchecked,
 		// IP auto-reveal becomes disabled and then, per HTML spec, unchecked
-		ipRevealPreferenceCheckbox.setChecked( false );
+		preferenceVM.preferenceValues[ 'checkuser-temporary-account-enable' ].isChecked = false;
+		await wrapper.vm.$nextTick();
 		expect( ipRevealPreferenceCheckbox.element.checked ).toEqual( false );
 		expect( ipAutoRevealPreferenceCheckbox.element.checked ).toEqual( false );
+		expect(
+			preferenceVM.checkboxDisabledStates[ 'checkuser-temporary-account-enable-auto-reveal' ]
+		).toEqual( true );
 
 		// On preference update, expect that only the IP reveal preference is updated
 		const ipRevealSavePreferenceButton = getSaveGlobalPreferenceButton( mainBodyElement, true );
