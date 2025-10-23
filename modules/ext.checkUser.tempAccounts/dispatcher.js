@@ -8,6 +8,7 @@
 			require( './SpecialBlock.js' ).onLoad();
 			break;
 		case 'Recentchanges':
+		case 'Recentchangeslinked':
 		case 'Watchlist':
 			require( './initOnHook.js' )();
 			break;
