@@ -154,6 +154,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
 				'CUDMaxAge' => 12345,
+				'CheckUserAutoRevealMaximumExpiry' => 1,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
@@ -424,6 +425,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			new HashConfig( [
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserAutoRevealMaximumExpiry' => 1,
 			] ),
 			$cuPermissionManager,
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),

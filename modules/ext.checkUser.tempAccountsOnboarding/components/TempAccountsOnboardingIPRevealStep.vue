@@ -146,8 +146,8 @@ module.exports = exports = {
 					initialIsChecked: false,
 					name: 'checkuser-temporary-account-enable-auto-reveal',
 					setValue: {
-						checked: () => Math.round( Date.now() / 1000 ) + mw.config.get( 'wgCheckUserAutoRevealMaximumExpiry' ),
-						unchecked: 0
+						checked: () => Math.floor( Date.now() / 1000 ) + mw.config.get( 'wgCheckUserAutoRevealMaximumExpiry' ),
+						unchecked: null
 					},
 					isDisabled: {
 						'checkuser-temporary-account-enable': {
