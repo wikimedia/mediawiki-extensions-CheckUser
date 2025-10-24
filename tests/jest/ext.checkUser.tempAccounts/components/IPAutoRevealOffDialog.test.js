@@ -29,7 +29,7 @@ const { CdxDialog } = require( '@wikimedia/codex' );
 const mockSetText = jest.fn();
 const renderComponent = ( props ) => {
 	const defaultProps = {
-		expiryTimestamp: String( mockExpiryInSeconds ),
+		expiryTimestamp: mockExpiryInSeconds,
 		toolLink: { text: mockSetText }
 	};
 	return utils.mount( IPAutoRevealOffDialog, {
@@ -101,7 +101,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 	} );
 
 	it( 'calls setAutoRevealStatus with extended time on default action after expiry', async () => {
-		const wrapper = renderComponent( { expiryTimestamp: '' } );
+		const wrapper = renderComponent( { expiryTimestamp: 0 } );
 		await nextTick();
 
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'default' );
@@ -121,7 +121,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 		require( '../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' ).setAutoRevealStatus.mockRejectedValue();
 
 		// Set expiry to maximum allowed
-		const expiry = String( mockNowInSeconds + 86400 );
+		const expiry = mockNowInSeconds + 86400;
 		const wrapper = renderComponent( { expiryTimestamp: expiry } );
 		await nextTick();
 

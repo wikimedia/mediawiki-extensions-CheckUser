@@ -38,7 +38,7 @@ module.exports = function ( documentRoot ) {
 					}
 					const Vue = require( 'vue' );
 					Vue.createMwApp( App, {
-						expiryTimestamp: expiry,
+						expiryTimestamp: Number( expiry ),
 						toolLink: $toolLink
 					} ).mount( '#checkuser-ip-auto-reveal' );
 				} );

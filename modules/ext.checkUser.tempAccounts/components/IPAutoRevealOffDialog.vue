@@ -43,7 +43,7 @@ module.exports = exports = {
 	},
 	props: {
 		expiryTimestamp: {
-			type: String,
+			type: Number,
 			required: true
 		},
 		toolLink: {
@@ -66,7 +66,7 @@ module.exports = exports = {
 		} );
 
 		function onExtend() {
-			const currentExpiryInSeconds = Number( props.expiryTimestamp );
+			const currentExpiryInSeconds = props.expiryTimestamp;
 			const extendBySeconds = 10 * 60;
 
 			let newRelativeExpiryInSeconds;
@@ -114,7 +114,7 @@ module.exports = exports = {
 		};
 	},
 	data( props ) {
-		const expiryTime = new Date( Number( props.expiryTimestamp ) * 1000 );
+		const expiryTime = new Date( props.expiryTimestamp * 1000 );
 		const secondsUntilExpiry = Math.round( ( expiryTime - Date.now() ) / 1000 );
 		return {
 			secondsUntilExpiry: secondsUntilExpiry,
