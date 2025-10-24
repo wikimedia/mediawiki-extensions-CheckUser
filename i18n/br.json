@@ -6,6 +6,7 @@
 			"Fohanno",
 			"Fulup",
 			"Huñvreüs",
+			"SaldırganSincap",
 			"Troer56",
 			"Y-M D"
 		]
@@ -177,7 +178,7 @@
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "Pad :",
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Dibabit ur ginnig",
 	"checkuser-ip-auto-reveal-off-dialog-title": "Gweredekaet eo diskuliañ IP ent emgefre",
-	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Amzer a chom : <strong>$2 {{PLURAL\n:$2|deiz}}, $1</strong>",
+	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Amzer a chom : <strong>$2 {{PLURAL:$2|deiz}}, $1</strong>",
 	"checkuser-ip-auto-reveal-off-dialog-text-info": "Evit abegoù a brevezded e vo diweredekaet an arc’hweladur-mañ ent emgefre e fin ar prantad amzer. [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/Temporary_Accounts/Access_to_IP#Automatically_showing_IPs_evit_temporary_accounts Gouzout hiroc'h]",
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "N'haller ket lakaat ur badelezh ouzhpenn $1",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10mun",

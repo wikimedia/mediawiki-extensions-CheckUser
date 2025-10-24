@@ -271,7 +271,7 @@
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "Трајање:",
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Изаберите опцију",
 	"checkuser-ip-auto-reveal-off-dialog-title": "Приказивање IP адреса укључено",
-	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Преостало време: <strong>$1</strong>",
+	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Преостало време: <strong>$2 {{PLURAL:$2|дан|дана}}, $1</strong>",
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "Трајање не може бити дуже од $1.",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 мин.",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Искључи",
