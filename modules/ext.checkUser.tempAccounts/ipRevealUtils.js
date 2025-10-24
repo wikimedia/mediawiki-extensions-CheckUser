@@ -122,7 +122,7 @@ function setAutoRevealStatus( relativeExpiry ) {
 		undefined;
 
 	if ( absoluteExpiry && !isExpiryValid( absoluteExpiry ) ) {
-		return $.Deferred().reject().promise();
+		return $.Deferred().reject( 'Expiry is invalid' ).promise();
 	}
 
 	const api = new mw.Api();

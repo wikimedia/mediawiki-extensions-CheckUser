@@ -530,6 +530,8 @@ QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', function ( assert
 } );
 
 QUnit.test( 'Test disableAutoReveal replaces IPs with buttons', function ( assert ) {
+	const done = assert.async();
+
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 
@@ -552,18 +554,25 @@ QUnit.test( 'Test disableAutoReveal replaces IPs with buttons', function ( asser
 	const utilsMock = this.sandbox.mock( ipRevealUtils );
 	utilsMock.expects( 'setAutoRevealStatus' )
 		.once()
-		.withArgs();
+		.withArgs()
+		.returns( $.Deferred().resolve() );
 
 	// Check that the IPs are replaced with buttons
 	ipReveal.disableAutoReveal( $qunitFixture );
-	assert.strictEqual(
-		$( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).length,
-		0,
-		'Revealed IPs removed'
-	);
-	assert.strictEqual(
-		$( '.ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
-		2,
-		'IP reveal buttons added'
-	);
+
+	// Check all IPs are hidden
+	waitUntilElementDisappears( '.ext-checkuser-tempaccount-reveal-ip' ).then( () => {
+		assert.strictEqual(
+			$( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).length,
+			0,
+			'Revealed IPs removed'
+		);
+		assert.strictEqual(
+			$( '.ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
+			2,
+			'IP reveal buttons added'
+		);
+
+		done();
+	} );
 } );

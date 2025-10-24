@@ -18,6 +18,13 @@
 		>
 			<p>{{ extendError }}</p>
 		</cdx-message>
+		<cdx-message
+			v-if="disableError !== ''"
+			type="error"
+			:inline="true"
+		>
+			<p>{{ disableError }}</p>
+		</cdx-message>
 		<template #footer-text>
 			<p v-i18n-html:checkuser-ip-auto-reveal-off-dialog-text-info></p>
 		</template>
@@ -56,6 +63,7 @@ module.exports = exports = {
 
 		const open = ref( true );
 		const extendError = ref( '' );
+		const disableError = ref( '' );
 
 		const defaultAction = {
 			label: mw.msg( 'checkuser-ip-auto-reveal-off-dialog-extend-action' )
@@ -89,24 +97,31 @@ module.exports = exports = {
 		}
 
 		function onRemove() {
-			disableAutoReveal();
-			open.value = false;
+			disableAutoReveal().then(
+				() => {
+					open.value = false;
 
-			props.toolLink.text(
-				mw.message( 'checkuser-ip-auto-reveal-link-sidebar' )
+					props.toolLink.text(
+						mw.message( 'checkuser-ip-auto-reveal-link-sidebar' )
+					);
+
+					mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-off' ), {
+						classes: [ 'ext-checkuser-ip-auto-reveal-notification-off' ],
+						type: 'success'
+					} );
+
+					logEvent( 'session_end' );
+				},
+				( error ) => {
+					disableError.value = error;
+				}
 			);
-
-			mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-off' ), {
-				classes: [ 'ext-checkuser-ip-auto-reveal-notification-off' ],
-				type: 'success'
-			} );
-
-			logEvent( 'session_end' );
 		}
 
 		return {
 			open,
 			extendError,
+			disableError,
 			defaultAction,
 			primaryAction,
 			onExtend,

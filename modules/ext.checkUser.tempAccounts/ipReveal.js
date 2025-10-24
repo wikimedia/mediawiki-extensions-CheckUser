@@ -557,12 +557,21 @@ function automaticallyRevealUsers( $ipRevealButtons, autoRevealStatus ) {
  *
  * @param {number} relativeExpiry
  * @param {jQuery|undefined} $content
+ * @return {Promise}
  */
 function enableAutoReveal( relativeExpiry, $content ) {
+	const deferred = $.Deferred();
 	$content = $content || $( document );
-	ipRevealUtils.setAutoRevealStatus( relativeExpiry ).then( () => {
-		showAllIps( $content, true );
-	} );
+	ipRevealUtils.setAutoRevealStatus( relativeExpiry ).then(
+		() => {
+			showAllIps( $content, true );
+			deferred.resolve();
+		},
+		( error ) => {
+			deferred.reject( error );
+		}
+	);
+	return deferred.promise();
 }
 
 /**
@@ -601,11 +610,21 @@ function showAllIps( $content, autoRevealStatus ) {
  * Disable auto-reveal mode, then remove auto-revealed IPs from the page.
  *
  * @param {jQuery|undefined} $content
+ * @return {Promise}
  */
 function disableAutoReveal( $content ) {
+	const deferred = $.Deferred();
 	$content = $content || $( document );
-	ipRevealUtils.setAutoRevealStatus();
-	hideAllIps( $content, false );
+	ipRevealUtils.setAutoRevealStatus().then(
+		() => {
+			hideAllIps( $content, false );
+			deferred.resolve();
+		},
+		( error ) => {
+			deferred.reject( error );
+		}
+	);
+	return deferred.promise();
 }
 
 /**

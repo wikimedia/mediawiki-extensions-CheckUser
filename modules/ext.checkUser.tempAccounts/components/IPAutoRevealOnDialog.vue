@@ -23,12 +23,19 @@
 			>
 			</cdx-select>
 		</cdx-field>
+		<cdx-message
+			v-if="enableError !== ''"
+			type="error"
+			:inline="true"
+		>
+			<p>{{ enableError }}</p>
+		</cdx-message>
 	</cdx-dialog>
 </template>
 
 <script>
 const { ref } = require( 'vue' );
-const { CdxDialog, CdxField, CdxSelect } = require( '@wikimedia/codex' );
+const { CdxDialog, CdxField, CdxSelect, CdxMessage } = require( '@wikimedia/codex' );
 const { enableAutoReveal } = require( './../ipReveal.js' );
 const useInstrument = require( '../useInstrument.js' );
 
@@ -41,7 +48,8 @@ module.exports = exports = {
 	components: {
 		CdxDialog,
 		CdxField,
-		CdxSelect
+		CdxSelect,
+		CdxMessage
 	},
 	props: {
 		toolLink: {
@@ -54,6 +62,7 @@ module.exports = exports = {
 
 		const open = ref( true );
 		const selected = ref( null );
+		const enableError = ref( '' );
 
 		const defaultAction = {
 			label: mw.msg( 'checkuser-ip-auto-reveal-on-dialog-default-action' )
@@ -74,23 +83,30 @@ module.exports = exports = {
 		}
 
 		function onSubmit() {
-			enableAutoReveal( selected.value );
-			open.value = false;
+			enableAutoReveal( selected.value ).then(
+				() => {
+					open.value = false;
 
-			props.toolLink.text(
-				mw.message( 'checkuser-ip-auto-reveal-link-sidebar-on' )
+					props.toolLink.text(
+						mw.message( 'checkuser-ip-auto-reveal-link-sidebar-on' )
+					);
+
+					logEvent( 'session_start', { sessionLength: Number( selected.value ) } );
+
+					mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-on' ), {
+						classes: [ 'ext-checkuser-ip-auto-reveal-notification-on' ],
+						type: 'success'
+					} );
+				},
+				( error ) => {
+					enableError.value = error;
+				}
 			);
-
-			logEvent( 'session_start', { sessionLength: Number( selected.value ) } );
-
-			mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-on' ), {
-				classes: [ 'ext-checkuser-ip-auto-reveal-notification-on' ],
-				type: 'success'
-			} );
 		}
 
 		return {
 			open,
+			enableError,
 			defaultAction,
 			primaryAction,
 			menuItems,

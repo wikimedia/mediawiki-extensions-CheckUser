@@ -11,7 +11,7 @@ jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', ()
 jest.mock( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 
 // Mock ipReveal methods to check they are called properly
-const mockDisableAutoReveal = jest.fn();
+const mockDisableAutoReveal = jest.fn().mockResolvedValue();
 jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
 	disableAutoReveal: mockDisableAutoReveal
 } ) );
@@ -140,6 +140,7 @@ describe( 'IP auto-reveal Off dialog', () => {
 		await nextTick();
 
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
+		await nextTick();
 
 		expect( mockDisableAutoReveal ).toHaveBeenCalled();
 		expect( mockSetText ).toHaveBeenCalled();
@@ -147,5 +148,21 @@ describe( 'IP auto-reveal Off dialog', () => {
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 		expect( logEvent ).toHaveBeenCalledTimes( 1 );
 		expect( logEvent ).toHaveBeenCalledWith( 'session_end' );
+	} );
+
+	it( 'correctly handles disableAutoReveal returning an error', async () => {
+		mockDisableAutoReveal.mockRejectedValueOnce();
+
+		const wrapper = renderComponent();
+		await nextTick();
+
+		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
+		await nextTick();
+
+		expect( mockDisableAutoReveal ).toHaveBeenCalled();
+		expect( mockSetText ).not.toHaveBeenCalled();
+		expect( mw.notify ).not.toHaveBeenCalled();
+		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( true );
+		expect( logEvent ).toHaveBeenCalledTimes( 0 );
 	} );
 } );

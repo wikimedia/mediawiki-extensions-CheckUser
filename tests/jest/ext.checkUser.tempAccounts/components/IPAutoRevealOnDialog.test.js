@@ -1,7 +1,7 @@
 'use strict';
 
 // Mock ipReveal methods to check they are called properly
-const mockEnableAutoReveal = jest.fn();
+const mockEnableAutoReveal = jest.fn().mockResolvedValue();
 jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
 	enableAutoReveal: mockEnableAutoReveal
 } ) );
@@ -25,6 +25,7 @@ jest.mock( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 
 const IPAutoRevealOnDialog = require( '../../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOnDialog.vue' );
 const useInstrument = require( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
+const { nextTick } = require( 'vue' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog, CdxSelect } = require( '@wikimedia/codex' );
 
@@ -67,6 +68,7 @@ describe( 'IP auto-reveal On dialog', () => {
 	it( 'calls enableAutoReveal and shows notification on submit', async () => {
 		await wrapper.findComponent( CdxSelect ).vm.$emit( 'update:selected', '3600' );
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
+		await nextTick();
 
 		expect( mockEnableAutoReveal ).toHaveBeenCalledWith( '3600' );
 		expect( mockSetText ).toHaveBeenCalled();
@@ -74,5 +76,19 @@ describe( 'IP auto-reveal On dialog', () => {
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 		expect( logEvent ).toHaveBeenCalledTimes( 1 );
 		expect( logEvent ).toHaveBeenCalledWith( 'session_start', { sessionLength: 3600 } );
+	} );
+
+	it( 'correctly handles enableAutoReveal returning an error', async () => {
+		mockEnableAutoReveal.mockRejectedValueOnce();
+
+		await wrapper.findComponent( CdxSelect ).vm.$emit( 'update:selected', '3600' );
+		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
+		await nextTick();
+
+		expect( mockEnableAutoReveal ).toHaveBeenCalledWith( '3600' );
+		expect( mockSetText ).not.toHaveBeenCalled();
+		expect( mw.notify ).not.toHaveBeenCalled();
+		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( true );
+		expect( logEvent ).toHaveBeenCalledTimes( 0 );
 	} );
 } );
