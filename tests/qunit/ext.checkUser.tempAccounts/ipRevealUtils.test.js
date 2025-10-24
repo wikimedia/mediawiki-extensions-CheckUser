@@ -168,7 +168,25 @@ QUnit.test( 'Test getAutoRevealStatus with API failure', function ( assert ) {
 QUnit.test( 'Test setAutoRevealStatus (enable)', function ( assert ) {
 	mw.config.set( 'wgCheckUserAutoRevealMaximumExpiry', 86400 );
 	const relativeExpiry = 3600;
-	const expectedExpiry = Math.round( this.mockTime / 1000 ) + relativeExpiry;
+	const expectedExpiry = Math.floor( this.mockTime / 1000 ) + relativeExpiry;
+	const apiMock = this.sandbox.mock( mw.Api.prototype );
+	apiMock.expects( 'postWithToken' )
+		.withArgs( 'csrf', {
+			action: 'globalpreferences',
+			optionname: autoRevealPreferenceName,
+			optionvalue: expectedExpiry
+		} )
+		.returns( $.Deferred().resolve() );
+
+	return ipRevealUtils.setAutoRevealStatus( relativeExpiry ).then( () => {
+		assert.true( true, 'setAutoRevealStatus should resolve successfully' );
+	} );
+} );
+
+QUnit.test( 'Test setAutoRevealStatus (enable, maximum expiry)', function ( assert ) {
+	mw.config.set( 'wgCheckUserAutoRevealMaximumExpiry', 86400 );
+	const relativeExpiry = 86400;
+	const expectedExpiry = Math.floor( this.mockTime / 1000 ) + relativeExpiry;
 	const apiMock = this.sandbox.mock( mw.Api.prototype );
 	apiMock.expects( 'postWithToken' )
 		.withArgs( 'csrf', {

@@ -115,7 +115,8 @@ function getAutoRevealStatus() {
  * @return {Promise}
  */
 function setAutoRevealStatus( relativeExpiry ) {
-	const nowInSeconds = Math.round( Date.now() / 1000 );
+	// Err on the low side to avoid going over the maximum allowed expiry by a fraction of a second
+	const nowInSeconds = Math.floor( Date.now() / 1000 );
 	const absoluteExpiry = relativeExpiry ?
 		nowInSeconds + relativeExpiry :
 		undefined;
