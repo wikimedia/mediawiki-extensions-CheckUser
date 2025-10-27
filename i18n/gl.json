@@ -13,7 +13,7 @@
 			"Xosecalvo"
 		]
 	},
-	"checkuser-summary": "Esta ferramenta analiza os cambios recentes para recuperar os enderezos IP utilizados por un usuario ou amosar as edicións ou os datos de usuario dun enderezo IP.\nOs usuarios e as edicións dun cliente IP poden recuperarse a través de cabeceiras XFF, engadindo o sufixo \"/xff\" ao enderezo IP. Admítense os protocolos IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNon se devolverán máis de $3 edicións por motivos de rendemento.\nUtiliza isto de acordo coas normas.",
+	"checkuser-summary": "Esta ferramenta analiza os cambios recentes para recuperar os enderezos IP utilizados por un usuario ou amosar as edicións ou os datos de usuario dun enderezo IP.\nOs usuarios e as edicións dun cliente IP poden recuperarse a través de cabeceiras XFF, engadindo o sufixo «/xff» ao enderezo IP. Admítense os protocolos IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNon se devolverán máis de $3 edicións por motivos de rendemento.\nUtiliza isto de acordo coas normas.",
 	"checkuser-desc": "Garante que usuarios cos permisos apropiados poidan comprobar os enderezos IP dos usuarios e acceder a outra información",
 	"checkuser": "Verificación de usuarios",
 	"checkuserlog": "Rexistro de verificación de usuarios",
@@ -117,7 +117,7 @@
 	"checkuser-investigateblock-notice-append": "Engadir ao final da páxina",
 	"checkuser-investigateblock-notice-prepend": "Engadir ao inicio da páxina",
 	"checkuser-investigateblock-notice-replace": "Substituír a páxina",
-	"checkuser-investigateblock-failure": "Non se bloqueou ningún usuario. Para anular os bloqueos existentes, marca \"{{int:checkuser-investigateblock-reblock-label}}\". Non se anulará ningún bloqueo se o novo bloqueo é idéntico ao bloqueo existente.",
+	"checkuser-investigateblock-failure": "Non se bloqueou ningún usuario. Para anular os bloqueos existentes, marca «{{int:checkuser-investigateblock-reblock-label}}». Non se anulará ningún bloqueo se o novo bloqueo é idéntico ao bloqueo existente.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|O usuario|Os usuarios}} $1 xa {{PLURAL:$2|está|están}} bloqueados.",
 	"checkuser-investigateblock-notices-failed": "Non se puideron engadir algúns avisos ás páxinas de usuario nin ás páxinas de conversa de usuario.",
 	"checkuser-investigate": "Investigar",
@@ -139,7 +139,7 @@
 	"checkuser-investigate-duration-option-2w": "Últimas 2 semanas",
 	"checkuser-investigate-duration-option-30d": "Últimos 30 días",
 	"checkuser-investigate-reason-label": "Motivo",
-	"checkuser-investigate-preliminary-notice-ip-targets": "A lapela \"Información sobre a conta\" non inclúe ningunha información sobre os enderezos IP. Consulta a <span class=\"plainlinks\">[$1 lapela \"Enderezos IP e axentes de usuario\"]</span> para obter eses detalles.",
+	"checkuser-investigate-preliminary-notice-ip-targets": "A lapela «Información sobre a conta» non inclúe ningunha información sobre os enderezos IP. Consulta a <span class=\"plainlinks\">[$1 lapela «Enderezos IP e axentes de usuario»]</span> para obter eses detalles.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqueado",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|edición|edicións}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Non bloqueado",

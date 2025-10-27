@@ -125,7 +125,7 @@
 	"checkuser-investigateblock-notice-append": "पृष्ठ के आखिर में जोड़ें",
 	"checkuser-investigateblock-notice-prepend": "पृष्ठ के शुरुआत में जोड़ें",
 	"checkuser-investigateblock-notice-replace": "पृष्ठ की सामग्री को बदलें",
-	"checkuser-investigateblock-failure": "किसी सदस्य को अवरोधित नहीं किया गया। मौजूदा अवरोधों को ओवर्राइड करने के लिए \"{{int:checkuser-investigateblock-reblock-label}}\" देखें। अगर नया अवरोध मौजूदा अवरोध से मेल खाता है तो अवरोध को ओवर्राइड नहीं किया जाएगा।",
+	"checkuser-investigateblock-failure": "किसी सदस्य को अवरोधित नहीं किया गया। मौजूदा अवरोधों को ओवर्राइड करने के लिए \"{{int:checkuser-investigateblock-reblock-label}}\" को टिक करें। अगर नया अवरोध मौजूदा अवरोध से मेल खाता हो तो अवरोध को ओवर्राइड नहीं किया जाएगा।",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|सदस्य}} $1 अब अवरोधित {{PLURAL:$2|है|हैं}}।",
 	"checkuser-investigateblock-notices-failed": "कुछ सूचनाओं को सदस्य पृष्ठों या सदस्य वार्ता पृष्ठों पर जोड़ना न जा सका।",
 	"checkuser-investigate": "जाँचें",
