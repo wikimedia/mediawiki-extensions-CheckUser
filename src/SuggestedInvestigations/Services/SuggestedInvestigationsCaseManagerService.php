@@ -93,10 +93,11 @@ class SuggestedInvestigationsCaseManagerService {
 		$this->createInstrumentationEvent(
 			'case_open',
 			null,
+			// T408546: Use minimalist keys to keep the length down to 64 chars
 			[
-				'case_id' => $caseId,
-				'signals' => array_map( static fn ( $signal ) => $signal->getName(), $signals ),
-				'number_of_users' => count( $users ),
+				'i' => $caseId,
+				's' => array_map( static fn ( $signal ) => $signal->getName(), $signals ),
+				'u' => count( $users ),
 			]
 		);
 
@@ -118,13 +119,14 @@ class SuggestedInvestigationsCaseManagerService {
 			return;
 		}
 
+		// T408546: Use minimalist keys to keep the length down to 64 chars
 		$instrumentationContext = [
-			'case_id' => $caseId,
-			'signals' => $this->getSignalNamesInCase( $caseId ),
-			'number_of_users' => $this->getNumberOfUsersInCase( $caseId ),
+			'i' => $caseId,
+			's' => $this->getSignalNamesInCase( $caseId ),
+			'u' => $this->getNumberOfUsersInCase( $caseId ),
 		];
 
-		$instrumentationContext['number_of_users'] += $this->addUsersToCaseInternal( $caseId, $users );
+		$instrumentationContext['u'] += $this->addUsersToCaseInternal( $caseId, $users );
 
 		$this->createInstrumentationEvent( 'case_updated', null, $instrumentationContext );
 	}
@@ -172,11 +174,12 @@ class SuggestedInvestigationsCaseManagerService {
 			$this->createInstrumentationEvent(
 				'case_status_change',
 				strtolower( $status->name ),
+				// T408546: Use minimalist keys to keep the length down to 64 chars
 				[
-					'case_id' => $caseId,
-					'signals' => $this->getSignalNamesInCase( $caseId ),
-					'number_of_users' => $this->getNumberOfUsersInCase( $caseId ),
-					'has_note' => trim( $reason ) !== '',
+					'i' => $caseId,
+					's' => $this->getSignalNamesInCase( $caseId ),
+					'u' => $this->getNumberOfUsersInCase( $caseId ),
+					'n' => (int)( trim( $reason ) !== '' ),
 				]
 			);
 		}

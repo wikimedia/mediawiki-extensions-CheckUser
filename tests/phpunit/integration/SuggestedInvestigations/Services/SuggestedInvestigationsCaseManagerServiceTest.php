@@ -70,7 +70,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				$this->assertSame(
 					[
 						'action_context' => json_encode( [
-							'case_id' => (int)$caseIdFromDatabase, 'signals' => [ 'Lorem' ], 'number_of_users' => 2,
+							'i' => (int)$caseIdFromDatabase, 's' => [ 'Lorem' ], 'u' => 2,
 						] ),
 					],
 					$interactionData
@@ -162,7 +162,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				'case_updated',
 				[
 					'action_context' => json_encode( [
-						'case_id' => $caseId, 'signals' => [ 'Lorem' ], 'number_of_users' => 2,
+						'i' => $caseId, 's' => [ 'Lorem' ], 'u' => 2,
 					] ),
 				]
 			);
@@ -207,8 +207,8 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 					'case_status_change',
 					[
 						'action_context' => json_encode( [
-							'case_id' => $caseId, 'signals' => [ 'Lorem' ], 'number_of_users' => 1,
-							'has_note' => $expectedHasNote,
+							'i' => $caseId, 's' => [ 'Lorem' ], 'u' => 1,
+							'n' => (int)$expectedHasNote,
 						] ),
 						'action_subtype' => $expectedActionSubtype,
 					]
