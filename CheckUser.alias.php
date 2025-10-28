@@ -71,6 +71,7 @@ $specialPageAliases['bn'] = [
 	'Investigate' => [ 'তদন্ত' ],
 	'InvestigateBlock' => [ 'তদন্ত_বাধাদান' ],
 	'IPContributions' => [ 'আইপির_অবদান', 'আইপি_অবদান' ],
+	'SuggestedInvestigations' => [ 'প্রস্তাবিত_তদন্ত' ],
 ];
 
 /** Bulgarian (български) */
