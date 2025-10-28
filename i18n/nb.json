@@ -350,7 +350,7 @@
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 aktiverte {{GENDER:$2|sin}} egen tilgang til å se beskyttede variabler",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 deaktiverte {{GENDER:$2|sin}} egen tilgang til å se beskyttede variabler",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|viste}} beskyttede variabler knyttet til $3",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDR:$2|så}} {{PLURAL:$4|en beskyttet variabel|beskyttede variabler}} tilknyttet $3: $5",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|så}} {{PLURAL:$4|en beskyttet variabel|beskyttede variabler}} tilknyttet $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "automatisk tilbaketrukket på grunn av inaktivitet",
 	"checkuser-ipinfo-global-contributions-url-text": "Vis bidrag globalt",
 	"checkuser-group-requirements": "Brukeren oppfyller ikke tilgangskriteriene",
