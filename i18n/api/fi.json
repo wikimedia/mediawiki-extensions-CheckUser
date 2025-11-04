@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Samoasambia"
+		]
+	},
+	"apierror-checkuser-nosuchuser": "Tämän nimistä käyttäjää ei ole",
+	"checkuser-ip-auto-reveal-expiry-invalid": "Annettu autopaljastuksen aikaraja on virheellinen.",
+	"checkuser-ip-auto-reveal-missing-permission": "Sinulla ei ole oikeutta käyttää IP-osoitteiden autopaljastusta."
+}
