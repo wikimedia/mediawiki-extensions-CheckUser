@@ -54,5 +54,6 @@
 	"checkuser-showmain": "მომხმარებელთა შემოწმების გვერდზე გადასვლა",
 	"checkuser-token-fail": "სესია შეწყდა. გთხოვთ, თავიდან სცადოთ.",
 	"logentry-checkuser-private-event-autocreate-account": "ავტომატურად შეიქმნა",
-	"logentry-checkuser-private-event-create-account": "შეიქმნა"
+	"logentry-checkuser-private-event-create-account": "შეიქმნა",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP-ის ჩვენება"
 }

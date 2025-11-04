@@ -91,6 +91,7 @@
 	"checkuser-clienthints-name-platform-version": "平台版本",
 	"checkuser-clienthints-value-yes": "是",
 	"checkuser-clienthints-value-no": "否",
+	"checkuser-clienthints-list-item": "$1：$2",
 	"checkuser-reason": "原因：",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "查核日志",
