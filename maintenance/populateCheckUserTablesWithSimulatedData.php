@@ -13,6 +13,7 @@ use MediaWiki\Content\ContentHandler;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Maintenance\Maintenance;
+use MediaWiki\Permissions\UltimateAuthority;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
@@ -363,7 +364,9 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		$services->getAuthManager()->autoCreateUser(
 			$user,
 			AuthManager::AUTOCREATE_SOURCE_MAINT,
-			false
+			false,
+			true,
+			new UltimateAuthority( User::newSystemUser( User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ] ) )
 		);
 		return $user;
 	}

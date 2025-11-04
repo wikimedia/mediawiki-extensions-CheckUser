@@ -7,6 +7,7 @@ use MediaWiki\Auth\AuthManager;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Maintenance\Maintenance;
+use MediaWiki\Permissions\UltimateAuthority;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
 use MediaWiki\User\UserRigorOptions;
@@ -159,7 +160,9 @@ class CreateFakeSuggestedInvestigationCases extends Maintenance {
 		$services->getAuthManager()->autoCreateUser(
 			$user,
 			AuthManager::AUTOCREATE_SOURCE_MAINT,
-			false
+			false,
+			true,
+			new UltimateAuthority( User::newSystemUser( User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ] ) )
 		);
 		return $user;
 	}
