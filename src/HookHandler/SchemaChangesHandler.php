@@ -46,15 +46,8 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			"$base/$dbType/cuci_user.sql", true,
 		] );
 
+		// 1.39
 		if ( $dbType === 'mysql' ) {
-			// 1.38
-			$updater->addExtensionIndex(
-				'cu_changes',
-				'cuc_actor_ip_time',
-				"$base/$dbType/patch-cu_changes-actor-comment.sql"
-			);
-
-			// 1.39
 			$updater->modifyExtensionField(
 				'cu_changes',
 				'cuc_timestamp',
@@ -71,7 +64,6 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 				"$base/$dbType/patch-cu_log-actor.sql"
 			);
 		} elseif ( $dbType === 'sqlite' ) {
-			// 1.39
 			$updater->addExtensionIndex(
 				'cu_changes',
 				'cuc_actor_ip_time',
@@ -88,27 +80,6 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 				"$base/$dbType/patch-cu_log-actor.sql"
 			);
 		} elseif ( $dbType === 'postgres' ) {
-			// 1.37
-			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_user' ] );
-			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_target_id' ] );
-			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_user' ] );
-			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_page_id' ] );
-
-			// 1.38
-			$updater->addExtensionUpdate(
-				[ 'addPgField', 'cu_changes', 'cuc_actor', 'INTEGER NOT NULL DEFAULT 0' ]
-			);
-			$updater->addExtensionUpdate(
-				[ 'addPgField', 'cu_changes', 'cuc_comment_id', 'INTEGER NOT NULL DEFAULT 0' ]
-			);
-			$updater->addExtensionUpdate(
-				[ 'setDefault', 'cu_changes', 'cuc_user_text', '' ]
-			);
-			$updater->addExtensionUpdate(
-				[ 'addPgIndex', 'cu_changes', 'cuc_actor_ip_time', '( cuc_actor, cuc_ip, cuc_timestamp )' ]
-			);
-
-			// 1.39
 			$updater->addExtensionIndex( 'cu_changes', 'cu_changes_pkey', "$base/$dbType/patch-cu_changes-pk.sql" );
 			$updater->addExtensionUpdate(
 				[ 'changeField', 'cu_changes', 'cuc_namespace', 'INT', 'cuc_namespace::INT DEFAULT 0' ]
