@@ -4,6 +4,7 @@
 -- See https://www.mediawiki.org/wiki/Manual:Schema_changes
 CREATE TABLE /*_*/cusi_case (
   sic_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  sic_url_identifier INT UNSIGNED DEFAULT 0 NOT NULL,
   sic_status TINYINT UNSIGNED DEFAULT 0 NOT NULL,
   sic_status_reason VARBINARY(255) DEFAULT '' NOT NULL,
   sic_created_timestamp BINARY(14) NOT NULL,
@@ -12,6 +13,7 @@ CREATE TABLE /*_*/cusi_case (
     sic_id
   ),
   UNIQUE INDEX sic_created_timestamp_id (sic_created_timestamp, sic_id),
+  INDEX sic_url_identifier (sic_url_identifier),
   PRIMARY KEY(sic_id)
 ) /*$wgDBTableOptions*/;
 

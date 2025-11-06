@@ -4,6 +4,7 @@
 -- See https://www.mediawiki.org/wiki/Manual:Schema_changes
 CREATE TABLE cusi_case (
   sic_id SERIAL NOT NULL,
+  sic_url_identifier INT DEFAULT 0 NOT NULL,
   sic_status SMALLINT DEFAULT 0 NOT NULL,
   sic_status_reason TEXT DEFAULT '' NOT NULL,
   sic_created_timestamp TIMESTAMPTZ NOT NULL,
@@ -16,6 +17,8 @@ CREATE UNIQUE INDEX sic_status_created_timestamp_id ON cusi_case (
 );
 
 CREATE UNIQUE INDEX sic_created_timestamp_id ON cusi_case (sic_created_timestamp, sic_id);
+
+CREATE INDEX sic_url_identifier ON cusi_case (sic_url_identifier);
 
 
 CREATE TABLE cusi_user (

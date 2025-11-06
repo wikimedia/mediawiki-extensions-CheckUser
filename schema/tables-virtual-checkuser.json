@@ -10,6 +10,12 @@
 				"options": { "unsigned": true, "notnull": true, "autoincrement": true }
 			},
 			{
+				"name": "sic_url_identifier",
+				"comment": "A randomised ID which is used in a hexadecimal format to provide a URL to the case. Using a random number avoids exposing how many cases exist or when the case was created when it is included in a URL.",
+				"type": "integer",
+				"options": { "unsigned": true, "notnull": true, "default": 0 }
+			},
+			{
 				"name": "sic_status",
 				"comment": "Integer acting as an enum, which represents the status of this case. Open is 0, Closed as resolved is 1, Closed as invalid is 2",
 				"type": "mwtinyint",
@@ -40,6 +46,12 @@
 				"columns": [ "sic_created_timestamp", "sic_id" ],
 				"unique": true,
 				"comment": "Used to sort and page cases by their creation timestamp (the ID makes paging consistent in case two cases have the same creation timestamp) for the Codex table on the Special page for Suggested investigations."
+			},
+			{
+				"name": "sic_url_identifier",
+				"columns": [ "sic_url_identifier" ],
+				"unique": false,
+				"comment": "Allows searching for cases based on their URL identifier (such as when a user loads the special page for a given case using this identifier). Secondly, allows the system to check if another case already uses a given URL identifier so that a unique URL identifier can be given to a new case. This index will be unique once the value is populated for pre-existing rows."
 			}
 		],
 		"pk": [ "sic_id" ]

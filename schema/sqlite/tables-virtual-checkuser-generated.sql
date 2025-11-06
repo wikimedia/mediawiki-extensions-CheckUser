@@ -4,6 +4,7 @@
 -- See https://www.mediawiki.org/wiki/Manual:Schema_changes
 CREATE TABLE /*_*/cusi_case (
   sic_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  sic_url_identifier INTEGER UNSIGNED DEFAULT 0 NOT NULL,
   sic_status SMALLINT UNSIGNED DEFAULT 0 NOT NULL,
   sic_status_reason BLOB DEFAULT '' NOT NULL,
   sic_created_timestamp BLOB NOT NULL
@@ -15,6 +16,8 @@ CREATE UNIQUE INDEX sic_status_created_timestamp_id ON /*_*/cusi_case (
 );
 
 CREATE UNIQUE INDEX sic_created_timestamp_id ON /*_*/cusi_case (sic_created_timestamp, sic_id);
+
+CREATE INDEX sic_url_identifier ON /*_*/cusi_case (sic_url_identifier);
 
 
 CREATE TABLE /*_*/cusi_user (
