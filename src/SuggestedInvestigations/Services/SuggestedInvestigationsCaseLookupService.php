@@ -104,4 +104,30 @@ class SuggestedInvestigationsCaseLookupService {
 
 		return $cases;
 	}
+
+	/**
+	 * Gets the case ID of the `cusi_case` row with the given URL identifier.
+	 *
+	 * @param string $urlIdentifier The URL identifier in hexadecimal format
+	 * @return int|false false if no case with the given URL identifier exists or the URL identifier was invalid.
+	 *   Otherwise the `sic_id` (case ID) for the matching `cusi_case` row
+	 */
+	public function getCaseIdForUrlIdentifier( string $urlIdentifier ): int|false {
+		if ( !ctype_xdigit( $urlIdentifier ) ) {
+			return false;
+		}
+
+		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$rowId = $dbr->newSelectQueryBuilder()
+			->select( 'sic_id' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_url_identifier' => hexdec( $urlIdentifier ) ] )
+			->caller( __METHOD__ )
+			->fetchField();
+
+		if ( $rowId === false ) {
+			return false;
+		}
+		return (int)$rowId;
+	}
 }

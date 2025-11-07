@@ -124,6 +124,40 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusCell );
 	}
 
+	public function testOutputWhenCaseIdFilterSet() {
+		$firstCaseId = $this->addCaseWithTwoUsers();
+		$secondCaseId = $this->addCaseWithTwoUsers();
+
+		// Update the cases to have a specific reason, so that we can assert that the first case and not the
+		// second case is shown in the page
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+		$caseManager->setCaseStatus( $firstCaseId, CaseStatus::Open, 'first case reason' );
+		$caseManager->setCaseStatus( $secondCaseId, CaseStatus::Invalid, 'second case reason' );
+
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+
+		$pager = new SuggestedInvestigationsTablePager(
+			$this->getServiceContainer()->getConnectionProvider(),
+			$this->getServiceContainer()->getUserLinkRenderer(),
+			$context,
+		);
+		$pager->caseIdFilter = $firstCaseId;
+
+		$html = $pager->getBody();
+
+		// Test that only the first case is shown.
+		// Two <tr> elements will be present when this happens (1 data row + 1 header row)
+		$this->assertSame( 2, substr_count( $html, '<tr' ) );
+		$this->assertStringContainsString( 'first case reason', $html );
+		$this->assertStringNotContainsString( 'second case reason', $html );
+
+		// When filtering by case ID, no columns should be sortable
+		$this->assertStringNotContainsString( 'cdx-table__table__cell--has-sort', $html );
+	}
+
 	public function testInvestigateDisabledWhenTooManyUsers() {
 		$caseId = $this->addCaseWithManyUsers();
 

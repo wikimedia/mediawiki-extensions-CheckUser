@@ -41,6 +41,12 @@ use Wikimedia\Rdbms\IReadableDatabase;
 class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 	/**
+	 * @var int|null When not null, only display the case with this ID. This is currently only
+	 *   used for the detail view, where one case is row is displayed.
+	 */
+	public int|null $caseIdFilter = null;
+
+	/**
 	 * The unique sort fields for the sort options for unique paginate
 	 */
 	private const INDEX_FIELDS = [
@@ -295,7 +301,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 	/** @inheritDoc */
 	public function getQueryInfo() {
-		return [
+		$queryInfo = [
 			'tables' => [
 				'cusi_case',
 			],
@@ -306,6 +312,12 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 				'sic_status_reason',
 			],
 		];
+
+		if ( $this->caseIdFilter !== null ) {
+			$queryInfo['conds'] = [ 'sic_id' => $this->caseIdFilter ];
+		}
+
+		return $queryInfo;
 	}
 
 	/**
@@ -409,6 +421,12 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 	/** @inheritDoc */
 	protected function isFieldSortable( $field ) {
+		// When only one row could appear, there is no need
+		// to allow sorting that one row
+		if ( $this->caseIdFilter !== null ) {
+			return false;
+		}
+
 		return $field === 'sic_created_timestamp'
 			|| $field === 'sic_status';
 	}

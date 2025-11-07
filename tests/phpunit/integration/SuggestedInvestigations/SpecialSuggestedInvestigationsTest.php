@@ -21,10 +21,13 @@
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations;
 
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
+use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Request\FauxRequest;
+use MediaWiki\Request\WebResponse;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use PHPUnit\Framework\ExpectationFailedException;
 use SpecialPageTestBase;
@@ -93,6 +96,70 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		);
 	}
 
+	public function testLoadDetailView() {
+		$context = RequestContext::getMain();
+		$context->setUser( $this->getTestUser( [ 'checkuser' ] )->getUser() );
+		$context->setLanguage( 'qqx' );
+
+		[ $html ] = $this->executeSpecialPage(
+			'detail/abcdef12', new FauxRequest(), null, null, true, $context
+		);
+
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-detail-view: 1)', $html );
+
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-back-to-main-page)',
+			$html,
+			'Missing link to go back to the main suggested investigations page'
+		);
+
+		$descriptionHtml = $this->assertAndGetByElementClass(
+			$html, 'ext-checkuser-suggestedinvestigations-description'
+		);
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-summary-detail-view: 1',
+			$descriptionHtml
+		);
+	}
+
+	public function testLoadDetailViewWithUnknownUrlIdentifier() {
+		$context = RequestContext::getMain();
+		$context->setUser( $this->getTestUser( [ 'checkuser' ] )->getUser() );
+		$context->setLanguage( 'qqx' );
+
+		/** @var $webResponse WebResponse */
+		[ $html, $webResponse ] = $this->executeSpecialPage(
+			'detail/abcxyz', new FauxRequest(), null, null, true, $context
+		);
+
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-detail-view-not-found)', $html );
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-detail-view-not-found-page-text: abcxyz',
+			$html,
+			'Missing link to go back to the main suggested investigations page'
+		);
+		$this->assertSame( 404, $webResponse->getStatusCode() );
+	}
+
+	public function testLoadWithUnknownSubpage() {
+		$context = RequestContext::getMain();
+		$context->setUser( $this->getTestUser( [ 'checkuser' ] )->getUser() );
+		$context->setLanguage( 'qqx' );
+
+		/** @var $webResponse WebResponse */
+		[ $html, $webResponse ] = $this->executeSpecialPage(
+			'unknown', new FauxRequest(), null, null, true, $context
+		);
+
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-subpage-not-found)', $html );
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-subpage-not-found-page-text',
+			$html,
+			'Missing link to go back to the main suggested investigations page'
+		);
+		$this->assertSame( 404, $webResponse->getStatusCode() );
+	}
+
 	/**
 	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
 	 * the HTML inside that Element.
@@ -144,7 +211,9 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	}
 
 	/** @dataProvider providePageLoadInstrumentation */
-	public function testPageLoadInstrumentation( $queryParameters, $expectedActionContext ) {
+	public function testPageLoadInstrumentation(
+		string $subPage, array $queryParameters, array $expectedActionContext
+	) {
 		$context = RequestContext::getMain();
 		$context->setUser( $this->getTestUser( [ 'checkuser' ] )->getUser() );
 		$context->setRequest( new FauxRequest( $queryParameters ) );
@@ -156,20 +225,45 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			->with( $context, 'page_load', [ 'action_context' => json_encode( $expectedActionContext ) ] );
 		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
-		$this->executeSpecialPage( '', null, null, null, false, $context );
+		$this->executeSpecialPage( $subPage, null, null, null, false, $context );
 	}
 
 	public static function providePageLoadInstrumentation(): array {
 		return [
-			'Page load with no additional query parameters' => [ [], [ 'is_paging_results' => false, 'limit' => 10 ] ],
+			'Page load with no additional query parameters' => [
+				'subPage' => '', 'queryParameters' => [],
+				'expectedActionContext' => [ 'is_paging_results' => false, 'limit' => 10, 'detail_view' => false ],
+			],
 			'Page load with offset and custom limit' => [
-				[ 'offset' => '20250405060708', 'limit' => 20 ],
-				[ 'is_paging_results' => true, 'limit' => 20 ],
+				'subPage' => '', 'queryParameters' => [ 'offset' => '20250405060708', 'limit' => 20 ],
+				'expectedActionContext' => [ 'is_paging_results' => true, 'limit' => 20, 'detail_view' => false ],
 			],
 			'Page load with no offset but backwards direction and custom limit' => [
-				[ 'dir' => 'prev' ],
-				[ 'is_paging_results' => true, 'limit' => 10 ],
+				'subPage' => '', 'queryParameters' => [ 'dir' => 'prev' ],
+				'expectedActionContext' => [ 'is_paging_results' => true, 'limit' => 10, 'detail_view' => false ],
+			],
+			'Page load for detail subpage with a known URL identifier' => [
+				'subPage' => 'detail/abcdef12', 'queryParameters' => [],
+				'expectedActionContext' => [ 'is_paging_results' => false, 'limit' => 10, 'detail_view' => true ],
 			],
 		];
+	}
+
+	/** @inheritDoc */
+	public function addDBDataOnce() {
+		$this->enableSuggestedInvestigations();
+
+		// Create a suggested investigations case and then set it's URL identifier to 'abcdef12' so we can
+		// test the detailed view by using a pre-defined stable URL identifier.
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+		$caseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'cusi_case' )
+			->set( [ 'sic_url_identifier' => hexdec( 'abcdef12' ) ] )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->execute();
 	}
 }

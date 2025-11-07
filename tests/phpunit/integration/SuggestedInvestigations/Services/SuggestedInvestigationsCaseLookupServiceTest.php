@@ -124,6 +124,32 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		$this->assertCount( 0, $cases );
 	}
 
+	/** @dataProvider provideGetCaseIdForUrlIdentifierForBadResult */
+	public function testGetCaseIdForUrlIdentifierForBadResult( $urlIdentifier ) {
+		$service = $this->createService();
+		$this->assertFalse( $service->getCaseIdForUrlIdentifier( $urlIdentifier ) );
+	}
+
+	public static function provideGetCaseIdForUrlIdentifierForBadResult(): array {
+		return [
+			'URL identifier is not a valid hexadecimal string' => [ 'abcjkl' ],
+			'URL identifier does not match any existing case' => [ 'abcdef12' ],
+		];
+	}
+
+	public function testGetCaseIdForUrlIdentifierForGoodResult() {
+		$openCaseUrlIdentifierAsInteger = $this->newSelectQueryBuilder()
+			->select( [ 'sic_url_identifier' ] )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => self::$openCase ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$openCaseUrlIdentifier = dechex( $openCaseUrlIdentifierAsInteger );
+
+		$service = $this->createService();
+		$this->assertSame( self::$openCase, $service->getCaseIdForUrlIdentifier( $openCaseUrlIdentifier ) );
+	}
+
 	public function addDBDataOnce() {
 		$this->enableSuggestedInvestigations();
 
