@@ -26,6 +26,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -76,19 +77,40 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 					$interactionData
 				);
 			} );
-		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
-		$service = $this->createService();
+		// Mock SuggestedInvestigationsCaseManagerService::generateUrlIdentifier to return a predetermined value
+		// so that we can assert against the value of sic_url_identifier in the new row
+		$service = $this->getMockBuilder( SuggestedInvestigationsCaseManagerService::class )
+			->setConstructorArgs( [
+				new ServiceOptions(
+					SuggestedInvestigationsCaseManagerService::CONSTRUCTOR_OPTIONS,
+					$this->getServiceContainer()->getMainConfig()
+				),
+				$this->getServiceContainer()->getConnectionProvider(),
+				$client,
+			] )
+			->onlyMethods( [ 'generateUrlIdentifier' ] )
+			->getMock();
+		$service->method( 'generateUrlIdentifier' )
+			->willReturn( 123 );
+
 		$caseId = $service->createCase( $users, $signals );
 
-		$caseIds = $this->getDb()->newSelectQueryBuilder()
-			->select( 'sic_id' )
+		$caseRows = $this->getDb()->newSelectQueryBuilder()
+			->select( [ 'sic_id', 'sic_url_identifier' ] )
 			->from( 'cusi_case' )
 			->caller( __METHOD__ )
-			->fetchFieldValues();
+			->fetchResultSet();
 
-		$this->assertCount( 1, $caseIds, 'A single new case should be created' );
-		$this->assertSame( $caseId, (int)$caseIds[0], 'The created case ID should be returned' );
+		$this->assertCount( 1, $caseRows, 'A single new case should be created' );
+
+		$matchingCaseRow = $caseRows->fetchRow();
+		$this->assertSame( $caseId, (int)$matchingCaseRow['sic_id'], 'The created case ID should be returned' );
+		$this->assertSame(
+			123,
+			(int)$matchingCaseRow['sic_url_identifier'],
+			'The created case should use the mocked random URL identifier'
+		);
 
 		// Ensure we added users only to the newly created case
 		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
@@ -109,6 +131,51 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 			->fetchField();
 		$this->assertSame( 1, $signalCountRelevant, 'One signal should be added to the case' );
 		$this->assertSame( 0, $signalCountAll - $signalCountRelevant, 'No signals should be added to any other case' );
+	}
+
+	public function testCreateCaseOnUrlIdentifierConflict(): void {
+		$users = [
+			UserIdentityValue::newRegistered( 1, 'Test user 1' ),
+			UserIdentityValue::newRegistered( 2, 'Test user 2' ),
+		];
+		$signals = [
+			SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false ),
+		];
+
+		// Mock SuggestedInvestigationsCaseManagerService::generateUrlIdentifier to return
+		// the same ID in a row, and then choose a new ID.
+		// This tests that the creation of a new case validates that a new URL identifier value is not
+		// used in any existing cusi_case row.
+		$service = $this->getMockBuilder( SuggestedInvestigationsCaseManagerService::class )
+			->setConstructorArgs( [
+				new ServiceOptions(
+					SuggestedInvestigationsCaseManagerService::CONSTRUCTOR_OPTIONS,
+					$this->getServiceContainer()->getMainConfig()
+				),
+				$this->getServiceContainer()->getConnectionProvider(),
+				$this->createMock( SuggestedInvestigationsInstrumentationClient::class ),
+			] )
+			->onlyMethods( [ 'generateUrlIdentifier' ] )
+			->getMock();
+		$service->expects( $this->exactly( 3 ) )
+			->method( 'generateUrlIdentifier' )
+			->willReturnOnConsecutiveCalls( 123, 123, 1234 );
+
+		$firstCaseId = $service->createCase( $users, $signals );
+		$secondCaseId = $service->createCase( $users, $signals );
+
+		$this->newSelectQueryBuilder()
+			->select( 'sic_url_identifier' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $firstCaseId ] )
+			->caller( __METHOD__ )
+			->assertFieldValue( '123' );
+		$this->newSelectQueryBuilder()
+			->select( 'sic_url_identifier' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $secondCaseId ] )
+			->caller( __METHOD__ )
+			->assertFieldValue( '1234' );
 	}
 
 	/** @dataProvider provideDisallowCreateCase */

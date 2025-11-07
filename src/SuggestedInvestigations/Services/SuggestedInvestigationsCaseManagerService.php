@@ -74,6 +74,7 @@ class SuggestedInvestigationsCaseManagerService {
 			$dbw->newInsertQueryBuilder()
 				->insert( 'cusi_case' )
 				->row( [
+					'sic_url_identifier' => $this->generateUniqueUrlIdentifier(),
 					'sic_created_timestamp' => $dbw->timestamp(),
 				] )
 				->caller( __METHOD__ )
@@ -234,6 +235,56 @@ class SuggestedInvestigationsCaseManagerService {
 			->rows( $rows )
 			->caller( __METHOD__ )
 			->execute();
+	}
+
+	/**
+	 * Returns a random integer that can be used in the sic_url_identifier column of the cusi_case table.
+	 * This random integer will never be 0, as this indicates that a URL identifier has not been set yet.
+	 *
+	 * This does not validate that the value has already been used in an existing cusi_case row.
+	 * Callers are expected to validate this before attempting to set the value.
+	 */
+	protected function generateUrlIdentifier(): int {
+		return random_int( 1, $this->getMaxInteger() );
+	}
+
+	/**
+	 * Generates a random integer that can be used as the value of sic_url_identifier in a new
+	 * cusi_case row.
+	 *
+	 * This method checks that the returned integer is not used in any existing cusi_case
+	 * row on a replica DB. A check on a primary DB should be unnecessary.
+	 */
+	private function generateUniqueUrlIdentifier(): int {
+		$dbr = $this->getReplicaDatabase();
+
+		do {
+			$urlIdentifier = $this->generateUrlIdentifier();
+
+			$isUrlIdentifierAlreadyInUse = $dbr->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'cusi_case' )
+				->where( [ 'sic_url_identifier' => $urlIdentifier ] )
+				->caller( __METHOD__ )
+				->fetchField();
+		} while ( $isUrlIdentifierAlreadyInUse !== false );
+
+		return $urlIdentifier;
+	}
+
+	/**
+	 * Returns the maximum length of an integer column for the given database type ensuring that
+	 * the maximum value does not translate to a hexadecimal string of anything longer than
+	 * 8 characters.
+	 *
+	 * Needed because PostgreSQL does not support unsigned integers and so cannot store as large
+	 * integer as other DB types.
+	 */
+	private function getMaxInteger(): int {
+		return match ( $this->getPrimaryDatabase()->getType() ) {
+			'postgres' => 2147483647,
+			default => 4294967295,
+		};
 	}
 
 	/** Helper function to check if a case with given ID exists */
