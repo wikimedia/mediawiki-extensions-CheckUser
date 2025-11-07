@@ -7,13 +7,16 @@ use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\SidebarBeforeOutputHook;
 use MediaWiki\Skin\Skin;
+use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\User\UserIdentity;
+use Wikimedia\IPUtils;
 
 /**
  * Adds a link to users' GlobalContributions pages on user pages.
  */
 class SidebarLinksHandler implements SidebarBeforeOutputHook {
+	use ContributionsRangeTrait;
+
 	/**
 	 * Keys used to identify the new links added to $sidebar['TOOLBOX'].
 	 */
@@ -57,7 +60,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 			return;
 		}
 
-		$name = $skin->getRelevantUser()->getName();
+		$name = $skin->getPageTarget();
 		$targetTitle = SpecialPage::getTitleFor( 'GlobalContributions', $name );
 		$globalContributionsLink = [
 			'id' => 't-global-contributions',
@@ -88,16 +91,21 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	 * @return bool
 	 */
 	private function shouldLinkToGlobalContributions( Skin $skin ): bool {
-		if ( !$skin->getRelevantUser() instanceof UserIdentity ) {
-			// A Relevant User is set when listing (Global / IP) Contributions
-			// by username or IP, but it isn't if the request refers to an IP
-			// range.
+		$target = $skin->getPageTarget();
+		if ( !$target ) {
+			return false;
+		}
+
+		if (
+			IPUtils::isValidRange( $target ) &&
+			!$this->isQueryableRange( $target, $this->config )
+		) {
 			return false;
 		}
 
 		$gcAccess = $this->permissionManager->canAccessUserGlobalContributions(
 			$skin->getAuthority(),
-			$skin->getRelevantUser()->getName()
+			$target
 		);
 
 		return $gcAccess->isGood();
