@@ -33,7 +33,12 @@ CREATE TABLE /*_*/cusi_signal (
   sis_sic_id INTEGER UNSIGNED NOT NULL,
   sis_name BLOB NOT NULL,
   sis_value BLOB NOT NULL,
-  PRIMARY KEY(sis_name, sis_value, sis_sic_id)
+  sis_trigger_id BIGINT UNSIGNED NOT NULL,
+  sis_trigger_type SMALLINT DEFAULT 0 NOT NULL,
+  PRIMARY KEY(
+    sis_name, sis_value, sis_sic_id, sis_trigger_id,
+    sis_trigger_type
+  )
 );
 
 CREATE INDEX sis_sic_id ON /*_*/cusi_signal (sis_sic_id);

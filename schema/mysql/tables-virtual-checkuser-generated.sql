@@ -30,6 +30,11 @@ CREATE TABLE /*_*/cusi_signal (
   sis_sic_id INT UNSIGNED NOT NULL,
   sis_name VARBINARY(255) NOT NULL,
   sis_value VARBINARY(255) NOT NULL,
+  sis_trigger_id BIGINT UNSIGNED NOT NULL,
+  sis_trigger_type TINYINT(1) DEFAULT 0 NOT NULL,
   INDEX sis_sic_id (sis_sic_id),
-  PRIMARY KEY(sis_name, sis_value, sis_sic_id)
+  PRIMARY KEY(
+    sis_name, sis_value, sis_sic_id, sis_trigger_id,
+    sis_trigger_type
+  )
 ) /*$wgDBTableOptions*/;

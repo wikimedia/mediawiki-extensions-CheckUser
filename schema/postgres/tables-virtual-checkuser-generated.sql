@@ -34,7 +34,12 @@ CREATE TABLE cusi_signal (
   sis_sic_id INT NOT NULL,
   sis_name TEXT NOT NULL,
   sis_value TEXT NOT NULL,
-  PRIMARY KEY(sis_name, sis_value, sis_sic_id)
+  sis_trigger_id BIGINT NOT NULL,
+  sis_trigger_type SMALLINT DEFAULT 0 NOT NULL,
+  PRIMARY KEY(
+    sis_name, sis_value, sis_sic_id, sis_trigger_id,
+  sis_trigger_type
+  )
 );
 
 CREATE INDEX sis_sic_id ON cusi_signal (sis_sic_id);
