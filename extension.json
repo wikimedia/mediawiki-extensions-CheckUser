@@ -1243,7 +1243,8 @@
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCentralCheckUserIndexTables": "maintenance/populateCentralCheckUserIndexTables.php",
 		"MediaWiki\\CheckUser\\Maintenance\\MigrateTemporaryAccountIPViewerGroup": "maintenance/migrateTemporaryAccountIPViewerGroup.php",
 		"MediaWiki\\CheckUser\\Maintenance\\RevokeTemporaryAccountViewerGroup": "maintenance/revokeTemporaryAccountViewerGroup.php",
-		"MediaWiki\\CheckUser\\Maintenance\\CreateFakeSuggestedInvestigationCases": "maintenance/createFakeSuggestedInvestigationCases.php"
+		"MediaWiki\\CheckUser\\Maintenance\\CreateFakeSuggestedInvestigationCases": "maintenance/createFakeSuggestedInvestigationCases.php",
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateSicUrlIdentifier": "maintenance/populateSicUrlIdentifier.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"

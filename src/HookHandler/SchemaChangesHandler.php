@@ -13,6 +13,7 @@ use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCucComment;
 use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
+use MediaWiki\CheckUser\Maintenance\PopulateSicUrlIdentifier;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 
 class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQueryInterface {
@@ -401,6 +402,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			self::VIRTUAL_DB_DOMAIN, 'addField', 'cusi_case', 'sic_url_identifier',
 			"$base/$dbType/patch-cusi_case-add-sic_url_identifier.sql", true,
 		] );
+		$updater->addPostDatabaseUpdateMaintenance( PopulateSicUrlIdentifier::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.

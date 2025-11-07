@@ -252,16 +252,23 @@ class SuggestedInvestigationsCaseManagerService {
 	 * Generates a random integer that can be used as the value of sic_url_identifier in a new
 	 * cusi_case row.
 	 *
-	 * This method checks that the returned integer is not used in any existing cusi_case
-	 * row on a replica DB. A check on a primary DB should be unnecessary.
+	 * This method checks that the returned integer is not used in any existing cusi_case row.
+	 *
+	 * @internal Only public to allow use in {@link PopulateSicUrlIdentifier}
+	 * @param bool $usePrimary Whether to use a primary DB connection to determine if
+	 *   sic_url_identifier is already in use. If false, uses a replica DB connection.
 	 */
-	private function generateUniqueUrlIdentifier(): int {
-		$dbr = $this->getReplicaDatabase();
+	public function generateUniqueUrlIdentifier( bool $usePrimary = false ): int {
+		if ( $usePrimary ) {
+			$db = $this->getPrimaryDatabase();
+		} else {
+			$db = $this->getReplicaDatabase();
+		}
 
 		do {
 			$urlIdentifier = $this->generateUrlIdentifier();
 
-			$isUrlIdentifierAlreadyInUse = $dbr->newSelectQueryBuilder()
+			$isUrlIdentifierAlreadyInUse = $db->newSelectQueryBuilder()
 				->select( '1' )
 				->from( 'cusi_case' )
 				->where( [ 'sic_url_identifier' => $urlIdentifier ] )
