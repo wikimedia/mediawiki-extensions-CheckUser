@@ -216,11 +216,12 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		// * checkuser-log-entry-ipusers-xff
 		// * checkuser-log-entry-useractions
 		// * checkuser-log-entry-investigate
-		$cul_type = [
+		$cul_type = match ( $row->cul_type ) {
 			'ipedits' => 'ipactions',
 			'ipedits-xff' => 'ipactions-xff',
 			'useredits' => 'useractions',
-		][$row->cul_type] ?? $row->cul_type;
+			default => $row->cul_type,
+		};
 		$rowContent = $this->msg( 'checkuser-log-entry-' . $cul_type )
 			->rawParams(
 				$user,
