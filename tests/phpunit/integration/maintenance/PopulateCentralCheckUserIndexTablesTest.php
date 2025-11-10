@@ -186,7 +186,6 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 				'cupe_xff'     => 0,
 				'cupe_xff_hex' => null,
 				'cupe_params'  => '',
-				'cupe_private' => '',
 			], $row );
 		}, $testData );
 

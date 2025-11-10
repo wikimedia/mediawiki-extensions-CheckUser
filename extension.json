@@ -36,10 +36,6 @@
 			"value": 200,
 			"description": "Maximum number of users that can be mass blocked simultaneously"
 		},
-		"CUPublicKey": {
-			"value": "",
-			"description": "Public key to encrypt private data that may need to be read later. Generate a public key with something like: `openssl genrsa -out cu.key 2048; openssl rsa -in cu.key -pubout > cu.pub` and paste the contents of cu.pub here."
-		},
 		"CUDMaxAge": {
 			"value": 7776000,
 			"description": "How long to keep CheckUser data (in seconds)"

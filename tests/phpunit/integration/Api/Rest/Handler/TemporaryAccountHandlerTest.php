@@ -583,7 +583,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'cupe_xff'     => 0,
 			'cupe_xff_hex' => null,
 			'cupe_params'  => '',
-			'cupe_private' => '',
 		];
 
 		$queryBuilder = $this->getDb()->newInsertQueryBuilder()

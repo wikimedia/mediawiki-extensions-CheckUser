@@ -115,7 +115,6 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cuc_xff',
 					'cuc_xff_hex',
 					'cuc_agent',
-					'cuc_private',
 				] )
 				->table( 'cu_changes' )
 				->where( [
@@ -144,7 +143,6 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cupe_xff' => $row->cuc_xff,
 					'cupe_xff_hex' => $row->cuc_xff_hex,
 					'cupe_agent' => $row->cuc_agent,
-					'cupe_private' => $row->cuc_private,
 				];
 				$setOnlyForReadOldBatch[] = $row->cuc_id;
 			}

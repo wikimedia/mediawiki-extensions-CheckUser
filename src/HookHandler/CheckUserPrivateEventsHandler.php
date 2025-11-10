@@ -7,7 +7,6 @@ use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
-use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\Config;
@@ -228,10 +227,8 @@ class CheckUserPrivateEventsHandler implements
 	}
 
 	/**
-	 * Creates a private checkuser event when an email is sent. This also stores:
-	 * * A hash of the recipient of the email
-	 * * If $wgCUPublicKey is valid, the "private" column will contain the recipient of the email
-	 *   in an encrypted form.
+	 * Creates a private checkuser event when an email is sent.
+	 * This also stores a hash of the recipient of the email
 	 *
 	 * Uses a deferred update to save the event, because emails can be sent from code paths
 	 * that don't open master connections.
@@ -269,11 +266,6 @@ class CheckUserPrivateEventsHandler implements
 			'cupe_log_action' => 'email-sent',
 			'cupe_params' => LogEntryBase::makeParamBlob( [ '4::hash' => $hash ] ),
 		];
-		if ( trim( $this->config->get( 'CUPublicKey' ) ) !== '' ) {
-			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
-			$encryptedData = new EncryptedData( $privateData, $this->config->get( 'CUPublicKey' ) );
-			$cuPrivateRow['cupe_private'] = serialize( $encryptedData );
-		}
 		$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable( $cuPrivateRow, __METHOD__, $userFrom );
 
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
