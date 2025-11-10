@@ -186,8 +186,8 @@
 	"checkuser-temporary-accounts-onboarding-dialog-preference-error": "Что-то пошло не так. Пожалуйста, повторите попытку. Получено сообщение об ошибке: $1",
 	"checkuser-temporary-accounts-onboarding-dialog-preference-success": "Настройка обновлена",
 	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Прежде чем продолжить, нажмите «$1».",
-	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Сохранить настройку",
-	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Сохранить глобальную настройку",
+	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Сохранить настройки",
+	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Сохранить глобальные настройки",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Раскрытие IP-адреса",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base": "Функция «Раскрытие IP-адреса» позволяет администраторам, борцам с вандализмом и опытным участникам раскрывать IP-адрес, связанный с временной учётной записью.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-with-global-preferences": "{{int:checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content-base}}\n\nУчастникам, отвечающим требованиям к доступу, может потребоваться включить отображение IP-адреса в своих [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|настройках]] или [[Special:GlobalPreferences#mw-prefsection-personal-checkuser-tempaccount|глобальных настройках]]. После включения отображения IP-адреса рядом с временными учётными записями появится кнопка «{{int:checkuser-tempaccount-reveal-ip-button-label}}».",
@@ -318,6 +318,7 @@
 	"checkuser-userinfocard-past-blocks": "Прошлые блокировки: $1",
 	"checkuser-userinfocard-global-edits": "Глобальных правок: $1",
 	"checkuser-userinfocard-local-edits": "Локальных правок: $1 (отменены: $2)",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Локальных правок: $1",
 	"checkuser-userinfocard-new-articles": "Новых статей: $1",
 	"checkuser-userinfocard-thanks": "Получено благодарностей: $1 (поблагодарено: $2)",
 	"checkuser-userinfocard-checks": "Проверок: $1 (последняя проверка: $2 )",
@@ -332,6 +333,9 @@
 	"checkuser-userinfocard-enable-preference-description": "Включить [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|карточку с информацией о пользователе]]",
 	"checkuser-userinfocard-enable-preference-help": "Показать кнопку рядом с именем участника для демонстрации всплывающего окна с информацией об аккаунте.",
 	"checkuser-userinfocard-activity-chart-label": "Редакторская активность за последние 60 дней ({{PLURAL:$1|$1 правка|$1 правки|$1 правок|0=Нет правок}})",
+	"checkuser-userinfocard-last-edit-timestamp-label": "Последняя правка: $1",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобальная правка|$1 глобальные правки|$1 глобальных правок|0=Нет глобальных правок}}",
 	"checkuser-userinfocard-groups": "<strong>Группы</strong>: $1",
-	"checkuser-userinfocard-global-groups": "<strong>Глобальные группы</strong>: $1"
+	"checkuser-userinfocard-global-groups": "<strong>Глобальные группы</strong>: $1",
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 правка|$2 правки|$2 правок|0=Нет правок}})"
 }
