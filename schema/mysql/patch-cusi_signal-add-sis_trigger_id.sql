@@ -5,7 +5,7 @@
 DROP INDEX `primary` ON /*_*/cusi_signal;
 
 ALTER TABLE /*_*/cusi_signal
-  ADD sis_trigger_id BIGINT UNSIGNED NOT NULL,
+  ADD sis_trigger_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   ADD sis_trigger_type TINYINT(1) DEFAULT 0 NOT NULL;
 
 ALTER TABLE /*_*/cusi_signal

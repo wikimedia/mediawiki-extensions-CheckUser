@@ -109,7 +109,7 @@
 				"name": "sis_trigger_id",
 				"comment": "The revision or log ID that caused this signal to be evaluated.",
 				"type": "bigint",
-				"options": { "unsigned": true, "notnull": true }
+				"options": { "unsigned": true, "notnull": true, "default": 0 }
 			},
 			{
 				"name": "sis_trigger_type",

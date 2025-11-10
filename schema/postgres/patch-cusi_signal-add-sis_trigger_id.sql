@@ -6,7 +6,7 @@ ALTER TABLE cusi_signal
   DROP CONSTRAINT cusi_signal_pkey;
 
 ALTER TABLE cusi_signal
-  ADD sis_trigger_id BIGINT NOT NULL;
+  ADD sis_trigger_id BIGINT DEFAULT 0 NOT NULL;
 
 ALTER TABLE cusi_signal
   ADD sis_trigger_type SMALLINT DEFAULT 0 NOT NULL;
