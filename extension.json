@@ -812,6 +812,7 @@
 				"checkuser-ip-auto-reveal-notification-off",
 				"checkuser-ip-auto-reveal-on-dialog-title",
 				"checkuser-ip-auto-reveal-on-dialog-text",
+				"checkuser-ip-auto-reveal-on-dialog-error-enable",
 				"checkuser-ip-auto-reveal-on-dialog-default-action",
 				"checkuser-ip-auto-reveal-on-dialog-primary-action",
 				"checkuser-ip-auto-reveal-on-dialog-select-label",
@@ -820,6 +821,7 @@
 				"checkuser-ip-auto-reveal-off-dialog-text-expiry",
 				"checkuser-ip-auto-reveal-off-dialog-text-info",
 				"checkuser-ip-auto-reveal-off-dialog-error-extend-limit",
+				"checkuser-ip-auto-reveal-off-dialog-error-disable",
 				"checkuser-ip-auto-reveal-off-dialog-extend-action",
 				"checkuser-ip-auto-reveal-off-dialog-off-action"
 			],
