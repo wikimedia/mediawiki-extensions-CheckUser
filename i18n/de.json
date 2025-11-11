@@ -25,7 +25,8 @@
 			"Dreamy Jazz",
 			"Johannnes89",
 			"XenonX3",
-			"Inkowik"
+			"Inkowik",
+			"IWL04"
 		]
 	},
 	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1–32) und IPv6 (CIDR $2–128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal $3 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
@@ -259,13 +260,13 @@
 	"checkuser-ip-contributions-tab-label-contributions": "Beiträge",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Gelöschte Beiträge",
 	"checkuser-ip-contributions-search-form-wrapper": "Suche nach IP-Beiträgen",
-	"checkuser-ip-contributions-results-title": "Temporäre Benutzer-IP-Beiträge für $1",
+	"checkuser-ip-contributions-results-title": "IP-Beiträge durch temporäre Konten für $1",
 	"checkuser-ip-contributions-archive-results-title": "Gelöschte temporäre Benutzer-IP-Beiträge für $1",
 	"checkuser-ip-contributions-deleted-contributions-link": "gelöschte Benutzerbeiträge",
 	"checkuser-ip-contributions-contributions-link": "Beiträge",
-	"checkuser-ip-contributions-special-ip-contributions-button": "Temporäre Benutzer-IP-Bearbeitungen",
-	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Temporäre Benutzer-IP-Bearbeitungen",
-	"checkuser-ip-contributions-special-contributions-button": "Veraltete IP-Bearbeitungen",
+	"checkuser-ip-contributions-special-ip-contributions-button": "IP-Beiträge durch temporäre Konten",
+	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "IP-Beiträge durch temporäre Konten",
+	"checkuser-ip-contributions-special-contributions-button": "Frühere IP-Beiträge",
 	"checkuser-global-contributions": "Suche nach globalen Beiträgen",
 	"checkuser-global-contributions-permission-error-title": "Berechtigungsfehler",
 	"checkuser-global-contributions-permission-error-description": "Um globale Beiträge anzuzeigen, akzeptiere bitte die Vereinbarung in [[Special:GlobalPreferences|deine globalen Einstellungen]].",

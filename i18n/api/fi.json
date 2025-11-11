@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Samoasambia"
+		]
+	},
+	"apierror-checkuser-nosuchuser": "Tämän nimistä käyttäjää ei ole",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Käyttäjä $1 ei ole version $2 tekijä"
+}
