@@ -23,7 +23,7 @@
 	"action-checkuser-log": "प्रयोगकर्ता जाँच लग हेर्ने",
 	"grouppage-checkuser": "{{ns:project}}:प्रयोगकर्ता जाँच",
 	"checkuser-clienthints-name-platform": "मञ्च",
-	"checkuser-reason": "कारण :",
+	"checkuser-reason": "कारण:",
 	"checkuser-reason-api": "एपिआइ:$1",
 	"checkuser-showlog": "लग जाँच गर्ने",
 	"checkuser-query": "नयाँ परिवर्तनहरू खोज्ने",

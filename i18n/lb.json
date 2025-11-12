@@ -232,6 +232,8 @@
 	"checkuser-userinfocard-groups": "<strong>Gruppen</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Global Gruppen</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 Ännerung|$2 Ännerungen|0=Keng Ännerungen}})",
+	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: Ënnersäit net fonnt",
+	"checkuser-suggestedinvestigations-back-to-main-page": "Zeréck op {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-header-users": "Konten",
 	"checkuser-suggestedinvestigations-header-signals": "Risikosignaler",
 	"checkuser-suggestedinvestigations-header-created": "Ugeluecht",
