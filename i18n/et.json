@@ -4,7 +4,8 @@
 			"Avjoska",
 			"Pikne",
 			"WikedKentaur",
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"SaldırganSincap"
 		]
 	},
 	"checkuser-summary": "See tööriist skannib viimaseid muudatusi, et leida IP-aadressid, mida kasutaja on kasutanud, või et näidata andmeid IP-aadressi kasutaja või muudatuste kohta.\nKliendi IP-aadressiga seotud kasutajad ja muudatused saab leida XFF-päiste abil, lisades IP-aadressi järele liite \"/xff\". Toetatud on IPv4 (CIDR $1-32) ja IPv6 (CIDR $2-128).\nJõudluskaalutlusel ei tagastata üle $3 muudatuse.\nKasuta seda kooskõlas reeglitega.",
