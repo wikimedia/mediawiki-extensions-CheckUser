@@ -129,12 +129,12 @@ class CheckUserUserInfoCardService {
 	}
 
 	private function shouldShowNewArticlesCount( UserIdentity $userIdentity, int $editCount ): bool {
-		$user = $this->userFactory->newFromUserIdentity( $userIdentity );
-		if ( !$user->getRegistration() ) {
+		$registration = $this->userRegistrationLookup->getRegistration( $userIdentity );
+		if ( !$registration ) {
 			// Old account, no registration date, hide the new articles count
 			return false;
 		}
-		if ( $user->getRegistration() <= '20180701000000' ) {
+		if ( $registration <= '20180701000000' ) {
 			// Account registered before July 2018, when page creations were first logged,
 			// hide the new articles count
 			return false;
