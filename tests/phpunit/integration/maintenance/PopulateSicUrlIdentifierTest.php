@@ -9,6 +9,7 @@ use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInves
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\Rdbms\IMaintainableDatabase;
 use Wikimedia\Services\NoSuchServiceException;
 
 /**
@@ -85,6 +86,9 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 	}
 
 	public function testWhenSuggestedInvestigationsCaseTableHasRowsToPopulate() {
+		// Schema changes are needed for this test, so skip this on postgres where the tests don't work.
+		$this->markTestSkippedIfDbType( 'postgres' );
+
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
 
@@ -180,5 +184,25 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 			->where( [ 'sic_url_identifier' => 0 ] )
 			->caller( __METHOD__ )
 			->assertEmptyResult();
+	}
+
+	/**
+	 * Makes sic_url_identifier non-unique during the execution of this test class.
+	 *
+	 * @inheritDoc
+	 */
+	protected function getSchemaOverrides( IMaintainableDatabase $db ) {
+		// The schema changes don't work on postgres, so the tests are skipped (and therefore no need to attempt
+		// to make the schema changes either).
+		if ( $db->getType() === 'postgres' ) {
+			return [];
+		}
+
+		return [
+			'scripts' => [
+				__DIR__ . '/patches/' . $db->getType() . '/patch-cusi_case-sic_url_identifier-non_unique.sql',
+			],
+			'drop' => [ 'cusi_case' ],
+		];
 	}
 }
