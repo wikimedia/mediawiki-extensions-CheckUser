@@ -32,6 +32,7 @@ use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Parsoid\Utils\DOMCompat;
 use Wikimedia\Parsoid\Utils\DOMUtils;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\SuggestedInvestigationsTablePager
@@ -75,6 +76,8 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testOutput() {
+		ConvertibleTimestamp::setFakeTime( '20250403020100' );
+
 		$caseId = $this->addCaseWithTwoUsers();
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
@@ -110,6 +113,26 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status="open"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status-reason=""', $changeStatusButtonHtml );
+
+		// Validate the timestamp cell contains the correct data and also links to the detail view
+		$urlIdentifier = $this->newSelectQueryBuilder()
+			->select( 'sic_url_identifier' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$this->assertStringContainsString(
+			'Special:SuggestedInvestigations/detail/' . dechex( $urlIdentifier ),
+			$html,
+			'The detail view link for the case is missing'
+		);
+
+		$context = RequestContext::getMain();
+		$this->assertStringContainsString(
+			$context->getLanguage()->userTimeAndDate( '20250403020100', $context->getUser() ),
+			$html,
+			'The case creation timestamp is not present in the table row for the case'
+		);
 
 		// Validate that both the status reason and status cells have the associated suggested investigations case
 		// ID as data attributes.

@@ -163,7 +163,14 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 	private function formatTimestampCell( string $timestamp ): string {
 		$lang = $this->getLanguage();
 		$user = $this->getContext()->getUser();
-		return htmlspecialchars( $lang->userTimeAndDate( $timestamp, $user ) );
+
+		return $this->getLinkRenderer()->makeKnownLink(
+			SpecialPage::getTitleFor(
+				'SuggestedInvestigations',
+				'detail/' . dechex( $this->mCurrentRow->sic_url_identifier )
+			),
+			$lang->userTimeAndDate( $timestamp, $user )
+		);
 	}
 
 	private function formatStatusCell( CaseStatus $status, int $caseId ): string {
@@ -310,6 +317,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 				'sic_status',
 				'sic_created_timestamp',
 				'sic_status_reason',
+				'sic_url_identifier',
 			],
 		];
 
