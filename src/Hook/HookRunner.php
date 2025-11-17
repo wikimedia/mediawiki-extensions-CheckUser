@@ -100,11 +100,11 @@ class HookRunner implements
 
 	/** @inheritDoc */
 	public function onCheckUserSuggestedInvestigationsSignalMatch(
-		$userIdentity, string $eventType, array &$signalMatchResults
+		$userIdentity, string $eventType, array &$signalMatchResults, array $extraData
 	): void {
 		$this->container->run(
 			'CheckUserSuggestedInvestigationsSignalMatch',
-			[ $userIdentity, $eventType, &$signalMatchResults ],
+			[ $userIdentity, $eventType, &$signalMatchResults, $extraData ],
 			[ 'abortable' => false ]
 		);
 	}

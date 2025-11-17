@@ -27,8 +27,10 @@ interface CheckUserSuggestedInvestigationsSignalMatchHook {
 	 *   {@link SuggestedInvestigationsSignalMatchResult} objects used to indicate which signals matched and
 	 *   which signals did not match. Hook handlers should add to this array if a signal was tested against
 	 *   the user.
+	 * @param array $extraData Since 1.46. An array of extra data associated with the event. See
+	 *   {@link SuggestedInvestigationsSignalMatchService::matchSignalsAgainstUser} for more detail.
 	 */
 	public function onCheckUserSuggestedInvestigationsSignalMatch(
-		$userIdentity, string $eventType, array &$signalMatchResults
+		$userIdentity, string $eventType, array &$signalMatchResults, array $extraData
 	): void;
 }

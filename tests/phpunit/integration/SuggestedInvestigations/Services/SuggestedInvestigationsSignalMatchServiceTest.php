@@ -37,7 +37,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		);
 
 		$this->getObjectUnderTest()->matchSignalsAgainstUser(
-			$this->createMock( UserIdentity::class ), 'test-event'
+			$this->createMock( UserIdentity::class ), 'test-event', []
 		);
 	}
 
@@ -60,15 +60,16 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$hookCalled = false;
 		$this->setTemporaryHook(
 			'CheckUserSuggestedInvestigationsSignalMatch',
-			static function (
-				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults
+			function (
+				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults, array $extraData
 			) use ( &$hookCalled, $signal ) {
+				$this->assertArrayEquals( [ 'extra-data' => 'test' ], $extraData, false, true );
 				$hookProvidedSignalMatchResults[] = $signal;
 				$hookCalled = true;
 			}
 		);
 
-		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user2, $eventType );
+		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user2, $eventType, [ 'extra-data' => 'test' ] );
 		$this->assertTrue( $hookCalled );
 
 		/** @var SuggestedInvestigationsCaseLookupService $caseLookup */
@@ -124,7 +125,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 			}
 		);
 
-		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user2, 'test-event' );
+		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user2, 'test-event', [] );
 		$this->assertTrue( $hookCalled );
 
 		// The user should not be added to any case
@@ -173,7 +174,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 			}
 		);
 
-		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user1, 'test-event' );
+		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user1, 'test-event', [] );
 
 		// Both users should be attached to the case
 		$this->newSelectQueryBuilder()
@@ -203,7 +204,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 			}
 		);
 
-		$service->matchSignalsAgainstUser( $user, 'test-event' );
+		$service->matchSignalsAgainstUser( $user, 'test-event', [] );
 	}
 
 	/** @dataProvider provideIgnoreIfTheresInvalidCase */
@@ -244,7 +245,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$this->setLogger( 'CheckUser', $logger );
 
 		// Trigger the invalid signal again, this time with $user2
-		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user2, 'test-event' );
+		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user2, 'test-event', [] );
 
 		// If the signal is mergeable, there should be only one case, with only one user
 		// Otherwise, two cases, each with one user

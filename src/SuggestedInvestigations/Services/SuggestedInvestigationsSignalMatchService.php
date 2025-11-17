@@ -23,6 +23,7 @@ class SuggestedInvestigationsSignalMatchService {
 	public const EVENT_AUTOCREATE_ACCOUNT = 'autocreateaccount';
 	public const EVENT_SET_EMAIL = 'setemail';
 	public const EVENT_CONFIRM_EMAIL = 'confirmemail';
+	public const EVENT_SUCCESSFUL_EDIT = 'successfuledit';
 
 	public function __construct(
 		private readonly ServiceOptions $options,
@@ -49,8 +50,11 @@ class SuggestedInvestigationsSignalMatchService {
 	 * @param string $eventType The type of event that has occurred to trigger signals being matched.
 	 *   One of the EVENT_* constants defined in this class, though custom event types may be triggered
 	 *   by private code.
+	 * @param array $extraData An array of extra data associated with the event that is set based on the
+	 *   $eventType. Currently the following values are supported:
+	 *   * 'revId' - Set when event type is {@link self::EVENT_SUCCESSFUL_EDIT}. The revision ID of the edit.
 	 */
-	public function matchSignalsAgainstUser( UserIdentity $userIdentity, string $eventType ): void {
+	public function matchSignalsAgainstUser( UserIdentity $userIdentity, string $eventType, array $extraData ): void {
 		// Don't attempt to evaluate signals unless the feature is enabled, as we may not have database tables
 		// to save suggested investigation cases to.
 		if ( !$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
@@ -64,7 +68,7 @@ class SuggestedInvestigationsSignalMatchService {
 
 		$signalMatchResults = [];
 		$this->hookRunner->onCheckUserSuggestedInvestigationsSignalMatch(
-			$userIdentity, $eventType, $signalMatchResults
+			$userIdentity, $eventType, $signalMatchResults, $extraData
 		);
 
 		foreach ( $signalMatchResults as $signalMatchResult ) {

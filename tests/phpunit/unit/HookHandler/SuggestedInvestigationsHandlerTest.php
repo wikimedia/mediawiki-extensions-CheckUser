@@ -5,6 +5,9 @@ namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 use MediaWiki\CheckUser\HookHandler\SuggestedInvestigationsHandler;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Page\WikiPage;
+use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Storage\EditResult;
 use MediaWiki\User\User;
 use MediaWikiUnitTestCase;
 
@@ -43,6 +46,25 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 			'User is autocreated' => [ true, 'autocreateaccount' ],
 			'User is not autocreated' => [ false, 'createaccount' ],
 		];
+	}
+
+	public function testOnPageSaveComplete() {
+		$mockUser = $this->createMock( User::class );
+
+		$revId = 1;
+		$revisionRecord = $this->createMock( RevisionRecord::class );
+		$revisionRecord->method( 'getId' )
+			->willReturn( $revId );
+
+		$this->suggestedInvestigationsSignalMatchService->expects( $this->once() )
+			->method( 'matchSignalsAgainstUser' )
+			->with( $mockUser, 'successfuledit', [ 'revId' => $revId ] );
+
+		$this->sut->onPageSaveComplete(
+			$this->createMock( WikiPage::class ), $mockUser, '', 0, $revisionRecord,
+			$this->createMock( EditResult::class )
+		);
+		DeferredUpdates::doUpdates();
 	}
 
 	public function testOnUserSetEmail() {
