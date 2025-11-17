@@ -180,6 +180,10 @@ QUnit.test( 'Test setAutoRevealStatus (enable)', function ( assert ) {
 
 	return ipRevealUtils.setAutoRevealStatus( relativeExpiry ).then( () => {
 		assert.true( true, 'setAutoRevealStatus should resolve successfully' );
+		assert.strictEqual(
+			mw.user.options.get( 'checkuser-temporary-account-enable-auto-reveal' ),
+			String( expectedExpiry )
+		);
 	} );
 } );
 
@@ -198,6 +202,10 @@ QUnit.test( 'Test setAutoRevealStatus (enable, maximum expiry)', function ( asse
 
 	return ipRevealUtils.setAutoRevealStatus( relativeExpiry ).then( () => {
 		assert.true( true, 'setAutoRevealStatus should resolve successfully' );
+		assert.strictEqual(
+			mw.user.options.get( 'checkuser-temporary-account-enable-auto-reveal' ),
+			String( expectedExpiry )
+		);
 	} );
 } );
 
@@ -213,5 +221,9 @@ QUnit.test( 'Test setAutoRevealStatus (disable)', function ( assert ) {
 
 	return ipRevealUtils.setAutoRevealStatus().then( () => {
 		assert.true( true, 'setAutoRevealStatus should resolve successfully when disabling' );
+		assert.strictEqual(
+			mw.user.options.get( 'checkuser-temporary-account-enable-auto-reveal' ),
+			null
+		);
 	} );
 } );

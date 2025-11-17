@@ -125,12 +125,22 @@ function setAutoRevealStatus( relativeExpiry ) {
 		return $.Deferred().reject( 'Expiry is invalid' ).promise();
 	}
 
+	const preferenceName = getAutoRevealStatusPreferenceName();
+
 	const api = new mw.Api();
 	return api.postWithToken( 'csrf', {
 		action: 'globalpreferences',
-		optionname: getAutoRevealStatusPreferenceName(),
+		optionname: preferenceName,
 		optionvalue: absoluteExpiry
-	} );
+	} ).then(
+		() => {
+			// Update mw.user.options to avoid needing another API call to find the expiry
+			mw.user.options.set(
+				preferenceName,
+				absoluteExpiry ? String( absoluteExpiry ) : null
+			);
+		}
+	);
 }
 
 module.exports = {
