@@ -140,5 +140,9 @@
 	"checkuser-investigate-compare-table-header-useragent": "Korisnički vršilac",
 	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
 	"checkuser-ip-auto-reveal-link-sidebar": "Otkrij IP adrese",
-	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP"
+	"prefs-checkuser-tempaccount": "Otkrivanje IP adresa privremenih računa",
+	"checkuser-tempaccount-enable-preference": "Otkrivanje IP adresa privremenih računa",
+	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
+	"checkuser-userinfocard-enable-preference-description": "[[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|Korisnička infokartica]]",
+	"tooltip-t-global-contributions": "Lista doprinosa {{GENDER:$1|ovoga korisnika|ove korisnice|ovoga korisnika ili korisnice}} sa svih projekata"
 }

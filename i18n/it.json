@@ -307,6 +307,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Tempo rimanente: <strong>$2 {{PLURAL:$2|giorno|giorni}}, $1</strong>",
 	"checkuser-ip-auto-reveal-off-dialog-text-info": "Per ragioni di privacy questa funzione verrà disattivata automaticamente al termine del periodo selezionato. [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/Temporary_Accounts/Access_to_IP#Automatically_showing_IPs_for_temporary_accounts Scopri di più]",
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "La durata non può essere impostata maggiore di $1",
+	"checkuser-ip-auto-reveal-off-dialog-error-disable": "Si è verificato un errore. La modalità di rivelazione automatica non è stata disattivata. Riprova più tardi.",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 minuti",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Disattiva",
 	"prefs-checkuser-tempaccount": "Visualizzazione di IP delle utenze temporanee",
