@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\GlobalContributions;
 
 use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\ChangeTags\ChangeTagsStoreFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Config\Config;
@@ -46,6 +47,7 @@ class GlobalContributionsPagerFactory {
 		private readonly JobQueueGroup $jobQueueGroup,
 		private readonly UserLinkRenderer $userLinkRenderer,
 		private readonly RevisionStoreFactory $revisionStoreFactory,
+		private readonly ChangeTagsStoreFactory $changeTagsStoreFactory,
 	) {
 	}
 
@@ -78,6 +80,7 @@ class GlobalContributionsPagerFactory {
 			$this->jobQueueGroup,
 			$this->userLinkRenderer,
 			$this->revisionStoreFactory,
+			$this->changeTagsStoreFactory,
 			$context,
 			$options,
 			$target

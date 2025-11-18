@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
+use MediaWiki\ChangeTags\ChangeTagsStore;
+use MediaWiki\ChangeTags\ChangeTagsStoreFactory;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\ExternalPermissions;
@@ -123,6 +125,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['JobQueueGroup'] ?? $services->getJobQueueGroup(),
 			$overrides['UserLinkRenderer'] ?? $this->userLinkRenderer,
 			$overrides['RevisionStoreFactory'] ?? $this->revisionStoreFactory,
+			$overrides['ChangeTagsStoreFactory'] ?? $services->getChangeTagsStoreFactory(),
 			$overrides['Context'] ?? RequestContext::getMain(),
 			$overrides['options'] ?? [ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, $overrides['UserName'] ?? '127.0.0.1' )
@@ -715,6 +718,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getJobQueueGroup(),
 				$this->userLinkRenderer,
 				$this->revisionStoreFactory,
+				$services->getChangeTagsStoreFactory(),
 				$context,
 				[ 'revisionsOnly' => true ],
 				new UserIdentityValue( 0, '127.0.0.1' ),
@@ -1274,6 +1278,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$revisionStoreProxies
 			);
 
+		$changeTagsStoreFactory = $this->createMock( ChangeTagsStoreFactory::class );
+		$changeTagsStoreFactory->method( 'getChangeTagsStore' )
+			->willReturn( $this->createMock( ChangeTagsStore::class ) );
+
 		// Initialize the subject under test
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
@@ -1284,6 +1292,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'CommentFormatter' => $commentFormatter,
 			'RevisionStore' => $localRevisionStore,
 			'RevisionStoreFactory' => $revisionStoreFactory,
+			'ChangeTagsStoreFactory' => $changeTagsStoreFactory,
 		] );
 		$pager->mIsBackwards = ( $paginationParams['dir'] ?? '' ) === 'prev';
 		$pager->setLimit( $paginationParams['limit'] );

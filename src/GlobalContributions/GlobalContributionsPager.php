@@ -7,6 +7,7 @@ use HtmlArmor;
 use InvalidArgumentException;
 use LogicException;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\ChangeTags\ChangeTagsStoreFactory;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
@@ -66,6 +67,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private JobQueueGroup $jobQueueGroup;
 	private UserLinkRenderer $userLinkRenderer;
 	private RevisionStoreFactory $revisionStoreFactory;
+	private ChangeTagsStoreFactory $changeTagsStoreFactory;
 	private ExternalPermissions $permissions;
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
@@ -100,6 +102,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		JobQueueGroup $jobQueueGroup,
 		UserLinkRenderer $userLinkRenderer,
 		RevisionStoreFactory $revisionStoreFactory,
+		ChangeTagsStoreFactory $changeTagsStoreFactory,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null
@@ -130,6 +133,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
 		$this->userLinkRenderer = $userLinkRenderer;
 		$this->revisionStoreFactory = $revisionStoreFactory;
+		$this->changeTagsStoreFactory = $changeTagsStoreFactory;
 		$this->permissions = new ExternalPermissions();
 	}
 
@@ -336,15 +340,23 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				}
 			}
 
-			$resultSet = $dbr->newSelectQueryBuilder()
+			$queryBuilder = $dbr->newSelectQueryBuilder()
 				->caller( __METHOD__ )
 				->queryInfo( $this->getQueryInfo() )
 				->andWhere( $wikiConds )
 				->andWhere( $timestampConds )
 				->orderBy( [ 'rev_timestamp', 'rev_id' ], SelectQueryBuilder::SORT_DESC )
 				// Use a limit for each wiki (specified in T356292), rather than the page limit.
-				->limit( self::REVISION_COUNT_LIMIT )
-				->fetchResultSet();
+				->limit( self::REVISION_COUNT_LIMIT );
+
+			$changeTagsStore = $this->changeTagsStoreFactory->getChangeTagsStore( $wikiId );
+			$changeTagsStore->modifyDisplayQueryBuilder(
+				$queryBuilder,
+				'revision',
+				$this->getTagFilter(),
+				$this->getTagInvert(),
+			);
+			$resultSet = $queryBuilder->fetchResultSet();
 
 			foreach ( $resultSet as $row ) {
 				$row->sourcewiki = $wikiId;
@@ -419,6 +431,20 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		} );
 
 		return new FakeResultWrapper( array_slice( $results, 0, $limit ) );
+	}
+
+	/**
+	 * Overrides a base class method to do nothing. The ContributionsPager operates on a single wiki,
+	 * and always uses the local database to apply tag filters (i.e. maps names to ids using the local DB).
+	 * However, for GlobalContributionsPager we need to apply tag filter on multiple wikis, so we cannot
+	 * rely on this method for that.
+	 *
+	 * Instead, the tag filter is applied in {@see reallyDoQuery}, which knows what wiki is being processed
+	 * at the moment.
+	 *
+	 * @inheritDoc
+	 */
+	protected function modifyQueryInfoWithTagFilter( array &$queryInfo ): void {
 	}
 
 	/**

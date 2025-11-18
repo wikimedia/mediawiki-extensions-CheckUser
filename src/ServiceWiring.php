@@ -205,6 +205,7 @@ return [
 			$services->getJobQueueGroup(),
 			$services->getUserLinkRenderer(),
 			$services->getRevisionStoreFactory(),
+			$services->getChangeTagsStoreFactory(),
 		);
 	},
 	'CheckUserApiRequestAggregator' => static function (
