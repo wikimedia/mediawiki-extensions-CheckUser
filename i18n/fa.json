@@ -391,5 +391,9 @@
 	"checkuser-userinfocard-groups": "<strong>گروه‌ها</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>گروه‌های سراسری</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 ویرایش|0=فاقد ویرایش}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "مشاهدهٔ آی‌پی حساب‌های موقت فعال شد"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "مشاهدهٔ آی‌پی حساب‌های موقت فعال شد",
+	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: پروندهٔ شمارهٔ $1",
+	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: پرونده یافت نشد",
+	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: زیرصفحه یافت نشد",
+	"checkuser-suggestedinvestigations-summary-detail-view": "این صفحه حاوی اطلاعات با جزئیات تنها برای بازرسان، پیرامون '''پروندهٔ شمارهٔ $1''' است."
 }

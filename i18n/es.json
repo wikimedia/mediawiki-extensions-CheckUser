@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"-jem-",
 			"Agent",
 			"Aleator",
 			"AlimanRuna",
@@ -433,7 +434,7 @@
 	"checkuser-userinfocard-error-title": "Ha ocurrido un error",
 	"checkuser-userinfocard-error-no-data": "No se pudo recuperar la información de este usuario. Inténtelo de nuevo más tarde.",
 	"checkuser-userinfocard-error-generic": "Algo falló. Por favor, prueba de nuevo más tarde.",
-	"checkuser-userinfocard-enable-preference-description": "Habilitar la [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|tarjeta de información del usuario]]",
+	"checkuser-userinfocard-enable-preference-description": "Habilitar la [[mw:Special:MyLanguage/Trust_and_Safety_Product/Anti-abuse_signals/User_Info|tarjeta de información del usuario]]",
 	"checkuser-userinfocard-enable-preference-help": "Muestra un botón junto a los nombres de usuario para abrir una ventana emergente con información sobre una cuenta.",
 	"checkuser-userinfocard-activity-chart-label": "Actividad de edición en los últimos 60 días ({{PLURAL:$1|$1 edición|$1 ediciones|0=Sin ediciones}})",
 	"checkuser-userinfocard-last-edit-timestamp-label": "Última edición: $1",
