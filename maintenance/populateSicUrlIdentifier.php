@@ -44,17 +44,14 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 		$this->output( "Populating sic_url_identifier in cusi_case...\n" );
 
 		// If suggested investigations is not enabled, then return early. We cannot do this check if
-		// this is being run by update.php as config is not fully available there.
-		// If being run by update.php, the cusi_case table should exist and so we should just continue.
+		// this is being run by install.php as config is not fully available there.
+		// If being run by install.php, the cusi_case table should exist and so we should just continue.
 		if (
 			$this->getConfig()->has( 'CheckUserSuggestedInvestigationsEnabled' ) &&
 			!$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' )
 		) {
 			$this->output( "Nothing to do as CheckUser Suggested Investigations is not enabled.\n" );
-
-			// Return false as if CheckUserSuggestedInvestigationsEnabled is later set to true, there may
-			// be rows to populate
-			return false;
+			return true;
 		}
 
 		$caseManager = $this->getSuggestedInvestigationsCaseManager();
