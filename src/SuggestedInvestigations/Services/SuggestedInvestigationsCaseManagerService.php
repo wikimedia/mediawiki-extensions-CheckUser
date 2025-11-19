@@ -371,6 +371,7 @@ class SuggestedInvestigationsCaseManagerService {
 		$dbr = $this->getReplicaDatabase();
 		return $dbr->newSelectQueryBuilder()
 			->select( 'sis_name' )
+			->distinct()
 			->from( 'cusi_signal' )
 			->where( [ 'sis_sic_id' => $caseId ] )
 			->caller( __METHOD__ )

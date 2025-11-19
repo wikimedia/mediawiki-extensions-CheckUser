@@ -46,6 +46,9 @@ class SuggestedInvestigationsCaseLookupService {
 
 	/**
 	 * Looks up cases that match a given signal. Ignores the allowMerging flag on the signal.
+	 * Additionally, the value of sis_trigger_id and sis_trigger_type are ignored for the
+	 * comparison check.
+	 *
 	 * @throws InvalidArgumentException if a negative signal match is provided
 	 * @param SuggestedInvestigationsSignalMatchResult $signal
 	 * @param CaseStatus[]|null $statuses If set, only cases with these statuses will be returned.

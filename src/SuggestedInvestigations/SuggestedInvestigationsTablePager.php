@@ -153,7 +153,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		// * checkuser-suggestedinvestigations-signal-hcaptcha
 		$signalLabels = array_map(
 			fn ( $signal ) =>
-				$this->msg( 'checkuser-suggestedinvestigations-signal-' . $signal['name'] ),
+				$this->msg( 'checkuser-suggestedinvestigations-signal-' . $signal ),
 			$signals
 		);
 
@@ -329,8 +329,8 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 	}
 
 	/**
-	 * Returns an array that maps each case ID to an array of signals. The signals are returned
-	 * as arrays with 'name' and 'value' keys.
+	 * Returns an array that maps each case ID to an array of signals. Only the name of the signals are returned.
+	 * @return string[][]
 	 */
 	private function querySignalsForCases( array $caseIds ): array {
 		if ( count( $caseIds ) === 0 ) {
@@ -339,7 +339,8 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 		$dbr = $this->getDatabase();
 		$result = $dbr->newSelectQueryBuilder()
-			->select( [ 'sis_sic_id', 'sis_name', 'sis_value' ] )
+			->select( [ 'sis_sic_id', 'sis_name' ] )
+			->distinct()
 			->from( 'cusi_signal' )
 			->where( [
 				'sis_sic_id' => $caseIds,
@@ -354,10 +355,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 				$signalsForCases[$caseId] = [];
 			}
 
-			$signalsForCases[$caseId][] = [
-				'name' => $row->sis_name,
-				'value' => $row->sis_value,
-			];
+			$signalsForCases[$caseId][] = $row->sis_name;
 		}
 
 		return $signalsForCases;

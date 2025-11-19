@@ -70,7 +70,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 			$row->users,
 		);
 		$this->assertArrayEquals(
-			[ [ 'name' => self::SIGNAL, 'value' => 'Test value' ] ],
+			[ self::SIGNAL ],
 			$row->signals,
 		);
 	}
