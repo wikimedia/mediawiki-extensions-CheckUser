@@ -31,6 +31,7 @@ use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Pager\CodexTablePager;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Codex\Utility\Codex;
@@ -125,8 +126,30 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 			$userHideThreshold++;
 		}
 
+		$detailViewLink = $this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier )->getFullText();
+
 		foreach ( $users as $i => $user ) {
 			$userLink = $this->userLinkRenderer->userLink( $user, $this->getContext() );
+
+			// Generate a link to Special:CheckUser with a prefilled 'reason' input field that links back to the
+			// case that this user is in.
+			$checkUserPrefilledReason = $this->msg( 'checkuser-suggestedinvestigations-user-check-reason-prefill' )
+				->params( $detailViewLink )
+				->numParams( $this->mCurrentRow->sic_id )
+				->params( $user->getName() )
+				->inContentLanguage()
+				->text();
+
+			$checkLink = $this->msg( 'parentheses' )
+				->rawParams( $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
+					$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
+						->params( $user->getName() )
+						->text(),
+					[],
+					[ 'reason' => $checkUserPrefilledReason ]
+				) )
+				->escaped();
 
 			$formattedUsers .= Html::rawElement(
 				'li', [
@@ -134,12 +157,8 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 						'mw-checkuser-suggestedinvestigations-user-defaulthide'
 						: '',
 				],
-				$this->msg( 'checkuser-suggestedinvestigations-user-check' )
-					->rawParams( $userLink )
-					->params(
-						SpecialPage::getTitleFor( 'CheckUser', $user->getName() )->getFullText(),
-						$user->getName()
-					)
+				$this->msg( 'checkuser-suggestedinvestigations-user' )
+					->rawParams( $userLink, $checkLink )
 					->parse()
 			);
 		}
@@ -165,10 +184,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		$user = $this->getContext()->getUser();
 
 		return $this->getLinkRenderer()->makeKnownLink(
-			SpecialPage::getTitleFor(
-				'SuggestedInvestigations',
-				'detail/' . dechex( $this->mCurrentRow->sic_url_identifier )
-			),
+			$this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier ),
 			$lang->userTimeAndDate( $timestamp, $user )
 		);
 	}
@@ -227,9 +243,17 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		// Enable the "Investigate" button only if there are not too many targets
 		if ( count( $users ) <= SpecialInvestigate::MAX_TARGETS ) {
 			$investigateEnabled = true;
+
+			$prefilledReason = $this->msg( 'checkuser-suggestedinvestigations-user-investigate-reason-prefill' )
+				->params( $this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier )->getFullText() )
+				->numParams( $this->mCurrentRow->sic_id )
+				->inContentLanguage()
+				->text();
+
 			$investigateUrl = SpecialPage::getTitleFor( 'Investigate' )->getFullURL( [
 				// Special:Investigate expects a list of usernames separated by newlines
 				'targets' => implode( "\n", array_map( static fn ( $u ) => $u->getName(), $users ) ),
+				'reason' => $prefilledReason,
 			] );
 		}
 
@@ -416,6 +440,13 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		}
 
 		return $usersForCases;
+	}
+
+	/**
+	 * Gets the Title for the detail view page for a case identified by it's URL identifier.
+	 */
+	private function getDetailViewTitle( int $urlIdentifier ): Title {
+		return SpecialPage::getTitleFor( 'SuggestedInvestigations', 'detail/' . dechex( $urlIdentifier ) );
 	}
 
 	/** @inheritDoc */

@@ -26,6 +26,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigations
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\SuggestedInvestigations\SuggestedInvestigationsTablePager;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\IndexPager;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
@@ -76,6 +77,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testOutput() {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
 		ConvertibleTimestamp::setFakeTime( '20250403020100' );
 
 		$caseId = $this->addCaseWithTwoUsers();
@@ -94,16 +96,30 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		// 1 data row + 1 header row
 		$this->assertSame( 2, substr_count( $html, '<tr' ) );
 
-		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-user-check:', $html );
-		$this->assertStringContainsString( 'Special:CheckUser/' . self::$testUser1->getName(), $html );
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-user:', $html );
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-signal-' . self::SIGNAL . ')', $html );
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-status-open)', $html );
+
+		$this->assertStringContainsString(
+			'?title=Special:CheckUser/' . str_replace( ' ', '_', self::$testUser1->getName() ) .
+				'&amp;reason=%28checkuser-suggestedinvestigations-user-check-reason-prefill',
+			$html,
+			'Should contain link to Special:CheckUser for the first user'
+		);
+		$this->assertStringContainsString(
+			'?title=Special:CheckUser/' . str_replace( ' ', '_', self::$testUser2->getName() ) .
+				'&amp;reason=%28checkuser-suggestedinvestigations-user-check-reason-prefill',
+			$html,
+			'Should contain link to Special:CheckUser for the second user'
+		);
 
 		$name1 = urlencode( self::$testUser1->getName() );
 		$name2 = urlencode( self::$testUser2->getName() );
 		$this->assertStringContainsString(
-			'?title=Special:Investigate&amp;targets=' . $name1 . '%0A' . $name2,
-			$html
+			'?title=Special:Investigate&amp;targets=' . $name1 . '%0A' . $name2 .
+				'&amp;reason=%28checkuser-suggestedinvestigations-user-investigate-reason-prefill',
+			$html,
+			'Should contain link to Special:Investigate in the case row'
 		);
 		$this->assertStringContainsString( 'title="(checkuser-suggestedinvestigations-action-investigate)"', $html );
 
