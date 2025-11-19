@@ -27,63 +27,26 @@ class GlobalContributionsPagerFactory {
 
 	use ContributionsRangeTrait;
 
-	private LinkRenderer $linkRenderer;
-	private LinkBatchFactory $linkBatchFactory;
-	private HookContainer $hookContainer;
-	private RevisionStore $revisionStore;
-	private NamespaceInfo $namespaceInfo;
-	private CommentFormatter $commentFormatter;
-	private UserFactory $userFactory;
-	private TempUserConfig $tempUserConfig;
-	private Config $config;
-	private CheckUserLookupUtils $lookupUtils;
-	private CentralIdLookup $centralIdLookup;
-	private CheckUserGlobalContributionsLookup $globalContributionsLookup;
-	private PermissionManager $permissionManager;
-	private GlobalPreferencesFactory $globalPreferencesFactory;
-	private IConnectionProvider $dbProvider;
-	private JobQueueGroup $jobQueueGroup;
-	private UserLinkRenderer $userLinkRenderer;
-	private RevisionStoreFactory $revisionStoreFactory;
-
 	public function __construct(
-		LinkRenderer $linkRenderer,
-		LinkBatchFactory $linkBatchFactory,
-		HookContainer $hookContainer,
-		RevisionStore $revisionStore,
-		NamespaceInfo $namespaceInfo,
-		CommentFormatter $commentFormatter,
-		UserFactory $userFactory,
-		TempUserConfig $tempUserConfig,
-		Config $config,
-		CheckUserLookupUtils $lookupUtils,
-		CentralIdLookup $centralIdLookup,
-		CheckUserGlobalContributionsLookup $globalContributionsLookup,
-		PermissionManager $permissionManager,
-		GlobalPreferencesFactory $globalPreferencesFactory,
-		IConnectionProvider $dbProvider,
-		JobQueueGroup $jobQueueGroup,
-		UserLinkRenderer $userLinkRenderer,
-		RevisionStoreFactory $revisionStoreFactory,
+		private readonly LinkRenderer $linkRenderer,
+		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly HookContainer $hookContainer,
+		private readonly RevisionStore $revisionStore,
+		private readonly NamespaceInfo $namespaceInfo,
+		private readonly CommentFormatter $commentFormatter,
+		private readonly UserFactory $userFactory,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly Config $config,
+		private readonly CheckUserLookupUtils $lookupUtils,
+		private readonly CentralIdLookup $centralIdLookup,
+		private readonly CheckUserGlobalContributionsLookup $globalContributionsLookup,
+		private readonly PermissionManager $permissionManager,
+		private readonly GlobalPreferencesFactory $globalPreferencesFactory,
+		private readonly IConnectionProvider $dbProvider,
+		private readonly JobQueueGroup $jobQueueGroup,
+		private readonly UserLinkRenderer $userLinkRenderer,
+		private readonly RevisionStoreFactory $revisionStoreFactory,
 	) {
-		$this->linkRenderer = $linkRenderer;
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->hookContainer = $hookContainer;
-		$this->revisionStore = $revisionStore;
-		$this->namespaceInfo = $namespaceInfo;
-		$this->commentFormatter = $commentFormatter;
-		$this->userFactory = $userFactory;
-		$this->tempUserConfig = $tempUserConfig;
-		$this->config = $config;
-		$this->lookupUtils = $lookupUtils;
-		$this->centralIdLookup = $centralIdLookup;
-		$this->globalContributionsLookup = $globalContributionsLookup;
-		$this->permissionManager = $permissionManager;
-		$this->globalPreferencesFactory = $globalPreferencesFactory;
-		$this->dbProvider = $dbProvider;
-		$this->jobQueueGroup = $jobQueueGroup;
-		$this->userLinkRenderer = $userLinkRenderer;
-		$this->revisionStoreFactory = $revisionStoreFactory;
 	}
 
 	/**
