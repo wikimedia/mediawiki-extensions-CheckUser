@@ -448,7 +448,7 @@ class SpecialCheckUser extends SpecialPage {
 				'default' => $this->opts->getValue( 'reason' ),
 				'label-message' => 'checkuser-reason',
 				'size' => 46,
-				'maxlength' => 150,
+				'maxlength' => CommentStore::COMMENT_CHARACTER_LIMIT,
 				'id' => 'checkreason',
 				'name' => 'reason',
 			],

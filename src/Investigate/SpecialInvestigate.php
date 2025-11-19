@@ -12,6 +12,7 @@ use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Language\Language;
@@ -651,6 +652,7 @@ class SpecialInvestigate extends FormSpecialPage {
 					'id' => 'investigate-reason',
 					'name' => 'reason',
 					'label-message' => 'checkuser-investigate-reason-label',
+					'maxlength' => CommentStore::COMMENT_CHARACTER_LIMIT,
 					'required' => true,
 					'autocomplete' => false,
 				],
