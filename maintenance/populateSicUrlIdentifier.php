@@ -3,8 +3,11 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
+use Wikimedia\Services\NoSuchServiceException;
 
 // @codeCoverageIgnoreStart
 $IP = getenv( 'MW_INSTALL_PATH' );
@@ -40,7 +43,13 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$this->output( "Populating sic_url_identifier in cusi_case...\n" );
 
-		if ( !$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+		// If suggested investigations is not enabled, then return early. We cannot do this check if
+		// this is being run by update.php as config is not fully available there.
+		// If being run by update.php, the cusi_case table should exist and so we should just continue.
+		if (
+			$this->getConfig()->has( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+			!$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' )
+		) {
 			$this->output( "Nothing to do as CheckUser Suggested Investigations is not enabled.\n" );
 
 			// Return false as if CheckUserSuggestedInvestigationsEnabled is later set to true, there may
@@ -48,9 +57,7 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 			return false;
 		}
 
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
-
+		$caseManager = $this->getSuggestedInvestigationsCaseManager();
 		$dbProvider = $this->getServiceContainer()->getConnectionProvider();
 		$dbw = $dbProvider->getPrimaryDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
 		$dbr = $dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
@@ -82,6 +89,28 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 
 		$this->output( "Done. Populated $count rows.\n" );
 		return true;
+	}
+
+	/**
+	 * Fetches an instance of the {@link SuggestedInvestigationsCaseManagerService}.
+	 *
+	 * We cannot directly fetch the service because we may be running this script during DB updates where
+	 * we don't have either config or services defined from CheckUser. In this case, this method will
+	 * manually construct the service.
+	 */
+	private function getSuggestedInvestigationsCaseManager(): SuggestedInvestigationsCaseManagerService {
+		try {
+			return $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
+		} catch ( NoSuchServiceException ) {
+			return new SuggestedInvestigationsCaseManagerService(
+				new ServiceOptions(
+					SuggestedInvestigationsCaseManagerService::CONSTRUCTOR_OPTIONS,
+					[ 'CheckUserSuggestedInvestigationsEnabled' => true ]
+				),
+				$this->getServiceContainer()->getConnectionProvider(),
+				new SuggestedInvestigationsInstrumentationClient( null )
+			);
+		}
 	}
 }
 

@@ -6,8 +6,10 @@ use MediaWiki\CheckUser\Maintenance\PopulateSicUrlIdentifier;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Config\HashConfig;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\Services\NoSuchServiceException;
 
 /**
  * @group CheckUser
@@ -131,6 +133,45 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 			->where( [ 'sic_id' => $fourthCaseId ] )
 			->caller( __METHOD__ )
 			->assertFieldValue( $fourthCaseUrlIdentifier );
+
+		// No cases should exist that are missing a URL identifier after the script has run
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_url_identifier' => 0 ] )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+	}
+
+	public function testWhenSuggestedInvestigationsCaseTableHasRowsToPopulateWithoutSiteConfigAvailable() {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+		$caseManager->createCase( [ UserIdentityValue::newRegistered( 1, 'Test user 1' ) ], [ $signal ] );
+
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'cusi_case' )
+			->set( [ 'sic_url_identifier' => 0 ] )
+			->where( [ '1=1' ] )
+			->caller( __METHOD__ )
+			->execute();
+
+		// Mock that site config is not yet defined and that the CheckUserSuggestedInvestigationsCaseManager service
+		// is not yet defined in MediaWikiServices. This occurs when running the script via update.php
+		$this->setService(
+			'CheckUserSuggestedInvestigationsCaseManager',
+			static fn () => throw new NoSuchServiceException( 'CheckUserSuggestedInvestigationsCaseManager' )
+		);
+		$this->maintenance->setConfig( new HashConfig() );
+
+		$this->maintenance->execute();
+
+		$actualOutputString = $this->getActualOutputForAssertion();
+		$this->assertStringContainsString( 'Populating sic_url_identifier in cusi_case...', $actualOutputString );
+		$this->assertStringContainsString(
+			'Done. Populated 1 rows', $actualOutputString
+		);
 
 		// No cases should exist that are missing a URL identifier after the script has run
 		$this->newSelectQueryBuilder()
