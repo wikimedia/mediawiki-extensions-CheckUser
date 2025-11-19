@@ -144,7 +144,7 @@ class SuggestedInvestigationsSignalMatchService {
 	private function addUserToCases( UserIdentity $user, array $cases ): void {
 		$users = [ $user ];
 		foreach ( $cases as $case ) {
-			$this->caseManager->addUsersToCase( $case->getId(), $users );
+			$this->caseManager->updateCase( $case->getId(), $users, [] );
 		}
 	}
 }

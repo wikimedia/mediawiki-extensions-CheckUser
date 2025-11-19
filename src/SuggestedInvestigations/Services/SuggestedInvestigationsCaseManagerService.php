@@ -108,15 +108,35 @@ class SuggestedInvestigationsCaseManagerService {
 	/**
 	 * Adds an array of users to an existing Suggested Investigations case. If a user
 	 * is already attached to the case, they will not be added again.
+	 *
+	 * @deprecated Since 1.46. Use {@link self::updateCase} instead
 	 * @throws InvalidArgumentException When $caseId does not match an existing case
 	 * @param int $caseId
 	 * @param UserIdentity[] $users
 	 */
 	public function addUsersToCase( int $caseId, array $users ): void {
+		wfDeprecated( __METHOD__, '1.46' );
+		$this->updateCase( $caseId, $users, [] );
+	}
+
+	/**
+	 * Updates an existing Suggested Investigations case with a list of additional users
+	 * and signals.
+	 *
+	 * If a user is already attached to a case, they will not be added again.
+	 * Any signal already in the case will not be added again (this equality check also
+	 * considers the associated revision or log ID that triggered the signal).
+	 *
+	 * @throws InvalidArgumentException When $caseId does not match an existing case
+	 * @param int $caseId
+	 * @param UserIdentity[] $users
+	 * @param SuggestedInvestigationsSignalMatchResult[] $signals
+	 */
+	public function updateCase( int $caseId, array $users, array $signals ): void {
 		$this->assertSuggestedInvestigationsEnabled();
 		$this->assertCaseExists( $caseId );
 
-		if ( count( $users ) === 0 ) {
+		if ( count( $signals ) === 0 && count( $users ) === 0 ) {
 			return;
 		}
 
@@ -127,7 +147,18 @@ class SuggestedInvestigationsCaseManagerService {
 			'u' => $this->getNumberOfUsersInCase( $caseId ),
 		];
 
-		$instrumentationContext['u'] += $this->addUsersToCaseInternal( $caseId, $users );
+		if ( count( $signals ) !== 0 ) {
+			$this->addSignalsToCaseInternal( $caseId, $signals );
+
+			$instrumentationContext['s'] = array_unique( array_merge(
+				$instrumentationContext['s'],
+				array_map( static fn ( $signal ) => $signal->getName(), $signals )
+			) );
+		}
+
+		if ( count( $users ) !== 0 ) {
+			$instrumentationContext['u'] += $this->addUsersToCaseInternal( $caseId, $users );
+		}
 
 		$this->createInstrumentationEvent( 'case_updated', null, $instrumentationContext );
 	}
@@ -212,9 +243,6 @@ class SuggestedInvestigationsCaseManagerService {
 
 	/**
 	 * Adds signals to a case, skipping the input data checks.
-	 *
-	 * Currently, there's no public method to add a signal, as we support only having a single signal
-	 * on a case. Once that changes, we can expose a public method, similar to {@link addUsersToCase}.
 	 *
 	 * @param int $caseId
 	 * @param SuggestedInvestigationsSignalMatchResult[] $signals

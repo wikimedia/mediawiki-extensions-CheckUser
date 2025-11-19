@@ -205,7 +205,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		];
 	}
 
-	public function testAddUsers(): void {
+	public function testUpdateCaseToAddUsers(): void {
 		$user1 = UserIdentityValue::newRegistered( 1, 'Test user 1' );
 		$user2 = UserIdentityValue::newRegistered( 2, 'Test user 2' );
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
@@ -236,17 +236,113 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
 		$service = $this->createService();
-		$service->addUsersToCase( $caseId, $usersToAdd );
+		$service->updateCase( $caseId, $usersToAdd, [] );
 
 		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
 		$this->assertSame( 2, $userCountRelevant, 'Second user should be added to the case' );
 		$this->assertSame( 0, $userCountIrrelevant, 'No user should be added to any other case' );
 
 		// Invoking the method again should not add any more users
-		$service->addUsersToCase( $caseId, $usersToAdd );
+		$service->updateCase( $caseId, $usersToAdd, [] );
 		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
 		$this->assertSame( 2, $userCountRelevant, 'No users should be added to the case again' );
 		$this->assertSame( 0, $userCountIrrelevant, 'Again, No users should be added to any other case' );
+	}
+
+	public function testUpdateCaseToAddUsersAndSignals(): void {
+		$user1 = UserIdentityValue::newRegistered( 1, 'Test user 1' );
+		$user2 = UserIdentityValue::newRegistered( 2, 'Test user 2' );
+		$signal1 = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+		$signal2 = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem2', 'ipsum', false );
+
+		$service = $this->createService();
+		$caseId = $service->createCase( [ $user1 ], [ $signal1 ] );
+
+		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
+		$this->assertSame( 1, $userCountRelevant, 'There should be an initial user' );
+		$this->assertSame( 0, $userCountIrrelevant, 'There should be no other initial user' );
+
+		// Assert that only one signal was added at first
+		$this->newSelectQueryBuilder()
+			->select( [ 'sis_sic_id', 'sis_name', 'sis_value' ] )
+			->from( 'cusi_signal' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $caseId, 'Lorem', 'ipsum' ] );
+
+		// The first is already added to this case
+		$usersToAdd = [ $user1, $user2 ];
+
+		// Mock SuggestedInvestigationsInstrumentationClient so that we can check the correct event is created
+		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
+		$client->expects( $this->once() )
+			->method( 'submitInteraction' )
+			->with(
+				RequestContext::getMain(),
+				'case_updated',
+				[
+					'action_context' => json_encode( [
+						'i' => $caseId, 's' => [ 'Lorem', 'Lorem2' ], 'u' => 2,
+					] ),
+				]
+			);
+		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
+
+		$service = $this->createService();
+		$service->updateCase( $caseId, $usersToAdd, [ $signal2 ] );
+
+		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
+		$this->assertSame( 2, $userCountRelevant, 'Second user should be added to the case' );
+		$this->assertSame( 0, $userCountIrrelevant, 'No user should be added to any other case' );
+
+		// Assert that only the second signal was added to the case
+		$this->newSelectQueryBuilder()
+			->select( [ 'sis_sic_id', 'sis_name', 'sis_value' ] )
+			->from( 'cusi_signal' )
+			->caller( __METHOD__ )
+			->assertResultSet( [
+				[ $caseId, 'Lorem', 'ipsum' ],
+				[ $caseId, 'Lorem2', 'ipsum' ],
+			] );
+	}
+
+	public function testUpdateCaseWithNoSignalsOrUsers(): void {
+		$user = UserIdentityValue::newRegistered( 1, 'Test user 1' );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+
+		$service = $this->createService();
+		$caseId = $service->createCase( [ $user ], [ $signal ] );
+
+		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
+		$this->assertSame( 1, $userCountRelevant, 'There should be an initial user' );
+		$this->assertSame( 0, $userCountIrrelevant, 'There should be no other initial user' );
+
+		// Assert that only one signal was added at first
+		$this->newSelectQueryBuilder()
+			->select( [ 'sis_sic_id', 'sis_name', 'sis_value' ] )
+			->from( 'cusi_signal' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $caseId, 'Lorem', 'ipsum' ] );
+
+		// Mock SuggestedInvestigationsInstrumentationClient so that we can check event is never created (as no
+		// update should be performed)
+		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
+		$client->expects( $this->never() )
+			->method( 'submitInteraction' );
+		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
+
+		$service = $this->createService();
+		$service->updateCase( $caseId, [], [] );
+
+		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
+		$this->assertSame( 1, $userCountRelevant, 'There should be only be the initial user' );
+		$this->assertSame( 0, $userCountIrrelevant, 'There should be no other users' );
+
+		// Assert that no new signals were added
+		$this->newSelectQueryBuilder()
+			->select( [ 'sis_sic_id', 'sis_name', 'sis_value' ] )
+			->from( 'cusi_signal' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $caseId, 'Lorem', 'ipsum' ] );
 	}
 
 	/**
