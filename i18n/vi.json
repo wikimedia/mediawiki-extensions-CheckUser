@@ -14,7 +14,8 @@
 			"Nguyễn Mạnh An",
 			"Noeruchan",
 			"Nvdtn19",
-			"Vinhtantran"
+			"Vinhtantran",
+			"NguoiDungKhongDinhDanh"
 		]
 	},
 	"checkuser-summary": "Công cụ này sẽ quét các thay đổi gần đây để xuất ra các địa chỉ IP của thành viên hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm cụm “/xff” vào cuối địa chỉ IP. IPv4 (CIDR $1-32) và IPv6 (CIDR $2-128) đều được hỗ trợ. \nKhông quá $3 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.",
@@ -329,7 +330,7 @@
 	"checkuser-tempaccount-no-ip-results": "Không có dữ liệu IP nào cho tài khoản tạm thời này trong $1 {{PLURAL:$1| ngày}} gần nhất",
 	"checkuser-tempaccount-reveal-ip-button-label": "Xem IP",
 	"checkuser-tempaccount-reveal-ip-missing": "không có sẵn",
-	"checkuser-tempaccount-reveal-ip-expired": "không còn có sẵn",
+	"checkuser-tempaccount-reveal-ip-expired": "không còn khả dụng",
 	"checkuser-tempaccount-reveal-ip-error": "lỗi",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Để xem địa chỉ IP cho các tài khoản tạm thời, vui lòng chấp nhận thỏa thuận trong [[Special:Preferences|tùy chọn của bạn]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Đang tải chi tiết cấm",
