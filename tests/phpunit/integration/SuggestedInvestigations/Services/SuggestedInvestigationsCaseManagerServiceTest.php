@@ -131,6 +131,13 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 			->fetchField();
 		$this->assertSame( 1, $signalCountRelevant, 'One signal should be added to the case' );
 		$this->assertSame( 0, $signalCountAll - $signalCountRelevant, 'No signals should be added to any other case' );
+
+		// Validate the signal does not have an associated trigger ID (because none was set)
+		$this->newSelectQueryBuilder()
+			->select( [ 'sis_trigger_id', 'sis_trigger_type' ] )
+			->from( 'cusi_signal' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ 0, 0 ] );
 	}
 
 	public function testCreateCaseOnUrlIdentifierConflict(): void {
@@ -202,6 +209,14 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 					SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Dolor', 'sit amet', false ),
 				],
 			],
+			'Disallow unknown trigger ID table' => [
+				[ UserIdentityValue::newRegistered( 1, 'Test user 1' ) ],
+				[
+					SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+						'Lorem', 'ipsum', false, 123, 'unknown'
+					),
+				],
+			],
 		];
 	}
 
@@ -253,7 +268,9 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$user1 = UserIdentityValue::newRegistered( 1, 'Test user 1' );
 		$user2 = UserIdentityValue::newRegistered( 2, 'Test user 2' );
 		$signal1 = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
-		$signal2 = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem2', 'ipsum', false );
+		$signal2 = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'Lorem2', 'ipsum', false, 123, 'revision'
+		);
 
 		$service = $this->createService();
 		$caseId = $service->createCase( [ $user1 ], [ $signal1 ] );
@@ -294,14 +311,14 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$this->assertSame( 2, $userCountRelevant, 'Second user should be added to the case' );
 		$this->assertSame( 0, $userCountIrrelevant, 'No user should be added to any other case' );
 
-		// Assert that only the second signal was added to the case
+		// Assert that the second signal was added to the case
 		$this->newSelectQueryBuilder()
-			->select( [ 'sis_sic_id', 'sis_name', 'sis_value' ] )
+			->select( [ 'sis_sic_id', 'sis_name', 'sis_value', 'sis_trigger_id', 'sis_trigger_type' ] )
 			->from( 'cusi_signal' )
 			->caller( __METHOD__ )
 			->assertResultSet( [
-				[ $caseId, 'Lorem', 'ipsum' ],
-				[ $caseId, 'Lorem2', 'ipsum' ],
+				[ $caseId, 'Lorem', 'ipsum', 0, 0 ],
+				[ $caseId, 'Lorem2', 'ipsum', 123, 1 ],
 			] );
 	}
 

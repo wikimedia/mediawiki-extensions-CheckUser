@@ -28,21 +28,63 @@ class SuggestedInvestigationsSignalMatchResultTest extends MediaWikiUnitTestCase
 		$sut->valueMatchAllowsMerging();
 	}
 
+	public function testGetTriggerIdThrowsForNegativeResult(): void {
+		$sut = SuggestedInvestigationsSignalMatchResult::newNegativeResult( 'test-abc' );
+		$this->expectException( LogicException::class );
+		$sut->getTriggerId();
+	}
+
+	public function testGetTriggerIdTableThrowsForNegativeResult(): void {
+		$sut = SuggestedInvestigationsSignalMatchResult::newNegativeResult( 'test-abc' );
+		$this->expectException( LogicException::class );
+		$sut->getTriggerIdTable();
+	}
+
 	/** @dataProvider provideNewPositiveResult */
-	public function testNewPositiveResult( $valueMatchAllowsMerging ): void {
-		$sut = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'name-abc', 'value-abc', $valueMatchAllowsMerging
-		);
+	public function testNewPositiveResult(
+		bool $valueMatchAllowsMerging, ?int $triggerId, ?string $triggerIdTable
+	): void {
+		// null for $triggerId means to use the default value
+		if ( $triggerId === null || $triggerIdTable === null ) {
+			$sut = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+				'name-abc', 'value-abc', $valueMatchAllowsMerging
+			);
+		} else {
+			$sut = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+				'name-abc', 'value-abc', $valueMatchAllowsMerging, $triggerId, $triggerIdTable
+			);
+		}
+
 		$this->assertTrue( $sut->isMatch() );
 		$this->assertSame( 'name-abc', $sut->getName() );
 		$this->assertSame( 'value-abc', $sut->getValue() );
 		$this->assertSame( $valueMatchAllowsMerging, $sut->valueMatchAllowsMerging() );
+		if ( $triggerId === null || $triggerIdTable === null ) {
+			$this->assertSame( 0, $sut->getTriggerId() );
+			$this->assertSame( '', $sut->getTriggerIdTable() );
+		} else {
+			$this->assertSame( $triggerId, $sut->getTriggerId() );
+			$this->assertSame( $triggerIdTable, $sut->getTriggerIdTable() );
+		}
 	}
 
 	public static function provideNewPositiveResult(): array {
 		return [
-			'Value match allows merging' => [ true ],
-			'Value match does not allow merging' => [ false ],
+			'Value match allows merging' => [
+				'valueMatchAllowsMerging' => true,
+				'triggerId' => null,
+				'triggerIdTable' => null,
+			],
+			'Value match does not allow merging' => [
+				'valueMatchAllowsMerging' => false,
+				'triggerId' => null,
+				'triggerIdTable' => null,
+			],
+			'Trigger ID is set' => [
+				'valueMatchAllowsMerging' => false,
+				'triggerId' => 1,
+				'triggerIdTable' => 'revision',
+			],
 		];
 	}
 }

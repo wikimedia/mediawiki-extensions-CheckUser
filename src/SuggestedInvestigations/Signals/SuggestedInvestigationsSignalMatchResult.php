@@ -14,7 +14,9 @@ class SuggestedInvestigationsSignalMatchResult {
 		private readonly bool $isMatch,
 		private readonly string $name,
 		private readonly mixed $value = null,
-		private readonly bool $allowsMerging = false
+		private readonly bool $allowsMerging = false,
+		private readonly int $triggerId = 0,
+		private readonly string $triggerIdTable = '',
 	) {
 	}
 
@@ -26,9 +28,16 @@ class SuggestedInvestigationsSignalMatchResult {
 	 *   the cusi_signal table).
 	 * @param bool $allowsMerging Whether open suggested investigation cases which share the same value for this
 	 *   signal should be merged into one case
+	 * @param int $triggerId An ID of a revision or logging table row that triggered this signal, or otherwise
+	 *   associated with the matched signal. Default 0 for no associated trigger ID.
+	 * @param string $triggerIdTable The database table where the row referenced by the ID in $triggerId is.
+	 *   Currently supports values of the array
+	 *   {@link SuggestedInvestigationsCaseManagerService::TRIGGER_TYPE_TO_TABLE_NAME_MAP}.
 	 */
-	public static function newPositiveResult( string $name, string $value, bool $allowsMerging ): self {
-		return new self( true, $name, $value, $allowsMerging );
+	public static function newPositiveResult(
+		string $name, string $value, bool $allowsMerging, int $triggerId = 0, string $triggerIdTable = ''
+	): self {
+		return new self( true, $name, $value, $allowsMerging, $triggerId, $triggerIdTable );
 	}
 
 	/**
@@ -86,5 +95,35 @@ class SuggestedInvestigationsSignalMatchResult {
 			throw new LogicException( 'No value is associated with a negative match for a signal.' );
 		}
 		return $this->allowsMerging;
+	}
+
+	/**
+	 * If the signal matched the user, then this returns the ID of a row in a table that is considered
+	 * to have triggered the signal to be matched. What exactly is defined as the trigger of the signal
+	 * is left up to the individual signal.
+	 *
+	 * Callers are expected to call {@link self::getTriggerIdTable} to determine what table the ID is
+	 * referring to.
+	 *
+	 * @throws LogicException If the signal did not match the user.
+	 */
+	public function getTriggerId(): int {
+		if ( !$this->isMatch ) {
+			throw new LogicException( 'No trigger ID is associated with a negative match for a signal.' );
+		}
+		return $this->triggerId;
+	}
+
+	/**
+	 * If the signal matched the user, then this returns the database table where the row referenced by the ID
+	 * from {@link self::getTriggerId} is.
+	 *
+	 * @throws LogicException If the signal did not match the user.
+	 */
+	public function getTriggerIdTable(): string {
+		if ( !$this->isMatch ) {
+			throw new LogicException( 'No trigger table is associated with a negative match for a signal.' );
+		}
+		return $this->triggerIdTable;
 	}
 }

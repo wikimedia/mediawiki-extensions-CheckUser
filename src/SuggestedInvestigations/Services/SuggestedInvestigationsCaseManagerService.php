@@ -39,6 +39,25 @@ class SuggestedInvestigationsCaseManagerService {
 		'CheckUserSuggestedInvestigationsEnabled',
 	];
 
+	/**
+	 * When cusi_signal.sis_trigger_type has this value,
+	 * it means that cusi_signal.sis_trigger_id is a revision ID.
+	 */
+	public const TRIGGER_TYPE_REVISION = 1;
+	/**
+	 * When cusi_signal.sis_trigger_type has this value,
+	 * it means that cusi_signal.sis_trigger_id is a logging table ID.
+	 */
+	public const TRIGGER_TYPE_LOGGING = 2;
+
+	/**
+	 * @var string[] Maps values of cusi_signal.sis_trigger_type to the database table they represent
+	 */
+	public const TRIGGER_TYPE_TO_TABLE_NAME_MAP = [
+		self::TRIGGER_TYPE_REVISION => 'revision',
+		self::TRIGGER_TYPE_LOGGING => 'logging',
+	];
+
 	public function __construct(
 		private readonly ServiceOptions $options,
 		private readonly IConnectionProvider $dbProvider,
@@ -251,10 +270,12 @@ class SuggestedInvestigationsCaseManagerService {
 		$dbw = $this->getPrimaryDatabase();
 
 		// Using array_values to silence Phan warning about $rows being associative
-		$rows = array_map( static fn ( $signal ) => [
+		$rows = array_map( fn ( $signal ) => [
 			'sis_sic_id' => $caseId,
 			'sis_name' => $signal->getName(),
 			'sis_value' => $signal->getValue(),
+			'sis_trigger_id' => $signal->getTriggerId(),
+			'sis_trigger_type' => $this->getTriggerTypeByDatabaseTable( $signal->getTriggerIdTable() ),
 		], array_values( $signals ) );
 
 		$dbw->newInsertQueryBuilder()
@@ -263,6 +284,23 @@ class SuggestedInvestigationsCaseManagerService {
 			->rows( $rows )
 			->caller( __METHOD__ )
 			->execute();
+	}
+
+	/**
+	 * Given a database table (e.g. 'revision'), return the value of cusi_signal.sis_trigger_type that
+	 * corresponds to that database table. When the database table is an empty string, this will be
+	 * interpreted as the signal having no trigger ID and so 0 is returned to represent this.
+	 *
+	 * @param string $databaseTable
+	 * @return int One of self::TRIGGER_TYPE_* constants, or 0 if $databaseTable is an empty string
+	 */
+	private function getTriggerTypeByDatabaseTable( string $databaseTable ): int {
+		if ( $databaseTable === '' ) {
+			return 0;
+		}
+
+		return array_flip( self::TRIGGER_TYPE_TO_TABLE_NAME_MAP )[$databaseTable]
+			?? throw new InvalidArgumentException( "Unrecognised database table $databaseTable" );
 	}
 
 	/**
