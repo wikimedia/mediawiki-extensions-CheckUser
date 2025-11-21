@@ -98,6 +98,13 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$pager->getFullOutput(),
 			ParserOptions::newFromContext( $this->getContext() )
 		);
+
+		if ( $this->isInDetailedView ) {
+			// Add additional content to the detail view after the single case row shown in the table
+			$this->hookRunner->onCheckUserSuggestedInvestigationsOnDetailViewRender(
+				$this->detailedViewCaseId, $output
+			);
+		}
 	}
 
 	/**

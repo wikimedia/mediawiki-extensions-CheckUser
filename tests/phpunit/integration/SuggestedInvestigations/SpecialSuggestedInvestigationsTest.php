@@ -26,6 +26,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsS
 use MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\WebResponse;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -68,6 +69,15 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 				$signals = [ 'dev-signal-1', 'dev-signal-2' ];
 			}
 		);
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsOnDetailViewRender',
+			function () {
+				$this->fail(
+					'Did not expect the CheckUserSuggestedInvestigationsOnDetailViewRender hook to be run ' .
+						'when not in detail view'
+				);
+			}
+		);
 
 		$context = RequestContext::getMain();
 		$context->setUser( $checkuser );
@@ -101,8 +111,23 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		$context->setUser( $this->getTestUser( [ 'checkuser' ] )->getUser() );
 		$context->setLanguage( 'qqx' );
 
+		$hookRun = false;
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsOnDetailViewRender',
+			function ( $caseId, $output ) use ( &$hookRun ) {
+				$hookRun = true;
+
+				$this->assertSame( 1, $caseId, 'Hook was not provided the expected case ID' );
+				$this->assertInstanceOf( OutputPage::class, $output );
+			}
+		);
+
 		[ $html ] = $this->executeSpecialPage(
 			'detail/abcdef12', new FauxRequest(), null, null, true, $context
+		);
+		$this->assertTrue(
+			$hookRun,
+			'CheckUserSuggestedInvestigationsOnDetailViewRender hook was expected to be run in detail view'
 		);
 
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-detail-view: 1)', $html );

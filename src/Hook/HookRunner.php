@@ -17,6 +17,7 @@ class HookRunner implements
 	CheckUserInsertPrivateEventRowHook,
 	CheckUserSuggestedInvestigationsBeforeCaseCreatedHook,
 	CheckUserSuggestedInvestigationsGetSignalsHook,
+	CheckUserSuggestedInvestigationsOnDetailViewRenderHook,
 	CheckUserSuggestedInvestigationsSignalMatchHook,
 	SpecialCheckUserGetLinksFromRowHook
 {
@@ -94,6 +95,15 @@ class HookRunner implements
 		$this->container->run(
 			'CheckUserSuggestedInvestigationsGetSignals',
 			[ &$signals ],
+			[ 'abortable' => false ]
+		);
+	}
+
+	/** @inheritDoc */
+	public function onCheckUserSuggestedInvestigationsOnDetailViewRender( int $caseId, $output ): void {
+		$this->container->run(
+			'CheckUserSuggestedInvestigationsOnDetailViewRender',
+			[ $caseId, $output ],
 			[ 'abortable' => false ]
 		);
 	}
