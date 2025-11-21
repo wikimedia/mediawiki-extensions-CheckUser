@@ -470,6 +470,8 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-sharedemail": "<strong>{{int:checkuser-suggestedinvestigations-signal-sharedemail}}</strong>: These accounts share the same email address, though some accounts may have not [[mw:Special:MyLanguage/Help:Email confirmation|confirmed this email address]]. This may indicate bad actor activity.",
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Close",
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Read more information about risk signals in a popover",
+	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Edit|Edits}} flagged by $1 ($2)",
+	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Log|Logs}} flagged by $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporary accounts from all associated IPs: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "An aggregate count of all temporary accounts from all IPs associated with this account",
 	"checkuser-temporary-account-bucketcount-min": "$1",
