@@ -165,7 +165,7 @@ function makeButton( target, revIds, logIds, aflIds, documentRoot ) {
  */
 function getUserLinks( $content ) {
 	// Get the "normal" temp user links which are those which are not inside a log entry line.
-	const $normalUserLinks = $content.find( '.mw-tempuserlink' ).filter( function () {
+	const $normalUserLinks = $content.find( '.mw-tempuserlink[data-mw-target]' ).filter( function () {
 		return $( this ).closest( '.mw-logevent-loglines, .mw-changeslist-log-entry, .mw-changeslist-log' ).length === 0;
 	} );
 
@@ -176,7 +176,7 @@ function getUserLinks( $content ) {
 		.find( '.ext-checkuser-log-line-supports-ip-reveal' )
 		.addBack( '.ext-checkuser-log-line-supports-ip-reveal' )
 		.map( function () {
-			return $( this ).find( '.mw-tempuserlink' ).first().get();
+			return $( this ).find( '.mw-tempuserlink[data-mw-target]' ).first().get();
 		} );
 
 	return $normalUserLinks.add( $logLinePerformerUserLinks );
