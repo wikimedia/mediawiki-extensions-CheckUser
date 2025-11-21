@@ -18,16 +18,20 @@
  * @file
  */
 
+namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Services;
+
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\User\UserIdentityValue;
+use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
- * @covers MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
+ * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
  * @group Database
  */
 class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationTestCase {
@@ -163,6 +167,17 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 			[ $user1, $user2 ],
 			[
 				SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false ),
+			]
+		);
+		// Add the same signal again to the open case, but use a different trigger ID to test that
+		// ::getCasesForSignal only returns the open case once
+		$caseManager->updateCase(
+			self::$openCase,
+			[],
+			[
+				SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+					'Lorem', 'ipsum', false, 123, 'revision'
+				),
 			]
 		);
 

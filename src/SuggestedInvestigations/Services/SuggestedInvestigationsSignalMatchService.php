@@ -117,7 +117,7 @@ class SuggestedInvestigationsSignalMatchService {
 		if ( count( $mergeableCases ) === 0 ) {
 			$this->createNewCase( $user, $signal );
 		} else {
-			$this->addUserToCases( $user, $mergeableCases );
+			$this->updateCases( $user, $signal, $mergeableCases );
 		}
 	}
 
@@ -137,14 +137,17 @@ class SuggestedInvestigationsSignalMatchService {
 	}
 
 	/**
-	 * Adds the given user to all the SI cases provided.
+	 * Adds the given user and signal to all the SI cases provided.
+	 *
 	 * @param UserIdentity $user
+	 * @param SuggestedInvestigationsSignalMatchResult $signal
 	 * @param SuggestedInvestigationsCase[] $cases
 	 */
-	private function addUserToCases( UserIdentity $user, array $cases ): void {
-		$users = [ $user ];
+	private function updateCases(
+		UserIdentity $user, SuggestedInvestigationsSignalMatchResult $signal, array $cases
+	): void {
 		foreach ( $cases as $case ) {
-			$this->caseManager->updateCase( $case->getId(), $users, [] );
+			$this->caseManager->updateCase( $case->getId(), [ $user ], [ $signal ] );
 		}
 	}
 }

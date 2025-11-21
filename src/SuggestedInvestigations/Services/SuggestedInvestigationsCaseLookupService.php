@@ -73,8 +73,10 @@ class SuggestedInvestigationsCaseLookupService {
 
 		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
 
+		// DISTINCT is needed because there may be many matching cusi_signal rows for a given cusi_case row.
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [ 'sic_id', 'sic_status', 'sic_status_reason' ] )
+			->distinct()
 			->from( 'cusi_signal' )
 			->join( 'cusi_case', null, 'sis_sic_id = sic_id' )
 			->where( [
