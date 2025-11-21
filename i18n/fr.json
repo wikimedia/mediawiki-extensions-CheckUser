@@ -453,7 +453,6 @@
 	"checkuser-suggestedinvestigations-header-status": "État",
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
 	"checkuser-suggestedinvestigations-header-actions": "Actions",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|vérifier {{GENDER:$3|user}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Afficher +$1 {{PLURAL:$1|comptes}}",
 	"checkuser-suggestedinvestigations-user-showless": "Masquer {{PLURAL:$1|le dernier compte|les $1 derniers comptes}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Courriel partagé (confirmé ou non)",

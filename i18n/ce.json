@@ -397,7 +397,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Билгалдахарш",
 	"checkuser-suggestedinvestigations-header-actions": "Ардамаш",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|{{GENDER:$3|декъашхо}} талла]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Гайта +$1 {{PLURAL:$1|аккаунташ}}",
 	"checkuser-suggestedinvestigations-user-showless": "ТӀаьххьара $1 {{PLURAL:$1|аккаунташ}} къайлайаха",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "ТӀечӀагӀйина йа тӀечӀагӀйина йоцу йукъара электронан пошта",

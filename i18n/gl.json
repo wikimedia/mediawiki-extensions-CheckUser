@@ -423,7 +423,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Estado",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
 	"checkuser-suggestedinvestigations-header-actions": "Accións",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|comprobar {{GENDER:$3|o ususuario|a usuaria}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Mostrar $1 {{PLURAL:$1|conta|contas}} máis",
 	"checkuser-suggestedinvestigations-user-showless": "Agochar {{PLURAL:$1|a última conta|as últimas $1 contas}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Correo electrónico compartido confirmado ou non confirmado",

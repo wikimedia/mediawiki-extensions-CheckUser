@@ -438,7 +438,6 @@
 	"checkuser-suggestedinvestigations-header-status": "الحالة",
 	"checkuser-suggestedinvestigations-header-notes": "ملاحظات",
 	"checkuser-suggestedinvestigations-header-actions": "الإجراءات",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|تحقق من {{GENDER:$3|المستخدم}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "إظهار + $1 {{PLURAL:$1| حسابات}}",
 	"checkuser-suggestedinvestigations-user-showless": "إخفاء آخر $1 {{PLURAL:$1| حسابات}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "البريد الإلكتروني المشترك المؤكد أو غير المؤكد",

@@ -326,7 +326,6 @@
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2টি সম্পাদনা|0=কোনো সম্পাদনা নেই}})",
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: উপপাতা পাওয়া যায়নি",
 	"checkuser-suggestedinvestigations-back-to-main-page": "{{int:checkuser-suggestedinvestigations}}-এ ফিরে যান",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|{{GENDER:$3|ব্যবহারকারীকে}} পরীক্ষা করুন]])",
 	"checkuser-suggestedinvestigations-signal-hcaptcha": "সন্দেহজনক এইচক্যাপচা",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "বন্ধ করুন",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "বাতিল",

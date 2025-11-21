@@ -422,7 +422,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Merknader",
 	"checkuser-suggestedinvestigations-header-actions": "Handlinger",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|sjekk {{GENDER:$3|brukeren}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Vis $1 {{PLURAL:$1|konto|kontoer}} til",
 	"checkuser-suggestedinvestigations-user-showless": "Skjul {{PLURAL:$1|den siste kontoen|de siste $1 kontoene}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Bekreftet eller ubekreftet delt e-post",

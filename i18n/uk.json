@@ -434,7 +434,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Примітки",
 	"checkuser-suggestedinvestigations-header-actions": "Дії",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|перевірити {{GENDER:$3|користувача|користувачку}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Показати +$1 {{PLURAL:$1|обліковий запис|облікові записи|облікових записів}}",
 	"checkuser-suggestedinvestigations-user-showless": "Приховати $1 {{PLURAL:$1|останній обліковий запис|останні облікові записи|останніх облікових записів}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Підтверджена або непідтверджена спільна електронна адреса",

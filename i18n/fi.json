@@ -410,7 +410,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Tila",
 	"checkuser-suggestedinvestigations-header-notes": "Huomautukset",
 	"checkuser-suggestedinvestigations-header-actions": "Toiminnot",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|tarkasta {{GENDER:$3|käyttäjä}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Näytä $1 {{PLURAL:$1|tunnus|tunnusta}} lisää",
 	"checkuser-suggestedinvestigations-user-showless": "Piilota {{PLURAL:$1|viimeisin|viimeiset}} $1 {{PLURAL:$1|tunnus|tunnusta}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Jaettu vahvistettu tai vahvistamaton sähköpostiosoite",

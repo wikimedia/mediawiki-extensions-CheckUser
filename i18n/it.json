@@ -404,7 +404,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Stato",
 	"checkuser-suggestedinvestigations-header-notes": "Note",
 	"checkuser-suggestedinvestigations-header-actions": "Azioni",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|controlla {{GENDER:$3|utente}}]])",
 	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha sospetto",
 	"checkuser-suggestedinvestigations-status-open": "Aperto",
 	"checkuser-suggestedinvestigations-status-resolved": "Chiuso",

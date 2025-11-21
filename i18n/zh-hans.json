@@ -457,7 +457,6 @@
 	"checkuser-suggestedinvestigations-header-status": "状态",
 	"checkuser-suggestedinvestigations-header-notes": "备注",
 	"checkuser-suggestedinvestigations-header-actions": "操作",
-	"checkuser-suggestedinvestigations-user-check": "$1（[[$2|查核{{GENDER:$3|用户}}]]）",
 	"checkuser-suggestedinvestigations-user-showmore": "显示+$1{{PLURAL:$1|个账号}}",
 	"checkuser-suggestedinvestigations-user-showless": "隐藏后$1{{PLURAL:$1|个账号}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "已确认或未确认的共享电子邮件",

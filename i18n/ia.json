@@ -414,7 +414,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Stato",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
 	"checkuser-suggestedinvestigations-header-actions": "Actiones",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|verificar le usat{{GENDER:$3|or|rice}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Monstrar plus de $1 conto{{PLURAL:$1||s}}",
 	"checkuser-suggestedinvestigations-user-showless": "Celar le ultime $1 conto{{PLURAL:$1||s}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Adresse de e-mail commun, confirmate o non",

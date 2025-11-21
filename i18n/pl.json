@@ -427,7 +427,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Uwagi",
 	"checkuser-suggestedinvestigations-header-actions": "Akcje",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|sprawdź {{GENDER:$3|użytkownika|użytkowniczkę}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Pokaż $1 {{PLURAL:$1|kolejne konto|kolejne konta|kolejnych kont}}",
 	"checkuser-suggestedinvestigations-user-showless": "Ukryj $1 {{PLURAL:$1|ostatnie konto|ostatnie konta|ostatnich kont}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Potwierdzony lub niepotwierdzony wspólny e-mail",

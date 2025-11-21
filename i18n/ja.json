@@ -444,7 +444,6 @@
 	"checkuser-suggestedinvestigations-header-status": "状態",
 	"checkuser-suggestedinvestigations-header-notes": "備考",
 	"checkuser-suggestedinvestigations-header-actions": "操作",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|{{GENDER:$3|利用者}}をチェック]])",
 	"checkuser-suggestedinvestigations-user-showmore": "+$1{{PLURAL:$1|アカウント}}を表示",
 	"checkuser-suggestedinvestigations-user-showless": "末尾の$1{{PLURAL:$1|アカウント}}を隠す",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "認証済みまたは未認証の共通メールアドレス",

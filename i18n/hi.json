@@ -384,7 +384,6 @@
 	"checkuser-suggestedinvestigations-header-status": "स्थिति",
 	"checkuser-suggestedinvestigations-header-notes": "टिप्पणियाँ",
 	"checkuser-suggestedinvestigations-header-actions": "कार्रवाई",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|{{GENDER:$3|सदस्य}} को जाँचें]])",
 	"checkuser-suggestedinvestigations-user-showmore": "$1 और {{PLURAL:$1|खाता|खाते}} दिखाएँ",
 	"checkuser-suggestedinvestigations-user-showless": "{{PLURAL:$1|पिछला $1 खाता|पिछले $1 खाते}} छिपाएँ",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "पुष्ट या अपुष्ट समान ईमेल",

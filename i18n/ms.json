@@ -410,7 +410,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Catatan",
 	"checkuser-suggestedinvestigations-header-actions": "Tindakan",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|periksa {{GENDER:$3|pengguna}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Tunjukkan +$1 {{PLURAL:$1|akaun}}",
 	"checkuser-suggestedinvestigations-user-showless": "Sembunyikan $1 {{PLURAL:$1|akaun}} terakhir",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "E-mel bersama yang disahkan atau tidak disahkan",

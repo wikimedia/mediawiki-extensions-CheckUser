@@ -410,7 +410,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Bemærkninger",
 	"checkuser-suggestedinvestigations-header-actions": "Handlinger",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|tjek {{GENDER:$3|bruger}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Vis +$1 {{PLURAL:$1|konti}}",
 	"checkuser-suggestedinvestigations-user-showless": "Skjul de sidste $1 {{PLURAL:$1|konti}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Bekræftet eller ubekræftet delt e-mail",

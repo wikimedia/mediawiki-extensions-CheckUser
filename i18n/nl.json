@@ -430,7 +430,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Notities",
 	"checkuser-suggestedinvestigations-header-actions": "Handelingen",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|gebruik{{GENDER:$3||st}}er controleren]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Nog $1 account{{PLURAL:$1||s}} weergeven",
 	"checkuser-suggestedinvestigations-user-showless": "Laatste $1 account{{PLURAL:$1||s}} verbergen",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Bevestigd of onbevestigd gedeeld e-mailadres",

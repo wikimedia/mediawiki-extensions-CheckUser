@@ -417,7 +417,6 @@
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Белешки",
 	"checkuser-suggestedinvestigations-header-actions": "Дејства",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|провери {{GENDER:$3|корисник|корисничка}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "Прикажи +$1 {{PLURAL:$1|сметки}}",
 	"checkuser-suggestedinvestigations-user-showless": "{{PLURAL:$1|Скриј ја последната сметка|Скриј ги последите $1 сметки}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Потврдена или непотврдена споделена е-пошта",

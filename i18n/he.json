@@ -424,7 +424,6 @@
 	"checkuser-suggestedinvestigations-header-status": "מצב",
 	"checkuser-suggestedinvestigations-header-notes": "הערות",
 	"checkuser-suggestedinvestigations-header-actions": "פעולות",
-	"checkuser-suggestedinvestigations-user-check": "$1 ([[$2|לבדוק את {{GENDER:$3|המשתמש|המשתמשת}}]])",
 	"checkuser-suggestedinvestigations-user-showmore": "להציג עוד $1 {{PLURAL:$1|חשבונות}}",
 	"checkuser-suggestedinvestigations-user-showless": "{{PLURAL:$1|הסתרת החשבון האחרון|הסתרת $1 החשבונות האחרונים}}",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "דואר אלקטוני משותף מאושר או לא מאושר",
