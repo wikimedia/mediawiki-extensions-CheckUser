@@ -351,6 +351,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Напомене",
 	"checkuser-suggestedinvestigations-header-actions": "Радње",
+	"checkuser-suggestedinvestigations-user-check-link-text": "провери {{GENDER:$1|корисника|корисницу}}",
 	"checkuser-suggestedinvestigations-status-resolved": "Затворено",
 	"checkuser-suggestedinvestigations-status-description-invalid": "Изаберите ово да означите лажно позитивне",
 	"checkuser-suggestedinvestigations-action-investigate": "Истражи кориснике",

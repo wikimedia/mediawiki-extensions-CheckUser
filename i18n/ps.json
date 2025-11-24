@@ -235,6 +235,7 @@
 	"checkuser-suggestedinvestigations-header-status": "دريځ",
 	"checkuser-suggestedinvestigations-header-notes": "يادښتونه",
 	"checkuser-suggestedinvestigations-header-actions": "چارې",
+	"checkuser-suggestedinvestigations-user-check-link-text": "سم‌کتونکی {{GENDER:$1|کارن}}",
 	"checkuser-suggestedinvestigations-status-open": "پرانېستل",
 	"checkuser-suggestedinvestigations-status-resolved": "تړل شوی",
 	"checkuser-suggestedinvestigations-status-invalid": "ناچله",

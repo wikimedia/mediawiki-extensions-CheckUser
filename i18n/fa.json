@@ -146,7 +146,7 @@
 	"checkuser-helper-user": "کاربر",
 	"checkuser-helper-ips": "آی‌پی‌ها",
 	"checkuser-helper-uas": "عامل‌های کاربر",
-	"checkuser-helper-client-hints": "نکاتی برای کارخواه",
+	"checkuser-helper-client-hints": "نشانه‌های کارخواه",
 	"checkuser-helper-xff-trusted": "XFF (مورد اعتماد):",
 	"checkuser-helper-xff-untrusted": "XFF (غیرقابل اعتماد):",
 	"logentry-checkuser-private-event-login-success": "با موفقیت تحت عنوان $4 به {{SITENAME}} {{GENDER:$2|وارد شد}}",
@@ -395,5 +395,7 @@
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: پروندهٔ شمارهٔ $1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: پرونده یافت نشد",
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: زیرصفحه یافت نشد",
-	"checkuser-suggestedinvestigations-summary-detail-view": "این صفحه حاوی اطلاعات با جزئیات تنها برای بازرسان، پیرامون '''پروندهٔ شمارهٔ $1''' است."
+	"checkuser-suggestedinvestigations-summary-detail-view": "این صفحه حاوی اطلاعات با جزئیات تنها برای بازرسان، پیرامون '''پروندهٔ شمارهٔ $1''' است.",
+	"checkuser-suggestedinvestigations-user-check-reason-prefill": "[[$1|بازرسی پیشنهادی شمارهٔ $2]]: {{GENDER:$3|$3}}",
+	"checkuser-suggestedinvestigations-user-investigate-reason-prefill": "کاربران از [[$1|بازرسی پیشنهادی شمارهٔ $2]]"
 }
