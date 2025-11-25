@@ -595,6 +595,7 @@
 			"CheckUserPrivateEvents"
 		],
 		"LogEventsListLineEnding": "LogDisplayHandler",
+		"PageSaveComplete": "SuggestedInvestigationsHandler",
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
 		"RecentChange_save": "RecentChangeSaveHandler",
 		"RenameUserSQL": "RenameUserSQLHandler",
