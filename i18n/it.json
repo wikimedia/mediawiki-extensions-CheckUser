@@ -269,7 +269,7 @@
 	"checkuser-ip-contributions-results-title": "Contributi dell'IP tramite utenza temporanea per $1",
 	"checkuser-global-contributions-no-results-no-central-user": "<strong>Nessun risultato corrisponde alla richiesta</strong>. L'utente \"$1\" non è registrato.",
 	"checkuser-ip-contributions-archive-results-title": "Contributi cancellati dell'IP tramite utenza temporanea per $1",
-	"checkuser-ip-contributions-deleted-contributions-link": "Contributi utente cancellati",
+	"checkuser-ip-contributions-deleted-contributions-link": "contributi utente cancellati",
 	"checkuser-ip-contributions-contributions-link": "contributi",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Modifiche dell'IP tramite utenza temporanea",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Modifiche dell'IP tramite utenza temporanea",

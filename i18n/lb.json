@@ -247,6 +247,8 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Ofbriechen",
 	"checkuser-suggestedinvestigations-change-status-dialog-title": "Status änneren",
 	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Status",
+	"checkuser-suggestedinvestigations-risk-signals-popover-body-hcaptcha-edit": "<strong>{{int:checkuser-suggestedinvestigations-signal-hcaptcha-edit}}</strong>: Dës Ännerung gouf vun hCaptcha markéiert.",
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Zoumaachen",
+	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Ännerung|Ännerunge}} markéiert vum $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporär Konte vun allen associéierten IPen: $1"
 }

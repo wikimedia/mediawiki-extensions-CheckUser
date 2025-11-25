@@ -444,7 +444,8 @@
 	"checkuser-suggestedinvestigations-user-check-reason-prefill": "[[$1|التحقيق المقترح #$2]]: {{GENDER:$3|$3}}",
 	"checkuser-suggestedinvestigations-user-investigate-reason-prefill": "المستخدمون من [[$1|التحقيق المقترح #$2]]",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "البريد الإلكتروني المشترك المؤكد أو غير المؤكد",
-	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha مشبوه",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "إنشاء حساب hCaptcha مشبوه",
+	"checkuser-suggestedinvestigations-signal-hcaptcha-edit": "تعديل hCaptcha مشبوه",
 	"checkuser-suggestedinvestigations-status-open": "مفتوح",
 	"checkuser-suggestedinvestigations-status-resolved": "مغلق",
 	"checkuser-suggestedinvestigations-status-invalid": "غير صالح",
@@ -467,9 +468,12 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-title": "إشارات الخطر",
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-intro": "هذه الإشارات هي مؤشرات على نشاط محتمل لجهات سيئة.",
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-hcaptcha": "<strong>{{int:checkuser-suggestedinvestigations-signal-hcaptcha}}</strong> : تم وضع علامة على هذا الحساب بواسطة hCaptcha أثناء إنشاء الحساب.",
+	"checkuser-suggestedinvestigations-risk-signals-popover-body-hcaptcha-edit": "<strong>{{int:checkuser-suggestedinvestigations-signal-hcaptcha-edit}}</strong> : تم وضع علامة على هذا التعديل بواسطة hCaptcha.",
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-sharedemail": "<strong>{{int:checkuser-suggestedinvestigations-signal-sharedemail}}</strong> : تشترك هذه الحسابات في عنوان البريد الإلكتروني نفسه، مع أن بعض الحسابات قد لا [[mw:Special:MyLanguage/Help:Email confirmation|تأكيد عنوان البريد الإلكتروني هذا]]. قد يشير هذا إلى نشاط ضار.",
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "أغلق",
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "اقرأ المزيد من المعلومات حول إشارات المخاطرة في النافذة المنبثقة",
+	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|تعديل|تعديلات}} تم وضع علامة عليها بواسطة $1 ($2)",
+	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|سجل|سجلات}} تم وضع علامة عليها بواسطة $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "الحسابات المؤقتة من جميع عناوين IP المرتبطة: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "إجمالي عدد الحسابات المؤقتة من جميع عناوين IP المرتبطة بهذا الحساب"
 }
