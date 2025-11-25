@@ -212,8 +212,8 @@ function addButtonsToUserLinks( $userLinks ) {
 	} );
 
 	$userLinks.each( function () {
-		const target = $( this ).attr( 'data-mw-target' );
-		if ( $( this ).next().is( '.ext-checkuser-tempaccount-reveal-ip-button' ) ) {
+		const target = getLinkTarget( $( this ) );
+		if ( !target || $( this ).next().is( '.ext-checkuser-tempaccount-reveal-ip-button' ) ) {
 			return;
 		}
 		$( this ).after( function () {
@@ -229,6 +229,21 @@ function addButtonsToUserLinks( $userLinks ) {
 }
 
 /**
+ * Returns the name of user the link refers to.
+ *
+ * @param {jQuery} $element A user link
+ * @return {string|undefined} The username or undefined if the link is not a recognized user link
+ */
+function getLinkTarget( $element ) {
+	const target = $element.attr( 'data-mw-target' );
+	if ( target !== undefined ) {
+		return target;
+	}
+	// TODO: Read the target from href if data-mw-target is not present
+	return undefined;
+}
+
+/**
  * Add the log or revision ID for a certain element to a map of each target on the page
  * to all the IDs on the page that are relevant to that target.
  *
@@ -240,7 +255,10 @@ function addButtonsToUserLinks( $userLinks ) {
 function addToAllIds( $element, allIds, getId ) {
 	const id = getId( $element );
 	if ( id ) {
-		const target = $element.attr( 'data-mw-target' );
+		const target = getLinkTarget( $element );
+		if ( !target ) {
+			return;
+		}
 		if ( !allIds[ target ] ) {
 			allIds[ target ] = [];
 		}
@@ -298,7 +316,7 @@ function enableMultiReveal( $element ) {
 		( _e, userLookup, ips, isRev, isLog, isAfLog, batchResponse ) => {
 			// Find all temp user links that share the username
 			const $userLinks = $( '.mw-tempuserlink' ).filter( function () {
-				return $( this ).attr( 'data-mw-target' ) === userLookup;
+				return getLinkTarget( $( this ) ) === userLookup;
 			} );
 
 			// Convert the user links into pointers to the IP reveal button
@@ -657,7 +675,7 @@ function hideAllIps( $content, autoRevealStatus ) {
 	// On all other pages, replace IPs that are not pre-revealed with buttons
 	const $userLinks = getUserLinks( $content );
 	const $userLinksToHide = $userLinks.filter( function () {
-		if ( ipRevealUtils.getRevealedStatus( $( this ).attr( 'data-mw-target' ) ) ) {
+		if ( ipRevealUtils.getRevealedStatus( getLinkTarget( $( this ) ) ) ) {
 			return false;
 		}
 		if ( $( this ).next( '.ext-checkuser-tempaccount-reveal-ip' ).length === 0 ) {
