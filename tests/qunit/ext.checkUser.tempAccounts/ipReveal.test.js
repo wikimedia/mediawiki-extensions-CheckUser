@@ -297,6 +297,16 @@ QUnit.test( 'Test addIpRevealButtons adds temporary account IP reveal buttons', 
 	const $tempAccountUserLink = makeTempUserLink( tempName3 );
 	$qunitFixture.append( $tempAccountUserLink );
 	temporaryAccountUserLinks.push( $tempAccountUserLink );
+	// Add a temporary account username that has no data-mw-target
+	mw.config.set( 'wgCheckUserContribsPageLocalName', 'Contributions' );
+	const $noTargetUserLink = $( '<a>' )
+		.addClass( 'mw-tempuserlink' )
+		.text( tempName1 )
+		.attr( 'href', mw.util.getUrl( 'Special:Contributions/' + tempName1 ) );
+	const $parserOutput = $( '<div>' ).addClass( 'mw-parser-output' );
+	$parserOutput.append( $noTargetUserLink );
+	$qunitFixture.append( $parserOutput );
+	temporaryAccountUserLinks.push( $noTargetUserLink );
 	// Verify that before the call to ::addIpRevealButtons there are no Show IP buttons
 	assert.strictEqual(
 		$qunitFixture.find( '.ext-checkuser-tempaccount-reveal-ip-button' ).length,

@@ -227,3 +227,75 @@ QUnit.test( 'Test setAutoRevealStatus (disable)', function ( assert ) {
 		);
 	} );
 } );
+
+function performGetUserNameFromUrlTest( assert, url, expectedUserName ) {
+	// On purpose the special page name is set not to the default "Contributions",
+	// so that we can verify that the "localized" name is used.
+	mw.config.set( 'wgCheckUserContribsPageLocalName', 'Cntrbs' );
+	const result = ipRevealUtils.getUserNameFromUrl( url );
+	assert.strictEqual( result, expectedUserName, `URL: ${ url }` );
+}
+
+QUnit.test( 'Test getUserNameFromUrl, link to user page through /wiki/',
+	( assert ) => performGetUserNameFromUrlTest(
+		assert,
+		mw.util.getUrl( 'User:Example_User' ),
+		'Example User'
+	)
+);
+
+QUnit.test( 'Test getUserNameFromUrl, link to user page through /w/',
+	( assert ) => performGetUserNameFromUrlTest(
+		assert,
+		mw.util.getUrl( 'User:Example_User', { action: 'edit' } ),
+		'Example User'
+	)
+);
+
+QUnit.test( 'Test getUserNameFromUrl, link to user contributions through /wiki/',
+	( assert ) => performGetUserNameFromUrlTest(
+		assert,
+		mw.util.getUrl( 'Special:Cntrbs/Example_User' ),
+		'Example User'
+	)
+);
+
+QUnit.test( 'Test getUserNameFromUrl, link to user contributions through /w/',
+	( assert ) => performGetUserNameFromUrlTest(
+		assert,
+		mw.util.getUrl( 'Special:Cntrbs/Example_User', { uselang: 'qqx' } ),
+		'Example User'
+	)
+);
+
+QUnit.test( 'Test getUserNameFromUrl, link to user talk page through /wiki/',
+	( assert ) => performGetUserNameFromUrlTest(
+		assert,
+		mw.util.getUrl( 'User_talk:Example_User' ),
+		undefined
+	)
+);
+
+QUnit.test( 'Test getUserNameFromUrl, link to user talk page through /w/',
+	( assert ) => performGetUserNameFromUrlTest(
+		assert,
+		mw.util.getUrl( 'User_talk:Example_User', { action: 'edit' } ),
+		undefined
+	)
+);
+
+QUnit.test( 'Test getUserNameFromUrl, link to user page with diacritics through /wiki/',
+	( assert ) => performGetUserNameFromUrlTest(
+		assert,
+		mw.util.getUrl( 'User:Ťęśŧ' ),
+		'Ťęśŧ'
+	)
+);
+
+QUnit.test( 'Test getUserNameFromUrl, link to user page with diacritics through /w/',
+	( assert ) => performGetUserNameFromUrlTest(
+		assert,
+		mw.util.getUrl( 'User:Ťęśŧ', { action: 'edit' } ),
+		'Ťęśŧ'
+	)
+);

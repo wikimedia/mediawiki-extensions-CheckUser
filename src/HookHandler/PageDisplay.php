@@ -12,6 +12,7 @@ use MediaWiki\Output\OutputPage;
 use MediaWiki\Preferences\PreferencesFactory;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Skin\Skin;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
@@ -93,6 +94,7 @@ class PageDisplay implements BeforePageDisplayHook {
 			'wgCheckUserTemporaryAccountIPRevealAllowed' => true,
 			'wgCheckUserSpecialPagesWithoutIPRevealButtons' =>
 				$this->config->get( 'CheckUserSpecialPagesWithoutIPRevealButtons' ),
+			'wgCheckUserContribsPageLocalName' => SpecialPage::getTitleValueFor( 'Contributions' )->getText(),
 		] );
 	}
 

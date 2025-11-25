@@ -174,11 +174,12 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$expectedConfigVars = [];
 
 		// Temporary account-related configuration and modules should only be added to the output
-		// only on special pages and selected action pages, and only if temporary accounts
+		// only on special pages and selected action pages (incl. default), and only if temporary accounts
 		// are known on this wiki and the acting user has appropriate permissions.
+		// Action 'render' serves here as an example of action where we don't want IP Reveal
 		if (
 			$tempAccountsKnown &&
-			( $specialPageName || $actionName ) &&
+			$actionName !== 'render' &&
 			$specialPageName !== 'BlockList' &&
 			$hasIpRevealPermission
 		) {
@@ -229,7 +230,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			// special pages
 			[ 'Watchlist', 'Block', 'BlockList', null ],
 			// actions
-			[ 'info', 'history', null ],
+			[ 'info', 'history', 'render', null ],
 			// whether temporary accounts are known
 			[ true, false ],
 			// whether the user has seen the onboarding dialog

@@ -41,8 +41,9 @@ class CheckUserIPRevealManager {
 			return false;
 		}
 
-		$action = $out->getRequest()->getVal( 'action' );
+		$action = $out->getRequest()->getVal( 'action', 'view' );
 		if (
+			$action !== 'view' &&
 			$action !== 'history' &&
 			$action !== 'info' &&
 			$out->getRequest()->getRawVal( 'diff' ) === null &&

@@ -179,7 +179,11 @@ function getUserLinks( $content ) {
 			return $( this ).find( '.mw-tempuserlink[data-mw-target]' ).first().get();
 		} );
 
-	return $normalUserLinks.add( $logLinePerformerUserLinks );
+	// Find the temp user links in page content - but only within the parser output area (so that
+	// skin tabs or other UI elements are not affected).
+	const $inContentUserLinks = $content.find( '.mw-parser-output .mw-tempuserlink' );
+
+	return $normalUserLinks.add( $logLinePerformerUserLinks ).add( $inContentUserLinks );
 }
 
 /**
@@ -235,12 +239,15 @@ function addButtonsToUserLinks( $userLinks ) {
  * @return {string|undefined} The username or undefined if the link is not a recognized user link
  */
 function getLinkTarget( $element ) {
-	const target = $element.attr( 'data-mw-target' );
-	if ( target !== undefined ) {
-		return target;
+	let target = $element.attr( 'data-mw-target' );
+	if ( target === undefined ) {
+		target = ipRevealUtils.getUserNameFromUrl( $element.attr( 'href' ) );
 	}
-	// TODO: Read the target from href if data-mw-target is not present
-	return undefined;
+	// Just in case - only temporary users are supported
+	if ( target !== undefined && !mw.util.isTemporaryUser( target ) ) {
+		return undefined;
+	}
+	return target;
 }
 
 /**
