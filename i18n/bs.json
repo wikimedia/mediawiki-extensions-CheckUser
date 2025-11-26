@@ -59,5 +59,18 @@
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Šta je privremeni račun?",
 	"checkuser-investigateblock-warning-confirmaction": "Ako ste sigurni da želite nastaviti, kliknite na \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" polje na dnu stranice.",
 	"checkuser-investigate-compare-table-header-activity": "Vremenski opseg",
-	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP"
+	"checkuser-global-contributions-link": "globalni doprinosi",
+	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
+	"checkuser-ip-auto-reveal-link-sidebar": "Auto. otkrivanje IP-ova",
+	"checkuser-ip-auto-reveal-notification-on": "<strong>Uključeno je automatsko otkrivanje IP-adresa</strong>",
+	"checkuser-ip-auto-reveal-on-dialog-title": "Uključivanje automatskog otkrivanja IP-adresa",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Otkaži",
+	"checkuser-ip-auto-reveal-on-dialog-primary-action": "Uključi",
+	"checkuser-ip-auto-reveal-on-dialog-select-label": "Trajanje:",
+	"checkuser-ip-auto-reveal-on-dialog-select-default": "Izaberite vrijednost",
+	"checkuser-ip-auto-reveal-off-dialog-title": "Uključeno je automatsko otkrivanje IP-adresa",
+	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 minuta",
+	"checkuser-ip-auto-reveal-off-dialog-off-action": "Isključi",
+	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
+	"checkuser-tempaccount-specialblock-ips": "Ovo je privremeni korisnik koji koristi {{PLURAL:$1|sljedeću IP-adresu|sljedeće IP-adrese}}: $2"
 }

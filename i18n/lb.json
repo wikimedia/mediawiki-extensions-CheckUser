@@ -164,6 +164,8 @@
 	"checkuser-investigate-tour-block-title": "Spären?",
 	"checkuser-investigate-tour-copywikitext-title": "Wëllt Dir d'Date kopéieren?",
 	"checkuser-ip-contributions": "No IP-Kontributioune sichen",
+	"checkuser-ip-contributions-permission-error-title": "Net genuch Rechter",
+	"checkuser-ip-contributions-permission-error-description": "Fir d'Kontributiounen ënner engem temporäre Kont vun enger IP unzeweisen, musst Dir déi entspriechend Richtlinnen an [[Special:Preferences|Ären Astellungen]] akzeptéieren.",
 	"checkuser-ip-contributions-target-label": "IP-Adress oder -Beräich:",
 	"checkuser-ip-contributions-target-error-no-ip": "Gitt eng gülteg IP-Adress oder IP-Adressberäich an",
 	"checkuser-ip-contributions-tab-label-contributions": "Kontributiounen",

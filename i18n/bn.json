@@ -224,6 +224,7 @@
 	"checkuser-ip-contributions-tab-label-archive-contributions": "অপসারিত অবদান",
 	"checkuser-ip-contributions-search-form-wrapper": "আইপি অবদানের জন্য অনুসন্ধান করুন",
 	"checkuser-ip-contributions-results-title": "$1-এর অস্থায়ী ব্যবহারকারী আইপি অবদান",
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই</strong>। ব্যবহারকারী \"$1\" নিবন্ধিত নয়।",
 	"checkuser-ip-contributions-archive-results-title": "$1-এর অপসারিত অস্থায়ী ব্যবহারকারীর আইপি অবদান",
 	"checkuser-ip-contributions-deleted-contributions-link": "ব্যবহারকারীর অপসারিত অবদান",
 	"checkuser-ip-contributions-contributions-link": "অবদান",
