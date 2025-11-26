@@ -367,7 +367,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|viewed}} protected {{PLURAL:$4|variable|variables}} associated with $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "autorevoked due to inactivity",
 	"checkuser-ipinfo-global-contributions-url-text": "View global contributions",
-	"checkuser-group-requirements": "User does not meet the access criteria",
 	"checkuser-userinfocard-toggle-button-aria-label": "Open {{GENDER:$1|user}} info card",
 	"checkuser-userinfocard-close-button-aria-label": "Close",
 	"checkuser-userinfocard-open-menu-aria-label": "Open {{GENDER:$1|user}} info card menu",

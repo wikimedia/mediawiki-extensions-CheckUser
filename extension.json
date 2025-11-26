@@ -104,17 +104,6 @@
 			"value": 7776000,
 			"description": "Maximum number of seconds for which the temporary account auto-reveal feature may be kept on"
 		},
-		"CheckUserGroupRequirements": {
-			"value": {
-				"temporary-account-viewer": {
-					"edits": null,
-					"age": null,
-					"exemptGroups": [],
-					"reason": null
-				}
-			},
-			"description": "Specification for requirements imposed on adding users to groups. Map of group names to specification arrays, which specify minimum requirements a user must meet to be added to the group. Keys are 'edits' for the minimum number of edits, 'age' for the minimum account age, 'exemptGroups' for the groups that may add a user ignoring the requirements, and 'reason' for to override the default message explaining why the group may not be added (uses `checkuser-group-requirements` by default)"
-		},
 		"CheckUserClientHintsEnabled": {
 			"value": true,
 			"description": "General on/off switch for User-Agent Client Hints functionality. When set to true, CheckUser will request Client Hints headers specified in the CheckUserClientHintsHeaders config variable."
@@ -413,12 +402,6 @@
 		"groups": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\GroupsHandler",
 			"services": [
-				"MainConfig",
-				"DBLoadBalancerFactory",
-				"ExtensionRegistry",
-				"UserGroupManager",
-				"UserEditTracker",
-				"UserRegistrationLookup",
 				"CentralIdLookup",
 				"MainWANObjectCache",
 				"SpecialPageFactory"
@@ -612,7 +595,6 @@
 			"SpecialPageBeforeExecute"
 		],
 		"SpecialPage_initList": "ConditionalRegistration",
-		"SpecialUserRightsChangeableGroups": "groups",
 		"UserGroupsChanged": "groups",
 		"UserGetDefaultOptions": "preferences",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
