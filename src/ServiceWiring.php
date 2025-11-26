@@ -37,6 +37,7 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
+use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
@@ -531,6 +532,19 @@ return [
 			$eventLoggingMetricsClientFactory = $services->get( 'EventLogging.MetricsClientFactory' );
 		}
 		return new SuggestedInvestigationsInstrumentationClient( $eventLoggingMetricsClientFactory );
+	},
+	'CheckUserSuggestedInvestigationsPagerFactory' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsPagerFactory {
+		return new SuggestedInvestigationsPagerFactory(
+			$services->getLinkRenderer(),
+			$services->getLinkBatchFactory(),
+			$services->getHookContainer(),
+			$services->getRevisionStore(),
+			$services->getNamespaceInfo(),
+			$services->getCommentFormatter(),
+			$services->getUserFactory()
+		);
 	},
 ];
 // @codeCoverageIgnoreEnd
