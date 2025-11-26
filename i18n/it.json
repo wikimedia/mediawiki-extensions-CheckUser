@@ -404,7 +404,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Stato",
 	"checkuser-suggestedinvestigations-header-notes": "Note",
 	"checkuser-suggestedinvestigations-header-actions": "Azioni",
-	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha sospetto",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha creazione utenza sospetta",
 	"checkuser-suggestedinvestigations-status-open": "Aperto",
 	"checkuser-suggestedinvestigations-status-resolved": "Chiuso",
 	"checkuser-suggestedinvestigations-status-description-invalid": "Selezionare questa opzione per indicare i falsi positivi",
