@@ -403,7 +403,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "{{Logentry|[[Special:Log/checkuser-temporary-account|view-ips]]}}\n\nAdditional parameters:\n* $4 – number of variables viewed\n* $5 – a comma-separated list of names of variables that were viewed",
 	"checkuser-temporary-account-autorevoke-userright-reason": "Comment used when a user's access to temporary accounts is autorevoked. It appears as the reason for being removed from the user group on [[Special:UserRights]] and [[Special:Log]].",
 	"checkuser-ipinfo-global-contributions-url-text": "Link text to user's global contributions list on IPInfo's infobox widget",
-	"checkuser-group-requirements": "Default message displayed on [[Special:UserRights]] next to a group's checkbox, if the target user does not meet access requirements for this group.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Aria label for the toggle button that opens the user info card\n\nParameters:\n* $1 - The gender of the user who is shown in the UserInfoCard",
 	"checkuser-userinfocard-close-button-aria-label": "Aria label for the close button that closes the user info card",
 	"checkuser-userinfocard-open-menu-aria-label": "Aria label for the button that opens the user info card menu\n\nParameters:\n* $1 - The gender of the user who is shown in the UserInfoCard",
