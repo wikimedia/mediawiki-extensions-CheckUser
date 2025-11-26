@@ -32,6 +32,7 @@ use RuntimeException;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
+ * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCase
  * @group Database
  */
 class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationTestCase {
