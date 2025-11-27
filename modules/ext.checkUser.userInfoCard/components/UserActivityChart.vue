@@ -52,7 +52,7 @@ module.exports = exports = {
 	setup( props ) {
 		const componentId = `user-activity-${ hashUsername( props.username ) }`;
 		const activityChartLabel = mw.msg(
-			'checkuser-userinfocard-activity-chart-label', props.totalLocalEdits
+			'checkuser-userinfocard-activity-chart-label', mw.language.convertNumber( props.totalLocalEdits )
 		);
 		const latestEditMessage = props.lastEditTimestamp ?
 			mw.msg(
