@@ -28,6 +28,12 @@ class SuggestedInvestigationsSignalMatchResultTest extends MediaWikiUnitTestCase
 		$sut->valueMatchAllowsMerging();
 	}
 
+	public function testGetEquivalentNamesForMergingThrowsForNegativeResult(): void {
+		$sut = SuggestedInvestigationsSignalMatchResult::newNegativeResult( 'test-abc' );
+		$this->expectException( LogicException::class );
+		$sut->getEquivalentNamesForMerging();
+	}
+
 	public function testGetTriggerIdThrowsForNegativeResult(): void {
 		$sut = SuggestedInvestigationsSignalMatchResult::newNegativeResult( 'test-abc' );
 		$this->expectException( LogicException::class );
@@ -42,16 +48,18 @@ class SuggestedInvestigationsSignalMatchResultTest extends MediaWikiUnitTestCase
 
 	/** @dataProvider provideNewPositiveResult */
 	public function testNewPositiveResult(
-		bool $valueMatchAllowsMerging, ?int $triggerId, ?string $triggerIdTable
+		bool $valueMatchAllowsMerging, array $equivalentNamesForMerging, ?int $triggerId, ?string $triggerIdTable
 	): void {
 		// null for $triggerId means to use the default value
 		if ( $triggerId === null || $triggerIdTable === null ) {
 			$sut = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-				'name-abc', 'value-abc', $valueMatchAllowsMerging
+				'name-abc', 'value-abc', $valueMatchAllowsMerging,
+				equivalentNamesForMerging: $equivalentNamesForMerging
 			);
 		} else {
 			$sut = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-				'name-abc', 'value-abc', $valueMatchAllowsMerging, $triggerId, $triggerIdTable
+				'name-abc', 'value-abc', $valueMatchAllowsMerging, $triggerId, $triggerIdTable,
+				$equivalentNamesForMerging
 			);
 		}
 
@@ -59,6 +67,7 @@ class SuggestedInvestigationsSignalMatchResultTest extends MediaWikiUnitTestCase
 		$this->assertSame( 'name-abc', $sut->getName() );
 		$this->assertSame( 'value-abc', $sut->getValue() );
 		$this->assertSame( $valueMatchAllowsMerging, $sut->valueMatchAllowsMerging() );
+		$this->assertArrayEquals( $equivalentNamesForMerging, $sut->getEquivalentNamesForMerging(), false, true );
 		if ( $triggerId === null || $triggerIdTable === null ) {
 			$this->assertSame( 0, $sut->getTriggerId() );
 			$this->assertSame( '', $sut->getTriggerIdTable() );
@@ -72,16 +81,25 @@ class SuggestedInvestigationsSignalMatchResultTest extends MediaWikiUnitTestCase
 		return [
 			'Value match allows merging' => [
 				'valueMatchAllowsMerging' => true,
+				'equivalentNamesForMerging' => [],
+				'triggerId' => null,
+				'triggerIdTable' => null,
+			],
+			'Value match allows merging with equivalent signal names specified' => [
+				'valueMatchAllowsMerging' => true,
+				'equivalentNamesForMerging' => [ 'name-abc-2' ],
 				'triggerId' => null,
 				'triggerIdTable' => null,
 			],
 			'Value match does not allow merging' => [
 				'valueMatchAllowsMerging' => false,
+				'equivalentNamesForMerging' => [],
 				'triggerId' => null,
 				'triggerIdTable' => null,
 			],
 			'Trigger ID is set' => [
 				'valueMatchAllowsMerging' => false,
+				'equivalentNamesForMerging' => [],
 				'triggerId' => 1,
 				'triggerIdTable' => 'revision',
 			],

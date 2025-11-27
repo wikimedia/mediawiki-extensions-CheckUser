@@ -15,6 +15,7 @@ class SuggestedInvestigationsSignalMatchResult {
 		private readonly string $name,
 		private readonly mixed $value = null,
 		private readonly bool $allowsMerging = false,
+		private readonly array $equivalentNamesForMerging = [],
 		private readonly int $triggerId = 0,
 		private readonly string $triggerIdTable = '',
 	) {
@@ -33,11 +34,17 @@ class SuggestedInvestigationsSignalMatchResult {
 	 * @param string $triggerIdTable The database table where the row referenced by the ID in $triggerId is.
 	 *   Currently supports values of the array
 	 *   {@link SuggestedInvestigationsCaseManagerService::TRIGGER_TYPE_TO_TABLE_NAME_MAP}.
+	 * @param string[] $equivalentNamesForMerging A list of values that can be returned by {@link self::getName} that
+	 *   should be considered as the same as this signal's {@link self::getName} value when merging cases.
+	 *   Only used if $allowsMerging is true. Defaults to an empty array.
 	 */
 	public static function newPositiveResult(
-		string $name, string $value, bool $allowsMerging, int $triggerId = 0, string $triggerIdTable = ''
+		string $name, string $value, bool $allowsMerging, int $triggerId = 0, string $triggerIdTable = '',
+		array $equivalentNamesForMerging = []
 	): self {
-		return new self( true, $name, $value, $allowsMerging, $triggerId, $triggerIdTable );
+		return new self(
+			true, $name, $value, $allowsMerging, $equivalentNamesForMerging, $triggerId, $triggerIdTable
+		);
 	}
 
 	/**
@@ -95,6 +102,20 @@ class SuggestedInvestigationsSignalMatchResult {
 			throw new LogicException( 'No value is associated with a negative match for a signal.' );
 		}
 		return $this->allowsMerging;
+	}
+
+	/**
+	 * If the signal matched the user and {@link self::valueMatchAllowsMerging} returns `true`, then this
+	 * is a list of values that should be considered equal to our {@link self::getName} when finding
+	 * existing cases to merge this signal into.
+	 *
+	 * @return string[]
+	 */
+	public function getEquivalentNamesForMerging(): array {
+		if ( !$this->isMatch ) {
+			throw new LogicException( 'Negative matched signals cannot be merged with existing cases.' );
+		}
+		return $this->equivalentNamesForMerging;
 	}
 
 	/**

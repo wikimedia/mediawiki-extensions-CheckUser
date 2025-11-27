@@ -94,14 +94,8 @@ class SuggestedInvestigationsSignalMatchService {
 		UserIdentity $user,
 		SuggestedInvestigationsSignalMatchResult $signal
 	): void {
-		$mergeableCases = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Open, CaseStatus::Invalid ] );
-
-		$hasInvalidCase = array_any(
-			$mergeableCases,
-			static fn ( $case ) => $case->getStatus() === CaseStatus::Invalid
-		);
-
-		if ( $hasInvalidCase ) {
+		$invalidCasesWithExactMatch = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Invalid ] );
+		if ( $invalidCasesWithExactMatch ) {
 			// Ignore the signal if there's an invalid case already
 			$this->logger->info(
 				'Not creating a Suggested Investigations case for signal "{signal}" with value "{value}", because'
@@ -114,6 +108,7 @@ class SuggestedInvestigationsSignalMatchService {
 			return;
 		}
 
+		$mergeableCases = $this->caseLookup->getMergeableCasesForSignal( $signal );
 		if ( count( $mergeableCases ) === 0 ) {
 			$this->createNewCase( $user, $signal );
 		} else {

@@ -20,6 +20,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Services;
 
+use InvalidArgumentException;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
@@ -39,6 +40,7 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 	use SuggestedInvestigationsTestTrait;
 
 	private static int $openCase;
+	private static int $secondOpenCase;
 	private static int $closedCase;
 	private static int $badStatusCase;
 
@@ -58,15 +60,24 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		);
 	}
 
-	public function testLookupForOpenCaseWithNoFilter() {
-		$service = $this->createService();
-
-		$cases = $service->getCasesForSignal(
-			SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false )
+	/** @dataProvider provideLookupForOpenCaseWithNoFilter */
+	public function testLookupForOpenCaseWithNoFilter( array $equivalentNamesForMerging ) {
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'Lorem', 'ipsum', false, equivalentNamesForMerging: $equivalentNamesForMerging
 		);
+
+		$service = $this->createService();
+		$cases = $service->getCasesForSignal( $signal );
 
 		$this->assertCount( 1, $cases );
 		$this->assertSame( self::$openCase, $cases[0]->getId() );
+	}
+
+	public static function provideLookupForOpenCaseWithNoFilter(): array {
+		return [
+			'No equivalent names in signal' => [ [] ],
+			'Equivalent names in signal would have included extra cases if checked' => [ [ 'Ipsum' ] ],
+		];
 	}
 
 	/** @dataProvider provideLookupForClosedCaseWithFilter */
@@ -129,6 +140,49 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		$this->assertCount( 0, $cases );
 	}
 
+	public function testGetCasesForSignalWithNegativeSignalMatch() {
+		$service = $this->createService();
+		$signal = SuggestedInvestigationsSignalMatchResult::newNegativeResult( 'Lorem' );
+
+		$this->expectException( InvalidArgumentException::class );
+		$service->getCasesForSignal( $signal );
+	}
+
+	public function testGetMergeableCasesForSignalWithNegativeSignalMatch() {
+		$service = $this->createService();
+		$signal = SuggestedInvestigationsSignalMatchResult::newNegativeResult( 'Lorem' );
+
+		$this->expectException( InvalidArgumentException::class );
+		$service->getMergeableCasesForSignal( $signal );
+	}
+
+	/** @dataProvider provideGetMergeableCasesForSignal */
+	public function testGetMergeableCasesForSignal(
+		array $equivalentNamesForMerging, callable $expectedCaseIdsCallback
+	) {
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'Lorem', 'ipsum', false, equivalentNamesForMerging: $equivalentNamesForMerging
+		);
+
+		$service = $this->createService();
+		$actualCases = $service->getMergeableCasesForSignal( $signal );
+		$actualCaseIds = array_map( static fn ( $case ) => $case->getId(), $actualCases );
+
+		$this->assertArrayEquals( $expectedCaseIdsCallback(), $actualCaseIds );
+	}
+
+	public static function provideGetMergeableCasesForSignal(): array {
+		return [
+			'No equivalent names in signal' => [ [], static fn () => [ static::$openCase ] ],
+			'Equivalent names in signal will not find any other cases' => [
+				[ 'test', 'testabc' ], static fn () => [ static::$openCase ],
+			],
+			'Equivalent names in signal will include an extra case' => [
+				[ 'Ipsum', 'test' ], static fn () => [ static::$openCase, static::$secondOpenCase ],
+			],
+		];
+	}
+
 	/** @dataProvider provideGetCaseIdForUrlIdentifierForBadResult */
 	public function testGetCaseIdForUrlIdentifierForBadResult( $urlIdentifier ) {
 		$service = $this->createService();
@@ -179,6 +233,13 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 				SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 					'Lorem', 'ipsum', false, 123, 'revision'
 				),
+			]
+		);
+
+		self::$secondOpenCase = $caseManager->createCase(
+			[ $user2 ],
+			[
+				SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Ipsum', 'ipsum', false ),
 			]
 		);
 
