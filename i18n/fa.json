@@ -354,7 +354,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 متغیرهای محافظت‌شدهٔ مرتبط با $3 را {{GENDER:$2|مشاهده کرد}}",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{PLURAL:$4|متغیر|متغیرهای}} محافظت‌شدهٔ وابسته به $3 را {{GENDER:$2|مشاهده کرد}}: $5",
 	"checkuser-ipinfo-global-contributions-url-text": "مشاهدهٔ مشارکت‌های سراسری",
-	"checkuser-group-requirements": "کاربر معیارهای دسترسی را برآورده نمی‌کند",
 	"checkuser-userinfocard-toggle-button-aria-label": "گشودن کارت اطلاعات {{GENDER:$1|کاربر}}",
 	"checkuser-userinfocard-close-button-aria-label": "بستن",
 	"checkuser-userinfocard-open-menu-aria-label": "گشودن منوی کارت اطلاعات {{GENDER:$1|کاربر}}",

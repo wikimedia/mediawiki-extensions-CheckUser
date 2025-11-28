@@ -374,7 +374,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|مشاهدة}} محمية {{PLURAL:$4|متغير|متغيرات}} مرتبطة بـ $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "تم الإلغاء تلقائيًا بسبب عدم النشاط",
 	"checkuser-ipinfo-global-contributions-url-text": "عرض المساهمات العالمية",
-	"checkuser-group-requirements": "المستخدم لا يستوفي معايير الوصول",
 	"checkuser-userinfocard-toggle-button-aria-label": "افتح بطاقة معلومات {{GENDER:$1|المستخدم}}",
 	"checkuser-userinfocard-close-button-aria-label": "إغلاق",
 	"checkuser-userinfocard-open-menu-aria-label": "افتح قائمة بطاقة معلومات {{GENDER:$1|المستخدم}}",

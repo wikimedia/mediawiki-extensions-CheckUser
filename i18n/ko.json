@@ -334,7 +334,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 님이 $3 와(과) 연관된 보호된 변수를 {{GENDER:$2|열람했습니다}}: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "비활동으로 인해 자동 회수됨",
 	"checkuser-ipinfo-global-contributions-url-text": "전역 기여 보기",
-	"checkuser-group-requirements": "사용자가 권한 사용 기준을 충족하지 않습니다",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|사용자}} 정보 카드 열기",
 	"checkuser-userinfocard-close-button-aria-label": "닫기",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|사용자}} 정보 카드 메뉴 열기",

@@ -371,7 +371,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|переглянув|переглянула|переглянули}} {{PLURAL:$4|захищену змінну, пов'язану|захищені змінні, пов'язані}} з $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "автовідкликання через неактивність",
 	"checkuser-ipinfo-global-contributions-url-text": "Переглянути глобальний внесок",
-	"checkuser-group-requirements": "Користувач не відповідає критеріям доступу",
 	"checkuser-userinfocard-toggle-button-aria-label": "Відкрити інформаційну картку {{GENDER:$1|користувача|користувачки}}",
 	"checkuser-userinfocard-close-button-aria-label": "Закрити",
 	"checkuser-userinfocard-open-menu-aria-label": "Відкрити меню інформаційної картки {{GENDER:$1|користувача|користувачки}}",

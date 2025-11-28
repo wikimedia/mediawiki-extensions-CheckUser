@@ -350,7 +350,6 @@
 	"log-action-filter-checkuser-temporary-account-view-ips": "Pääsy tilapäisen tunnuksen IP-tietoihin",
 	"checkuser-temporary-account-autorevoke-userright-reason": "automaattisesti peruttu käyttämättömyyden vuoksi",
 	"checkuser-ipinfo-global-contributions-url-text": "Näytä järjestelmänlaajuiset muokkaukset",
-	"checkuser-group-requirements": "Käyttäjä ei täytä käyttöoikeusvaatimuksia",
 	"checkuser-userinfocard-toggle-button-aria-label": "Avaa {{GENDER:$1|käyttäjätietokortti}}",
 	"checkuser-userinfocard-close-button-aria-label": "Sulje",
 	"checkuser-userinfocard-open-menu-aria-label": "Avaa {{GENDER:$1|käyttäjätietokortin}} valikko",

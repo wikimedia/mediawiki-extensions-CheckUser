@@ -363,7 +363,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|đã xem}} {{PLURAL:$4|biến}} bị khóa được liên kết với $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "bị tự động thu hồi do vắng mặt lâu dài",
 	"checkuser-ipinfo-global-contributions-url-text": "Xem đóng góp toàn cục",
-	"checkuser-group-requirements": "Người dùng không đáp ứng tiêu chí truy cập",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|}}Mở thẻ thông tin người dùng",
 	"checkuser-userinfocard-close-button-aria-label": "Đóng",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|}}Mở menu thẻ thông tin người dùng",

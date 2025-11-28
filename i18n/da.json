@@ -355,7 +355,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|set}} beskyttede {{PLURAL:$4|variabel|variabler}} tilknyttet $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "automatisk tilbagekaldt på grund af inaktivitet",
 	"checkuser-ipinfo-global-contributions-url-text": "Se globale bidrag",
-	"checkuser-group-requirements": "Brugeren opfylder ikke adgangskriterierne",
 	"checkuser-userinfocard-toggle-button-aria-label": "Åbn {{GENDER:$1|bruger}}infokort",
 	"checkuser-userinfocard-close-button-aria-label": "Luk",
 	"checkuser-userinfocard-open-menu-aria-label": "Åbn menuen for {{GENDER:$1|bruger}}infokort",

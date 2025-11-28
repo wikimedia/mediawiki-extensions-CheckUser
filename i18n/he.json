@@ -361,7 +361,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|צפה|צפתה}} {{PLURAL:$4|במשתנה מוגן|במשתנים מוגנים}} שמשויכים לדף $3, שהם: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "נשללה באופן אוטומטי בשל חוסר־פעילות",
 	"checkuser-ipinfo-global-contributions-url-text": "הצגת תרומות גלובליות",
-	"checkuser-group-requirements": "המשתמש אינו עומד בתנאי הגישה",
 	"checkuser-userinfocard-toggle-button-aria-label": "פתיחת כרטיס פרטי {{GENDER:$1|המשתמש|המשתמשת}}",
 	"checkuser-userinfocard-close-button-aria-label": "סגירה",
 	"checkuser-userinfocard-open-menu-aria-label": "פתיחת תפריט כרטיס פרטי {{GENDER:$1|המשתמש|המשתמשת}}",

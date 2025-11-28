@@ -388,7 +388,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 が $3 に関連する保護された{{PLURAL:$4|変数}}を{{GENDER:$2|閲覧しました}}: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "活動停止による自動除去",
 	"checkuser-ipinfo-global-contributions-url-text": "グローバル投稿記録を表示",
-	"checkuser-group-requirements": "この利用者はアクセス基準を満たしていません",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|利用者}}情報カードを開く",
 	"checkuser-userinfocard-close-button-aria-label": "閉じる",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|利用者}}情報カードのメニューを開く",

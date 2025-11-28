@@ -342,7 +342,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|хьаьжна}} лардина {{PLURAL:$4|хийцалуш дерг}} $3 -ца доьзна: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "авто йухадаьккхина жигаралла ца хиларна",
 	"checkuser-ipinfo-global-contributions-url-text": "Хьажа глобалан къинхьегамаш",
-	"checkuser-group-requirements": "Декъашхочунна тӀекхачаран критереш кхочуш ца хуьлу",
 	"checkuser-userinfocard-toggle-button-aria-label": "Схьаделла {{GENDER:$1|декъашхочун}} инфо йолу карточка",
 	"checkuser-userinfocard-close-button-aria-label": "ДӀачӀагӀа",
 	"checkuser-userinfocard-open-menu-aria-label": "Схьайелла {{GENDER:$1|декъашхочун}} инфо йолу карточкин меню",

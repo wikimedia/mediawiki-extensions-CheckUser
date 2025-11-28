@@ -333,7 +333,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 ने $3 से संबद्ध सुरक्षित {{PLURAL:$4|वेरिएबल {{GENDER:$2|देखा}}|वेरिएबल्स देखे}}: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "अक्रियता के कारण स्वतः निरस्त",
 	"checkuser-ipinfo-global-contributions-url-text": "ग्लोबल योगदान देखें",
-	"checkuser-group-requirements": "सदस्य पहुँच के मापदंडों को पूरा नहीं करता/करती है",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|सदस्य}} जानकारी कार्ड खोलें",
 	"checkuser-userinfocard-close-button-aria-label": "बंद करें",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|सदस्य}} जानकारी कार्ड मेन्यू खोलें",
