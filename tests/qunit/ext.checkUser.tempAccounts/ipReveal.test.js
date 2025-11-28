@@ -231,10 +231,16 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 			0,
 			'Button removed after click'
 		);
+		const $revealedLatestIp = $( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture );
 		assert.strictEqual(
-			$( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
+			$revealedLatestIp.text(),
 			'127.0.0.3',
 			'Text of element that replaced button'
+		);
+		assert.strictEqual(
+			$revealedLatestIp.children().attr( 'title' ),
+			'(checkuser-tempaccount-reveal-ip-tooltip-latest)',
+			'Tooltip for revealed IP'
 		);
 
 		waitUntilElementDisappears( '[data-mw-revid="1"] .ext-checkuser-tempaccount-reveal-ip-button' ).then( () => {
@@ -244,10 +250,16 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 				0,
 				'Button removed after click'
 			);
+			const $revealedRevisionIp = $( '[data-mw-revid="1"] .ext-checkuser-tempaccount-reveal-ip', $qunitFixture );
 			assert.strictEqual(
-				$( '[data-mw-revid="1"] .ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
+				$revealedRevisionIp.text(),
 				'127.0.0.1',
 				'Text of element that replaced button'
+			);
+			assert.strictEqual(
+				$revealedRevisionIp.children().attr( 'title' ),
+				'(checkuser-tempaccount-reveal-ip-tooltip-revision)',
+				'Tooltip for revealed IP'
 			);
 
 			waitUntilElementDisappears( '[data-mw-logid="1"] .ext-checkuser-tempaccount-reveal-ip-button' ).then( () => {
@@ -257,10 +269,16 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 					0,
 					'Button removed after click'
 				);
+				const $revealedActionIp = $( '[data-mw-logid="1"] .ext-checkuser-tempaccount-reveal-ip', $qunitFixture );
 				assert.strictEqual(
-					$( '[data-mw-logid="1"] .ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
+					$revealedActionIp.text(),
 					'127.0.0.1',
 					'Text of element that replaced button'
+				);
+				assert.strictEqual(
+					$revealedActionIp.children().attr( 'title' ),
+					'(checkuser-tempaccount-reveal-ip-tooltip-action)',
+					'Tooltip for revealed IP'
 				);
 
 				done();
@@ -384,7 +402,13 @@ QUnit.test( 'Test makeButton creates expected button for blocked performer', ( a
 	);
 } );
 
-function performMakeButtonRequestTest( assert, responseCode, responseContent, expectedText ) {
+function performMakeButtonRequestTest(
+	assert,
+	responseCode,
+	responseContent,
+	expectedText,
+	expectedTitle
+) {
 	// We need the test to wait a small amount of time for the click events to finish.
 	const done = assert.async();
 	server.respond( ( request ) => {
@@ -405,10 +429,16 @@ function performMakeButtonRequestTest( assert, responseCode, responseContent, ex
 			0,
 			'Button removed after click'
 		);
+		const $revealedIp = $( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture );
 		assert.strictEqual(
-			$( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
+			$revealedIp.text(),
 			expectedText,
 			'Text of element that replaced button'
+		);
+		assert.strictEqual(
+			$revealedIp.children().attr( 'title' ),
+			expectedTitle,
+			'Tooltip for revealed IP'
 		);
 		done();
 	} );
@@ -436,7 +466,8 @@ QUnit.test( 'Test makeButton on button click for successful request but missing 
 			},
 			autoReveal: false
 		} ),
-		'(checkuser-tempaccount-reveal-ip-missing)'
+		'(checkuser-tempaccount-reveal-ip-missing)',
+		undefined
 	);
 } );
 
@@ -456,7 +487,8 @@ QUnit.test( 'Test makeButton on button click for successful request but expired 
 			},
 			autoReveal: false
 		} ),
-		'(checkuser-tempaccount-reveal-ip-expired)'
+		'(checkuser-tempaccount-reveal-ip-expired)',
+		undefined
 	);
 } );
 
@@ -476,7 +508,8 @@ QUnit.test( 'Test makeButton on button click for successful request with data', 
 			},
 			autoReveal: false
 		} ),
-		'127.0.0.1'
+		'127.0.0.1',
+		'(checkuser-tempaccount-reveal-ip-tooltip-revision)'
 	);
 } );
 

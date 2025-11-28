@@ -1,6 +1,9 @@
 const BlockDetailsPopupButtonWidget = require( './BlockDetailsPopupButtonWidget.js' );
 const ipRevealUtils = require( './ipRevealUtils.js' );
 const { performRevealRequest, performBatchRevealRequest, isRevisionLookup, isLogLookup, isAbuseFilterLogLookup } = require( './rest.js' );
+const SOURCE_ACTION = 'action',
+	SOURCE_REVISION = 'revision',
+	SOURCE_LATEST = 'latest';
 
 /**
  * Replace a button with an IP address, or a message indicating that the IP address
@@ -11,9 +14,13 @@ const { performRevealRequest, performBatchRevealRequest, isRevisionLookup, isLog
  * @param {boolean} success The IP lookup was successful. Indicates how to interpret
  *  a value of `false` for the IP address. If the lookup was successful but the IP
  *  is `false`, then the IP address is legitimately missing.
+ * @param {string} [source] Optional. The source of the IP, with possible values:
+ *  - SOURCE_REVISION
+ *  - SOURCE_ACTION
+ *  - SOURCE_LATEST
  * @return {void}
  */
-function replaceButton( $element, ip, success ) {
+function replaceButton( $element, ip, success, source ) {
 	const $span = $( '<span>' )
 		.addClass( 'ext-checkuser-tempaccount-reveal-ip' );
 
@@ -26,13 +33,19 @@ function replaceButton( $element, ip, success ) {
 			$span.text( mw.msg( 'checkuser-tempaccount-reveal-ip-expired' ) )
 		);
 	} else if ( ip ) {
+		const $link = $( '<a>' )
+			.attr( 'href', mw.util.getUrl( 'Special:IPContributions/' + ip ) )
+			.addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
+			.text( ip );
+		if ( source ) {
+			// Uses:
+			// * checkuser-tempaccount-reveal-ip-tooltip-revision
+			// * checkuser-tempaccount-reveal-ip-tooltip-action
+			// * checkuser-tempaccount-reveal-ip-tooltip-latest
+			$link.attr( 'title', mw.msg( 'checkuser-tempaccount-reveal-ip-tooltip-' + source ) );
+		}
 		$element.replaceWith(
-			$span.append(
-				$( '<a>' )
-					.attr( 'href', mw.util.getUrl( 'Special:IPContributions/' + ip ) )
-					.addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
-					.text( ip )
-			)
+			$span.append( $link )
 		);
 	} else {
 		$element.replaceWith(
@@ -91,14 +104,14 @@ function makeButton( target, revIds, logIds, aflIds, documentRoot ) {
 		button.$element.off( 'revealIp' );
 	} );
 
-	button.$element.on( 'revealIp', ( _, ip, batchResponse ) => {
+	button.$element.on( 'revealIp', ( _, ip, batchResponse, source ) => {
 		button.$element.off( 'revealIp' );
 
 		if ( batchResponse ) {
 			if ( !ipRevealUtils.getRevealedStatus( target ) && !batchResponse.autoReveal ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
-			replaceButton( button.$element, ip, true );
+			replaceButton( button.$element, ip, true, source );
 
 			let ips = {};
 			if ( isRevisionLookup( revIds ) ) {
@@ -129,12 +142,25 @@ function makeButton( target, revIds, logIds, aflIds, documentRoot ) {
 		}
 
 		performRevealRequest( target, revIds, logIds, aflIds ).then( ( response ) => {
-			const index = ( revIds.targetId || logIds.targetId || aflIds.targetId || 0 );
+			let index, ipSource;
+			if ( revIds.targetId ) {
+				index = revIds.targetId;
+				ipSource = SOURCE_REVISION;
+			} else if ( logIds.targetId ) {
+				index = logIds.targetId;
+				ipSource = SOURCE_ACTION;
+			} else if ( aflIds.targetId ) {
+				index = aflIds.targetId;
+				ipSource = SOURCE_ACTION;
+			} else {
+				index = 0;
+				ipSource = SOURCE_LATEST;
+			}
 			const targetIp = response.ips[ index ];
 			if ( !ipRevealUtils.getRevealedStatus( target ) && !response.autoReveal ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
-			replaceButton( button.$element, targetIp, true );
+			replaceButton( button.$element, targetIp, true, ipSource );
 			$( documentRoot ).trigger( 'userRevealed', [
 				target,
 				response.ips,
@@ -358,13 +384,13 @@ function enableMultiReveal( $element ) {
 					const afLogId = getAbuseFilterLogId( $( this ) );
 
 					if ( ipsIsRevMap && revId ) {
-						replaceButton( $( this ), ips[ revId ], true );
+						replaceButton( $( this ), ips[ revId ], true, SOURCE_REVISION );
 					} else if ( ipsIsLogMap && logId ) {
-						replaceButton( $( this ), ips[ logId ], true );
+						replaceButton( $( this ), ips[ logId ], true, SOURCE_ACTION );
 					} else if ( ipsIsAfLogMap && afLogId ) {
-						replaceButton( $( this ), ips[ afLogId ], true );
+						replaceButton( $( this ), ips[ afLogId ], true, SOURCE_ACTION );
 					} else if ( isUnknownType && !revId && !logId && !afLogId ) {
-						replaceButton( $( this ), ips[ 0 ], true );
+						replaceButton( $( this ), ips[ 0 ], true, SOURCE_LATEST );
 					} else if ( !ipsIsRevMap && revId && batchResponse ) {
 						// If the current button has a revId but the reveal
 						// didn't set ipsIsRevMap due to the reveal happening
@@ -373,7 +399,7 @@ function enableMultiReveal( $element ) {
 						// new lookup. The data we need should be in the batch
 						// response.
 						const ip = batchResponse[ userLookup ].revIps[ revId ];
-						replaceButton( $( this ), ip, true );
+						replaceButton( $( this ), ip, true, SOURCE_REVISION );
 					} else if ( !ipsIsLogMap && logId && batchResponse ) {
 						// If the current button has a logId but the reveal
 						// didn't set ipsIsLogMap due to the reveal happening
@@ -382,7 +408,7 @@ function enableMultiReveal( $element ) {
 						// new lookup. The data we need should be in the batch
 						// response.
 						const ip = batchResponse[ userLookup ].logIps[ logId ];
-						replaceButton( $( this ), ip, true );
+						replaceButton( $( this ), ip, true, SOURCE_ACTION );
 					} else if ( !ipsIsAfLogMap && afLogId && batchResponse ) {
 						// If the current button has an afLogId but the reveal
 						// didn't set ipsIsAfLogMap due to the reveal happening
@@ -391,7 +417,7 @@ function enableMultiReveal( $element ) {
 						// new lookup. The data we need should be in the batch
 						// response.
 						const ip = batchResponse[ userLookup ].abuseLogIps[ afLogId ];
-						replaceButton( $( this ), ip, true );
+						replaceButton( $( this ), ip, true, SOURCE_ACTION );
 					} else {
 						// There is a mismatch, so trigger a new lookup for this button.
 						// Each time revealIp is triggered, an API request is performed,
@@ -442,18 +468,23 @@ function batchRevealIps( request, $ipRevealButtons ) {
 				const aflId = $button.data( 'aflIds' ).targetId;
 
 				let ip = null;
+				let source = null;
 				if ( revId && response[ target ].revIps !== null ) {
 					ip = response[ target ].revIps[ revId ];
+					source = SOURCE_REVISION;
 				} else if ( logId && response[ target ].logIps !== null ) {
 					ip = response[ target ].logIps[ logId ];
+					source = SOURCE_ACTION;
 				} else if ( aflId && response[ target ].abuseLogIps !== null ) {
 					ip = response[ target ].abuseLogIps[ aflId ];
+					source = SOURCE_ACTION;
 				} else if ( response[ target ].lastUsedIp ) {
 					ip = response[ target ].lastUsedIp;
+					source = SOURCE_LATEST;
 				}
 
 				if ( ip !== null ) {
-					$button.trigger( 'revealIp', [ ip, response ] );
+					$button.trigger( 'revealIp', [ ip, response, source ] );
 				}
 			}
 		} );
@@ -800,7 +831,7 @@ function enableIpRevealForContributionsPage( documentRoot, pageTitle, autoReveal
 		$( '.ext-checkuser-tempaccount-reveal-ip-button' ).each( function () {
 			const id = $( this ).closest( '[data-mw-revid]' ).data( 'mw-revid' );
 			const ip = ( ips && ips[ id ] ) ? ips[ id ] : false;
-			replaceButton( $( this ), ip, true );
+			replaceButton( $( this ), ip, true, SOURCE_REVISION );
 		} );
 	} );
 
