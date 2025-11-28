@@ -9,6 +9,8 @@ use MediaWiki\Storage\Hook\PageSaveCompleteHook;
 use MediaWiki\User\Hook\UserSetEmailAuthenticationTimestampHook;
 use MediaWiki\User\Hook\UserSetEmailHook;
 use MediaWiki\User\UserIdentity;
+use Profiler;
+use Wikimedia\ScopedCallback;
 
 /**
  * Listens for events that trigger suggested investigation signals to be matched against a user.
@@ -53,18 +55,39 @@ class SuggestedInvestigationsHandler implements
 
 	/** @inheritDoc */
 	public function onUserSetEmailAuthenticationTimestamp( $user, &$timestamp ): void {
+		// We skip warnings about accessing the primary DB here because that is what Special:ConfirmEmail does
 		$this->matchSignalsAgainstUserOnDeferredUpdate(
-			$user, SuggestedInvestigationsSignalMatchService::EVENT_CONFIRM_EMAIL
+			$user, SuggestedInvestigationsSignalMatchService::EVENT_CONFIRM_EMAIL,
+			skipReplicasExpectations: true
 		);
 	}
 
+	/**
+	 * Matches signals against the provided event in a deferred update (to be run postsend)
+	 *
+	 * @param UserIdentity $userIdentity
+	 * @param string $eventType One of the `SuggestedInvestigationsSignalMatchService::EVENT_*` constants
+	 * @param array $extraData
+	 * @param bool $skipReplicasExpectations Whether to suppress TransactionProfiler warnings related to using
+	 *   primary DBs. This is needed in the case where the event is made on a GET request.
+	 */
 	private function matchSignalsAgainstUserOnDeferredUpdate(
-		UserIdentity $userIdentity, string $eventType, array $extraData = []
+		UserIdentity $userIdentity, string $eventType, array $extraData = [], bool $skipReplicasExpectations = false
 	): void {
-		DeferredUpdates::addCallableUpdate( function () use ( $userIdentity, $eventType, $extraData ) {
+		DeferredUpdates::addCallableUpdate( function () use (
+			$userIdentity, $eventType, $extraData, $skipReplicasExpectations
+		) {
+			// We may need to skip replica expectations being failed for some events. Specifically at the moment
+			// this is Special:ConfirmEmail, which makes writes on a GET request intentionally.
+			$trxProfiler = Profiler::instance()->getTransactionProfiler();
+			$scope = $skipReplicasExpectations ?
+				$trxProfiler->silenceForScope( $trxProfiler::EXPECTATION_REPLICAS_ONLY ) : null;
+
 			$this->suggestedInvestigationsSignalMatchService->matchSignalsAgainstUser(
 				$userIdentity, $eventType, $extraData
 			);
+
+			ScopedCallback::consume( $scope );
 		} );
 	}
 }
