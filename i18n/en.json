@@ -475,7 +475,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Close",
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Read more information about risk signals in a popover",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Edit|Edits}} flagged by $1 ($2)",
-	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Log|Logs}} flagged by $1 ($2)",
+	"checkuser-suggestedinvestigations-detail-view-logs-header": "Log {{PLURAL:$2|entry|entries}} flagged by $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporary accounts from all associated IPs: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "An aggregate count of all temporary accounts from all IPs associated with this account",
 	"checkuser-temporary-account-bucketcount-min": "$1",
