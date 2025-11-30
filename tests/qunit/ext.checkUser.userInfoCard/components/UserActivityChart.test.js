@@ -38,6 +38,15 @@ QUnit.test( 'renders correctly with required props', ( assert ) => {
 	);
 } );
 
+QUnit.test( 'does not render chart if totalLocalEdits is >= 1000', ( assert ) => {
+	const wrapper = mountComponent( { totalLocalEdits: 1000 } );
+
+	assert.false(
+		wrapper.find( '.ext-checkuser-userinfocard-activity-chart' ).exists(),
+		'Activity chart container does not exist'
+	);
+} );
+
 QUnit.test( 'uses CSparkline component with correct props', ( assert ) => {
 	const wrapper = mountComponent();
 
@@ -85,9 +94,9 @@ QUnit.test( 'displays the correct activity chart label', ( assert ) => {
 	const wrapper = mountComponent();
 
 	assert.strictEqual(
-		wrapper.find( 'p' ).text(),
+		wrapper.find( 'span' ).text(),
 		'checkuser-userinfocard-activity-chart-label: 15',
-		'Paragraph displays the correct activity chart label'
+		'Element displays the correct activity chart label'
 	);
 } );
 
@@ -109,12 +118,12 @@ QUnit.test( 'Renders the timestamp of the last edit if provided', ( assert ) => 
 	const lastEditTimestampTag = wrapper.find( '.ext-checkuser-userinfocard-latest-edit-label' );
 	assert.true(
 		lastEditTimestampTag.exists(),
-		'Paragraph holding the last edit timestamp exists'
+		'Label holding the last edit timestamp exists'
 	);
 	assert.strictEqual(
 		lastEditTimestampTag.text(),
 		'checkuser-userinfocard-last-edit-timestamp-label: 10:42, 17 (september) 2025',
-		'Paragraph holding the last edit timestamp displays correct information'
+		'Label holding the last edit timestamp displays correct information'
 	);
 } );
 
@@ -126,6 +135,6 @@ QUnit.test( 'Does not render the timestamp of the last edit if not provided', ( 
 	const lastEditTimestampTag = wrapper.findComponent( '.ext-checkuser-userinfocard-latest-edit-label' );
 	assert.false(
 		lastEditTimestampTag.exists(),
-		'Paragraph holding the last edit timestamp does not exist'
+		'Label holding the last edit timestamp does not exist'
 	);
 } );
