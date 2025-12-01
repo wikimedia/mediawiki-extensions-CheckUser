@@ -37,5 +37,9 @@
 	"checkuser-log-search-target": "Markmið:",
 	"checkuser-autocreate-action": "var sjálfkrafa búinn til",
 	"checkuser-create-action": "var búið til",
-	"checkuser-reset-action": "endurstilla lykilorð fyrir notandann $1"
+	"checkuser-reset-action": "endurstilla lykilorð fyrir notandann $1",
+	"checkuser-investigate-tab-preliminary-check": "Upplýsingar um aðgang",
+	"checkuser-investigate-tab-compare": "IP-tölur og kennistrengir vafra",
+	"checkuser-investigate-preliminary-notice-ip-targets": "Flipinn „Upplýsingar um aðgang“ inniheldur engar upplýsingar um IP-tölur. Skoðaðu nánari upplýsingar í <span class=\"plainlinks\">flipanum [ $1 IP-tölur og kennistrengir vafra]</span>.",
+	"checkuser-investigate-compare-table-header-useragent": "Kennistrengur"
 }

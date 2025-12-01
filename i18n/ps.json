@@ -31,6 +31,7 @@
 	"checkuser-month": "تېرې ۳۰ ورځې",
 	"checkuser-month-2": "تېرې ۶۰ ورځې",
 	"checkuser-all": "ټول",
+	"checkuser-cidr-label": "د وېبپتو لړليک لپاره ټولگړې لړۍ يا وېبپتې موندل",
 	"checkuser-nomatch": "هېڅ انډول ونه موندل شو.",
 	"checkuser-nomatch-edits": "هېڅ انډول ونه موندل شو.\nوروستی سمون د $1 په $2 کې.",
 	"checkuser-check": "کره کتل",
