@@ -58,5 +58,7 @@
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}}收集user-agent客户端提示数据以协助遏制破坏和滥用行为。详情请参阅<nowiki/>https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints<nowiki/>。",
 	"apihelp-logout-param-checkuserclienthints": "客户端提示随 ApiLogout 请求提供的数据。仅供内部使用。",
 	"checkuser-ip-auto-reveal-expiry-invalid": "提供的自动显示到期时间无效。",
-	"checkuser-ip-auto-reveal-missing-permission": "您没有使用IP自动显示所需的权限。"
+	"checkuser-ip-auto-reveal-missing-permission": "您没有使用IP自动显示所需的权限。",
+	"checkuser-suggestedinvestigations-case-update-case-not-found": "提供的案例ID不存在",
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "建议调查功能未启用。"
 }
