@@ -73,8 +73,11 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertSame( '0', $row->sic_status );
 		$this->assertSame( '', $row->sic_status_reason );
 		$this->assertArrayEquals(
-			[ self::$testUser1->getName(), self::$testUser2->getName() ],
-			$row->users,
+			[ self::$testUser2->getName(), self::$testUser1->getName() ],
+			array_map( static fn ( $user ) => $user->getName(), $row->users ),
+			true,
+			false,
+			'Users row did not have the expected items in the expected order',
 		);
 		$this->assertArrayEquals(
 			[ self::SIGNAL ],
@@ -145,7 +148,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$name1 = urlencode( self::$testUser1->getName() );
 		$name2 = urlencode( self::$testUser2->getName() );
 		$this->assertStringContainsString(
-			'?title=Special:Investigate&amp;targets=' . $name1 . '%0A' . $name2 .
+			'?title=Special:Investigate&amp;targets=' . $name2 . '%0A' . $name1 .
 				'&amp;reason=%28checkuser-suggestedinvestigations-user-investigate-reason-prefill',
 			$html,
 			'Should contain link to Special:Investigate in the case row'

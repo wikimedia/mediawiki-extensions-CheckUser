@@ -42,6 +42,7 @@ use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 
 class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
@@ -494,7 +495,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	}
 
 	/**
-	 * Returns an array that maps each case ID to an array of user identities associated with that case.
+	 * Returns an array that maps each case ID to an array of user identities
+	 * associated with that case, ordered by account ID descending for each case.
 	 * @return UserIdentity[][]
 	 */
 	private function queryUsersForCases( array $caseIds ): array {
@@ -509,6 +511,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			->where( [
 				'siu_sic_id' => $caseIds,
 			] )
+			->orderBy( [ 'siu_sic_id', 'siu_user_id' ], SelectQueryBuilder::SORT_DESC )
 			->caller( __METHOD__ )
 			->fetchResultSet();
 
