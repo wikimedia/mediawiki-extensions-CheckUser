@@ -12,6 +12,7 @@ use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 /**
  * Allows code to stably construct pagers to display arbitrary revision or log IDs. Currently only support
@@ -30,6 +31,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly NamespaceInfo $namespaceInfo,
 		private readonly CommentFormatter $commentFormatter,
 		private readonly UserFactory $userFactory,
+		private readonly IConnectionProvider $dbProvider,
 	) {
 	}
 
@@ -68,5 +70,14 @@ class SuggestedInvestigationsPagerFactory {
 			$options,
 			$target
 		);
+	}
+
+	/**
+	 * Returns a pager that is used by Suggested Investigations to show suggested investigation cases.
+	 *
+	 * @internal Only for use by {@link SpecialSuggestedInvestigations}
+	 */
+	public function createCasesPager( IContextSource $context ): SuggestedInvestigationsCasesPager {
+		return new SuggestedInvestigationsCasesPager( $this->dbProvider, $this->linkRenderer, $context );
 	}
 }

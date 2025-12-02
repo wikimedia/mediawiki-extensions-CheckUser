@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
+use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsCasesPager;
 use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsRevisionsPager;
 use MediaWiki\Context\RequestContext;
@@ -15,7 +16,7 @@ use MediaWikiIntegrationTestCase;
  * @group Database
  */
 class SuggestedInvestigationsPagerFactoryTest extends MediaWikiIntegrationTestCase {
-	public function testCreatePager() {
+	public function testCreateRevisionPager() {
 		$this->assertInstanceOf(
 			SuggestedInvestigationsRevisionsPager::class,
 			$this->getObjectUnderTest()->createRevisionPager(
@@ -32,6 +33,15 @@ class SuggestedInvestigationsPagerFactoryTest extends MediaWikiIntegrationTestCa
 	public function testCreateRevisionPagerWithNoRevisionIds() {
 		$this->expectException( InvalidArgumentException::class );
 		$this->getObjectUnderTest()->createRevisionPager( RequestContext::getMain(), [], [] );
+	}
+
+	public function testCreateCasesPager() {
+		$this->assertInstanceOf(
+			SuggestedInvestigationsCasesPager::class,
+			$this->getObjectUnderTest()->createCasesPager( RequestContext::getMain() ),
+			'SuggestedInvestigationsPagerFactory::createCasesPager should create an ' .
+			'SuggestedInvestigationsCasesPager instance'
+		);
 	}
 
 	private function getObjectUnderTest(): SuggestedInvestigationsPagerFactory {

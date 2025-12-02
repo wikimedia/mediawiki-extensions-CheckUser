@@ -18,7 +18,7 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations;
+namespace MediaWiki\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
@@ -27,7 +27,6 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Pager\CodexTablePager;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -39,7 +38,7 @@ use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 
-class SuggestedInvestigationsTablePager extends CodexTablePager {
+class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 	/**
 	 * @var int|null When not null, only display the case with this ID. This is currently only
@@ -60,9 +59,8 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
-		private readonly UserLinkRenderer $userLinkRenderer,
-		?IContextSource $context = null,
-		?LinkRenderer $linkRenderer = null
+		LinkRenderer $linkRenderer,
+		?IContextSource $context = null
 	) {
 		// If we didn't set mDb here, the parent constructor would set it to the database replica
 		// for the default database domain
@@ -129,7 +127,7 @@ class SuggestedInvestigationsTablePager extends CodexTablePager {
 		$detailViewLink = $this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier )->getFullText();
 
 		foreach ( $users as $i => $user ) {
-			$userLink = $this->userLinkRenderer->userLink( $user, $this->getContext() );
+			$userLink = $this->getLinkRenderer()->makeUserLink( $user, $this->getContext() );
 
 			// Generate a link to Special:CheckUser with a prefilled 'reason' input field that links back to the
 			// case that this user is in.

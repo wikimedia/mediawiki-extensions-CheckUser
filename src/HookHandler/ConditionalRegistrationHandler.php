@@ -94,11 +94,10 @@ class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQue
 			$list['SuggestedInvestigations'] = [
 				'class' => SpecialSuggestedInvestigations::class,
 				'services' => [
-					'ConnectionProvider',
-					'UserLinkRenderer',
 					'CheckUserHookRunner',
 					'CheckUserSuggestedInvestigationsCaseLookup',
 					'CheckUserSuggestedInvestigationsInstrumentationClient',
+					'CheckUserSuggestedInvestigationsPagerFactory',
 				],
 			];
 		}

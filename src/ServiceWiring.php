@@ -544,7 +544,8 @@ return [
 			$services->getRevisionStore(),
 			$services->getNamespaceInfo(),
 			$services->getCommentFormatter(),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->getConnectionProvider()
 		);
 	},
 ];

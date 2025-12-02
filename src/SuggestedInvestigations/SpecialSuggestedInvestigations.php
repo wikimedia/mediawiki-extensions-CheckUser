@@ -22,13 +22,12 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations;
 
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
+use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Html\Html;
-use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Parser\ParserOptions;
 use MediaWiki\SpecialPage\SpecialPage;
 use Wikimedia\Message\MessageValue;
-use Wikimedia\Rdbms\IConnectionProvider;
 
 class SpecialSuggestedInvestigations extends SpecialPage {
 
@@ -45,11 +44,10 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 	private int|null $detailedViewCaseId = null;
 
 	public function __construct(
-		private readonly IConnectionProvider $connectionProvider,
-		private readonly UserLinkRenderer $userLinkRenderer,
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsCaseLookupService $suggestedInvestigationsCaseLookupService,
 		private readonly SuggestedInvestigationsInstrumentationClient $instrumentationClient,
+		private readonly SuggestedInvestigationsPagerFactory $pagerFactory,
 	) {
 		parent::__construct( 'SuggestedInvestigations', 'checkuser-suggested-investigations' );
 	}
@@ -72,11 +70,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		$output->addModules( 'ext.checkUser.suggestedInvestigations' );
 		$output->addModuleStyles( 'ext.checkUser.styles' );
 
-		$pager = new SuggestedInvestigationsTablePager(
-			$this->connectionProvider,
-			$this->userLinkRenderer,
-			$this->getContext()
-		);
+		$pager = $this->pagerFactory->createCasesPager( $this->getContext() );
 
 		if ( $this->isInDetailedView ) {
 			$pager->caseIdFilter = $this->detailedViewCaseId;

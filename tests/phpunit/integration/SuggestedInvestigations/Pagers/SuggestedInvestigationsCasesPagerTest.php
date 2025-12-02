@@ -18,13 +18,15 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations;
+namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Pagers;
 
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsCasesPager;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
-use MediaWiki\CheckUser\SuggestedInvestigations\SuggestedInvestigationsTablePager;
+use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\IndexPager;
@@ -36,10 +38,10 @@ use Wikimedia\Parsoid\Utils\DOMUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\SuggestedInvestigationsTablePager
+ * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsCasesPager
  * @group Database
  */
-class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase {
+class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase {
 	use SuggestedInvestigationsTestTrait;
 
 	private static User $testUser1;
@@ -53,10 +55,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 
 	public function testQuery() {
 		$caseId = $this->addCaseWithTwoUsers();
-		$pager = new SuggestedInvestigationsTablePager(
-			$this->getServiceContainer()->getConnectionProvider(),
-			$this->getServiceContainer()->getUserLinkRenderer(),
-		);
+		$pager = $this->getPager( RequestContext::getMain() );
 
 		$results = $pager->reallyDoQuery( '', 10, IndexPager::QUERY_ASCENDING );
 
@@ -85,11 +84,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
 		$context->setLanguage( 'qqx' );
 
-		$pager = new SuggestedInvestigationsTablePager(
-			$this->getServiceContainer()->getConnectionProvider(),
-			$this->getServiceContainer()->getUserLinkRenderer(),
-			$context,
-		);
+		$pager = $this->getPager( $context );
 
 		$html = $pager->getBody();
 
@@ -178,11 +173,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
 		$context->setLanguage( 'qqx' );
 
-		$pager = new SuggestedInvestigationsTablePager(
-			$this->getServiceContainer()->getConnectionProvider(),
-			$this->getServiceContainer()->getUserLinkRenderer(),
-			$context,
-		);
+		$pager = $this->getPager( $context );
 		$pager->caseIdFilter = $firstCaseId;
 
 		$html = $pager->getBody();
@@ -204,11 +195,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
 		$context->setLanguage( 'qqx' );
 
-		$pager = new SuggestedInvestigationsTablePager(
-			$this->getServiceContainer()->getConnectionProvider(),
-			$this->getServiceContainer()->getUserLinkRenderer(),
-			$context,
-		);
+		$pager = $this->getPager( $context );
 
 		$html = $pager->getBody();
 
@@ -240,11 +227,7 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
 		$context->setLanguage( 'qqx' );
 
-		$pager = new SuggestedInvestigationsTablePager(
-			$this->getServiceContainer()->getConnectionProvider(),
-			$this->getServiceContainer()->getUserLinkRenderer(),
-			$context,
-		);
+		$pager = $this->getPager( $context );
 
 		$html = $pager->getBody();
 
@@ -301,5 +284,10 @@ class SuggestedInvestigationsTablePagerTest extends MediaWikiIntegrationTestCase
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
 
 		return $caseManager->createCase( $users, [ $signal ] );
+	}
+
+	private function getPager( IContextSource $context ): SuggestedInvestigationsCasesPager {
+		return $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsPagerFactory' )
+			->createCasesPager( $context );
 	}
 }
