@@ -39,6 +39,12 @@ class SuggestedInvestigationsHandler implements
 
 	/** @inheritDoc */
 	public function onPageSaveComplete( $wikiPage, $user, $summary, $flags, $revisionRecord, $editResult ) {
+		// Don't process null edits, as the revision ID will not be performed by the user
+		// who just attempted to edit
+		if ( $editResult->isNullEdit() ) {
+			return;
+		}
+
 		$this->matchSignalsAgainstUserOnDeferredUpdate(
 			$user,
 			SuggestedInvestigationsSignalMatchService::EVENT_SUCCESSFUL_EDIT,
