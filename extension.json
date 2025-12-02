@@ -229,6 +229,10 @@
 		"CheckUserSuggestedInvestigationsHidden": {
 			"value": false,
 			"description": "Whether the user interface for the Suggested Investigations feature should be unavailable, even if other parts of it are active. It might be useful to set this to true while waiting for some cases to be created before releasing the UI to users."
+		},
+		"CheckUserSuggestedInvestigationsUseGlobalContributionsLink": {
+			"value": false,
+			"description": "Whether the local 'contribs' link in Special:SuggestedInvestigations should instead be a link to Special:GlobalContributions. By default this is not the case and this will have no effect if Special:GlobalContributions is not enabled on the wiki."
 		}
 	},
 	"DefaultUserOptions": {

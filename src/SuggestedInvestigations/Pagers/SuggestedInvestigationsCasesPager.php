@@ -22,6 +22,7 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Context\IContextSource;
@@ -30,7 +31,9 @@ use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\CodexTablePager;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
+use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Codex\Utility\Codex;
@@ -59,6 +62,9 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
+		private readonly UserEditTracker $userEditTracker,
+		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
 		LinkRenderer $linkRenderer,
 		?IContextSource $context = null
 	) {
@@ -126,6 +132,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$detailViewLink = $this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier )->getFullText();
 
+		$useGlobalContribs = $this->specialPageFactory->exists( 'GlobalContributions' ) &&
+			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' );
+		$contributionsSpecialPage = $useGlobalContribs ? 'GlobalContributions' : 'Contributions';
+
 		foreach ( $users as $i => $user ) {
 			$userLink = $this->getLinkRenderer()->makeUserLink( $user, $this->getContext() );
 
@@ -138,16 +148,40 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				->inContentLanguage()
 				->text();
 
-			$checkLink = $this->msg( 'parentheses' )
-				->rawParams( $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
-					$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
-						->params( $user->getName() )
-						->text(),
-					[],
-					[ 'reason' => $checkUserPrefilledReason ]
-				) )
-				->escaped();
+			// Generate the link class for the "contribs" tool link
+			$userContribsLinkClass = 'mw-usertoollinks-contribs';
+
+			if ( $useGlobalContribs ) {
+				$editCount = $this->checkUserGlobalContributionsLookup->getGlobalContributionsCount(
+					$user->getName(), $this->getAuthority()
+				);
+			} else {
+				$editCount = $this->userEditTracker->getUserEditCount( $user );
+			}
+			if ( $editCount === 0 ) {
+				// Use same CSS classes as Linker::userToolLinkArray to get a red link when no contribs
+				$userContribsLinkClass .= ' mw-usertoollinks-contribs-no-edits';
+			}
+
+			// Add link to either Special:Contributions or Special:GlobalContributions
+			$userToolLinks = [];
+			$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( $contributionsSpecialPage, $user->getName() ),
+				$this->msg( 'contribslink' )
+					->params( $user->getName() )
+					->text(),
+				[ 'class' => $userContribsLinkClass ]
+			);
+
+			// Add link to Special:CheckUser
+			$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
+				$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
+					->params( $user->getName() )
+					->text(),
+				[],
+				[ 'reason' => $checkUserPrefilledReason ]
+			);
 
 			$formattedUsers .= Html::rawElement(
 				'li', [
@@ -156,7 +190,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 						: '',
 				],
 				$this->msg( 'checkuser-suggestedinvestigations-user' )
-					->rawParams( $userLink, $checkLink )
+					->rawParams(
+						$userLink,
+						$this->msg( 'parentheses' )
+							->rawParams( $this->getLanguage()->pipeList( $userToolLinks ) )
+							->escaped()
+					)
 					->parse()
 			);
 		}
@@ -497,6 +536,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	public function getModuleStyles(): array {
 		return array_merge( parent::getModuleStyles(), [
 			'ext.checkUser.suggestedInvestigations.styles',
+			'mediawiki.interface.helpers.styles',
 		] );
 	}
 }

@@ -545,7 +545,10 @@ return [
 			$services->getNamespaceInfo(),
 			$services->getCommentFormatter(),
 			$services->getUserFactory(),
-			$services->getConnectionProvider()
+			$services->getConnectionProvider(),
+			$services->getUserEditTracker(),
+			$services->getSpecialPageFactory(),
+			$services->get( 'CheckUserGlobalContributionsLookup' )
 		);
 	},
 ];

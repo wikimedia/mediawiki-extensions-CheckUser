@@ -20,6 +20,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Pagers;
 
+use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsCasesPager;
@@ -32,6 +33,8 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\IndexPager;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
+use MediaWiki\User\UserEditTracker;
+use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Parsoid\Utils\DOMCompat;
 use Wikimedia\Parsoid\Utils\DOMUtils;
@@ -76,13 +79,31 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testOutput() {
-		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
+			MainConfigNames::LanguageCode => 'qqx',
+		] );
 		ConvertibleTimestamp::setFakeTime( '20250403020100' );
 
 		$caseId = $this->addCaseWithTwoUsers();
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
 		$context->setLanguage( 'qqx' );
+
+		// Mock the edit counts for our test users so that the first test user has no edits
+		// and all other users have one edit
+		$mockUserEditTracker = $this->createMock( UserEditTracker::class );
+		$mockUserEditTracker->method( 'getUserEditCount' )
+			->willReturnCallback(
+				static fn ( UserIdentity $user ) => self::$testUser1->equals( $user ) ? 0 : 1
+			);
+		$this->setService( 'UserEditTracker', $mockUserEditTracker );
+
+		// Expect that the global edit count is never fetched, as we are using the local one
+		$this->setService(
+			'CheckUserGlobalContributionsLookup',
+			$this->createNoOpMock( CheckUserGlobalContributionsLookup::class )
+		);
 
 		$pager = $this->getPager( $context );
 
@@ -107,6 +128,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$html,
 			'Should contain link to Special:CheckUser for the second user'
 		);
+
+		$this->commonTestContribsToolLinks( 'Contributions', $html );
 
 		$name1 = urlencode( self::$testUser1->getName() );
 		$name2 = urlencode( self::$testUser2->getName() );
@@ -156,6 +179,75 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$html, 'mw-checkuser-suggestedinvestigations-status'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusCell );
+	}
+
+	/**
+	 * Verifies that the contribs toollinks are present for a two user case and that they use the provided
+	 * contributions special page.
+	 */
+	private function commonTestContribsToolLinks(
+		string $expectedContributionsSpecialPageName,
+		string $html
+	): void {
+		$specialPageDocument = DOMUtils::parseHTML( $html );
+		$contributionsToolLinks = DOMCompat::querySelectorAll( $specialPageDocument, '.mw-usertoollinks-contribs' );
+		$this->assertCount( 2, $contributionsToolLinks, 'Expected two contributions toollinks' );
+		foreach ( $contributionsToolLinks as $contributionsToolLink ) {
+			$toolLinkHtml = DOMCompat::getOuterHTML( $contributionsToolLink );
+
+			// Check if the tool link has the class for indicating that the user has no edits:
+			// * If it does, then the first test user is the user we should expect be associated
+			//   with this tool link.
+			// * If it does not, then the second test user should be expected
+			// This is because we mock in the test for the first test user to have no edits
+			// and all other users to have one edit
+			$expectedUserName = str_contains( $toolLinkHtml, 'mw-usertoollinks-contribs-no-edits' ) ?
+				self::$testUser1->getName() : self::$testUser2->getName();
+
+			$this->assertStringContainsString(
+				$expectedUserName,
+				$toolLinkHtml,
+				"Expected tool link to be for user $expectedUserName"
+			);
+			$this->assertStringContainsString(
+				"Special:$expectedContributionsSpecialPageName/$expectedUserName",
+				$toolLinkHtml
+			);
+			$this->assertStringContainsString( "(contribslink: $expectedUserName)", $toolLinkHtml );
+		}
+	}
+
+	public function testOutputWhenGlobalContributionsUsedAsContribsLink() {
+		$isGlobalContributionsEnabled = $this->getServiceContainer()->getSpecialPageFactory()
+			->exists( 'GlobalContributions' );
+		if ( !$isGlobalContributionsEnabled ) {
+			$this->markTestSkipped( 'Test requires GlobalContributions dependencies to be met' );
+		}
+
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => true,
+			MainConfigNames::LanguageCode => 'qqx',
+		] );
+
+		$this->addCaseWithTwoUsers();
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+
+		// Mock the global edit counts for our test users so that the first test user has no edits
+		// and all other users have one edit
+		$mockUserEditTracker = $this->createMock( CheckUserGlobalContributionsLookup::class );
+		$mockUserEditTracker->method( 'getGlobalContributionsCount' )
+			->willReturnCallback(
+				static fn ( string $target ) => self::$testUser1->getName() === $target ? 0 : 1
+			);
+		$this->setService( 'CheckUserGlobalContributionsLookup', $mockUserEditTracker );
+
+		// Expect that the local edit count is never fetched, as we are using the global one
+		$this->setService( 'UserEditTracker', $this->createNoOpMock( UserEditTracker::class ) );
+
+		// Check that the pager uses Special:GlobalContributions as the "contribs" tool link
+		$html = $this->getPager( $context )->getBody();
+		$this->commonTestContribsToolLinks( 'GlobalContributions', $html );
 	}
 
 	public function testOutputWhenCaseIdFilterSet() {

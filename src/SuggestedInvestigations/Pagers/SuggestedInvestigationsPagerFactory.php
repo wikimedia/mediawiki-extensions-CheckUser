@@ -4,12 +4,15 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\NamespaceInfo;
+use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -32,6 +35,9 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly CommentFormatter $commentFormatter,
 		private readonly UserFactory $userFactory,
 		private readonly IConnectionProvider $dbProvider,
+		private readonly UserEditTracker $userEditTracker,
+		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
 	) {
 	}
 
@@ -78,6 +84,13 @@ class SuggestedInvestigationsPagerFactory {
 	 * @internal Only for use by {@link SpecialSuggestedInvestigations}
 	 */
 	public function createCasesPager( IContextSource $context ): SuggestedInvestigationsCasesPager {
-		return new SuggestedInvestigationsCasesPager( $this->dbProvider, $this->linkRenderer, $context );
+		return new SuggestedInvestigationsCasesPager(
+			$this->dbProvider,
+			$this->userEditTracker,
+			$this->specialPageFactory,
+			$this->checkUserGlobalContributionsLookup,
+			$this->linkRenderer,
+			$context
+		);
 	}
 }
