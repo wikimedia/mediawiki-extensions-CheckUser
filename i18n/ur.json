@@ -16,8 +16,17 @@
 	"right-checkuser-log": "نوشتہ صارف پڑتال کا مشاہدہ",
 	"action-checkuser-log": "نوشتۂ صارف پڑتال دیکھیں",
 	"grouppage-checkuser": "{{ns:project}}:پڑتال کنندہ",
+	"checkuser-clienthints-name-mobile": "موبائل",
+	"checkuser-clienthints-name-model": "ماڈل",
+	"checkuser-clienthints-name-platform": "پلیٹ فارم",
+	"checkuser-clienthints-name-platform-version": "پلیٹ فارم نسخہ",
+	"checkuser-clienthints-value-yes": "ہاں",
+	"checkuser-clienthints-value-no": "نہیں",
+	"checkuser-clienthints-list-item": "$1: $2",
 	"checkuser-reason": "وجہ:",
+	"checkuser-reason-api": "اے پی آئی: $1",
 	"checkuser-showlog": "لاگ چیک کرتا ہے",
+	"checkuser-period": "دورانیہ:",
 	"checkuser-week-1": "گزشتہ ہفتے",
 	"checkuser-week-2": "گزشتہ دو ہفتوں",
 	"checkuser-month": "گزشتہ 30 دن میں",
@@ -25,5 +34,6 @@
 	"checkuser-nomatch": "کوئی میچ پایا.",
 	"checkuser-check": "چیک کریں",
 	"checkuser-search": "تلاش",
-	"checkuser-search-submit": "تلاش"
+	"checkuser-search-submit": "تلاش",
+	"checkuser-investigate-preliminary-table-header-groups": "گروہ"
 }

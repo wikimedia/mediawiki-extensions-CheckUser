@@ -48,7 +48,8 @@
 			"IZapico (WMF)",
 			"HylianAngel",
 			"Rousmery96",
-			"Superzerocool"
+			"Superzerocool",
+			"-jem-"
 		]
 	},
 	"checkuser-summary": "Esta herramienta explora cambios recientes para obtener las direcciones IP utilizadas por un usuario, o para mostrar los datos sobre ediciones y usuarios de una dirección IP en concreto.\nSe pueden obtener los usuarios y las ediciones de una dirección IP cliente vía XFF añadiendo «/xff» al final de la dirección IP. Funciona con IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNo se muestran más de $3 ediciones por motivos de rendimiento.\nUtiliza esta herramienta de acuerdo con las correspondientes políticas.",
@@ -86,6 +87,7 @@
 	"checkuser-clienthints-name-platform-version": "Versión de plataforma",
 	"checkuser-clienthints-value-yes": "Sí",
 	"checkuser-clienthints-value-no": "No",
+	"checkuser-clienthints-list-item": "$1: $2",
 	"checkuser-reason": "Motivo:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Registro de comprobaciones",
@@ -146,6 +148,7 @@
 	"checkuser-log-search-reason-help": "Filtrar las entradas del registro que contengan este motivo.",
 	"checkuser-ipeditcount": "~$1 de todos los usuarios",
 	"checkuser-ipeditcount-64": "~$1 de todos los usuarios en este /64",
+	"checkuser-time-range": "$1 -- $2",
 	"checkuser-showmain": "Cambiar a {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Cambiar a {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, $1 obtuvo las direcciones IP de $2",
@@ -243,6 +246,7 @@
 	"checkuser-investigate-timeline-notice-no-results-filters": "No hay resultados que coincidan con estos criterios de filtrado. Intenta eliminar algunos filtros para ampliar la búsqueda.",
 	"checkuser-investigate-compare-copy-button-label": "Ver wikitexto",
 	"checkuser-investigate-compare-copy-button-label-hide": "Ocultar wikitexto",
+	"checkuser-investigate-compare-toollinks-whois": "WHOIS",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Comprobar proxy",
 	"checkuser-investigate-compare-copy-message-label": "¿Deseas copiar esta información como tabla en formato wikitexto?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Como consecuencia de limitaciones técnicas hemos alcanzado el número máximo de registros que podemos presentarte. Los datos que se proporcionan en relación con este objetivo no están completos: $1. Prueba a usar menos objetivos, o bien reduce el rango de fechas o de direcciones IP.",

@@ -55,5 +55,12 @@
 	"logentry-checkuser-private-event-create-account": "je napravljen",
 	"checkuser-investigateblock-warning-confirmaction": "Ako ste sigurni da želite nastaviti, kliknite na \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" polje na dnu stranice.",
 	"checkuser-investigate-compare-table-header-activity": "Vremenski opseg",
-	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP"
+	"checkuser-ip-contributions-subtitle": "Prikazujem rezultate za {{PLURAL:$1|posljednji $1 dan|posljednja $2 dana|posljednjih $2 dana}}.",
+	"checkuser-ip-contributions-target-label": "IP-adresa ili opseg:",
+	"checkuser-ip-contributions-search-form-wrapper": "Pretraži doprinose s IP-a",
+	"checkuser-ip-contributions-results-title": "Doprinosi privremenog korisnika s IP-a $1",
+	"checkuser-ip-contributions-special-ip-contributions-button": "Doprinosi privremenog korisnika s IP-a",
+	"checkuser-ip-contributions-special-contributions-button": "Prijašnje izmjene s IP-a",
+	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
+	"checkuser-tempaccount-specialblock-ips": "Ovo je privremeni korisnik koji koristi {{PLURAL:$1|sljedeću IP-adresu|sljedeće IP-adrese}}: $2"
 }

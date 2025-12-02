@@ -140,7 +140,7 @@
 	"checkuser-helper-user": "کاربر",
 	"checkuser-helper-ips": "آی‌پی‌ها",
 	"checkuser-helper-uas": "عامل‌های کاربر",
-	"checkuser-helper-client-hints": "نکاتی برای کارخواه",
+	"checkuser-helper-client-hints": "نشانه‌های کارخواه",
 	"checkuser-helper-xff-trusted": "XFF (مورد اعتماد):",
 	"checkuser-helper-xff-untrusted": "XFF (غیرقابل اعتماد):",
 	"logentry-checkuser-private-event-login-success": "با موفقیت تحت عنوان $4 به {{SITENAME}} {{GENDER:$2|وارد شد}}",
