@@ -48,7 +48,8 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	public function testOnPageSaveComplete() {
+	/** @dataProvider provideOnPageSaveComplete */
+	public function testOnPageSaveComplete( bool $isNullEdit, bool $expectsSignalMatch ) {
 		$mockUser = $this->createMock( User::class );
 
 		$revId = 1;
@@ -56,15 +57,27 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		$revisionRecord->method( 'getId' )
 			->willReturn( $revId );
 
-		$this->suggestedInvestigationsSignalMatchService->expects( $this->once() )
+		$mockEditResult = $this->createMock( EditResult::class );
+		$mockEditResult->method( 'isNullEdit' )
+			->willReturn( $isNullEdit );
+
+		$this->suggestedInvestigationsSignalMatchService
+			->expects( $expectsSignalMatch ? $this->once() : $this->never() )
 			->method( 'matchSignalsAgainstUser' )
 			->with( $mockUser, 'successfuledit', [ 'revId' => $revId ] );
 
 		$this->sut->onPageSaveComplete(
 			$this->createMock( WikiPage::class ), $mockUser, '', 0, $revisionRecord,
-			$this->createMock( EditResult::class )
+			$mockEditResult
 		);
 		DeferredUpdates::doUpdates();
+	}
+
+	public static function provideOnPageSaveComplete(): array {
+		return [
+			'Page save event is for a null edit' => [ true, false ],
+			'Page save event is for a non-null edit' => [ false, true ],
+		];
 	}
 
 	public function testOnUserSetEmail() {
