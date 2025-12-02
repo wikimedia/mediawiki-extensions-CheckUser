@@ -2,7 +2,7 @@
 
 const utils = require( '@vue/test-utils' ),
 	{ nextTick } = require( 'vue' ),
-	{ waitFor, mockByteLength } = require( '../../utils.js' );
+	{ mockByteLength } = require( '../../utils.js' );
 
 // Need to run this here as the import of ChangeInvestigationStatusDialog.vue
 // without mediawiki.String defined causes errors in running these tests.
@@ -162,12 +162,11 @@ describe( 'Suggested Investigations change status dialog', () => {
 	it( 'Renders correctly for initial open status with no pre-filled reason', async () => {
 		const { dialog } = await commonComponentTest( { initialStatus: 'open' } );
 
-		// Expect that the reason field does not exist, as it should not be present if
-		// no reason was already set and the selected status is open
+		// Expect that the reason field exists, as it should always be shown
 		const statusReasonField = dialog.find(
 			'.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason'
 		);
-		expect( statusReasonField.exists() ).toEqual( false );
+		expect( statusReasonField.exists() ).toEqual( true );
 	} );
 
 	it( 'Renders correctly for initial resolved status with no pre-filled reason', async () => {
@@ -195,27 +194,6 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// The status reason field should always exist when the status is not "open"
 		commonValidateStatusReasonField( dialog, 'open', 'testing' );
-	} );
-
-	it( 'Empty status reason field disappears when switching from resolved to open status', async () => {
-		const { dialog } = await commonComponentTest( {
-			initialStatus: 'resolved',
-			initialStatusReason: ''
-		} );
-
-		// The status reason field should always exist when the status is not "open"
-		commonValidateStatusReasonField( dialog, 'resolved', '' );
-
-		// Switch the status radio to "open" and wait for the change to be propagated
-		const openStatusRadioOption = dialog.find(
-			'input[name=checkuser-suggestedinvestigations-change-status-dialog-status-option][value=open]'
-		);
-		await openStatusRadioOption.setChecked();
-		await waitFor( () => !dialog.find( '.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason' ).exists() );
-
-		// Validate that the reason field did not disappear with the change in status
-		const statusReasonField = dialog.find( '.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason' );
-		expect( statusReasonField.exists() ).toEqual( false );
 	} );
 
 	it( 'Keeps status reason field when text present and switching to "open" status', async () => {

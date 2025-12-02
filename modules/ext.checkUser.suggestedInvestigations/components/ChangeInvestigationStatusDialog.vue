@@ -45,7 +45,6 @@
 			</cdx-radio>
 		</cdx-field>
 		<cdx-field
-			v-if="showStatusReasonField"
 			class="ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason"
 			:optional="true"
 		>
@@ -205,8 +204,6 @@ module.exports = exports = {
 			} );
 		}
 
-		const showStatusReasonField = computed( () => selectedStatus.value !== 'open' || hasStatusReasonHadText.value );
-
 		/**
 		 * Fired when any form fields have their value changed.
 		 * Used to clear any error message set in the form.
@@ -268,7 +265,6 @@ module.exports = exports = {
 		return {
 			open,
 			selectedStatus,
-			showStatusReasonField,
 			statusReason,
 			statusReasonSubtitle,
 			statusReasonPlaceholder,
