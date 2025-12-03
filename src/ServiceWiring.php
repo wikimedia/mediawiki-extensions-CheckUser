@@ -548,6 +548,7 @@ return [
 			$services->getConnectionProvider(),
 			$services->getUserEditTracker(),
 			$services->getSpecialPageFactory(),
+			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserGlobalContributionsLookup' )
 		);
 	},

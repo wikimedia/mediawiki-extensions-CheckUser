@@ -488,6 +488,58 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
 	}
 
+	public function testWhenUsernameFilterIsSet() {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		// Create two cases each with a different user
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstUser = $this->getMutableTestUser()->getUserIdentity();
+		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+
+		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+
+		// Load the pager with the 'username' query set to the first user's username
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->getRequest()->setVal( 'username', $firstUser->getName() );
+
+		$html = $this->getPager( $context )->getBody();
+
+		// Expect that the table pager only shows the first case by checking
+		// only the first case ID is present as a data attribute
+		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+	}
+
+	public function testWhenUsernameFilterUsesUnknownUsername() {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		// Create a case for an existing user
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+
+		// Load the pager with the 'username' query set to a string that isn't an existing username
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->getRequest()->setVal( 'username', __METHOD__ . wfRandomString() );
+
+		$html = $this->getPager( $context )->getBody();
+
+		// Expect that the table pager has no results by looking for the table_pager_empty
+		// message key and checking that no data-case-id attributes exist in the page
+		$this->assertStringContainsString( '(table_pager_empty)', $html );
+		$this->assertStringNotContainsString( 'data-case-id', $html );
+	}
+
 	/**
 	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
 	 * the HTML of that Element.

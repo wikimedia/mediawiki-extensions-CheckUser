@@ -15,6 +15,7 @@ use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 /**
@@ -37,6 +38,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly IConnectionProvider $dbProvider,
 		private readonly UserEditTracker $userEditTracker,
 		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
 	) {
 	}
@@ -88,6 +90,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->dbProvider,
 			$this->userEditTracker,
 			$this->specialPageFactory,
+			$this->userIdentityLookup,
 			$this->checkUserGlobalContributionsLookup,
 			$this->linkRenderer,
 			$context

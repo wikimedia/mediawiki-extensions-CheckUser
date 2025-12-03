@@ -35,6 +35,7 @@ use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -55,6 +56,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private array $statusFilter;
 
 	/**
+	 * @var ?string If not an empty string or null, then only show cases with this user in them
+	 */
+	private ?string $userNameFilter;
+
+	/**
 	 * The unique sort fields for the sort options for unique paginate
 	 */
 	private const INDEX_FIELDS = [
@@ -69,6 +75,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly IConnectionProvider $connectionProvider,
 		private readonly UserEditTracker $userEditTracker,
 		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
 		LinkRenderer $linkRenderer,
 		?IContextSource $context = null
@@ -97,6 +104,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			CaseStatus::newFromStringName( ... ),
 			$this->mRequest->getArray( 'status', [] )
 		) );
+
+		$this->userNameFilter = $this->mRequest->getVal( 'username' );
 
 		$this->userDb = $this->connectionProvider->getReplicaDatabase();
 	}
@@ -422,6 +431,21 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				static fn ( $status ) => $status->value,
 				$this->statusFilter
 			);
+		}
+
+		if ( $this->userNameFilter ) {
+			$userId = $this->userIdentityLookup->getUserIdentityByName( $this->userNameFilter )?->getId();
+
+			// If there are user IDs, then join on the query.
+			// If none of the usernames equate to user IDs, then make the query return nothing
+			// to indicate these usernames are not in any case.
+			if ( $userId ) {
+				$queryInfo['tables'][] = 'cusi_user';
+				$queryInfo['join_conds']['cusi_user'] = [ 'JOIN', 'sic_id = siu_sic_id' ];
+				$queryInfo['conds']['siu_user_id'] = $userId;
+			} else {
+				$queryInfo['conds'][] = '1=0';
+			}
 		}
 
 		return $queryInfo;
