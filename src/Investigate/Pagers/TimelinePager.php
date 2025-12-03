@@ -161,20 +161,10 @@ class TimelinePager extends ReverseChronologicalPager {
 			return '';
 		}
 
-		$formattedLinks = implode( ' ', array_filter(
-			$rowItems['links'],
-			static function ( $item ) {
-				return $item !== '';
-			} )
-		);
+		$formattedLinks = implode( ' ', array_filter( $rowItems['links'], 'strlen' ) );
 
-		$formatted = implode( ' . . ', array_filter(
-			array_merge(
-				[ $formattedLinks ],
-				$rowItems['info']
-			), static function ( $item ) {
-				return $item !== '';
-			} )
+		$formatted = implode( ' . . ',
+			array_filter( [ $formattedLinks, ...$rowItems['info'] ], 'strlen' )
 		);
 
 		$line .= Html::rawElement(

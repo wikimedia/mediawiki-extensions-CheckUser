@@ -68,7 +68,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	 *   create a log entry. Classes that extend AbstractTemporaryAccountHandler don't need to set this to true,
 	 *   because AbstractTemporaryAccountHandler creates a log entry.
 	 * @param int|null $limit The maximum number of rows to fetch.
-	 * @return StatusValue A good status will have a list of account names or empty list if none were found;
+	 * @return StatusValue<string[]> A good status will have a list of account names or empty list if none were found;
 	 *  a bad status will have the relevant permission error encountered
 	 * @throws InvalidArgumentException If the $ip could not be parsed as a valid IP or range
 	 */
