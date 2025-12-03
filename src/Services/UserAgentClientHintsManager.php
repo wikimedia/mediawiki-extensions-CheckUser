@@ -322,19 +322,15 @@ class UserAgentClientHintsManager {
 		// then query the revision table or logging table respectively
 		// for the associated timestamp to determine if the map
 		// row should have already been deleted.
-		$associatedTimestamp = false;
+		$associatedTimestamp = null;
 		if ( $mappingId === self::IDENTIFIER_CU_CHANGES ) {
 			// Get the timestamp from the revision lookup service
-			$revisionRecord = $this->revisionLookup->getRevisionById( $referenceId );
-			if ( $revisionRecord ) {
-				$associatedTimestamp = $revisionRecord->getTimestamp();
-			}
+			$associatedTimestamp = $this->revisionLookup->getRevisionById( $referenceId )
+				?->getTimestamp();
 		} elseif ( $mappingId === self::IDENTIFIER_CU_LOG_EVENT ) {
 			// Get the timestamp from using DatabaseLogEntry::newFromId
-			$logObject = DatabaseLogEntry::newFromId( $referenceId, $this->dbr );
-			if ( $logObject ) {
-				$associatedTimestamp = $logObject->getTimestamp();
-			}
+			$associatedTimestamp = DatabaseLogEntry::newFromId( $referenceId, $this->dbr )
+				?->getTimestamp();
 		}
 		// The map rows are considered orphaned if of the following any apply:
 		// * There is no timestamp for the revision or log event (should be generally impossible for this

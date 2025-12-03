@@ -72,12 +72,9 @@ abstract class ChangeService implements CheckUserQueryInterface {
 		} else {
 			// TODO: This may filter out invalid values, changing the number of
 			// targets. The per-target limit should change too (T246393).
-			$user = $this->userIdentityLookup->getUserIdentityByName( $target );
-			if ( $user ) {
-				$userId = $user->getId();
-				if ( $userId !== 0 ) {
-					return $this->dbProvider->getReplicaDatabase()->expr( 'actor_user', '=', $userId );
-				}
+			$userId = $this->userIdentityLookup->getUserIdentityByName( $target )?->getId();
+			if ( $userId ) {
+				return $this->dbProvider->getReplicaDatabase()->expr( 'actor_user', '=', $userId );
 			}
 		}
 
@@ -100,29 +97,26 @@ abstract class ChangeService implements CheckUserQueryInterface {
 			if ( IPUtils::isIpAddress( $target ) ) {
 				$ipTargets[] = IPUtils::toHex( $target );
 			} else {
-				$user = $this->userIdentityLookup->getUserIdentityByName( $target );
-				if ( $user ) {
-					$userId = $user->getId();
-					if ( $userId !== 0 ) {
-						$userTargets[] = $userId;
-					}
+				$userId = $this->userIdentityLookup->getUserIdentityByName( $target )?->getId();
+				if ( $userId ) {
+					$userTargets[] = $userId;
 				}
 			}
 		}
 
-		if ( !count( $ipTargets ) && !count( $userTargets ) ) {
+		if ( !$ipTargets && !$userTargets ) {
 			// There will be no conditions if there are no users or IPs to exclude, so return null early.
 			return null;
 		}
 
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		$expressions = [];
-		if ( count( $ipTargets ) > 0 ) {
+		if ( $ipTargets ) {
 			$expressions[] = $dbr->expr(
 				self::RESULT_TABLE_TO_PREFIX[$table] . 'ip_hex', '!=', $ipTargets
 			);
 		}
-		if ( count( $userTargets ) > 0 ) {
+		if ( $userTargets ) {
 			$expressions[] = $dbr
 				->expr( 'actor_user', '!=', $userTargets )
 				->or( 'actor_user', '=', null );
