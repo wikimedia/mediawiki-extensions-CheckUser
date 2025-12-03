@@ -57,6 +57,7 @@
 	"checkuser-token-fail": "სესია შეწყდა. გთხოვთ, თავიდან სცადოთ.",
 	"logentry-checkuser-private-event-autocreate-account": "ავტომატურად შეიქმნა",
 	"logentry-checkuser-private-event-create-account": "შეიქმნა",
+	"checkuser-ip-contributions": "მოძებნეთ IP-ის წვლილი",
 	"checkuser-global-contributions-link": "გლობალური წვლილი",
 	"checkuser-global-contributions-link-sidebar": "გლობალური წვლილი",
 	"checkuser-global-contributions-results-title": "მომხმარებლის $1 გლობალური წვლილი",
