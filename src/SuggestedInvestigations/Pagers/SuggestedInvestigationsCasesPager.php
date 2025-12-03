@@ -173,6 +173,24 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				[ 'class' => $userContribsLinkClass ]
 			);
 
+			// Add link to Special:CheckUserLog if the user has been checked before and the
+			// viewing authority has the 'checkuser-log' right
+			$hasPastChecks = $this->getDatabase()->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'cu_log' )
+				->where( [ 'cul_target_id' => $user->getId() ] )
+				->caller( __METHOD__ )
+				->fetchField();
+
+			if ( $hasPastChecks && $this->getAuthority()->isAllowed( 'checkuser-log' ) ) {
+				$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUserLog', $user->getName() ),
+					$this->msg( 'checkuser-suggestedinvestigations-user-past-checks-link-text' )
+						->params( $user->getName() )
+						->text()
+				);
+			}
+
 			// Add link to Special:CheckUser if the user has the 'checkuser' right
 			if ( $this->getAuthority()->isAllowed( 'checkuser' ) ) {
 				$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(

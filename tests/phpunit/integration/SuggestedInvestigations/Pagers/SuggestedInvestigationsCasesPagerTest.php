@@ -22,6 +22,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Pagers;
 
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsCasesPager;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
@@ -29,6 +30,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsS
 use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\IndexPager;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -133,6 +135,12 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 
 		$this->commonTestContribsToolLinks( 'Contributions', $html );
+
+		$this->assertStringNotContainsString(
+			'checkuser-suggestedinvestigations-user-past-checks-link-text',
+			$html,
+			'Links to Special:CheckUserLog should not be added unless a user has been checked'
+		);
 
 		$name1 = urlencode( self::$testUser1->getName() );
 		$name2 = urlencode( self::$testUser2->getName() );
@@ -253,24 +261,66 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->commonTestContribsToolLinks( 'GlobalContributions', $html );
 	}
 
-	/** @dataProvider provideCheckUserToolLinkVariesBasedOnRights */
-	public function testCheckUserToolLinkVariesBasedOnRights( bool $userHasCheckUserRight ) {
-		$authorityRights = [ 'checkuser-suggested-investigations' ];
-		if ( $userHasCheckUserRight ) {
-			$authorityRights[] = 'checkuser';
-		}
+	public function testOutputWhenUserHasBeenCheckedBefore() {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
 
+		$this->addCaseWithTwoUsers();
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$this->addCheckUserLogEntryForFirstUser();
+
+		$html = $this->getPager( $context )->getBody();
+
+		// Expect that the table pager shows the "past checks" link for the first test user
+		$this->assertStringContainsString( 'Special:CheckUserLog/' . self::$testUser1->getName(), $html );
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-user-past-checks-link-text: ' . self::$testUser1->getName(),
+			$html
+		);
+
+		// Expect that the table pager does not show the "past checks" link for the second test user
+		$this->assertStringNotContainsString( 'Special:CheckUserLog/' . self::$testUser2->getName(), $html );
+		$this->assertStringNotContainsString(
+			'(checkuser-suggestedinvestigations-user-past-checks-link-text: ' . self::$testUser2->getName(),
+			$html
+		);
+	}
+
+	/**
+	 * Add a CheckUserLog entry where the target of the check is the first test user
+	 * (as set by {@link self::addCaseWithTwoUsers})
+	 */
+	private function addCheckUserLogEntryForFirstUser(): void {
+		/** @var CheckUserLogService $checkUserLogService */
+		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
+		$checkUserLogService->addLogEntry(
+			self::$testUser2, 'userips', 'user', self::$testUser1->getName(), 'test',
+			self::$testUser1->getId()
+		);
+		DeferredUpdates::doUpdates();
+	}
+
+	/** @dataProvider provideToolLinksThatVaryBasedOnRights */
+	public function testToolLinksThatVaryBasedOnRights(
+		array $authorityRights,
+		bool $shouldSeeCheckUserToolLink,
+		bool $shouldSeeCheckUserLogToolLink
+	) {
 		$this->addCaseWithTwoUsers();
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
 		$context->setAuthority( $this->mockRegisteredAuthorityWithPermissions( $authorityRights ) );
 		$context->setLanguage( 'qqx' );
 
+		$this->addCheckUserLogEntryForFirstUser();
+
 		// If the user has the 'checkuser' right, then the tool links should include a link to
 		// Special:CheckUser. Otherwise the tool link should not be displayed
 		$html = $this->getPager( $context )->getBody();
 
-		if ( $userHasCheckUserRight ) {
+		if ( $shouldSeeCheckUserToolLink ) {
 			$this->assertStringContainsString(
 				'checkuser-suggestedinvestigations-user-check-link-text',
 				$html,
@@ -283,12 +333,44 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 				'Should not have checkuser tool link as user lacks the checkuser right'
 			);
 		}
+
+		if ( $shouldSeeCheckUserLogToolLink ) {
+			$this->assertStringContainsString(
+				'checkuser-suggestedinvestigations-user-past-checks-link-text',
+				$html,
+				'Should have checkuser log tool link as user has the checkuser right'
+			);
+		} else {
+			$this->assertStringNotContainsString(
+				'checkuser-suggestedinvestigations-user-past-checks-link-text',
+				$html,
+				'Should not have checkuser log tool link as user lacks the checkuser right'
+			);
+		}
 	}
 
-	public static function provideCheckUserToolLinkVariesBasedOnRights(): array {
+	public static function provideToolLinksThatVaryBasedOnRights(): array {
 		return [
-			'User has the checkuser right' => [ true ],
-			'User does not have the checkuser right' => [ false ],
+			'User has the checkuser and checkuser-log rights' => [
+				'authorityRights' => [ 'checkuser-suggested-investigations', 'checkuser', 'checkuser-log' ],
+				'shouldSeeCheckUserToolLink' => true,
+				'shouldSeeCheckUserLogToolLink' => true,
+			],
+			'User lacks the checkuser-log right' => [
+				'authorityRights' => [ 'checkuser-suggested-investigations', 'checkuser' ],
+				'shouldSeeCheckUserToolLink' => true,
+				'shouldSeeCheckUserLogToolLink' => false,
+			],
+			'User lacks the checkuser right' => [
+				'authorityRights' => [ 'checkuser-suggested-investigations', 'checkuser-log' ],
+				'shouldSeeCheckUserToolLink' => false,
+				'shouldSeeCheckUserLogToolLink' => true,
+			],
+			'User lacks the checkuser and checkuser-log rights' => [
+				'authorityRights' => [ 'checkuser-suggested-investigations' ],
+				'shouldSeeCheckUserToolLink' => false,
+				'shouldSeeCheckUserLogToolLink' => false,
+			],
 		];
 	}
 

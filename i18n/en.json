@@ -439,6 +439,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Actions",
 	"checkuser-suggestedinvestigations-user": "$1 $2",
 	"checkuser-suggestedinvestigations-user-check-link-text": "check {{GENDER:$1|user}}",
+	"checkuser-suggestedinvestigations-user-past-checks-link-text": "past {{GENDER:$1|checks}}",
 	"checkuser-suggestedinvestigations-user-showmore": "Show +$1 {{PLURAL:$1|accounts}}",
 	"checkuser-suggestedinvestigations-user-showless": "Hide last $1 {{PLURAL:$1|accounts}}",
 	"checkuser-suggestedinvestigations-user-check-reason-prefill": "[[$1|Suggested investigation #$2]]: {{GENDER:$3|$3}}",
