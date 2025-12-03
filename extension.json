@@ -1035,6 +1035,7 @@
 		"checkuser": {
 			"checkuser": true,
 			"checkuser-log": true,
+			"checkuser-suggested-investigations": true,
 			"checkuser-temporary-account-no-preference": true,
 			"checkuser-temporary-account-auto-reveal": true,
 			"checkuser-temporary-account-log": true
@@ -1046,6 +1047,7 @@
 	"GrantPermissions": {
 		"checkuser": {
 			"checkuser": true,
+			"checkuser-suggested-investigations": true,
 			"checkuser-log": true
 		},
 		"checkuser-temporary-account": {
@@ -1071,7 +1073,8 @@
 		"checkuser-temporary-account",
 		"checkuser-temporary-account-no-preference",
 		"checkuser-temporary-account-log",
-		"checkuser-temporary-account-auto-reveal"
+		"checkuser-temporary-account-auto-reveal",
+		"checkuser-suggested-investigations"
 	],
 	"SpecialPages": {
 		"CheckUser": {

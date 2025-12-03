@@ -51,7 +51,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		private readonly SuggestedInvestigationsCaseLookupService $suggestedInvestigationsCaseLookupService,
 		private readonly SuggestedInvestigationsInstrumentationClient $instrumentationClient,
 	) {
-		parent::__construct( 'SuggestedInvestigations', 'checkuser' );
+		parent::__construct( 'SuggestedInvestigations', 'checkuser-suggested-investigations' );
 	}
 
 	/** @inheritDoc */
