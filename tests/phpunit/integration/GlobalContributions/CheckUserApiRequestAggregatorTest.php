@@ -12,7 +12,7 @@ use MediaWiki\Site\SiteLookup;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
-use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Wikimedia\Http\MultiHttpClient;
 use Wikimedia\TestingAccessWrapper;
 
@@ -97,7 +97,7 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( CentralIdLookup::class ),
 			$this->getServiceContainer()->getExtensionRegistry(),
 			$this->getMockSiteLookup(),
-			$this->createMock( LoggerInterface::class )
+			new NullLogger()
 		);
 
 		$results = $apiRequestAggregator->execute(
@@ -130,7 +130,7 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getCentralIdLookup(),
 			$this->getServiceContainer()->getExtensionRegistry(),
 			$this->getMockSiteLookup(),
-			$this->createMock( LoggerInterface::class )
+			new NullLogger()
 		);
 
 		$results = $apiRequestAggregator->execute(
@@ -158,7 +158,7 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( CentralIdLookup::class ),
 			$this->getServiceContainer()->getExtensionRegistry(),
 			$this->getMockSiteLookup(),
-			$this->createMock( LoggerInterface::class )
+			new NullLogger()
 		);
 
 		$results = $apiRequestAggregator->execute(
@@ -186,7 +186,7 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( CentralIdLookup::class ),
 			$this->getServiceContainer()->getExtensionRegistry(),
 			$this->createMock( SiteLookup::class ),
-			$this->createMock( LoggerInterface::class )
+			new NullLogger()
 		);
 
 		$results = $apiRequestAggregator->execute(
