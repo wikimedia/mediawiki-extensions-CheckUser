@@ -461,6 +461,33 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		];
 	}
 
+	public function testWhenStatusFilterIsSet() {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		// Create two cases, where one is then closed
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+
+		$caseManager->setCaseStatus( $firstCaseId, CaseStatus::Resolved );
+
+		// Load the pager with the 'status' query parameter set to 'open'
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->getRequest()->setVal( 'status', 'open' );
+
+		$html = $this->getPager( $context )->getBody();
+
+		// Expect that the table pager only shows the open case by checking
+		// only the first case ID is present as a data attribute
+		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+	}
+
 	/**
 	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
 	 * the HTML of that Element.

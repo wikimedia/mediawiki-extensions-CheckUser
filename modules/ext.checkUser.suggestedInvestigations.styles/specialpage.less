@@ -2,11 +2,16 @@
 
 .ext-checkuser-suggestedinvestigations-description {
 	display: inline-flex;
-	margin-bottom: @spacing-100;
+	margin-bottom: @spacing-50;
 
 	& > :first-child {
 		padding-right: @spacing-25;
 	}
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.cdx-table:has( .ext-checkuser-suggestedinvestigations-table ) {
+	margin-top: @spacing-100;
 }
 
 .ext-checkuser-suggestedinvestigations-signals-popover-icon {

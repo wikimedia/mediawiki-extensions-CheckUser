@@ -50,6 +50,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	public int|null $caseIdFilter = null;
 
 	/**
+	 * @var CaseStatus[] The list of case statuses to be shown in the table. Empty array means all statuses.
+	 */
+	private array $statusFilter;
+
+	/**
 	 * The unique sort fields for the sort options for unique paginate
 	 */
 	private const INDEX_FIELDS = [
@@ -87,6 +92,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->mLimit = 100;
 		}
 		$this->mLimitsShown = [ 10, 20, 50 ];
+
+		$this->statusFilter = array_filter( array_map(
+			CaseStatus::newFromStringName( ... ),
+			$this->mRequest->getArray( 'status', [] )
+		) );
 
 		$this->userDb = $this->connectionProvider->getReplicaDatabase();
 	}
@@ -400,10 +410,18 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				'sic_status_reason',
 				'sic_url_identifier',
 			],
+			'conds' => [],
 		];
 
 		if ( $this->caseIdFilter !== null ) {
-			$queryInfo['conds'] = [ 'sic_id' => $this->caseIdFilter ];
+			$queryInfo['conds']['sic_id'] = $this->caseIdFilter;
+		}
+
+		if ( count( $this->statusFilter ) ) {
+			$queryInfo['conds']['sic_status'] = array_map(
+				static fn ( $status ) => $status->value,
+				$this->statusFilter
+			);
 		}
 
 		return $queryInfo;
@@ -504,6 +522,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 */
 	private function getDetailViewTitle( int $urlIdentifier ): Title {
 		return SpecialPage::getTitleFor( 'SuggestedInvestigations', 'detail/' . dechex( $urlIdentifier ) );
+	}
+
+	/** @inheritDoc */
+	protected function getTableClass(): string {
+		return parent::getTableClass() . ' ext-checkuser-suggestedinvestigations-table';
 	}
 
 	/** @inheritDoc */
