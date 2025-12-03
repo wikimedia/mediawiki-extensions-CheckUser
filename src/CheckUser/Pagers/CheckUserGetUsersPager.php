@@ -330,7 +330,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		$templateParams['editCount'] = $this->userSets['edits'][$user_text];
 		// List out each IP/XFF combo for this username
 		$templateParams['infoSets'] = [];
-		for ( $i = ( count( $this->userSets['infosets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
+		for ( $i = count( $this->userSets['infosets'][$user_text] ); $i--; ) {
 			// users_infosets[$name][$i] is array of [ $row->ip, XFF ];
 			$row = [];
 			[ $clientIP, $xffString ] = $this->userSets['infosets'][$user_text][$i];
@@ -348,7 +348,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			$templateParams['infoSets'][] = $row;
 		}
 		// List out each agent for this username
-		for ( $i = ( count( $this->userSets['agentsets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
+		for ( $i = count( $this->userSets['agentsets'][$user_text] ); $i--; ) {
 			$templateParams['agentsList'][] = $this->userSets['agentsets'][$user_text][$i];
 		}
 

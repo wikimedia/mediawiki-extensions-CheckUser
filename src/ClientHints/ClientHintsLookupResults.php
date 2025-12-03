@@ -64,23 +64,17 @@ class ClientHintsLookupResults {
 		// are present for the reference IDs in $referenceIds.
 		$groupedClientHintsIds = array_count_values( $clientHintsDataObjectKeys );
 
-		// Create an array of ClientHintsData objects where the keys
-		// are the key for this object in $this->clientHintsDataObjects.
-		// This array will contain the subset of $this->clientHintsDataObjects
-		// where each key is present in $groupedClientHintsIds.
-		$clientHintsDataObjects = [];
-		foreach ( array_keys( $groupedClientHintsIds ) as $clientHintsId ) {
-			if ( array_key_exists( $clientHintsId, $this->clientHintsDataObjects ) ) {
-				// Add the ClientHintsData object into the return array.
-				$clientHintsDataObjects[$clientHintsId] = $this->clientHintsDataObjects[$clientHintsId];
-			} else {
-				// If, for some reason, there is no ClientHintsData object in
-				// $this->clientHintsDataObjects, then just silently ignore
-				// and remove the group from the return list.
-				unset( $groupedClientHintsIds[$clientHintsId] );
-			}
-		}
-		return [ $groupedClientHintsIds, $clientHintsDataObjects ];
+		return [
+			// If, for some reason, there is no ClientHintsData object in
+			// $this->clientHintsDataObjects, then just silently ignore
+			// and remove the group from the return list.
+			array_intersect_key( $groupedClientHintsIds, $this->clientHintsDataObjects ),
+			// Create an array of ClientHintsData objects where the keys
+			// are the key for this object in $this->clientHintsDataObjects.
+			// This array will contain the subset of $this->clientHintsDataObjects
+			// where each key is present in $groupedClientHintsIds.
+			array_intersect_key( $this->clientHintsDataObjects, $groupedClientHintsIds ),
+		];
 	}
 
 	/**
