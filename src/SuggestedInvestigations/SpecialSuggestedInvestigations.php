@@ -204,7 +204,10 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		}
 	}
 
-	/** @inheritDoc */
+	/**
+	 * @codeCoverageIgnore Merely declarative
+	 * @inheritDoc
+	 */
 	protected function getGroupName() {
 		return 'users';
 	}
