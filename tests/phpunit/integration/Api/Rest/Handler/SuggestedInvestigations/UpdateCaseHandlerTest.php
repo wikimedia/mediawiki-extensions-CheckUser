@@ -36,6 +36,7 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		return new UpdateCaseHandler(
 			$services->getMainConfig(),
 			$services->getContentLanguage(),
+			$services->getCommentFormatter(),
 			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' )
 		);
 	}
@@ -147,8 +148,16 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 			[], [], [], [], $this->mockRegisteredUltimateAuthority()
 		);
 		$this->assertArrayEquals(
-			[ 'caseId' => $caseId, 'reason' => $expectedReason, 'status' => $newStatusAsString ],
-			$actualResponseJson
+			[
+				'caseId' => $caseId,
+				'reason' => $expectedReason,
+				'status' => $newStatusAsString,
+				'formattedReason' => $this->getServiceContainer()->getCommentFormatter()
+					->format( $expectedReason ),
+			],
+			$actualResponseJson,
+			false,
+			true
 		);
 
 		// Assert that only one case exists and also that that the one case was successfully updated by the API call
@@ -185,6 +194,11 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 				'originalStatus' => CaseStatus::Resolved, 'newStatus' => CaseStatus::Open,
 				'newStatusAsString' => 'open', 'reason' => str_repeat( 'a', 300 ),
 				'expectedReason' => str_repeat( 'a', 252 ) . '...',
+			],
+			'No status change with reason that has wikitext' => [
+				'originalStatus' => CaseStatus::Open, 'newStatus' => CaseStatus::Open,
+				'newStatusAsString' => 'open', 'reason' => '[[Test]]',
+				'expectedReason' => '[[Test]]',
 			],
 		];
 	}

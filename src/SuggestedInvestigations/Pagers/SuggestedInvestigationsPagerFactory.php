@@ -91,6 +91,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->userEditTracker,
 			$this->specialPageFactory,
 			$this->userIdentityLookup,
+			$this->commentFormatter,
 			$this->checkUserGlobalContributionsLookup,
 			$this->linkRenderer,
 			$context

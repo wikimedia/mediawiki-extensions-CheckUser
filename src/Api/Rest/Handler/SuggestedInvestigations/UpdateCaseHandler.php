@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler\SuggestedInvestigations;
 use InvalidArgumentException;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Config\Config;
 use MediaWiki\Language\Language;
 use MediaWiki\Rest\Handler\Helper\RestAuthorizeTrait;
@@ -30,6 +31,7 @@ class UpdateCaseHandler extends SimpleHandler {
 	public function __construct(
 		private readonly Config $config,
 		private readonly Language $contentLanguage,
+		private readonly CommentFormatter $commentFormatter,
 		private readonly SuggestedInvestigationsCaseManagerService $caseManager,
 	) {
 	}
@@ -90,6 +92,7 @@ class UpdateCaseHandler extends SimpleHandler {
 			'caseId' => $caseId,
 			'status' => $status,
 			'reason' => $reason,
+			'formattedReason' => $this->commentFormatter->format( $reason ),
 		] );
 	}
 

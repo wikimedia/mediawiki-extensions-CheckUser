@@ -231,7 +231,9 @@ module.exports = exports = {
 
 			setCaseStatus( props.caseId, selectedStatus.value, statusReason.value )
 				.then( ( data ) => {
-					updateCaseStatusOnPage( props.caseId, data.status, data.reason );
+					updateCaseStatusOnPage(
+						props.caseId, data.status, data.reason, data.formattedReason
+					);
 
 					open.value = false;
 					formSubmissionInProgress.value = false;

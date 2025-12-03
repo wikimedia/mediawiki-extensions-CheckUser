@@ -431,13 +431,17 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 	}
 
-	/** @dataProvider provideDefaultReasonWhenStatusIsInvalid */
-	public function testDefaultReasonWhenStatusIsInvalid( $reasonInDatabase, $reasonDisplayedInPager ) {
+	/** @dataProvider provideStatusReasonDisplayedInPager */
+	public function testStatusReasonDisplayedInPager(
+		CaseStatus $caseStatus,
+		string $reasonInDatabase,
+		string $reasonDisplayedInPager
+	) {
 		$caseId = $this->addCaseWithTwoUsers();
 
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-		$caseManager->setCaseStatus( $caseId, CaseStatus::Invalid, $reasonInDatabase );
+		$caseManager->setCaseStatus( $caseId, $caseStatus, $reasonInDatabase );
 
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
@@ -454,11 +458,24 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( $reasonDisplayedInPager, $statusReasonCell );
 	}
 
-	public static function provideDefaultReasonWhenStatusIsInvalid(): array {
+	public static function provideStatusReasonDisplayedInPager(): array {
 		return [
-			'Empty reason in database' => [ '', '(checkuser-suggestedinvestigations-status-reason-default-invalid)' ],
-			'Non-empty reason in database' => [ 'testingabc', 'testingabc' ],
+			'Empty reason in database for invalid case' => [
+				CaseStatus::Invalid, '', '(checkuser-suggestedinvestigations-status-reason-default-invalid)',
+			],
+			'Non-empty reason in database for invalid case' => [ CaseStatus::Invalid, 'testingabc', 'testingabc' ],
+			'Empty reason in database for resolved case' => [ CaseStatus::Resolved, '', '' ],
+			'Non-empty reason in database for open case' => [ CaseStatus::Open, 'testingabc', 'testingabc' ],
 		];
+	}
+
+	public function testStatusReasonHasWikitext() {
+		$wikitextReason = '[[Test]]';
+		$this->testStatusReasonDisplayedInPager(
+			CaseStatus::Open,
+			$wikitextReason,
+			$this->getServiceContainer()->getCommentFormatter()->format( $wikitextReason )
+		);
 	}
 
 	public function testWhenStatusFilterIsSet() {

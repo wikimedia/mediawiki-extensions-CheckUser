@@ -25,6 +25,7 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
@@ -76,6 +77,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly UserEditTracker $userEditTracker,
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly CommentFormatter $commentFormatter,
 		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
 		LinkRenderer $linkRenderer,
 		?IContextSource $context = null
@@ -298,10 +300,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		if ( $status === CaseStatus::Invalid && $reason === '' ) {
 			$reason = $this->msg( 'checkuser-suggestedinvestigations-status-reason-default-invalid' )->text();
 		}
-		return Html::element(
+
+		return Html::rawElement(
 			'span',
 			[ 'data-case-id' => $caseId, 'class' => 'mw-checkuser-suggestedinvestigations-status-reason' ],
-			$reason
+			$this->commentFormatter->format( $reason )
 		);
 	}
 

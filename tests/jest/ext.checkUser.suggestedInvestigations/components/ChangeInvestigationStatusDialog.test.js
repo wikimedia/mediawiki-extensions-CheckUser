@@ -237,7 +237,9 @@ describe( 'Suggested Investigations change status dialog', () => {
 	} );
 
 	it( 'Makes API request when "Submit" button pressed with successful API response', async () => {
-		mockSetCaseStatus.mockResolvedValue( { caseId: 123, status: 'resolved', reason: 'test' } );
+		mockSetCaseStatus.mockResolvedValue(
+			{ caseId: 123, status: 'resolved', reason: 'test', formattedReason: 'test' }
+		);
 
 		const { dialog, wrapper } = await commonComponentTest( { caseId: 123, initialStatus: 'invalid' } );
 
@@ -264,7 +266,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		// and the code to update the DOM outside the component has been made.
 		expect( wrapper.vm.open ).toEqual( false );
 		expect( mockSetCaseStatus ).toHaveBeenCalledWith( 123, 'resolved', 'test' );
-		expect( mockUpdateCaseStatusOnPage ).toHaveBeenCalledWith( 123, 'resolved', 'test' );
+		expect( mockUpdateCaseStatusOnPage ).toHaveBeenCalledWith( 123, 'resolved', 'test', 'test' );
 	} );
 
 	const failedAPIResponseTestCases = {
@@ -363,7 +365,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		await submitButton.trigger( 'click' );
 
 		promisesToResolve.forEach( ( promiseResolver ) => {
-			promiseResolver( { caseId: 123, status: 'resolved', reason: 'test' } );
+			promiseResolver( { caseId: 123, status: 'resolved', reason: 'test', formattedReason: 'test' } );
 		} );
 
 		expect( wrapper.vm.open ).toEqual( false );
@@ -372,6 +374,6 @@ describe( 'Suggested Investigations change status dialog', () => {
 		expect( mockSetCaseStatus ).toHaveBeenCalledTimes( 1 );
 		expect( mockSetCaseStatus ).toHaveBeenCalledWith( 123, 'resolved', 'test' );
 		expect( mockUpdateCaseStatusOnPage ).toHaveBeenCalledTimes( 1 );
-		expect( mockUpdateCaseStatusOnPage ).toHaveBeenCalledWith( 123, 'resolved', 'test' );
+		expect( mockUpdateCaseStatusOnPage ).toHaveBeenCalledWith( 123, 'resolved', 'test', 'test' );
 	} );
 } );

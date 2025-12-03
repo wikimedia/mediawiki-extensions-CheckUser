@@ -5,9 +5,10 @@
  *
  * @param {number} caseId
  * @param {'open'|'resolved'|'invalid'} status
- * @param {string} reason
+ * @param {string} reason Reason to be shown in the change status dialog input
+ * @param {string} formattedReason Reason to be shown in the DOM which may be HTML
  */
-function updateCaseStatusOnPage( caseId, status, reason ) {
+function updateCaseStatusOnPage( caseId, status, reason, formattedReason ) {
 	// Set the updated data in the data-* properties of the edit button so that opening
 	// the dialog in the future uses the new data
 	const caseIdDataSelector = '[data-case-id="' + caseId + '"]';
@@ -28,7 +29,7 @@ function updateCaseStatusOnPage( caseId, status, reason ) {
 	if ( reason === '' && status === 'invalid' ) {
 		statusReasonElement.textContent = mw.msg( 'checkuser-suggestedinvestigations-status-reason-default-invalid' );
 	} else {
-		statusReasonElement.textContent = reason;
+		statusReasonElement.innerHTML = formattedReason;
 	}
 
 	// Because there isn't a good way to render Vue HTML outside the component or to infuse

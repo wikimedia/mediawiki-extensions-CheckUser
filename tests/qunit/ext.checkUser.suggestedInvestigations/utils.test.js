@@ -85,24 +85,33 @@ const generateStatusReasonElement = ( caseId, statusReasonText ) => {
 
 QUnit.test.each( 'Test updateCaseStatusOnPage', {
 	'status goes from open to resolved': [
-		'open', '', 'resolved', 'testingabc'
+		'open', '', 'resolved', 'testingabc', 'testingabc'
 	],
 	'status goes from resolved to open': [
-		'resolved', 'testingabc', 'open', 'testingabc'
+		'resolved', 'testingabc', 'open', 'testingabc', 'testingabc'
 	],
 	'status goes from open to invalid with a reason provided': [
-		'open', '', 'invalid', 'testing'
+		'open', '', 'invalid', 'testing', 'testing'
 	],
 	'status goes from open to invalid with no reason provided': [
-		'open', '', 'invalid', ''
+		'open', '', 'invalid', '', ''
 	],
 	'status goes from invalid to resolved': [
-		'invalid', 'false positive', 'resolved', 'case resolved'
+		'invalid', 'false positive', 'resolved', 'case resolved', 'case resolved'
 	],
 	'no change in status, but change in reason': [
-		'resolved', 'testingabc', 'resolved', 'testingabcdef'
+		'resolved', 'testingabc', 'resolved', 'testingabcdef', 'testingabcdef'
+	],
+	'no change in status, but change in reason with wikitext': [
+		'resolved', 'testingabc', 'resolved', '[[test]]', '<a>test</a>'
 	]
-}, ( assert, [ initialStatus, initialStatusReason, newStatus, newStatusReason ] ) => {
+}, ( assert, [
+	initialStatus,
+	initialStatusReason,
+	newStatus,
+	newStatusReason,
+	newFormattedStatusReason
+] ) => {
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 	const statusElement = generateStatusElement( 123, initialStatus );
@@ -114,7 +123,7 @@ QUnit.test.each( 'Test updateCaseStatusOnPage', {
 	);
 	$qunitFixture.append( changeStatusButton );
 
-	utils.updateCaseStatusOnPage( 123, newStatus, newStatusReason );
+	utils.updateCaseStatusOnPage( 123, newStatus, newStatusReason, newFormattedStatusReason );
 
 	assert.strictEqual(
 		changeStatusButton.getAttribute( 'data-case-status' ),
@@ -135,8 +144,8 @@ QUnit.test.each( 'Test updateCaseStatusOnPage', {
 		);
 	} else {
 		assert.strictEqual(
-			statusReasonElement.textContent,
-			newStatusReason,
+			statusReasonElement.innerHTML,
+			newFormattedStatusReason,
 			'New status reason is correct'
 		);
 	}
