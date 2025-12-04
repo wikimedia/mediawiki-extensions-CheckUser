@@ -399,7 +399,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|visualizar}} {{PLURAL:$4|variable protegida|variables protegidas}} asociado con $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "revocado automáticamente debido a la inactividad",
 	"checkuser-ipinfo-global-contributions-url-text": "Ver contribuciones globales",
-	"checkuser-group-requirements": "El usuario no cumple con los criterios de acceso",
 	"checkuser-userinfocard-toggle-button-aria-label": "Abrir la tarjeta de información {{GENDER:$1|del usuario|de la usuaria}}",
 	"checkuser-userinfocard-close-button-aria-label": "Cerrar",
 	"checkuser-userinfocard-open-menu-aria-label": "Abrir el menú de la tarjeta de información del {{GENDER:$1|usuario|usauria}}",

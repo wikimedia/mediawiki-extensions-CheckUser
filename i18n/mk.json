@@ -352,7 +352,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|погледа}} {{PLURAL:$4|заштитена променлива поврзана|заштитени променливи поврзани}} со $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "автоотповикано поради неактивност",
 	"checkuser-ipinfo-global-contributions-url-text": "Глобални придонеси",
-	"checkuser-group-requirements": "Корисникот не ги исполнува критериумите за пристап",
 	"checkuser-userinfocard-toggle-button-aria-label": "Отвори инфокартичка за {{GENDER:$1|корисникот}}",
 	"checkuser-userinfocard-close-button-aria-label": "Затвори",
 	"checkuser-userinfocard-open-menu-aria-label": "Отвори мени на инфокартичката за {{GENDER:$1|корисникот}}",

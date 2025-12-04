@@ -365,7 +365,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 heeft de volgende met $3 in verband staande beveiligde variabele{{PLURAL:$4||n}} ingezien: $5{{GENDER:$2|}}",
 	"checkuser-temporary-account-autorevoke-userright-reason": "automatisch ingetrokken vanwege inactiviteit",
 	"checkuser-ipinfo-global-contributions-url-text": "Globale bijdragen bekijken",
-	"checkuser-group-requirements": "Gebruiker voldoet niet aan de toegangscriteria",
 	"checkuser-userinfocard-toggle-button-aria-label": "Gebruik{{GENDER:$1||st}}ersinfokaart openen",
 	"checkuser-userinfocard-close-button-aria-label": "Sluiten",
 	"checkuser-userinfocard-open-menu-aria-label": "Menu met gebruik{{GENDER:$1||st}}ersinfokaart openen",

@@ -283,7 +283,6 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "Juurdepääsu muutmine",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Juurdepääs ajutise konto IP-aadressi andmetele",
 	"checkuser-ipinfo-global-contributions-url-text": "Vaata globaalset kaastööd",
-	"checkuser-group-requirements": "Kasutaja ei vasta juurdepääsu kriteeriumitele.",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Liitunud}}: $1 ($2)",
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Liitunud}}: 2005. aastal või varem",
 	"checkuser-userinfocard-active-wikis-label": "Aktiivne vikides",

@@ -360,7 +360,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 $3 ilə əlaqəli mühafizəli {{PLURAL:$4|dəyişənə|dəyişənlərə}} {{GENDER:$2|baxdı}}: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "qeyri-aktivlik səbəbindən avtomatik ləğv edildi",
 	"checkuser-ipinfo-global-contributions-url-text": "Qlobal töhfələrə bax",
-	"checkuser-group-requirements": "İstifadəçi giriş tələblərinə cavab vermir",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|İstifadəçi}} məlumat kartını aç",
 	"checkuser-userinfocard-close-button-aria-label": "Bağla",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|İstifadəçi}} məlumat kartı menyusunu aç",

@@ -354,7 +354,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|telah melihat}} {{PLURAL:$4|pembolehubah}} dilindungi yang dikaitkan dengan $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "dibatalkan secara automatik kerana tidak aktif",
 	"checkuser-ipinfo-global-contributions-url-text": "Lihat sumbangan sejagat",
-	"checkuser-group-requirements": "Pengguna tidak memenuhi kriteria akses",
 	"checkuser-userinfocard-toggle-button-aria-label": "Buka {{GENDER:$1|kad maklumat pengguna}}.",
 	"checkuser-userinfocard-close-button-aria-label": "Tutup",
 	"checkuser-userinfocard-open-menu-aria-label": "Buka {{GENDER:$1|menu kad maklumat pengguna}}.",

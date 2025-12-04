@@ -218,7 +218,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|en|he}} deus gwelet variennoù gwarezet stag ouzh $3",
 	"checkuser-temporary-account-autorevoke-userright-reason": "dilamet ent emgefre abalamour da zioberiantiz",
 	"checkuser-ipinfo-global-contributions-url-text": "Gwelet degasadennoù hollek",
-	"checkuser-group-requirements": "An implijer ne glot ket gant dezverkoù ar gwirioù",
 	"checkuser-userinfocard-toggle-button-aria-label": "Digeriñ kartenn titouroù an {{GENDER:$1|implijer|implijerez}}",
 	"checkuser-userinfocard-close-button-aria-label": "Serriñ",
 	"checkuser-userinfocard-open-menu-aria-label": "Digeriñ lañser kartenn titouroù an {{GENDER:$1| implijer|implijerez}}",

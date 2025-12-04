@@ -75,7 +75,6 @@
 	"checkuser-tempaccount-reveal-blocked-loading": "Se încarcă detaliile blocării",
 	"checkuser-tempaccount-reveal-blocked-title": "Vezi detaliile blocării",
 	"checkuser-ipinfo-global-contributions-url-text": "Vezi contribuțiile globale",
-	"checkuser-group-requirements": "Utilizatorul nu întrunește criteriile de acces",
 	"checkuser-userinfocard-toggle-button-aria-label": "Deschide cardul cu informații despre {{GENDER:$1|utilizator|utilizatoare}}",
 	"checkuser-userinfocard-close-button-aria-label": "Închide",
 	"checkuser-userinfocard-open-menu-aria-label": "Deschide meniul cardului cu informații despre {{GENDER:$1|utilizator|utilizatoare}}",

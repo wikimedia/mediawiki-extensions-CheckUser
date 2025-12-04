@@ -53,7 +53,8 @@
 			"沈澄心",
 			"白布飘扬",
 			"范",
-			"铁桶"
+			"铁桶",
+			"ExoHyper2026"
 		]
 	},
 	"checkuser-summary": "本工具会从最近更改中获取某个用户使用过的IP地址，或者显示某个IP地址下的编辑/用户。\n可在IP地址后方附加“/xff”以使用XFF头信息来获取同一客户端IP地址下的用户和编辑。支持IPv4（CIDR $1-32）和IPv6（CIDR $2-128）。\n由于性能问题，本工具最多返回$3笔最近编辑信息。\n请确保您的操作符合方针。",
@@ -401,7 +402,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1{{GENDER:$2|查看}}受保护的{{PLURAL:$4|variable|变量}}与$3相关联：$5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "因不活跃而自动撤销",
 	"checkuser-ipinfo-global-contributions-url-text": "查看全域贡献",
-	"checkuser-group-requirements": "用户不符合访问条件。",
 	"checkuser-userinfocard-toggle-button-aria-label": "打开{{GENDER:$1|用户}}信息卡",
 	"checkuser-userinfocard-close-button-aria-label": "关闭",
 	"checkuser-userinfocard-open-menu-aria-label": "打开{{GENDER:$1|用户}}信息卡菜单",

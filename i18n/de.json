@@ -371,7 +371,6 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|sah}} die {{PLURAL:$4|geschützte Variable|geschützten Variablen}} an, verknüpft mit $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "aufgrund von Inaktivität automatisch widerrufen",
 	"checkuser-ipinfo-global-contributions-url-text": "Globale Beiträge anzeigen",
-	"checkuser-group-requirements": "Der Benutzer erfüllt die Zugangskriterien nicht",
 	"checkuser-userinfocard-toggle-button-aria-label": "Infokarte zu {{GENDER:$1|Benutzer|Benutzerin}} öffnen",
 	"checkuser-userinfocard-close-button-aria-label": "Schließen",
 	"checkuser-userinfocard-open-menu-aria-label": "Menü der Infokarte zu {{GENDER:$1|Benutzer|Benutzerin}} öffnen",
