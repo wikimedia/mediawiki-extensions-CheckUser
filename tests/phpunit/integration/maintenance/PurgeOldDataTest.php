@@ -40,7 +40,7 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 
 	protected function createMaintenance() {
 		$obj = $this->getMockBuilder( $this->getMaintenanceClass() )
-			->onlyMethods( [ 'runChild', 'getPrimaryDB' ] )
+			->onlyMethods( [ 'createChild', 'getPrimaryDB' ] )
 			->getMock();
 		return TestingAccessWrapper::newFromObject( $obj );
 	}
@@ -79,7 +79,7 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 		$mockUserAgentClientHintsManager->expects( $this->never() )
 			->method( 'deleteMappingRows' );
 		$this->setService( 'UserAgentClientHintsManager', $mockUserAgentClientHintsManager );
-		$this->maintenance->method( 'runChild' )
+		$this->maintenance->method( 'createChild' )
 			->with( PurgeRecentChanges::class )
 			->willReturn( $this->createMock( PurgeRecentChanges::class ) );
 		$this->maintenance->execute();
@@ -112,7 +112,7 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 		// Expect that the PurgeRecentChanges script is run if $shouldPurgeRecentChanges is true.
 		$this->overrideConfigValues( $config );
 		$this->maintenance->expects( $this->exactly( (int)$shouldPurgeRecentChanges ) )
-			->method( 'runChild' )
+			->method( 'createChild' )
 			->with( PurgeRecentChanges::class )
 			->willReturn( $this->createMock( PurgeRecentChanges::class ) );
 		// Expect that UserAgentClientHintsManager::deleteOrphanedMapRows and ::deleteMappingRows are called,

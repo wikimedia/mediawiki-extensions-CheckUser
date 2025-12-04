@@ -73,7 +73,7 @@ class PurgeOldData extends Maintenance {
 
 		if ( $config->get( MainConfigNames::PutIPinRC ) ) {
 			$this->output( "Purging data from recentchanges..." );
-			$purgeRecentChanges = $this->runChild( PurgeRecentChanges::class );
+			$purgeRecentChanges = $this->createChild( PurgeRecentChanges::class );
 			$purgeRecentChanges->execute();
 		}
 
