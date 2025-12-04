@@ -261,6 +261,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$lang = $this->getLanguage();
 		$user = $this->getContext()->getUser();
 
+		// If in the detail view (which is when the case ID filter is set),
+		// don't show the link as it will be a link to the current page.
+		if ( $this->caseIdFilter ) {
+			return htmlspecialchars( $lang->userTimeAndDate( $timestamp, $user ) );
+		}
+
 		return $this->getLinkRenderer()->makeKnownLink(
 			$this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier ),
 			$lang->userTimeAndDate( $timestamp, $user )

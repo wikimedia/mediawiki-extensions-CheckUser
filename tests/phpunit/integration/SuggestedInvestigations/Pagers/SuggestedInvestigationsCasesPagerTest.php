@@ -375,6 +375,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testOutputWhenCaseIdFilterSet() {
+		ConvertibleTimestamp::setFakeTime( '20250403020100' );
+
 		$firstCaseId = $this->addCaseWithTwoUsers();
 		$secondCaseId = $this->addCaseWithTwoUsers();
 
@@ -402,6 +404,17 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// When filtering by case ID, no columns should be sortable
 		$this->assertStringNotContainsString( 'cdx-table__table__cell--has-sort', $html );
+
+		// No link to the detail view should be present when on that detail view page, but the
+		// case creation timestamp should still be shown
+		$this->assertStringNotContainsString( 'Special:SuggestedInvestigations/detail/', $html );
+
+		$context = RequestContext::getMain();
+		$this->assertStringContainsString(
+			$context->getLanguage()->userTimeAndDate( '20250403020100', $context->getUser() ),
+			$html,
+			'The case creation timestamp is not present in the table row for the case'
+		);
 	}
 
 	public function testInvestigateDisabledWhenTooManyUsers() {
