@@ -173,15 +173,17 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				[ 'class' => $userContribsLinkClass ]
 			);
 
-			// Add link to Special:CheckUser
-			$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
-				SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
-				$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
-					->params( $user->getName() )
-					->text(),
-				[],
-				[ 'reason' => $checkUserPrefilledReason ]
-			);
+			// Add link to Special:CheckUser if the user has the 'checkuser' right
+			if ( $this->getAuthority()->isAllowed( 'checkuser' ) ) {
+				$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
+					$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
+						->params( $user->getName() )
+						->text(),
+					[],
+					[ 'reason' => $checkUserPrefilledReason ]
+				);
+			}
 
 			$formattedUsers .= Html::rawElement(
 				'li', [

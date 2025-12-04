@@ -31,6 +31,7 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\IndexPager;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserEditTracker;
@@ -46,6 +47,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase {
 	use SuggestedInvestigationsTestTrait;
+	use MockAuthorityTrait;
 
 	private static User $testUser1;
 	private static User $testUser2;
@@ -89,6 +91,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
 		$context->setLanguage( 'qqx' );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
 		// Mock the edit counts for our test users so that the first test user has no edits
 		// and all other users have one edit
@@ -248,6 +251,45 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// Check that the pager uses Special:GlobalContributions as the "contribs" tool link
 		$html = $this->getPager( $context )->getBody();
 		$this->commonTestContribsToolLinks( 'GlobalContributions', $html );
+	}
+
+	/** @dataProvider provideCheckUserToolLinkVariesBasedOnRights */
+	public function testCheckUserToolLinkVariesBasedOnRights( bool $userHasCheckUserRight ) {
+		$authorityRights = [ 'checkuser-suggested-investigations' ];
+		if ( $userHasCheckUserRight ) {
+			$authorityRights[] = 'checkuser';
+		}
+
+		$this->addCaseWithTwoUsers();
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setAuthority( $this->mockRegisteredAuthorityWithPermissions( $authorityRights ) );
+		$context->setLanguage( 'qqx' );
+
+		// If the user has the 'checkuser' right, then the tool links should include a link to
+		// Special:CheckUser. Otherwise the tool link should not be displayed
+		$html = $this->getPager( $context )->getBody();
+
+		if ( $userHasCheckUserRight ) {
+			$this->assertStringContainsString(
+				'checkuser-suggestedinvestigations-user-check-link-text',
+				$html,
+				'Should have checkuser tool link as user has the checkuser right'
+			);
+		} else {
+			$this->assertStringNotContainsString(
+				'checkuser-suggestedinvestigations-user-check-link-text',
+				$html,
+				'Should not have checkuser tool link as user lacks the checkuser right'
+			);
+		}
+	}
+
+	public static function provideCheckUserToolLinkVariesBasedOnRights(): array {
+		return [
+			'User has the checkuser right' => [ true ],
+			'User does not have the checkuser right' => [ false ],
+		];
 	}
 
 	public function testOutputWhenCaseIdFilterSet() {
