@@ -325,6 +325,9 @@
 	"checkuser-tempaccount-reveal-ip-missing": "недостапно",
 	"checkuser-tempaccount-reveal-ip-expired": "повеќе недостапно",
 	"checkuser-tempaccount-reveal-ip-error": "грешка",
+	"checkuser-tempaccount-reveal-ip-tooltip-revision": "IP користена за оваа преработка",
+	"checkuser-tempaccount-reveal-ip-tooltip-action": "IP користена за ова дејство",
+	"checkuser-tempaccount-reveal-ip-tooltip-latest": "Најскоро користена IP",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "За да гледате IP-адреси на привремени сметки, прифатете го доворото во [[Special:Preferences|вашите нагодувања]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Вчитувам поединости за блокот",
 	"checkuser-tempaccount-reveal-blocked-title": "Погл. поединости за блокот",
@@ -451,7 +454,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Затвори",
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Прочитајте повеќе за сигналите на ризик во отскочник",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Уредување означено|Уредувања означени}} од $1 ($2)",
-	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Дневник означен|Дневници означени}} од $1 ($2)",
+	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Дневничка ставка означеа|Дневнички ставки означени}} од $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Привремени сметки за сите поврзани IP-адреси: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Збирна сметка на сите привремени сметки од сите IP-адреси поврзани со оваа сметка"
 }

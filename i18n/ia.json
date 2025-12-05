@@ -448,7 +448,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Clauder",
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Leger plus sur le signales de risco in un quadro informative",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "Modification{{PLURAL:$2||es}} signalate a causa de un $1 ($2)",
-	"checkuser-suggestedinvestigations-detail-view-logs-header": "Regisstro{{PLURAL:$2||s}} signalate a causa de un $1 ($2)",
+	"checkuser-suggestedinvestigations-detail-view-logs-header": "Entrata{{PLURAL:$2||s}} de registro signalate a causa de un $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Numero aggregate de tote le contos temporari de tote le adresses IP associate a iste conto"
 }
