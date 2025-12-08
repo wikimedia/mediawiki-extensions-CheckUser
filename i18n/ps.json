@@ -32,6 +32,7 @@
 	"checkuser-month-2": "تېرې ۶۰ ورځې",
 	"checkuser-all": "ټول",
 	"checkuser-cidr-label": "د وېبپتو لړليک لپاره ټولگړې لړۍ يا وېبپتې موندل",
+	"checkuser-cidr-too-small": "لړۍ ډېره اوږدهده",
 	"checkuser-nomatch": "هېڅ انډول ونه موندل شو.",
 	"checkuser-nomatch-edits": "هېڅ انډول ونه موندل شو.\nوروستی سمون د $1 په $2 کې.",
 	"checkuser-check": "کره کتل",
@@ -42,6 +43,8 @@
 	"checkuser-blocked": "بنديز لگېدلی",
 	"checkuser-gblocked": "نړېواله بنديز لگېدلی",
 	"checkuser-locked": "تړل شوی",
+	"checkuser-wasblocked": "له مخکې بنديزلگېدلی",
+	"checkuser-localonly": "يوځای‌شوی نه دی",
 	"checkuser-massblock": "په ټاکلو کارنانو بنديز لگول",
 	"checkuser-blocktag-talk": "د خبرو اترو مخونه ځايناستول سره د:",
 	"checkuser-massblock-commit": "په ټاکلو کارنانو بنديز لگول",
@@ -56,6 +59,7 @@
 	"checkuser-search-initiator": "پېلوونکی",
 	"checkuser-search-target": "موخه",
 	"checkuser-log-search-target": "موخه:",
+	"checkuser-log-search-initiator": "پيلوونکی:",
 	"checkuser-ipeditcount": "~$1 د ټولو کارنانو نه",
 	"checkuser-autocreate-action": "په خپلکاره توگه جوړ شو",
 	"checkuser-create-action": "جوړ شو",
@@ -114,6 +118,7 @@
 	"checkuser-investigate-compare-table-button-filter-label": "له پايلو چاڼول",
 	"checkuser-investigate-compare-table-cell-unregistered": "نانوم‌ليکلی",
 	"checkuser-investigate-compare-table-header-username": "کارن‌نوم",
+	"checkuser-investigate-compare-table-header-activity": "نېټې لړۍ",
 	"checkuser-investigate-compare-table-header-ip": "وېب‌پته",
 	"checkuser-investigate-compare-table-header-useragent": "کارن پلاوی"
 }
