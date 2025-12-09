@@ -105,6 +105,7 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 					[ 'CheckUserSuggestedInvestigationsEnabled' => true ]
 				),
 				$this->getServiceContainer()->getConnectionProvider(),
+				$this->getServiceContainer()->getUserIdentityLookup(),
 				new NoOpSuggestedInvestigationsInstrumentationClient()
 			);
 		}

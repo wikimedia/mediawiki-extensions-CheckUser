@@ -20,4 +20,9 @@ class NoOpSuggestedInvestigationsInstrumentationClient implements ISuggestedInve
 		array $interactionData
 	): void {
 	}
+
+	/** @inheritDoc */
+	public function getUserFragmentsArray( array $userIdentities ): array {
+		return [];
+	}
 }

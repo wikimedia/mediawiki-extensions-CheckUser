@@ -498,6 +498,7 @@ return [
 				$services->getMainConfig()
 			),
 			$services->getConnectionProvider(),
+			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' )
 		);
 	},
@@ -537,6 +538,13 @@ return [
 		}
 
 		return new SuggestedInvestigationsInstrumentationClient(
+			$services->getConnectionProvider(),
+			$services->getUserIdentityLookup(),
+			$services->getUserFactory(),
+			$services->getUserRegistrationLookup(),
+			$services->getUserEditTracker(),
+			$services->getUserGroupManager(),
+			$services->getCentralIdLookup(),
 			$services->get( 'EventLogging.MetricsClientFactory' )
 		);
 	},

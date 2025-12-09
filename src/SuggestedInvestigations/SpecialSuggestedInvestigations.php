@@ -76,16 +76,19 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$pager->caseIdFilter = $this->detailedViewCaseId;
 		}
 
+		$pageLoadInstrumentationData = [
+			'is_paging_results' => $pager->mOffset || $pager->mIsBackwards,
+			'pager_limit' => $pager->mLimit,
+			'is_in_detail_view' => $this->isInDetailedView,
+			'performer' => [ 'id' => $this->getContext()->getUser()->getId() ],
+		];
+		if ( $this->isInDetailedView ) {
+			$pageLoadInstrumentationData['case_id'] = $this->detailedViewCaseId;
+		}
 		$this->instrumentationClient->submitInteraction(
 			$this->getContext(),
 			'page_load',
-			[
-				'action_context' => json_encode( [
-					'is_paging_results' => $pager->mOffset || $pager->mIsBackwards,
-					'limit' => $pager->mLimit,
-					'detail_view' => $this->isInDetailedView,
-				] ),
-			]
+			$pageLoadInstrumentationData
 		);
 
 		$output->addParserOutputContent(

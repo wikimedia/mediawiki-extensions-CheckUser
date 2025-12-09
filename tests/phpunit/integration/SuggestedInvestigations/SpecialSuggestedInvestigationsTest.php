@@ -237,17 +237,21 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 
 	/** @dataProvider providePageLoadInstrumentation */
 	public function testPageLoadInstrumentation(
-		string $subPage, array $queryParameters, array $expectedActionContext
+		string $subPage, array $queryParameters, array $expectedInstrumentationData
 	) {
+		$performer = $this->getTestUser( [ 'checkuser' ] )->getUser();
+
 		$context = RequestContext::getMain();
-		$context->setUser( $this->getTestUser( [ 'checkuser' ] )->getUser() );
+		$context->setUser( $performer );
 		$context->setRequest( new FauxRequest( $queryParameters ) );
+
+		$expectedInstrumentationData['performer'] = [ 'id' => $performer->getId() ];
 
 		// Mock SuggestedInvestigationsInstrumentationClient so that we can check the correct event is created
 		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
 		$client->expects( $this->once() )
 			->method( 'submitInteraction' )
-			->with( $context, 'page_load', [ 'action_context' => json_encode( $expectedActionContext ) ] );
+			->with( $context, 'page_load', $expectedInstrumentationData );
 		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
 		$this->executeSpecialPage( $subPage, null, null, null, false, $context );
@@ -256,20 +260,33 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	public static function providePageLoadInstrumentation(): array {
 		return [
 			'Page load with no additional query parameters' => [
-				'subPage' => '', 'queryParameters' => [],
-				'expectedActionContext' => [ 'is_paging_results' => false, 'limit' => 10, 'detail_view' => false ],
+				'subPage' => '',
+				'queryParameters' => [],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
+				],
 			],
 			'Page load with offset and custom limit' => [
-				'subPage' => '', 'queryParameters' => [ 'offset' => '20250405060708', 'limit' => 20 ],
-				'expectedActionContext' => [ 'is_paging_results' => true, 'limit' => 20, 'detail_view' => false ],
+				'subPage' => '',
+				'queryParameters' => [ 'offset' => '20250405060708', 'limit' => 20 ],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => true, 'pager_limit' => 20, 'is_in_detail_view' => false,
+				],
 			],
 			'Page load with no offset but backwards direction and custom limit' => [
-				'subPage' => '', 'queryParameters' => [ 'dir' => 'prev' ],
-				'expectedActionContext' => [ 'is_paging_results' => true, 'limit' => 10, 'detail_view' => false ],
+				'subPage' => '',
+				'queryParameters' => [ 'dir' => 'prev' ],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => true, 'pager_limit' => 10, 'is_in_detail_view' => false,
+				],
 			],
 			'Page load for detail subpage with a known URL identifier' => [
-				'subPage' => 'detail/abcdef12', 'queryParameters' => [],
-				'expectedActionContext' => [ 'is_paging_results' => false, 'limit' => 10, 'detail_view' => true ],
+				'subPage' => 'detail/abcdef12',
+				'queryParameters' => [],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => true,
+					'case_id' => 1,
+				],
 			],
 		];
 	}

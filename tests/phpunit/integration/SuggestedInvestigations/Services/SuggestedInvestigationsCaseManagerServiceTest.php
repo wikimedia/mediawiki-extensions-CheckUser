@@ -57,26 +57,32 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$method = __METHOD__;
 		$client->expects( $this->once() )
 			->method( 'submitInteraction' )
-			->willReturnCallback( function ( $context, $action, $interactionData ) use ( $method ) {
+			->willReturnCallback( function ( $context, $action, $interactionData ) use ( $method, $users ) {
 				$this->assertSame( RequestContext::getMain(), $context );
 				$this->assertSame( 'case_open', $action );
 
 				// We have to compare against the case ID from the database and not what is returned by ::createCase,
 				// because ::createCase does not return until after this callback is run
-				$caseIdFromDatabase = $this->getDb()->newSelectQueryBuilder()
-					->select( 'sic_id' )
+				$caseDetailsFromDatabase = $this->getDb()->newSelectQueryBuilder()
+					->select( [ 'sic_id', 'sic_url_identifier' ] )
 					->from( 'cusi_case' )
 					->caller( $method )
-					->fetchField();
+					->fetchRow();
 				$this->assertSame(
 					[
-						'action_context' => json_encode( [
-							'i' => (int)$caseIdFromDatabase, 's' => [ 'Lorem' ], 'u' => 2,
-						] ),
+						'case_id' => (int)$caseDetailsFromDatabase->sic_id,
+						'case_url_identifier' => (int)$caseDetailsFromDatabase->sic_url_identifier,
+						'signals_in_case' => [ 'Lorem' ],
+						'users_in_case' => $users,
 					],
 					$interactionData
 				);
 			} );
+
+		// Mock SuggestedInvestigationsInstrumentationClient::getUserFragmentsArray to just return the array
+		// unaltered to make testing easier
+		$client->method( 'getUserFragmentsArray' )
+			->willReturnArgument( 0 );
 
 		// Mock SuggestedInvestigationsCaseManagerService::generateUrlIdentifier to return a predetermined value
 		// so that we can assert against the value of sic_url_identifier in the new row
@@ -87,6 +93,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 					$this->getServiceContainer()->getMainConfig()
 				),
 				$this->getServiceContainer()->getConnectionProvider(),
+				$this->getServiceContainer()->getUserIdentityLookup(),
 				$client,
 			] )
 			->onlyMethods( [ 'generateUrlIdentifier' ] )
@@ -160,6 +167,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 					$this->getServiceContainer()->getMainConfig()
 				),
 				$this->getServiceContainer()->getConnectionProvider(),
+				$this->getServiceContainer()->getUserIdentityLookup(),
 				$this->createMock( SuggestedInvestigationsInstrumentationClient::class ),
 			] )
 			->onlyMethods( [ 'generateUrlIdentifier' ] )
@@ -221,8 +229,9 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	}
 
 	public function testUpdateCaseToAddUsers(): void {
-		$user1 = UserIdentityValue::newRegistered( 1, 'Test user 1' );
-		$user2 = UserIdentityValue::newRegistered( 2, 'Test user 2' );
+		// Have to use real users as we fetch $user1 from the real UserIdentityLookup
+		$user1 = $this->getTestUser()->getUserIdentity();
+		$user2 = $this->getTestSysop()->getUserIdentity();
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
 
 		$service = $this->createService();
@@ -243,11 +252,13 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				RequestContext::getMain(),
 				'case_updated',
 				[
-					'action_context' => json_encode( [
-						'i' => $caseId, 's' => [ 'Lorem' ], 'u' => 2,
-					] ),
+					'case_id' => $caseId,
+					'signals_in_case' => [ 'Lorem' ],
+					'users_in_case' => $usersToAdd,
 				]
 			);
+		$client->method( 'getUserFragmentsArray' )
+			->willReturnArgument( 0 );
 		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
 		$service = $this->createService();
@@ -297,11 +308,13 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				RequestContext::getMain(),
 				'case_updated',
 				[
-					'action_context' => json_encode( [
-						'i' => $caseId, 's' => [ 'Lorem', 'Lorem2' ], 'u' => 2,
-					] ),
+					'case_id' => $caseId,
+					'signals_in_case' => [ 'Lorem', 'Lorem2' ],
+					'users_in_case' => $usersToAdd,
 				]
 			);
+		$client->method( 'getUserFragmentsArray' )
+			->willReturnArgument( 0 );
 		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
 		$service = $this->createService();
@@ -367,15 +380,18 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	 */
 	public function testSetCaseStatus(
 		CaseStatus $oldStatus, CaseStatus $newStatus, string $reason,
-		bool $shouldCreateInstrumentationEvent, bool $expectedHasNote,
-		string $expectedActionSubtype
+		bool $shouldCreateInstrumentationEvent, string $expectedActionSubtype
 	): void {
-		$user1 = UserIdentityValue::newRegistered( 1, 'Test user 1' );
+		// Use a real test user as we fetch them from the real UserIdentityLookup service
+		$user1 = $this->getMutableTestUser()->getUserIdentity();
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
 
 		$service = $this->createService();
 		$caseId = $service->createCase( [ $user1 ], [ $signal ] );
 		$service->setCaseStatus( $caseId, $oldStatus );
+
+		$performer = $this->getTestUser( [ 'checkuser' ] )->getUser();
+		RequestContext::getMain()->setUser( $performer );
 
 		// Mock SuggestedInvestigationsInstrumentationClient so that we can check the correct event is created
 		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
@@ -386,11 +402,10 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 					RequestContext::getMain(),
 					'case_status_change',
 					[
-						'action_context' => json_encode( [
-							'i' => $caseId, 's' => [ 'Lorem' ], 'u' => 1,
-							'n' => (int)$expectedHasNote,
-						] ),
+						'case_id' => $caseId,
+						'case_note' => $reason,
 						'action_subtype' => $expectedActionSubtype,
+						'performer' => [ 'id' => $performer->getId() ],
 					]
 				);
 		} else {
@@ -413,7 +428,6 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				'newStatus' => CaseStatus::Open,
 				'reason' => '  ',
 				'shouldCreateInstrumentationEvent' => true,
-				'expectedHasNote' => false,
 				'expectedActionSubtype' => 'open',
 			],
 			'From Open to Resolved' => [
@@ -421,7 +435,6 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				'newStatus' => CaseStatus::Resolved,
 				'reason' => 'case closed',
 				'shouldCreateInstrumentationEvent' => true,
-				'expectedHasNote' => true,
 				'expectedActionSubtype' => 'resolved',
 			],
 			'From Open to Invalid' => [
@@ -429,7 +442,6 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				'newStatus' => CaseStatus::Invalid,
 				'reason' => '',
 				'shouldCreateInstrumentationEvent' => true,
-				'expectedHasNote' => false,
 				'expectedActionSubtype' => 'invalid',
 			],
 			'From Resolved to Resolved' => [
@@ -437,7 +449,6 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				'newStatus' => CaseStatus::Resolved,
 				'reason' => 'case closed',
 				'shouldCreateInstrumentationEvent' => false,
-				'expectedHasNote' => false,
 				'expectedActionSubtype' => '',
 			],
 		];

@@ -28,6 +28,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsS
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
@@ -61,6 +62,7 @@ class SuggestedInvestigationsCaseManagerService {
 	public function __construct(
 		private readonly ServiceOptions $options,
 		private readonly IConnectionProvider $dbProvider,
+		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly ISuggestedInvestigationsInstrumentationClient $instrumentationClient,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
@@ -90,10 +92,13 @@ class SuggestedInvestigationsCaseManagerService {
 
 		try {
 			$dbw->startAtomic( __METHOD__, IDatabase::ATOMIC_CANCELABLE );
+
+			$caseUrlIdentifier = $this->generateUniqueUrlIdentifier();
+
 			$dbw->newInsertQueryBuilder()
 				->insert( 'cusi_case' )
 				->row( [
-					'sic_url_identifier' => $this->generateUniqueUrlIdentifier(),
+					'sic_url_identifier' => $caseUrlIdentifier,
 					'sic_created_timestamp' => $dbw->timestamp(),
 				] )
 				->caller( __METHOD__ )
@@ -110,14 +115,14 @@ class SuggestedInvestigationsCaseManagerService {
 			throw $e;
 		}
 
-		$this->createInstrumentationEvent(
+		$this->instrumentationClient->submitInteraction(
+			RequestContext::getMain(),
 			'case_open',
-			null,
-			// T408546: Use minimalist keys to keep the length down to 64 chars
 			[
-				'i' => $caseId,
-				's' => array_map( static fn ( $signal ) => $signal->getName(), $signals ),
-				'u' => count( $users ),
+				'case_id' => $caseId,
+				'case_url_identifier' => $caseUrlIdentifier,
+				'signals_in_case' => array_map( static fn ( $signal ) => $signal->getName(), $signals ),
+				'users_in_case' => $this->instrumentationClient->getUserFragmentsArray( $users ),
 			]
 		);
 
@@ -159,27 +164,42 @@ class SuggestedInvestigationsCaseManagerService {
 			return;
 		}
 
-		// T408546: Use minimalist keys to keep the length down to 64 chars
-		$instrumentationContext = [
-			'i' => $caseId,
-			's' => $this->getSignalNamesInCase( $caseId ),
-			'u' => $this->getNumberOfUsersInCase( $caseId ),
+		$instrumentationData = [
+			'case_id' => $caseId,
+			'signals_in_case' => $this->getSignalNamesInCase( $caseId ),
 		];
+
+		$usersInCase = $this->getUsersInCase( $caseId );
 
 		if ( count( $signals ) !== 0 ) {
 			$this->addSignalsToCaseInternal( $caseId, $signals );
 
-			$instrumentationContext['s'] = array_unique( array_merge(
-				$instrumentationContext['s'],
+			$instrumentationData['signals_in_case'] = array_unique( array_merge(
+				$instrumentationData['signals_in_case'],
 				array_map( static fn ( $signal ) => $signal->getName(), $signals )
 			) );
 		}
 
 		if ( count( $users ) !== 0 ) {
-			$instrumentationContext['u'] += $this->addUsersToCaseInternal( $caseId, $users );
+			$this->addUsersToCaseInternal( $caseId, $users );
+
+			$newUsers = array_udiff(
+				$users,
+				$usersInCase,
+				static fn ( UserIdentity $a, UserIdentity $b ) => $a->getId() - $b->getId()
+			);
+			$usersInCase = array_merge( $usersInCase, $newUsers );
 		}
 
-		$this->createInstrumentationEvent( 'case_updated', null, $instrumentationContext );
+		$instrumentationData['users_in_case'] = $this->instrumentationClient->getUserFragmentsArray(
+			$usersInCase
+		);
+
+		$this->instrumentationClient->submitInteraction(
+			RequestContext::getMain(),
+			'case_updated',
+			$instrumentationData
+		);
 	}
 
 	/**
@@ -222,15 +242,15 @@ class SuggestedInvestigationsCaseManagerService {
 
 		// Track when statuses are changed on cases
 		if ( $oldCaseStatus !== $status->value ) {
-			$this->createInstrumentationEvent(
+			$context = RequestContext::getMain();
+			$this->instrumentationClient->submitInteraction(
+				$context,
 				'case_status_change',
-				strtolower( $status->name ),
-				// T408546: Use minimalist keys to keep the length down to 64 chars
 				[
-					'i' => $caseId,
-					's' => $this->getSignalNamesInCase( $caseId ),
-					'u' => $this->getNumberOfUsersInCase( $caseId ),
-					'n' => (int)( trim( $reason ) !== '' ),
+					'action_subtype' => strtolower( $status->name ),
+					'case_id' => $caseId,
+					'case_note' => $reason,
+					'performer' => [ 'id' => $context->getUser()->getId() ],
 				]
 			);
 		}
@@ -240,9 +260,8 @@ class SuggestedInvestigationsCaseManagerService {
 	 * Adds users to a case, skipping the input data checks.
 	 * @param int $caseId
 	 * @param UserIdentity[] $users
-	 * @return int The number of users who were actually added to the case
 	 */
-	private function addUsersToCaseInternal( int $caseId, array $users ): int {
+	private function addUsersToCaseInternal( int $caseId, array $users ): void {
 		$dbw = $this->getPrimaryDatabase();
 
 		// Using array_values to silence Phan warning about $rows being associative
@@ -257,7 +276,6 @@ class SuggestedInvestigationsCaseManagerService {
 			->rows( $rows )
 			->caller( __METHOD__ )
 			->execute();
-		return $dbw->affectedRows();
 	}
 
 	/**
@@ -409,25 +427,6 @@ class SuggestedInvestigationsCaseManagerService {
 	}
 
 	/**
-	 * Creates an interaction event in the Suggested Investigations interaction stream.
-	 * Only does something if the EventLogging extension is installed.
-	 *
-	 * @param string $action The action parameter for {@link MetricsClient::submitInteraction}
-	 * @param string|null $actionSubtype The value of the action_subtype key for the interaction data
-	 *   passed to {@link MetricsClient::submitInteraction}. If `null`, then the key is not added to the array.
-	 * @param array $actionContext The value of the action_context key for the interaction data passed to
-	 *   {@link MetricsClient::submitInteraction}
-	 */
-	private function createInstrumentationEvent( string $action, ?string $actionSubtype, array $actionContext ): void {
-		$interactionData = [ 'action_context' => json_encode( $actionContext ) ];
-		if ( $actionSubtype !== null ) {
-			$interactionData['action_subtype'] = $actionSubtype;
-		}
-
-		$this->instrumentationClient->submitInteraction( RequestContext::getMain(), $action, $interactionData );
-	}
-
-	/**
 	 * Gets a list of signals in a given case, using the cusi_signal table as the data source
 	 *
 	 * Used for instrumentation events only, so not added to
@@ -445,18 +444,25 @@ class SuggestedInvestigationsCaseManagerService {
 	}
 
 	/**
-	 * Gets the count of all users in a given case, using the cusi_user table as the data source
+	 * Gets a list of all users in a given case, using the cusi_user table as the data source
 	 *
 	 * Used for instrumentation events only, so not added to
 	 * {@link SuggestedInvestigationsCaseLookupService} and then made inherently stable
+	 *
+	 * @return UserIdentity[]
 	 */
-	private function getNumberOfUsersInCase( int $caseId ): int {
+	private function getUsersInCase( int $caseId ): array {
 		$dbr = $this->getReplicaDatabase();
-		return $dbr->newSelectQueryBuilder()
-			->select( 'COUNT(*)' )
+		$userIds = $dbr->newSelectQueryBuilder()
+			->select( 'siu_user_id' )
 			->from( 'cusi_user' )
 			->where( [ 'siu_sic_id' => $caseId ] )
 			->caller( __METHOD__ )
-			->fetchField();
+			->fetchFieldValues();
+
+		return array_filter( array_map(
+			fn ( $userId ) => $this->userIdentityLookup->getUserIdentityByUserId( $userId ),
+			$userIds
+		) );
 	}
 }
