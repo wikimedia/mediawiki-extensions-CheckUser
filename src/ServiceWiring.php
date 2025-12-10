@@ -36,6 +36,8 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
@@ -527,12 +529,16 @@ return [
 	},
 	'CheckUserSuggestedInvestigationsInstrumentationClient' => static function (
 		MediaWikiServices $services
-	): SuggestedInvestigationsInstrumentationClient {
-		$eventLoggingMetricsClientFactory = null;
-		if ( $services->has( 'EventLogging.MetricsClientFactory' ) ) {
-			$eventLoggingMetricsClientFactory = $services->get( 'EventLogging.MetricsClientFactory' );
+	): ISuggestedInvestigationsInstrumentationClient {
+		// If the EventLogging extension is not installed, then return the
+		// no-op instrumentation client to allow callers to call it safely
+		if ( !$services->has( 'EventLogging.MetricsClientFactory' ) ) {
+			return new NoOpSuggestedInvestigationsInstrumentationClient();
 		}
-		return new SuggestedInvestigationsInstrumentationClient( $eventLoggingMetricsClientFactory );
+
+		return new SuggestedInvestigationsInstrumentationClient(
+			$services->get( 'EventLogging.MetricsClientFactory' )
+		);
 	},
 	'CheckUserSuggestedInvestigationsPagerFactory' => static function (
 		MediaWikiServices $services

@@ -22,7 +22,7 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
@@ -61,7 +61,7 @@ class SuggestedInvestigationsCaseManagerService {
 	public function __construct(
 		private readonly ServiceOptions $options,
 		private readonly IConnectionProvider $dbProvider,
-		private readonly SuggestedInvestigationsInstrumentationClient $instrumentationClient,
+		private readonly ISuggestedInvestigationsInstrumentationClient $instrumentationClient,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}

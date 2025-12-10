@@ -13,14 +13,6 @@ use Wikimedia\MetricsPlatform\MetricsClient;
  */
 class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrationTestCase {
 
-	public function testSubmitInteractionWhenMetricsClientFactoryIsNull() {
-		// Will throw an exception if the MetricsClientFactory is null and the code tries to use it,
-		// so no need to assert otherwise
-		$this->expectNotToPerformAssertions();
-		$objectUnderTest = new SuggestedInvestigationsInstrumentationClient( null );
-		$objectUnderTest->submitInteraction( RequestContext::getMain(), 'test', [] );
-	}
-
 	public function testSubmitInteraction() {
 		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
 

@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
@@ -105,7 +105,7 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 					[ 'CheckUserSuggestedInvestigationsEnabled' => true ]
 				),
 				$this->getServiceContainer()->getConnectionProvider(),
-				new SuggestedInvestigationsInstrumentationClient( null )
+				new NoOpSuggestedInvestigationsInstrumentationClient()
 			);
 		}
 	}

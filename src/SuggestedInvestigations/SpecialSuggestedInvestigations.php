@@ -21,7 +21,7 @@
 namespace MediaWiki\CheckUser\SuggestedInvestigations;
 
 use MediaWiki\CheckUser\Hook\HookRunner;
-use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
+use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Html\Html;
@@ -46,7 +46,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 	public function __construct(
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsCaseLookupService $suggestedInvestigationsCaseLookupService,
-		private readonly SuggestedInvestigationsInstrumentationClient $instrumentationClient,
+		private readonly ISuggestedInvestigationsInstrumentationClient $instrumentationClient,
 		private readonly SuggestedInvestigationsPagerFactory $pagerFactory,
 	) {
 		parent::__construct( 'SuggestedInvestigations', 'checkuser-suggested-investigations' );
