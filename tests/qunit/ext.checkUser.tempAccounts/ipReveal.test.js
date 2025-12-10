@@ -518,7 +518,7 @@ QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', function ( assert
 	server.respond( ( request ) => {
 		const response = {};
 		response[ tempName1 ] = { revIps: { 1: '127.0.0.1', 2: '127.0.0.1' }, logIps: null, lastUsedIp: null };
-		response[ tempName2 ] = { revIps: { 3: '127.0.0.1' }, logIps: null, lastUsedIp: null };
+		response[ tempName2 ] = { revIps: { 3: '::1' }, logIps: null, lastUsedIp: null };
 		request.respond(
 			200,
 			{ 'Content-Type': 'application/json' },
@@ -566,6 +566,11 @@ QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', function ( assert
 			$( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).length,
 			3,
 			'Revealed IPs added'
+		);
+		assert.strictEqual(
+			$( '.ext-checkuser-tempaccount-reveal-ip64-anchor', $qunitFixture ).length,
+			1,
+			'Revealed IPv6s have /64 links added'
 		);
 
 		done();

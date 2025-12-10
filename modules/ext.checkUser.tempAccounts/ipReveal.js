@@ -44,9 +44,18 @@ function replaceButton( $element, ip, success, source ) {
 			// * checkuser-tempaccount-reveal-ip-tooltip-latest
 			$link.attr( 'title', mw.msg( 'checkuser-tempaccount-reveal-ip-tooltip-' + source ) );
 		}
-		$element.replaceWith(
-			$span.append( $link )
-		);
+		$span.append( $link );
+		if ( mw.util.isIPv6Address( ip ) ) {
+			const $link64 = $( '<a>' )
+				.attr( 'href', mw.util.getUrl( 'Special:IPContributions/' + ip + '/64' ) )
+				.addClass( 'ext-checkuser-tempaccount-reveal-ip64-anchor' )
+				.text( '/64' );
+			$span.append(
+				mw.msg( 'pipe-separator' ),
+				$link64
+			);
+		}
+		$element.replaceWith( $span );
 	} else {
 		$element.replaceWith(
 			$span.text( mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )

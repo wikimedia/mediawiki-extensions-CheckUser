@@ -814,7 +814,8 @@
 				"checkuser-ip-auto-reveal-off-dialog-error-extend-limit",
 				"checkuser-ip-auto-reveal-off-dialog-error-disable",
 				"checkuser-ip-auto-reveal-off-dialog-extend-action",
-				"checkuser-ip-auto-reveal-off-dialog-off-action"
+				"checkuser-ip-auto-reveal-off-dialog-off-action",
+				"pipe-separator"
 			],
 			"dependencies": [
 				"oojs-ui-core",
