@@ -56,18 +56,6 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 	use ContributionsRangeTrait;
 
-	private TempUserConfig $tempUserConfig;
-	private CheckUserLookupUtils $checkUserLookupUtils;
-	private CentralIdLookup $centralIdLookup;
-	private CheckUserGlobalContributionsLookup $globalContributionsLookup;
-	private CommentFormatter $commentFormatter;
-	private PermissionManager $permissionManager;
-	private GlobalPreferencesFactory $globalPreferencesFactory;
-	private IConnectionProvider $dbProvider;
-	private JobQueueGroup $jobQueueGroup;
-	private UserLinkRenderer $userLinkRenderer;
-	private RevisionStoreFactory $revisionStoreFactory;
-	private ChangeTagsStoreFactory $changeTagsStoreFactory;
 	private ExternalPermissions $permissions;
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
@@ -90,19 +78,19 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		HookContainer $hookContainer,
 		RevisionStore $revisionStore,
 		NamespaceInfo $namespaceInfo,
-		CommentFormatter $commentFormatter,
+		private readonly CommentFormatter $commentFormatter,
 		UserFactory $userFactory,
-		TempUserConfig $tempUserConfig,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		CentralIdLookup $centralIdLookup,
-		CheckUserGlobalContributionsLookup $globalContributionsLookup,
-		PermissionManager $permissionManager,
-		GlobalPreferencesFactory $globalPreferencesFactory,
-		IConnectionProvider $dbProvider,
-		JobQueueGroup $jobQueueGroup,
-		UserLinkRenderer $userLinkRenderer,
-		RevisionStoreFactory $revisionStoreFactory,
-		ChangeTagsStoreFactory $changeTagsStoreFactory,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly CheckUserLookupUtils $checkUserLookupUtils,
+		private readonly CentralIdLookup $centralIdLookup,
+		private readonly CheckUserGlobalContributionsLookup $globalContributionsLookup,
+		private readonly PermissionManager $permissionManager,
+		private readonly GlobalPreferencesFactory $globalPreferencesFactory,
+		private readonly IConnectionProvider $dbProvider,
+		private readonly JobQueueGroup $jobQueueGroup,
+		private readonly UserLinkRenderer $userLinkRenderer,
+		private readonly RevisionStoreFactory $revisionStoreFactory,
+		private readonly ChangeTagsStoreFactory $changeTagsStoreFactory,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null
@@ -121,19 +109,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			$options,
 			$target
 		);
-		$this->tempUserConfig = $tempUserConfig;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		$this->centralIdLookup = $centralIdLookup;
-		$this->commentFormatter = $commentFormatter;
-		$this->globalContributionsLookup = $globalContributionsLookup;
-		$this->permissionManager = $permissionManager;
-		$this->globalPreferencesFactory = $globalPreferencesFactory;
-		$this->dbProvider = $dbProvider;
-		$this->jobQueueGroup = $jobQueueGroup;
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
-		$this->userLinkRenderer = $userLinkRenderer;
-		$this->revisionStoreFactory = $revisionStoreFactory;
-		$this->changeTagsStoreFactory = $changeTagsStoreFactory;
 		$this->permissions = new ExternalPermissions();
 	}
 
