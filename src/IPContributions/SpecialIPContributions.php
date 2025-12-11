@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Exception\ErrorPageError;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Exception\UserBlockedError;
+use MediaWiki\Html\Html;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
@@ -270,6 +271,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 
 		// Add subtitle text describing that the data shown is limited to wgCUDMaxAge seconds ago. The count should
 		// be in days, as this makes it easier to translate the message.
+		$contributionsSub .= Html::element( 'br' );
 		$contributionsSub .= $this->msg( 'checkuser-ip-contributions-subtitle' )
 			->numParams( round( $this->getConfig()->get( 'CUDMaxAge' ) / 86400 ) )
 			->parse();

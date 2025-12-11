@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\GlobalContributions;
 
 use MediaWiki\Block\DatabaseBlockStore;
+use MediaWiki\Html\Html;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
@@ -240,6 +241,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			$limitMsg = $this->msg( 'checkuser-global-contributions-subtitle-account' );
 		}
 
+		$contributionsSub .= Html::element( 'br' );
 		$contributionsSub .= $limitMsg
 			->numParams(
 				$this->getMaxAgeForMessage(),
@@ -247,10 +249,11 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			)->parse();
 
 		if ( $toolsMsg && !$toolsMsg->isDisabled() ) {
+			$contributionsSub .= Html::element( 'br' );
 			$contributionsSub .= $toolsMsg
 				->params( $userObj->getName() )
 				->numParams( $this->getMaxAgeForMessage() )
-				->parseAsBlock();
+				->parse();
 		}
 
 		return $contributionsSub;

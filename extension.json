@@ -521,6 +521,13 @@
 				"CheckUserPermissionManager"
 			]
 		},
+		"SpecialContributionsBeforeMainOutput": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialContributionsBeforeMainOutputHandler",
+			"services": [
+				"TempUserConfig",
+				"CheckUserTemporaryAccountsByIPLookup"
+			]
+		},
 		"SpecialLogResolveIPRevealLogType": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialLogResolveIPRevealLogTypeHandler"
 		},
@@ -590,7 +597,10 @@
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
 		"SaveUserOptions": "preferences",
 		"SidebarBeforeOutput": "SidebarLinksHandler",
-		"SpecialContributionsBeforeMainOutput": "ToolLinks",
+		"SpecialContributionsBeforeMainOutput": [
+			"SpecialContributionsBeforeMainOutput",
+			"ToolLinks"
+		],
 		"SpecialLogResolveLogType": "SpecialLogResolveIPRevealLogType",
 		"SpecialPageBeforeExecute": [
 			"clienthints",
