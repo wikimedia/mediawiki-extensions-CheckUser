@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Bennylin",
 			"Diki Ananta",
 			"Dreamy Jazz",
 			"Meursault2004",
@@ -45,7 +46,7 @@
 	"checkuser-locked": "Dikunci",
 	"checkuser-wasblocked": "Wis diblokir sadurungé",
 	"checkuser-localonly": "Ora digabungaké",
-	"checkuser-massblock": "Blokir naraguna kapilih",
+	"checkuser-massblock": "Penggak naraguna kapilih",
 	"checkuser-massblock-text": "Akun-akun kapilih bakal diblokir salawasé, alamat-alamat IP pungkasan sing dipigunakaké otomatis diblokir lan ora bisa gawé akun.\nAlamat-alamat IP bakal diblokir jroning 1 minggu tumrap naraguna anonim lan ora bisa gawé akun.",
 	"checkuser-noreason": "Panjenengan kudu ngawèhi alesan kanggo kuèri iki.",
 	"checkuser-search": "Golèk",

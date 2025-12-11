@@ -119,7 +119,7 @@
 	"checkuser-localonly": "未統一",
 	"checkuser-massblock": "封鎖已選擇的使用者",
 	"checkuser-massblock-text-without-local-block-buttons": "您目前不具備在此維基封禁使用者所需的權限。不過，您仍可透過上方結果中的核取方塊，選取欲鎖定或全域封禁的帳號與IP位址（視您的權限而定）。",
-	"checkuser-massblock-text": "使用上面結果裡的核取方塊選擇您要封鎖的帳號和 IP。然後您可以使用下面的按鈕來開啟有預先填入目標的{{#special:InvestigateBlock}}表單。",
+	"checkuser-massblock-text": "使用上面結果裡的核取方塊選擇您要封鎖的帳號和IP。然後您可以使用下面的按鈕來開啟有預先填入目標的{{#special:InvestigateBlock}}表單。",
 	"checkuser-massblock-commit-accounts": "封鎖所選的帳號",
 	"checkuser-massblock-commit-ips": "封鎖所選的IP",
 	"checkuser-massglobalblock-commit-accounts": "全域封鎖所選的帳號",
