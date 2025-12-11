@@ -540,6 +540,7 @@ QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', function ( assert
 			username,
 			{ targetId: revId, allIds: [ revId ] },
 			{},
+			{},
 			$qunitFixture
 		) );
 	} );
