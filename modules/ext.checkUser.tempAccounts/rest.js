@@ -147,7 +147,7 @@ const requests = {};
  * Reveal multiple IP addresses in a single request.
  *
  * @param {BatchRevealRequest} request
- * @param {boolean} retryOnTokenMismatch
+ * @param {boolean} [retryOnTokenMismatch]
  * @return {Promise}
  */
 function performBatchRevealRequest( request, retryOnTokenMismatch ) {
