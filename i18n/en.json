@@ -487,5 +487,7 @@
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "An aggregate count of all temporary accounts from all IPs associated with this account",
 	"checkuser-temporary-account-bucketcount-min": "$1",
 	"checkuser-temporary-account-bucketcount-range": "$1–$2",
-	"checkuser-temporary-account-bucketcount-max": "$1+"
+	"checkuser-temporary-account-bucketcount-max": "$1+",
+	"checkuser-contributions-temporary-accounts-on-ip": "Temporary accounts on this IP: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Temporary accounts on this IP: $1 (blocked: $2)"
 }

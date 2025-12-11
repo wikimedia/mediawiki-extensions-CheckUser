@@ -525,7 +525,9 @@
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialContributionsBeforeMainOutputHandler",
 			"services": [
 				"TempUserConfig",
-				"CheckUserTemporaryAccountsByIPLookup"
+				"CheckUserTemporaryAccountsByIPLookup",
+				"UserIdentityLookup",
+				"DatabaseBlockStore"
 			]
 		},
 		"SpecialLogResolveIPRevealLogType": {
