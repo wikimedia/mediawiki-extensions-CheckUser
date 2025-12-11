@@ -944,6 +944,7 @@
 				"oojs-ui-core",
 				"oojs-ui-widgets",
 				"mediawiki.api",
+				"mediawiki.ForeignApi.core",
 				"mediawiki.storage",
 				"mediawiki.Title",
 				"mediawiki.util",

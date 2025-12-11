@@ -27,6 +27,8 @@ use MediaWiki\RecentChanges\ChangesList;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Revision\RevisionStoreFactory;
+use MediaWiki\Site\MediaWikiSite;
+use MediaWiki\Site\SiteLookup;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
@@ -91,6 +93,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		private readonly UserLinkRenderer $userLinkRenderer,
 		private readonly RevisionStoreFactory $revisionStoreFactory,
 		private readonly ChangeTagsStoreFactory $changeTagsStoreFactory,
+		private readonly SiteLookup $siteLookup,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null,
@@ -513,6 +516,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	protected function populateAttributes( $row, &$attributes ) {
 		if ( !$this->isFromExternalWiki( $row ) ) {
 			parent::populateAttributes( $row, $attributes );
+		} else {
+			$attributes['data-mw-revid'] = $row->rev_id;
 		}
 	}
 
@@ -894,7 +899,20 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				);
 		}
 
-		$userPageLink = $this->userLinkRenderer->userLink( $revUser, $this->getContext() );
+		$attributes = [];
+		if ( $this->isFromExternalWiki( $row ) ) {
+			// Add the API URLs to the link, so that data may be looked up
+			$site = $this->siteLookup->getSite( $row->sourcewiki );
+			if ( $site instanceof MediaWikiSite ) {
+				$attributes[ 'data-wiki-url' ] = $site->getPath( MediaWikiSite::PATH_FILE );
+			}
+		}
+		$userPageLink = $this->userLinkRenderer->userLink(
+			$revUser,
+			$this->getContext(),
+			null,
+			$attributes
+		);
 
 		if ( !$this->isFromExternalWiki( $row ) ) {
 			return ' <span class="mw-changeslist-separator"></span> ' .

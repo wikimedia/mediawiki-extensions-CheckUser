@@ -127,6 +127,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['UserLinkRenderer'] ?? $this->userLinkRenderer,
 			$overrides['RevisionStoreFactory'] ?? $this->revisionStoreFactory,
 			$overrides['ChangeTagsStoreFactory'] ?? $services->getChangeTagsStoreFactory(),
+			$overrides['SiteLookup'] ?? $services->getSiteLookup(),
 			$overrides['Context'] ?? RequestContext::getMain(),
 			$overrides['options'] ?? [ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, $overrides['UserName'] ?? '127.0.0.1' )
@@ -247,7 +248,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		// We can't call populateAttributes directly because TestingAccessWrapper
 		// can't pass by reference: T287318
 		$formatted = $wrapper->formatRow( $row );
-		$this->assertStringNotContainsString( 'data-mw-revid', $formatted );
+		$this->assertStringContainsString( 'data-mw-revid', $formatted );
 	}
 
 	/**
@@ -727,6 +728,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$this->userLinkRenderer,
 				$this->revisionStoreFactory,
 				$services->getChangeTagsStoreFactory(),
+				$services->getSiteLookup(),
 				$context,
 				[ 'revisionsOnly' => true ],
 				new UserIdentityValue( 0, '127.0.0.1' ),

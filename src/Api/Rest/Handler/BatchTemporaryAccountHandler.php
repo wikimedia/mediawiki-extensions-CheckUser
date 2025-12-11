@@ -342,11 +342,6 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	 * @inheritDoc
 	 */
 	public function getBodyParamSettings(): array {
-		$optionalUserProperties = [];
-		if ( $this->extensionRegistry->isLoaded( 'Abuse Filter' ) ) {
-			$optionalUserProperties['abuseLogIds'] = ArrayDef::makeListSchema( 'string' );
-		}
-
 		return [
 			'users' => [
 				self::PARAM_SOURCE => 'body',
@@ -358,7 +353,12 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 						'logIds' => ArrayDef::makeListSchema( 'string' ),
 						'lastUsedIp' => 'boolean',
 					],
-					$optionalUserProperties
+					[
+						// Allow this parameter unconditionally, becuase a wiki with AbuseFilter
+						// may make a batch request to a wiki without AbuseFilter, and not know
+						// to omit it.
+						'abuseLogIds' => ArrayDef::makeListSchema( 'string' ),
+					]
 				) ),
 			],
 		] + parent::getBodyParamSettings();

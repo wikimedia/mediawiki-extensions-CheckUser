@@ -248,6 +248,7 @@ return [
 			$services->getUserLinkRenderer(),
 			$services->getRevisionStoreFactory(),
 			$services->getChangeTagsStoreFactory(),
+			$services->getSiteLookup(),
 		);
 	},
 	'CheckUserHookRunner' => static function (

@@ -81,11 +81,13 @@ function replaceButton( $element, ip, success, source ) {
  * @param {Object} aflIds Object used to perform the API request, containing:
  * - targetId: AbuseFilter log ID for the passed-in element
  * - allIds: array of all AbuseFilter log IDs for the passed-in target
+ * @param {string|undefined} wikiUrl The URL pattern for an external wiki in the format
+ *  returned by PHP's Site::getPath, or undefined if querying the local wiki
  * @param {string|*} documentRoot A Document or selector to use as the context
  *  for firing the 'userRevealed' event, handled by buttons within that context.
  * @return {jQuery[]}
  */
-function makeButton( target, revIds, logIds, aflIds, documentRoot ) {
+function makeButton( target, revIds, logIds, aflIds, wikiUrl, documentRoot ) {
 	if ( !documentRoot ) {
 		documentRoot = document;
 	}
@@ -107,6 +109,7 @@ function makeButton( target, revIds, logIds, aflIds, documentRoot ) {
 	button.$element.data( 'revIds', revIds );
 	button.$element.data( 'logIds', logIds );
 	button.$element.data( 'aflIds', aflIds );
+	button.$element.data( 'wikiUrl', wikiUrl );
 
 	button.once( 'click', () => {
 		button.$element.trigger( 'revealIp' );
@@ -144,13 +147,14 @@ function makeButton( target, revIds, logIds, aflIds, documentRoot ) {
 				isRevisionLookup( revIds ),
 				isLogLookup( logIds ),
 				isAbuseFilterLogLookup( aflIds ),
+				wikiUrl,
 				batchResponse
 			] );
 
 			return;
 		}
 
-		performRevealRequest( target, revIds, logIds, aflIds ).then( ( response ) => {
+		performRevealRequest( target, revIds, logIds, aflIds, wikiUrl ).then( ( response ) => {
 			let index, ipSource;
 			if ( revIds.targetId ) {
 				index = revIds.targetId;
@@ -175,7 +179,8 @@ function makeButton( target, revIds, logIds, aflIds, documentRoot ) {
 				response.ips,
 				isRevisionLookup( revIds ),
 				isLogLookup( logIds ),
-				isAbuseFilterLogLookup( aflIds )
+				isAbuseFilterLogLookup( aflIds ),
+				wikiUrl
 			] );
 		} ).catch( () => {
 			replaceButton( button.$element, false, false );
@@ -240,29 +245,45 @@ function addIpRevealButtons( $content ) {
  * @return {jQuery} The IP reveal buttons
  */
 function addButtonsToUserLinks( $userLinks ) {
-	const allRevIds = {};
-	const allLogIds = {};
-	const allAflIds = {};
+	const wikiUserLinks = {};
 
 	$userLinks.each( function () {
-		addToAllIds( $( this ), allRevIds, getRevisionId );
-		addToAllIds( $( this ), allLogIds, getLogId );
-		addToAllIds( $( this ), allAflIds, getAbuseFilterLogId );
-	} );
-
-	$userLinks.each( function () {
-		const target = getLinkTarget( $( this ) );
-		if ( !target || $( this ).next().is( '.ext-checkuser-tempaccount-reveal-ip-button' ) ) {
-			return;
+		const wikiKey = $( this ).data( 'wiki-url' ) || 'local';
+		if ( !wikiUserLinks[ wikiKey ] ) {
+			wikiUserLinks[ wikiKey ] = [];
 		}
-		$( this ).after( function () {
-			const revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
-			const logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
-			const aflIds = getIdsForTarget( $( this ), target, allAflIds, getAbuseFilterLogId );
-
-			return makeButton( target, revIds, logIds, aflIds );
-		} );
+		wikiUserLinks[ wikiKey ].push( $( this ) );
 	} );
+
+	for ( const wikiKey in wikiUserLinks ) {
+		const $links = $( wikiUserLinks[ wikiKey ] );
+		const wikiUrl = wikiKey === 'local' ? undefined : wikiKey;
+
+		const allRevIds = {};
+		const allLogIds = {};
+		const allAflIds = {};
+
+		$links.each( function () {
+			addToAllIds( $( this ), allRevIds, getRevisionId );
+			addToAllIds( $( this ), allLogIds, getLogId );
+			addToAllIds( $( this ), allAflIds, getAbuseFilterLogId );
+		} );
+
+		$links.each( function () {
+			const target = getLinkTarget( $( this ) );
+			if ( !target || $( this ).next().is( '.ext-checkuser-tempaccount-reveal-ip-button' ) ) {
+				return;
+			}
+
+			$( this ).after( function () {
+				const revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
+				const logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
+				const aflIds = getIdsForTarget( $( this ), target, allAflIds, getAbuseFilterLogId );
+
+				return makeButton( target, revIds, logIds, aflIds, wikiUrl );
+			} );
+		} );
+	}
 
 	return $userLinks.next( '.ext-checkuser-tempaccount-reveal-ip-button' );
 }
@@ -353,9 +374,11 @@ function enableMultiReveal( $element ) {
 		 * @param {boolean} isRev The map keys are revision IDs
 		 * @param {boolean} isLog The map keys are log IDs
 		 * @param {boolean} isAfLog The map keys are AbuseFilter log IDs
+		 * @param {string|undefined} wikiUrl The URL pattern for an external wiki in the format
+		 *  returned by PHP's Site::getPath, or undefined if querying the local wiki
 		 * @param {Object|undefined} batchResponse
 		 */
-		( _e, userLookup, ips, isRev, isLog, isAfLog, batchResponse ) => {
+		( _e, userLookup, ips, isRev, isLog, isAfLog, wikiUrl, batchResponse ) => {
 			// Find all temp user links that share the username
 			const $userLinks = $( '.mw-tempuserlink' ).filter( function () {
 				return getLinkTarget( $( this ) ) === userLookup;
@@ -378,6 +401,10 @@ function enableMultiReveal( $element ) {
 			let $triggerNext;
 
 			$userButtons.each( function () {
+				if ( $( this ).data( 'wiki-url' ) !== wikiUrl ) {
+					$triggerNext = $( this );
+					return;
+				}
 				if ( !ips ) {
 					// If there's no IP information at all (i.e. ips is null),
 					// then the IP is considered unavailable.
@@ -457,10 +484,12 @@ function enableMultiReveal( $element ) {
  *  - revIds: array of revision IDs
  *  - logIds: array of log IDs
  *  - lastUsedIp: boolean, whether to look up the most recently used IP
+ * @param {string|undefined} wikiUrl The URL pattern for an external wiki in the format
+ *  returned by PHP's Site::getPath, or undefined if querying the local wiki
  * @param {jQuery} $ipRevealButtons The buttons to replace with IP addresses
  */
-function batchRevealIps( request, $ipRevealButtons ) {
-	performBatchRevealRequest( request ).then( ( response ) => {
+function batchRevealIps( request, wikiUrl, $ipRevealButtons ) {
+	performBatchRevealRequest( request, wikiUrl ).then( ( response ) => {
 		// Replace the lookup buttons with the IPs by triggering 'revealIp'.
 		$ipRevealButtons.each( function () {
 			const target = $( this ).data( 'target' );
@@ -517,7 +546,8 @@ function batchRevealIps( request, $ipRevealButtons ) {
  * @param {boolean} autoRevealStatus Whether auto-reveal mode is on
  */
 function automaticallyRevealUsersInternal( $ipRevealButtons, autoRevealStatus ) {
-	const request = {};
+	const wikiRequests = {};
+	const wikiButtons = {};
 	const usersToReveal = [];
 	let $buttonsToReveal;
 
@@ -530,6 +560,16 @@ function automaticallyRevealUsersInternal( $ipRevealButtons, autoRevealStatus ) 
 	}
 
 	$buttonsToReveal.each( function () {
+		const wikiKey = $( this ).data( 'wiki-url' ) || 'local';
+		if ( !wikiRequests[ wikiKey ] ) {
+			wikiRequests[ wikiKey ] = {};
+		}
+		if ( !wikiButtons[ wikiKey ] ) {
+			wikiButtons[ wikiKey ] = [];
+		}
+		wikiButtons[ wikiKey ].push( $( this ) );
+
+		const request = wikiRequests[ wikiKey ];
 		const target = $( this ).data( 'target' );
 		const $button = $( this );
 
@@ -591,7 +631,10 @@ function automaticallyRevealUsersInternal( $ipRevealButtons, autoRevealStatus ) 
 
 	// Trigger a batch lookup for all revealed users.
 	if ( usersToReveal.length > 0 ) {
-		batchRevealIps( request, $buttonsToReveal );
+		for ( const wikiKey in wikiRequests ) {
+			const wikiUrl = wikiKey === 'local' ? undefined : wikiKey;
+			batchRevealIps( wikiRequests[ wikiKey ], wikiUrl, $( wikiButtons[ wikiKey ] ) );
+		}
 	}
 }
 
@@ -840,7 +883,7 @@ function enableIpRevealForContributionsPage( documentRoot, pageTitle, autoReveal
 			return [
 				' ',
 				$( '<span>' ).addClass( 'mw-changeslist-separator' )
-			].concat( makeButton( target, ids, undefined, undefined, documentRoot ) );
+			].concat( makeButton( target, ids, undefined, undefined, undefined, documentRoot ) );
 		} );
 	} );
 

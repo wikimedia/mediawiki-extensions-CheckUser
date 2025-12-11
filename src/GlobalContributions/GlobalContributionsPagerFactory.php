@@ -16,6 +16,7 @@ use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Revision\RevisionStoreFactory;
+use MediaWiki\Site\SiteLookup;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -48,6 +49,7 @@ class GlobalContributionsPagerFactory {
 		private readonly UserLinkRenderer $userLinkRenderer,
 		private readonly RevisionStoreFactory $revisionStoreFactory,
 		private readonly ChangeTagsStoreFactory $changeTagsStoreFactory,
+		private readonly SiteLookup $siteLookup,
 	) {
 	}
 
@@ -81,6 +83,7 @@ class GlobalContributionsPagerFactory {
 			$this->userLinkRenderer,
 			$this->revisionStoreFactory,
 			$this->changeTagsStoreFactory,
+			$this->siteLookup,
 			$context,
 			$options,
 			$target

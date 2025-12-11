@@ -48,7 +48,6 @@
 	let excludePages = [
 		'AbuseLog',
 		'IPContributions',
-		'GlobalContributions',
 		'Contributions',
 		'Recentchanges',
 		'Watchlist'
