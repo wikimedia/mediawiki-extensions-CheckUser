@@ -225,9 +225,9 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'expectedBucket' => [ 6, 10 ],
 			],
 			'max' => [
-				'count' => 11,
+				'count' => 101,
 				'bucketSchema' => null,
-				'expectedBucket' => [ 11, 11 ],
+				'expectedBucket' => [ 101, 101 ],
 			],
 			'custom schema, range' => [
 				'count' => 3,

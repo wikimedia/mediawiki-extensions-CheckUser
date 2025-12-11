@@ -245,11 +245,14 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	public function getBucketedCount( int $count, ?array $buckets = null ): array {
 		if ( $buckets === null ) {
 			$buckets = [
-				'max' => 11,
+				'max' => 101,
 				'ranges' => [
 					[ 1, 2 ],
 					[ 3, 5 ],
 					[ 6, 10 ],
+					[ 11, 20 ],
+					[ 21, 50 ],
+					[ 51, 100 ],
 				],
 			];
 		}

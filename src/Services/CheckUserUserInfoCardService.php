@@ -401,10 +401,10 @@ class CheckUserUserInfoCardService {
 		// If the user is a temporary account, get the number of accounts active on the same IPs/ranges
 		$userInfo['tempAccountsOnIPCount'] = [];
 		if ( $this->tempUserConfig->isTempName( $user->getName() ) ) {
-			// 11 is the maximum number of accounts we care about as defined by T388718
+			// 101 is the maximum number of accounts we care about as defined by T412212
 			$bucketCount = $this->checkUserTemporaryAccountsByIPLookup->getBucketedCount(
 				$this->checkUserTemporaryAccountsByIPLookup
-					->getAggregateActiveTempAccountCount( $user, 11 )
+					->getAggregateActiveTempAccountCount( $user, 101 )
 			);
 			$userInfo['tempAccountsOnIPCount'] = $bucketCount;
 		}
