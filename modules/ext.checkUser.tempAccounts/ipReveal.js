@@ -866,7 +866,6 @@ module.exports = {
 	enableAutoReveal: enableAutoReveal,
 	disableAutoReveal: disableAutoReveal,
 	automaticallyRevealUsers: automaticallyRevealUsers,
-	batchRevealIps: batchRevealIps,
 	getRevisionId: getRevisionId,
 	getLogId: getLogId,
 	enableIpRevealForContributionsPage: enableIpRevealForContributionsPage
