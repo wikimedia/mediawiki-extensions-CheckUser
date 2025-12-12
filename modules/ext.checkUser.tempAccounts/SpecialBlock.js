@@ -19,11 +19,15 @@ function onLoad() {
 	// so check for block target widget; if it exists, the form is present
 	if ( $blockTargetWidget.length ) {
 		if ( mw.config.get( 'wgUseCodexSpecialBlock' ) ) {
-			mw.hook( 'codex.userlookup' ).add( ( components ) => {
-				// Codex and Vue are fully loaded at this point.
-				const ShowIPButton = require( './components/ShowIPButton.vue' );
-				components.value.push( ShowIPButton );
-			} );
+			if ( mw.config.get( 'wgAutoCreateTempUserEnabled' ) ) {
+				mw.hook( 'codex.userlookup' ).add( ( components ) => {
+					// Codex and Vue are fully loaded at this point.
+					const ShowIPButton = require( './components/ShowIPButton.vue' );
+					const TempUsersMessage = require( './components/TempUsersMessage.vue' );
+					components.value.push( ShowIPButton );
+					components.value.push( TempUsersMessage );
+				} );
+			}
 			return;
 		}
 
@@ -56,15 +60,11 @@ function createButton() {
 }
 
 /**
- * Handles the change event of the block target widget.
+ * Handles the change event of the block target widget for a temporary user target.
  *
  * @param {string} blockTarget
  */
-function onTargetChange( blockTarget ) {
-	$( '.ext-checkuser-tempaccount-specialblock-ips' ).remove();
-	if ( !mw.util.isTemporaryUser( blockTarget ) ) {
-		return;
-	}
+function handleTemporaryUserTarget( blockTarget ) {
 	const api = new mw.Api();
 	lastUserRequest = api.get( {
 		action: 'query',
@@ -115,6 +115,42 @@ function onTargetChange( blockTarget ) {
 			} );
 		}
 	} );
+}
+
+/**
+ * Handles the change event of the block target widget for an IP target.
+ *
+ * @param {string} blockTarget
+ */
+function handleIPTarget( blockTarget ) {
+	// Wait for the next tick, to ensure the container is added
+	setTimeout( () => {
+		const message = mw.message(
+			'checkuser-tempaccount-specialblock-ip-target',
+			blockTarget
+		).parseDom();
+		const $message = $( '<p>' )
+			.addClass( 'ext-checkuser-tempaccount-specialblock-ips' )
+			.append( message );
+		$( '.mw-block-target-ip-tempuser-info' ).before( $message );
+	} );
+}
+
+/**
+ * Handles the change event of the block target widget.
+ *
+ * @param {string} blockTarget
+ */
+function onTargetChange( blockTarget ) {
+	$( '.ext-checkuser-tempaccount-specialblock-ips' ).remove();
+	if ( mw.util.isTemporaryUser( blockTarget ) ) {
+		handleTemporaryUserTarget( blockTarget );
+		return;
+	}
+	if ( mw.util.isIPAddress( blockTarget, true ) ) {
+		handleIPTarget( blockTarget );
+		return;
+	}
 }
 
 module.exports = {

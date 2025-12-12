@@ -328,6 +328,7 @@ QUnit.test( 'Test onLoad for an existing temporary account but IP data call fail
 
 QUnit.test( 'Test onLoad when Codex Special:Block is enabled', ( assert ) => {
 	mw.config.set( 'wgUseCodexSpecialBlock', true );
+	mw.config.set( 'wgAutoCreateTempUserEnabled', true );
 	// Add a mock block target input to simulate that the page is the block page.
 	const $blockTargetInput = $( '<div>' ).attr( 'id', 'mw-bi-target' );
 	// eslint-disable-next-line no-jquery/no-global-selector
@@ -336,13 +337,18 @@ QUnit.test( 'Test onLoad when Codex Special:Block is enabled', ( assert ) => {
 	// Call the method under test
 	specialBlock.onLoad();
 	// Fire the 'codex.userlookup' hook with a mock Vue ref and then expect
-	// that the Show IP button is added to this mock Vue ref.
+	// that the Show IP button and Show IP message components are added to this mock Vue ref.
 	const customComponents = { value: [] };
 	mw.hook( 'codex.userlookup' ).fire( customComponents );
-	assert.strictEqual( customComponents.value.length, 1, 'Component was added' );
+	assert.strictEqual( customComponents.value.length, 2, 'Components were added' );
 	assert.strictEqual(
 		customComponents.value[ 0 ].name,
 		'ShowIPButton',
 		'Show IP button component was added'
+	);
+	assert.strictEqual(
+		customComponents.value[ 1 ].name,
+		'TempUsersMessage',
+		'Show IP message component was added'
 	);
 } );

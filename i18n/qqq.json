@@ -387,6 +387,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Title displayed in the block details info popup shown to blocked users next to the IP reveal button.",
 	"checkuser-tempaccount-reveal-blocked-description": "Error message text inside the block details info popup shown to blocked users next to the IP reveal button.",
 	"checkuser-tempaccount-specialblock-ips": "Text displayed if target is a temporary user on [[Special:Block]]",
+	"checkuser-tempaccount-specialblock-ip-target": "Text displayed if target is an IP address on [[Special:Block]]",
 	"checkuser-temporary-account-log-name": "{{doc-logpage}}\n\nThe page name of [[Special:Log/checkuser-temporary-account]]. Appears in the drop down menu of the [[Special:Log]] page and subpages.",
 	"checkuser-temporary-account-log-header": "Appears on top of [[Special:Log/checkuser-temporary-account]].",
 	"logentry-checkuser-temporary-account-change-access": "Used if a user's state of access was changed.\n\n{{Logentry|[[Special:Log/checkuser-temporary-account]]}}\nAdditional parameters:\n* $4 - whether the access was enabled or disabled. See also: {{msg-mw|checkuser-temporary-account-change-access-level-enable}}, {{msg-mw|checkuser-temporary-account-change-access-level-disable}}",
