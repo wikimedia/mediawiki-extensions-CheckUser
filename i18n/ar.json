@@ -428,6 +428,7 @@
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: لم يتم العثور على الصفحة الفرعية",
 	"checkuser-suggestedinvestigations-subpage-not-found-page-text": "الصفحة الفرعية المحددة غير موجودة.",
 	"checkuser-suggestedinvestigations-summary": "تحتوي هذه الصفحة على حسابات تم وضع علامة عليها تلقائيًا على أنها مشبوهة محتملة حتى يتمكن مستخدمو الشيكات من التحقق منها.",
+	"checkuser-suggestedinvestigations-summary-temporary-filter-open-cases": "قضايا مفتوحة",
 	"checkuser-suggestedinvestigations-summary-detail-view": "تحتوي هذه الصفحة على معلومات تفصيلية لمستخدمي التحقق فقط، حول '''الحالة $1 ''.",
 	"checkuser-suggestedinvestigations-back-to-main-page": "العودة إلى {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-table-caption": "جدول من التحقيقات المقترحة",
