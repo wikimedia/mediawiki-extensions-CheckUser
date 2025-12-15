@@ -36,6 +36,8 @@ require_once "$IP/maintenance/Maintenance.php";
  *
  * WARNING: This should never be run on production wikis. This is intended only for
  * local testing wikis where the DB can be cleared without issue.
+ *
+ * @codeCoverageIgnore This is only intended for local development wikis
  */
 class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
@@ -79,7 +81,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		$this->addOption(
 			'num-anon',
 			'How many IPs should be used for the simulated actions. ' .
-			'The number of actions performed will roughly be split equally between the IPs. Default is 5.',
+			'The number of actions performed will roughly be split equally between the IPs. ' .
+			'No actions are performed by IPs if temporary account autocreation is enabled. Default is 5.',
 			false,
 			true
 		);
@@ -160,10 +163,13 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$this->fatalError( 'Number of anon users making edits should not exceed the number of IPs used.' );
 		}
 
+		// Only add temporary users if temporary user creation is enabled and only add anon users if temporary
+		// accounts are disabled.
 		$services = $this->getServiceContainer();
 		if ( !$services->getTempUserConfig()->isEnabled() ) {
-			// Only add temporary users if temporary user creation is enabled.
 			$numTemp = 0;
+		} else {
+			$numAnon = 0;
 		}
 
 		$actionsPerActor = intval( floor( $count / array_sum( [ $numUsers, $numAnon, $numTemp ] ) ) );
