@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration;
 
 use LogicException;
-use MediaWiki\CheckUser\Hooks;
+use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\RecentChanges\RecentChange;
 
@@ -54,7 +54,11 @@ trait CheckUserCommonTraitTest {
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
 		$this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
-		( new Hooks() )->updateCheckUserData( $rc );
+
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+		$checkUserInsert->updateCheckUserData( $rc );
+
 		return $rc;
 	}
 

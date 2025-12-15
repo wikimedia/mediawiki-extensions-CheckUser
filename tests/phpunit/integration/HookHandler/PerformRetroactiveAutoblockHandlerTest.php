@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Hooks;
+use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
@@ -29,6 +29,9 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 	) {
 		$this->overrideConfigValue( 'CheckUserMaximumIPsToAutoblock', $maximumIPsToAutoblockConfigValue );
 		$target = $this->getMutableTestUser()->getUserIdentity();
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+
 		// Insert the specified test data
 		if ( in_array( self::CHANGES_TABLE, $tablesWithData ) ) {
 			ConvertibleTimestamp::setFakeTime( '20210101000000' );
@@ -40,7 +43,7 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 				self::getDefaultRecentChangeAttribs(),
 				[ 'rc_user' => $target->getId(), 'rc_user_text' => $target->getName() ],
 			) );
-			( new Hooks() )->updateCheckUserData( $rc );
+			$checkUserInsert->updateCheckUserData( $rc );
 		}
 		if ( in_array( self::PRIVATE_LOG_EVENT_TABLE, $tablesWithData ) ) {
 			ConvertibleTimestamp::setFakeTime( '20210101000001' );
@@ -56,7 +59,7 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 					'rc_user' => $target->getId(), 'rc_user_text' => $target->getName(),
 				]
 			) );
-			( new Hooks() )->updateCheckUserData( $rc );
+			$checkUserInsert->updateCheckUserData( $rc );
 		}
 		if ( in_array( self::LOG_EVENT_TABLE, $tablesWithData ) ) {
 			ConvertibleTimestamp::setFakeTime( '20210101000002' );
@@ -73,7 +76,7 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 					'rc_user' => $target->getId(), 'rc_user_text' => $target->getName(),
 				]
 			) );
-			( new Hooks() )->updateCheckUserData( $rc );
+			$checkUserInsert->updateCheckUserData( $rc );
 		}
 		ConvertibleTimestamp::setFakeTime( '20210102000000' );
 		// Block the target with autoblocking enabled. This should call the method under test.

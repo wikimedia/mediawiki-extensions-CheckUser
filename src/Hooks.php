@@ -20,6 +20,7 @@ class Hooks {
 	 * @deprecated since 1.43. Use CheckUserInsert::updateCheckUserData instead.
 	 */
 	public static function updateCheckUserData( RecentChange $rc ) {
+		wfDeprecated( __METHOD__, '1.43' );
 		/** @var CheckUserInsert $checkUserInsert */
 		$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
 		$checkUserInsert->updateCheckUserData( $rc );
