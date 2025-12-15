@@ -469,5 +469,7 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Edición marcada|Edicións marcadas}} por «$1» ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Entrada do rexistro marcada|Entradas do rexistro marcadas}} por «$1» ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Contas temporais de todos os enderezos IP asociados: $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un reconto agregado de todas as contas temporais de todos os enderezos IP asociados a esta conta"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un reconto agregado de todas as contas temporais de todos os enderezos IP asociados a esta conta",
+	"checkuser-contributions-temporary-accounts-on-ip": "Contas temporais neste enderezo IP: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Contas temporais neste enderezo IP: $1 (bloqueadas: $2)"
 }

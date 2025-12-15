@@ -471,5 +471,7 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "$1 ($2) tərəfindən işarələnən {{PLURAL:$2|redaktə|redaktələr}}",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "$1 ($2) tərəfindən işarələnən {{PLURAL:$2|jurnal qeydi|jurnal qeydləri}}",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Bütün əlaqəli IP-lərdəki müvəqqəti hesablar: $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Bu hesabla əlaqəli bütün IP-lərdən olan bütün müvəqqəti hesabların ümumi sayı"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Bu hesabla əlaqəli bütün IP-lərdən olan bütün müvəqqəti hesabların ümumi sayı",
+	"checkuser-contributions-temporary-accounts-on-ip": "Bu IP-dəki müvəqqəti hesablar: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Bu IP-dəki müvəqqəti hesablar: $1 ($2 bloklanan)"
 }

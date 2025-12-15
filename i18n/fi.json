@@ -474,5 +474,7 @@
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tilapäisiä tunnuksia kaikista liittyvistä IP-osoitteista: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Kaikkiin tähän tunnukseen liittyvistä IP-osoitteista tulevien tilapäisten tunnusten yhteenlaskettu määrä",
 	"checkuser-temporary-account-bucketcount-range": "$1–$2",
-	"checkuser-temporary-account-bucketcount-max": "yli $1"
+	"checkuser-temporary-account-bucketcount-max": "yli $1",
+	"checkuser-contributions-temporary-accounts-on-ip": "Tilapäisiä tunnuksia tällä IP:llä: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tilapäisiä tunnuksia tällä IP:llä: $1 (estettyjä: $2)"
 }

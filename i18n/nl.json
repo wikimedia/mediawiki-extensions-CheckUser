@@ -432,7 +432,7 @@
 	"checkuser-suggestedinvestigations-user-showmore": "Nog $1 account{{PLURAL:$1||s}} weergeven",
 	"checkuser-suggestedinvestigations-user-showless": "Laatste $1 account{{PLURAL:$1||s}} verbergen",
 	"checkuser-suggestedinvestigations-signal-sharedemail": "Bevestigd of onbevestigd gedeeld e-mailadres",
-	"checkuser-suggestedinvestigations-signal-hcaptcha": "Verdachte hCaptcha",
+	"checkuser-suggestedinvestigations-signal-hcaptcha": "Verdachte hCaptcha-account",
 	"checkuser-suggestedinvestigations-status-open": "Open",
 	"checkuser-suggestedinvestigations-status-resolved": "Gesloten",
 	"checkuser-suggestedinvestigations-status-invalid": "Onjuist",

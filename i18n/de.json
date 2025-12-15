@@ -482,5 +482,7 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Bearbeitung|Bearbeitungen}} markiert durch $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Logbucheintrag|Logbucheinträge}} markiert durch $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporäre Konten von allen zugehörigen IP-Adressen: $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Gesamtanzahl aller temporären Konten aller mit diesem Konto verknüpften IP-Adressen"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Gesamtanzahl aller temporären Konten aller mit diesem Konto verknüpften IP-Adressen",
+	"checkuser-contributions-temporary-accounts-on-ip": "Temporäre Konten auf dieser IP-Adresse: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Temporäre Konten auf dieser IP-Adresse: $1 (gesperrt: $2)"
 }

@@ -430,5 +430,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-hcaptcha": "<strong>{{int:checkuser-suggestedinvestigations-signal-hcaptcha}}</strong>: Tài khoản này đã được hCaptcha gắn cờ trong quá trình tạo tài khoản.",
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Đóng",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tài khoản tạm thời từ tất cả các IP liên quan: $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Tổng số tài khoản tạm thời từ tất cả địa chỉ IP được liên kết với tài khoản này"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Tổng số tài khoản tạm thời từ tất cả địa chỉ IP được liên kết với tài khoản này",
+	"checkuser-contributions-temporary-accounts-on-ip": "Tài khoản tạm thời của IP này: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tài khoản tạm thời của IP này: $1 (bị cấm: $2)"
 }

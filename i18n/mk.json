@@ -463,5 +463,7 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Уредување означено|Уредувања означени}} од $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Дневничка ставка означеа|Дневнички ставки означени}} од $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Привремени сметки за сите поврзани IP-адреси: $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Збирна сметка на сите привремени сметки од сите IP-адреси поврзани со оваа сметка"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Збирна сметка на сите привремени сметки од сите IP-адреси поврзани со оваа сметка",
+	"checkuser-contributions-temporary-accounts-on-ip": "Привремени сметки на оваа IP-адреса: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Привремени сметки на оваа IP-адреса: $1 (блокирани: $2)"
 }

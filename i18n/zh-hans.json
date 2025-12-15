@@ -463,6 +463,9 @@
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}：未找到子页面",
 	"checkuser-suggestedinvestigations-subpage-not-found-page-text": "指定的子页面不存在。",
 	"checkuser-suggestedinvestigations-summary": "此页面包含自动标记为潜在可疑的账号，以供查核用户调查。",
+	"checkuser-suggestedinvestigations-summary-temporary-filter-links": "筛选条件：$1、$2或$3",
+	"checkuser-suggestedinvestigations-summary-temporary-filter-open-cases": "打开的案件",
+	"checkuser-suggestedinvestigations-summary-temporary-filter-closed-cases": "关闭的案件",
 	"checkuser-suggestedinvestigations-summary-temporary-filter-invalid-cases": "无效案例",
 	"checkuser-suggestedinvestigations-summary-detail-view": "本页面仅供检查用户用户查核员查阅，包含关于'''案例#$1’''的详细信息。",
 	"checkuser-suggestedinvestigations-back-to-main-page": "返回{{int:checkuser-suggestedinvestigations}}",
@@ -474,6 +477,7 @@
 	"checkuser-suggestedinvestigations-header-notes": "备注",
 	"checkuser-suggestedinvestigations-header-actions": "操作",
 	"checkuser-suggestedinvestigations-user-check-link-text": "查核{{GENDER:$1|用户}}",
+	"checkuser-suggestedinvestigations-user-past-checks-link-text": "过去的{{GENDER:$1|查核}}",
 	"checkuser-suggestedinvestigations-user-showmore": "显示+$1{{PLURAL:$1|个账号}}",
 	"checkuser-suggestedinvestigations-user-showless": "隐藏后$1{{PLURAL:$1|个账号}}",
 	"checkuser-suggestedinvestigations-user-check-reason-prefill": "[[$1|建议调查#$2]]；{{GENDER:$3|$3}}",
@@ -510,5 +514,7 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|编辑}} 由 $1（$2）标记",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "日志{{PLURAL:$2|事项}}由$1（$2）标记",
 	"checkuser-userinfocard-temporary-account-bucketcount": "所有关联IP地址的临时账号：$1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "与此账号关联的所有IP地址的临时帐号总数"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "与此账号关联的所有IP地址的临时帐号总数",
+	"checkuser-contributions-temporary-accounts-on-ip": "此IP地址上的临时账号：$1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "此IP上的临时账号：$1（已封禁：$2）"
 }
