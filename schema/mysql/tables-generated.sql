@@ -72,7 +72,6 @@ CREATE TABLE /*_*/cu_private_event (
   cupe_xff_hex VARCHAR(255) DEFAULT NULL,
   cupe_agent VARBINARY(255) DEFAULT NULL,
   cupe_agent_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
-  cupe_private MEDIUMBLOB DEFAULT NULL,
   INDEX cupe_ip_hex_time (cupe_ip_hex, cupe_timestamp),
   INDEX cupe_xff_hex_time (cupe_xff_hex, cupe_timestamp),
   INDEX cupe_timestamp (cupe_timestamp),

@@ -79,8 +79,7 @@ CREATE TABLE /*_*/cu_private_event (
   cupe_xff BLOB DEFAULT '',
   cupe_xff_hex VARCHAR(255) DEFAULT NULL,
   cupe_agent BLOB DEFAULT NULL,
-  cupe_agent_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
-  cupe_private BLOB DEFAULT NULL
+  cupe_agent_id BIGINT UNSIGNED DEFAULT 0 NOT NULL
 );
 
 CREATE INDEX cupe_ip_hex_time ON /*_*/cu_private_event (cupe_ip_hex, cupe_timestamp);
