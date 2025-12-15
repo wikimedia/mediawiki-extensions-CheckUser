@@ -545,6 +545,7 @@ return [
 			$services->getUserEditTracker(),
 			$services->getUserGroupManager(),
 			$services->getCentralIdLookup(),
+			$services->getExtensionRegistry(),
 			$services->get( 'EventLogging.MetricsClientFactory' )
 		);
 	},

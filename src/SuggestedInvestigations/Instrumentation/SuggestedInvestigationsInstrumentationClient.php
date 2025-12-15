@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\EventBus\Serializers\MediaWiki\UserEntitySerializer;
 use MediaWiki\Extension\EventLogging\MetricsPlatform\MetricsClientFactory;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Registration\UserRegistrationLookup;
 use MediaWiki\User\UserEditTracker;
@@ -29,7 +30,8 @@ class SuggestedInvestigationsInstrumentationClient implements ISuggestedInvestig
 		private readonly UserEditTracker $userEditTracker,
 		private readonly UserGroupManager $userGroupManager,
 		private readonly CentralIdLookup $centralIdLookup,
-		private readonly MetricsClientFactory $metricsClientFactory
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly MetricsClientFactory $metricsClientFactory,
 	) {
 	}
 
@@ -75,6 +77,12 @@ class SuggestedInvestigationsInstrumentationClient implements ISuggestedInvestig
 
 	/** @inheritDoc */
 	public function getUserFragmentsArray( array $userIdentities ): array {
+		// If EventBus is not installed, then we cannot generate the array,
+		// so gracefully return (T412722)
+		if ( !$this->extensionRegistry->isLoaded( 'EventBus' ) ) {
+			return [];
+		}
+
 		$userEntitySerializer = new UserEntitySerializer(
 			$this->userFactory,
 			$this->userGroupManager,
