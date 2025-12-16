@@ -1048,6 +1048,7 @@
 			"ext.checkUser.userInfoCard",
 			"sinonjs",
 			"vue",
+			"vue-test-utils",
 			"@wikimedia/codex"
 		]
 	},
