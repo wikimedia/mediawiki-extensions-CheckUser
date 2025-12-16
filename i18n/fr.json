@@ -458,6 +458,10 @@
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}} : sous-page introuvable",
 	"checkuser-suggestedinvestigations-subpage-not-found-page-text": "La sous-page indiquée n'existe pas.",
 	"checkuser-suggestedinvestigations-summary": "Cette page contient les comptes automatiquement signalés comme suspects, pour que les vérificateurs d’utilisateurs les examinent.",
+	"checkuser-suggestedinvestigations-summary-temporary-filter-links": "Filtrer par : $1 , $2 ou $3",
+	"checkuser-suggestedinvestigations-summary-temporary-filter-open-cases": "dossiers ouverts",
+	"checkuser-suggestedinvestigations-summary-temporary-filter-closed-cases": "dossiers clos",
+	"checkuser-suggestedinvestigations-summary-temporary-filter-invalid-cases": "dossiers invalides",
 	"checkuser-suggestedinvestigations-summary-detail-view": "Cette page contient des informations détaillées destinées uniquement aux vérificateurs d'utilisateurs, concernant le '''cas #$1'''.",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Retour à {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-table-caption": "Tableau des investigations suggérées",
@@ -468,6 +472,7 @@
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
 	"checkuser-suggestedinvestigations-header-actions": "Actions",
 	"checkuser-suggestedinvestigations-user-check-link-text": "Vérifier l’utilisat{{GENDER:$1|eur|rice}}",
+	"checkuser-suggestedinvestigations-user-past-checks-link-text": "{{GENDER:$1|investigations}} précédentes",
 	"checkuser-suggestedinvestigations-user-showmore": "Afficher +$1 {{PLURAL:$1|comptes}}",
 	"checkuser-suggestedinvestigations-user-showless": "Masquer {{PLURAL:$1|le dernier compte|les $1 derniers comptes}}",
 	"checkuser-suggestedinvestigations-user-check-reason-prefill": "[[$1|Investigation suggérée #$2]]: {{GENDER:$3|$3}}",
@@ -502,7 +507,9 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Fermer",
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "En savoir plus sur les signaux de risque dans une fenêtre contextuelle",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Modification  signalée|Modifications signalées}} par $1 ($2)",
-	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Action signalée|Actions signalées}} par $1 ($2)",
+	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Entrée du journal signalée|Entrées du journal signalées}} par $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Comptes temporaires avec une IP en commun : $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Nombre de comptes temporaires dont l’une des adresses IP associées est également associée à ce compte temporaire"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Nombre de comptes temporaires dont l’une des adresses IP associées est également associée à ce compte temporaire",
+	"checkuser-contributions-temporary-accounts-on-ip": "Comptes temporaires sur cette IP : $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Comptes temporaires sur cette IP : $1 (bloqués : $2)"
 }
