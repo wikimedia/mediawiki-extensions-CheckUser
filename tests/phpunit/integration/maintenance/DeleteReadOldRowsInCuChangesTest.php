@@ -29,16 +29,16 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 		for ( $i = 0; $i < $numberOfReadOldRows; $i++ ) {
 			$rows[] = [
 				'cuc_actor' => $testUser->getActorId(), 'cuc_only_for_read_old' => 1, 'cuc_type' => RC_LOG,
-				'cuc_ip'  => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_timestamp'  => $this->getDb()->timestamp(), 'cuc_comment_id' => 0,
+				'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'cuc_timestamp' => $this->getDb()->timestamp(),
+				'cuc_comment_id' => 0,
 			];
 		}
 
 		for ( $i = 0; $i < $numberOfNormalRows; $i++ ) {
 			$rows[] = [
 				'cuc_actor' => $testUser->getActorId(), 'cuc_only_for_read_old' => 0, 'cuc_type' => RC_EDIT,
-				'cuc_ip'  => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_timestamp'  => $this->getDb()->timestamp(), 'cuc_comment_id' => 0,
+				'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'cuc_timestamp' => $this->getDb()->timestamp(),
+				'cuc_comment_id' => 0,
 			];
 		}
 

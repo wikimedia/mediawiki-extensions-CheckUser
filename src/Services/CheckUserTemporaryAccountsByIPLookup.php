@@ -341,7 +341,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->groupBy( 'cuc_ip_hex' )
 			->from( 'cu_changes' )
 			// T338276
-			->useIndex( 'cuc_actor_ip_time' )
+			->useIndex( 'cuc_actor_ip_hex_time' )
 			->join( 'actor', null, 'cuc_actor=actor_id' )
 			->where( [
 				'actor_name' => $user->getName(),
@@ -362,7 +362,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->groupBy( 'cule_ip_hex' )
 			->from( 'cu_log_event' )
 			// T338276
-			->useIndex( 'cule_actor_ip_time' )
+			->useIndex( 'cule_actor_ip_hex_time' )
 			->join( 'actor', null, 'cule_actor=actor_id' )
 			->where( [
 				'actor_name' => $user->getName(),

@@ -61,7 +61,6 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 		$row = [
 			$columnAlias . 'actor' => $actorStore->acquireActorId( $performer, $this->getDb() ),
 			$columnAlias . 'timestamp' => $this->getDb()->timestamp( $timestamp ),
-			$columnAlias . 'ip' => IPUtils::sanitizeIP( $ip ),
 			$columnAlias . 'ip_hex' => IPUtils::toHex( $ip ),
 		];
 
