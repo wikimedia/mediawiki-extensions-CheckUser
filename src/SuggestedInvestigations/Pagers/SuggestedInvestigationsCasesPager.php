@@ -70,8 +70,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		'sic_status' => [ 'sic_status', 'sic_created_timestamp', 'sic_id' ],
 	];
 
-	/** Database with the users table */
-	private IReadableDatabase $userDb;
+	/** Database with the users and cu_log table */
+	private IReadableDatabase $localDb;
 
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
@@ -110,7 +110,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$this->userNameFilter = $this->mRequest->getVal( 'username' );
 
-		$this->userDb = $this->connectionProvider->getReplicaDatabase();
+		$this->localDb = $this->connectionProvider->getReplicaDatabase();
 	}
 
 	/**
@@ -197,7 +197,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 			// Add link to Special:CheckUserLog if the user has been checked before and the
 			// viewing authority has the 'checkuser-log' right
-			$hasPastChecks = $this->getDatabase()->newSelectQueryBuilder()
+			$hasPastChecks = $this->localDb->newSelectQueryBuilder()
 				->select( '1' )
 				->from( 'cu_log' )
 				->where( [ 'cul_target_id' => $user->getId() ] )
@@ -521,7 +521,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 		$userIds = array_unique( $userIds );
 
-		$dbrUsers = $this->userDb;
+		$dbrUsers = $this->localDb;
 		$userIdToName = [];
 		foreach ( array_chunk( $userIds, 100 ) as $userIdChunk ) {
 			$resultUsers = $dbrUsers->newSelectQueryBuilder()
