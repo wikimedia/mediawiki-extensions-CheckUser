@@ -156,9 +156,9 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		$this->assertStringContainsString( '(checkuser-investigate-legend', $html );
 	}
 
-	private function commonTestViewTimelineTab( $target ) {
+	private function commonTestViewTimelineTab( $target, bool $filterTempAccounts = false ): string {
 		// Get the HTML for the timeline tab
-		$html = $this->getHtmlForTab( [ $target ], $this->getTabParam( 'timeline' ), true );
+		$html = $this->getHtmlForTab( [ $target ], $this->getTabParam( 'timeline' ), true, $filterTempAccounts );
 		// Verify that the HTML includes the form field to exclude a user from the timeline results.
 		$this->assertStringContainsString( '(checkuser-investigate-filters-exclude-targets-label', $html );
 		$this->assertStringContainsString( '(checkuser-investigate-filters-legend', $html );
@@ -186,10 +186,20 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 	}
 
 	public function testViewTimelineTabWithNoResults() {
+		$this->overrideConfigValue( 'CUDMaxAge', 7776000 );
 		// Load the special page with a target that has no results.
 		$html = $this->commonTestViewTimelineTab( '45.6.7.8' );
 		// Verify that the "No results" message is shown as no rows should have been found.
-		$this->assertStringContainsString( '(checkuser-investigate-timeline-notice-no-results', $html );
+		$this->assertStringContainsString( '(checkuser-investigate-timeline-notice-no-results: 90', $html );
+	}
+
+	public function testViewTimelineTabWithNoResultsButFilters() {
+		$html = $this->commonTestViewTimelineTab( '45.6.7.8', true );
+		$this->assertStringContainsString(
+			'(checkuser-investigate-timeline-notice-no-results-filters',
+			$html,
+			'No results message was not present'
+		);
 	}
 
 	private function commonTestViewCompareTab( $target, bool $filterTempAccounts = false ): string {
@@ -256,10 +266,20 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 	}
 
 	public function testViewCompareTabWithNoResults() {
+		$this->overrideConfigValue( 'CUDMaxAge', 7776000 );
 		// Load the special page for the compare tab with a target that has no results.
 		$html = $this->commonTestViewCompareTab( '45.6.7.8' );
 		// Verify that the "No results" message is shown as no rows should have been found.
-		$this->assertStringContainsString( '(checkuser-investigate-compare-notice-no-results', $html );
+		$this->assertStringContainsString( '(checkuser-investigate-compare-notice-no-results: 90', $html );
+	}
+
+	public function testViewCompareTabWithNoResultsButFilters() {
+		$html = $this->commonTestViewCompareTab( '45.6.7.8', true );
+		$this->assertStringContainsString(
+			'(checkuser-investigate-compare-notice-no-results-filters',
+			$html,
+			'No results message was not present'
+		);
 	}
 
 	public function testViewCompareTabWithResultsForTempUser(): void {

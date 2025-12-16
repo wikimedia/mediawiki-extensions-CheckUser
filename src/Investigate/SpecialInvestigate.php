@@ -353,10 +353,15 @@ class SpecialInvestigate extends FormSpecialPage {
 					}
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
-					$messageKey = $this->usingFilters() ?
-						'checkuser-investigate-compare-notice-no-results-filters' :
-						'checkuser-investigate-compare-notice-no-results';
-					$message = $this->msg( $messageKey )->parse();
+					if ( $this->usingFilters() ) {
+						$message = $this->msg(
+							'checkuser-investigate-compare-notice-no-results-filters'
+						)->parse();
+					} else {
+						$message = $this->msg( 'checkuser-investigate-compare-notice-no-results' )
+							->numParams( $this->getMaxCheckUserDataAgeForMessage() )
+							->parse();
+					}
 					$this->addHTML( new MessageWidget( [
 						'type' => 'warning',
 						'label' => new HtmlSnippet( $message ),
@@ -380,10 +385,15 @@ class SpecialInvestigate extends FormSpecialPage {
 				if ( $numRows ) {
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
-					$messageKey = $this->usingFilters() ?
-						'checkuser-investigate-timeline-notice-no-results-filters' :
-						'checkuser-investigate-timeline-notice-no-results';
-					$message = $this->msg( $messageKey )->parse();
+					if ( $this->usingFilters() ) {
+						$message = $this->msg(
+							'checkuser-investigate-timeline-notice-no-results-filters'
+						)->parse();
+					} else {
+						$message = $this->msg( 'checkuser-investigate-timeline-notice-no-results' )
+							->numParams( $this->getMaxCheckUserDataAgeForMessage() )
+							->parse();
+					}
 					$this->addHTML( new MessageWidget( [
 						'type' => 'warning',
 						'label' => new HtmlSnippet( $message ),
@@ -401,6 +411,13 @@ class SpecialInvestigate extends FormSpecialPage {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * @return int The max age of contributions in days rounded to the nearest whole number
+	 */
+	private function getMaxCheckUserDataAgeForMessage(): int {
+		return (int)round( $this->getConfig()->get( 'CUDMaxAge' ) / 86400 );
 	}
 
 	/**
