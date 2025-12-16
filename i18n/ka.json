@@ -56,5 +56,6 @@
 	"logentry-checkuser-private-event-autocreate-account": "ავტომატურად შეიქმნა",
 	"logentry-checkuser-private-event-create-account": "შეიქმნა",
 	"checkuser-ip-contributions": "მოძებნეთ IP-ის წვლილი",
+	"checkuser-ip-contributions-deleted-contributions-link": "მომხმარებლის წაშლილი წვლილი",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP-ის ჩვენება"
 }
