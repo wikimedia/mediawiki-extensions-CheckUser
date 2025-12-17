@@ -132,41 +132,56 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 			'cu_changes table' => [
 				// The $table argument to ::getQueryInfo
 				'cu_changes',
-				// The expected query info returned by ::getQueryInfo (we are only interested in testing the query info
-				// added by ::getQueryInfo and not the info added by the table specific methods).
 				[
+					'fields' => [
+						'ip_hex' => 'cuc_ip_hex',
+						'count' => 'COUNT(*)',
+						'first' => 'MIN(cuc_timestamp)',
+						'last' => 'MAX(cuc_timestamp)',
+					],
 					'tables' => [ 'cu_changes' ],
 					'conds' => [ 'actor_user' => 1 ],
 					'options' => [
-						'USE INDEX' => [ 'cu_changes' => 'cuc_actor_ip_time' ],
-						'GROUP BY' => [ 'ip', 'ip_hex' ],
+						'USE INDEX' => [ 'cu_changes' => 'cuc_actor_ip_hex_time' ],
+						'GROUP BY' => 'ip_hex',
 					],
-					// Verify that fields and join_conds set as arrays, but we are not testing their values.
-					'fields' => [], 'join_conds' => [],
+					'join_conds' => [],
 				],
 			],
 			'cu_log_event table' => [
 				'cu_log_event',
 				[
+					'fields' => [
+						'ip_hex' => 'cule_ip_hex',
+						'count' => 'COUNT(*)',
+						'first' => 'MIN(cule_timestamp)',
+						'last' => 'MAX(cule_timestamp)',
+					],
 					'tables' => [ 'cu_log_event' ],
 					'conds' => [ 'actor_user' => 1 ],
 					'options' => [
-						'USE INDEX' => [ 'cu_log_event' => 'cule_actor_ip_time' ],
-						'GROUP BY' => [ 'ip', 'ip_hex' ],
+						'USE INDEX' => [ 'cu_log_event' => 'cule_actor_ip_hex_time' ],
+						'GROUP BY' => 'ip_hex',
 					],
-					'fields' => [], 'join_conds' => [],
+					'join_conds' => [],
 				],
 			],
 			'cu_private_event table' => [
 				'cu_private_event',
 				[
+					'fields' => [
+						'ip_hex' => 'cupe_ip_hex',
+						'count' => 'COUNT(*)',
+						'first' => 'MIN(cupe_timestamp)',
+						'last' => 'MAX(cupe_timestamp)',
+					],
 					'tables' => [ 'cu_private_event' ],
 					'conds' => [ 'actor_user' => 1 ],
 					'options' => [
-						'USE INDEX' => [ 'cu_private_event' => 'cupe_actor_ip_time' ],
-						'GROUP BY' => [ 'ip', 'ip_hex' ],
+						'USE INDEX' => [ 'cu_private_event' => 'cupe_actor_ip_hex_time' ],
+						'GROUP BY' => 'ip_hex',
 					],
-					'fields' => [], 'join_conds' => [],
+					'join_conds' => [],
 				],
 			],
 		];

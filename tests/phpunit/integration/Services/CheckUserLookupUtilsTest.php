@@ -125,9 +125,9 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideGetIndexName() {
 		return [
-			'cu_changes with null xfor' => [ CheckUserQueryInterface::CHANGES_TABLE, null, 'cuc_actor_ip_time' ],
+			'cu_changes with null xfor' => [ CheckUserQueryInterface::CHANGES_TABLE, null, 'cuc_actor_ip_hex_time' ],
 			'cu_private_event with null xfor' => [
-				CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE, null, 'cupe_actor_ip_time',
+				CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE, null, 'cupe_actor_ip_hex_time',
 			],
 			'cu_log_event with false xfor' => [ CheckUserQueryInterface::LOG_EVENT_TABLE, false, 'cule_ip_hex_time' ],
 			'cu_private_event with true xfor' => [

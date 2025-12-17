@@ -10,6 +10,7 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\User\UserIdentity;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -252,7 +253,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						'user_text' => 'Test',
 						'user' => 1,
 						'actor' => 1,
-						'ip' => '127.0.0.1',
+						'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 						'xff' => null,
 						'agent' => 'Testing user agent',
 						'timestamp' => $largestFakeTimestamp,
@@ -283,7 +284,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						'user_text' => 'Test',
 						'user' => 1,
 						'actor' => 1,
-						'ip' => '127.0.0.1',
+						'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 						'xff' => '125.6.5.4',
 						'agent' => 'Testing user agent',
 						'timestamp' => $largestFakeTimestamp,
@@ -294,7 +295,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						'user_text' => 'Testing',
 						'user' => 2,
 						'actor' => 2,
-						'ip' => '127.0.0.2',
+						'ip_hex' => IPUtils::toHex( '127.0.0.2' ),
 						'xff' => null,
 						'agent' => 'Testing user agent',
 						'timestamp' => $middleFakeTimestamp,
@@ -305,7 +306,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						'user_text' => 'Test',
 						'user' => 1,
 						'actor' => 1,
-						'ip' => '127.0.0.2',
+						'ip_hex' => IPUtils::toHex( '127.0.0.2' ),
 						'xff' => null,
 						'agent' => 'Testing user agent1234',
 						'timestamp' => $middleFakeTimestamp,
@@ -316,7 +317,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						'user_text' => 'Test',
 						'user' => 1,
 						'actor' => 1,
-						'ip' => '127.0.0.1',
+						'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 						'xff' => null,
 						'agent' => 'Testing user agent',
 						'timestamp' => $smallestFakeTimestamp,
@@ -328,7 +329,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						'user_text' => null,
 						'user' => null,
 						'actor' => null,
-						'ip' => '127.0.0.1',
+						'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 						'xff' => null,
 						'agent' => 'Testing user agent',
 						'timestamp' => $smallestFakeTimestamp,

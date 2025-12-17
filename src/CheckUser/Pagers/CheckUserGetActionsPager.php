@@ -145,8 +145,8 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$templateParams['timestamp'] =
 			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->timestamp ), $this->getUser() );
 		// Use the IP as the $user_text if the actor ID is NULL and the IP is not NULL (T353953).
-		if ( $row->actor === null && $row->ip ) {
-			$row->user_text = $row->ip;
+		if ( $row->actor === null && $row->ip_hex !== null ) {
+			$row->user_text = IPUtils::formatHex( $row->ip_hex );
 		}
 		// Normalise user text if IP for clarity and compatibility with ipLink below
 		$user_text = $row->user_text;
@@ -227,20 +227,24 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		}
 
 		// IP
-		$ip = IPUtils::prettifyIP( $row->ip ) ?? $row->ip ?? '';
-		$templateParams['ipLink'] = $this->getSelfLink( $ip,
-			[
-				'user' => $ip,
-				'reason' => $this->opts->getValue( 'reason' ),
-			]
-		);
+		$ip = null;
+		if ( $row->ip_hex !== null ) {
+			$ip = IPUtils::prettifyIP( IPUtils::formatHex( $row->ip_hex ) );
+			$templateParams['ipLink'] = $this->getSelfLink( $ip,
+				[
+					'user' => $ip,
+					'reason' => $this->opts->getValue( 'reason' ),
+				]
+			);
+		}
+		$templateParams['ipIsSet'] = $ip !== null;
 
 		// XFF
 		if ( $row->xff != null ) {
 			// Flag our trusted proxies
 			[ $client ] = $this->checkUserUtilityService->getClientIPfromXFF( $row->xff );
 			// XFF was trusted if client came from it
-			$trusted = ( $client === $row->ip );
+			$trusted = $ip !== null && $client === IPUtils::canonicalize( $ip );
 			$templateParams['xffTrusted'] = $trusted;
 			$templateParams['xff'] = $this->getSelfLink( $row->xff,
 				[
@@ -526,7 +530,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'type' => 'cuc_type',
 				'this_oldid' => 'cuc_this_oldid',
 				'last_oldid' => 'cuc_last_oldid',
-				'ip' => 'cuc_ip',
+				'ip_hex' => 'cuc_ip_hex',
 				'xff' => 'cuc_xff',
 				'agent' => 'cuc_agent',
 				'actor' => 'cuc_actor',
@@ -558,7 +562,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'title' => 'log_title',
 				'page_id' => 'log_page',
 				'namespace' => 'log_namespace',
-				'ip' => 'cule_ip',
 				'ip_hex' => 'cule_ip_hex',
 				'xff' => 'cule_xff',
 				'xff_hex' => 'cule_xff_hex',
@@ -615,7 +618,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'title' => 'cupe_title',
 				'page_id' => 'cupe_page',
 				'namespace' => 'cupe_namespace',
-				'ip' => 'cupe_ip',
 				'ip_hex' => 'cupe_ip_hex',
 				'xff' => 'cupe_xff',
 				'xff_hex' => 'cupe_xff_hex',
@@ -672,8 +674,8 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$referenceIds = new ClientHintsReferenceIds();
 		foreach ( $result as $row ) {
 			// Use the IP as the user_text if the actor ID is NULL and the IP is not NULL (T353953).
-			if ( $row->actor === null && $row->ip ) {
-				$row->user_text = $row->ip;
+			if ( $row->actor === null && $row->ip_hex !== null ) {
+				$row->user_text = IPUtils::formatHex( $row->ip_hex );
 			}
 			$referenceIds->addReferenceIds( $row->client_hints_reference_id, $row->client_hints_reference_type );
 			if ( $row->title !== '' ) {

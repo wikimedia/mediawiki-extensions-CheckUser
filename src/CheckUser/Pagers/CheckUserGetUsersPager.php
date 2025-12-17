@@ -308,7 +308,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				// Flag our trusted proxies
 				[ $client ] = $this->checkUserUtilityService->getClientIPfromXFF( $xffString );
 				// XFF was trusted if client came from it
-				$trusted = ( $client === $clientIP );
+				$trusted = ( $client === IPUtils::canonicalize( $clientIP ) );
 				$row['xffTrusted'] = $trusted;
 				$row['xff'] = $this->getSelfLink( $xffString, [ 'user' => $client . '/xff' ] );
 			}
@@ -374,8 +374,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 		foreach ( $result as $row ) {
 			// Use the IP as the user_text if the actor ID is NULL and the IP is not NULL (T353953).
-			if ( $row->actor === null && $row->ip ) {
-				$row->user_text = $row->ip;
+			if ( $row->actor === null && $row->ip_hex !== null ) {
+				$row->user_text = IPUtils::formatHex( $row->ip_hex );
 			}
 
 			if ( !array_key_exists( $row->user_text, $this->userSets['edits'] ) ) {
@@ -400,7 +400,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			$this->userSets['edits'][$row->user_text]++;
 			$this->userSets['first'][$row->user_text] = $row->timestamp;
 			// Prettify IP
-			$formattedIP = IPUtils::prettifyIP( $row->ip ) ?? $row->ip;
+			$ip = $row->ip_hex !== null ? IPUtils::formatHex( $row->ip_hex ) : '';
+			$formattedIP = IPUtils::prettifyIP( $ip ) ?? $ip;
 			// Treat blank or NULL xffs as empty strings
 			$xff = empty( $row->xff ) ? null : $row->xff;
 			$xff_ip_combo = [ $formattedIP, $xff ];
@@ -475,7 +476,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		return [
 			'fields' => [
 				'timestamp' => 'cuc_timestamp',
-				'ip' => 'cuc_ip',
+				'ip_hex' => 'cuc_ip_hex',
 				'agent' => 'cuc_agent',
 				'xff' => 'cuc_xff',
 				'actor' => 'cuc_actor',
@@ -498,7 +499,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		return [
 			'fields' => [
 				'timestamp' => 'cule_timestamp',
-				'ip' => 'cule_ip',
+				'ip_hex' => 'cule_ip_hex',
 				'agent' => 'cule_agent',
 				'xff' => 'cule_xff',
 				'actor' => 'cule_actor',
@@ -521,7 +522,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		return [
 			'fields' => [
 				'timestamp' => 'cupe_timestamp',
-				'ip' => 'cupe_ip',
+				'ip_hex' => 'cupe_ip_hex',
 				'agent' => 'cupe_agent',
 				'xff' => 'cupe_xff',
 				'actor' => 'cupe_actor',

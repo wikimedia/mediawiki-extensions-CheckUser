@@ -165,25 +165,25 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	}
 
 	public function testFormatRowLogFromUnnormalisedIPv6() {
-		$user_text = '2A02:EC80:101:0:0:0:2:8';
 		$ip = '2a02:ec80:101::2:8';
+		$normalisedIP = IPUtils::prettifyIP( $ip );
 
-		$normalisedIP = IPUtils::prettifyIP( $user_text ) ?? $user_text;
 		$wrapper = $this->setUpObject();
 
 		$this->testFormatRow(
 			[
-				'user_text' => $user_text,
-				'ip' => $ip,
+				'user_text' => $ip,
+				'ip_hex' => IPUtils::toHex( $ip ),
 				'client_hints_reference_id' => 1,
 				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT,
 			],
-			[ $user_text => '' ],
+			[ $ip => '' ],
 			[],
 			[],
 			new ClientHintsBatchFormatterResults( [], [] ),
 			[
 				'userLink' => Linker::userLink( 0, $normalisedIP, $normalisedIP ),
+				'ipIsSet' => true,
 				'ipLink' => $wrapper->getSelfLink( $normalisedIP,
 					[
 						'user' => $normalisedIP,
@@ -361,7 +361,8 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			],
 			'Row for IP address when temporary accounts are enabled' => [
 				[
-					'user_text' => null, 'user' => null, 'actor' => null, 'ip' => '127.0.0.1',
+					'user_text' => null, 'user' => null, 'actor' => null,
+					'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 					'client_hints_reference_id' => 1,
 					'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
 				],
@@ -370,6 +371,19 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				[],
 				new ClientHintsBatchFormatterResults( [], [] ),
 				[ 'flags' => 'test-flag' ],
+			],
+			'Row when IP address is null' => [
+				[
+					'user_text' => 'User1234',
+					'ip_hex' => null,
+					'client_hints_reference_id' => 1,
+					'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+				],
+				[ 'User1234' => '' ],
+				[],
+				[],
+				new ClientHintsBatchFormatterResults( [], [] ),
+				[ 'ipIsSet' => false ],
 			],
 		];
 	}
@@ -458,7 +472,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				[
 					'tables' => [ 'cu_log_event' ],
 					'conds' => [ 'actor_user' => 1 ],
-					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_actor_ip_time' ] ],
+					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_actor_ip_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
 				],
 			],
@@ -480,7 +494,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			'last_oldid' => 0,
 			'type' => RC_EDIT,
 			'timestamp' => $this->getDb()->timestamp(),
-			'ip' => '127.0.0.1',
+			'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 			'xff' => '',
 			'agent' => '',
 			'comment_id' => 0,

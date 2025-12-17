@@ -139,10 +139,11 @@ class CheckUserLookupUtils {
 	 */
 	public function getIndexName( ?bool $xfor, string $table ): string {
 		// So that a code search can find existing usages:
-		// cuc_actor_ip_time, cule_actor_ip_time, cupe_actor_ip_time, cuc_xff_hex_time, cuc_ip_hex_time,
-		// cule_xff_hex_time, cule_ip_hex_time, cupe_xff_hex_time, cupe_ip_hex_time
+		// cuc_actor_ip_hex_time, cule_actor_ip_hex_time, cupe_actor_ip_hex_time,
+		// cuc_xff_hex_time, cuc_ip_hex_time, cule_xff_hex_time, cule_ip_hex_time,
+		// cupe_xff_hex_time, cupe_ip_hex_time
 		if ( $xfor === null ) {
-			return CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . 'actor_ip_time';
+			return CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . 'actor_ip_hex_time';
 		} else {
 			$type = $xfor ? 'xff' : 'ip';
 			return CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . $type . '_hex_time';
