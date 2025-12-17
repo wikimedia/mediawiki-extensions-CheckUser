@@ -85,15 +85,15 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 		$actions = [];
 		foreach ( $res as $row ) {
 			// Use the IP as the $row->user_text if the actor ID is NULL and the IP is not NULL (T353953).
-			if ( $row->actor === null && $row->ip ) {
-				$row->user_text = $row->ip;
+			if ( $row->actor === null && $row->ip_hex !== null ) {
+				$row->user_text = IPUtils::formatHex( $row->ip_hex );
 			}
 			$action = [
 				'timestamp' => ConvertibleTimestamp::convert( TS_ISO_8601, $row->timestamp ),
 				'ns'        => intval( $row->namespace ),
 				'title'     => $row->title,
 				'user'      => $row->user_text,
-				'ip'        => $row->ip,
+				'ip'        => $row->ip_hex !== null ? IPUtils::formatHex( $row->ip_hex ) : null,
 				'agent'     => $row->agent,
 			];
 
@@ -248,7 +248,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 				'namespace' => 'cuc_namespace', 'title' => 'cuc_title',
 				'page' => 'cuc_page_id', 'timestamp' => 'cuc_timestamp',
 				'minor' => 'cuc_minor', 'type' => 'cuc_type', 'this_oldid' => 'cuc_this_oldid',
-				'ip' => 'cuc_ip', 'xff' => 'cuc_xff', 'agent' => 'cuc_agent',
+				'ip_hex' => 'cuc_ip_hex', 'xff' => 'cuc_xff', 'agent' => 'cuc_agent',
 				'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cuc_actor',
 				'comment_text', 'comment_data',
 			] )
@@ -272,7 +272,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			->select( [
 				'namespace' => 'log_namespace', 'title' => 'log_title',
 				'page_id' => 'log_page', 'timestamp' => 'cule_timestamp', 'type' => $typeValue,
-				'ip' => 'cule_ip', 'xff' => 'cule_xff', 'agent' => 'cule_agent',
+				'ip_hex' => 'cule_ip_hex', 'xff' => 'cule_xff', 'agent' => 'cule_agent',
 				'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cule_actor',
 				'comment_text', 'comment_data',
 				'log_type' => 'log_type', 'log_action' => 'log_action',
@@ -298,7 +298,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			->select( [
 				'namespace' => 'cupe_namespace', 'title' => 'cupe_title',
 				'page_id' => 'cupe_page', 'timestamp' => 'cupe_timestamp', 'type' => $typeValue,
-				'ip' => 'cupe_ip', 'xff' => 'cupe_xff', 'agent' => 'cupe_agent',
+				'ip_hex' => 'cupe_ip_hex', 'xff' => 'cupe_xff', 'agent' => 'cupe_agent',
 				'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cupe_actor',
 				'comment_text', 'comment_data',
 				'log_type' => 'cupe_log_type', 'log_action' => 'cupe_log_action',

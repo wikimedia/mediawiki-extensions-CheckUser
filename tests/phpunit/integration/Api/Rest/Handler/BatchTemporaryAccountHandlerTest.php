@@ -531,7 +531,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$testData = [
 			[
 				'cule_actor'      => $actorId,
-				'cule_ip'         => '1.2.3.4',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cule_log_id'     => 10,
 				'cule_timestamp'  => $this->getDb()->timestamp( '20200101000000' ),
@@ -541,7 +540,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			[
 				'cule_actor'      => $actorId,
-				'cule_ip'         => '1.2.3.5',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cule_log_id'     => 100,
 				'cule_timestamp'  => $this->getDb()->timestamp( '20210101000000' ),
@@ -551,7 +549,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			[
 				'cule_actor'      => $actorId,
-				'cule_ip'         => '1.2.3.5',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cule_log_id'     => 1000,
 				'cule_timestamp'  => $this->getDb()->timestamp( '20220101000000' ),

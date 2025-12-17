@@ -14,6 +14,7 @@ use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentityValue;
 use TypeError;
+use Wikimedia\IPUtils;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -173,7 +174,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		// Fetch details about the private event with ID $privateLogId
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		$privateEventRow = $dbr->newSelectQueryBuilder()
-			->select( [ 'cupe_timestamp', 'cupe_actor', 'cupe_ip' ] )
+			->select( [ 'cupe_timestamp', 'cupe_actor', 'cupe_ip_hex' ] )
 			->from( 'cu_private_event' )
 			->where( [ 'cupe_id' => $privateLogId ] )
 			->caller( __METHOD__ )
@@ -188,9 +189,12 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		}
 		$this->performTimestampValidation( $privateEventRow->cupe_timestamp, 'privatelog', $privateLogId );
 		// Check the performer of the action is the same as the user submitting this REST API request
-		if ( $privateEventRow->cupe_actor === null && $privateEventRow->cupe_ip ) {
+		if ( $privateEventRow->cupe_actor === null && $privateEventRow->cupe_ip_hex !== null ) {
 			// Use the IP as the user_text if the actor ID is NULL and the IP is not NULL (T353953).
-			$performingUser = new UserIdentityValue( 0, $privateEventRow->cupe_ip );
+			$performingUser = new UserIdentityValue(
+				0,
+				IPUtils::formatHex( $privateEventRow->cupe_ip_hex )
+			);
 		} else {
 			$performingUser = $this->actorStore->getActorById( $privateEventRow->cupe_actor, $dbr );
 		}

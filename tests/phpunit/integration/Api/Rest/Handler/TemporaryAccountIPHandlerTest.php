@@ -255,42 +255,36 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 		$CUTestData = [
 			[
 				'cuc_actor'      => 1,
-				'cuc_ip'         => '1.2.3.1',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.1' ),
 				'cuc_this_oldid' => 1,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20200101000000' ),
 			],
 			[
 				'cuc_actor'      => 2,
-				'cuc_ip'         => '1.2.3.2',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.2' ),
 				'cuc_this_oldid' => 10,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20200101000001' ),
 			],
 			[
 				'cuc_actor'      => 20,
-				'cuc_ip'         => '1.2.3.2',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.2' ),
 				'cuc_this_oldid' => 100,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20200101000002' ),
 			],
 			[
 				'cuc_actor'      => 3,
-				'cuc_ip'         => '1.2.3.3',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.3' ),
 				'cuc_this_oldid' => 1000,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20210101000003' ),
 			],
 			[
 				'cuc_actor'      => 30,
-				'cuc_ip'         => '1.2.3.3',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.3' ),
 				'cuc_this_oldid' => 10000,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20220101000004' ),
 			],
 			[
 				'cuc_actor'      => 20,
-				'cuc_ip'         => '1.2.3.2',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.2' ),
 				'cuc_this_oldid' => 100000,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20200101000005' ),

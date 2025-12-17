@@ -10,6 +10,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
 use MessageLocalizer;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -50,7 +51,7 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 		$users = [];
 		foreach ( $res as $row ) {
 			$user = $row->user_text;
-			$ip = $row->ip;
+			$ip = $row->ip_hex !== null ? IPUtils::formatHex( $row->ip_hex ) : null;
 			$agent = $row->agent;
 
 			// Use the IP as the $row->user_text if the actor ID is NULL and the IP is not NULL (T353953).
@@ -118,7 +119,7 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 		$queryBuilder = $this->dbr->newSelectQueryBuilder()
 			->select( [
 				'timestamp' => 'cuc_timestamp',
-				'ip' => 'cuc_ip',
+				'ip_hex' => 'cuc_ip_hex',
 				'agent' => 'cuc_agent',
 				'user_text' => 'actor_name',
 				'actor' => 'cuc_actor',
@@ -134,7 +135,7 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 		return $this->dbr->newSelectQueryBuilder()
 			->select( [
 				'timestamp' => 'cule_timestamp',
-				'ip' => 'cule_ip',
+				'ip_hex' => 'cule_ip_hex',
 				'agent' => 'cule_agent',
 				'user_text' => 'actor_name',
 				'actor' => 'cule_actor',
@@ -149,7 +150,7 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 		return $this->dbr->newSelectQueryBuilder()
 			->select( [
 				'timestamp' => 'cupe_timestamp',
-				'ip' => 'cupe_ip',
+				'ip_hex' => 'cupe_ip_hex',
 				'agent' => 'cupe_agent',
 				'user_text' => 'actor_name',
 				'actor' => 'cupe_actor',
