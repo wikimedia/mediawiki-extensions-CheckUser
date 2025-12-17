@@ -14,6 +14,7 @@ use MediaWiki\Pager\ReverseChronologicalPager;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
 class TimelinePager extends ReverseChronologicalPager {
@@ -119,8 +120,14 @@ class TimelinePager extends ReverseChronologicalPager {
 		$lb->setCaller( __METHOD__ );
 
 		foreach ( $this->mResult as $row ) {
-			$lb->addUser( new UserIdentityValue( $row->user ?? 0, $row->user_text ?? $row->ip ) );
+			$username = $row->user_text;
+			if ( $username === null && $row->ip_hex !== null ) {
+				$username = IPUtils::formatHex( $row->ip_hex );
+			}
+			$lb->addUser( new UserIdentityValue( $row->user ?? 0, $username ?? '' ) );
 		}
+
+		$lb->execute();
 	}
 
 	/**

@@ -130,29 +130,29 @@ class ComparePager extends TablePager {
 
 		$row = $this->mCurrentRow;
 		switch ( $field ) {
-			case 'ip':
+			case 'ip_hex':
+				$ip = IPUtils::formatHex( $value );
 				foreach ( $this->filteredTargets as $target ) {
-					if ( IPUtils::isIPAddress( $target ) && IPUtils::isInRange( $value, $target ) ) {
-						// If the current cuc_ip is either in the range of a filtered target or is the filtered target,
+					if ( IPUtils::isIPAddress( $target ) && IPUtils::isInRange( $ip, $target ) ) {
+						// If the current IP is either in the range of a filtered target or is the filtered target,
 						// then mark the cell as a target.
 						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 						break;
 					}
 				}
-				$ipHex = $row->ip_hex;
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-ip-target';
 				$attributes['data-field'] = $field;
-				$attributes['data-value'] = $value;
-				$attributes['data-sort-value'] = $ipHex;
+				$attributes['data-value'] = $ip;
+				$attributes['data-sort-value'] = $value;
 				$attributes['data-actions'] = $row->total_actions;
-				$attributes['data-all-actions'] = $this->ipTotalActions[$ipHex];
+				$attributes['data-all-actions'] = $this->ipTotalActions[$value];
 				break;
 			case 'user_text':
 				// Use the IP as the $row->user_text if the actor ID is NULL and the IP is not NULL (T353953).
-				if ( $row->actor === null && $row->ip ) {
-					$value = $row->ip;
+				if ( $row->actor === null && $row->ip_hex !== null ) {
+					$value = IPUtils::formatHex( $row->ip_hex );
 				}
 				// Hide the username if it is hidden from the current authority.
 				$user = $this->userFactory->newFromName( $value );
@@ -211,8 +211,8 @@ class ComparePager extends TablePager {
 		switch ( $name ) {
 			case 'user_text':
 				// Use the IP as the $row->user_text if the actor ID is NULL and the IP is not NULL (T353953).
-				if ( $row->actor === null && $row->ip ) {
-					$value = $row->ip;
+				if ( $row->actor === null && $row->ip_hex !== null ) {
+					$value = IPUtils::formatHex( $row->ip_hex );
 				}
 				'@phan-var string $value';
 				// Hide the username if it is hidden from the current authority.
@@ -226,27 +226,26 @@ class ComparePager extends TablePager {
 					$formatted = Linker::userLink( $row->user ?? 0, $value );
 				}
 				break;
-			case 'ip':
-				$formatted = Html::rawElement(
+			case 'ip_hex':
+				$formatted = Html::element(
 					'span',
 					[ 'class' => "ext-checkuser-compare-table-cell-ip" ],
-					htmlspecialchars( $value )
+					IPUtils::formatHex( $value )
 				);
 
 				// get other actions
 				$otherActions = '';
-				$ipHex = $row->ip_hex;
-				if ( !isset( $this->ipTotalActions[$ipHex] ) ) {
-					$this->ipTotalActions[$ipHex] = $this->compareService->getTotalActionsFromIP( $ipHex );
+				if ( !isset( $this->ipTotalActions[$value] ) ) {
+					$this->ipTotalActions[$value] = $this->compareService->getTotalActionsFromIP( $value );
 				}
 
-				if ( $this->ipTotalActions[$ipHex] ) {
+				if ( $this->ipTotalActions[$value] ) {
 					$otherActions = Html::rawElement(
 						'span',
 						[],
 						$this->msg(
 							'checkuser-investigate-compare-table-cell-other-actions',
-							$this->ipTotalActions[$ipHex]
+							$this->ipTotalActions[$value]
 						)->parse()
 					);
 				}
@@ -290,7 +289,7 @@ class ComparePager extends TablePager {
 		if ( $this->fieldNames === null ) {
 			$this->fieldNames = [
 				'user_text' => 'checkuser-investigate-compare-table-header-username',
-				'ip' => 'checkuser-investigate-compare-table-header-ip',
+				'ip_hex' => 'checkuser-investigate-compare-table-header-ip',
 				'agent' => 'checkuser-investigate-compare-table-header-useragent',
 				'activity' => 'checkuser-investigate-compare-table-header-activity',
 			];
@@ -325,7 +324,11 @@ class ComparePager extends TablePager {
 		$lb->setCaller( __METHOD__ );
 
 		foreach ( $this->mResult as $row ) {
-			$lb->addUser( new UserIdentityValue( $row->user ?? 0, $row->user_text ?? $row->ip ) );
+			$username = $row->user_text;
+			if ( $username === null && $row->ip_hex !== null ) {
+				$username = IPUtils::formatHex( $row->ip_hex );
+			}
+			$lb->addUser( new UserIdentityValue( $row->user ?? 0, $username ?? '' ) );
 		}
 
 		$lb->execute();

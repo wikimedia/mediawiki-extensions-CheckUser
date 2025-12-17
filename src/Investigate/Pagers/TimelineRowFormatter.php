@@ -77,8 +77,8 @@ class TimelineRowFormatter {
 	 */
 	public function getFormattedRowItems( \stdClass $row ): array {
 		// Use the IP as the $row->user_text if the actor ID is NULL and the IP is not NULL (T353953).
-		if ( $row->actor === null && $row->ip ) {
-			$row->user_text = $row->ip;
+		if ( $row->actor === null && $row->ip_hex !== null ) {
+			$row->user_text = IPUtils::formatHex( $row->ip_hex );
 		}
 
 		$user = $this->userFactory->newFromUserIdentity(
@@ -108,7 +108,7 @@ class TimelineRowFormatter {
 				'time' => $this->getTime( $row->timestamp ),
 				'userLinks' => $this->getUserLinks( $row, $revRecord, $logEntry ),
 				'actionText' => $this->getActionText( $logEntry ),
-				'ipInfo' => $this->getIpInfo( $row->ip ),
+				'ipInfo' => $this->getIpInfo( $row->ip_hex ),
 				'userAgent' => $this->getUserAgent( $row->agent ?? '' ),
 				'comment' => $this->getComment( $row, $revRecord, $logEntry ),
 			],
@@ -141,13 +141,10 @@ class TimelineRowFormatter {
 		return $this->commentFormatter->formatBlock( $comment, null, false, null, false );
 	}
 
-	/**
-	 * @param string $ip
-	 * @return string
-	 */
-	private function getIpInfo( string $ip ): string {
+	private function getIpInfo( ?string $ipHex ): string {
 		// Note: in the old check user this links to self with ip as target. Can't do now
 		// because of token. We could prefill a new investigation tab
+		$ip = $ipHex !== null ? IPUtils::formatHex( $ipHex ) : '';
 		return IPUtils::prettifyIP( $ip );
 	}
 

@@ -10,11 +10,15 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\ManualLogEntry;
+use MediaWiki\Page\LinkBatch;
+use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Pager\IndexPager;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use TestUser;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -40,7 +44,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				->get( 'CheckUserTimelineRowFormatterFactory' )->createRowFormatter(
 					RequestContext::getMain()->getUser(), RequestContext::getMain()->getLanguage()
 				),
-			$this->getServiceContainer()->getLinkBatchFactory(),
+			$overrides['linkBatchFactory'] ?? $this->getServiceContainer()->getLinkBatchFactory(),
 			$overrides['logger'] ?? LoggerFactory::getInstance( 'CheckUser' )
 		) );
 	}
@@ -188,10 +192,10 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				[ (object)[
 					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
 					'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
-					'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
+					'this_oldid' => '0', 'last_oldid' => '0', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'xff' => '0',
 					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
-					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
-					'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
+					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1', 'log_type' => null,
+					'log_action' => null, 'log_params' => null, 'log_deleted' => null,
 				] ],
 			],
 			'Offset set, limit 1, order DESC, InvestigateTestUser1 as target' => [
@@ -200,7 +204,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				[ (object)[
 					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
 					'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
-					'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
+					'this_oldid' => '0', 'last_oldid' => '0', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'xff' => '0',
 					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
 					'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
@@ -211,8 +215,8 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				null, 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.4' ], [
 					(object)[
 						'timestamp' => '20230405060721', 'namespace' => NS_USER, 'title' => 'InvestigateTestUser1',
-						'minor' => null, 'page_id' => 0, 'type' => RC_LOG,
-						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.4', 'xff' => '0',
+						'minor' => null, 'page_id' => 0, 'type' => RC_LOG, 'this_oldid' => null,
+						'last_oldid' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '2', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 						'comment_text' => '', 'comment_data' => null, 'actor' => '1',
 						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
@@ -220,8 +224,8 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					(object)[
 						'timestamp' => '20230405060720', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
 						'minor' => null, 'page_id' => 1, 'type' => RC_LOG,
-						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.4', 'xff' => '0',
-						'agent' => 'foo user agent', 'id' => '1', 'user' => null, 'user_text' => null,
+						'this_oldid' => null, 'last_oldid' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.4' ),
+						'xff' => '0', 'agent' => 'foo user agent', 'id' => '1', 'user' => null, 'user_text' => null,
 						'comment_text' => '', 'comment_data' => null, 'actor' => null,
 						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
 					],
@@ -232,8 +236,8 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				null, 100, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser2' ], [
 					(object)[
 						'timestamp' => '20230405060620', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'minor' => null, 'page_id' => '1', 'type' => RC_LOG,
-						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.4', 'xff' => '0',
+						'minor' => null, 'page_id' => '1', 'type' => RC_LOG, 'this_oldid' => null,
+						'last_oldid' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '3', 'user' => '2', 'user_text' => 'InvestigateTestUser2',
 						'comment_text' => 'Barfoo comment', 'comment_data' => null, 'actor' => '2',
 						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
@@ -245,16 +249,16 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				[ 'timestamp' => '20230405060719', 'id' => '10' ], 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.5' ], [
 					(object)[
 						'timestamp' => '20230405060718', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'minor' => null, 'page_id' => '1', 'type' => RC_LOG,
-						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.5', 'xff' => '0',
+						'minor' => null, 'page_id' => '1', 'type' => RC_LOG, 'this_oldid' => null,
+						'last_oldid' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.5' ), 'xff' => '0',
 						'agent' => 'bar user agent', 'id' => '2', 'user' => null, 'user_text' => '1.2.3.5',
 						'comment_text' => 'Testing', 'comment_data' => null, 'actor' => '5',
 						'log_type' => 'foo', 'log_action' => 'bar', 'log_params' => 'a:0:{}', 'log_deleted' => 0,
 					],
 					(object)[
 						'timestamp' => '20230405060716', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'minor' => '0', 'page_id' => '1', 'type' => RC_EDIT,
-						'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.5', 'xff' => '0',
+						'minor' => '0', 'page_id' => '1', 'type' => RC_EDIT, 'this_oldid' => '0',
+						'last_oldid' => '0', 'ip_hex' => IPUtils::toHex( '1.2.3.5' ), 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '5', 'user' => null, 'user_text' => '1.2.3.5',
 						'comment_text' => 'Bar comment', 'comment_data' => null, 'actor' => '5',
 						'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
@@ -266,6 +270,38 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			],
 			'All targets filtered out' => [ null, 10, IndexPager::QUERY_ASCENDING, [], [] ],
 		];
+	}
+
+	public function testDoBatchLookups(): void {
+		$mockLinkBatch = $this->createMock( LinkBatch::class );
+
+		$mockLinkBatchFactory = $this->createMock( LinkBatchFactory::class );
+		$mockLinkBatchFactory->method( 'newLinkBatch' )
+			->willReturn( $mockLinkBatch );
+
+		$objectUnderTest = $this->getObjectUnderTest( [
+			'linkBatchFactory' => $mockLinkBatchFactory,
+		] );
+		$objectUnderTest->mResult = new FakeResultWrapper( [
+			[ 'user_text' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.67' ), 'user' => null ],
+			[ 'user_text' => '1.2.3.45', 'ip_hex' => IPUtils::toHex( '1.2.3.45' ), 'user' => 0 ],
+			[ 'user_text' => 'Testing', 'ip_hex' => IPUtils::toHex( '1.2.3.23' ), 'user' => 123 ],
+		] );
+
+		// Expect that the LinkBatch::addUser method is called for all the performers of the rows
+		// listed in the above fake results
+		$mockLinkBatch->method( 'addUser' )
+			->willReturnCallback( function ( UserIdentity $actualUserIdentity ) {
+				$this->assertContains(
+					$actualUserIdentity->getName(),
+					[ '1.2.3.67', '1.2.3.45', 'Testing' ],
+					'A user was added to the link batch that was not expected'
+				);
+			} );
+		$mockLinkBatch->expects( $this->once() )
+			->method( 'execute' );
+
+		$objectUnderTest->doBatchLookups();
 	}
 
 	public function addDBDataOnce() {
@@ -343,14 +379,12 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			[
 				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
 				'cuc_type'       => RC_NEW,
-				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 				'cuc_timestamp'  => '20230405060708',
 			], [
 				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
 				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'bar user agent',
 				'cuc_timestamp'  => '20230405060710',
@@ -358,21 +392,18 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			], [
 				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
 				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'bar user agent',
 				'cuc_timestamp'  => '20230405060710',
 			], [
 				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cuc_type'       => RC_NEW,
-				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 				'cuc_timestamp'  => '20230405060711',
 			], [
 				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
 				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_agent'      => 'foo user agent',
 				'cuc_timestamp'  => '20230405060716',
@@ -405,21 +436,18 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 		$testDataForCuLogEvent = [
 			[
 				'cule_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cule_ip'         => '1.2.3.4',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cule_agent'      => 'foo user agent',
 				'cule_timestamp'  => '20230405060716',
 				'cule_log_id'     => $moveLogEntryId,
 			], [
 				'cule_actor'      => $testActorData['1.2.3.5']['actor_id'],
-				'cule_ip'         => '1.2.3.5',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cule_agent'      => 'bar user agent',
 				'cule_timestamp'  => '20230405060718',
 				'cule_log_id'     => $secondLogEntryId,
 			], [
 				'cule_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
-				'cule_ip'         => '1.2.3.4',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cule_agent'      => 'foo user agent',
 				'cule_timestamp'  => '20230405060719',
@@ -445,13 +473,11 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			[
 				// Test handling of cupe_actor as null, which can occur when temporary accounts are enabled.
 				'cupe_actor'      => null,
-				'cupe_ip'         => '1.2.3.4',
 				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cupe_agent'      => 'foo user agent',
 				'cupe_timestamp'  => '20230405060720',
 			], [
 				'cupe_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
-				'cupe_ip'         => '1.2.3.4',
 				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cupe_agent'      => 'foo user agent',
 				'cupe_timestamp'  => '20230405060721',
@@ -460,7 +486,6 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				'cupe_page'       => 0,
 			], [
 				'cupe_actor'      => $testActorData['InvestigateTestUser2']['actor_id'],
-				'cupe_ip'         => '1.2.3.4',
 				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cupe_agent'      => 'foo user agent',
 				'cupe_timestamp'  => '20230405060620',

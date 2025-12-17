@@ -13,6 +13,7 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\IPUtils;
 
 /**
  * @covers \MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter
@@ -48,7 +49,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 	public static function provideGetFormattedRowItems() {
 		return [
 			'Edit performed by IPv4' => [
-				[ 'ip' => '127.0.0.1', 'agent' => 'Test' ],
+				[ 'ip_hex' => IPUtils::toHex( '127.0.0.1' ), 'agent' => 'Test' ],
 				[
 					'links' => [
 						// No flags should be displayed if the action didn't create a page and wasn't marked as minor.
@@ -66,7 +67,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 			],
 			'Log performed by IPv6' => [
 				[
-					'ip' => '2001:DB8::1', 'log_action' => 'migrated-cu_changes-log-event',
+					'ip_hex' => IPUtils::toHex( '2001:DB8::1' ), 'log_action' => 'migrated-cu_changes-log-event',
 					'log_type' => 'checkuser-private-event',
 					'log_params' => LogEntryBase::makeParamBlob( [ '4::actiontext' => 'test action text' ] ),
 					'log_deleted' => 0,
@@ -310,7 +311,10 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge(
 			$this->getDefaultsForTimelineRow(),
-			[ 'user_text' => null, 'user' => null, 'actor' => null, 'ip' => '1.2.3.4', 'type' => RC_EDIT ]
+			[
+				'user_text' => null, 'user' => null, 'actor' => null,
+				'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'type' => RC_EDIT,
+			]
 		);
 		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
 		$this->assertStringContainsString(
@@ -401,7 +405,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		return [
 			'namespace' => 0, 'title' => 'Test', 'actiontext' => '', 'timestamp' => '20210405060708',
 			'minor' => 0, 'page_id' => 0, 'type' => RC_EDIT, 'this_oldid' => 0, 'last_oldid' => 0,
-			'ip' => '127.0.0.1', 'xff' => '', 'agent' => '', 'id' => 0, 'user' => 0,
+			'ip_hex' => IPUtils::toHex( '127.0.0.1' ), 'xff' => '', 'agent' => '', 'id' => 0, 'user' => 0,
 			'user_text' => '', 'comment_text' => '', 'comment_data' => null, 'actor' => null, 'log_type' => null,
 			'log_action' => null, 'log_params' => null, 'log_deleted' => null, 'log_id' => null,
 		];

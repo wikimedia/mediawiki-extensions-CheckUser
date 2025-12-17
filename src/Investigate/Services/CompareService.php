@@ -130,7 +130,6 @@ class CompareService extends ChangeService {
 				'user' => 'a.user',
 				'user_text' => 'a.user_text',
 				'actor' => 'MIN(a.actor)',
-				'ip' => 'a.ip',
 				'ip_hex' => 'a.ip_hex',
 				'agent' => 'a.agent',
 				'first_action' => 'MIN(a.timestamp)',
@@ -141,7 +140,6 @@ class CompareService extends ChangeService {
 				'GROUP BY' => [
 					'user',
 					'user_text',
-					'ip',
 					'ip_hex',
 					'agent',
 				],
@@ -170,7 +168,7 @@ class CompareService extends ChangeService {
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cuc_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cuc_actor',
-				'ip' => 'cuc_ip', 'ip_hex' => 'cuc_ip_hex', 'agent' => 'cuc_agent', 'timestamp' => 'cuc_timestamp',
+				'ip_hex' => 'cuc_ip_hex', 'agent' => 'cuc_agent', 'timestamp' => 'cuc_timestamp',
 			] )
 			->from( 'cu_changes' )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
@@ -204,7 +202,7 @@ class CompareService extends ChangeService {
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cule_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cule_actor',
-				'ip' => 'cule_ip', 'ip_hex' => 'cule_ip_hex', 'agent' => 'cule_agent', 'timestamp' => 'cule_timestamp',
+				'ip_hex' => 'cule_ip_hex', 'agent' => 'cule_agent', 'timestamp' => 'cule_timestamp',
 			] )
 			->from( 'cu_log_event' )
 			->join( 'actor', null, 'actor_id=cule_actor' )
@@ -240,7 +238,7 @@ class CompareService extends ChangeService {
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cupe_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cupe_actor',
-				'ip' => 'cupe_ip', 'ip_hex' => 'cupe_ip_hex', 'agent' => 'cupe_agent', 'timestamp' => 'cupe_timestamp',
+				'ip_hex' => 'cupe_ip_hex', 'agent' => 'cupe_agent', 'timestamp' => 'cupe_timestamp',
 			] )
 			->from( 'cu_private_event' )
 			->where( $targetExpr )
