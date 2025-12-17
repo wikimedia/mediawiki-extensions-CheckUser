@@ -19,6 +19,7 @@ use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\RecentChanges\RecentChange;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Profiler;
@@ -39,28 +40,51 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		return $this->getServiceContainer()->get( 'CheckUserInsert' );
 	}
 
+	protected function tearDown(): void {
+		Profiler::instance()->getTransactionProfiler()->resetExpectations();
+	}
+
+	protected function setUp(): void {
+		// Set the TransactionProfiler expectations for 'writes' to zero
+		// so we can check it is silenced when configured to be
+		Profiler::instance()->getTransactionProfiler()->setExpectation(
+			'writes', 0, __METHOD__
+		);
+	}
+
 	private function installMockCheckUserIndexManagerThatExpectsCall(
-		$expectedUserIdentity, $expectedTimestamp, $expectedHasRevisionId
-	) {
+		UserIdentity $expectedUserIdentity,
+		string $expectedTimestamp,
+		bool $expectedHasRevisionId,
+		bool $shouldTransactionProfilerBeSilenced
+	): void {
 		// Check that a call to CheckUserCentralIndexManager::recordActionInCentralIndexes is made
 		$mockCheckUserCentralIndexManager = $this->createMock( CheckUserCentralIndexManager::class );
 		$mockCheckUserCentralIndexManager->expects( $this->once() )
 			->method( 'recordActionInCentralIndexes' )
 			->willReturnCallback( function ( $performer, $ip, $domainID, $timestamp, $hasRevisionId ) use (
-				$expectedUserIdentity, $expectedTimestamp, $expectedHasRevisionId
+				$expectedUserIdentity, $expectedTimestamp, $expectedHasRevisionId,
+				$shouldTransactionProfilerBeSilenced
 			) {
 				// Check that the parameters are as expected for the call to this method
 				$this->assertTrue( $expectedUserIdentity->equals( $performer ) );
 				$this->assertSame( $this->getDb()->getDomainID(), $domainID );
 				$this->assertSame( $this->getDb()->timestamp( $expectedTimestamp ), $timestamp );
 				$this->assertSame( $expectedHasRevisionId, $hasRevisionId );
+
+				$trxProfiler = Profiler::instance()->getTransactionProfiler();
+				$this->assertSame(
+					$shouldTransactionProfilerBeSilenced,
+					$trxProfiler->isSilenced( 'writes' ),
+					'TransactionProfiler silenced state is not as expected'
+				);
 			} );
 		$this->setService( 'CheckUserCentralIndexManager', $mockCheckUserCentralIndexManager );
 	}
 
 	/** @dataProvider provideInsertIntoCuChangesTable */
 	public function testInsertIntoCuChangesTable(
-		array $row, array $fields, array $expectedRow, $checkUserInsert = null
+		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$performer = $this->getTestUser()->getUserIdentity();
@@ -69,19 +93,41 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		if ( $checkUserInsert === null ) {
 			$expectedHasRevisionId = ( $row['cuc_this_oldid'] ?? 0 ) !== 0;
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$performer, $row['cuc_timestamp'] ?? '20240506070809', $expectedHasRevisionId
+				$performer, $row['cuc_timestamp'] ?? '20240506070809', $expectedHasRevisionId,
+				$silenceReplicaWarnings
 			);
 		}
+
+		$hookCalled = false;
+		$this->setTemporaryHook(
+			'CheckUserInsertChangesRow',
+			function () use ( &$hookCalled, $silenceReplicaWarnings ) {
+				$hookCalled = true;
+
+				$trxProfiler = Profiler::instance()->getTransactionProfiler();
+				$this->assertSame(
+					$silenceReplicaWarnings,
+					$trxProfiler->isSilenced( 'writes' ),
+					'TransactionProfiler silenced state is not as expected'
+				);
+			},
+			false
+		);
+
 		$checkUserInsert ??= $this->setUpObject();
-		$checkUserInsert->insertIntoCuChangesTable( $row, __METHOD__, $performer );
+		$checkUserInsert->insertIntoCuChangesTable(
+			$row, __METHOD__, $performer, silenceReplicaWarnings: $silenceReplicaWarnings
+		);
+
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->newSelectQueryBuilder()
 			->select( $fields )
 			->from( 'cu_changes' )
 			->assertRowValue( $expectedRow );
+		$this->assertTrue( $hookCalled );
 	}
 
-	public static function provideInsertIntoCuChangesTable() {
+	public static function provideInsertIntoCuChangesTable(): array {
 		return [
 			'Default values on empty row' => [
 				[],
@@ -92,13 +138,15 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 					'cuc_timestamp',
 				],
 				[ '127.0.0.1', '7F000001', '', null, 0, NS_MAIN, 0, '', 0, 0, RC_LOG, '', '20240506070809' ],
+				false,
 			],
+			'TransactionProfiler warnings silenced' => [ [], [ 'cuc_ip' ], [ '127.0.0.1' ], true ],
 		];
 	}
 
 	/** @dataProvider provideInsertIntoCuPrivateEventTable */
 	public function testInsertIntoCuPrivateEventTable(
-		array $row, array $fields, array $expectedRow, $checkUserInsert = null
+		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$performer = $this->getTestUser()->getUserIdentity();
@@ -106,13 +154,32 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// will not do anything for the test if an instance already exists.
 		if ( $checkUserInsert === null ) {
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$performer, $row['cupe_timestamp'] ?? '20240506070809', false
+				$performer, $row['cupe_timestamp'] ?? '20240506070809', false,
+				$silenceReplicaWarnings
 			);
 		}
+
+		$hookCalled = false;
+		$this->setTemporaryHook(
+			'CheckUserInsertPrivateEventRow',
+			function () use ( &$hookCalled, $silenceReplicaWarnings ) {
+				$hookCalled = true;
+
+				$trxProfiler = Profiler::instance()->getTransactionProfiler();
+				$this->assertSame(
+					$silenceReplicaWarnings,
+					$trxProfiler->isSilenced( 'writes' ),
+					'TransactionProfiler silenced state is not as expected'
+				);
+			},
+			false
+		);
+
 		$checkUserInsert ??= $this->setUpObject();
 		$returnedId = $checkUserInsert->insertIntoCuPrivateEventTable(
-			$row, __METHOD__, $performer
+			$row, __METHOD__, $performer, silenceReplicaWarnings: $silenceReplicaWarnings
 		);
+
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		// Check that the ID is the ID that was returned by the method under test.
 		$fields[] = 'cupe_id';
@@ -121,9 +188,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			->select( $fields )
 			->from( 'cu_private_event' )
 			->assertRowValue( $expectedRow );
+		$this->assertTrue( $hookCalled );
 	}
 
-	public static function provideInsertIntoCuPrivateEventTable() {
+	public static function provideInsertIntoCuPrivateEventTable(): array {
 		return [
 			'Default values on empty row' => [
 				[],
@@ -136,12 +204,16 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 					'127.0.0.1', '7F000001', '', null, 0, NS_MAIN, 'checkuser-private-event',
 					'', '', LogEntryBase::makeParamBlob( [] ), '', '20240506070809',
 				],
+				false,
 			],
+			'TransactionProfiler warnings silenced' => [ [], [ 'cupe_ip' ], [ '127.0.0.1' ], true ],
 		];
 	}
 
 	/** @dataProvider provideInsertIntoCuLogEventTable */
-	public function testInsertIntoCuLogEventTable( array $fields, array $expectedRow, $checkUserInsert = null ) {
+	public function testInsertIntoCuLogEventTable(
+		array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
+	) {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$logId = $this->newLogEntry();
 		// Delete any entries that were created by ::newLogEntry.
@@ -153,19 +225,39 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// will not do anything for the test if an instance already exists.
 		if ( $checkUserInsert === null ) {
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$logEntry->getPerformerIdentity(), $logEntry->getTimestamp(), false
+				$logEntry->getPerformerIdentity(), $logEntry->getTimestamp(), false,
+				$silenceReplicaWarnings
 			);
 		}
 
+		$hookCalled = false;
+		$this->setTemporaryHook(
+			'CheckUserInsertLogEventRow',
+			function () use ( &$hookCalled, $silenceReplicaWarnings ) {
+				$hookCalled = true;
+
+				$trxProfiler = Profiler::instance()->getTransactionProfiler();
+				$this->assertSame(
+					$silenceReplicaWarnings,
+					$trxProfiler->isSilenced( 'writes' ),
+					'TransactionProfiler silenced state is not as expected'
+				);
+			},
+			false
+		);
+
 		$checkUserInsert ??= $this->setUpObject();
 		$checkUserInsert->insertIntoCuLogEventTable(
-			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
+			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity(),
+			silenceReplicaWarnings: $silenceReplicaWarnings
 		);
+
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->newSelectQueryBuilder()
 			->select( $fields )
 			->from( 'cu_log_event' )
 			->assertRowValue( $expectedRow );
+		$this->assertTrue( $hookCalled );
 	}
 
 	public static function provideInsertIntoCuLogEventTable() {
@@ -173,7 +265,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			'Default values' => [
 				[ 'cule_ip', 'cule_ip_hex', 'cule_xff', 'cule_xff_hex', 'cule_agent', 'cule_timestamp' ],
 				[ '127.0.0.1', '7F000001', '', null, '', '20240506070809' ],
+				false,
 			],
+			'TransactionProfiler warnings silenced' => [ [ 'cule_ip' ], [ '127.0.0.1' ], true ],
 		];
 	}
 
@@ -257,6 +351,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				[ $field => str_repeat( 'q', CheckUserInsert::TEXT_FIELD_LENGTH + 9 ) ],
 				[ $field ],
 				[ str_repeat( 'q', CheckUserInsert::TEXT_FIELD_LENGTH - 3 ) . '...' ],
+				false,
 				$objectUnderTest
 			);
 		} elseif ( $table === 'cu_private_event' ) {
@@ -264,6 +359,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				[ $field => str_repeat( 'q', CheckUserInsert::TEXT_FIELD_LENGTH + 9 ) ],
 				[ $field ],
 				[ str_repeat( 'q', CheckUserInsert::TEXT_FIELD_LENGTH - 3 ) . '...' ],
+				false,
 				$objectUnderTest
 			);
 		} elseif ( $table === 'cu_log_event' ) {
@@ -276,6 +372,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->testInsertIntoCuLogEventTable(
 				[ $field ],
 				[ str_repeat( 'q', CheckUserInsert::TEXT_FIELD_LENGTH - 3 ) . '...' ],
+				false,
 				$objectUnderTest
 			);
 		}
@@ -320,11 +417,11 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$fields = [ $prefix . 'xff', $prefix . 'xff_hex', $prefix . 'ip', $prefix . 'ip_hex', $prefix . 'agent' ];
 		$expectedValues = [ $test_xff, $xff_hex, '1.2.3.4', '01020304', 'TestAgent' ];
 		if ( $table === 'cu_changes' ) {
-			$this->testInsertIntoCuChangesTable( [], $fields, $expectedValues );
+			$this->testInsertIntoCuChangesTable( [], $fields, $expectedValues, false );
 		} elseif ( $table === 'cu_private_event' ) {
-			$this->testInsertIntoCuPrivateEventTable( [], $fields, $expectedValues );
+			$this->testInsertIntoCuPrivateEventTable( [], $fields, $expectedValues, false );
 		} elseif ( $table === 'cu_log_event' ) {
-			$this->testInsertIntoCuLogEventTable( $fields, $expectedValues );
+			$this->testInsertIntoCuLogEventTable( $fields, $expectedValues, false );
 		}
 	}
 

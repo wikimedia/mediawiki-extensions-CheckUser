@@ -31,7 +31,12 @@ class RecentChangeSaveHandler implements RecentChange_saveHook {
 	 * @inheritDoc
 	 */
 	public function onRecentChange_save( $recentChange ) {
-		$this->checkUserInsert->updateCheckUserData( $recentChange );
+		// We silence replica warnings here because the save of a RecentChanges entry
+		// will cause writes to the DB. This is not the fault of CheckUser because it
+		// is only listening for these events (see for an example T340898).
+		// Therefore having more warnings that may imply the issue is from CheckUser only
+		// adds log spam.
+		$this->checkUserInsert->updateCheckUserData( $recentChange, true );
 		$this->maybePruneIPData();
 	}
 
