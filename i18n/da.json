@@ -301,7 +301,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Fejl ved indlæsning af data fra nogle wikier. Disse resultater er ufuldstændige. <strong>Det kan være en god idé at prøve igen.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Ingen resultater matcher forespørgslen.</strong> Brugeren \"$1\" har ingen synlige bidrag.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Ingen resultater matcher søgningen.</strong> Du kan muligvis finde bidrag, hvis du ændrer dine søgeparametre.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Navnerum<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Navnerum[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Automatisk afsløring af IP-adresser",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP-automatisk afsløring (til)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Automatisk afsløring af IP-adresse er aktiveret</strong>",

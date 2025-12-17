@@ -288,7 +288,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Цхьайолчу викишкара хаамаш чубахарехь гӀалаташ. И жамӀаш дуьззина дац. <strong>Йуха а гӀортаро гӀо дан мега.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Дехарца догӀуш долу жамӀаш дац.</strong> Декъашхочун \"$1\" гуш болу къинхьегам бац.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Дехарца догӀуш долу жамӀаш дац.</strong> Хьуна каро тарло материалаш, нагахь санна ахь лехаман параметраш хийцахь.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "ЦӀерийн меттиг<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "ЦӀерийн меттиг[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP Авто-гучудаккхар",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP Авто-гучудаккхар (лат.)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>IP Авто-гучудаккхар дӀахӀоттийна</strong>",

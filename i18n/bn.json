@@ -251,7 +251,7 @@
 	"checkuser-global-contributions-no-results-no-global-preference": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> এই ফলাফলগুলি অসম্পূর্ণ হতে পারে কারণ আপনাকে প্রথমে [$1 আপনার বৈশ্বিক পছন্দসমূহে] চুক্তিটি গ্রহণ করতে হবে।",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> ব্যবহারকারী \"$1\"-এর কোনো দৃশ্যমান অবদান নেই।",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> আপনি আপনার অনুসন্ধানের প্যারামিটার পরিবর্তন করলে হয়ত অবদান খুঁজে পেতে পারেন।",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "নামস্থান<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "নামস্থান[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "আইপি স্বয়ংক্রিয়-প্রকাশ",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "আইপি স্বয়ংক্রিয়-প্রকাশ (চালু)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>আইপি স্বয়ংক্রিয়-প্রকাশ চালু আছে</strong>",

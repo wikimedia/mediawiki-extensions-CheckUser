@@ -318,7 +318,7 @@
 	"checkuser-global-contributions-api-lookup-error": "حدث خطأ أثناء تحميل البيانات من بعض الويكيات. هذه النتائج غير كاملة. <strong>قد يكون من المفيد المحاولة مرة أخرى.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>لا توجد نتائج مطابقة للاستعلام.</strong> لا يوجد لدى المستخدم \"$1\" أي مساهمات مرئية.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>لا توجد نتائج مطابقة لطلبك.</strong> قد تجد مساهمات إذا غيّرت معايير بحثك.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "النطاق<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "النطاق[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "الكشف التلقائي عن عنوان IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "الكشف التلقائي عن عنوان IP (مفعل)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>تم تفعيل الكشف التلقائي عن عنوان IP</strong>",

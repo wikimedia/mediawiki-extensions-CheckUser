@@ -311,7 +311,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Fout bij het laden van gegevens van sommige wiki’s. Deze resultaten zijn onvolledig. <strong>Het kan helpen om het opnieuw te proberen.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Er zijn geen resultaten die overeenkomen met de zoekopdracht.</strong> De gebruiker “$1” heeft geen zichtbare bijdragen.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>De zoekopdracht heeft geen resultaten opgeleverd.</strong> Wellicht vindt u bijdragen als u uw zoekparameters wijzigt.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Naamruimte<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Naamruimte[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP-adres automatisch onthullen",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP-adres automatisch onthullen (aan)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Het automatisch onthullen van IP-adressen staat aan</strong>",

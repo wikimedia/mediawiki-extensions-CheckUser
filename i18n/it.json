@@ -292,7 +292,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Errore durante il caricamento dei dati su alcuni wiki. Questi risultati sono incompleti. <strong>Potrebbe essere utile riprovare.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Nessun risultato corrisponde alla richiesta.</strong> L'utente \"$1\" non ha contributi visibili.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Nessun risultato corrisponde alla richiesta.</strong> Potresti trovare dei contributi cambiando i tuoi parametri di ricerca.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Namespace<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Namespace[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Mostra automaticamente gli IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Visualizzazione automatica degli IP (attiva)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>La visualizzazione automatica degli IP è attiva</strong>",

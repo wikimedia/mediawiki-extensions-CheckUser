@@ -303,7 +303,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Feil under innlasting av data fra noen wikier. Disse resultatene er ufullstendige. <strong>Det kan hjelpe å prøve igjen.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Ingen resultater samsvarer med søket.</strong> Brukeren «$1» har ingen synlige bidrag.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Ingen resultater samsvarer med søket.</strong> Du kan finne bidrag hvis du endrer søkeparameterne.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Navnerom<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Navnerom[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Automatisk avsløring av IP-adresse",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Automatisk avsløring av IP (på)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Automatisk avsløring av IP er slått på</strong>",

@@ -302,7 +302,7 @@
 	"checkuser-global-contributions-api-lookup-error": "خطا در بارگیری داده‌ها از برخی از ویکی‌ها. این نتایج کامل نیستند. <strong>ممکن است با تلاش دوباره مشکل برطرف شود.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>نتیجه‌ای مطابق با پرسمان یافت نشد.</strong> کاربر «$1» هیچ مشارکت قابل مشاهده‌ای ندارد.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>نتیجه‌ای منطبق با پرسمان یافت نشد.</strong> اگر پارامترهای جستجوی خود را تغییر دهید، ممکن است مشارکت‌ها را پیدا کنید.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "فضای نام<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "فضای نام[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "فاش‌سازی خودکار آی‌پی",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "آشکارسازی خودکار آی‌پی (روشن)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>آشکارسازی خودکار آی‌پی فعال است</strong>",

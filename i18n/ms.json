@@ -300,7 +300,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Ralat memuatkan data daripada beberapa wiki. Keputusan ini tidak lengkap. <strong>Mungkin lebih baik cuba lagi.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Tiada hasil yang berpadanan dengan pertanyaan.</strong> Pengguna \"$1\" tidak mempunyai sumbangan yang kelihatan.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Tiada hasil yang berpadanan dengan pertanyaan.</strong> Anda mungkin dapat cari sumbangan jika anda menukar parameter carian anda.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Ruang nama<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Ruang nama[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Auto-dedah IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Auto-dedah IP (dihidupkan)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Auto-dedah IP dihidupkan</strong>",

@@ -300,7 +300,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Грешка при вчитувањето на податоците од некои викија. Овој исход е нецелосен. <strong>Обидете се повторно, може да помогне.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Не најдов ништо што одговара на бараното.</strong> Корисникот „$1“ нема видливи придонеси.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Не најдов ништо што одговара на бараото.</strong> Можеби ќе најдете придонеси ако ги смените параметрите на пребарувањето.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Именски простор<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Именски простор[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Автооткривање на IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Автоматското откривање на IP (вклучено)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Автоматското откривање на IP е вклучено</strong>",

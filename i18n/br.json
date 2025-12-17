@@ -166,7 +166,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Fazi o kargañ roadennoù eus wikioù zo. Diglok eo an disoc'hoù-mañ. <strong>Marteze e vo talvoudus klask en-dro.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Disoc'h ebet na glot gant ar reked.</strong> An implijer \"$1\" n'en deus degasadenn welus ebet.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Disoc'h ebet na glot gant ar reked.</strong> Marteze e kavoc’h degasadennoù ma kemmit ho dibarzhioù klask.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Esaouenn anv<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Esaouenn anv[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Diskuliañ IP ent emgefre",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Diskuliañ IP ent emgefre (gweredekaet)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Gweredekaet eo diskuliañ IP ent emgefre</strong>",

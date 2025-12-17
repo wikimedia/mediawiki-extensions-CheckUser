@@ -314,7 +314,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Błąd ładowania danych z niektórych wiki. Wyniki są niekompletne. <strong>Może pomóc ponowna próba.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Brak wyników pasujących do zapytania.</strong> Użytkownik „$1” nie ma widocznego wkładu.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Nie znaleziono wyników pasujących do zapytania.</strong> Możesz znaleźć więcej edycji, modyfikując parametry wyszukiwania.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Przestrzeń nazw<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Przestrzeń nazw[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Autoujawnianie adresów IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Autoujawnianie IP (włączone)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>Automatyczne ujawnianie adresów IP jest aktywne</strong>",

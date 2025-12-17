@@ -280,7 +280,7 @@
 	"checkuser-global-contributions-target-placeholder": "सदस्यनाम, IP पता या रेंज",
 	"checkuser-global-contributions-search-form-wrapper": "ग्लोबल योगदान खोजें",
 	"checkuser-global-contributions-results-title": "$1 के लिए ग्लोबल योगदान",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "नामस्थान<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "नामस्थान[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP का अपने आप खुलासा",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP का अपने आप खुलासा (चालू)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>IP का अपने आप खुलासा चालू है</strong>",

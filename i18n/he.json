@@ -305,7 +305,7 @@
 	"checkuser-global-contributions-api-lookup-error": "שגיאה בטעינת נתונים מכמה אתרי ויקי. התוצאות האלו אינן שלמות. <strong>אולי זה יעזור לנסות שוב.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>אין תוצאות תואמות לשאילתה.</strong> {{GENDER:$1|למשתמש|למשתמשת}} \"$1\" אין תרומות שאפשר לצפות בהן.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>אין תוצאות שתואמות לשאילתה.</strong> ייתכן {{GENDER:|שתמצא|שתמצאי}} תרומות אם תשנה את הפרמטרים של החיפוש שלך.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "מרחב שם<$1>:$2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "מרחב שם[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "חשיפה אוטומטית של כתובות IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "חשיפה אוטומטית של כתובת IP (מופעלת)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>חשיפה אוטומטית של IP מופעלת</strong>",

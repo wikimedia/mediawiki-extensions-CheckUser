@@ -337,7 +337,7 @@
 	"checkuser-global-contributions-api-lookup-error": "いくつかのウィキからデータ読み込み中にエラーが発生しました。これらの結果は不完全です。<strong>もう一度試してみてください。</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>クエリに一致する結果はありません。</strong>利用者「$1」には表示可能な投稿がありません。",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>クエリに一致する結果はありません。</strong>検索パラメータを変更すると、投稿が見つかる場合があります。",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "名前空間<$1>: $2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "名前空間[$1]: $2",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP自動開示",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "IP自動開示 (有効)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>IPの自動開示を有効化しました</strong>",
