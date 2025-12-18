@@ -338,6 +338,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Откривањето на IP-адреси на привремени сметки е исклучено",
 	"checkuser-tempaccount-reveal-blocked-description": "Немате дозвола да ја користите функцијава поради следнава причина:",
 	"checkuser-tempaccount-specialblock-ips": "Ова е привремен корисник кој {{PLURAL:$1|ја користи следнава IP-адреса|ги користи следниве IP-адреси}}: $2",
+	"checkuser-tempaccount-specialblock-ip-target": "Погледајте придонеси на привремената сметка на [[Special:IPContributions/$1]].",
 	"checkuser-temporary-account-log-name": "Дневник на откривања на IP",
 	"checkuser-temporary-account-log-header": "Ова е дневник на:\n# Прегледи на IP-адресите користени од привремена сметка\n# Прегледи на привремени сметки поврзани со IP-адреса или адресен опсег\n# Промени во нивата на кориснички пристап за преглед на IP-адреси користени од привремени сметки",
 	"logentry-checkuser-temporary-account-change-access": "$1 го $4 {{GENDER:$2|неговиот|нејзиниот|неговата}} пристап до преглед на IP-адреси на привремени сметки",
