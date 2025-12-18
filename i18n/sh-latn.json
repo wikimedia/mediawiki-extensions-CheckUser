@@ -141,7 +141,7 @@
 	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
 	"checkuser-ip-auto-reveal-link-sidebar": "Otkrij IP adrese",
 	"prefs-checkuser-tempaccount": "Otkrivanje IP adresa privremenih računa",
-	"checkuser-tempaccount-enable-preference": "Otkrivanje IP adresa privremenih računa",
+	"checkuser-tempaccount-enable-preference": "Mogućnost otkrivanja IP adresa privremenih računa",
 	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
 	"checkuser-userinfocard-enable-preference-description": "[[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|Korisnička infokartica]]",
 	"checkuser-userinfocard-enable-preference-help": "Prikazuje dugme pored korisničkog imena koje otvara iskačući prozor s podacima o računu.",
