@@ -4,10 +4,13 @@ namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Logging\ManualLogEntry;
+use MediaWiki\MainConfigNames;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\Title\Title;
+use Wikimedia\IPUtils;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -49,8 +52,11 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 	 * @dataProvider provideTestPopulation
 	 */
 	public function testPopulation(
-		$numberOfRows, $expectedCuChangesCount, $expectedCuChangesReadOldRowsCount, $expectedCuLogEventCount
+		$putIPinRCConfigValue, $numberOfRows, $expectedCuChangesCount, $expectedCuLogEventCount
 	) {
+		RequestContext::getMain()->getRequest()->setIP( '1.2.3.68' );
+		$this->overrideConfigValue( MainConfigNames::PutIPinRC, $putIPinRCConfigValue );
+
 		// Set up recentchanges table
 		for ( $i = 0; $i < $numberOfRows / 2; $i++ ) {
 			$this->editPage( Title::newFromDBkey( 'CheckUserTestPage' ), 'Testing123' . $i );
@@ -79,6 +85,7 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 		//  because entries would have been added by Hooks.php for the above code
 		//  that set-up the recentchanges table.
 		$this->truncateTables( [ 'cu_changes', 'cu_log_event', 'cu_private_event' ] );
+
 		// Run the script
 		/** @var TestingAccessWrapper $maintenance */
 		$maintenance = $this->maintenance;
@@ -99,12 +106,36 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 			'Population script should add one entry to cu_private_event which occurs when the rc_logid ' .
 			'is invalid.'
 		);
+
+		// Check that the IP from the recentchanges table is copied over correctly
+		$expectedIPHex = $putIPinRCConfigValue ? IPUtils::toHex( '1.2.3.68' ) : null;
+		$this->newSelectQueryBuilder()
+			->select( 'cuc_ip_hex' )
+			->from( 'cu_changes' )
+			->assertFieldValues( array_fill( 0, $expectedCuChangesCount, $expectedIPHex ) );
+		$this->newSelectQueryBuilder()
+			->select( 'cule_ip_hex' )
+			->from( 'cu_log_event' )
+			->assertFieldValues( array_fill( 0, $expectedCuLogEventCount, $expectedIPHex ) );
+		$this->newSelectQueryBuilder()
+			->select( 'cupe_ip_hex' )
+			->from( 'cu_private_event' )
+			->assertFieldValue( $expectedIPHex );
 	}
 
 	public static function provideTestPopulation() {
 		return [
-			'recentchanges row count 4' => [
-				4, 2, null, 2,
+			'recentchanges row count 4 with IPs in recentchanges' => [
+				'putIPinRCConfigValue' => true,
+				'numberOfRows' => 4,
+				'expectedCuChangesCount' => 2,
+				'expectedCuLogEventCount' => 2,
+			],
+			'recentchanges row count 2 with no IPs in recentchanges' => [
+				'putIPinRCConfigValue' => false,
+				'numberOfRows' => 2,
+				'expectedCuChangesCount' => 1,
+				'expectedCuLogEventCount' => 1,
 			],
 		];
 	}

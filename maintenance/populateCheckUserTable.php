@@ -143,7 +143,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 							'cupe_log_type' => $row->rc_log_type,
 							'cupe_params' => $row->rc_params,
 							'cupe_ip' => $row->rc_ip,
-							'cupe_ip_hex' => IPUtils::toHex( $row->rc_ip ),
+							'cupe_ip_hex' => $row->rc_ip ? IPUtils::toHex( $row->rc_ip ) : null,
 						];
 					} else {
 						$cuLogEventBatch[] = [
@@ -151,7 +151,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 							'cule_actor' => $row->rc_actor,
 							'cule_log_id' => $row->rc_logid,
 							'cule_ip' => $row->rc_ip,
-							'cule_ip_hex' => IPUtils::toHex( $row->rc_ip ),
+							'cule_ip_hex' => $row->rc_ip ? IPUtils::toHex( $row->rc_ip ) : null,
 						];
 					}
 				} else {
@@ -167,7 +167,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_last_oldid' => $row->rc_last_oldid,
 						'cuc_type' => CheckUserInsert::getTypeFromRCSource( $row->rc_source ),
 						'cuc_ip' => $row->rc_ip,
-						'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
+						'cuc_ip_hex' => $row->rc_ip ? IPUtils::toHex( $row->rc_ip ) : null,
 					];
 					$cuChangesBatch[] = $cuChangesRow;
 				}
