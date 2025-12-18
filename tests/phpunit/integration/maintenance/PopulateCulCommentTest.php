@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use Wikimedia\Rdbms\IMaintainableDatabase;
+use Wikimedia\Services\NoSuchServiceException;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -22,14 +23,35 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		return PopulateCulComment::class;
 	}
 
-	/** @dataProvider provideAddLogEntryReasonId */
-	public function testDoDBUpdatesSingleRow( $reason, $plaintextReason ) {
+	/**
+	 * The schema override does not work for postgres, so skip these tests if using postgres
+	 */
+	protected function setUp(): void {
 		if ( $this->getDb()->getType() === 'postgres' ) {
-			// The test is unable to add the column to the database
-			//  as the maintenance script even after adding the column
-			//  is unable to see it exists.
 			$this->markTestSkipped( 'This test does not work on postgres' );
 		}
+		parent::setUp();
+	}
+
+	public function testDoDBUpdatesWhenNoRowsToUpdate(): void {
+		$this->assertTrue( $this->maintenance->doDBUpdates() );
+
+		$actualOutput = $this->getActualOutputForAssertion();
+		$this->assertStringContainsString( 'The cu_log table seems to be empty', $actualOutput );
+	}
+
+	public function testDoDBUpdatesWhenCheckUserLogServiceNotDefined(): void {
+		// Simulate CheckUserLogService not being defined
+		$this->setService(
+			'CheckUserLogService',
+			static fn () => throw new NoSuchServiceException( 'CheckUserLogService' )
+		);
+
+		$this->testDoDBUpdatesSingleRow( 'Test abc', 'Test abc' );
+	}
+
+	/** @dataProvider provideAddLogEntryReasonId */
+	public function testDoDBUpdatesSingleRow( $reason, $plaintextReason ) {
 		$testTarget = $this->getTestUser()->getUserIdentity();
 		// Create a test cu_log entry with a cul_reason value.
 		$this->getDb()->newInsertQueryBuilder()
