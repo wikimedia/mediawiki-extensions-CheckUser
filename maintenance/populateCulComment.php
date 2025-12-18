@@ -21,6 +21,7 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use Psr\Log\NullLogger;
 use Wikimedia\Services\NoSuchServiceException;
@@ -70,9 +71,9 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			/** @var CheckUserLogService $checkUserLogService */
 			$checkUserLogService = $services->get( 'CheckUserLogService' );
 		} catch ( NoSuchServiceException ) {
-			# CheckUser ServiceWiring files may not loaded until
-			#  postDatabaseUpdateMaintenance is run.
-			# If this is the case, manually get the service.
+			// If running the script in the context of update.php,
+			// the CheckUser services may not have been loaded yet.
+			// Therefore manually construct the CheckUserLogService so we can use it.
 			$checkUserLogService = new CheckUserLogService(
 				$services->getDBLoadBalancerFactory(),
 				$services->getCommentStore(),
@@ -81,7 +82,14 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 				//  that use the logger.
 				new NullLogger(),
 				$services->getActorStore(),
-				$services->getUserIdentityLookup()
+				$services->getUserIdentityLookup(),
+				// The ServiceOptions is not used in the methods used by this script,
+				// so just set the default values (as we may not have CheckUser config
+				// loaded yet)
+				new ServiceOptions(
+					CheckUserLogService::CONSTRUCTOR_OPTIONS,
+					[ 'CheckUserLogMaxRangeToShowInLog' => false ]
+				)
 			);
 		}
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();

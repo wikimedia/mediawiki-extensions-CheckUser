@@ -237,6 +237,10 @@
 		"CheckUserUserAgentTableMigrationStage": {
 			"value": 3,
 			"description": "Schema migration stage configuration to control the migration to the cu_useragent table. Current value is SCHEMA_COMPAT_OLD (3)."
+		},
+		"CheckUserLogMaxRangeToShowInLog": {
+			"value": false,
+			"description": "When set, this limits the results of the Special:CheckUserLog or associated API to hide range checks above a specified limit (unless directly searched for). This is intended to hide very old invalid checks which used a /1 or similar CIDR, as these entries often confuse scripts which show some visual indicator based on whether a given IP address has been checked before. When set the format should be similar to $wgCheckUserCIDRLimit."
 		}
 	},
 	"DefaultUserOptions": {

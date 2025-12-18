@@ -66,7 +66,11 @@ return [
 			$services->getCommentFormatter(),
 			LoggerFactory::getInstance( 'CheckUser' ),
 			$services->getActorStore(),
-			$services->getUserIdentityLookup()
+			$services->getUserIdentityLookup(),
+			new ServiceOptions(
+				CheckUserLogService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			)
 		);
 	},
 	'CheckUserPreliminaryCheckService' => static function (
