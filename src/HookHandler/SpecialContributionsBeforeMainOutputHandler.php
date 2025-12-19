@@ -56,7 +56,11 @@ class SpecialContributionsBeforeMainOutputHandler implements SpecialContribution
 	}
 
 	private function shouldShowCountFromThisIP( UserIdentity $user, ContributionsSpecialPage $sp ): bool {
-		if ( $user->isRegistered() || !$this->isValidIPOrQueryableRange( $user->getName(), $sp->getConfig() ) ) {
+		if (
+			!$this->tempUserConfig->isKnown() ||
+			$user->isRegistered() ||
+			!$this->isValidIPOrQueryableRange( $user->getName(), $sp->getConfig() )
+		) {
 			return false;
 		}
 
