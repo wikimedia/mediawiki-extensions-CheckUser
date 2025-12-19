@@ -193,6 +193,14 @@ class SpecialContributionsBeforeMainOutputHandlerTest extends MediaWikiIntegrati
 				'permissions' => [ 'checkuser-temporary-account-no-preference' ],
 				'expectedSubtitle' => 'checkuser-contributions-temporary-accounts-on-ip',
 			],
+			'IP target, has TAIV right, temp accounts not known' => [
+				'tempAccountsEnabled' => false,
+				'target' => '127.0.0.1',
+				'targetExists' => false,
+				'targetHidden' => false,
+				'permissions' => [ 'checkuser-temporary-account-no-preference' ],
+				'expectedSubtitle' => null,
+			],
 		];
 	}
 }
