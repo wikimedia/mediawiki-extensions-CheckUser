@@ -42,6 +42,7 @@ class CheckUserInsert {
 
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserClientHintsEnabled',
+		'CheckUserUserAgentTableMigrationStage',
 	];
 
 	/**
@@ -310,8 +311,17 @@ class CheckUserInsert {
 			'cule_ip_hex'    => $ip ? IPUtils::toHex( $ip ) : null,
 			'cule_xff'       => !$isSquidOnly ? $xff : '',
 			'cule_xff_hex'   => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-			'cule_agent'     => $this->getAgent( $request ),
 		], $row );
+
+		$agent = $this->getAgent( $row['cule_agent'] ?? null, $request );
+
+		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$row['cule_agent'] = $agent;
+		}
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$row['cule_agent_id'] = $this->acquireUserAgentTableId( $agent );
+		}
 
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
@@ -388,10 +398,19 @@ class CheckUserInsert {
 				'cupe_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 				'cupe_xff'        => !$isSquidOnly ? $xff : '',
 				'cupe_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-				'cupe_agent'      => $this->getAgent( $request ),
 			],
 			$row
 		);
+
+		$agent = $this->getAgent( $row['cupe_agent'] ?? null, $request );
+
+		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$row['cupe_agent'] = $agent;
+		}
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$row['cupe_agent_id'] = $this->acquireUserAgentTableId( $agent );
+		}
 
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
@@ -479,10 +498,19 @@ class CheckUserInsert {
 				'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 				'cuc_xff'        => !$isSquidOnly ? $xff : '',
 				'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-				'cuc_agent'      => $this->getAgent( $request ),
 			],
 			$row
 		);
+
+		$agent = $this->getAgent( $row['cuc_agent'] ?? null, $request );
+
+		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$row['cuc_agent'] = $agent;
+		}
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$row['cuc_agent_id'] = $this->acquireUserAgentTableId( $agent );
+		}
 
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
@@ -515,17 +543,44 @@ class CheckUserInsert {
 	/**
 	 * Get user agent for the given request.
 	 *
+	 * @param ?string $agent The value of the User-Agent string from the
+	 *   row being inserted. `null` if no value was set in the row (which is the default)
 	 * @param WebRequest $request
 	 * @return string
 	 */
-	private function getAgent( WebRequest $request ): string {
-		$agent = $request->getHeader( 'User-Agent' );
+	private function getAgent( ?string $agent, WebRequest $request ): string {
+		$agent ??= $request->getHeader( 'User-Agent' );
 		if ( $agent === false ) {
 			// no agent was present, store as an empty string (otherwise, it would
 			// end up stored as a zero due to boolean casting done by the DB layer).
 			return '';
 		}
 		return $this->contentLanguage->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
+	}
+
+	/**
+	 * Gets the ID of a row in the `cu_useragent` table that has the provided
+	 * User-Agent string, creating one if it does not exist.
+	 */
+	private function acquireUserAgentTableId( string $agent ): int {
+		$dbr = $this->connectionProvider->getReplicaDatabase();
+		$id = $dbr->newSelectQueryBuilder()
+			->select( 'cuua_id' )
+			->from( 'cu_useragent' )
+			->where( [ 'cuua_text' => $agent ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		if ( $id === false ) {
+			$dbw = $this->connectionProvider->getPrimaryDatabase();
+			$dbw->newInsertQueryBuilder()
+				->insertInto( 'cu_useragent' )
+				->row( [ 'cuua_text' => $agent ] )
+				->caller( __METHOD__ )
+				->execute();
+			$id = $dbw->insertId();
+		}
+
+		return $id;
 	}
 
 	/**

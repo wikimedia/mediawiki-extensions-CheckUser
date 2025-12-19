@@ -86,6 +86,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuChangesTable(
 		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
+		// Write both is tested by ::testInsertMethodsForUserAgentTableWrites
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
+
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$performer = $this->getTestUser()->getUserIdentity();
 		// Only mock the service if we don't already have an instance of CheckUserInsert. Mocking at this stage
@@ -148,6 +151,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuPrivateEventTable(
 		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
+		// Write both is tested by ::testInsertMethodsForUserAgentTableWrites
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
+
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$performer = $this->getTestUser()->getUserIdentity();
 		// Only mock the service if we don't already have an instance of CheckUserInsert. Mocking at this stage
@@ -214,6 +220,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuLogEventTable(
 		array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
+		// Write both is tested by ::testInsertMethodsForUserAgentTableWrites
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
+
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$logId = $this->newLogEntry();
 		// Delete any entries that were created by ::newLogEntry.
@@ -514,6 +523,65 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// Enable temporary accounts and then perform the insert.
 		$this->enableAutoCreateTempUser();
 		$this->testActorColumnInInsertMethods( $table, $ip );
+	}
+
+	/** @dataProvider provideInsertionMethodsForUserAgentTableWrites */
+	public function testInsertionMethodsForUserAgentTableWrites(
+		string $table
+	): void {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_WRITE_BOTH );
+
+		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'test' );
+
+		if ( $table === 'cu_changes' ) {
+			$this->setUpObject()->insertIntoCuChangesTable(
+				[], __METHOD__, $this->getTestUser()->getUserIdentity()
+			);
+		} elseif ( $table === 'cu_private_event' ) {
+			$this->setUpObject()->insertIntoCuPrivateEventTable(
+				[], __METHOD__, $this->getTestUser()->getUserIdentity()
+			);
+		} elseif ( $table === 'cu_log_event' ) {
+			$logId = $this->newLogEntry();
+			// Delete any entries that were created by ::newLogEntry.
+			$this->truncateTables( [
+				'cu_log_event',
+			] );
+			$logEntry = DatabaseLogEntry::newFromId( $logId, $this->getDb() );
+			$this->setUpObject()->insertIntoCuLogEventTable(
+				$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
+			);
+		} else {
+			$this->fail( 'Unexpected table.' );
+		}
+
+		// Check that the cu_useragent table was populated with one a row for the 'test' user agent
+		$this->newSelectQueryBuilder()
+			->select( 'cuua_text' )
+			->from( 'cu_useragent' )
+			->caller( __METHOD__ )
+			->assertFieldValue( 'test' );
+		$userAgentTableId = $this->newSelectQueryBuilder()
+			->select( 'cuua_id' )
+			->from( 'cu_useragent' )
+			->caller( __METHOD__ )
+			->fetchField();
+
+		// Test that the row in the relevant table uses the ID of that newly created row
+		$prefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
+		$this->newSelectQueryBuilder()
+			->select( [ "{$prefix}agent", "{$prefix}agent_id" ] )
+			->from( $table )
+			->caller( __METHOD__ )
+			->assertRowValue( [ 'test', $userAgentTableId ] );
+	}
+
+	public static function provideInsertionMethodsForUserAgentTableWrites(): array {
+		return [
+			'cu_changes' => [ 'cu_changes' ],
+			'cu_log_event' => [ 'cu_log_event' ],
+			'cu_private_event' => [ 'cu_private_event' ],
+		];
 	}
 
 	public function testInsertIntoCuLogEventTableLogId() {
