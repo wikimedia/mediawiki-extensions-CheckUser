@@ -127,7 +127,7 @@
 	"checkuser-investigate-indicator-logs": "Marilhoù",
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "N'eo ket bet kavet ar wiki",
 	"checkuser-investigate-filters-exclude-temp-accounts-label": "Silañ ar c'hontoù berrbad",
-	"checkuser-investigate-compare-notice-no-results": "N'eus disoc'h ebet : an implijerien pe IPoù-se n'o deus graet kemm ebet e-kerzh an 90 deiz diwezhañ.",
+	"checkuser-investigate-compare-notice-no-results": "N'eus disoc'h ebet : an implijerien pe IPoù-se n'o deus graet kemm ebet e-kerzh an $1 deiz diwezhañ.",
 	"checkuser-investigate-compare-notice-no-results-filters": "Disoc'h ebet ne glot gant an dezverkoù silañ-mañ. Dilamit siloù zo evit ledanaat ar c'hlask.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl IPoù an implijer-mañ",
 	"checkuser-ip-contributions": "Klask degasadennoù IP",

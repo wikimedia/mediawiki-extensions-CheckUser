@@ -233,7 +233,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki non trovato",
 	"checkuser-investigate-filters-legend": "Filtri",
 	"checkuser-investigate-filters-exclude-targets-label": "Nascondi i seguenti utenti o IP",
-	"checkuser-investigate-timeline-notice-no-results": "Non ci sono risultati: non sono state registrate attività da questi utenti o IP negli ultimi 90 giorni",
+	"checkuser-investigate-timeline-notice-no-results": "Non ci sono risultati: non sono state registrate attività da questi utenti o IP negli ultimi $1 giorni",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Non ci sono risultati corrispondenti a questi criteri di filtro. Prova a rimuovere alcuni filtri per ampliare la ricerca.",
 	"checkuser-investigate-compare-copy-button-label": "Mostra wikitesto",
 	"checkuser-investigate-compare-copy-button-label-hide": "Nascondi wikitesto",
@@ -241,7 +241,7 @@
 	"checkuser-investigate-compare-toollinks-ipcheck": "Proxy check",
 	"checkuser-investigate-compare-copy-message-label": "Desideri copiare quest'informazione in una tabella di wikitesto?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "A causa di limitazioni tecniche, abbiamo raggiunto il numero massimo di entrate visualizzabili. I dati sui seguenti bersagli sono incompleti: $1. Riprova indicando meno bersagli, una finestra temporale più piccola o un IP range meno ampio.",
-	"checkuser-investigate-compare-notice-no-results": "Non ci sono risultati: queste utenze o IP non hanno effettuato modifiche negli ultimi 90 giorni.",
+	"checkuser-investigate-compare-notice-no-results": "Non ci sono risultati: queste utenze o IP non hanno effettuato modifiche negli ultimi $1 giorni.",
 	"checkuser-investigate-compare-notice-no-results-filters": "Non ci sono risultati corrispondenti a questi criteri. Rimuovi alcuni filtri e riprova.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Mostra tutti gli IP di questo utente",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Mostra tutti gli utenti su questo IP",
@@ -430,5 +430,7 @@
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un computo totale di tutte le utenze temporanee da tutti gli IP associati a questo account",
 	"checkuser-temporary-account-bucketcount-min": "$1",
 	"checkuser-temporary-account-bucketcount-range": "$1-$2",
-	"checkuser-temporary-account-bucketcount-max": "$1+"
+	"checkuser-temporary-account-bucketcount-max": "$1+",
+	"checkuser-contributions-temporary-accounts-on-ip": "Utenze temporanee su questo IP: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Utenze temporanee su questo IP: $1 (bloccate: $2)"
 }
