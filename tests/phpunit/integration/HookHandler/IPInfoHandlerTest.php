@@ -109,7 +109,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 				$services->get( 'IPInfoTempUserIPLookup' ),
 				$services->get( 'IPInfoPermissionManager' ),
 				$services->getReadOnlyMode(),
-				$services->get( 'IPInfoHookRunner' )
+				$services->getHookContainer(),
 			);
 
 			// Get the request data
@@ -128,7 +128,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 				$services->get( 'IPInfoPermissionManager' ),
 				$services->getReadOnlyMode(),
 				$services->get( 'IPInfoAnonymousUserIPLookup' ),
-				$services->get( 'IPInfoHookRunner' )
+				$services->getHookContainer(),
 			);
 
 			// Get the request data
