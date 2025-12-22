@@ -59,11 +59,12 @@ class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQue
 		// - the user enabling IP reveal globally via GlobalPreferences
 		// - CentralAuth being enabled to support cross-wiki lookups
 		// It also requires temp users to be known to this wiki, or for there
-		// to be a central wiki that Special:GlobalContributions redirects to.
+		// to be a (remote) central wiki that Special:GlobalContributions redirects to.
+		$gcCentralWiki = $this->config->get( 'CheckUserGlobalContributionsCentralWikiId' );
 		if (
 			(
 				$this->tempUserConfig->isKnown() ||
-				$this->config->get( 'CheckUserGlobalContributionsCentralWikiId' )
+				( $gcCentralWiki && $gcCentralWiki !== WikiMap::getCurrentWikiId() )
 			) &&
 			$this->areGlobalContributionsDependenciesMet()
 		) {
