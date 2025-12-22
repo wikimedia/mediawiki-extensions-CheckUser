@@ -470,5 +470,6 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "Редагування {{PLURAL:$2|позначене|позначені}} $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Журнал|Журнали}} позначено $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Тимчасові облікові записи з усіх пов'язаних IP-адрес: $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Сукупна кількість усіх тимчасових облікових записів з усіх IP-адрес, пов'язаних із цим обліковим записом"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Сукупна кількість усіх тимчасових облікових записів з усіх IP-адрес, пов'язаних із цим обліковим записом",
+	"checkuser-contributions-temporary-accounts-on-ip": "Тимчасові облікові записи з цієї IP: $1"
 }

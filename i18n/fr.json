@@ -348,7 +348,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Erreur lors du chargement des données de certains wikis. Ces résultats sont incomplets. <strong>Il peut être utile de réessayer</strong>.",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Aucun résultat ne correspond à la requête.</strong> L'utilisateur « $1 » n'a aucune contribution visible.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Aucun résultat ne correspond à votre recherche.</strong> Vous pouvez trouver des contributions en modifiant vos paramètres de recherche.",
-	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Espace de noms< $1 >: $2",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Espace de noms[$1]:$2",
 	"checkuser-ip-auto-reveal-link-sidebar": "Révélation automatique de l'adresse IP",
 	"checkuser-ip-auto-reveal-link-sidebar-on": "Révélation automatique de l'adresse IP (activée)",
 	"checkuser-ip-auto-reveal-notification-on": "<strong>La révélation automatique de l'adresse IP est activée</strong>",
