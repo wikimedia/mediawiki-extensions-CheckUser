@@ -2,12 +2,16 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
+use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\Block;
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
@@ -18,9 +22,11 @@ use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
 use Wikimedia\IPUtils;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\Rdbms\ReadOnlyMode;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -458,6 +464,99 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Authority has the "hideuser" right' => [ true, 'checkuser-rest-access-denied', 403 ],
 			'Authority does not have the "hideuser" right' => [ false, 'rest-nonexistent-user', 404 ],
+		];
+	}
+
+	/**
+	 * @dataProvider provideExecuteLogs
+	 */
+	public function testExecuteLogs(
+		int $jobQueueGroupExpects,
+		int $loggerExpects,
+		array $preferences
+	): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
+
+		ConvertibleTimestamp::setFakeTime( '20230406060708' );
+
+		$serviceOptions = new ServiceOptions(
+			CheckUserTemporaryAccountAutoRevealLookup::CONSTRUCTOR_OPTIONS,
+			$this->getServiceContainer()->getMainConfig()
+		);
+
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+		$checkUserPermissionManager->method( 'canAutoRevealIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
+		$preferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
+		$preferencesFactory->method( 'getGlobalPreferencesValues' )
+			->willReturn( $preferences );
+
+		$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
+			$serviceOptions, $preferencesFactory, $checkUserPermissionManager
+		);
+
+		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$jobQueueGroup->expects( $this->exactly( $jobQueueGroupExpects ) )
+			->method( 'push' );
+
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $this->exactly( $loggerExpects ) )
+			->method( 'info' )
+			->with(
+				'{username} viewed IP addresses for {target}',
+				$this->callback( static function ( $context ) {
+					return $context['target'] === '*Unregistered_1';
+				} )
+			);
+
+		$this->setLogger( 'CheckUser', $logger );
+
+		$data = $this->executeHandlerAndGetBodyData(
+			$this->getTemporaryAccountHandler( [
+				'autoRevealLookup' => $autoRevealLookup,
+				'jobQueueGroup' => $jobQueueGroup,
+			] ),
+			$this->getRequestData(),
+			[],
+			[],
+			[],
+			[],
+			$this->getAuthorityForSuccess()
+		);
+	}
+
+	public static function provideExecuteLogs(): array {
+		ConvertibleTimestamp::setFakeTime( '20230406060708' );
+		$timeNow = ConvertibleTimestamp::time();
+		$validFutureTimestamp = $timeNow + 100;
+		$invalidFutureTimestamp = $timeNow + 9999999;
+		$pastTimestamp = $timeNow - 100;
+		ConvertibleTimestamp::setFakeTime( false );
+
+		return [
+			'The correct logger is called when auto-reveal is on with valid expiry' => [
+				'jobQueueGroupExpects' => 0,
+				'loggerExpects' => 1,
+				'preferences' => [ Preferences::ENABLE_IP_AUTO_REVEAL => $validFutureTimestamp ],
+			],
+			'The correct logger is called when auto-reveal is on with expiry too far in the future' => [
+				'jobQueueGroupExpects' => 1,
+				'loggerExpects' => 0,
+				'preferences' => [ Preferences::ENABLE_IP_AUTO_REVEAL => $invalidFutureTimestamp ],
+			],
+			'The correct logger is called when auto-reveal is on with expiry in the past' => [
+				'jobQueueGroupExpects' => 1,
+				'loggerExpects' => 0,
+				'preferences' => [ Preferences::ENABLE_IP_AUTO_REVEAL => $pastTimestamp ],
+			],
+			'The correct logger is called when auto-reveal is off' => [
+				'jobQueueGroupExpects' => 1,
+				'loggerExpects' => 0,
+				'preferences' => [],
+			],
 		];
 	}
 

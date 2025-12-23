@@ -337,25 +337,6 @@
 			]
 		},
 		{
-			"path": "/checkuser/v0/temporaryaccount/{name}/revisions/{ids}",
-			"method": "POST",
-			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountRevisionHandler",
-			"services": [
-				"MainConfig",
-				"JobQueueGroup",
-				"PermissionManager",
-				"UserNameUtils",
-				"DBLoadBalancerFactory",
-				"ActorStore",
-				"BlockManager",
-				"RevisionStore",
-				"CheckUserPermissionManager",
-				"CheckUserTemporaryAccountAutoRevealLookup",
-				"CheckUserTemporaryAccountLoggerFactory",
-				"ReadOnlyMode"
-			]
-		},
-		{
 			"path": "/checkuser/v0/batch-temporaryaccount",
 			"method": "POST",
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\BatchTemporaryAccountHandler",

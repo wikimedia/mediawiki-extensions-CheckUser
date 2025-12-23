@@ -18,9 +18,14 @@ use MediaWiki\Extension\AbuseFilter\Filter\MutableFilter;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Logging\ManualLogEntry;
+use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Rest\RequestData;
+use MediaWiki\Revision\ArchiveSelectQueryBuilder;
+use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Revision\RevisionSelectQueryBuilder;
+use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
@@ -28,10 +33,13 @@ use MediaWiki\User\ActorStore;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
+use StatusValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
+use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -39,6 +47,10 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group CheckUser
  * @group Database
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\BatchTemporaryAccountHandler
+ * @covers \MediaWiki\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountHandler
+ * @covers \MediaWiki\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountNameHandler
+ * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionTrait
+ * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogger
  */
 class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
@@ -466,6 +478,179 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
+	/**
+	 * This test covers the code from TemporaryAccountRevisionTrait
+	 * that is called by the handler under test.
+	 *
+	 * @dataProvider executeForRevisionsDataProvider
+	 */
+	public function testExecuteForRevisions(
+		callable $expected,
+		callable $validatedBody
+	): void {
+		$permissionManager = $this->createMock( PermissionManager::class );
+		$permissionManager->method( 'userHasRight' )
+			->willReturn( true );
+
+		$userNameUtils = $this->createMock( UserNameUtils::class );
+		$userNameUtils->method( 'isTemp' )
+			->willReturn( true );
+
+		$actorStore = $this->createMock( ActorStore::class );
+		$actorStore->method( 'findActorIdByName' )
+			->willReturn( 1234 );
+		$actorStore->method( 'getUserIdentityByName' )
+			->willReturn( new UserIdentityValue( 1234, '*Unregistered 1' ) );
+
+		$mockRevisionStore = $this->getMockRevisionStore();
+		$mockRevisionStore->method( 'newRevisionsFromBatch' )
+			->willReturnCallback( function ( $rows ) {
+				$revisions = [];
+				$rows->rewind();
+				foreach ( $rows as $row ) {
+					$mockRevision = $this->createMock( RevisionRecord::class );
+					$mockRevision->method( 'userCan' )
+						->willReturn( true );
+					$mockRevision->method( 'getId' )
+						->willReturn( $row->rev_id );
+
+					$revisions[] = $mockRevision;
+				}
+				return StatusValue::newGood( $revisions );
+			} );
+
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
+		$services = $this->getServiceContainer();
+		$handler = new BatchTemporaryAccountHandler( ...array_values( [
+				'config' => $services->getMainConfig(),
+				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
+				'permissionManager' => $permissionManager,
+				'userNameUtils' => $userNameUtils,
+				'dbProvider' => $services->getDBLoadBalancerFactory(),
+				'actorStore' => $actorStore,
+				'blockManager' => $services->getBlockManager(),
+				'revisionStore' => $mockRevisionStore,
+				'checkUserPermissionManager' => $checkUserPermissionManager,
+				'autoRevealLookup' => $services->get(
+					'CheckUserTemporaryAccountAutoRevealLookup'
+				),
+				'loggerFactory' => $services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
+				'readOnlyMode' => $services->getReadOnlyMode(),
+				'extensionRegistry' => $services->getExtensionRegistry(),
+				'expiredIdsLookupService' => $services->get( 'CheckUserExpiredIdsLookupService' ),
+			] )
+		);
+
+		$data = $this->executeHandlerAndGetBodyData(
+			$handler,
+			new RequestData(),
+			[],
+			[],
+			[],
+			$validatedBody(),
+			$this->getTestUser()->getAuthority()
+		);
+
+		$this->assertArrayEquals( $expected(), $data, true );
+	}
+
+	public static function executeForRevisionsDataProvider(): array {
+		return [
+			'No revision IDs' => [
+				'expected' => static fn () => [
+					self::$tempUser->getName() => [
+						'abuseLogIps' => null,
+						'logIps' => null,
+						'revIps' => null,
+						'lastUsedIp' => '1.2.3.5',
+					],
+					'autoReveal' => false,
+				],
+				'validatedBody' => static fn () => [
+					'users' => [
+						self::$tempUser->getName() => [
+							'revIds' => [],
+							'logIds' => [],
+							'lastUsedIp' => true,
+						],
+					],
+				],
+			],
+			'One revision ID' => [
+				'expected' => static fn () => [
+					self::$tempUser->getName() => [
+						'abuseLogIps' => null,
+						'logIps' => null,
+						'revIps' => [
+							10 => '1.2.3.4',
+						],
+						'lastUsedIp' => '1.2.3.5',
+					],
+					'autoReveal' => false,
+				],
+				'validatedBody' => static fn () => [
+					'users' => [
+						self::$tempUser->getName() => [
+							'revIds' => [ 10 ],
+							'logIds' => [],
+							'lastUsedIp' => true,
+						],
+					],
+				],
+			],
+			'Multiple existing revision IDs' => [
+				'expected' => static fn () => [
+					self::$tempUser->getName() => [
+						'abuseLogIps' => null,
+						'logIps' => null,
+						'revIps' => [
+							10 => '1.2.3.4',
+							100 => '1.2.3.5',
+							1000 => '1.2.3.5',
+						],
+						'lastUsedIp' => '1.2.3.5',
+					],
+					'autoReveal' => false,
+				],
+				'validatedBody' => static fn () => [
+					'users' => [
+						self::$tempUser->getName() => [
+							'revIds' => [ 1000, 10, 100 ],
+							'logIds' => [],
+							'lastUsedIp' => true,
+						],
+					],
+				],
+			],
+			'Multiple revision IDs, both existing and nonexistent' => [
+				'expected' => static fn () => [
+					self::$tempUser->getName() => [
+						'abuseLogIps' => null,
+						'logIps' => null,
+						'revIps' => [
+							10 => '1.2.3.4',
+							9999 => null,
+						],
+						'lastUsedIp' => '1.2.3.5',
+					],
+					'autoReveal' => false,
+				],
+				'validatedBody' => static fn () => [
+					'users' => [
+						self::$tempUser->getName() => [
+							'revIds' => [ 9999, 10 ],
+							'logIds' => [],
+							'lastUsedIp' => true,
+						],
+					],
+				],
+			],
+		];
+	}
+
 	private function mockHandler() {
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
@@ -522,6 +707,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$logEntry = $this->createLogEntry( $tempUser2 );
 		$logEntry->setTimestamp( '20150101012345' );
 		self::$expiredLogId = $logEntry->insert();
+
+		$this->addDBDataForCuChanges();
 	}
 
 	private function addDBDataForLogs( User $tempUser ): void {
@@ -714,6 +901,52 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertGreaterThan( 0, self::$unavailableAFLogId );
 	}
 
+	private function addDBDataForCuChanges(): void {
+		$testData = [
+			[
+				'cuc_actor'      => 1234,
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_this_oldid' => 10,
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20200101000000' ),
+			],
+			[
+				'cuc_actor'      => 1234,
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
+				'cuc_this_oldid' => 100,
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20210101000000' ),
+			],
+			[
+				'cuc_actor'      => 1234,
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
+				'cuc_this_oldid' => 1000,
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20220101000000' ),
+			],
+		];
+
+		$commonData = [
+			'cuc_type'       => RC_EDIT,
+			'cuc_agent'      => 'foo user agent',
+			'cuc_namespace'  => NS_MAIN,
+			'cuc_title'      => 'Foo_Page',
+			'cuc_minor'      => 0,
+			'cuc_page_id'    => 1,
+			'cuc_xff'        => 0,
+			'cuc_xff_hex'    => null,
+			'cuc_comment_id' => 0,
+			'cuc_last_oldid' => 0,
+		];
+
+		$queryBuilder = $this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_changes' )
+			->caller( __METHOD__ );
+
+		foreach ( $testData as $row ) {
+			$queryBuilder->row( $row + $commonData );
+		}
+
+		$queryBuilder->execute();
+	}
+
 	private function createLogEntry( UserIdentity $performer ): ManualLogEntry {
 		$logEntry = new ManualLogEntry( 'move', 'move' );
 		$logEntry->setPerformer( $performer );
@@ -724,5 +957,61 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'5::noredir' => '0',
 		] );
 		return $logEntry;
+	}
+
+	private function getMockRevisionStore() {
+		// Mock the RevisionStore to say that all revisions can be viewed by the authority (we need to do this as
+		// the revisions are not inserted to the DB).
+		$mockRevision = $this->createMock( RevisionRecord::class );
+		$mockRevision->method( 'userCan' )
+			->willReturn( true );
+		$mockRevision->method( 'getId' )
+			->willReturn( 1000 );
+		// Create a mock RevisionStore to return the mock select query builder and also
+		// mock ::newRevisionsFromBatch.
+		$mockRevisionStore = $this->createMock( RevisionStore::class );
+		$mockRevisionStore->method( 'newSelectQueryBuilder' )
+			->willReturn( $this->getMockRevisionOrArchiveQueryBuilder(
+				RevisionSelectQueryBuilder::class,
+				'rev_id'
+			) );
+		$mockRevisionStore->method( 'newArchiveSelectQueryBuilder' )
+			->willReturn( $this->getMockRevisionOrArchiveQueryBuilder(
+				ArchiveSelectQueryBuilder::class,
+				'ar_rev_id'
+			) );
+		return $mockRevisionStore;
+	}
+
+	/**
+	 * Creates a mock ArchiveSelectQueryBuilder or RevisionSelectQueryBuilder that
+	 * returns mock revision rows from ::fetchResultSet. These mock rows are controlled
+	 * by the IDs that are requested in the query.
+	 *
+	 * @param class-string<RevisionSelectQueryBuilder|ArchiveSelectQueryBuilder> $className
+	 * @param string $revColumnName
+	 * @return ArchiveSelectQueryBuilder|RevisionSelectQueryBuilder|MockObject
+	 */
+	private function getMockRevisionOrArchiveQueryBuilder( string $className, string $revColumnName ) {
+		/** @var MockObject|RevisionSelectQueryBuilder|ArchiveSelectQueryBuilder $mockSelectQueryBuilder */
+		$mockSelectQueryBuilder = $this->getMockBuilder( $className )
+			->onlyMethods( [ 'fetchResultSet' ] )
+			->setConstructorArgs( [ $this->createMock( IReadableDatabase::class ) ] )
+			->getMock();
+		$mockSelectQueryBuilder->method( 'fetchResultSet' )
+			->willReturnCallback( static function () use ( $mockSelectQueryBuilder, $revColumnName ) {
+				return new FakeResultWrapper( array_map(
+					static function ( $revId ) use ( $revColumnName ) {
+						return [ $revColumnName => $revId ];
+					},
+					array_values( array_filter(
+						$mockSelectQueryBuilder->getQueryInfo()['conds'][$revColumnName],
+						static function ( $revId ) {
+							return in_array( $revId, [ 10, 100, 1000 ] );
+						}
+					) )
+				) );
+			} );
+		return $mockSelectQueryBuilder;
 	}
 }
