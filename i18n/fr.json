@@ -386,6 +386,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "La révélation temporaire de l'adresse IP du compte est désactivée",
 	"checkuser-tempaccount-reveal-blocked-description": "Vous n'êtes pas autorisé à utiliser cette fonctionnalité pour la raison suivante :",
 	"checkuser-tempaccount-specialblock-ips": "Il s’agit d’un utilisateur temporaire utilisant {{PLURAL:$1|l’adresse IP suivante|les adresses IP suivantes}} : $2",
+	"checkuser-tempaccount-specialblock-ip-target": "Voir les contributions de compte temporaires sur [[Special:IPContributions/$1]].",
 	"checkuser-temporary-account-log-name": "Résumé de la révélation IP",
 	"checkuser-temporary-account-log-header": "Il s’agit d’un journal montrant :\n# les adresses IP utilisées par un compte temporaire\n# les comptes temporaires associés à une adresse IP ou à une plage d'adresses IP\n# les modifications des niveaux d’accès des utilisateurs pour l’affichage des adresses IP utilisées par les comptes temporaires",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|son}} propre accès pour voir les adresses IP de comptes temporaires",
