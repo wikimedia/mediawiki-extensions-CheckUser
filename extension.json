@@ -689,7 +689,6 @@
 				}
 			],
 			"messages": [
-				"checkuser-userinfocard-toggle-button-aria-label",
 				"checkuser-userinfocard-close-button-aria-label",
 				"checkuser-userinfocard-open-menu-aria-label",
 				"checkuser-userinfocard-joined",
@@ -801,9 +800,6 @@
 				}
 			],
 			"messages": [
-				"checkuser-ip-contributions",
-				"checkuser-ip-contributions-target-label",
-				"checkuser-ip-contributions-target-error-no-ip",
 				"checkuser-tempaccount-no-ip-results",
 				"checkuser-tempaccount-reveal-ip-button-label",
 				"checkuser-tempaccount-reveal-ip-missing",
