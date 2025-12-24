@@ -161,6 +161,7 @@
 	"checkuser-userinfocard-past-blocks": "Prijašnje blokade: $1",
 	"checkuser-userinfocard-global-edits": "Globalna uređivanja: $1",
 	"checkuser-userinfocard-local-edits": "Lokalna uređivanja: $1 (uklonjeno: $2)",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Lokalna uređivanja: $1",
 	"checkuser-userinfocard-new-articles": "Novi članci: $1",
 	"checkuser-userinfocard-thanks": "Primljene zahvale: $1 (poslane: $2)",
 	"checkuser-userinfocard-menu-view-contributions": "{{GENDER:$1|Prikaži doprinose}}",
