@@ -51,6 +51,7 @@
 	"checkuser-week-2": "posljednja dva tjedna",
 	"checkuser-month": "posljednjih 30 dana",
 	"checkuser-all": "sve",
+	"checkuser-filter-hide-temporary-accounts": "Sakrij privremene račune",
 	"checkuser-cidr-label": "Pronađite zajednički raspon i zahvaćene adrese za popis IP-ova",
 	"checkuser-cidr-res": "Zajednički CIDR:",
 	"checkuser-empty": "Evidencija je prazna.",
@@ -71,7 +72,7 @@
 	"checkuser-showmain": "Vrati se na stranicu za provjeru",
 	"logentry-checkuser-private-event-autocreate-account": "je automatski stvoren",
 	"logentry-checkuser-private-event-create-account": "je napravljen",
-	"checkuser-temporary-accounts-onboarding-dialog-title": "Uvod u privremene računa",
+	"checkuser-temporary-accounts-onboarding-dialog-title": "Uvod u privremene račune",
 	"checkuser-temporary-accounts-onboarding-dialog-skip-all": "Preskoči sve",
 	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "Prethodno",
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Sljedeće",
@@ -179,5 +180,8 @@
 	"checkuser-userinfocard-groups": "<strong>Suradničke skupine</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Globalne suradničke skupine</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 uređivanje|$2 uređivanja|0=bez uređivanja}})",
-	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Uključeno odavanje IP adresa privremenih računa"
+	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Uključeno odavanje IP adresa privremenih računa",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Privremeni računi sa svih povezanih IP adresa: $1",
+	"checkuser-contributions-temporary-accounts-on-ip": "Privremeni računi na ovoj IP adresi: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Privremeni računi na ovoj IP adresi: $1 (blokirani: $2)"
 }
