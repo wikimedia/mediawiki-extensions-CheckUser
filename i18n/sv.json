@@ -247,6 +247,7 @@
 	"checkuser-global-contributions-target-placeholder": "Användarnamn, IP-adress eller -intervall",
 	"checkuser-global-contributions-search-form-wrapper": "Sök efter globala bidrag",
 	"checkuser-global-contributions-results-title": "Globala bidrag för $1",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Namnrymd[$1]:$2",
 	"checkuser-ip-auto-reveal-on-dialog-title": "Aktivera automatisk visning av IP-adresser",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "Avbryt",
 	"checkuser-ip-auto-reveal-on-dialog-primary-action": "Slå på",
@@ -267,6 +268,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Visning av IP-adresser för tillfälliga konton är avstängd",
 	"checkuser-tempaccount-reveal-blocked-description": "Du har inte behörighet att använda den här funktionen av följande anledning:",
 	"checkuser-tempaccount-specialblock-ips": "Detta är en temporär användare som använder följande {{PLURAL:$1|IP-adress|IP-adresser}}: $2",
+	"checkuser-tempaccount-specialblock-ip-target": "Se bidrag från tillfälliga konto på [[Special:IPContributions/$1]].",
 	"checkuser-temporary-account-log-name": "IP-visningslogg",
 	"checkuser-temporary-account-log-header": "Detta är en logg över:\n# Visning av IP-adresser som använts av ett tillfälligt konto\n# Visning av tillfälliga konton associerade med en IP-adress\n# Förändring av användarrättighetsnivåer för visning av IP-adresser som används av tillfälliga konton",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|hans|hennes|sin}} egen åtkomst för att se IP-adresser för tillfälliga konton",
@@ -314,5 +316,7 @@
 	"tooltip-t-global-contributions": "En lista över bidrag till alla wikier av {{GENDER:$1| den här användaren}}",
 	"checkuser-userinfocard-groups": "<strong>Grupper</strong> : $1",
 	"checkuser-userinfocard-global-groups": "<strong>Globala grupper</strong> : $1",
-	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 redigering|$2 redigeringar|0=Inga redigeringar}})"
+	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 redigering|$2 redigeringar|0=Inga redigeringar}})",
+	"checkuser-contributions-temporary-accounts-on-ip": "Tillfälliga konton på denna IP: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tillfälliga konton på denna IP: $1 (blockerade: $2 )"
 }
