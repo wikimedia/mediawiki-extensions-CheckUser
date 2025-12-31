@@ -181,7 +181,7 @@
 	"checkuser-userinfocard-global-groups": "<strong>Globalne suradničke skupine</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 uređivanje|$2 uređivanja|0=bez uređivanja}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Uključeno odavanje IP adresa privremenih računa",
-	"checkuser-userinfocard-temporary-account-bucketcount": "Privremeni računi sa svih povezanih IP adresa: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Broj privremenih računa sa svih povezanih IP adresa: $1",
 	"checkuser-contributions-temporary-accounts-on-ip": "Privremeni računi na ovoj IP adresi: $1",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Privremeni računi na ovoj IP adresi: $1 (blokirani: $2)"
 }

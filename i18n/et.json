@@ -266,7 +266,11 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Näita IP-aadressi",
 	"checkuser-tempaccount-reveal-ip-missing": "pole saadaval",
 	"checkuser-tempaccount-reveal-ip-expired": "pole enam saadaval",
+	"checkuser-tempaccount-reveal-ip-tooltip-revision": "Selle redaktsiooni juures kasutatud IP-aadress",
+	"checkuser-tempaccount-reveal-ip-tooltip-action": "Selle toimingu juures kasutatud IP-aadress",
+	"checkuser-tempaccount-reveal-ip-tooltip-latest": "Enim kasutatud IP-aadress",
 	"checkuser-tempaccount-specialblock-ips": "See ajutine konto kasutab {{PLURAL:$1|järgmist IP-aadressi|järgmiseid IP-aadresse}}: $2",
+	"checkuser-tempaccount-specialblock-ip-target": "Vaata ajutise konto kaastööd leheküljel [[Special:IPContributions/$1]].",
 	"checkuser-temporary-account-log-name": "IP-aadresside avaldamise logi",
 	"checkuser-temporary-account-log-header": "Siin logis on\n# ajutise konto IP-aadresside vaatamised,\n# IP-aadressi või IP-aadresside vahemikuga seotud ajutiste kontode vaatamised,\n# ajutise konto IP-aadresside vaatamiseks vajalike kasutajaõiguste muutmised.",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|enda}} juurdepääsu ajutiste kontode IP-aadressidele",
@@ -334,5 +338,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-intro": "Need märgid viitavad võimalikule kahjulikule tegevusele.",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Ajutisi kontosid seotud IP-aadressidelt: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Selle kontoga seotud IP-aadressidelt pärit ajutiste kontode koguarv",
-	"checkuser-temporary-account-bucketcount-range": "$1–$2"
+	"checkuser-temporary-account-bucketcount-range": "$1–$2",
+	"checkuser-contributions-temporary-accounts-on-ip": "Ajutisi kontosid sellelt IP-aadressilt: $1",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Ajutisi kontosid sellelt IP-aadressilt: $1 (blokeeritud: $2)"
 }
