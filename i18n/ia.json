@@ -95,7 +95,7 @@
 	"checkuser-massblock-localblocks-section": "Localmente blocar le objectivos seligite",
 	"checkuser-massblock-globalblocks-section": "Globalmente blocar le objectivos seligite",
 	"checkuser-block-reason-dropdown": "*Motivos frequente pro blocar\n**Abuso de contos  multiple\n** Ligamines ''spam'' verso sitos externe\n** Vandalismo",
-	"checkuser-centralauth-multilock": "Multi-blocar le contos seligite",
+	"checkuser-centralauth-multilock": "Multi-serrar le contos seligite",
 	"checkuser-centralauth-multilock-list": "Multi-serra le contos seligite usante le ligamines:",
 	"checkuser-centralauth-multilock-list-item": "Ligamine $1",
 	"checkuser-noreason": "Tu debe dar un motivo pro iste consulta.",

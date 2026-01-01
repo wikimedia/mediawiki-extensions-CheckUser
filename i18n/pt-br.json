@@ -86,6 +86,7 @@
 	"checkuser-month": "últimos 30 dias",
 	"checkuser-month-2": "últimos 60 dias",
 	"checkuser-all": "todos",
+	"checkuser-filter-title": "Filtros",
 	"checkuser-cidr-label": "Encontrar intervalo comum e endereços afetados para uma lista de IPs",
 	"checkuser-cidr-res": "CIDR comum:",
 	"checkuser-cidr-affected-ips": "Endereços IP afetados:",
