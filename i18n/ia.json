@@ -65,7 +65,7 @@
 	"checkuser-block-failure": "'''Nulle usator blocate.'''",
 	"checkuser-block-limit": "Troppo de usatores seligite.",
 	"checkuser-block-noreason": "Tu debe indicar un motivo pro le blocadas.",
-	"checkuser-centralauth-multilock": "Multi-blocar le contos seligite",
+	"checkuser-centralauth-multilock": "Multi-serrar le contos seligite",
 	"checkuser-noreason": "Tu debe dar un motivo pro iste consulta.",
 	"checkuser-too-many": "Troppo de resultatos (per estimation del consulta). Per favor, specifica un CIDR plus stricte.\nEcce le IPs usate (max. $1, ordinate per adresse):",
 	"checkuser-user-nonexistent": "Le usator specificate non existe.",
