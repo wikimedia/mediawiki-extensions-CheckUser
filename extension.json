@@ -742,6 +742,7 @@
 				"vue",
 				"@wikimedia/codex",
 				"mediawiki.user",
+				"mediawiki.util",
 				"mediawiki.DateFormatter",
 				"mediawiki.jqueryMsg"
 			]
