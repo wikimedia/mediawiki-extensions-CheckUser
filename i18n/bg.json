@@ -209,5 +209,6 @@
 	"checkuser-suggestedinvestigations-header-created": "Създадено",
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Бележки",
-	"checkuser-suggestedinvestigations-header-actions": "Действия"
+	"checkuser-suggestedinvestigations-header-actions": "Действия",
+	"checkuser-userinfocard-temporary-account-bucketcount": "Временни сметки от всички свързани IP адреси: $1"
 }

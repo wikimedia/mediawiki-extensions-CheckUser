@@ -4,6 +4,7 @@
 			"Ajeje Brazorf",
 			"Dreamy Jazz",
 			"GianAntonucci",
+			"Gmelfi",
 			"Melos",
 			"Pippinu",
 			"Santu",
@@ -80,5 +81,7 @@
 	"checkuser-investigate-filters-legend": "Filtri",
 	"checkuser-investigate-compare-copy-button-label": "Ammustra wikitestu",
 	"checkuser-investigate-compare-table-header-username": "Nomu utenti",
-	"checkuser-investigate-compare-table-header-ip": "IP"
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-ip-auto-reveal-link-sidebar": "Ammustra automaticamenti li IP",
+	"checkuser-tempaccount-reveal-ip-button-label": "Ammustra IP"
 }
