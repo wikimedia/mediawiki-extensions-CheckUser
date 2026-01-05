@@ -533,7 +533,7 @@ p.ext-checkuser-userinfocard-groups {
 }
 
 .ext-checkuser-userinfocard-gradient {
-	height: @spacing-200;
+	height: @spacing-100;
 	position: fixed;
 	bottom: 0;
 	left: 0;
