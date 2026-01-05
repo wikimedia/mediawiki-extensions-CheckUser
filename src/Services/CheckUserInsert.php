@@ -318,6 +318,8 @@ class CheckUserInsert {
 		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
 		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
 			$row['cule_agent'] = $agent;
+		} else {
+			unset( $row['cule_agent'] );
 		}
 		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$row['cule_agent_id'] = $this->acquireUserAgentTableId( $agent );
@@ -407,6 +409,8 @@ class CheckUserInsert {
 		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
 		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
 			$row['cupe_agent'] = $agent;
+		} else {
+			unset( $row['cupe_agent'] );
 		}
 		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$row['cupe_agent_id'] = $this->acquireUserAgentTableId( $agent );
@@ -507,6 +511,8 @@ class CheckUserInsert {
 		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
 		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
 			$row['cuc_agent'] = $agent;
+		} else {
+			unset( $row['cuc_agent'] );
 		}
 		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$row['cuc_agent_id'] = $this->acquireUserAgentTableId( $agent );

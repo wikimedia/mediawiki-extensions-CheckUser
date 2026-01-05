@@ -86,7 +86,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuChangesTable(
 		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
-		// Write both is tested by ::testInsertMethodsForUserAgentTableWrites
+		// Write new and both is tested by ::testInsertionMethodsForUserAgentTableWrites
 		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
 
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
@@ -151,7 +151,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuPrivateEventTable(
 		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
-		// Write both is tested by ::testInsertMethodsForUserAgentTableWrites
+		// Write new and both is tested by ::testInsertionMethodsForUserAgentTableWrites
 		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
 
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
@@ -220,7 +220,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuLogEventTable(
 		array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
-		// Write both is tested by ::testInsertMethodsForUserAgentTableWrites
+		// Write new and both is tested by ::testInsertionMethodsForUserAgentTableWrites
 		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
 
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
@@ -527,9 +527,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideInsertionMethodsForUserAgentTableWrites */
 	public function testInsertionMethodsForUserAgentTableWrites(
-		string $table
+		string $table, int $schemaMigrationStage
 	): void {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_WRITE_BOTH );
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $schemaMigrationStage );
 
 		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'test' );
 
@@ -568,19 +568,26 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			->fetchField();
 
 		// Test that the row in the relevant table uses the ID of that newly created row
+		// and has the *_agent column correctly populated based on the migration stage
 		$prefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
 		$this->newSelectQueryBuilder()
 			->select( [ "{$prefix}agent", "{$prefix}agent_id" ] )
 			->from( $table )
 			->caller( __METHOD__ )
-			->assertRowValue( [ 'test', $userAgentTableId ] );
+			->assertRowValue( [
+				$schemaMigrationStage & SCHEMA_COMPAT_WRITE_OLD ? 'test' : null,
+				$userAgentTableId,
+			] );
 	}
 
 	public static function provideInsertionMethodsForUserAgentTableWrites(): array {
 		return [
-			'cu_changes' => [ 'cu_changes' ],
-			'cu_log_event' => [ 'cu_log_event' ],
-			'cu_private_event' => [ 'cu_private_event' ],
+			'cu_changes for write both' => [ 'cu_changes', SCHEMA_COMPAT_WRITE_BOTH ],
+			'cu_log_event for write both' => [ 'cu_log_event', SCHEMA_COMPAT_WRITE_BOTH ],
+			'cu_private_event for write both' => [ 'cu_private_event', SCHEMA_COMPAT_WRITE_BOTH ],
+			'cu_changes for write new' => [ 'cu_changes', SCHEMA_COMPAT_WRITE_NEW ],
+			'cu_log_event for write new' => [ 'cu_log_event', SCHEMA_COMPAT_WRITE_NEW ],
+			'cu_private_event for write new' => [ 'cu_private_event', SCHEMA_COMPAT_WRITE_NEW ],
 		];
 	}
 
