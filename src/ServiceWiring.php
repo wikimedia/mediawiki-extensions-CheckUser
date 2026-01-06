@@ -101,7 +101,11 @@ return [
 			$services->getDBLoadBalancerFactory(),
 			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserLookupUtils' ),
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			new ServiceOptions(
+				TimelineService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			)
 		);
 	},
 	'CheckUserTokenManager' => static function ( MediaWikiServices $services ): TokenManager {

@@ -20,9 +20,12 @@ class CompareService extends ChangeService {
 	 */
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserInvestigateMaximumRowCount',
+		'CheckUserUserAgentTableMigrationStage',
 	];
 
 	private int $limit;
+
+	private int $userAgentTableMigrationStage;
 
 	public function __construct(
 		ServiceOptions $options,
@@ -40,6 +43,7 @@ class CompareService extends ChangeService {
 
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->limit = $options->get( 'CheckUserInvestigateMaximumRowCount' );
+		$this->userAgentTableMigrationStage = $options->get( 'CheckUserUserAgentTableMigrationStage' );
 	}
 
 	/**
@@ -168,12 +172,19 @@ class CompareService extends ChangeService {
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cuc_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cuc_actor',
-				'ip_hex' => 'cuc_ip_hex', 'agent' => 'cuc_agent', 'timestamp' => 'cuc_timestamp',
+				'ip_hex' => 'cuc_ip_hex', 'timestamp' => 'cuc_timestamp',
 			] )
 			->from( 'cu_changes' )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
 			->where( $targetExpr )
 			->caller( __METHOD__ );
+		if ( $this->userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cuc_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cuc_agent' ] );
+		}
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cuc_id to the ORDER BY clause to ensure unique ordering.
 			$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC );
@@ -202,12 +213,19 @@ class CompareService extends ChangeService {
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cule_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cule_actor',
-				'ip_hex' => 'cule_ip_hex', 'agent' => 'cule_agent', 'timestamp' => 'cule_timestamp',
+				'ip_hex' => 'cule_ip_hex', 'timestamp' => 'cule_timestamp',
 			] )
 			->from( 'cu_log_event' )
 			->join( 'actor', null, 'actor_id=cule_actor' )
 			->where( $targetExpr )
 			->caller( __METHOD__ );
+		if ( $this->userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cule_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cule_agent' ] );
+		}
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cule_id to the ORDER BY clause to ensure unique ordering.
 			$queryBuilder->orderBy( 'cule_timestamp', SelectQueryBuilder::SORT_DESC );
@@ -238,7 +256,7 @@ class CompareService extends ChangeService {
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cupe_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cupe_actor',
-				'ip_hex' => 'cupe_ip_hex', 'agent' => 'cupe_agent', 'timestamp' => 'cupe_timestamp',
+				'ip_hex' => 'cupe_ip_hex', 'timestamp' => 'cupe_timestamp',
 			] )
 			->from( 'cu_private_event' )
 			->where( $targetExpr )
@@ -251,6 +269,13 @@ class CompareService extends ChangeService {
 			// We only need a JOIN if the target of the check is a username because the username will have a valid
 			// actor ID.
 			$queryBuilder->join( 'actor', null, 'actor_id=cupe_actor' );
+		}
+		if ( $this->userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cupe_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cupe_agent' ] );
 		}
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cupe_id to the ORDER BY clause to ensure unique ordering.

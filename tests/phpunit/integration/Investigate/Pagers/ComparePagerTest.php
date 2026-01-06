@@ -271,7 +271,11 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideDoQuery
 	 */
-	public function testDoQuery( $targets, $excludeTargets, $expected ) {
+	public function testDoQuery(
+		array $targets, array $excludeTargets, int $expectedRowCount, int $userAgentTableMigrationStage
+	) {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
+
 		$services = $this->getServiceContainer();
 
 		$tokenQueryManager = $this->getMockBuilder( TokenQueryManager::class )
@@ -329,20 +333,28 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		] );
 		$pager->doQuery();
 
-		$this->assertSame( $expected, $pager->mResult->numRows() );
+		$this->assertSame( $expectedRowCount, $pager->mResult->numRows() );
 	}
 
 	public static function provideDoQuery() {
-		// $targets, $excludeTargets, $expected
+		// $targets, $excludeTargets, $expected, $userAgentTableMigrationStage
 		return [
-			'Valid and invalid targets' => [ [ 'User1', 'InvalidUser', '1.2.3.9/120' ], [], 2 ],
-			'Valid and empty targets' => [ [ 'User1', '' ], [], 2 ],
-			'Valid user target' => [ [ 'User2' ], [], 1 ],
-			'Valid user target with excluded name' => [ [ 'User2' ], [ 'User2' ], 0 ],
-			'Valid user target with excluded IP' => [ [ 'User2' ], [ '1.2.3.4' ], 0 ],
-			'Valid IP target' => [ [ '1.2.3.4' ], [], 4 ],
-			'Valid IP target with users excluded' => [ [ '1.2.3.4' ], [ 'User1', 'User2' ], 2 ],
-			'Valid IP range target' => [ [ '1.2.3.0/24' ], [], 7 ],
+			'Valid and invalid targets' => [
+				[ 'User1', 'InvalidUser', '1.2.3.9/120' ], [], 2, SCHEMA_COMPAT_READ_OLD,
+			],
+			'Valid and empty targets' => [ [ 'User1', '' ], [], 2, SCHEMA_COMPAT_READ_OLD ],
+			'Valid user target' => [ [ 'User2' ], [], 1, SCHEMA_COMPAT_READ_NEW ],
+			'Valid user target with excluded name' => [
+				[ 'User2' ], [ 'User2' ], 0, SCHEMA_COMPAT_READ_NEW,
+			],
+			'Valid user target with excluded IP' => [
+				[ 'User2' ], [ '1.2.3.4' ], 0, SCHEMA_COMPAT_READ_OLD,
+			],
+			'Valid IP target' => [ [ '1.2.3.4' ], [], 4, SCHEMA_COMPAT_READ_OLD ],
+			'Valid IP target with users excluded' => [
+				[ '1.2.3.4' ], [ 'User1', 'User2' ], 2, SCHEMA_COMPAT_READ_NEW,
+			],
+			'Valid IP range target' => [ [ '1.2.3.0/24' ], [], 7, SCHEMA_COMPAT_READ_OLD ],
 		];
 	}
 

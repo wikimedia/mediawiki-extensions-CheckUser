@@ -3,11 +3,34 @@
 namespace MediaWiki\CheckUser\Investigate\Services;
 
 use LogicException;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Config\ServiceOptions;
+use MediaWiki\User\TempUser\TempUserConfig;
+use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
 class TimelineService extends ChangeService {
+
+	/**
+	 * @internal For use by ServiceWiring
+	 */
+	public const CONSTRUCTOR_OPTIONS = [
+		'CheckUserUserAgentTableMigrationStage',
+	];
+
+	public function __construct(
+		IConnectionProvider $dbProvider,
+		UserIdentityLookup $userIdentityLookup,
+		CheckUserLookupUtils $checkUserLookupUtils,
+		TempUserConfig $tempUserConfig,
+		private readonly ServiceOptions $options
+	) {
+		parent::__construct( $dbProvider, $userIdentityLookup, $checkUserLookupUtils, $tempUserConfig );
+		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+	}
 
 	/**
 	 * Get timeline query info
@@ -216,10 +239,16 @@ class TimelineService extends ChangeService {
 		// Common fields for all queries
 		$fields = [
 			'namespace' => 'cuc_namespace', 'title' => 'cuc_title', 'timestamp' => 'cuc_timestamp',
-			'page_id' => 'cuc_page_id', 'ip_hex' => 'cuc_ip_hex', 'xff' => 'cuc_xff', 'agent' => 'cuc_agent',
+			'page_id' => 'cuc_page_id', 'ip_hex' => 'cuc_ip_hex', 'xff' => 'cuc_xff',
 			'id' => 'cuc_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cuc_actor',
 			'comment_text', 'comment_data', 'type' => 'cuc_type',
 		];
+		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$fields['agent'] = 'cuua_text';
+		} else {
+			$fields['agent'] = 'cuc_agent';
+		}
 		// Fields only specific to cu_changes
 		$fields += [
 			'this_oldid' => 'cuc_this_oldid', 'last_oldid' => 'cuc_last_oldid', 'minor' => 'cuc_minor',
@@ -236,6 +265,9 @@ class TimelineService extends ChangeService {
 			->join( 'comment', null, 'comment_id=cuc_comment_id' )
 			->where( $targetsExpr )
 			->caller( __METHOD__ );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder->leftJoin( 'cu_useragent', null, 'cuua_id = cuc_agent_id' );
+		}
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cuc_id to the ORDER BY clause to ensure unique ordering.
 			$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC );
@@ -263,10 +295,16 @@ class TimelineService extends ChangeService {
 		// Common fields for all queries
 		$fields = [
 			'namespace' => 'log_namespace', 'title' => 'log_title', 'timestamp' => 'cule_timestamp',
-			'page_id' => 'log_page', 'ip_hex' => 'cule_ip_hex', 'xff' => 'cule_xff', 'agent' => 'cule_agent',
+			'page_id' => 'log_page', 'ip_hex' => 'cule_ip_hex', 'xff' => 'cule_xff',
 			'id' => 'cule_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cule_actor',
 			'comment_text', 'comment_data', 'type' => $this->castValueToType( (string)RC_LOG, 'smallint' ),
 		];
+		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$fields['agent'] = 'cuua_text';
+		} else {
+			$fields['agent'] = 'cule_agent';
+		}
 		// Fields only specific to cu_changes
 		$fields += $this->markUnusedFieldsAsNull( [ 'this_oldid', 'last_oldid' ], 'int' );
 		$fields += $this->markUnusedFieldsAsNull( [ 'minor' ], 'smallint' );
@@ -284,6 +322,9 @@ class TimelineService extends ChangeService {
 			->join( 'comment', null, 'comment_id=log_comment_id' )
 			->where( $targetsExpr )
 			->caller( __METHOD__ );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder->leftJoin( 'cu_useragent', null, 'cuua_id = cule_agent_id' );
+		}
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cule_id to the ORDER BY clause to ensure unique ordering.
 			$queryBuilder->orderBy( 'cule_timestamp', SelectQueryBuilder::SORT_DESC );
@@ -314,10 +355,16 @@ class TimelineService extends ChangeService {
 		// Common fields for all queries
 		$fields = [
 			'namespace' => 'cupe_namespace', 'title' => 'cupe_title', 'timestamp' => 'cupe_timestamp',
-			'page_id' => 'cupe_page', 'ip_hex' => 'cupe_ip_hex', 'xff' => 'cupe_xff', 'agent' => 'cupe_agent',
+			'page_id' => 'cupe_page', 'ip_hex' => 'cupe_ip_hex', 'xff' => 'cupe_xff',
 			'id' => 'cupe_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cupe_actor',
 			'comment_text', 'comment_data', 'type' => $this->castValueToType( (string)RC_LOG, 'smallint' ),
 		];
+		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$fields['agent'] = 'cuua_text';
+		} else {
+			$fields['agent'] = 'cupe_agent';
+		}
 		// Fields only specific to cu_changes
 		$fields += $this->markUnusedFieldsAsNull( [ 'this_oldid', 'last_oldid' ], 'int' );
 		$fields += $this->markUnusedFieldsAsNull( [ 'minor' ], 'smallint' );
@@ -345,6 +392,9 @@ class TimelineService extends ChangeService {
 			// We only need a JOIN if the target of the check is a username because the username will have a valid
 			// actor ID.
 			$queryBuilder->join( 'actor', null, 'actor_id=cupe_actor' );
+		}
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder->leftJoin( 'cu_useragent', null, 'cuua_id = cupe_agent_id' );
 		}
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cupe_id to the ORDER BY clause to ensure unique ordering.
