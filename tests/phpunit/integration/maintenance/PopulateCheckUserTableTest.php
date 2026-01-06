@@ -28,7 +28,7 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 		return PopulateCheckUserTable::class;
 	}
 
-	protected function testNoPopulationOnEmptyRecentChangesTable() {
+	public function testNoPopulationOnEmptyRecentChangesTable() {
 		$this->assertTrue(
 			$this->maintenance->execute(),
 			'Maintenance script should have returned true.'
