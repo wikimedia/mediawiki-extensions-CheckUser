@@ -23,6 +23,7 @@ class AccountCreationDetailsLookup {
 
 	public const CONSTRUCTOR_OPTIONS = [
 		MainConfigNames::NewUserLog,
+		'CheckUserUserAgentTableMigrationStage',
 	];
 
 	public function __construct(
@@ -44,26 +45,44 @@ class AccountCreationDetailsLookup {
 		// events will be logged in the private event table unless $wgNewUserLog is true,
 		// and config can be changed at any time, so we must check both there and the public
 		// log event table.
-		$result = $dbr->newSelectQueryBuilder()
-			->select( [ 'ip_hex' => 'cupe_ip_hex', 'agent' => 'cupe_agent' ] )
+		$cuPrivateEventQueryBuilder = $dbr->newSelectQueryBuilder()
+			->select( [ 'ip_hex' => 'cupe_ip_hex' ] )
 			->from( 'cu_private_event' )
 			->join( 'actor', null, [ 'cupe_actor = actor_id' ] )
 			->where( $dbr->expr( 'cupe_log_action', '=', [ 'create-account', 'autocreate-account' ] ) )
 			->andWhere( $dbr->expr( 'actor_name', '=', $username ) )
-			->limit( 2 )
+			->limit( 2 );
+		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$cuPrivateEventQueryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cupe_agent_id' );
+		} else {
+			$cuPrivateEventQueryBuilder->select( [ 'agent' => 'cupe_agent' ] );
+		}
+		$result = $cuPrivateEventQueryBuilder
 			->caller( __METHOD__ )
 			->fetchResultSet();
 		if ( $result->numRows() ) {
 			return $result;
 		}
-		return $dbr->newSelectQueryBuilder()
-			->select( [ 'ip_hex' => 'cule_ip_hex', 'agent' => 'cule_agent' ] )
+
+		$cuLogEventQueryBuilder = $dbr->newSelectQueryBuilder()
+			->select( [ 'ip_hex' => 'cule_ip_hex' ] )
 			->from( 'cu_log_event' )
 			->join( 'actor', null, [ 'cule_actor = actor_id' ] )
 			->join( 'logging', null, [ 'cule_log_id = log_id' ] )
 			->where( $dbr->expr( 'log_action', '=', 'create' ) )
 			->andWhere( $dbr->expr( 'actor_name', '=', $username ) )
-			->limit( 2 )
+			->limit( 2 );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$cuLogEventQueryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cule_agent_id' );
+		} else {
+			$cuLogEventQueryBuilder->select( [ 'agent' => 'cule_agent' ] );
+		}
+		return $cuLogEventQueryBuilder
 			->caller( __METHOD__ )
 			->fetchResultSet();
 	}
@@ -83,14 +102,23 @@ class AccountCreationDetailsLookup {
 		// creation recorded in the logging table with id log_id
 		// we cannot do this for events written only into the cu_private_event table, so we
 		// only look at cu_log_event.
-		return $dbr->newSelectQueryBuilder()
-			->select( [ 'ip_hex' => 'cule_ip_hex', 'agent' => 'cule_agent' ] )
+		$queryBuilder = $dbr->newSelectQueryBuilder()
+			->select( [ 'ip_hex' => 'cule_ip_hex' ] )
 			->from( 'cu_log_event' )
 			->join( 'actor', null, [ 'cule_actor = actor_id' ] )
 			->join( 'logging', null, [ 'cule_log_id = log_id' ] )
 			->where( $dbr->expr( 'cule_log_id', '=', $logId ) )
 			->andWhere( $dbr->expr( 'actor_name', '=', $username ) )
-			->andWhere( $dbr->expr( 'log_action', '=', [ 'create2', 'byemail' ] ) )
+			->andWhere( $dbr->expr( 'log_action', '=', [ 'create2', 'byemail' ] ) );
+		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cule_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cule_agent' ] );
+		}
+		return $queryBuilder
 			->caller( __METHOD__ )
 			->fetchResultSet();
 	}

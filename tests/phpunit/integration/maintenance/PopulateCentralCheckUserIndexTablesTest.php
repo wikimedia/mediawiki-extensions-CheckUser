@@ -115,6 +115,7 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 			return array_merge( [
 				'cuc_type'       => RC_EDIT,
 				'cuc_agent'      => 'foo user agent',
+				'cuc_agent_id'   => 0,
 				'cuc_namespace'  => NS_MAIN,
 				'cuc_title'      => 'Foo_Page',
 				'cuc_minor'      => 0,

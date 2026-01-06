@@ -43,7 +43,12 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testGetAccountCreationIPAndUserAgentForPrivateLog() {
+	/** @dataProvider provideUserAgentTableMigrationStageValues */
+	public function testGetAccountCreationIPAndUserAgentForPrivateLog(
+		int $userAgentTableMigrationStage
+	) {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
+
 		// Force the account creation event to be logged to the private table
 		// instead of the public one
 		$this->overrideConfigValue( MainConfigNames::NewUserLog, false );
@@ -62,6 +67,17 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 			false, true,
 			'IP and User Agent returned is not as expected'
 		);
+	}
+
+	public static function provideUserAgentTableMigrationStageValues(): array {
+		return [
+			'User Agent table migration stage set to read old' => [
+				SCHEMA_COMPAT_READ_OLD | SCHEMA_COMPAT_WRITE_BOTH,
+			],
+			'User Agent table migration stage set to read new' => [
+				SCHEMA_COMPAT_READ_NEW | SCHEMA_COMPAT_WRITE_BOTH,
+			],
+		];
 	}
 
 	public function testGetAccountCreationIPAndUserAgentForPublicLogAndTemporaryAccount() {
@@ -83,7 +99,12 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testGetAccountCreationIPAndUserAgentForPublicLog() {
+	/** @dataProvider provideUserAgentTableMigrationStageValues */
+	public function testGetAccountCreationIPAndUserAgentForPublicLog(
+		int $userAgentTableMigrationStage
+	) {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
+
 		$user = $this->getTestUser()->getUser();
 
 		// Create a newusers log that is sent to Special:RecentChanges which should cause an insert to
@@ -119,7 +140,12 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testGetAccountCreationIPAndUserAgentWhenLogIdProvided() {
+	/** @dataProvider provideUserAgentTableMigrationStageValues */
+	public function testGetAccountCreationIPAndUserAgentWhenLogIdProvided(
+		int $userAgentTableMigrationStage
+	) {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
+
 		$createdUser = $this->getTestUser()->getUser();
 		$performer = $this->getTestSysop()->getUserIdentity();
 
