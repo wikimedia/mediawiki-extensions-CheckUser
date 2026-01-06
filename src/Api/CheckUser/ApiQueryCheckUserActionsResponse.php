@@ -248,7 +248,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 				'namespace' => 'cuc_namespace', 'title' => 'cuc_title',
 				'page' => 'cuc_page_id', 'timestamp' => 'cuc_timestamp',
 				'minor' => 'cuc_minor', 'type' => 'cuc_type', 'this_oldid' => 'cuc_this_oldid',
-				'ip_hex' => 'cuc_ip_hex', 'xff' => 'cuc_xff', 'agent' => 'cuc_agent',
+				'ip_hex' => 'cuc_ip_hex', 'xff' => 'cuc_xff',
 				'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cuc_actor',
 				'comment_text', 'comment_data',
 			] )
@@ -256,6 +256,14 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			->join( 'actor', null, 'actor_id=cuc_actor' )
 			->join( 'comment', null, 'comment_id=cuc_comment_id' )
 			->where( $this->dbr->expr( 'cuc_timestamp', '>', $this->timeCutoff ) );
+		$userAgentTableMigrationStage = $this->config->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cuc_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cuc_agent' ] );
+		}
 		return $queryBuilder;
 	}
 
@@ -268,11 +276,11 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			// Other DBs can handle converting RC_LOG to the correct type.
 			$typeValue = (string)RC_LOG;
 		}
-		return $this->dbr->newSelectQueryBuilder()
+		$queryBuilder = $this->dbr->newSelectQueryBuilder()
 			->select( [
 				'namespace' => 'log_namespace', 'title' => 'log_title',
 				'page_id' => 'log_page', 'timestamp' => 'cule_timestamp', 'type' => $typeValue,
-				'ip_hex' => 'cule_ip_hex', 'xff' => 'cule_xff', 'agent' => 'cule_agent',
+				'ip_hex' => 'cule_ip_hex', 'xff' => 'cule_xff',
 				'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cule_actor',
 				'comment_text', 'comment_data',
 				'log_type' => 'log_type', 'log_action' => 'log_action',
@@ -283,6 +291,15 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			->join( 'logging', null, 'log_id=cule_log_id' )
 			->join( 'comment', null, 'comment_id=log_comment_id' )
 			->where( $this->dbr->expr( 'cule_timestamp', '>', $this->timeCutoff ) );
+		$userAgentTableMigrationStage = $this->config->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cule_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cule_agent' ] );
+		}
+		return $queryBuilder;
 	}
 
 	/** @inheritDoc */
@@ -298,7 +315,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			->select( [
 				'namespace' => 'cupe_namespace', 'title' => 'cupe_title',
 				'page_id' => 'cupe_page', 'timestamp' => 'cupe_timestamp', 'type' => $typeValue,
-				'ip_hex' => 'cupe_ip_hex', 'xff' => 'cupe_xff', 'agent' => 'cupe_agent',
+				'ip_hex' => 'cupe_ip_hex', 'xff' => 'cupe_xff',
 				'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cupe_actor',
 				'comment_text', 'comment_data',
 				'log_type' => 'cupe_log_type', 'log_action' => 'cupe_log_action',
@@ -309,6 +326,14 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			->from( 'cu_private_event' )
 			->join( 'comment', null, 'comment_id=cupe_comment_id' )
 			->where( $this->dbr->expr( 'cupe_timestamp', '>', $this->timeCutoff ) );
+		$userAgentTableMigrationStage = $this->config->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cupe_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cupe_agent' ] );
+		}
 		if ( $this->xff === null ) {
 			// We only need a JOIN if the target of the check is a username because the username will have a valid
 			// actor ID.

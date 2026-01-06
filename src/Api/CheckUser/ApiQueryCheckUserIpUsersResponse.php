@@ -120,43 +120,66 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 			->select( [
 				'timestamp' => 'cuc_timestamp',
 				'ip_hex' => 'cuc_ip_hex',
-				'agent' => 'cuc_agent',
 				'user_text' => 'actor_name',
 				'actor' => 'cuc_actor',
 			] )
 			->from( 'cu_changes' )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
 			->where( $this->dbr->expr( 'cuc_timestamp', '>', $this->timeCutoff ) );
+		$userAgentTableMigrationStage = $this->config->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cuc_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cuc_agent' ] );
+		}
 		return $queryBuilder;
 	}
 
 	/** @inheritDoc */
 	protected function getPartialQueryBuilderForCuLogEvent(): SelectQueryBuilder {
-		return $this->dbr->newSelectQueryBuilder()
+		$queryBuilder = $this->dbr->newSelectQueryBuilder()
 			->select( [
 				'timestamp' => 'cule_timestamp',
 				'ip_hex' => 'cule_ip_hex',
-				'agent' => 'cule_agent',
 				'user_text' => 'actor_name',
 				'actor' => 'cule_actor',
 			] )
 			->from( 'cu_log_event' )
 			->join( 'actor', null, 'actor_id=cule_actor' )
 			->where( $this->dbr->expr( 'cule_timestamp', '>', $this->timeCutoff ) );
+		$userAgentTableMigrationStage = $this->config->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cule_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cule_agent' ] );
+		}
+		return $queryBuilder;
 	}
 
 	/** @inheritDoc */
 	protected function getPartialQueryBuilderForCuPrivateEvent(): SelectQueryBuilder {
-		return $this->dbr->newSelectQueryBuilder()
+		$queryBuilder = $this->dbr->newSelectQueryBuilder()
 			->select( [
 				'timestamp' => 'cupe_timestamp',
 				'ip_hex' => 'cupe_ip_hex',
-				'agent' => 'cupe_agent',
 				'user_text' => 'actor_name',
 				'actor' => 'cupe_actor',
 			] )
 			->from( 'cu_private_event' )
 			->leftJoin( 'actor', null, 'actor_id=cupe_actor' )
 			->where( $this->dbr->expr( 'cupe_timestamp', '>', $this->timeCutoff ) );
+		$userAgentTableMigrationStage = $this->config->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryBuilder
+				->select( [ 'agent' => 'cuua_text' ] )
+				->leftJoin( 'cu_useragent', null, 'cuua_id = cupe_agent_id' );
+		} else {
+			$queryBuilder->select( [ 'agent' => 'cupe_agent' ] );
+		}
+		return $queryBuilder;
 	}
 }
