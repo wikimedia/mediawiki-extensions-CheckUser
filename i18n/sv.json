@@ -100,7 +100,7 @@
 	"checkuser-localonly": "Inte sammanslaget",
 	"checkuser-massblock": "Blockera valda användare",
 	"checkuser-massblock-text-multi-lock-only": "Du har inte de behörigheter som krävs för att blockera användare på denna wiki. Du kan fortfarande låsa markerade konton genom att använda länken/länkarna nedan.",
-	"checkuser-massblock-text": "Valda konton kommer blockeras på obestämd tid, med autoblockering aktiverad och kontoskapande avaktiverat.\nIP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapande avaktiverat.",
+	"checkuser-massblock-text": "Använd kryssrutorna i resultaten ovan för att välja de konton och IP-adresser du vill blockera. Sedan kan du använda knapparna nedan, vilket öppnar formuläret {{#special:InvestigateBlock}} med målinmatningen förifylld.",
 	"checkuser-massblock-commit-accounts": "Blockera markerade konton",
 	"checkuser-massblock-commit-ips": "Blockera markerade IP-adresser",
 	"checkuser-block-reason-dropdown": "* Vanliga anledningar till blockering\n** Missbruk av flera konton\n** Spam av länkar till externa webbplatser\n** Vandalism",
@@ -269,7 +269,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|visade}} IP-adresser för $3",
 	"log-action-filter-checkuser-temporary-account": "Typ av åtgärd:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Ändra åtkomst",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Visa IP-adresser",
+	"log-action-filter-checkuser-temporary-account-view-ips": "Åtkomst till tillfälliga kontons IP-data",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 inaktiverade {{GENDER:$2|sin}} egen åtkomst till att visa skyddade variabler",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|visade}} skyddade variabler associerade med $3"
 }
