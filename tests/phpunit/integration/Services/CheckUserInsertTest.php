@@ -327,6 +327,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideFieldsThatAreTruncated */
 	public function testTruncationForInsertMethods( $table, string $field ) {
+		// Pin the value as the same as the values in ::testInsertIntoCuChangesTable to avoid
+		// refreshes of the service container due to changes in the config values
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
+
 		// Define a mock ContentLanguage service that mocks ::truncateForDatabase
 		// so that if the method changes implementation this test will not fail and/or
 		// the wiki running the test isn't in English.
