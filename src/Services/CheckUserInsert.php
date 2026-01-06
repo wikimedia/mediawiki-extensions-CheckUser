@@ -569,6 +569,7 @@ class CheckUserInsert {
 	 * User-Agent string, creating one if it does not exist.
 	 *
 	 * @internal Only for use by {@link PopulateCheckUserTable}
+	 *   and {@link PopulateUserAgentTable}
 	 */
 	public function acquireUserAgentTableId( string $agent ): int {
 		$dbr = $this->connectionProvider->getReplicaDatabase();
