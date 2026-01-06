@@ -91,7 +91,19 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 
 		$services = $this->getServiceContainer();
 		$commentStore = $services->getCommentStore();
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = $services->get( 'CheckUserInsert' );
+
 		$rcQuery = RecentChange::getQueryInfo();
+
+		// Acquire an ID in the cu_useragent table for a User Agent that is an empty string,
+		// as we will have no value for the user agent for rows from recentchanges
+		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
+		$userAgentTableWriteNew = $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW;
+		$emptyUserAgentId = null;
+		if ( $userAgentTableWriteNew ) {
+			$emptyUserAgentId = $checkUserInsert->acquireUserAgentTableId( '' );
+		}
 
 		while ( $blockStart <= $end ) {
 			$this->output( "...migrating rc_id from $blockStart to $blockEnd\n" );
@@ -132,7 +144,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						$logEntry = DatabaseLogEntry::newFromId( $row->rc_logid, $db );
 					}
 					if ( $logEntry === null ) {
-						$cuPrivateEventBatch[] = [
+						$privateEventRow = [
 							'cupe_timestamp' => $row->rc_timestamp,
 							'cupe_actor' => $row->rc_actor,
 							'cupe_namespace' => $row->rc_namespace,
@@ -145,14 +157,22 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 							'cupe_ip' => $row->rc_ip,
 							'cupe_ip_hex' => $row->rc_ip ? IPUtils::toHex( $row->rc_ip ) : null,
 						];
+						if ( $userAgentTableWriteNew ) {
+							$privateEventRow['cupe_agent_id'] = $emptyUserAgentId;
+						}
+						$cuPrivateEventBatch[] = $privateEventRow;
 					} else {
-						$cuLogEventBatch[] = [
+						$logEventRow = [
 							'cule_timestamp' => $row->rc_timestamp,
 							'cule_actor' => $row->rc_actor,
 							'cule_log_id' => $row->rc_logid,
 							'cule_ip' => $row->rc_ip,
 							'cule_ip_hex' => $row->rc_ip ? IPUtils::toHex( $row->rc_ip ) : null,
 						];
+						if ( $userAgentTableWriteNew ) {
+							$logEventRow['cule_agent_id'] = $emptyUserAgentId;
+						}
+						$cuLogEventBatch[] = $logEventRow;
 					}
 				} else {
 					$cuChangesRow = [
@@ -169,6 +189,9 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_ip' => $row->rc_ip,
 						'cuc_ip_hex' => $row->rc_ip ? IPUtils::toHex( $row->rc_ip ) : null,
 					];
+					if ( $userAgentTableWriteNew ) {
+						$cuChangesRow['cuc_agent_id'] = $emptyUserAgentId;
+					}
 					$cuChangesBatch[] = $cuChangesRow;
 				}
 			}

@@ -52,10 +52,14 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 	 * @dataProvider provideTestPopulation
 	 */
 	public function testPopulation(
-		$putIPinRCConfigValue, $numberOfRows, $expectedCuChangesCount, $expectedCuLogEventCount
+		bool $putIPinRCConfigValue, int $userAgentTableMigrationStage, int $numberOfRows,
+		int $expectedCuChangesCount, int $expectedCuLogEventCount
 	) {
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.68' );
-		$this->overrideConfigValue( MainConfigNames::PutIPinRC, $putIPinRCConfigValue );
+		$this->overrideConfigValues( [
+			MainConfigNames::PutIPinRC => $putIPinRCConfigValue,
+			'CheckUserUserAgentTableMigrationStage' => $userAgentTableMigrationStage,
+		] );
 
 		// Set up recentchanges table
 		for ( $i = 0; $i < $numberOfRows / 2; $i++ ) {
@@ -121,18 +125,51 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 			->select( 'cupe_ip_hex' )
 			->from( 'cu_private_event' )
 			->assertFieldValue( $expectedIPHex );
+
+		// Check that the user agent ID field is correctly populated based
+		// on the user agent table migration stage
+		$expectedUserAgentColumnValue = '0';
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$expectedUserAgentColumnValue = $this->getDb()->newSelectQueryBuilder()
+				->select( 'cuua_id' )
+				->from( 'cu_useragent' )
+				->where( [ 'cuua_text' => '' ] )
+				->caller( __METHOD__ )
+				->fetchField();
+			$this->assertNotFalse(
+				$expectedUserAgentColumnValue,
+				'cu_useragent row for an empty User-Agent string is missing'
+			);
+		}
+		$this->newSelectQueryBuilder()
+			->select( 'cuc_agent_id' )
+			->from( 'cu_changes' )
+			->caller( __METHOD__ )
+			->assertFieldValues( array_fill( 0, $expectedCuChangesCount, $expectedUserAgentColumnValue ) );
+		$this->newSelectQueryBuilder()
+			->select( 'cule_agent_id' )
+			->from( 'cu_log_event' )
+			->caller( __METHOD__ )
+			->assertFieldValues( array_fill( 0, $expectedCuLogEventCount, $expectedUserAgentColumnValue ) );
+		$this->newSelectQueryBuilder()
+			->select( 'cupe_agent_id' )
+			->from( 'cu_private_event' )
+			->caller( __METHOD__ )
+			->assertFieldValue( $expectedUserAgentColumnValue );
 	}
 
 	public static function provideTestPopulation() {
 		return [
 			'recentchanges row count 4 with IPs in recentchanges' => [
 				'putIPinRCConfigValue' => true,
+				'userAgentTableMigrationStage' => SCHEMA_COMPAT_OLD,
 				'numberOfRows' => 4,
 				'expectedCuChangesCount' => 2,
 				'expectedCuLogEventCount' => 2,
 			],
 			'recentchanges row count 2 with no IPs in recentchanges' => [
 				'putIPinRCConfigValue' => false,
+				'userAgentTableMigrationStage' => SCHEMA_COMPAT_WRITE_BOTH,
 				'numberOfRows' => 2,
 				'expectedCuChangesCount' => 1,
 				'expectedCuLogEventCount' => 1,

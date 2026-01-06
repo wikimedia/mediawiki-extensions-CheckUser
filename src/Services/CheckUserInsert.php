@@ -567,8 +567,10 @@ class CheckUserInsert {
 	/**
 	 * Gets the ID of a row in the `cu_useragent` table that has the provided
 	 * User-Agent string, creating one if it does not exist.
+	 *
+	 * @internal Only for use by {@link PopulateCheckUserTable}
 	 */
-	private function acquireUserAgentTableId( string $agent ): int {
+	public function acquireUserAgentTableId( string $agent ): int {
 		$dbr = $this->connectionProvider->getReplicaDatabase();
 		$id = $dbr->newSelectQueryBuilder()
 			->select( 'cuua_id' )
