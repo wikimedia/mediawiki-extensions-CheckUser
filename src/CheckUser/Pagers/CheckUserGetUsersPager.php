@@ -473,11 +473,10 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuChanges(): array {
-		return [
+		$queryInfo = [
 			'fields' => [
 				'timestamp' => 'cuc_timestamp',
 				'ip_hex' => 'cuc_ip_hex',
-				'agent' => 'cuc_agent',
 				'xff' => 'cuc_xff',
 				'actor' => 'cuc_actor',
 				'user' => 'actor_cuc_actor.actor_user',
@@ -492,15 +491,25 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			'join_conds' => [ 'actor_cuc_actor' => [ 'JOIN', 'actor_cuc_actor.actor_id=cuc_actor' ] ],
 			'options' => [],
 		];
+
+		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryInfo['fields']['agent'] = 'cuua_text';
+			$queryInfo['tables'][] = 'cu_useragent';
+			$queryInfo['join_conds']['cu_useragent'] = [ 'LEFT JOIN', 'cuua_id = cuc_agent_id' ];
+		} else {
+			$queryInfo['fields']['agent'] = 'cuc_agent';
+		}
+
+		return $queryInfo;
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuLogEvent(): array {
-		return [
+		$queryInfo = [
 			'fields' => [
 				'timestamp' => 'cule_timestamp',
 				'ip_hex' => 'cule_ip_hex',
-				'agent' => 'cule_agent',
 				'xff' => 'cule_xff',
 				'actor' => 'cule_actor',
 				'user' => 'actor_cule_actor.actor_user',
@@ -515,15 +524,25 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			'join_conds' => [ 'actor_cule_actor' => [ 'JOIN', 'actor_cule_actor.actor_id=cule_actor' ] ],
 			'options' => [],
 		];
+
+		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryInfo['fields']['agent'] = 'cuua_text';
+			$queryInfo['tables'][] = 'cu_useragent';
+			$queryInfo['join_conds']['cu_useragent'] = [ 'LEFT JOIN', 'cuua_id = cule_agent_id' ];
+		} else {
+			$queryInfo['fields']['agent'] = 'cule_agent';
+		}
+
+		return $queryInfo;
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuPrivateEvent(): array {
-		return [
+		$queryInfo = [
 			'fields' => [
 				'timestamp' => 'cupe_timestamp',
 				'ip_hex' => 'cupe_ip_hex',
-				'agent' => 'cupe_agent',
 				'xff' => 'cupe_xff',
 				'actor' => 'cupe_actor',
 				'user' => 'actor_cupe_actor.actor_user',
@@ -538,6 +557,17 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			'join_conds' => [ 'actor_cupe_actor' => [ 'LEFT JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ] ],
 			'options' => [],
 		];
+
+		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
+		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$queryInfo['fields']['agent'] = 'cuua_text';
+			$queryInfo['tables'][] = 'cu_useragent';
+			$queryInfo['join_conds']['cu_useragent'] = [ 'LEFT JOIN', 'cuua_id = cupe_agent_id' ];
+		} else {
+			$queryInfo['fields']['agent'] = 'cupe_agent';
+		}
+
+		return $queryInfo;
 	}
 
 	/** @inheritDoc */

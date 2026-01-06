@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use LogicException;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
+use MediaWiki\Config\HashConfig;
 use MediaWikiUnitTestCase;
 use Wikimedia\TestingAccessWrapper;
 
@@ -19,8 +20,15 @@ abstract class CheckUserPagerUnitTestBase extends MediaWikiUnitTestCase {
 	public function commonGetQueryInfoForTableSpecificMethod( $methodName, $propertiesToSet, $expectedQueryInfo ) {
 		$object = $this->getMockBuilder( $this->getPagerClass() )
 			->disableOriginalConstructor()
-			->onlyMethods( [] )
+			->onlyMethods( [ 'getConfig' ] )
 			->getMock();
+
+		// While the user agent table migration is in progress, we should set the value
+		// as reading new. This has no effect on the associated unit tests and is tested
+		// via integration tests
+		$object->method( 'getConfig' )
+			->willReturn( new HashConfig( [ 'CheckUserUserAgentTableMigrationStage' => SCHEMA_COMPAT_READ_NEW ] ) );
+
 		$object = TestingAccessWrapper::newFromObject( $object );
 		foreach ( $propertiesToSet as $propertyName => $propertyValue ) {
 			$object->$propertyName = $propertyValue;

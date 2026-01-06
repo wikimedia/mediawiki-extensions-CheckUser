@@ -272,6 +272,8 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 	/** @dataProvider provideSubmitFormForGetActionsCheckWithResults */
 	public function testSubmitFormForGetActionsCheckWithResults( $tempAccountsHidden ) {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_READ_OLD );
+
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
@@ -295,6 +297,8 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
+		$this->assertStringContainsString( 'Testing user agent', $resultHtml );
+
 		// Verify the temporary account edit is shown or not shown, depending on the state of the filters
 		if ( $tempAccountsHidden ) {
 			$this->assertStringNotContainsString( self::$tempAccountTarget->getName(), $resultHtml );
@@ -313,6 +317,8 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	}
 
 	public function testSubmitFormForGetActionsCheckOnUsernameWithResults() {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_READ_NEW );
+
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
@@ -332,6 +338,8 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 		// Verify the temporary account edit is not shown, as the check was on a specific user and not their IP
 		$this->assertStringNotContainsString( self::$tempAccountTarget->getName(), $resultHtml );
+
+		$this->assertStringContainsString( 'Testing user agent', $resultHtml );
 
 		$this->verifyCheckUserLogEntryCreated(
 			$testCheckUser, 'Test check', self::$usernameTarget->getName(), 'useredits'
@@ -388,7 +396,12 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	}
 
 	/** @dataProvider provideSubmitFormForGetUsersCheckWithResults */
-	public function testSubmitFormForGetUsersCheckWithResults( $tempAccountsHidden ) {
+	public function testSubmitFormForGetUsersCheckWithResults(
+		$tempAccountsHidden,
+		int $userAgentTableMigrationStage
+	) {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
+
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
@@ -412,6 +425,8 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
+		$this->assertStringContainsString( 'Testing user agent', $resultHtml );
+
 		// Verify the temporary account is shown or not shown, depending on the state of the filters
 		if ( $tempAccountsHidden ) {
 			$this->assertStringNotContainsString( self::$tempAccountTarget->getName(), $resultHtml );
@@ -424,8 +439,12 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 	public static function provideSubmitFormForGetUsersCheckWithResults(): array {
 		return [
-			'Temporary accounts hidden' => [ true ],
-			'Temporary accounts not hidden' => [ false ],
+			'Temporary accounts hidden' => [ true, SCHEMA_COMPAT_READ_OLD ],
+			'Temporary accounts not hidden' => [ false, SCHEMA_COMPAT_READ_OLD ],
+			'Temporary accounts not hidden with user agent migration at read new' => [
+				false,
+				SCHEMA_COMPAT_READ_NEW,
+			],
 		];
 	}
 
@@ -452,7 +471,9 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 		// Insert test edit(s) so that we get results in Special:CheckUser to look at.
 		// More rigorous testing is done in the tests that target each check subtype pager.
-		RequestContext::getMain()->getRequest()->setIP( '1.2.3.4' );
+		$request = RequestContext::getMain()->getRequest();
+		$request->setIP( '1.2.3.4' );
+		$request->setHeader( 'User-Agent', 'Testing user agent' );
 		$testPage = $this->getNonexistingTestPage();
 		$this->editPage(
 			$testPage, 'Test content', 'Test summary', NS_MAIN, $usernameTarget->getAuthority()
