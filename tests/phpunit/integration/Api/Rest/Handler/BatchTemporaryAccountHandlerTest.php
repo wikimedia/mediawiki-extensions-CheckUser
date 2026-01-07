@@ -485,7 +485,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider executeForRevisionsDataProvider
 	 */
 	public function testExecuteForRevisions(
-		callable $expected,
+		callable $expectedCallback,
 		callable $validatedBody
 	): void {
 		$permissionManager = $this->createMock( PermissionManager::class );
@@ -554,7 +554,19 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getTestUser()->getAuthority()
 		);
 
-		$this->assertArrayEquals( $expected(), $data, true );
+		$expected = $expectedCallback();
+
+		// Don't add the 'abuseFilterIps' and 'autoReveal' keys unless the
+		// dependencies for them to appear are met (T414008)
+		$extensionRegistry = $this->getServiceContainer()->getExtensionRegistry();
+		if ( $extensionRegistry->isLoaded( 'Abuse Filter' ) ) {
+			$expected[self::$tempUser->getName()]['abuseLogIps'] = null;
+		}
+		if ( $extensionRegistry->isLoaded( 'GlobalPreferences' ) ) {
+			$expected['autoReveal'] = false;
+		}
+
+		$this->assertArrayEquals( $expected, $data, true, true );
 	}
 
 	public static function executeForRevisionsDataProvider(): array {
@@ -562,12 +574,10 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'No revision IDs' => [
 				'expected' => static fn () => [
 					self::$tempUser->getName() => [
-						'abuseLogIps' => null,
 						'logIps' => null,
 						'revIps' => null,
 						'lastUsedIp' => '1.2.3.5',
 					],
-					'autoReveal' => false,
 				],
 				'validatedBody' => static fn () => [
 					'users' => [
@@ -582,14 +592,12 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'One revision ID' => [
 				'expected' => static fn () => [
 					self::$tempUser->getName() => [
-						'abuseLogIps' => null,
 						'logIps' => null,
 						'revIps' => [
 							10 => '1.2.3.4',
 						],
 						'lastUsedIp' => '1.2.3.5',
 					],
-					'autoReveal' => false,
 				],
 				'validatedBody' => static fn () => [
 					'users' => [
@@ -604,7 +612,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'Multiple existing revision IDs' => [
 				'expected' => static fn () => [
 					self::$tempUser->getName() => [
-						'abuseLogIps' => null,
 						'logIps' => null,
 						'revIps' => [
 							10 => '1.2.3.4',
@@ -613,7 +620,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 						],
 						'lastUsedIp' => '1.2.3.5',
 					],
-					'autoReveal' => false,
 				],
 				'validatedBody' => static fn () => [
 					'users' => [
@@ -628,7 +634,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'Multiple revision IDs, both existing and nonexistent' => [
 				'expected' => static fn () => [
 					self::$tempUser->getName() => [
-						'abuseLogIps' => null,
 						'logIps' => null,
 						'revIps' => [
 							10 => '1.2.3.4',
@@ -636,7 +641,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 						],
 						'lastUsedIp' => '1.2.3.5',
 					],
-					'autoReveal' => false,
 				],
 				'validatedBody' => static fn () => [
 					'users' => [
