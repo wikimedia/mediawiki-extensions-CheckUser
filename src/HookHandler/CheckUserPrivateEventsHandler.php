@@ -167,7 +167,9 @@ class CheckUserPrivateEventsHandler implements
 				'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account',
 			],
 			__METHOD__,
-			$user
+			$user,
+			// T413929
+			silenceReplicaWarnings: true
 		);
 
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
@@ -188,7 +190,9 @@ class CheckUserPrivateEventsHandler implements
 		$this->checkUserInsert->insertIntoCuLogEventTable(
 			$logEntry,
 			__METHOD__,
-			$user
+			$user,
+			// T413929
+			silenceReplicaWarnings: true
 		);
 
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
