@@ -17,7 +17,12 @@ module.exports = exports = defineComponent( {
 		const visible = computed( () => mw.util.isIPAddress( props.targetUser, true ) );
 		const message = computed( () => {
 			if ( visible.value ) {
-				return mw.message( 'checkuser-tempaccount-specialblock-ip-target', props.targetUser ).parse();
+				const isCidr = !mw.util.isIPAddress( props.targetUser );
+				const ipType = isCidr ? 'iprange' : 'ip';
+				// Messages used:
+				// * checkuser-tempaccount-specialblock-ip-target
+				// * checkuser-tempaccount-specialblock-iprange-target
+				return mw.message( `checkuser-tempaccount-specialblock-${ ipType }-target`, props.targetUser ).parse();
 			}
 			return '';
 		} );

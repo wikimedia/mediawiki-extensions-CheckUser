@@ -792,6 +792,7 @@
 				"checkuser-tempaccount-reveal-ip-tooltip-latest",
 				"checkuser-tempaccount-specialblock-ips",
 				"checkuser-tempaccount-specialblock-ip-target",
+				"checkuser-tempaccount-specialblock-iprange-target",
 				"checkuser-tempaccount-reveal-blocked-header",
 				"checkuser-tempaccount-reveal-blocked-description",
 				"checkuser-tempaccount-reveal-blocked-title",

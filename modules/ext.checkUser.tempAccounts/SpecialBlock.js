@@ -121,12 +121,17 @@ function handleTemporaryUserTarget( blockTarget ) {
  * Handles the change event of the block target widget for an IP target.
  *
  * @param {string} blockTarget
+ * @param {boolean} isCidr
  */
-function handleIPTarget( blockTarget ) {
+function handleIPTarget( blockTarget, isCidr ) {
 	// Wait for the next tick, to ensure the container is added
 	setTimeout( () => {
+		const ipType = isCidr ? 'iprange' : 'ip';
+		// Messages used:
+		// * checkuser-tempaccount-specialblock-ip-target
+		// * checkuser-tempaccount-specialblock-iprange-target
 		const message = mw.message(
-			'checkuser-tempaccount-specialblock-ip-target',
+			`checkuser-tempaccount-specialblock-${ ipType }-target`,
 			blockTarget
 		).parseDom();
 		const $message = $( '<p>' )
@@ -148,7 +153,8 @@ function onTargetChange( blockTarget ) {
 		return;
 	}
 	if ( mw.util.isIPAddress( blockTarget, true ) ) {
-		handleIPTarget( blockTarget );
+		const isCidr = !mw.util.isIPAddress( blockTarget );
+		handleIPTarget( blockTarget, isCidr );
 		return;
 	}
 }
