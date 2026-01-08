@@ -98,5 +98,6 @@
 	"checkuser-global-contributions-search-form-wrapper": "Oza vuogádatviidosaš rievdadusaid",
 	"checkuser-global-contributions-results-title": "Geavaheaddji $1 vuogádatviidosaš rievdadusat",
 	"checkuser-tempaccount-reveal-ip-button-label": "Čájet IP-čujuhusa",
-	"checkuser-tempaccount-reveal-ip-error": "meattáhus"
+	"checkuser-tempaccount-reveal-ip-error": "meattáhus",
+	"checkuser-userinfocard-menu-view-contributions": "Čájet {{GENDER:$1|geavaheaddji}} rievdadusaid"
 }
