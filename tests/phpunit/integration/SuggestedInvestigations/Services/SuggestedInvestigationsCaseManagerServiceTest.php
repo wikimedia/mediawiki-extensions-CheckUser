@@ -74,6 +74,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 						'case_url_identifier' => (int)$caseDetailsFromDatabase->sic_url_identifier,
 						'signals_in_case' => [ 'Lorem' ],
 						'users_in_case' => $users,
+						'case_note' => '',
 					],
 					$interactionData
 				);

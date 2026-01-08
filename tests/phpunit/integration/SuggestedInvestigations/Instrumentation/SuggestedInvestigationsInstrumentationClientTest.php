@@ -115,6 +115,23 @@ class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrat
 		];
 	}
 
+	public function testSubmitInteractionWithCaseIdNotOnReplicaDb() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
+		$this->markTestSkippedIfExtensionNotLoaded( 'EventBus' );
+
+		$this->enableSuggestedInvestigations();
+
+		// Use a case ID that does not exist in the DB to simulate it not being defined on a replica DB
+		$this->commonSubmitInteractionTest(
+			[ 'case_id' => 1234 ],
+			[
+				'case_id' => 1234,
+				'signals_in_case' => [],
+				'users_in_case' => [],
+			]
+		);
+	}
+
 	/** @dataProvider provideSubmitInteractionWithPerformerId */
 	public function testSubmitInteractionWithPerformerId( array $providedPerformerData ) {
 		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );

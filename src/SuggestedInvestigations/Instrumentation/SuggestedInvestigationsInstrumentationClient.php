@@ -113,12 +113,14 @@ class SuggestedInvestigationsInstrumentationClient implements ISuggestedInvestig
 				->caller( __METHOD__ )
 				->fetchRow();
 
-			if ( !array_key_exists( 'case_url_identifier', $interactionData ) ) {
-				$interactionData['case_url_identifier'] = (int)$caseDetails->sic_url_identifier;
-			}
+			if ( $caseDetails !== false ) {
+				if ( !array_key_exists( 'case_url_identifier', $interactionData ) ) {
+					$interactionData['case_url_identifier'] = (int)$caseDetails->sic_url_identifier;
+				}
 
-			if ( !array_key_exists( 'case_note', $interactionData ) ) {
-				$interactionData['case_note'] = $caseDetails->sic_status_reason;
+				if ( !array_key_exists( 'case_note', $interactionData ) ) {
+					$interactionData['case_note'] = $caseDetails->sic_status_reason;
+				}
 			}
 		}
 

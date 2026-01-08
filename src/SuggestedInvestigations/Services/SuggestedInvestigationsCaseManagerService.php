@@ -123,6 +123,7 @@ class SuggestedInvestigationsCaseManagerService {
 				'case_url_identifier' => $caseUrlIdentifier,
 				'signals_in_case' => array_map( static fn ( $signal ) => $signal->getName(), $signals ),
 				'users_in_case' => $this->instrumentationClient->getUserFragmentsArray( $users ),
+				'case_note' => '',
 			]
 		);
 
