@@ -74,21 +74,23 @@ class PopulateUserAgentTable extends LoggedUpdateMaintenance {
 				$userAgentValueToUserAgentId = [];
 				$userAgentValueToRowIds = [];
 				foreach ( $batchOfRowsToUpdate as $row ) {
+					$userAgent = $row->$userAgentColumn ?? '';
+
 					// Acquire cu_useragent table row IDs for each distinct value
 					// of the user agent column within the batch
-					if ( !array_key_exists( $row->$userAgentColumn, $userAgentValueToUserAgentId ) ) {
+					if ( !array_key_exists( $userAgent, $userAgentValueToUserAgentId ) ) {
 						$userAgentTableId = $checkUserInsert->acquireUserAgentTableId(
-							$row->$userAgentColumn
+							$userAgent
 						);
-						$userAgentValueToUserAgentId[$row->$userAgentColumn] = $userAgentTableId;
+						$userAgentValueToUserAgentId[$userAgent] = $userAgentTableId;
 					}
 
 					// Group the row IDs by their user agent so that the rows
 					// with the same user agent can be updated at the same time
-					if ( !array_key_exists( $row->$userAgentColumn, $userAgentValueToRowIds ) ) {
-						$userAgentValueToRowIds[$row->$userAgentColumn] = [];
+					if ( !array_key_exists( $userAgent, $userAgentValueToRowIds ) ) {
+						$userAgentValueToRowIds[$userAgent] = [];
 					}
-					$userAgentValueToRowIds[$row->$userAgentColumn][] = $row->$idColumn;
+					$userAgentValueToRowIds[$userAgent][] = $row->$idColumn;
 				}
 
 				// Populate the agent_id column with the generated value for all

@@ -213,4 +213,102 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 
 		return $existingUserAgentTableId;
 	}
+
+	public function testSuccessfulPopulationWhenAgentColumnValuesAreIsNull() {
+		$preExistingUserAgentTableId = $this->setUpDatabaseForPopulationTest();
+
+		// null as the agent column can happen when
+		// the row is created by populateCheckUserTable.php
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'cu_changes' )
+			->set( [ 'cuc_agent' => null ] )
+			->where( $this->getDb()->expr( 'cuc_agent_id', '!=', $preExistingUserAgentTableId ) )
+			->caller( __METHOD__ )
+			->execute();
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'cu_log_event' )
+			->set( [ 'cule_agent' => null ] )
+			->where( $this->getDb()->expr( 'cule_agent_id', '!=', $preExistingUserAgentTableId ) )
+			->caller( __METHOD__ )
+			->execute();
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'cu_private_event' )
+			->set( [ 'cupe_agent' => null ] )
+			->where( $this->getDb()->expr( 'cupe_agent_id', '!=', $preExistingUserAgentTableId ) )
+			->caller( __METHOD__ )
+			->execute();
+
+		// Check the DB has been set up correctly for the test,
+		// so that we can see a change in the DB after the script runs
+		$this->newSelectQueryBuilder()
+			->select( 'cuua_id' )
+			->from( 'cu_useragent' )
+			->caller( __METHOD__ )
+			->assertFieldValue( $preExistingUserAgentTableId );
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cu_changes' )
+			->where(
+				$this->getDb()
+					->expr( 'cuc_agent_id', '!=', $preExistingUserAgentTableId )
+					->and( 'cuc_agent', '!=', null )
+			)
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+
+		$this->maintenance->execute();
+
+		// Check that the cu_useragent table now has been populated
+		$this->newSelectQueryBuilder()
+			->select( 'cuua_text' )
+			->from( 'cu_useragent' )
+			->caller( __METHOD__ )
+			->assertFieldValues( [ '', 'test1' ] );
+
+		// Check the CheckUser result tables have their agent_id columns populated as expected
+		$this->newSelectQueryBuilder()
+			->select( [ 'cuc_id', 'cuua_text' ] )
+			->from( 'cu_changes' )
+			->join( 'cu_useragent', null, 'cuc_agent_id = cuua_id' )
+			->caller( __METHOD__ )
+			->assertResultSet( [
+				[ 1, 'test1' ],
+				[ 2, '' ],
+			] );
+		$this->newSelectQueryBuilder()
+			->select( [ 'cule_id', 'cuua_text' ] )
+			->from( 'cu_log_event' )
+			->join( 'cu_useragent', null, 'cule_agent_id = cuua_id' )
+			->caller( __METHOD__ )
+			->assertResultSet( [
+				[ 1, '' ],
+			] );
+		$this->newSelectQueryBuilder()
+			->select( [ 'cupe_id', 'cuua_text' ] )
+			->from( 'cu_private_event' )
+			->join( 'cu_useragent', null, 'cupe_agent_id = cuua_id' )
+			->caller( __METHOD__ )
+			->assertResultSet( [
+				[ 1, '' ],
+				[ 2, '' ],
+			] );
+
+		// Assert on the output
+		$actualOutput = $this->getActualOutputForAssertion();
+		$this->assertStringContainsString(
+			"Populating cuc_agent_id in cu_changes\n" .
+			"... 1 rows populated\nDone. Populated 1 rows.",
+			$actualOutput
+		);
+		$this->assertStringContainsString(
+			"Populating cule_agent_id in cu_log_event\n" .
+			"... 1 rows populated\nDone. Populated 1 rows.",
+			$actualOutput
+		);
+		$this->assertStringContainsString(
+			"Populating cupe_agent_id in cu_private_event\n" .
+			"... 2 rows populated\nDone. Populated 2 rows.",
+			$actualOutput
+		);
+	}
 }
