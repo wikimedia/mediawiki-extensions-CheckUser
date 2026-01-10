@@ -6,7 +6,8 @@ use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\SidebarLinksHandler;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
-use MediaWiki\Config\Config;
+use MediaWiki\Config\HashConfig;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Message\Message;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\Authority;
@@ -28,8 +29,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @var (Skin&MockObject) */
 	private Skin $skin;
 
-	/** @var (Config&MockObject) */
-	private Config $config;
+	private HashConfig $config;
 
 	/** @var (CheckUserPermissionManager&MockObject) */
 	private CheckUserPermissionManager $permissionManager;
@@ -51,7 +51,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->authority = $this->createMock( Authority::class );
 		$this->skin = $this->createMock( Skin::class );
 
-		$this->config = $this->createMock( Config::class );
+		$this->config = new HashConfig();
 
 		$this->permissionStatus = $this->createMock(
 			CheckUserPermissionStatus::class
@@ -94,7 +94,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->skin
 			->method( 'getPageTarget' )
 			->willReturn( '1.2.3.4/16' );
-		$this->config->method( 'get' )->willReturn( [
+		$this->config->set( MainConfigNames::RangeContributionsCIDRLimit, [
 			'IPv4' => 16,
 			'IPv6' => 32,
 		] );
@@ -141,7 +141,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->skin
 			->method( 'getPageTarget' )
 			->willReturn( '1.2.3.4/16' );
-		$this->config->method( 'get' )->willReturn( [
+		$this->config->set( MainConfigNames::RangeContributionsCIDRLimit, [
 			'IPv4' => 32,
 			'IPv6' => 32,
 		] );
@@ -401,6 +401,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		array $expected
 	): void {
 		$this->setUserLang( 'qqx' );
+		$this->config->set( 'CheckUserAutoRevealMaximumExpiry', 1 );
 
 		$this->permissionStatus
 			->method( 'isGood' )
