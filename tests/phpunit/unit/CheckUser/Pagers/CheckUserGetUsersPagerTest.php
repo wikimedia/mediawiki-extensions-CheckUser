@@ -4,11 +4,11 @@ namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use LogicException;
 use MediaWiki\Cache\LinkBatch;
-use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\User\UserIdentity;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;

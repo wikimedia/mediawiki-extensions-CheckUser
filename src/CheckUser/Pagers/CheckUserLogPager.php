@@ -2,13 +2,13 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
-use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
+use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Pager\RangeChronologicalPager;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\ActorStore;

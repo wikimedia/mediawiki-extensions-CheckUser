@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\CheckUser;
 
-use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -10,6 +9,7 @@ use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Exception\UserBlockedError;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
+use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Pager\ContribsPager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;

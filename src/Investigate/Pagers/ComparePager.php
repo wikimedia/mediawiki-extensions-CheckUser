@@ -23,7 +23,6 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use DateTime;
-use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -31,6 +30,7 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Pager\TablePager;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;

@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use LogicException;
 use MediaWiki\Block\DatabaseBlockStore;
-use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
@@ -24,6 +23,7 @@ use MediaWiki\Html\Html;
 use MediaWiki\Html\ListToggle;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
