@@ -72,7 +72,7 @@ class AccountCreationDetailsLookup {
 			->from( 'cu_log_event' )
 			->join( 'actor', null, [ 'cule_actor = actor_id' ] )
 			->join( 'logging', null, [ 'cule_log_id = log_id' ] )
-			->where( $dbr->expr( 'log_action', '=', 'create' ) )
+			->where( $dbr->expr( 'log_action', '=', [ 'create', 'autocreate' ] ) )
 			->andWhere( $dbr->expr( 'actor_name', '=', $username ) )
 			->limit( 2 );
 		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {

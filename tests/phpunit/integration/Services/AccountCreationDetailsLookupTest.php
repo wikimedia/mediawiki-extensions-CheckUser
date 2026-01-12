@@ -141,6 +141,37 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideUserAgentTableMigrationStageValues */
+	public function testGetAccountCreationIPAndUserAgentForPublicLogWithAutocreate(
+		int $userAgentTableMigrationStage
+	) {
+		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
+
+		$user = $this->getTestUser()->getUser();
+
+		// Create a newusers log with 'autocreate' action which should cause an insert to
+		// cu_log_event for this log entry
+		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'Fake User Agent' );
+		$logEntry = new ManualLogEntry( 'newusers', 'autocreate' );
+		$logEntry->setPerformer( $user );
+		$logEntry->setTarget( $user->getUserPage() );
+		$logEntry->setParameters( [
+			'4::userid' => $user->getId(),
+		] );
+		$logid = $logEntry->insert();
+		$logEntry->publish( $logid );
+		DeferredUpdates::doUpdates();
+
+		$this->assertArrayEquals(
+			[ 'ip' => '127.0.0.1', 'agent' => 'Fake User Agent' ],
+			$this->getObjectUnderTest()->getAccountCreationIPAndUserAgent(
+				$user->getName(), $this->getDb()
+			),
+			false, true,
+			'IP and User Agent returned is not as expected for autocreate log action'
+		);
+	}
+
+	/** @dataProvider provideUserAgentTableMigrationStageValues */
 	public function testGetAccountCreationIPAndUserAgentWhenLogIdProvided(
 		int $userAgentTableMigrationStage
 	) {
