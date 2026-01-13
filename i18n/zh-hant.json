@@ -33,7 +33,8 @@
 			"SCP-2000",
 			"LowensteinYang",
 			"Peterxy12",
-			"臺灣象象"
+			"臺灣象象",
+			"Erik Baas"
 		]
 	},
 	"checkuser-summary": "本工具會掃描近期變更的內容以獲得某位使用者用過的IP位址、或顯示某個IP位址的編輯資料或使用者資料。\n可透過在IP位址後附加「/xff」的XFF標頭，來檢索客戶端IP位址的使用者與編輯紀錄。本工具有支援IPv4（CIDR $1-32）與IPv6（CIDR $2-128）。\n因效能上的考量，本工具只會回傳最近$3筆的編輯。\n請依照政策使用此工具。",
@@ -79,7 +80,7 @@
 	"checkuser-users": "取得使用者",
 	"checkuser-actions": "取得操作",
 	"checkuser-ips": "取得IP位址",
-	"checkuser-period": "期間：",
+	"checkuser-period": "期限：",
 	"checkuser-week-1": "最近1週",
 	"checkuser-week-2": "最近2週",
 	"checkuser-month": "最近30天",
@@ -205,7 +206,7 @@
 	"checkuser-investigate-tab-timeline": "時間軸",
 	"checkuser-investigate-targets-label": "使用者名稱與IP位址：",
 	"checkuser-investigate-targets-placeholder": "使用者名稱或1.1.1.1",
-	"checkuser-investigate-duration-label": "期間",
+	"checkuser-investigate-duration-label": "期限",
 	"checkuser-investigate-duration-option-all": "全部",
 	"checkuser-investigate-duration-option-1w": "上週",
 	"checkuser-investigate-duration-option-2w": "前兩週",
@@ -280,7 +281,7 @@
 	"checkuser-global-contributions-permission-error-title": "權限錯誤",
 	"checkuser-global-contributions-permission-error-description": "要查看全域貢獻，請接受[[Special:GlobalPreferences|你的全域偏好設定]]中的協定。",
 	"checkuser-global-contributions-search-form-wrapper": "搜尋全域貢獻",
-	"prefs-checkuser-tempaccount": "臨時帳號IP顯示",
+	"prefs-checkuser-tempaccount": "臨時帳號IP揭露",
 	"checkuser-tempaccount-enable-preference-description": "使用此工具時，您應確認是在政策規範內使用。",
 	"checkuser-tempaccount-enable-preference": "啟用揭示臨時帳號IP位址",
 	"checkuser-tempaccount-no-ip-results": "沒有此名臨時使用者最近 $1 {{PLURAL:$1|天}}的IP資料",
@@ -295,7 +296,11 @@
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|已啟用}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1{{GENDER:$2|檢視}}範圍 $3 的 IP 位址",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1{{GENDER:$2|已檢視}}在$3上的臨時帳號",
+	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1已全域{{GENDER:$2|檢視}}在$3上的臨時帳號",
 	"log-action-filter-checkuser-temporary-account": "操作類型：",
 	"log-action-filter-checkuser-temporary-account-change-access": "更改權限",
-	"log-action-filter-checkuser-temporary-account-view-ips": "存取臨時帳號 IP 資料"
+	"log-action-filter-checkuser-temporary-account-view-ips": "存取臨時帳號 IP 資料",
+	"logentry-checkuser-temporary-account-af-change-access-enable": "$1已啟用{{GENDER:$2|他|她|他/她們}}擁有檢視受保護變數的權限",
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1已停用{{GENDER:$2|他|她|他/她們}}擁有檢視受保護變數的權限",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1{{GENDER:$2|已查看}}與$3關聯的受保護變數"
 }

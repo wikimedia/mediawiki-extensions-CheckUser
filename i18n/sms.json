@@ -33,5 +33,9 @@
 	"checkuser-investigate-compare-copy-button-label": "Čuäʹjet wikiteeʹkst",
 	"checkuser-investigate-compare-copy-button-label-hide": "Čiõǥǥ wikiteeʹkst",
 	"checkuser-investigate-compare-table-button-contribs-label": "Muttâz",
-	"checkuser-investigate-compare-table-header-username": "Õõʹnninõmm"
+	"checkuser-investigate-compare-table-header-username": "Õõʹnninõmm",
+	"checkuser-ip-contributions-tab-label-contributions": "Muttâz",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Jaukkuum muttâz",
+	"checkuser-ip-contributions-deleted-contributions-link": "õõʹnni jaukkuum muttâz",
+	"checkuser-ip-contributions-contributions-link": "muttâz"
 }
