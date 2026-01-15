@@ -279,6 +279,7 @@
 	"checkuser-tempaccount-reveal-blocked-title": "বাধাপ্রাপ্তির বিবরণ দেখুন",
 	"checkuser-tempaccount-reveal-blocked-header": "অস্থায়ী অ্যাকাউন্টের আইপি প্রকাশ বন্ধ করা হয়েছে",
 	"checkuser-tempaccount-specialblock-ips": "ইনি একজন অস্থায়ী ব্যবহারকারী যিনি নিম্নলিখিত {{PLURAL:$1|আইপি|আইপিগুলি}} ব্যবহার করছেন: $2",
+	"checkuser-tempaccount-specialblock-ip-target": "[[Special:IPContributions/$1|এই আইপি থেকে করা অস্থায়ী অ্যাকাউন্টের অবদানগুলো]] দেখুন।",
 	"checkuser-temporary-account-log-name": "আইপি প্রকাশ লগ",
 	"logentry-checkuser-temporary-account-change-access": "$1 অস্থায়ী অ্যাকাউন্টসমূহের আইপি ঠিকানা দেখতে {{GENDER:$2|তার নিজের}} প্রবেশাধিকার $4 করেছেন",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|নিষ্ক্রিয়}}",
