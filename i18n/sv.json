@@ -268,7 +268,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Visning av IP-adresser för tillfälliga konton är avstängd",
 	"checkuser-tempaccount-reveal-blocked-description": "Du har inte behörighet att använda den här funktionen av följande anledning:",
 	"checkuser-tempaccount-specialblock-ips": "Detta är en temporär användare som använder följande {{PLURAL:$1|IP-adress|IP-adresser}}: $2",
-	"checkuser-tempaccount-specialblock-ip-target": "Se bidrag från tillfälliga konto på [[Special:IPContributions/$1]].",
+	"checkuser-tempaccount-specialblock-ip-target": "Se [[Special:IPContributions/$1|bidrag från tillfälliga konto på denna IP]].",
 	"checkuser-temporary-account-log-name": "IP-visningslogg",
 	"checkuser-temporary-account-log-header": "Detta är en logg över:\n# Visning av IP-adresser som använts av ett tillfälligt konto\n# Visning av tillfälliga konton associerade med en IP-adress\n# Förändring av användarrättighetsnivåer för visning av IP-adresser som används av tillfälliga konton",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|hans|hennes|sin}} egen åtkomst för att se IP-adresser för tillfälliga konton",
