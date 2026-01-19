@@ -291,6 +291,8 @@
 	"checkuser-tempaccount-reveal-blocked-title": "Детаљи блокаде",
 	"checkuser-tempaccount-reveal-blocked-description": "Немате дозволу да користите ову могућност из следећег разлога:",
 	"checkuser-tempaccount-specialblock-ips": "Ово је привремени корисник који користи следеће {{PLURAL:$1|IP адресе}}: $2",
+	"checkuser-tempaccount-specialblock-ip-target": "Видети [[Special:IPContributions/$1|доприносе привременог налога са ове IP адресе]].",
+	"checkuser-tempaccount-specialblock-iprange-target": "Видети [[Special:IPContributions/$1|доприносе привременог налога са овог IP опсега]].",
 	"checkuser-temporary-account-log-name": "Дневник откривања IP адреса",
 	"logentry-checkuser-temporary-account-change-access": "$1 је $4 {{GENDER:$2|себи}} приступ IP адресама привремених налога",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|онемогућио|онемогућила}}",

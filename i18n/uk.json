@@ -355,7 +355,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Розкриття IP-адрес тимчасових облікових записів вимкнено",
 	"checkuser-tempaccount-reveal-blocked-description": "У вас немає дозволу на використання цієї функції з такої причини:",
 	"checkuser-tempaccount-specialblock-ips": "Це тимчасовий користувач, який використовує {{PLURAL:$1|таку IP|такі IP}}: $2",
-	"checkuser-tempaccount-specialblock-ip-target": "Дивіться внески тимчасового користувача на сторінці [[Special:IPContributions/$1]].",
+	"checkuser-tempaccount-specialblock-ip-target": "Дивіться [[Special:IPContributions/$1|внесок тимчасового облікового запису, що зроблено з цього IP]].",
 	"checkuser-temporary-account-log-name": "Журнал розкриття IP-адрес",
 	"checkuser-temporary-account-log-header": "Це журнал таких записів:\n# Перегляд IP-адрес, використовуваних тимчасовим обліковим записом\n# Перегляд тимчасових облікових записів, пов'язаних з IP-адресою чи діапазоном IP-адрес\n# Зміна рівня доступу користувача до перегляду IP-адрес тимчасових облікових записів",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|собі}} доступ до перегляду IP-адрес тимчасових облікових записів",
