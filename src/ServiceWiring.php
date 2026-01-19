@@ -450,6 +450,7 @@ return [
 			$services->getTempUserConfig(),
 			$services->getUserFactory(),
 			$services->getPermissionManager(),
+			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserOptionsLookup(),
 			$services->get( 'CheckUserLookupUtils' )
 		);

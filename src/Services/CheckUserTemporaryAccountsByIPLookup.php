@@ -38,6 +38,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	private UserFactory $userFactory;
 	private UserOptionsLookup $userOptionsLookup;
 	private PermissionManager $permissionManager;
+	private CheckUserPermissionManager $checkUserPermissionManager;
 	private CheckUserLookupUtils $checkUserLookupUtils;
 
 	public function __construct(
@@ -47,6 +48,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		TempUserConfig $tempUserConfig,
 		UserFactory $userFactory,
 		PermissionManager $permissionManager,
+		CheckUserPermissionManager $checkUserPermissionManager,
 		UserOptionsLookup $userOptionsLookup,
 		CheckUserLookupUtils $checkUserLookupUtils
 	) {
@@ -58,6 +60,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		$this->userFactory = $userFactory;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->permissionManager = $permissionManager;
+		$this->checkUserPermissionManager = $checkUserPermissionManager;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 	}
 
@@ -184,15 +187,83 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	}
 
 	/**
+	 * Given a temporary account, return the count of temporary accounts that
+	 * have shared the same IPs.
+	 *
+	 * Since this is an aggregate, a permissions check is not needed.
+	 *
+	 * @param UserIdentity $user The temporary account to start lookup with
+	 * @param int|null $limit The maximum number of rows to fetch
+	 * @return int Final count, up to the limit if one is passed
+	 */
+	public function getAggregateActiveTempAccountCount( UserIdentity $user, ?int $limit = null ): int {
+		$accounts = $this->getActiveTempAccounts( $user, $limit );
+		return $limit ? min( $limit, count( $accounts ) ) : count( $accounts );
+	}
+
+	/**
+	 * Given a temporary account, return the names of the temporary accounts
+	 * that have shared the same IPs.
+	 *
+	 * This checks that the Authority can view temporary account IPs and
+	 * removes any names that the Authority is not allowed to see.
+	 *
+	 * @param Authority $authority The authority making the request
+	 * @param UserIdentity $user The temporary account to start lookup with
+	 * @param int|null $limit The maximum number of names to fetch
+	 * @return StatusValue<string[]> A good status with an array of names of
+	 *  related temporary accounts, up to the limit if one is passed, or a
+	 *  CheckUserPermissionStatus if the performer does not have permission
+	 *  to view temporary account IPs.
+	 */
+	public function getActiveTempAccountNames(
+		Authority $authority,
+		UserIdentity $user,
+		?int $limit = null
+	): StatusValue {
+		$status = $this->checkUserPermissionManager
+			->canAccessTemporaryAccountIPAddresses( $authority );
+
+		if ( !$status->isGood() ) {
+			return $status;
+		}
+
+		$accounts = $this->getActiveTempAccounts( $user, $limit );
+
+		// TODO: Remove hidden names in ::getTempAccountsFromIPAddress
+		if ( !$authority->isAllowed( 'hideuser' ) ) {
+			foreach ( $accounts as $name => $canSee ) {
+				if ( $this->userFactory->newFromName( $name )->isHidden() ) {
+					$accounts[$name] = null;
+				}
+			}
+			$accounts = array_filter( $accounts );
+		}
+
+		if ( $limit && $limit < count( $accounts ) ) {
+			// Ensure results are returned in a consistent order
+			ksort( $accounts );
+			$accounts = array_slice( $accounts, 0, $limit );
+		}
+
+		return StatusValue::newGood( array_keys( $accounts ) );
+	}
+
+	/**
+	 * Note that this does not check permissions, handle logging or handle
+	 * hidden temporary accounts.
+	 *
 	 * Given a temporary account:
 	 * 1. Find all IPs associated with the account
 	 * 2. Find all temp accounts on all the IPs
-	 * 3. Return the sum of them
+	 * 3. Return the user names (there may be more than the limit)
+	 *
 	 * @param UserIdentity $user The temporary account to start lookup with
-	 * @param int|null $limit The maximum number of rows to fetch
-	 * @return int Final sum, up to the limit if one is passed
+	 * @param int|null $limit The maximum number of accounts to fetch
+	 * @return array Array with temporary account name keys, which may be
+	 *  longer than the limit
 	 */
-	public function getAggregateActiveTempAccountCount( UserIdentity $user, ?int $limit = null ) {
+	private function getActiveTempAccounts( UserIdentity $user, ?int $limit = null ): array {
 		if ( !$this->tempUserConfig->isTempName( $user->getName() ) ) {
 			throw new InvalidArgumentException( 'Invalid user passed; only temporary accounts are supported' );
 		}
@@ -220,7 +291,8 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 				$accounts[ $account ] = true;
 			}
 		}
-		return $limit ? min( $limit, count( $accounts ) ) : count( $accounts );
+
+		return $accounts;
 	}
 
 	/**
