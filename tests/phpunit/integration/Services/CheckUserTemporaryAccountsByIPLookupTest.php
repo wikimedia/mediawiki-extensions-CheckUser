@@ -33,7 +33,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		ConvertibleTimestamp::setFakeTime( ConvertibleTimestamp::time() - 1000 );
 		$tempUser1 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~check-user-test-01', new FauxRequest() )->getUser();
+			->create( '~check-user-test-01', $this->getFauxRequest( '127.0.0.1' ) )->getUser();
 		$this->editPage(
 			'Test page', 'Test Content 1A', 'test', NS_MAIN, $tempUser1
 		);
@@ -47,7 +47,8 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		// from there and also from an IPv6 IP
 		$tempUser2 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~check-user-test-02', new FauxRequest() )->getUser();
+			->create( '~check-user-test-02', $this->getFauxRequest( '127.0.0.2' ) )
+			->getUser();
 		$this->editPage(
 			'Test page', 'Test Content 2A', 'test', NS_MAIN, $tempUser2
 		);
@@ -62,7 +63,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		RequestContext::getMain()->getRequest()->setIP( '1:1:1:1:1:1:1:2' );
 		$tempUser3 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~check-user-test-03', new FauxRequest() )->getUser();
+			->create( '~check-user-test-03', $this->getFauxRequest( '1:1:1:1:1:1:1:2' ) )->getUser();
 		$this->editPage(
 			'Test page', 'Test Content 3A', 'test', NS_MAIN, $tempUser3
 		);
@@ -78,10 +79,16 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.4' );
 		$tempUser4 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~check-user-test-04', new FauxRequest() )->getUser();
+			->create( '~check-user-test-04', $this->getFauxRequest( '1.2.3.4' ) )->getUser();
 		$this->editPage(
 			'Test page', 'Test Content 4A', 'test', NS_MAIN, $tempUser4
 		);
+	}
+
+	private function getFauxRequest( string $ip ): FauxRequest {
+		$request = new FauxRequest();
+		$request->setIP( $ip );
+		return $request;
 	}
 
 	/**
