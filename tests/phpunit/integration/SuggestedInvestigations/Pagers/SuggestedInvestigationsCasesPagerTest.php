@@ -115,7 +115,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$pager = $this->getPager( $context );
 
-		$html = $pager->getBody();
+		$html = $pager->getFullOutput()->getContentHolder()->getAsHtmlString();
 
 		// 1 data row + 1 header row
 		$this->assertSame( 2, substr_count( $html, '<tr' ) );
@@ -193,6 +193,12 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$html, 'mw-checkuser-suggestedinvestigations-status'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusCell );
+
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-filter-button)',
+			$html,
+			'Filter button is not present in the page or has an unexpected label'
+		);
 	}
 
 	/**
@@ -397,7 +403,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$pager = $this->getPager( $context );
 		$pager->caseIdFilter = $firstCaseId;
 
-		$html = $pager->getBody();
+		$html = $pager->getFullOutput()->getContentHolder()->getAsHtmlString();
 
 		// Test that only the first case is shown.
 		// Two <tr> elements will be present when this happens (1 data row + 1 header row)
@@ -417,6 +423,17 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$context->getLanguage()->userTimeAndDate( '20250403020100', $context->getUser() ),
 			$html,
 			'The case creation timestamp is not present in the table row for the case'
+		);
+
+		$this->assertStringNotContainsString(
+			'cdx-table__header',
+			$html,
+			'Detailed view should not have the table header element'
+		);
+		$this->assertStringNotContainsString(
+			'mw-checkuser-suggestedinvestigations-filter-button',
+			$html,
+			'Detailed view should not have the filter button'
 		);
 	}
 
@@ -513,12 +530,24 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$context->setLanguage( 'qqx' );
 		$context->getRequest()->setVal( 'status', 'open' );
 
-		$html = $this->getPager( $context )->getBody();
+		$html = $this->getPager( $context )->getFullOutput()
+			->getContentHolder()->getAsHtmlString();
 
 		// Expect that the table pager only shows the open case by checking
 		// only the first case ID is present as a data attribute
 		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-filter-button)',
+			$html,
+			'Filter button is not present in the page or has an unexpected label'
+		);
+		$this->assertStringContainsString(
+			'mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip',
+			$html,
+			'The info chip indicating how many filters were applied was not present'
+		);
 	}
 
 	public function testWhenUsernameFilterIsSet() {

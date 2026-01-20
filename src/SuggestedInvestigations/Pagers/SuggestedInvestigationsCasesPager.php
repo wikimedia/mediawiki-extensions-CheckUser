@@ -25,10 +25,12 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Navigation\CodexPagerNavigationBuilder;
 use MediaWiki\Pager\CodexTablePager;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -61,6 +63,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * @var ?string If not an empty string or null, then only show cases with this user in them
 	 */
 	private ?string $userNameFilter;
+
+	/**
+	 * @var int The number of filters applied (counting all filters present in the filters dialog)
+	 */
+	private int $numberOfFiltersApplied = 0;
 
 	/**
 	 * The unique sort fields for the sort options for unique paginate
@@ -107,8 +114,14 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			CaseStatus::newFromStringName( ... ),
 			$this->mRequest->getArray( 'status', [] )
 		) );
+		if ( count( $this->statusFilter ) !== 0 ) {
+			$this->numberOfFiltersApplied++;
+		}
 
 		$this->userNameFilter = $this->mRequest->getVal( 'username' );
+		if ( $this->userNameFilter ) {
+			$this->numberOfFiltersApplied++;
+		}
 
 		$this->localDb = $this->connectionProvider->getReplicaDatabase();
 	}
@@ -560,9 +573,47 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		return SpecialPage::getTitleFor( 'SuggestedInvestigations', 'detail/' . dechex( $urlIdentifier ) );
 	}
 
+	/**
+	 * Renders the button used to open the filters dialog
+	 * along with the table caption
+	 *
+	 * @inheritDoc
+	 */
+	protected function getHeader(): string {
+		if ( !$this->shouldShowVisibleCaption() ) {
+			return '';
+		}
+
+		$tableCaption = Html::element(
+			'div',
+			[ 'class' => 'cdx-table__header__caption', 'aria-hidden' => 'true' ],
+			$this->mCaption
+		);
+
+		return Html::rawElement(
+			'div',
+			[ 'class' => 'cdx-table__header' ],
+			$tableCaption . $this->getNavigationBuilder()->getFilterButton()
+		);
+	}
+
+	/**
+	 * Only show the filter button and table caption when not
+	 * in detailed view, as detailed view does not need filters.
+	 *
+	 * @inheritDoc
+	 */
+	protected function shouldShowVisibleCaption(): bool {
+		return $this->caseIdFilter === null;
+	}
+
 	/** @inheritDoc */
 	protected function getTableClass(): string {
-		return parent::getTableClass() . ' ext-checkuser-suggestedinvestigations-table';
+		$tableClasses = [ 'ext-checkuser-suggestedinvestigations-table' ];
+		if ( $this->isNavigationBarShown() ) {
+			$tableClasses[] = 'ext-checkuser-suggestedinvestigations-table-with-navigation-bar';
+		}
+		return parent::getTableClass() . ' ' . implode( ' ', $tableClasses );
 	}
 
 	/** @inheritDoc */
@@ -617,5 +668,22 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			'ext.checkUser.suggestedInvestigations.styles',
 			'mediawiki.interface.helpers.styles',
 		] );
+	}
+
+	protected function createNavigationBuilder(): CodexPagerNavigationBuilder {
+		$builder = new SuggestedInvestigationsPagerNavigationBuilder(
+			$this->getContext(), $this->getRequest()->getQueryValues(),
+			$this->numberOfFiltersApplied
+		);
+		$builder->setNavClass( $this->getNavClass() );
+		return $builder;
+	}
+
+	/**
+	 * @return SuggestedInvestigationsPagerNavigationBuilder
+	 */
+	public function getNavigationBuilder(): SuggestedInvestigationsPagerNavigationBuilder {
+		// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
+		return parent::getNavigationBuilder();
 	}
 }
