@@ -30,6 +30,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService
@@ -44,6 +45,8 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	}
 
 	public function testCreateCase(): void {
+		ConvertibleTimestamp::setFakeTime( '20260101010101' );
+
 		$users = [
 			UserIdentityValue::newRegistered( 1, 'Test user 1' ),
 			UserIdentityValue::newRegistered( 2, 'Test user 2' ),
@@ -105,7 +108,12 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$caseId = $service->createCase( $users, $signals );
 
 		$caseRows = $this->getDb()->newSelectQueryBuilder()
-			->select( [ 'sic_id', 'sic_url_identifier' ] )
+			->select( [
+				'sic_id',
+				'sic_url_identifier',
+				'sic_created_timestamp',
+				'sic_updated_timestamp',
+			] )
 			->from( 'cusi_case' )
 			->caller( __METHOD__ )
 			->fetchResultSet();
@@ -118,6 +126,16 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 			123,
 			(int)$matchingCaseRow['sic_url_identifier'],
 			'The created case should use the mocked random URL identifier'
+		);
+		$this->assertSame(
+			$this->getDb()->timestamp( '20260101010101' ),
+			$matchingCaseRow['sic_created_timestamp'],
+			'The created case did not have the expected created timestamp'
+		);
+		$this->assertSame(
+			$this->getDb()->timestamp( '20260101010101' ),
+			$matchingCaseRow['sic_updated_timestamp'],
+			'The created case did not have the expected updated timestamp'
 		);
 
 		// Ensure we added users only to the newly created case
@@ -230,6 +248,8 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	}
 
 	public function testUpdateCaseToAddUsers(): void {
+		ConvertibleTimestamp::setFakeTime( '20260101010101' );
+
 		// Have to use real users as we fetch $user1 from the real UserIdentityLookup
 		$user1 = $this->getTestUser()->getUserIdentity();
 		$user2 = $this->getTestSysop()->getUserIdentity();
@@ -237,6 +257,16 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 
 		$service = $this->createService();
 		$caseId = $service->createCase( [ $user1 ], [ $signal ] );
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'sic_updated_timestamp', 'sic_created_timestamp' ] )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->assertRowValue( [
+				$this->getDb()->timestamp( '20260101010101' ),
+				$this->getDb()->timestamp( '20260101010101' ),
+			] );
 
 		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
 		$this->assertSame( 1, $userCountRelevant, 'There should be an initial user' );
@@ -262,6 +292,8 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 			->willReturnArgument( 0 );
 		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
+		ConvertibleTimestamp::setFakeTime( '20260102010101' );
+
 		$service = $this->createService();
 		$service->updateCase( $caseId, $usersToAdd, [] );
 
@@ -274,6 +306,17 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		[ $userCountRelevant, $userCountIrrelevant ] = $this->countUsers( $caseId );
 		$this->assertSame( 2, $userCountRelevant, 'No users should be added to the case again' );
 		$this->assertSame( 0, $userCountIrrelevant, 'Again, No users should be added to any other case' );
+
+		// Check that only the updated timestamp has changed in the case
+		$this->newSelectQueryBuilder()
+			->select( [ 'sic_updated_timestamp', 'sic_created_timestamp' ] )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->assertRowValue( [
+				$this->getDb()->timestamp( '20260102010101' ),
+				$this->getDb()->timestamp( '20260101010101' ),
+			] );
 	}
 
 	public function testUpdateCaseToAddUsersAndSignals(): void {

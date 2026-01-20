@@ -100,6 +100,7 @@ class SuggestedInvestigationsCaseManagerService {
 				->row( [
 					'sic_url_identifier' => $caseUrlIdentifier,
 					'sic_created_timestamp' => $dbw->timestamp(),
+					'sic_updated_timestamp' => $dbw->timestamp(),
 				] )
 				->caller( __METHOD__ )
 				->execute();
@@ -195,6 +196,14 @@ class SuggestedInvestigationsCaseManagerService {
 		$instrumentationData['users_in_case'] = $this->instrumentationClient->getUserFragmentsArray(
 			$usersInCase
 		);
+
+		$dbw = $this->getPrimaryDatabase();
+		$dbw->newUpdateQueryBuilder()
+			->update( 'cusi_case' )
+			->set( [ 'sic_updated_timestamp' => $dbw->timestamp() ] )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->execute();
 
 		$this->instrumentationClient->submitInteraction(
 			RequestContext::getMain(),
