@@ -160,3 +160,27 @@ QUnit.test.each( 'Test updateCaseStatusOnPage', {
 		'New status reason is correct'
 	);
 } );
+
+QUnit.test( 'updateFiltersOnPage correctly reloads the page with the applied filters', ( assert ) => {
+	mw.config.set( 'wgServer', 'https://example.com' );
+	mw.config.set( 'wgPageName', 'Special:SuggestedInvestigations' );
+
+	let actualUrl = '';
+	const mockWindow = {
+		location: {
+			replace: function ( providedUrl ) {
+				actualUrl = providedUrl;
+			}
+		}
+	};
+
+	const filters = { status: [ 'open' ], username: 'abc' };
+
+	utils.updateFiltersOnPage( filters, mockWindow );
+
+	assert.strictEqual(
+		'https://example.com' + mw.util.getUrl( 'Special:SuggestedInvestigations', filters ),
+		actualUrl,
+		'URL redirected to is as expected'
+	);
+} );

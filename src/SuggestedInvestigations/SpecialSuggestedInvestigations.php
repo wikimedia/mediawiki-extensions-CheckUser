@@ -66,6 +66,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 
 		$output = $this->getOutput();
 		$output->addHtml( '<div id="ext-suggestedinvestigations-change-status-app"></div>' );
+		$output->addHtml( '<div id="ext-suggestedinvestigations-filter-app"></div>' );
 		$output->addHTML( '<div id="ext-suggestedinvestigations-signals-popover-app"></div>' );
 		$output->addModules( 'ext.checkUser.suggestedInvestigations' );
 		$output->addModuleStyles( 'ext.checkUser.styles' );

@@ -79,4 +79,25 @@
 			}
 		}
 	} );
+
+	// Render the filter dialog when any of the filter buttons are clicked
+	const FilterDialog = require( './components/FilterDialog.vue' );
+
+	let suggestedInvestigationsFilterApp = null;
+	const activeFilters = mw.config.get( 'wgCheckUserSuggestedInvestigationsActiveFilters' );
+
+	$( '.mw-checkuser-suggestedinvestigations-filter-button' ).on( 'click', ( event ) => {
+		event.preventDefault();
+
+		// Unmount the previous instance of the filter dialog, if any
+		if ( suggestedInvestigationsFilterApp !== null ) {
+			suggestedInvestigationsFilterApp.unmount();
+		}
+
+		suggestedInvestigationsFilterApp = Vue.createMwApp(
+			FilterDialog, { initialFilters: activeFilters }
+		);
+		suggestedInvestigationsFilterApp
+			.mount( '#ext-suggestedinvestigations-filter-app' );
+	} );
 }() );

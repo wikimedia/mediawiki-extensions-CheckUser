@@ -40,25 +40,13 @@ function updateCaseStatusOnPage( caseId, status, reason, formattedReason ) {
 	);
 
 	// Update the icon associated with the status chip to reflect the new status
-	let newIconClass;
-	switch ( status ) {
-		case 'open':
-			newIconClass = 'cdx-info-chip--notice';
-			break;
-		case 'resolved':
-			newIconClass = 'cdx-info-chip--success';
-			break;
-		case 'invalid':
-		default:
-			newIconClass = 'cdx-info-chip--warning';
-			break;
-	}
-
 	const $chipIcon = $( statusElement.querySelector( '.cdx-info-chip' ) );
 	$chipIcon.removeClass( [ 'cdx-info-chip--notice', 'cdx-info-chip--success', 'cdx-info-chip--warning' ] );
-	// Classes are defined in the switch above
-	// eslint-disable-next-line mediawiki/class-doc
-	$chipIcon.addClass( newIconClass );
+	// Uses:
+	// * cdx-info-chip--notice
+	// * cdx-info-chip--success
+	// * cdx-info-chip--warning
+	$chipIcon.addClass( 'cdx-info-chip--' + caseStatusToChipStatus( status ) );
 
 	// Update the status text to reflect the new status
 	const chipText = statusElement.querySelector( '.cdx-info-chip--text' );
@@ -69,6 +57,40 @@ function updateCaseStatusOnPage( caseId, status, reason, formattedReason ) {
 	chipText.textContent = mw.msg( 'checkuser-suggestedinvestigations-status-' + status );
 }
 
+/**
+ * Returns the CdxInfoChip status associated with the given case status
+ *
+ * @param {'open'|'resolved'|'invalid'} caseStatus
+ * @return {'notice'|'success'|'warning'}
+ */
+function caseStatusToChipStatus( caseStatus ) {
+	switch ( caseStatus ) {
+		case 'open':
+			return 'notice';
+		case 'resolved':
+			return 'success';
+		case 'invalid':
+		default:
+			return 'warning';
+	}
+}
+
+/**
+ * Updates the filters on the current page by redirecting the user to a view with
+ * the provided filters.
+ *
+ * @param {*} filters A list of filters in a format acceptable for
+ *   the params parameter for `mw.util.getUrl`
+ * @param {window} win
+ */
+function updateFiltersOnPage( filters, win ) {
+	let newUrl = mw.config.get( 'wgServer' );
+	newUrl += mw.util.getUrl( mw.config.get( 'wgPageName' ), filters );
+	win.location.replace( newUrl );
+}
+
 module.exports = {
-	updateCaseStatusOnPage: updateCaseStatusOnPage
+	updateCaseStatusOnPage: updateCaseStatusOnPage,
+	caseStatusToChipStatus: caseStatusToChipStatus,
+	updateFiltersOnPage: updateFiltersOnPage
 };

@@ -620,6 +620,15 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	public function getFullOutput(): ParserOutput {
 		$pout = parent::getFullOutput();
 		$pout->addModules( [ 'ext.checkUser.suggestedInvestigations' ] );
+		$pout->setJsConfigVar(
+			'wgCheckUserSuggestedInvestigationsActiveFilters',
+			[
+				'status' => array_map(
+					static fn ( CaseStatus $status ) => strtolower( $status->name ),
+					$this->statusFilter
+				),
+			]
+		);
 		return $pout;
 	}
 

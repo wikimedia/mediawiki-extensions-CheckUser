@@ -115,7 +115,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$pager = $this->getPager( $context );
 
-		$html = $pager->getFullOutput()->getContentHolder()->getAsHtmlString();
+		$parserOutput = $pager->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
 
 		// 1 data row + 1 header row
 		$this->assertSame( 2, substr_count( $html, '<tr' ) );
@@ -198,6 +199,12 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'(checkuser-suggestedinvestigations-filter-button)',
 			$html,
 			'Filter button is not present in the page or has an unexpected label'
+		);
+		$this->assertArrayEquals(
+			[ 'status' => [] ],
+			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
+			false, true,
+			'Active filters on the page is not as expected'
 		);
 	}
 
@@ -530,8 +537,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$context->setLanguage( 'qqx' );
 		$context->getRequest()->setVal( 'status', 'open' );
 
-		$html = $this->getPager( $context )->getFullOutput()
-			->getContentHolder()->getAsHtmlString();
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
 
 		// Expect that the table pager only shows the open case by checking
 		// only the first case ID is present as a data attribute
@@ -547,6 +554,12 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip',
 			$html,
 			'The info chip indicating how many filters were applied was not present'
+		);
+		$this->assertArrayEquals(
+			[ 'status' => [ 'open' ] ],
+			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
+			false, true,
+			'Active filters on the page is not as expected'
 		);
 	}
 

@@ -8,5 +8,8 @@
 	"rules": {
 		"jest/valid-title": "off",
 		"jest/expect-expect": [ "warn", { "assertFunctionNames": [ "expect", "commonComponentTest" ] } ]
+	},
+	"env": {
+		"browser": true
 	}
 }
