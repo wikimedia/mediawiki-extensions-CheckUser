@@ -38,7 +38,10 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 			if ( $params[3] === TemporaryAccountLogger::ACTION_AUTO_REVEAL_ENABLED ) {
 				$params[4] = Message::dateTimeParam( $params[4] );
 			}
-		} elseif ( $this->entry->getSubtype() === TemporaryAccountLogger::ACTION_VIEW_IPS ) {
+		} elseif (
+			$this->entry->getSubtype() === TemporaryAccountLogger::ACTION_VIEW_IPS ||
+			$this->entry->getSubtype() === TemporaryAccountLogger::ACTION_VIEW_RELATED_TEMPORARY_ACCOUNTS
+		) {
 			// Replace temporary user page link with contributions page link.
 			// Don't use LogFormatter::makeUserLink, because that adds tools links.
 			$tempUserName = $this->entry->getTarget()->getText();

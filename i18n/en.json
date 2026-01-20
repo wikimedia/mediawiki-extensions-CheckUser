@@ -367,6 +367,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|viewed}} IP addresses for $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|viewed}} temporary accounts on $3",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 globally {{GENDER:$2|viewed}} temporary accounts on $3",
+	"logentry-checkuser-temporary-account-view-related-temporary-accounts": "$1 {{GENDER:$2|viewed}} related temporary accounts for $3",
 	"log-action-filter-checkuser-temporary-account": "Type of action:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Change access",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Access temporary account IP data",

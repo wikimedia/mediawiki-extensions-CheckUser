@@ -82,6 +82,8 @@ class LogTemporaryAccountAccessJob extends Job {
 			$logger->logViewTemporaryAccountsOnIP( $performer, $target, $timestamp );
 		} elseif ( $type === TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL ) {
 			$logger->logViewTemporaryAccountsOnIP( $performer, $target, $timestamp, true );
+		} elseif ( $type === TemporaryAccountLogger::ACTION_VIEW_RELATED_TEMPORARY_ACCOUNTS ) {
+			$logger->logViewRelatedTemporaryAccounts( $performer, $target, $timestamp );
 		} else {
 			$this->setLastError( "Invalid type '$type'" );
 			return false;

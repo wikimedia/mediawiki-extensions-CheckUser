@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
@@ -282,16 +283,33 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		$this->assertSame( null, $status->getValue() );
 	}
 
-	public function testExecuteGetActiveTempAccountNamesHiddenUser() {
+	public function testExecuteGetActiveTempAccountNamesHiddenUserAndLogging() {
 		$checkUserTemporaryAccountsByIPLookup = $this->getObjectUnderTest();
 		$user = $this->getServiceContainer()->getUserFactory()->newFromName( '~check-user-test-02' );
-		$performer = $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] );
+		// Use a real user so that we can test logging
+		$performer = $this->getTestUser( [ 'checkuser' ] )->getUser();
 		$status = $checkUserTemporaryAccountsByIPLookup
 			->getActiveTempAccountNames( $performer, $user );
 		$this->assertSame( [
 			'~check-user-test-02',
 			'~check-user-test-01',
 		], $status->getValue() );
+
+		// Test that a log entry was made
+		$this->runJobs();
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'logging' )
+			->where( [
+				'log_type' => TemporaryAccountLogger::LOG_TYPE,
+				'log_action' => TemporaryAccountLogger::ACTION_VIEW_RELATED_TEMPORARY_ACCOUNTS,
+				'log_actor' => $this->getServiceContainer()->getActorStore()
+					->findActorId( $performer, $this->getDb() ),
+				'log_title' => $user->getUserPage()->getDBkey(),
+				'log_namespace' => NS_USER,
+			] )
+			->caller( __METHOD__ )
+			->assertFieldValue( 1 );
 	}
 
 	/**

@@ -39,6 +39,9 @@ class TemporaryAccountLogger {
 	/** @var string Represents a user globally viewing the temporary accounts on a specific IP address */
 	public const ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL = 'view-temp-accounts-on-ip-global';
 
+	/** @var string Represents a user viewing the temporary accounts that have shared IPs, without viewing the IP */
+	public const ACTION_VIEW_RELATED_TEMPORARY_ACCOUNTS = 'view-related-temporary-accounts';
+
 	/**
 	 * Represents a user enabling or disabling their own access to view IPs
 	 *
@@ -146,6 +149,18 @@ class TemporaryAccountLogger {
 				'target' => $tempUser,
 			]
 		);
+	}
+
+	/**
+	 * Logs the user (the performer) viewing temporary accounts that have shared IP addresses with
+	 * a temporary account.
+	 *
+	 * @param UserIdentity $performer
+	 * @param string $tempUser
+	 * @param int $timestamp
+	 */
+	public function logViewRelatedTemporaryAccounts( UserIdentity $performer, string $tempUser, int $timestamp ): void {
+		$this->debouncedLog( $performer, $tempUser, self::ACTION_VIEW_RELATED_TEMPORARY_ACCOUNTS, $timestamp );
 	}
 
 	/**

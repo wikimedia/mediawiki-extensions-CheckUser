@@ -228,6 +228,14 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			return $status;
 		}
 
+		$this->jobQueueGroup->push(
+			LogTemporaryAccountAccessJob::newSpec(
+				$authority->getUser(),
+				$user->getName(),
+				TemporaryAccountLogger::ACTION_VIEW_RELATED_TEMPORARY_ACCOUNTS
+			)
+		);
+
 		$accounts = $this->getActiveTempAccounts( $user, $limit );
 
 		// TODO: Remove hidden names in ::getTempAccountsFromIPAddress

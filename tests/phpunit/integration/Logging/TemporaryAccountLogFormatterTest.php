@@ -118,6 +118,18 @@ class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 					'api' => [],
 				],
 			],
+			'View related temporary accounts' => [
+				'row' => [
+					'type' => 'checkuser-temporary-account',
+					'action' => TemporaryAccountLogger::ACTION_VIEW_RELATED_TEMPORARY_ACCOUNTS,
+					'user_text' => 'Sysop', 'title' => '~2024-01', 'namespace' => NS_USER,
+					'params' => [],
+				],
+				'extra' => [
+					'text' => 'Sysop viewed related temporary accounts for ~2024-01',
+					'api' => [],
+				],
+			],
 			'View temporary accounts on a IP' => [
 				'row' => [
 					'type' => 'checkuser-temporary-account',

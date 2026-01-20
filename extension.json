@@ -1198,6 +1198,7 @@
 			"view-ips": [
 				"view-ips",
 				"view-temporary-accounts-on-ip",
+				"view-related-temporary-accounts",
 				"af-view-protected-var-value"
 			]
 		}

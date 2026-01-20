@@ -60,6 +60,46 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 			->assertEmptyResult();
 	}
 
+	public function testLogViewRelatedTemporaryAccounts() {
+		$this->enableAutoCreateTempUser();
+
+		/** @var TemporaryAccountLogger $logger */
+		$logger = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' )->getLogger();
+
+		// Call the method under test once
+		$performer = $this->getTestSysop()->getUser();
+		$tempUser = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
+		$logger->logViewRelatedTemporaryAccounts(
+			$performer, $tempUser->getName(), ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
+		);
+
+		// Check that the call to the method under test caused one log entry with the correct parameters
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'logging' )
+			->where( [
+				'log_type' => TemporaryAccountLogger::LOG_TYPE,
+				'log_action' => TemporaryAccountLogger::ACTION_VIEW_RELATED_TEMPORARY_ACCOUNTS,
+				'log_timestamp' => $this->getDb()->timestamp( '20240405060709' ),
+				'log_actor' => $this->getServiceContainer()->getActorStore()
+					->findActorId( $performer, $this->getDb() ),
+				'log_title' => $tempUser->getUserPage()->getDBkey(),
+				'log_namespace' => NS_USER,
+			] )
+			->caller( __METHOD__ )
+			->assertFieldValue( 1 );
+
+		// Call the method under test again to check that the code properly debounces the log entry.
+		$logger->logViewRelatedTemporaryAccounts(
+			$performer, $tempUser->getName(), ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
+		);
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'logging' )
+			->where( [ 'log_timestamp' => $this->getDb()->timestamp( '20240405060711' ) ] )
+			->assertEmptyResult();
+	}
+
 	/** @dataProvider provideLogViewTemporaryAccountsOnIP */
 	public function testLogViewTemporaryAccountsOnIP( $targetIP ) {
 		ConvertibleTimestamp::setFakeTime( '20240405060709' );
