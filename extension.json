@@ -510,11 +510,13 @@
 				"CheckUserPermissionManager"
 			]
 		},
-		"SpecialContributionsBeforeMainOutput": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialContributionsBeforeMainOutputHandler",
+		"SpecialContributions": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialContributionsHandler",
 			"services": [
 				"TempUserConfig",
 				"CheckUserTemporaryAccountsByIPLookup",
+				"CheckUserPermissionManager",
+				"SpecialPageFactory",
 				"UserIdentityLookup",
 				"DatabaseBlockStore"
 			]
@@ -589,9 +591,11 @@
 		"SaveUserOptions": "preferences",
 		"SidebarBeforeOutput": "SidebarLinksHandler",
 		"SpecialContributionsBeforeMainOutput": [
-			"SpecialContributionsBeforeMainOutput",
+			"SpecialContributions",
 			"ToolLinks"
 		],
+		"SpecialContributions::getForm::filters": "SpecialContributions",
+		"ContribsPager::getQueryInfo": "SpecialContributions",
 		"SpecialLogResolveLogType": "SpecialLogAddIPRevealLogTypeAliasHandler",
 		"SpecialLogGetSubpagesForPrefixSearch": "SpecialLogAddIPRevealLogTypeAliasHandler",
 		"SpecialPageBeforeExecute": [

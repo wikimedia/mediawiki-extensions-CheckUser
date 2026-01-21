@@ -7,21 +7,33 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\Block\DatabaseBlockStore;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
+use MediaWiki\Hook\ContribsPager__getQueryInfoHook;
+use MediaWiki\Hook\SpecialContributions__getForm__filtersHook;
 use MediaWiki\Hook\SpecialContributionsBeforeMainOutputHook;
+use MediaWiki\Permissions\Authority;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
+use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 
-class SpecialContributionsBeforeMainOutputHandler implements SpecialContributionsBeforeMainOutputHook {
+// phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
+class SpecialContributionsHandler implements
+	SpecialContributionsBeforeMainOutputHook,
+	SpecialContributions__getForm__filtersHook,
+	ContribsPager__getQueryInfoHook
+{
 	use ContributionsRangeTrait;
 
 	public function __construct(
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup,
+		private readonly CheckUserPermissionManager $checkUserPermissionManager,
+		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly DatabaseBlockStore $databaseBlockStore,
 	) {
@@ -158,5 +170,90 @@ class SpecialContributionsBeforeMainOutputHandler implements SpecialContribution
 		}
 
 		return count( $blocksByUser );
+	}
+
+	/** @inheritDoc */
+	public function onSpecialContributions__getForm__filters( $sp, &$filters ) {
+		$target = $sp->getRequest()->getText( 'target' );
+
+		if ( !$this->canShowRelatedTemporaryAccounts( $sp->getName(), $target, $sp->getUser() ) ) {
+			return;
+		}
+
+		$filters[] = [
+			'type' => 'check',
+			'label-message' => 'checkuser-contributions-filters-related-temporary-accounts',
+			'name' => 'showRelatedTemporaryAccounts',
+		];
+	}
+
+	/** @inheritDoc */
+	public function onContribsPager__getQueryInfo( $pager, &$queryInfo ) {
+		$title = $pager->getContext()->getTitle();
+		if ( !$title ) {
+			return;
+		}
+		$pageName = $this->specialPageFactory->resolveAlias( $title->getDBKey() )[0];
+		if ( !$pageName ) {
+			return;
+		}
+
+		$request = $pager->getContext()->getRequest();
+		$target = $request->getText( 'target' );
+
+		if ( !$this->canShowRelatedTemporaryAccounts(
+			$pageName,
+			$target,
+			$pager->getUser()
+		) ) {
+			return;
+		}
+
+		if ( !isset( $queryInfo['conds']['actor_name'] ) ) {
+			// This shouldn't happen, but adding in related targets when there isn't a primary
+			// target set wouldn't make sense, so return early.
+			return;
+		}
+
+		if ( $request->getBool( 'showRelatedTemporaryAccounts' ) ) {
+			$targetUser = $this->userIdentityLookup->getUserIdentityByName(
+				$queryInfo['conds']['actor_name']
+			);
+
+			if ( !$targetUser ) {
+				return;
+			}
+
+			$status = $this->checkUserTemporaryAccountsByIPLookup
+				->getActiveTempAccountNames( $pager->getUser(), $targetUser );
+			if ( !$status->isGood() ) {
+				return;
+			}
+
+			$queryInfo['conds']['actor_name'] = [ $target, ...$status->getValue() ];
+		}
+	}
+
+	private function canShowRelatedTemporaryAccounts(
+		string $pageName,
+		string $target,
+		Authority $authority
+	): bool {
+		if ( $pageName !== 'Contributions' ) {
+			return false;
+		}
+
+		if ( !$this->tempUserConfig->isTempName( $target ) ) {
+			return false;
+		}
+
+		$status = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$authority
+		);
+		if ( !$status->isGood() ) {
+			return false;
+		}
+
+		return true;
 	}
 }

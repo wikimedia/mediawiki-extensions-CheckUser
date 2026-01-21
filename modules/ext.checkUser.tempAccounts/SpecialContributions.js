@@ -11,5 +11,13 @@ const ipReveal = require( './ipReveal.js' );
  *   as they have different guaranteed existing elements.
  */
 module.exports = function ( documentRoot, pageTitle ) {
-	ipReveal.enableIpRevealForContributionsPage( documentRoot, pageTitle );
+	const $ipRevealButtons = ipReveal.addIpRevealButtons( $( '#bodyContent', documentRoot ) );
+	if ( $ipRevealButtons.length === 0 ) {
+		// The contributions page has only one target and therefore no user links
+		ipReveal.enableIpRevealForContributionsPage( documentRoot, pageTitle );
+	} else {
+		// The contributions page has user links, due to having multiple targets. Treat
+		// this like any other page.
+		require( './initOnLoad.js' )();
+	}
 };

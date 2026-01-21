@@ -648,13 +648,20 @@ function enableAutoReveal( relativeExpiry, $content ) {
  */
 function showAllIps( $content, autoRevealStatus ) {
 	$content = $content || $( document );
+	const $ipRevealButtons = $content.find( '.ext-checkuser-tempaccount-reveal-ip-button' );
 
-	// Handle contributions pages with temp user targets separately, as they do not have user links
+	// Handle contributions pages with single temp user targets separately, as they do
+	// not have user links
 	const pageTitle = mw.config.get( 'wgCanonicalSpecialPageName' );
 	const relevantUser = mw.config.get( 'wgRelevantUserName' );
+	const anyOtherUsers = $ipRevealButtons.is( function () {
+		return $( this ).data( 'target' ) !== relevantUser;
+	} );
+
 	if (
 		( pageTitle === 'Contributions' || pageTitle === 'DeletedContributions' ) &&
-		relevantUser && mw.util.isTemporaryUser( relevantUser )
+		relevantUser && mw.util.isTemporaryUser( relevantUser ) &&
+		!anyOtherUsers
 	) {
 		if ( ipRevealUtils.getRevealedStatus( relevantUser ) ) {
 			// The user was recently manually revealed, so there is nothing to do
@@ -667,7 +674,6 @@ function showAllIps( $content, autoRevealStatus ) {
 	}
 
 	// On all other pages, find all buttons and reveal all their users
-	const $ipRevealButtons = $content.find( '.ext-checkuser-tempaccount-reveal-ip-button' );
 	automaticallyRevealUsers( $ipRevealButtons, autoRevealStatus );
 }
 
@@ -700,13 +706,16 @@ function disableAutoReveal( $content ) {
  */
 function hideAllIps( $content, autoRevealStatus ) {
 	$content = $content || $( document );
+	const $userLinks = getUserLinks( $content );
 
-	// Handle contributions pages with temp user targets separately, as they do not have user links
+	// Handle contributions pages with single temp user targets separately, as they do
+	// not have user links
 	const pageTitle = mw.config.get( 'wgCanonicalSpecialPageName' );
 	const relevantUser = mw.config.get( 'wgRelevantUserName' );
 	if (
 		( pageTitle === 'Contributions' || pageTitle === 'DeletedContributions' ) &&
-		relevantUser && mw.util.isTemporaryUser( relevantUser )
+		relevantUser && mw.util.isTemporaryUser( relevantUser ) &&
+		$userLinks.length === 0
 	) {
 		if ( ipRevealUtils.getRevealedStatus( relevantUser ) ) {
 			// The user was recently manually revealed, so keep them revealed
@@ -720,7 +729,6 @@ function hideAllIps( $content, autoRevealStatus ) {
 	}
 
 	// On all other pages, replace IPs that are not pre-revealed with buttons
-	const $userLinks = getUserLinks( $content );
 	const $userLinksToHide = $userLinks.filter( function () {
 		if ( ipRevealUtils.getRevealedStatus( getLinkTarget( $( this ) ) ) ) {
 			return false;

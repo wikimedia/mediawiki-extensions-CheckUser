@@ -309,6 +309,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-compare-table-header-ip": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-compare-table-header-useragent": "Label for a table header in [[Special:Investigate]].",
+	"checkuser-contributions-filters-related-temporary-accounts": "Label for a checkbox in the search filter form on [[Special:Contributions]] when the looked-up user is a temporary account",
 	"checkuser-ip-contributions": "{{doc-special|IPContributions}}",
 	"checkuser-ip-contributions-permission-error-title": "Title of an error page shown if a user cannot access Special:IPContributions because they need to accept an agreement in their preferences",
 	"checkuser-ip-contributions-permission-error-description": "Contents of an error page shown if a user cannot access Special:IPContributions because they need to accept an agreement in their preferences",
