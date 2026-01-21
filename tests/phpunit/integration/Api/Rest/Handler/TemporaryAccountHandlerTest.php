@@ -87,9 +87,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		) ) );
 	}
 
-	/**
-	 * @return Authority
-	 */
 	private function getAuthorityForSuccess(): Authority {
 		return $this->getTestUser()->getAuthority();
 	}

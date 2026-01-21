@@ -49,8 +49,6 @@ class UserAgentClientHintsFormatter {
 	/**
 	 * Generates a cache of messages that are used that also take no
 	 * parameters so that they do not need to be re-calculated each time.
-	 *
-	 * @return void
 	 */
 	private function generateMsgCache(): void {
 		foreach ( self::NAME_TO_MESSAGE_KEY as $msg ) {
@@ -83,10 +81,6 @@ class UserAgentClientHintsFormatter {
 		return new ClientHintsBatchFormatterResults( $referenceIdsToClientHintsDataIndex, $clientHintsDataObjects );
 	}
 
-	/**
-	 * @param ClientHintsData $clientHintsData
-	 * @return string
-	 */
 	public function formatClientHintsDataObject( ClientHintsData $clientHintsData ): string {
 		$clientHintsForDisplay = $this->options->get( 'CheckUserClientHintsForDisplay' );
 		// Combine Client Hints data where possible to reduce the length of the generated string.

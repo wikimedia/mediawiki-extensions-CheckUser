@@ -63,9 +63,6 @@ class ClientHintsData implements JsonSerializable {
 	/**
 	 * Given a string of JSON obtained by calling ClientHintsData::jsonSerialize, construct a ClientHintsData
 	 * object with the same data.
-	 *
-	 * @param array $data
-	 * @return ClientHintsData
 	 */
 	public static function newFromSerialisedJsonArray( array $data ): self {
 		return new self(
@@ -91,8 +88,6 @@ class ClientHintsData implements JsonSerializable {
 	 *
 	 * @see UserAgentClientHintsManager::getBodyValidator
 	 *
-	 * @param array $data
-	 * @return ClientHintsData
 	 * @throws TypeError on invalid data (such as platformVersion being an array).
 	 */
 	public static function newFromJsApi( array $data ): self {
@@ -135,7 +130,6 @@ class ClientHintsData implements JsonSerializable {
 	 *
 	 * @param WebRequest $request
 	 * @param string[] $collectOnly If not an empty array, only collect data for these Client Hints data attributes
-	 * @return ClientHintsData
 	 * @throws TypeError on invalid data in the Client Hints headers
 	 */
 	public static function newFromRequestHeaders( WebRequest $request, array $collectOnly = [] ): self {
@@ -213,9 +207,6 @@ class ClientHintsData implements JsonSerializable {
 	/**
 	 * Given an array of rows from the useragent_clienthints table,
 	 * construct a new ClientHintsData object.
-	 *
-	 * @param array $rows
-	 * @return ClientHintsData
 	 */
 	public static function newFromDatabaseRows( array $rows ): self {
 		$data = [];

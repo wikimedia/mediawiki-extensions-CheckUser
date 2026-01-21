@@ -116,8 +116,6 @@ class TokenManager {
 	 *
 	 * This must be consistent between encryption and decryption,
 	 * must be no more than 16 bytes in length and never repeat.
-	 *
-	 * @return string
 	 */
 	private function getInitializationVector(): string {
 		return random_bytes( 16 );

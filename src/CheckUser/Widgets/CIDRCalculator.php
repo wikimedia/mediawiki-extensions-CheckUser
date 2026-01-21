@@ -53,8 +53,6 @@ class CIDRCalculator {
 
 	/**
 	 * Get the string (HTML) representation of the calculator
-	 *
-	 * @return string
 	 */
 	public function toString(): string {
 		return $this->getHtml();
@@ -62,8 +60,6 @@ class CIDRCalculator {
 
 	/**
 	 * Get the HTML for the calculator.
-	 *
-	 * @return string
 	 */
 	public function getHtml(): string {
 		$items = [];

@@ -469,8 +469,6 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	 * Generate a randomly chosen IPv4 or IPv6 address that sits within the allowed ranges.
 	 * If the set of allowed ranges contain both IPv4 and IPv6 ranges, an IPv4 address is returned
 	 * 50% of the time on average.
-	 *
-	 * @return string
 	 */
 	private function generateNewIp(): string {
 		if ( count( $this->ipv4Ranges ) === 0 ) {
@@ -571,8 +569,6 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	 * This method randomly chooses a User-Agent header string, assigns that
 	 * to the request and then applies Client Hints headers if the browser
 	 * that uses the selected User-Agent supports Client Hints.
-	 *
-	 * @return void
 	 */
 	private function getNewUserAgentAndAssociatedClientHints(): void {
 		$userAgent = array_rand( $this->userAgentsToClientHintsMap );
@@ -856,8 +852,6 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
 	/**
 	 * Move the fake time forward by a random number of seconds between 0 and 240 seconds.
-	 *
-	 * @return void
 	 */
 	private function moveFakeTimeForward(): void {
 		ConvertibleTimestamp::setFakeTime(
@@ -868,8 +862,6 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	/**
 	 * Initialise the User-Agent header and Client Hints combinations
 	 * as the ClientHints objects cannot be created in a constant property.
-	 *
-	 * @return void
 	 */
 	private function initUserAgentAndClientHintsCombos(): void {
 		$this->userAgentsToClientHintsMap = [

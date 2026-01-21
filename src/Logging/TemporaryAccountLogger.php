@@ -155,8 +155,6 @@ class TemporaryAccountLogger {
 
 	/**
 	 * Log when the user enables their own access locally.
-	 *
-	 * @param UserIdentity $performer
 	 */
 	public function logAccessEnabled( UserIdentity $performer ): void {
 		$this->logAccessChanged( $performer, self::ACTION_ACCESS_ENABLED );
@@ -164,8 +162,6 @@ class TemporaryAccountLogger {
 
 	/**
 	 * Log when the user disables their own access locally.
-	 *
-	 * @param UserIdentity $performer
 	 */
 	public function logAccessDisabled( UserIdentity $performer ): void {
 		$this->logAccessChanged( $performer, self::ACTION_ACCESS_DISABLED );

@@ -158,8 +158,6 @@ class ClientHints implements
 
 	/**
 	 * Get the list of headers to use with Accept-CH.
-	 *
-	 * @return string
 	 */
 	private function getClientHintsHeaderString(): string {
 		$headers = implode(
@@ -171,8 +169,6 @@ class ClientHints implements
 
 	/**
 	 * Get an Accept-CH header string to tell the client to stop sending client-hint data.
-	 *
-	 * @return string
 	 */
 	private function getEmptyClientHintsHeaderString(): string {
 		return "Accept-CH: ";

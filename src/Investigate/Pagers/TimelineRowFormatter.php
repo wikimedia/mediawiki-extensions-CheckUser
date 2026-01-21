@@ -126,10 +126,6 @@ class TimelineRowFormatter {
 		return IPUtils::prettifyIP( IPUtils::formatHex( $ipHex ) );
 	}
 
-	/**
-	 * @param string $userAgent
-	 * @return string
-	 */
 	private function getUserAgent( string $userAgent ): string {
 		return htmlspecialchars( $userAgent );
 	}
@@ -151,10 +147,6 @@ class TimelineRowFormatter {
 		return $logFormatter->getActionText();
 	}
 
-	/**
-	 * @param \stdClass $row
-	 * @return string
-	 */
 	private function getTitleLink( \stdClass $row ): string {
 		if ( $row->type == RC_LOG ) {
 			return '';
@@ -275,10 +267,6 @@ class TimelineRowFormatter {
 			)->escaped();
 	}
 
-	/**
-	 * @param \stdClass $row
-	 * @return string
-	 */
 	private function getHistoryLink( \stdClass $row ): string {
 		if ( $row->type == RC_NEW || $row->type == RC_LOG ) {
 			return '';
@@ -309,10 +297,6 @@ class TimelineRowFormatter {
 			)->escaped();
 	}
 
-	/**
-	 * @param int $type
-	 * @return string
-	 */
 	private function getNewPageFlag( int $type ): string {
 		if ( $type == RC_NEW ) {
 			return Html::rawElement(
@@ -324,10 +308,6 @@ class TimelineRowFormatter {
 		return '';
 	}
 
-	/**
-	 * @param bool $minor
-	 * @return string
-	 */
 	private function getMinorFlag( bool $minor ): string {
 		if ( $minor ) {
 			return Html::rawElement(
@@ -339,10 +319,6 @@ class TimelineRowFormatter {
 		return '';
 	}
 
-	/**
-	 * @param string $timestamp
-	 * @return string
-	 */
 	private function getTime( string $timestamp ): string {
 		return htmlspecialchars(
 			$this->language->userTime( wfTimestamp( TS_MW, $timestamp ), $this->user )

@@ -253,17 +253,11 @@ class PreliminaryCheckPager extends TablePager {
 		);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isGlobalCheck(): bool {
 		return $this->extensionRegistry->isLoaded( 'CentralAuth' )
 			&& class_exists( CentralAuthDatabaseManager::class );
 	}
 
-	/**
-	 * @return IReadableDatabase|null
-	 */
 	protected function getCentralReplicaDB(): ?IReadableDatabase {
 		if ( class_exists( CentralAuthDatabaseManager::class ) ) {
 			return CentralAuthServices::getDatabaseManager()->getCentralReplicaDB();

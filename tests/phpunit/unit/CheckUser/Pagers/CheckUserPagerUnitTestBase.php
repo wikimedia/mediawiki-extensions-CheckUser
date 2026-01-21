@@ -36,7 +36,7 @@ abstract class CheckUserPagerUnitTestBase extends MediaWikiUnitTestCase {
 	}
 
 	public function testGetQueryInfoWithNoProvidedTableThrowsException() {
-		/** @var $objectUnderTest AbstractCheckUserPager */
+		/** @var AbstractCheckUserPager $objectUnderTest */
 		$objectUnderTest = $this->getMockBuilder( $this->getPagerClass() )
 			->disableOriginalConstructor()
 			->onlyMethods( [] )

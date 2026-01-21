@@ -9,7 +9,6 @@ use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Rdbms\IMaintainableDatabase;
-use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
@@ -128,12 +127,9 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 			'Database not set up correctly for the test'
 		);
 		// Run the script
-		/** @var TestingAccessWrapper $maintenance */
-		// Make a copy to prevent syntax error warnings for accessing protected method setBatchSize.
-		$maintenance = $this->maintenance;
-		$maintenance->setBatchSize( $batchSize );
+		$this->maintenance->loadWithArgv( [ '--batch-size', $batchSize ] );
 		$this->assertTrue(
-			$maintenance->execute(),
+			$this->maintenance->execute(),
 			'execute() should have returned true as moving entries should have completed successfully.'
 		);
 		// Test entries were moved

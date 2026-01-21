@@ -455,9 +455,6 @@ class SpecialCheckUser extends SpecialPage {
 		$out->addHTML( ( new CIDRCalculator( $out ) )->getHtml() );
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function checkReason(): bool {
 		return ( !$this->getConfig()->get( 'CheckUserForceSummary' ) || strlen( $this->opts->getValue( 'reason' ) ) );
 	}

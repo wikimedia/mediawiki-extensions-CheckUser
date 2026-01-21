@@ -775,8 +775,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 	 * so that the user can reduce the size of the page if they
 	 * are interested in one or two items from the top. The only
 	 * exception to this is when there are no results.
-	 *
-	 * @return bool
 	 */
 	protected function isNavigationBarShown(): bool {
 		return $this->getNumRows() !== 0;

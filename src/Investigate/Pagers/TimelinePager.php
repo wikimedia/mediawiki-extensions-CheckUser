@@ -184,8 +184,6 @@ class TimelinePager extends ReverseChronologicalPager {
 
 	/**
 	 * Get the formatted result list, with navigation bars.
-	 *
-	 * @return ParserOutput
 	 */
 	public function getFullOutput(): ParserOutput {
 		return new ParserOutput(

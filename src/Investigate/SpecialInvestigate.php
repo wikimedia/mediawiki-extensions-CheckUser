@@ -143,8 +143,6 @@ class SpecialInvestigate extends FormSpecialPage {
 
 	/**
 	 * Returns the OOUI Index Layout and adds the module dependencies for OOUI.
-	 *
-	 * @return IndexLayout
 	 */
 	private function getLayout(): IndexLayout {
 		if ( $this->layout === null ) {
@@ -396,9 +394,6 @@ class SpecialInvestigate extends FormSpecialPage {
 		return (int)round( $this->getConfig()->get( 'CUDMaxAge' ) / 86400 );
 	}
 
-	/**
-	 * @param array $logData
-	 */
 	private function logQuery( array $logData ): void {
 		$relevantTargetsCount = count( array_diff(
 			$this->getTokenData()['targets'] ?? [],
@@ -720,8 +715,6 @@ class SpecialInvestigate extends FormSpecialPage {
 
 	/**
 	 * Get data from the request token.
-	 *
-	 * @return array
 	 */
 	private function getTokenData(): array {
 		if ( $this->tokenData === null ) {
@@ -886,8 +879,6 @@ class SpecialInvestigate extends FormSpecialPage {
 
 	/**
 	 * Determine if the filters are in use by the current request.
-	 *
-	 * @return bool
 	 */
 	private function usingFilters(): bool {
 		$tokenData = $this->getTokenData();
@@ -899,8 +890,6 @@ class SpecialInvestigate extends FormSpecialPage {
 
 	/**
 	 * Get the duration from the request.
-	 *
-	 * @return string
 	 */
 	private function getDuration(): string {
 		return $this->durationManager->getFromRequest( $this->getRequest() );
