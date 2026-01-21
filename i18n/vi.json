@@ -239,7 +239,7 @@
 	"checkuser-investigate-compare-table-button-checks-label": "Tác vụ kiểm tra",
 	"checkuser-investigate-compare-table-button-contribs-label": "Đóng góp",
 	"checkuser-investigate-compare-table-button-filter-label": "Lọc ra khỏi các kết quả",
-	"checkuser-investigate-compare-table-cell-unregistered": "Vô danh",
+	"checkuser-investigate-compare-table-cell-unregistered": "Chưa đăng nhập",
 	"checkuser-investigate-compare-table-cell-actions": "<b>[$1 {{PLURAL:$1|tác vụ}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-actions": "<i>(~$1 bởi các người dùng)</i>",
 	"checkuser-investigate-compare-table-header-username": "Tên thành viên",

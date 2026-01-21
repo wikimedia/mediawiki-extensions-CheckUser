@@ -37,7 +37,7 @@
 	"group-checkuser": "Denetçiler",
 	"group-checkuser-member": "{{GENDER:$1|denetçi}}",
 	"group-temporary-account-viewer": "Geçici hesap IP görüntüleyicileri",
-	"group-temporary-account-viewer-member": "{{GENDER:$1|geçici hesap IP görüntüleyicisi}}",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|geçici hesap IP görüntüleyici}}",
 	"right-checkuser": "Kullanıcıların IP adreslerini ve diğer bilgilerini denetle",
 	"right-checkuser-log": "Denetleme günlüğünü gör",
 	"right-checkuser-temporary-account": "Geçici hesaplar tarafından kullanılan IP adreslerini görüntüle",
