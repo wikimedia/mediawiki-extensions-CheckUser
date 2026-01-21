@@ -201,7 +201,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'Filter button is not present in the page or has an unexpected label'
 		);
 		$this->assertArrayEquals(
-			[ 'status' => [] ],
+			[ 'status' => [], 'username' => [] ],
 			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
 			false, true,
 			'Active filters on the page is not as expected'
@@ -556,7 +556,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'The info chip indicating how many filters were applied was not present'
 		);
 		$this->assertArrayEquals(
-			[ 'status' => [ 'open' ] ],
+			[ 'status' => [ 'open' ], 'username' => [] ],
 			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
 			false, true,
 			'Active filters on the page is not as expected'
@@ -583,12 +583,20 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$context->setLanguage( 'qqx' );
 		$context->getRequest()->setVal( 'username', $firstUser->getName() );
 
-		$html = $this->getPager( $context )->getBody();
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+		$jsConfigVars = $parserOutput->getJsConfigVars();
 
 		// Expect that the table pager only shows the first case by checking
 		// only the first case ID is present as a data attribute
 		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+		$this->assertArrayEquals(
+			[ 'status' => [], 'username' => [ $firstUser->getName() ] ],
+			$jsConfigVars['wgCheckUserSuggestedInvestigationsActiveFilters'],
+			false, true,
+			'Active filters on the page is not as expected'
+		);
 	}
 
 	public function testWhenUsernameFilterUsesUnknownUsername() {

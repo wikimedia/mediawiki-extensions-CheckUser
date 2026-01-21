@@ -474,6 +474,8 @@
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Label for button used to close a dialog (without making any changes) that filters table rows in [[Special:SuggestedInvestigations]].",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Label for button used to apply a new set of filters to the [[Special:SuggestedInvestigations]] page.",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Label for a set of checkboxes used to filter for cases with a specific status in the [[Special:SuggestedInvestigations]] page.",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Label for a input field that a user can type an account name into to filter cases on [[Special:SuggestedInvestigations]] to those with the given account in them.",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Placeholder text for an input field used to filter for a specific username in [[Special:SuggestedInvestigations]].",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Subtitle link shown on the detail view of [[Special:SuggestedInvestigations]] that is used to go back to the main view of the special page. Uses {{msg-mw|checkuser-suggestedinvestigations}}.",
 	"checkuser-suggestedinvestigations-table-caption": "Caption for the Suggested investigations table shown in the header of the table",
 	"checkuser-suggestedinvestigations-header-users": "Header of the column listing accounts to investigate in the Suggested investigations table",

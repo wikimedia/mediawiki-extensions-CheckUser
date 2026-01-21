@@ -440,6 +440,8 @@
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Close",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Show results",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Account",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Type account name...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Back to {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-table-caption": "Accounts automatically flagged as suspicious",
 	"checkuser-suggestedinvestigations-header-users": "Accounts",

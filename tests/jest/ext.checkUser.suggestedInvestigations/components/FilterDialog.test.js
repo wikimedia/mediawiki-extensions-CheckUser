@@ -15,17 +15,17 @@ jest.mock(
 
 const FilterDialog = require( '../../../../modules/ext.checkUser.suggestedInvestigations/components/FilterDialog.vue' );
 
-const renderComponent = ( props ) => utils.mount( FilterDialog, {
-	props: Object.assign( {}, { initialFilters: { status: [] } }, props )
+const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
+	props: { initialFilters: Object.assign( {}, { status: [], username: [] }, initialFilters ) }
 } );
 
 /**
  * Perform tests common to all tests of the suggested investigations filter dialog
  * and then return the dialog component
  *
- * @param {{initialFilters: {
- *           status: string[]
- *        }}} [props] Passed through to {@link renderComponent}
+ * @param {Object} [props] Passed through to {@link renderComponent}
+ * @param {string[]} [props.username] Username filter
+ * @param {string[]} [props.status] Status filter
  * @return {{ wrapper, dialog }} The dialog component and wrapper
  */
 const commonComponentTest = async ( props = {} ) => {
@@ -40,6 +40,19 @@ const commonComponentTest = async ( props = {} ) => {
 		'.ext-checkuser-suggestedinvestigations-filter-dialog'
 	);
 	expect( dialog.exists() ).toEqual( true );
+
+	// Expect that the username multi-select component exists (separate tests
+	// will check other parts of the component)
+	const statusCheckboxesField = dialog.find(
+		'.ext-checkuser-suggestedinvestigations-filter-dialog-username-filter'
+	);
+	expect( statusCheckboxesField.exists() ).toEqual( true );
+	expect( statusCheckboxesField.text() ).toContain(
+		'(checkuser-suggestedinvestigations-filter-dialog-username-filter-header)'
+	);
+	expect( statusCheckboxesField.html() ).toContain(
+		'(checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder)'
+	);
 
 	// Check that the dialog footer exists and that it has the expected buttons
 	const footer = dialog.find(
@@ -108,7 +121,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 	it( 'Renders correctly for when opened with status filter set to open', async () => {
 		const { dialog } = await commonComponentTest(
-			{ initialFilters: { status: [ 'open' ] } }
+			{ status: [ 'open' ] }
 		);
 
 		await commonStatusFilterCheckboxTest(
@@ -118,7 +131,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 	it( 'Renders correctly for when opened with status filter set to resolved and invalid', async () => {
 		const { dialog } = await commonComponentTest(
-			{ initialFilters: { status: [ 'resolved', 'invalid' ] } }
+			{ status: [ 'resolved', 'invalid' ] }
 		);
 
 		await commonStatusFilterCheckboxTest(
@@ -141,7 +154,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 	it( 'Redirects to filtered view when "Show results" button pressed', async () => {
 		const { dialog, wrapper } = await commonComponentTest(
-			{ initialFilters: { status: [ 'resolved' ] } }
+			{ status: [ 'resolved' ], username: [ 'TestUser1' ] }
 		);
 
 		// Check the "open" status checkbox and wait for the change to be propagated
@@ -161,7 +174,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		// (the dialog is left open so that it's kept open until the page has reloaded)
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ status: [ 'open', 'resolved' ] }, window
+			{ status: [ 'open', 'resolved' ], username: [ 'TestUser1' ] }, window
 		);
 	} );
 } );

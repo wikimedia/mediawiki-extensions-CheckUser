@@ -31,6 +31,8 @@
 				</cdx-info-chip>
 			</cdx-checkbox>
 		</cdx-field>
+		<filter-dialog-username-filter v-model:selected-usernames="selectedUsernames">
+		</filter-dialog-username-filter>
 	</cdx-dialog>
 </template>
 
@@ -38,7 +40,8 @@
 const { ref } = require( 'vue' ),
 	{ CdxDialog, CdxField, CdxCheckbox, CdxInfoChip } = require( '@wikimedia/codex' ),
 	Constants = require( '../Constants.js' ),
-	{ caseStatusToChipStatus, updateFiltersOnPage } = require( '../utils.js' );
+	{ caseStatusToChipStatus, updateFiltersOnPage } = require( '../utils.js' ),
+	FilterDialogUsernameFilter = require( './FilterDialogUsernameFilter.vue' );
 
 // @vue/component
 module.exports = exports = {
@@ -47,7 +50,8 @@ module.exports = exports = {
 		CdxDialog,
 		CdxField,
 		CdxCheckbox,
-		CdxInfoChip
+		CdxInfoChip,
+		FilterDialogUsernameFilter
 	},
 	props: {
 		/**
@@ -57,6 +61,7 @@ module.exports = exports = {
 		 *
 		 * Requires the following keys:
 		 *  - status: An array of statuses that are being filtered for on the page
+		 *  - username: An array of usernames that are being filtered for
 		 */
 		initialFilters: {
 			type: Object,
@@ -77,6 +82,8 @@ module.exports = exports = {
 			isChecked: props.initialFilters.status.includes( status )
 		} ) ) );
 
+		const selectedUsernames = ref( props.initialFilters.username );
+
 		function onCloseButtonClick() {
 			open.value = false;
 		}
@@ -91,7 +98,8 @@ module.exports = exports = {
 			);
 
 			const filters = {
-				status: selectedStatuses.map( ( statusData ) => statusData.value )
+				status: selectedStatuses.map( ( statusData ) => statusData.value ),
+				username: selectedUsernames.value
 			};
 
 			updateFiltersOnPage( filters, window );
@@ -110,6 +118,7 @@ module.exports = exports = {
 			open,
 			primaryAction,
 			defaultAction,
+			selectedUsernames,
 			statusCheckboxes,
 			onCloseButtonClick,
 			onShowResultsButtonClick

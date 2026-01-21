@@ -60,9 +60,9 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private array $statusFilter;
 
 	/**
-	 * @var ?string If not an empty string or null, then only show cases with this user in them
+	 * @var string[] If not an empty array, then only show cases with these users in
 	 */
-	private ?string $userNameFilter;
+	private array $userNamesFilter;
 
 	/**
 	 * @var int The number of filters applied (counting all filters present in the filters dialog)
@@ -118,8 +118,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied++;
 		}
 
-		$this->userNameFilter = $this->mRequest->getVal( 'username' );
-		if ( $this->userNameFilter ) {
+		$this->userNamesFilter = array_filter( $this->mRequest->getArray( 'username', [] ) );
+		if ( $this->userNamesFilter ) {
 			$this->numberOfFiltersApplied++;
 		}
 
@@ -456,16 +456,22 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			);
 		}
 
-		if ( $this->userNameFilter ) {
-			$userId = $this->userIdentityLookup->getUserIdentityByName( $this->userNameFilter )?->getId();
+		if ( $this->userNamesFilter ) {
+			$userIdentities = $this->userIdentityLookup->newSelectQueryBuilder()
+				->whereUserNames( $this->userNamesFilter )
+				->fetchUserIdentities();
+			$userIds = array_map(
+				static fn ( UserIdentity $user ) => $user->getId(),
+				iterator_to_array( $userIdentities )
+			);
 
 			// If there are user IDs, then join on the query.
 			// If none of the usernames equate to user IDs, then make the query return nothing
 			// to indicate these usernames are not in any case.
-			if ( $userId ) {
+			if ( $userIds ) {
 				$queryInfo['tables'][] = 'cusi_user';
 				$queryInfo['join_conds']['cusi_user'] = [ 'JOIN', 'sic_id = siu_sic_id' ];
-				$queryInfo['conds']['siu_user_id'] = $userId;
+				$queryInfo['conds']['siu_user_id'] = $userIds;
 			} else {
 				$queryInfo['conds'][] = '1=0';
 			}
@@ -627,6 +633,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 					static fn ( CaseStatus $status ) => strtolower( $status->name ),
 					$this->statusFilter
 				),
+				'username' => $this->userNamesFilter,
 			]
 		);
 		return $pout;
