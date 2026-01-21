@@ -98,7 +98,7 @@ return [
 	},
 	'CheckUserTimelineService' => static function ( MediaWikiServices $services ): TimelineService {
 		return new TimelineService(
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getTempUserConfig(),
@@ -394,7 +394,7 @@ return [
 		MediaWikiServices $services
 	): UserAgentClientHintsLookup {
 		return new UserAgentClientHintsLookup(
-			$services->getDBLoadBalancerFactory()->getReplicaDatabase()
+			$services->getConnectionProvider()->getReplicaDatabase()
 		);
 	},
 	'UserAgentClientHintsFormatter' => static function (
