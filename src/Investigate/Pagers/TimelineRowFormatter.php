@@ -142,10 +142,12 @@ class TimelineRowFormatter {
 	}
 
 	private function getIpInfo( ?string $ipHex ): string {
+		if ( !$ipHex ) {
+			return '';
+		}
 		// Note: in the old check user this links to self with ip as target. Can't do now
 		// because of token. We could prefill a new investigation tab
-		$ip = $ipHex !== null ? IPUtils::formatHex( $ipHex ) : '';
-		return IPUtils::prettifyIP( $ip );
+		return IPUtils::prettifyIP( IPUtils::formatHex( $ipHex ) );
 	}
 
 	/**

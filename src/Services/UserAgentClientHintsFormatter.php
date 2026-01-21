@@ -287,7 +287,7 @@ class UserAgentClientHintsFormatter {
 				// Remove the non-significant numbers from the version number if $significantOnly is set.
 				if ( array_key_exists( 'version', $item ) ) {
 					// If the 'version' key is set, then use this.
-					if ( strpos( $item['version'], '.' ) ) {
+					if ( str_contains( $item['version'], '.' ) ) {
 						// If there is a point, then remove all text after the . in the 'version'.
 						$item['version'] = substr( $item['version'], 0, strpos( $item['version'], '.' ) );
 					}

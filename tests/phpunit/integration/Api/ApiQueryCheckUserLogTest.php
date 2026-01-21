@@ -40,9 +40,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 	public function doCheckUserLogApiRequest(
 		array $params = [], ?array $session = null, ?Authority $performer = null
 	) {
-		if ( $performer === null ) {
-			$performer = $this->getTestUser( 'checkuser' )->getAuthority();
-		}
+		$performer ??= $this->getTestUser( 'checkuser' )->getAuthority();
 		return $this->doApiRequest( self::INITIAL_API_PARAMS + $params, $session, false, $performer );
 	}
 
