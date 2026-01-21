@@ -289,7 +289,7 @@ class SpecialInvestigate extends FormSpecialPage {
 				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
 				$hasIpTargets = (bool)array_filter(
 					$this->getTokenData()['targets'] ?? [],
-					[ IPUtils::class, 'isIPAddress' ]
+					IPUtils::isIPAddress( ... )
 				);
 
 				if ( $pager->getNumRows() ) {
@@ -961,9 +961,7 @@ class SpecialInvestigate extends FormSpecialPage {
 
 		$this->subtitleLinksHookRunner->onCheckUserSubtitleLinks( $this->getContext(), $links );
 
-		$subtitle = implode( ' | ', array_filter( $links, static function ( $link ) {
-			return (bool)$link;
-		} ) );
+		$subtitle = implode( ' | ', array_filter( $links ) );
 
 		$this->getOutput()->setSubtitle( $subtitle );
 	}

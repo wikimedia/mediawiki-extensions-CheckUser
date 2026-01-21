@@ -51,7 +51,7 @@ class TimelineService extends ChangeService {
 	): array {
 		// Split the targets into users and IP addresses, so that two queries can be made (one for the users and one
 		// for the IPs) and then unioned together.
-		$ipTargets = array_filter( $targets, [ IPUtils::class, 'isIPAddress' ] );
+		$ipTargets = array_filter( $targets, IPUtils::isIPAddress( ... ) );
 		$userTargets = array_diff( $targets, $ipTargets );
 
 		$dbr = $this->dbProvider->getReplicaDatabase();

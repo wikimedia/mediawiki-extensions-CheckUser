@@ -283,7 +283,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		$targets = explode( "\n", $targets );
 		// Get an array of booleans indicating whether each target is an IP address. If the array contains both true and
 		// false, then the 'Targets' parameter contains both IPs and usernames. Otherwise it does not.
-		$areTargetsIPs = array_map( [ IPUtils::class, 'isIPAddress' ], $targets );
+		$areTargetsIPs = array_map( IPUtils::isIPAddress( ... ), $targets );
 		return in_array( true, $areTargetsIPs, true ) && in_array( false, $areTargetsIPs, true );
 	}
 

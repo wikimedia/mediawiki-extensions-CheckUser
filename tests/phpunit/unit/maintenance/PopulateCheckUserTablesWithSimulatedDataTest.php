@@ -142,7 +142,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 	}
 
 	/** @dataProvider provideGenerateNewIp */
-	public function testGenerateNewIp( $randomFloat, $validationCallback ) {
+	public function testGenerateNewIp( float $randomFloat, callable $validationCallback ) {
 		// TODO: Maybe mock mt_rand to avoid random failures?
 		$mockObject = $this->createPartialMock( PopulateCheckUserTablesWithSimulatedData::class, [ 'getRandomFloat' ] );
 		$mockObject->expects( $this->once() )
@@ -169,8 +169,8 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 
 	public static function provideGenerateNewIp() {
 		return [
-			'Gets IPv4' => [ 0.3, [ IPUtils::class, 'isValidIPv4' ] ],
-			'Gets IPv6' => [ 0.7, [ IPUtils::class, 'isValidIPv6' ] ],
+			'Gets IPv4' => [ 0.3, IPUtils::isValidIPv4( ... ) ],
+			'Gets IPv6' => [ 0.7, IPUtils::isValidIPv6( ... ) ],
 		];
 	}
 

@@ -43,7 +43,7 @@ class MigrateTemporaryAccountIPViewerGroup extends LoggedUpdateMaintenance {
 			->select( 'COUNT(*)' )
 			->from( 'user_groups' )
 			->where( [ 'ug_group' => 'checkuser-temporary-account-viewer' ] )
-			->caller( __FUNCTION__ )
+			->caller( __METHOD__ )
 			->fetchField();
 		if ( !$hasRows ) {
 			$this->output( "Nothing to do - no users in the 'checkuser-temporary-account-viewer' group\n" );
