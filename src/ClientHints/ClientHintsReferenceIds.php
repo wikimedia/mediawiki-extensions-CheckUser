@@ -14,11 +14,12 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
  * list.
  */
 class ClientHintsReferenceIds {
+
 	/**
 	 * Get a new ClientHintsReferenceIds object,
 	 * optionally setting the internal reference IDs array.
 	 *
-	 * @param array $referenceIds If provided, set the internal referenceIds array to
+	 * @param array<int,int[]> $referenceIds If provided, set the internal referenceIds array to
 	 *   this value. By default this is the empty array.
 	 */
 	public function __construct(
@@ -32,7 +33,6 @@ class ClientHintsReferenceIds {
 	 * @param int|int[] $referenceIds an integer or array of integers where the values are reference IDs
 	 * @param int $mappingId any of UserAgentClientHintsManager::IDENTIFIER_* constants, which represent a valid
 	 *  map ID for the cu_useragent_clienthints_map table
-	 * @return void
 	 */
 	public function addReferenceIds( $referenceIds, int $mappingId ): void {
 		if ( !$this->mappingIdExists( $mappingId ) ) {
@@ -47,7 +47,7 @@ class ClientHintsReferenceIds {
 	 * if $mappingId is null, all reference IDs.
 	 *
 	 * @param int|null $mappingId
-	 * @return array
+	 * @return int[]|array<int,int[]>
 	 */
 	public function getReferenceIds( ?int $mappingId = null ): array {
 		if ( $mappingId === null ) {
@@ -70,9 +70,6 @@ class ClientHintsReferenceIds {
 		if ( !array_key_exists( $mappingId, UserAgentClientHintsManager::IDENTIFIER_TO_TABLE_NAME_MAP ) ) {
 			throw new LogicException( "Unrecognised map ID '$mappingId'" );
 		}
-		if ( !array_key_exists( $mappingId, $this->referenceIds ) ) {
-			return false;
-		}
-		return true;
+		return array_key_exists( $mappingId, $this->referenceIds );
 	}
 }

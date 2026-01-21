@@ -14,14 +14,15 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
  * list.
  */
 class ClientHintsLookupResults {
+
 	/**
-	 * @param int[][] $referenceIdsToClientHintsDataIndex A map of reference type and reference ID values
-	 *   to integer keys in $clientHintsDataObjects array.
-	 * @param ClientHintsData[] $clientHintsDataObjects An array of ClientHintsData objects where the keys are
-	 *   integers that are the second-dimension value in the first parameter.
+	 * @param array<int,array<int,int>> $referenceIdsToClientHintsDataIndex A map of reference type
+	 *   and reference ID values to integer keys in $clientHintsDataObjects array.
+	 * @param array<int,ClientHintsData> $clientHintsDataObjects An array of ClientHintsData objects
+	 *   where the keys are integers that are the second-dimension value in the first parameter.
 	 */
 	public function __construct(
-		private array $referenceIdsToClientHintsDataIndex,
+		private readonly array $referenceIdsToClientHintsDataIndex,
 		private readonly array $clientHintsDataObjects,
 	) {
 	}
@@ -32,14 +33,16 @@ class ClientHintsLookupResults {
 	 *
 	 * @param ClientHintsReferenceIds|null $referenceIds The reference IDs to get the objects for.
 	 *   Null for all reference IDs.
-	 * @return array[] An array of two arrays. The first array has keys corresponding to a key in the second array and
-	 *   the value is the number of rows the ClientHintsData object is associated with. The second array has values
+	 * @return array{0: array<int,int>, 1: array<int,ClientHintsData>} An array of two arrays.
+	 *   The first array has keys corresponding to a key in the second array and the value is the
+	 *   number of rows the ClientHintsData object is associated with. The second array has values
 	 *   of unique ClientHintsData objects.
 	 */
 	public function getGroupedClientHintsDataForReferenceIds( ?ClientHintsReferenceIds $referenceIds ): array {
 		// Store the keys to the ClientHintsData objects in $this->clientHintsDataObjects
 		// as values in the array $clientHintsDataObjectKeys that are associated with
 		// the reference IDs provided in the first parameter to this method.
+		/** @var int[] $clientHintsDataObjectKeys */
 		$clientHintsDataObjectKeys = [];
 		foreach ( $this->referenceIdsToClientHintsDataIndex as $referenceType => $referenceIdsForReferenceType ) {
 			if ( $referenceIds ) {
@@ -62,6 +65,7 @@ class ClientHintsLookupResults {
 		// Count the number of occurrences for each integer in the $clientHintsDataObjectKeys
 		// array. This counts how many occurrences of a given unique ClientHintsData object
 		// are present for the reference IDs in $referenceIds.
+		/** @var array<int,int> $groupedClientHintsIds */
 		$groupedClientHintsIds = array_count_values( $clientHintsDataObjectKeys );
 
 		return [
@@ -114,7 +118,7 @@ class ClientHintsLookupResults {
 	 * for UserAgentClientHintsFormatter::batchFormatClientHintsData.
 	 *
 	 * @internal For use by UserAgentClientHintsFormatter only.
-	 * @return array[]
+	 * @return array{0: array, 1: array}
 	 */
 	public function getRawData(): array {
 		return [ $this->referenceIdsToClientHintsDataIndex, $this->clientHintsDataObjects ];

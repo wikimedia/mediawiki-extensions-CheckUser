@@ -207,6 +207,8 @@ class ClientHintsData implements JsonSerializable {
 	/**
 	 * Given an array of rows from the useragent_clienthints table,
 	 * construct a new ClientHintsData object.
+	 *
+	 * @param array<array{uach_name: string, uach_value: string}> $rows
 	 */
 	public static function newFromDatabaseRows( array $rows ): self {
 		$data = [];

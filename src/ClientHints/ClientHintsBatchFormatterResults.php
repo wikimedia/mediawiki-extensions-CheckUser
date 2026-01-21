@@ -17,7 +17,7 @@ class ClientHintsBatchFormatterResults {
 	 *   second-dimension value in the first parameter.
 	 */
 	public function __construct(
-		private array $referenceIdsToFormattedClientHintsIndex,
+		private readonly array $referenceIdsToFormattedClientHintsIndex,
 		private readonly array $formattedClientHints,
 	) {
 	}
