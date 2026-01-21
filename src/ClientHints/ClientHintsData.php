@@ -79,7 +79,7 @@ class ClientHintsData implements JsonSerializable {
 	 * @param array $data
 	 * @return ClientHintsData
 	 */
-	public static function newFromSerialisedJsonArray( array $data ): ClientHintsData {
+	public static function newFromSerialisedJsonArray( array $data ): self {
 		return new self(
 			$data['architecture'],
 			$data['bitness'],
@@ -104,7 +104,7 @@ class ClientHintsData implements JsonSerializable {
 	 * @return ClientHintsData
 	 * @throws TypeError on invalid data (such as platformVersion being an array).
 	 */
-	public static function newFromJsApi( array $data ): ClientHintsData {
+	public static function newFromJsApi( array $data ): self {
 		// Handle clients sending uaFullVersion in their JS API request (T350316) by adding it to the
 		// fullVersionList if the fullVersionList is empty or not defined. If fullVersionList is defined,
 		// then the data is almost certainly duplicated in the already defined fullVersionList so ignore it.
@@ -143,7 +143,7 @@ class ClientHintsData implements JsonSerializable {
 	 * @return ClientHintsData
 	 * @throws TypeError on invalid data in the Client Hints headers
 	 */
-	public static function newFromRequestHeaders( WebRequest $request ): ClientHintsData {
+	public static function newFromRequestHeaders( WebRequest $request ): self {
 		$data = [];
 		foreach ( self::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME as $header => $propertyName ) {
 			$headerValue = $request->getHeader( $header );
@@ -205,7 +205,7 @@ class ClientHintsData implements JsonSerializable {
 	 * @param array $rows
 	 * @return ClientHintsData
 	 */
-	public static function newFromDatabaseRows( array $rows ): ClientHintsData {
+	public static function newFromDatabaseRows( array $rows ): self {
 		$data = [];
 		foreach ( $rows as $row ) {
 			if ( in_array( $row['uach_name'], [ 'brands', 'fullVersionList' ] ) ) {
@@ -239,7 +239,7 @@ class ClientHintsData implements JsonSerializable {
 				$data[$row['uach_name']] = $value;
 			}
 		}
-		return new ClientHintsData(
+		return new self(
 			$data['architecture'] ?? null,
 			$data['bitness'] ?? null,
 			$data['brands'] ?? null,
