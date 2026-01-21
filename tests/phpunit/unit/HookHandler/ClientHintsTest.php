@@ -144,7 +144,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			$specialPageFactoryMock
 		);
 		$skinMock = $this->createMock( Skin::class );
-		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock = $this->createMock( WebRequest::class );
 		$webResponseMock = $this->createMock( WebResponse::class );
 		$webResponseMock->expects( $this->once() )->method( 'header' )
 			->with( 'Accept-CH: ' );
@@ -159,7 +159,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 	public function testBeforePageDisplayDoesNotOverrideHeaderInSpecialPageExecuteWithClientHintsSpecialPage() {
 		$special = $this->createMock( SpecialPage::class );
 		$skinMock = $this->createMock( Skin::class );
-		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock = $this->createMock( WebRequest::class );
 		$webResponseMock = $this->createMock( WebResponse::class );
 		$webResponseMock->expects( $this->never() )->method( 'header' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
@@ -192,7 +192,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 	public function testBeforePageDisplayDoesNotOverrideHeaderInSpecialPageExecuteWithClientHintsSpecialPageJsOnly() {
 		$special = $this->createMock( SpecialPage::class );
 		$skinMock = $this->createMock( Skin::class );
-		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock = $this->createMock( WebRequest::class );
 		$webResponseMock = $this->createMock( WebResponse::class );
 		$webResponseMock->expects( $this->once() )->method( 'header' )
 			->with( 'Accept-CH: ' );
@@ -227,7 +227,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 	public function testBeforePageDisplayDoesNotOverrideHeaderInSpecialPageExecuteWithNonClientHintsSpecialPage() {
 		$special = $this->createMock( SpecialPage::class );
 		$skinMock = $this->createMock( Skin::class );
-		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock = $this->createMock( WebRequest::class );
 		$webResponseMock = $this->createMock( WebResponse::class );
 		$webResponseMock->expects( $this->once() )->method( 'header' )
 			->with( 'Accept-CH: ' );
@@ -310,7 +310,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		// We should add ext.checkUser.clientHints to page
 		$outputPage->expects( $this->once() )->method( 'addModules' )
 			->with( 'ext.checkUser.clientHints' );
-		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock = $this->createMock( WebRequest::class );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
 		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
@@ -341,7 +341,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		// We should add ext.checkUser.clientHints to page
 		$outputPage->expects( $this->once() )->method( 'addModules' )
 			->with( 'ext.checkUser.clientHints' );
-		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock = $this->createMock( WebRequest::class );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
 		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
@@ -373,7 +373,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		// using the JS confirmable (T215020) does a POST.
 		$outputPage->expects( $this->once() )->method( 'addModules' )
 			->with( 'ext.checkUser.clientHints' );
-		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock = $this->createMock( WebRequest::class );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
 		$requestMock->method( 'wasPosted' )->willReturn( true );
@@ -399,7 +399,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$outputPage->method( 'getTitle' )->willReturn( $title );
 		$outputPage->expects( $this->once() )->method( 'addModules' )
 			->with( 'ext.checkUser.clientHints' );
-		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock = $this->createMock( WebRequest::class );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
 		$requestMock->method( 'wasPosted' )->willReturn( true );
