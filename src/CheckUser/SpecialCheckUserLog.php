@@ -190,17 +190,14 @@ class SpecialCheckUserLog extends SpecialPage {
 				);
 			}
 
-			$this->getOutput()->addSubtitle( Html::rawElement(
-					'span',
-					[ "class" => "mw-checkuser-links-no-parentheses" ],
-					Html::openElement( 'span' ) .
-					implode(
-						Html::closeElement( 'span' ) . Html::openElement( 'span' ),
-						$links
-					) .
-					Html::closeElement( 'span' )
-				)
-			);
+			$html = '';
+			foreach ( $links as $link ) {
+				$html .= Html::rawElement( 'span', [], $link );
+			}
+			$this->getOutput()->addSubtitle( Html::rawElement( 'span',
+				[ 'class' => 'mw-checkuser-links-no-parentheses' ],
+				$html
+			) );
 		}
 	}
 

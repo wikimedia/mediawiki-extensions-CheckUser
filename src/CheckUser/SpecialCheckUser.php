@@ -266,18 +266,14 @@ class SpecialCheckUser extends SpecialPage {
 			);
 		}
 
-		if ( count( $links ) ) {
-			$out->addSubtitle( Html::rawElement(
-				'span',
-				[ 'class' => 'mw-checkuser-links-no-parentheses' ],
-				Html::openElement( 'span' ) .
-				implode(
-					Html::closeElement( 'span' ) . Html::openElement( 'span' ),
-					$links
-				) .
-				Html::closeElement( 'span' )
-			) );
+		$html = '';
+		foreach ( $links as $link ) {
+			$html .= Html::rawElement( 'span', [], $link );
 		}
+		$out->addSubtitle( Html::rawElement( 'span',
+			[ 'class' => 'mw-checkuser-links-no-parentheses' ],
+			$html
+		) );
 
 		$userIdentity = null;
 		$isIP = false;
