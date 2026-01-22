@@ -68,6 +68,7 @@ const UserCardLoadingView = require( './UserCardLoadingView.vue' );
 const UserInfoCardError = require( './UserInfoCardError.vue' );
 const DateFormatter = require( 'mediawiki.DateFormatter' );
 const { processEditCountByDay, parseMediaWikiTimestamp } = require( '../util.js' );
+const { getUserInfo } = require( '../rest.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -141,16 +142,7 @@ module.exports = exports = {
 			loading.value = true;
 			error.value = null;
 
-			const token = mw.user.tokens.get( 'csrfToken' );
-			const rest = new mw.Rest();
-			const payload = {
-				token,
-				username: props.username
-			};
-			// T404682
-			const language = mw.config.get( 'wgUserLanguage' );
-
-			rest.post( '/checkuser/v0/userinfo?uselang=' + language, payload )
+			getUserInfo( props.username )
 				.then( ( userInfo ) => {
 					if ( !userInfo ) {
 						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data' ) );

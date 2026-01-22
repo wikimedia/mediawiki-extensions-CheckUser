@@ -21,6 +21,7 @@ require( './ext.checkUser.tempAccounts/SpecialBlock.test.js' );
 require( './ext.checkUser.tempAccounts/SpecialContributions.test.js' );
 require( './ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js' );
 require( './ext.checkUser.userInfoCard/util.test.js' );
+require( './ext.checkUser.userInfoCard/rest.test.js' );
 require( './ext.checkUser.userInfoCard/components/App.test.js' );
 require( './ext.checkUser.userInfoCard/components/InfoRow.test.js' );
 require( './ext.checkUser.userInfoCard/components/InfoRowWithLinks.test.js' );

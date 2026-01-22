@@ -649,6 +649,7 @@
 				"modules/ext.checkUser.userInfoCard/composables/useInstrument.js",
 				"modules/ext.checkUser.userInfoCard/composables/useWatchList.js",
 				"modules/ext.checkUser.userInfoCard/util.js",
+				"modules/ext.checkUser.userInfoCard/rest.js",
 				"modules/lib/d3/d3.min.js",
 				"modules/vue-components/CSparkline.vue",
 				{
@@ -996,6 +997,7 @@
 			"tests/qunit/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/util.test.js",
+			"tests/qunit/ext.checkUser.userInfoCard/rest.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/App.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/InfoRow.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/InfoRowWithLinks.test.js",
