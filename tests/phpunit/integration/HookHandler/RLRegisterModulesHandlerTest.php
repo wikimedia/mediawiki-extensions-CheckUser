@@ -23,7 +23,11 @@ class RLRegisterModulesHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->setTemporaryHook(
 				'CheckUserSuggestedInvestigationsGetSignals',
 				static function ( &$signals ) {
-					$signals = [ 'dev-signal-1', 'dev-signal-2' ];
+					$signals = [
+						'dev-signal-1',
+						[ 'name' => 'dev-signal-2' ],
+						[ 'name' => 'dev-signal-3', 'description' => 'Test' ],
+					];
 				}
 			);
 		} else {

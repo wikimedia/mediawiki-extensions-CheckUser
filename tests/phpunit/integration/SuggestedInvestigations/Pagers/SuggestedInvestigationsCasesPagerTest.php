@@ -244,6 +244,48 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		}
 	}
 
+	/** @dataProvider provideSignalNameForVaryingSignalsArray */
+	public function testSignalNameForVaryingSignalsArray( array $signals, string $expectedSignalName ): void {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
+		ConvertibleTimestamp::setFakeTime( '20250403020100' );
+
+		$this->addCaseWithTwoUsers();
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$pager = $this->getPager( $context, $signals );
+		$html = $pager->getBody();
+
+		$this->assertStringContainsString(
+			$expectedSignalName,
+			$html,
+			'Signal was not present in the page as expected'
+		);
+	}
+
+	public static function provideSignalNameForVaryingSignalsArray(): array {
+		return [
+			'Signals array does not have self::SIGNAL defined' => [
+				'signals' => [],
+				'expectedSignalName' => '(checkuser-suggestedinvestigations-signal-' . self::SIGNAL . ')',
+			],
+			'Signals array has self::SIGNAL defined just as a string' => [
+				[ self::SIGNAL ],
+				'expectedSignalName' => '(checkuser-suggestedinvestigations-signal-' . self::SIGNAL . ')',
+			],
+			'Signals array has self::SIGNAL defined using array format' => [
+				[ [ 'name' => self::SIGNAL ] ],
+				'expectedSignalName' => '(checkuser-suggestedinvestigations-signal-' . self::SIGNAL . ')',
+			],
+			'Signals array has self::SIGNAL defined using array format with custom display name' => [
+				[ [ 'name' => self::SIGNAL, 'displayName' => 'Test signal display name' ] ],
+				'expectedSignalName' => 'Test signal display name',
+			],
+		];
+	}
+
 	public function testOutputWhenGlobalContributionsUsedAsContribsLink() {
 		$isGlobalContributionsEnabled = $this->getServiceContainer()->getSpecialPageFactory()
 			->exists( 'GlobalContributions' );
@@ -664,8 +706,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		return $caseManager->createCase( $users, [ $signal ] );
 	}
 
-	private function getPager( IContextSource $context ): SuggestedInvestigationsCasesPager {
+	private function getPager( IContextSource $context, array $signals = [] ): SuggestedInvestigationsCasesPager {
 		return $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsPagerFactory' )
-			->createCasesPager( $context );
+			->createCasesPager( $context, $signals );
 	}
 }

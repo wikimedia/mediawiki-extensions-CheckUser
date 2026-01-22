@@ -153,7 +153,16 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 			$signals = [];
 			$this->hookRunner->onCheckUserSuggestedInvestigationsGetSignals( $signals );
 			foreach ( $signals as $signal ) {
-				$signal = is_array( $signal ) ? $signal['name'] : $signal;
+				// Signals with a hardcoded description don't need the i18n message
+				// provided in the ResourceLoader module
+				if ( is_array( $signal ) ) {
+					if ( array_key_exists( 'description', $signal ) ) {
+						continue;
+					}
+
+					$signal = $signal['name'];
+				}
+
 				$messages[] = 'checkuser-suggestedinvestigations-risk-signals-popover-body-' . $signal;
 				$messages[] = 'checkuser-suggestedinvestigations-signal-' . $signal;
 			}

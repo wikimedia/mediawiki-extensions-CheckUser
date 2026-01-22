@@ -19,6 +19,11 @@ interface CheckUserSuggestedInvestigationsGetSignalsHook {
 	 *   * A string representing the name of the signal as used in the database
 	 *   * An array of properties about the signal with the following keys:
 	 *     * name - The name of the signal as used in the database
+	 *     * displayName - The text that represents the name of the signal, used instead of an
+	 *         i18n message key constructed from the 'name'
+	 *     * description - The text that gives a short description about the signal including the
+	 *         name of the signal, used instead of an i18n message key constructed from the 'name'.
+	 *         Used in the signals popover.
 	 *     * urlName - A string used to identify the signal in the URL, which should be stable
 	 *         but ideally a random string to avoid exposing the name of the signal in the URL
 	 *

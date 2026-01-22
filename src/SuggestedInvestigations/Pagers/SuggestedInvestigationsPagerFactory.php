@@ -85,7 +85,9 @@ class SuggestedInvestigationsPagerFactory {
 	 *
 	 * @internal Only for use by {@link SpecialSuggestedInvestigations}
 	 */
-	public function createCasesPager( IContextSource $context ): SuggestedInvestigationsCasesPager {
+	public function createCasesPager(
+		IContextSource $context, array $signals
+	): SuggestedInvestigationsCasesPager {
 		return new SuggestedInvestigationsCasesPager(
 			$this->dbProvider,
 			$this->userEditTracker,
@@ -94,7 +96,8 @@ class SuggestedInvestigationsPagerFactory {
 			$this->commentFormatter,
 			$this->checkUserGlobalContributionsLookup,
 			$this->linkRenderer,
-			$context
+			$context,
+			$signals
 		);
 	}
 }

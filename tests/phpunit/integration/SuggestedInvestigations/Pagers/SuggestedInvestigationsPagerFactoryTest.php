@@ -38,7 +38,7 @@ class SuggestedInvestigationsPagerFactoryTest extends MediaWikiIntegrationTestCa
 	public function testCreateCasesPager() {
 		$this->assertInstanceOf(
 			SuggestedInvestigationsCasesPager::class,
-			$this->getObjectUnderTest()->createCasesPager( RequestContext::getMain() ),
+			$this->getObjectUnderTest()->createCasesPager( RequestContext::getMain(), [] ),
 			'SuggestedInvestigationsPagerFactory::createCasesPager should create an ' .
 			'SuggestedInvestigationsCasesPager instance'
 		);

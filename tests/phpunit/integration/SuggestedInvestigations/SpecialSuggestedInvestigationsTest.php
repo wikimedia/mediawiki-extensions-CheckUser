@@ -68,6 +68,8 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			'dev-signal-2',
 			[
 				'name' => 'dev-signal-3',
+				'displayName' => 'Dev signal 3',
+				'description' => 'Dev signal 3: A signal for tests',
 				'urlName' => 'signal-32a',
 			],
 		];

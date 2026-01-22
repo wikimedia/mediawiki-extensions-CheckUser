@@ -70,6 +70,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private int $numberOfFiltersApplied = 0;
 
 	/**
+	 * @var array An array of database signal names to the display name for that signal
+	 */
+	private array $signalsToDisplayNames = [];
+
+	/**
 	 * The unique sort fields for the sort options for unique paginate
 	 */
 	private const INDEX_FIELDS = [
@@ -88,7 +93,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly CommentFormatter $commentFormatter,
 		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
 		LinkRenderer $linkRenderer,
-		?IContextSource $context = null
+		IContextSource $context,
+		array $signals
 	) {
 		// If we didn't set mDb here, the parent constructor would set it to the database replica
 		// for the default database domain
@@ -124,6 +130,24 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		$this->localDb = $this->connectionProvider->getReplicaDatabase();
+
+		foreach ( $signals as $signal ) {
+			if ( is_array( $signal ) ) {
+				if ( array_key_exists( 'displayName', $signal ) ) {
+					$this->signalsToDisplayNames[$signal['name']] = $signal['displayName'];
+					continue;
+				}
+
+				$signal = $signal['name'];
+			}
+
+			// For grepping, the currently known signal messages are:
+			// * checkuser-suggestedinvestigations-signal-dev-signal-1
+			// * checkuser-suggestedinvestigations-signal-dev-signal-2
+			$this->signalsToDisplayNames[$signal] = $this->msg(
+				'checkuser-suggestedinvestigations-signal-' . $signal
+			)->parse();
+		}
 	}
 
 	/**
@@ -259,16 +283,19 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	}
 
 	private function formatSignalsCell( array $signals ): string {
-		// For grepping, the currently known signal messages are:
-		// * checkuser-suggestedinvestigations-signal-sharedemail
-		// * checkuser-suggestedinvestigations-signal-hcaptcha
-		$signalLabels = array_map(
-			fn ( $signal ) =>
-				$this->msg( 'checkuser-suggestedinvestigations-signal-' . $signal ),
-			$signals
-		);
+		$signalLabels = array_map( $this->getSignalDisplayNameForSignal( ... ), $signals );
 
 		return $this->getLanguage()->commaList( $signalLabels );
+	}
+
+	private function getSignalDisplayNameForSignal( string $signal ): string {
+		if ( !array_key_exists( $signal, $this->signalsToDisplayNames ) ) {
+			// This can happen when a signal was once defined, but is no longer
+			// defined. This can also happen for the local dev signals when creating fake cases.
+			// In both cases, fallback to trying the i18n message constructed from the signal name.
+			return $this->msg( 'checkuser-suggestedinvestigations-signal-' . $signal );
+		}
+		return $this->signalsToDisplayNames[$signal];
 	}
 
 	private function formatTimestampCell( string $timestamp ): string {

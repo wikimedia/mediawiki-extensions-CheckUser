@@ -43,6 +43,9 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 	 */
 	private int|null $detailedViewCaseId = null;
 
+	/** @var array The signals provided by the CheckUserSuggestedInvestigationsGetSignals hook */
+	private array $signals = [];
+
 	public function __construct(
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsCaseLookupService $suggestedInvestigationsCaseLookupService,
@@ -59,6 +62,8 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			return;
 		}
 
+		$this->hookRunner->onCheckUserSuggestedInvestigationsGetSignals( $this->signals );
+
 		parent::execute( $subPage );
 		$this->addNavigationLinks();
 
@@ -71,7 +76,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		$output->addModules( 'ext.checkUser.suggestedInvestigations' );
 		$output->addModuleStyles( 'ext.checkUser.styles' );
 
-		$pager = $this->pagerFactory->createCasesPager( $this->getContext() );
+		$pager = $this->pagerFactory->createCasesPager( $this->getContext(), $this->signals );
 
 		if ( $this->isInDetailedView ) {
 			$pager->caseIdFilter = $this->detailedViewCaseId;
@@ -187,9 +192,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			'div', [ 'class' => 'ext-checkuser-suggestedinvestigations-description' ], $descriptionHtml
 		) );
 
-		$signals = [];
-		$this->hookRunner->onCheckUserSuggestedInvestigationsGetSignals( $signals );
-		$this->getOutput()->addJsConfigVars( 'wgCheckUserSuggestedInvestigationsSignals', $signals );
+		$this->getOutput()->addJsConfigVars( 'wgCheckUserSuggestedInvestigationsSignals', $this->signals );
 	}
 
 	/** @inheritDoc */

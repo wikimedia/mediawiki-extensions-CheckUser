@@ -44,7 +44,13 @@ module.exports = exports = {
 
 		const signals = mw.config.get( 'wgCheckUserSuggestedInvestigationsSignals' );
 		const signalDescriptions = signals.map( ( signal ) => {
-			signal = typeof signal === 'string' ? signal : signal.name;
+			if ( typeof signal !== 'string' ) {
+				if ( signal.description ) {
+					return signal.description;
+				}
+
+				signal = signal.name;
+			}
 
 			// Uses messages which start with
 			// "checkuser-suggestedinvestigations-risk-signals-popover-body" such as:
