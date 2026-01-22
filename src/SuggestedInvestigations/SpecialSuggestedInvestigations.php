@@ -187,36 +187,6 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			'div', [ 'class' => 'ext-checkuser-suggestedinvestigations-description' ], $descriptionHtml
 		) );
 
-		// Provide a way for users to filter by case status. This method is temporary and will be replaced once the
-		// CodexTablePager supports filters.
-		$temporaryFiltersHtml = $this->msg( 'checkuser-suggestedinvestigations-summary-temporary-filter-links' )
-			->rawParams(
-				$this->getLinkRenderer()->makeLink(
-					$this->getPageTitle(),
-					$this->msg( 'checkuser-suggestedinvestigations-summary-temporary-filter-open-cases' )
-						->text(),
-					[], [ 'status' => 'open' ]
-				),
-				$this->getLinkRenderer()->makeLink(
-					$this->getPageTitle(),
-					$this->msg( 'checkuser-suggestedinvestigations-summary-temporary-filter-closed-cases' )
-						->text(),
-					[], [ 'status' => 'closed' ]
-				),
-				$this->getLinkRenderer()->makeLink(
-					$this->getPageTitle(),
-					$this->msg( 'checkuser-suggestedinvestigations-summary-temporary-filter-invalid-cases' )
-						->text(),
-					[], [ 'status' => 'invalid' ]
-				)
-			)
-			->escaped();
-
-		$this->getOutput()->addHTML( Html::rawElement(
-			'div', [ 'class' => 'ext-checkuser-suggestedinvestigations-temporary-filters' ],
-			$temporaryFiltersHtml
-		) );
-
 		$signals = [];
 		$this->hookRunner->onCheckUserSuggestedInvestigationsGetSignals( $signals );
 		$this->getOutput()->addJsConfigVars( 'wgCheckUserSuggestedInvestigationsSignals', $signals );
