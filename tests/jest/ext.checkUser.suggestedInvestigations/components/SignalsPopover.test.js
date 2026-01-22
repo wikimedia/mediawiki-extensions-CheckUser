@@ -21,7 +21,9 @@ const renderComponent = ( props ) => utils.shallowMount( SignalsPopover, { props
  * @return {*} The wrapper
  */
 const commonComponentTest = async ( props ) => {
-	mockJSConfig( { wgCheckUserSuggestedInvestigationsSignals: [ 'dev-signal-1' ] } );
+	mockJSConfig( { wgCheckUserSuggestedInvestigationsSignals: [
+		'dev-signal-1', { name: 'dev-signal-2' }
+	] } );
 
 	// Render the component and wait for it to be rendered
 	const wrapper = renderComponent( props );
@@ -46,6 +48,7 @@ const commonComponentTest = async ( props ) => {
 	// Expect the body to have the expected content (body is stored inside the default slot)
 	expect( popover.html() ).toContain( '(checkuser-suggestedinvestigations-risk-signals-popover-body-intro)' );
 	expect( popover.html() ).toContain( '(checkuser-suggestedinvestigations-risk-signals-popover-body-dev-signal-1)' );
+	expect( popover.html() ).toContain( '(checkuser-suggestedinvestigations-risk-signals-popover-body-dev-signal-2)' );
 
 	return wrapper;
 };

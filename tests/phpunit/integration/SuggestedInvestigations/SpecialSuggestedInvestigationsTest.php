@@ -63,10 +63,18 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	public function testLoadSpecialPageWithRequiredRight() {
 		$checkuser = $this->getTestUser( [ 'checkuser' ] )->getUser();
 
+		$hookDefinedSignals = [
+			'dev-signal-1',
+			'dev-signal-2',
+			[
+				'name' => 'dev-signal-3',
+				'urlName' => 'signal-32a',
+			],
+		];
 		$this->setTemporaryHook(
 			'CheckUserSuggestedInvestigationsGetSignals',
-			static function ( &$signals ) {
-				$signals = [ 'dev-signal-1', 'dev-signal-2' ];
+			static function ( &$signals ) use ( $hookDefinedSignals ) {
+				$signals = $hookDefinedSignals;
 			}
 		);
 		$this->setTemporaryHook(
@@ -101,7 +109,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		$actualJsConfigVars = $context->getOutput()->getJsConfigVars();
 		$this->assertArrayHasKey( 'wgCheckUserSuggestedInvestigationsSignals', $actualJsConfigVars );
 		$this->assertArrayEquals(
-			[ 'dev-signal-1', 'dev-signal-2' ],
+			$hookDefinedSignals,
 			$actualJsConfigVars['wgCheckUserSuggestedInvestigationsSignals']
 		);
 	}

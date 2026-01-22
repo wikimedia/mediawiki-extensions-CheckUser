@@ -153,6 +153,7 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 			$signals = [];
 			$this->hookRunner->onCheckUserSuggestedInvestigationsGetSignals( $signals );
 			foreach ( $signals as $signal ) {
+				$signal = is_array( $signal ) ? $signal['name'] : $signal;
 				$messages[] = 'checkuser-suggestedinvestigations-risk-signals-popover-body-' . $signal;
 				$messages[] = 'checkuser-suggestedinvestigations-signal-' . $signal;
 			}
