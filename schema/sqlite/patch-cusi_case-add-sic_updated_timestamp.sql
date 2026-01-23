@@ -20,7 +20,7 @@ CREATE TABLE /*_*/cusi_case (
   sic_status SMALLINT UNSIGNED DEFAULT 0 NOT NULL,
   sic_status_reason BLOB DEFAULT '' NOT NULL,
   sic_created_timestamp BLOB NOT NULL,
-  sic_updated_timestamp BLOB DEFAULT '' NOT NULL
+  sic_updated_timestamp BLOB DEFAULT NULL
 );
 
 INSERT INTO /*_*/cusi_case (

@@ -94,7 +94,7 @@
 				"name": "sic_updated_timestamp",
 				"comment": "The timestamp representing when the case was created by the system.",
 				"type": "mwtimestamp",
-				"options": { "notnull": true, "default": "" }
+				"options": { "notnull": false, "default": null }
 			}
 		],
 		"indexes": [

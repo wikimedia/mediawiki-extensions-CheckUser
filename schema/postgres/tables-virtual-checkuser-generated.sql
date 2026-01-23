@@ -8,7 +8,7 @@ CREATE TABLE cusi_case (
   sic_status SMALLINT DEFAULT 0 NOT NULL,
   sic_status_reason TEXT DEFAULT '' NOT NULL,
   sic_created_timestamp TIMESTAMPTZ NOT NULL,
-  sic_updated_timestamp TIMESTAMPTZ DEFAULT '' NOT NULL,
+  sic_updated_timestamp TIMESTAMPTZ DEFAULT NULL,
   PRIMARY KEY(sic_id)
 );
 

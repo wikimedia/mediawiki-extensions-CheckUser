@@ -8,7 +8,7 @@ CREATE TABLE /*_*/cusi_case (
   sic_status TINYINT UNSIGNED DEFAULT 0 NOT NULL,
   sic_status_reason VARBINARY(255) DEFAULT '' NOT NULL,
   sic_created_timestamp BINARY(14) NOT NULL,
-  sic_updated_timestamp BINARY(14) DEFAULT '' NOT NULL,
+  sic_updated_timestamp BINARY(14) DEFAULT NULL,
   UNIQUE INDEX sic_status_created_timestamp_id (
     sic_status, sic_created_timestamp,
     sic_id

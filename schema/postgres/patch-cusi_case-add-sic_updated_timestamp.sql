@@ -3,7 +3,7 @@
 -- Do not modify this file directly.
 -- See https://www.mediawiki.org/wiki/Manual:Schema_changes
 ALTER TABLE cusi_case
-  ADD sic_updated_timestamp TIMESTAMPTZ DEFAULT '' NOT NULL;
+  ADD sic_updated_timestamp TIMESTAMPTZ DEFAULT NULL;
 
 CREATE UNIQUE INDEX sic_status_updated_timestamp_id ON cusi_case (
   sic_status, sic_updated_timestamp,
