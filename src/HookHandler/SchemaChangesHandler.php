@@ -155,13 +155,19 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			);
 		}
 		$updater->addPostDatabaseUpdateMaintenance( FixTrailingSpacesInLogs::class );
-		// If any columns are modified or removed from cu_private_event in the future, then make sure to only apply this
-		// patch if the later schema change has not yet been applied. Otherwise wikis using SQLite will have a DB error.
-		$updater->modifyExtensionField(
-			'cu_private_event',
-			'cupe_actor',
-			"$base/$dbType/patch-cu_private_event-modify-cupe_actor-nullable.sql"
-		);
+		// If using SQLite and the cupe_private column no longer exists exists, then this update has
+		// already been applied and we should skip it entirely because temporary tables used
+		// here would fail due to cupe_private no longer being a column
+		if (
+			$dbType !== 'sqlite' ||
+			$maintenanceDb->fieldExists( 'cu_private_event', 'cupe_private', __METHOD__ )
+		) {
+			$updater->modifyExtensionField(
+				'cu_private_event',
+				'cupe_actor',
+				"$base/$dbType/patch-cu_private_event-modify-cupe_actor-nullable.sql"
+			);
+		}
 		$updater->addExtensionTable( 'cu_useragent', "$base/$dbType/cu_useragent.sql" );
 		$updater->addExtensionField(
 			'cu_changes',
