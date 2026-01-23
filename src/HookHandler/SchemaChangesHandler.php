@@ -11,6 +11,7 @@ use MediaWiki\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
 use MediaWiki\CheckUser\Maintenance\PopulateCucComment;
 use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
+use MediaWiki\CheckUser\Maintenance\PopulateSicUpdatedTimestamp;
 use MediaWiki\CheckUser\Maintenance\PopulateSicUrlIdentifier;
 use MediaWiki\CheckUser\Maintenance\PopulateUserAgentTable;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
@@ -281,6 +282,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			"$base/$dbType/patch-cu_private_event-drop-cupe_private.sql"
 		);
 		$updater->addPostDatabaseUpdateMaintenance( PopulateUserAgentTable::class );
+		$updater->addPostDatabaseUpdateMaintenance( PopulateSicUpdatedTimestamp::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.

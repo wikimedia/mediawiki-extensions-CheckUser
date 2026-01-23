@@ -1241,7 +1241,8 @@
 		"MediaWiki\\CheckUser\\Maintenance\\RevokeTemporaryAccountViewerGroup": "maintenance/revokeTemporaryAccountViewerGroup.php",
 		"MediaWiki\\CheckUser\\Maintenance\\CreateFakeSuggestedInvestigationCases": "maintenance/createFakeSuggestedInvestigationCases.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateSicUrlIdentifier": "maintenance/populateSicUrlIdentifier.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateUserAgentTable": "maintenance/populateUserAgentTable.php"
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateUserAgentTable": "maintenance/populateUserAgentTable.php",
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateSicUpdatedTimestamp": "maintenance/populateSicUpdatedTimestamp.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
