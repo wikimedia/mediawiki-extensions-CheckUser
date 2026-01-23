@@ -86,6 +86,7 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			'is_paging_results' => $pager->mOffset || $pager->mIsBackwards,
 			'pager_limit' => $pager->mLimit,
 			'is_in_detail_view' => $this->isInDetailedView,
+			'applied_filters' => $pager->appliedFilters,
 			'performer' => [ 'id' => $this->getContext()->getUser()->getId() ],
 		];
 		if ( $this->isInDetailedView ) {

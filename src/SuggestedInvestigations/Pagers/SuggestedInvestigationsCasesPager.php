@@ -55,6 +55,13 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	public int|null $caseIdFilter = null;
 
 	/**
+	 * @var array An array describing what filters are currently applied, passed to the
+	 *   client using a JS config var and used for instrumentation.
+	 * @internal Only public for use by {@link SpecialSuggestedInvestigations}
+	 */
+	public array $appliedFilters;
+
+	/**
 	 * @var CaseStatus[] The list of case statuses to be shown in the table. Empty array means all statuses.
 	 */
 	private array $statusFilter;
@@ -116,18 +123,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 		$this->mLimitsShown = [ 10, 20, 50 ];
 
-		$this->statusFilter = array_filter( array_map(
-			CaseStatus::newFromStringName( ... ),
-			$this->mRequest->getArray( 'status', [] )
-		) );
-		if ( count( $this->statusFilter ) !== 0 ) {
-			$this->numberOfFiltersApplied++;
-		}
-
-		$this->userNamesFilter = array_filter( $this->mRequest->getArray( 'username', [] ) );
-		if ( $this->userNamesFilter ) {
-			$this->numberOfFiltersApplied++;
-		}
+		$this->parseFilters();
 
 		$this->localDb = $this->connectionProvider->getReplicaDatabase();
 
@@ -148,6 +144,33 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				'checkuser-suggestedinvestigations-signal-' . $signal
 			)->parse();
 		}
+	}
+
+	/**
+	 * Parses the filters set in the request and applies them to the pager.
+	 * Intended for calling during execution of {@link self::__construct}
+	 */
+	private function parseFilters(): void {
+		$this->statusFilter = array_filter( array_map(
+			CaseStatus::newFromStringName( ... ),
+			$this->mRequest->getArray( 'status', [] )
+		) );
+		if ( count( $this->statusFilter ) !== 0 ) {
+			$this->numberOfFiltersApplied++;
+		}
+
+		$this->userNamesFilter = array_filter( $this->mRequest->getArray( 'username', [] ) );
+		if ( $this->userNamesFilter ) {
+			$this->numberOfFiltersApplied++;
+		}
+
+		$this->appliedFilters = [
+			'status' => array_map(
+				static fn ( CaseStatus $status ) => strtolower( $status->name ),
+				$this->statusFilter
+			),
+			'username' => $this->userNamesFilter,
+		];
 	}
 
 	/**
@@ -655,13 +678,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$pout->addModules( [ 'ext.checkUser.suggestedInvestigations' ] );
 		$pout->setJsConfigVar(
 			'wgCheckUserSuggestedInvestigationsActiveFilters',
-			[
-				'status' => array_map(
-					static fn ( CaseStatus $status ) => strtolower( $status->name ),
-					$this->statusFilter
-				),
-				'username' => $this->userNamesFilter,
-			]
+			$this->appliedFilters
 		);
 		return $pout;
 	}
