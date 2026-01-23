@@ -86,8 +86,10 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 	}
 
 	public function testWhenSuggestedInvestigationsCaseTableHasRowsToPopulate() {
-		// Schema changes are needed for this test, so skip this on postgres where the tests don't work.
+		// Schema changes are needed for this test, so skip this on postgres and sqlite
+		// where the tests don't work.
 		$this->markTestSkippedIfDbType( 'postgres' );
+		$this->markTestSkippedIfDbType( 'sqlite' );
 
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
@@ -192,9 +194,9 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 	 * @inheritDoc
 	 */
 	protected function getSchemaOverrides( IMaintainableDatabase $db ) {
-		// The schema changes don't work on postgres, so the tests are skipped (and therefore no need to attempt
-		// to make the schema changes either).
-		if ( $db->getType() === 'postgres' ) {
+		// The schema changes don't work on postgres and require temporary tables on sqlite (which are fragile),
+		// so the tests are skipped (and therefore no need to attempt to make the schema changes either).
+		if ( $db->getType() !== 'mysql' ) {
 			return [];
 		}
 
