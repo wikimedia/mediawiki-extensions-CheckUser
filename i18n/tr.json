@@ -329,7 +329,7 @@
 	"checkuser-tempaccount-reveal-blocked-header": "Geçici hesapların IP adresini açığa çıkarma kapalı",
 	"checkuser-tempaccount-reveal-blocked-description": "Aşağıdaki nedenden dolayı bu özelliği kullanma izniniz yok:",
 	"checkuser-tempaccount-specialblock-ips": "Bu, aşağıdaki {{PLURAL:$1|IP adresini|IP adreslerini}} kullanan geçici bir kullanıcıdır: $2",
-	"checkuser-tempaccount-specialblock-ip-target": "Geçici hesap katkılarına [[Special:IPContributions/$1]] sayfasında bakınız.",
+	"checkuser-tempaccount-specialblock-ip-target": "[[Special:IPContributions/$1|Bu IP'den gelen geçici hesap katkılarına]] bakın.",
 	"checkuser-temporary-account-log-name": "IP adresini açığa çıkarma günlüğü",
 	"checkuser-temporary-account-log-header": "Bu şunun günlüğüdür:\n# Geçici bir hesap tarafından kullanılan IP adreslerini görüntüleme\n# Bir IP adresi veya IP adresi aralığıyla ilişkili geçici hesapları görüntüleme\n# Geçici hesaplar tarafından kullanılan IP adreslerini görüntülemek için kullanıcı erişim düzeylerini değiştirme",
 	"logentry-checkuser-temporary-account-change-access": "$1, geçici hesapların IP adresleri görüntüleme {{GENDER:$2|erişimini}} $4 kıldı",
