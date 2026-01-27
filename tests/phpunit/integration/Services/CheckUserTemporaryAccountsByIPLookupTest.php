@@ -49,9 +49,16 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		$this->editPage(
 			'Test page', 'Test Content 1B', 'test', NS_MAIN, $tempUser1
 		);
+		// Add another action at the same timestamp, from a different IP, to
+		// test ordering by two fields
+		RequestContext::getMain()->getRequest()->setIP( '127.0.0.3' );
+		$this->editPage(
+			'Test page', 'Test Content 1C', 'test', NS_MAIN, $tempUser1
+		);
 
 		// This temp account is created from $tempUser1's second edit IP and edits
 		// from there and also from an IPv6 IP
+		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 		ConvertibleTimestamp::setFakeTime( '20230405060708' );
 		$tempUser2 = $this->getServiceContainer()
 			->getTempUserCreator()
@@ -375,6 +382,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'expectedResult' => [
 					'127.0.0.1',
 					'127.0.0.2',
+					'127.0.0.3',
 				],
 			],
 			'IPv4/6 mixed' => [

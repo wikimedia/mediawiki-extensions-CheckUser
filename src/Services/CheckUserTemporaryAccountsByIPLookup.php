@@ -149,7 +149,10 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
 			->where( $ipConds )
 			->groupBy( 'actor_name' )
-			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
+			->orderBy( [
+				'timestamp ' . SelectQueryBuilder::SORT_DESC,
+				'actor_name ' . SelectQueryBuilder::SORT_ASC,
+			] )
 			->limit( $limit )
 			->caller( __METHOD__ )
 			->fetchResultSet();
@@ -174,7 +177,10 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
 			->where( $ipConds )
 			->groupBy( 'actor_name' )
-			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
+			->orderBy( [
+				'timestamp ' . SelectQueryBuilder::SORT_DESC,
+				'actor_name ' . SelectQueryBuilder::SORT_ASC,
+			] )
 			->limit( $limit )
 			->caller( __METHOD__ )
 			->fetchResultSet();
@@ -249,8 +255,6 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		}
 
 		if ( $limit && $limit < count( $accounts ) ) {
-			// Ensure results are returned in a consistent order
-			ksort( $accounts );
 			$accounts = array_slice( $accounts, 0, $limit );
 		}
 
@@ -426,7 +430,10 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->where( [
 				'actor_name' => $user->getName(),
 			] )
-			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
+			->orderBy( [
+				'timestamp ' . SelectQueryBuilder::SORT_DESC,
+				'cuc_ip_hex ' . SelectQueryBuilder::SORT_ASC,
+			] )
 			->limit( $limit )
 			->caller( __METHOD__ )
 			->fetchResultSet();
@@ -447,7 +454,10 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			->where( [
 				'actor_name' => $user->getName(),
 			] )
-			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
+			->orderBy( [
+				'timestamp ' . SelectQueryBuilder::SORT_DESC,
+				'cule_ip_hex ' . SelectQueryBuilder::SORT_ASC,
+			] )
 			->limit( $limit )
 			->caller( __METHOD__ )
 			->fetchResultSet();
