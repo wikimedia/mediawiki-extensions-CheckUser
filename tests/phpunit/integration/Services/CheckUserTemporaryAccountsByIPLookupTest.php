@@ -33,17 +33,17 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		// Create some temp accounts and edits on different IPs. Ensure they are
 		// created at different times, so we get consistent results when limits
 		// are applied.
-		$currentTime = ConvertibleTimestamp::time();
 
 		// This temp account edits from 2 IPv4 IPs
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
-		ConvertibleTimestamp::setFakeTime( $currentTime - 1000 );
+		ConvertibleTimestamp::setFakeTime( '20230405060706' );
 		$tempUser1 = $this->getServiceContainer()
 			->getTempUserCreator()
 			->create( '~check-user-test-01', $this->getFauxRequest( '127.0.0.1' ) )->getUser();
 		$this->editPage(
 			'Test page', 'Test Content 1A', 'test', NS_MAIN, $tempUser1
 		);
+		ConvertibleTimestamp::setFakeTime( '20230405060707' );
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 		$this->editPage(
 			'Test page', 'Test Content 1B', 'test', NS_MAIN, $tempUser1
@@ -51,7 +51,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 
 		// This temp account is created from $tempUser1's second edit IP and edits
 		// from there and also from an IPv6 IP
-		ConvertibleTimestamp::setFakeTime( $currentTime - 900 );
+		ConvertibleTimestamp::setFakeTime( '20230405060708' );
 		$tempUser2 = $this->getServiceContainer()
 			->getTempUserCreator()
 			->create( '~check-user-test-02', $this->getFauxRequest( '127.0.0.2' ) )
@@ -59,6 +59,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		$this->editPage(
 			'Test page', 'Test Content 2A', 'test', NS_MAIN, $tempUser2
 		);
+		ConvertibleTimestamp::setFakeTime( '20230405060709' );
 		RequestContext::getMain()->getRequest()->setIP( '1:1:1:1:1:1:1:1' );
 		$this->editPage(
 			'Test page', 'Test Content 2B', 'test', NS_MAIN, $tempUser2
@@ -67,7 +68,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		// This temp account edits from a different IPv6 IP
 		// but in the same 64 range as the second temp user as well and
 		// repeatedly from an IPv6 IP on a different range
-		ConvertibleTimestamp::setFakeTime( $currentTime - 800 );
+		ConvertibleTimestamp::setFakeTime( '20230405060710' );
 		RequestContext::getMain()->getRequest()->setIP( '1:1:1:1:1:1:1:2' );
 		$tempUser3 = $this->getServiceContainer()
 			->getTempUserCreator()
@@ -95,7 +96,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		$this->assertStatusGood( $blockStatus );
 
 		// This temp account doesn't share an IP with any other account
-		ConvertibleTimestamp::setFakeTime( $currentTime - 700 );
+		ConvertibleTimestamp::setFakeTime( '20230405060711' );
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.4' );
 		$tempUser4 = $this->getServiceContainer()
 			->getTempUserCreator()
@@ -266,7 +267,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 			'Don\'t exceed limit' => [
 				'userName' => '~check-user-test-02',
 				'limit' => 1,
-				'expected' => [ '~check-user-test-02' ],
+				'expected' => [ '~check-user-test-03' ],
 			],
 		];
 	}
@@ -378,7 +379,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'userName' => '~check-user-test-01',
 				'limit' => 1,
 				'expectedResult' => [
-					'127.0.0.1',
+					'127.0.0.2',
 				],
 			],
 		];
