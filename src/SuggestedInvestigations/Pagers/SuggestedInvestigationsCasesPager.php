@@ -509,6 +509,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		if ( $this->userNamesFilter ) {
 			$userIdentities = $this->userIdentityLookup->newSelectQueryBuilder()
 				->whereUserNames( $this->userNamesFilter )
+				->caller( __METHOD__ )
 				->fetchUserIdentities();
 			$userIds = array_map(
 				static fn ( UserIdentity $user ) => $user->getId(),
