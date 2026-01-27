@@ -274,7 +274,9 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 				'queryParameters' => [],
 				'expectedInstrumentationData' => [
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
-					'applied_filters' => [ 'status' => [], 'username' => [] ],
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+					],
 				],
 			],
 			'Page load with offset and custom limit' => [
@@ -282,15 +284,30 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 				'queryParameters' => [ 'offset' => '20250405060708', 'limit' => 20 ],
 				'expectedInstrumentationData' => [
 					'is_paging_results' => true, 'pager_limit' => 20, 'is_in_detail_view' => false,
-					'applied_filters' => [ 'status' => [], 'username' => [] ],
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+					],
 				],
 			],
-			'Page load filters applied' => [
+			'Page load with filters applied' => [
 				'subPage' => '',
 				'queryParameters' => [ 'status' => 'open', 'username' => 'TestUser1' ],
 				'expectedInstrumentationData' => [
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
-					'applied_filters' => [ 'status' => [ 'open' ], 'username' => [ 'TestUser1' ] ],
+					'applied_filters' => [
+						'status' => [ 'open' ], 'username' => [ 'TestUser1' ],
+						'hide_cases_with_no_user_edits' => false,
+					],
+				],
+			],
+			'Page load with hide cases with no user edits filter applied' => [
+				'subPage' => '',
+				'queryParameters' => [ 'hideCasesWithNoUserEdits' => 1 ],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
+					],
 				],
 			],
 			'Page load with no offset but backwards direction and custom limit' => [
@@ -298,7 +315,9 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 				'queryParameters' => [ 'dir' => 'prev' ],
 				'expectedInstrumentationData' => [
 					'is_paging_results' => true, 'pager_limit' => 10, 'is_in_detail_view' => false,
-					'applied_filters' => [ 'status' => [], 'username' => [] ],
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+					],
 				],
 			],
 			'Page load for detail subpage with a known URL identifier' => [
@@ -306,7 +325,10 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 				'queryParameters' => [],
 				'expectedInstrumentationData' => [
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => true,
-					'case_id' => 1, 'applied_filters' => [ 'status' => [], 'username' => [] ],
+					'case_id' => 1,
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+					],
 				],
 			],
 		];

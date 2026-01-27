@@ -1,7 +1,8 @@
 'use strict';
 
 const utils = require( '@vue/test-utils' ),
-	{ nextTick } = require( 'vue' );
+	{ nextTick } = require( 'vue' ),
+	{ mockJSConfig } = require( '../../utils.js' );
 
 const mockUpdateFiltersOnPage = jest.fn();
 const mockCaseStatusToChipStatus = jest.fn();
@@ -16,7 +17,11 @@ jest.mock(
 const FilterDialog = require( '../../../../modules/ext.checkUser.suggestedInvestigations/components/FilterDialog.vue' );
 
 const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
-	props: { initialFilters: Object.assign( {}, { status: [], username: [] }, initialFilters ) }
+	props: { initialFilters: Object.assign(
+		{},
+		{ status: [], username: [], hideCasesWithNoUserEdits: false },
+		initialFilters
+	) }
 } );
 
 /**
@@ -26,9 +31,15 @@ const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
  * @param {Object} [props] Passed through to {@link renderComponent}
  * @param {string[]} [props.username] Username filter
  * @param {string[]} [props.status] Status filter
+ * @param {boolean} [props.hideCasesWithNoUserEdits] Hide cases with no account edits filter
+ * @param {boolean} [globalEditCountsUsed] The value of
+ *    wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed from mw.config.get to use
+ *    for the test
  * @return {{ wrapper, dialog }} The dialog component and wrapper
  */
-const commonComponentTest = async ( props = {} ) => {
+const commonComponentTest = async ( props = {}, globalEditCountsUsed = false ) => {
+	mockJSConfig( { wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed: globalEditCountsUsed } );
+
 	// Render the component and wait for CdxDialog to run some code
 	const wrapper = renderComponent( props );
 	await nextTick();
@@ -106,6 +117,33 @@ const commonStatusFilterCheckboxTest = async ( dialog, expectedCheckedState ) =>
 	}
 };
 
+/**
+ * Checks whether the "Hide cases where no accounts have edits" checkbox exists and
+ * that it has the correct checked status
+ *
+ * @param {*} dialog The dialog component
+ * @param {boolean} expectedCheckedState
+ * @param {boolean} globalEditCountsUsed
+ * @return {Promise<void>}
+ */
+const commonHideCasesWithNoUserEditsCheckboxTest = async ( dialog, expectedCheckedState, globalEditCountsUsed ) => {
+	const hideCaseWithNoUserEditsField = dialog.find(
+		'.cdx-checkbox:has(input[name=filter-hide-cases-with-no-user-edits])'
+	);
+
+	let expectedMessageKey = '(checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits';
+	if ( globalEditCountsUsed ) {
+		expectedMessageKey += '-globally';
+	}
+	expectedMessageKey += ')';
+	expect( hideCaseWithNoUserEditsField.text() ).toContain( expectedMessageKey );
+
+	const hideCasesWithNoUserEditsCheckbox = hideCaseWithNoUserEditsField.find(
+		'input[name=filter-hide-cases-with-no-user-edits]'
+	);
+	expect( hideCasesWithNoUserEditsCheckbox.element.checked ).toEqual( expectedCheckedState );
+};
+
 describe( 'Suggested Investigations change status dialog', () => {
 	afterEach( () => {
 		jest.restoreAllMocks();
@@ -137,6 +175,20 @@ describe( 'Suggested Investigations change status dialog', () => {
 		await commonStatusFilterCheckboxTest(
 			dialog, { open: false, resolved: true, invalid: true }
 		);
+
+		await commonHideCasesWithNoUserEditsCheckboxTest( dialog, false, false );
+	} );
+
+	it( 'Renders correctly when opened with hideCasesWithNoUserEdits pre-checked', async () => {
+		const { dialog } = await commonComponentTest(
+			{ status: [ 'resolved' ], hideCasesWithNoUserEdits: true }, true
+		);
+
+		await commonStatusFilterCheckboxTest(
+			dialog, { open: false, resolved: true, invalid: false }
+		);
+
+		await commonHideCasesWithNoUserEditsCheckboxTest( dialog, true, true );
 	} );
 
 	it( 'Closes dialog if "Close" button pressed', async () => {
@@ -175,6 +227,23 @@ describe( 'Suggested Investigations change status dialog', () => {
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{ status: [ 'open', 'resolved' ], username: [ 'TestUser1' ] }, window
+		);
+	} );
+
+	it( 'Show results button press when hideCasesWithNoUserEdits set', async () => {
+		const { dialog, wrapper } = await commonComponentTest(
+			{ hideCasesWithNoUserEdits: true }
+		);
+
+		// Press the "Show results" button
+		const showResultsButton = dialog.find(
+			'.cdx-dialog__footer__primary-action'
+		);
+		await showResultsButton.trigger( 'click' );
+
+		expect( wrapper.vm.open ).toEqual( true );
+		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
+			{ hideCasesWithNoUserEdits: 1, status: [], username: [] }, window
 		);
 	} );
 } );

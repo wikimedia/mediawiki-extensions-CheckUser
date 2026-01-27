@@ -35,6 +35,10 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 	&--filter {
 		.cdx-mixin-css-icon( @cdx-icon-funnel );
 	}
+
+	&--close {
+		.cdx-mixin-css-icon( @cdx-icon-close );
+	}
 }
 
 // Make the "Filter" button info chip look more like a progressive button to match the design spec
@@ -46,11 +50,23 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 	}
 }
 
+/* stylelint-disable selector-class-pattern */
+.cdx-message--user-dismissable.ext-checkuser-suggestedinvestigations-too-many-results-warning {
+	transition: opacity 400ms;
+
+	&--fading {
+		opacity: 0;
+	}
+
+	&--hidden {
+		display: none;
+	}
+}
+
 // Hide the mobile "Filter" button when screen is wide enough and hide the desktop
 // "Filter" button when showing the mobile button
 // Additionally, hide the table caption when on mobile to reduce vertical space before
 // the first case
-/* stylelint-disable selector-class-pattern */
 .cdx-table:has( .ext-checkuser-suggestedinvestigations-table-with-navigation-bar ) {
 	.cdx-table-pager__start .mw-checkuser-suggestedinvestigations-filter-button {
 		float: right;

@@ -31,6 +31,21 @@
 				</cdx-info-chip>
 			</cdx-checkbox>
 		</cdx-field>
+		<cdx-field
+			class="ext-checkuser-suggestedinvestigations-filter-dialog-account-activity-filter"
+		>
+			<template #label>
+				{{ $i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-account-activity-header'
+				).text() }}
+			</template>
+			<cdx-checkbox
+				v-model="hideCasesWithNoUserEditsCheckboxValue"
+				name="filter-hide-cases-with-no-user-edits"
+			>
+				{{ hideCasesWithNoUserEditsCheckboxLabel }}
+			</cdx-checkbox>
+		</cdx-field>
 		<filter-dialog-username-filter v-model:selected-usernames="selectedUsernames">
 		</filter-dialog-username-filter>
 	</cdx-dialog>
@@ -62,6 +77,8 @@ module.exports = exports = {
 		 * Requires the following keys:
 		 *  - status: An array of statuses that are being filtered for on the page
 		 *  - username: An array of usernames that are being filtered for
+		 *  - hideCasesWithNoUserEdits: Boolean. If true, only show cases where at least one
+		 *      of the accounts has made an edit
 		 */
 		initialFilters: {
 			type: Object,
@@ -84,6 +101,21 @@ module.exports = exports = {
 
 		const selectedUsernames = ref( props.initialFilters.username );
 
+		let noUserEditsCheckboxLabelMsgKey =
+			'checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits';
+		if ( mw.config.get( 'wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed' ) ) {
+			noUserEditsCheckboxLabelMsgKey += '-globally';
+		}
+
+		// Uses:
+		// * checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits
+		// * checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally
+		const hideCasesWithNoUserEditsCheckboxLabel = mw.msg( noUserEditsCheckboxLabelMsgKey );
+
+		const hideCasesWithNoUserEditsCheckboxValue = ref(
+			props.initialFilters.hideCasesWithNoUserEdits
+		);
+
 		function onCloseButtonClick() {
 			open.value = false;
 		}
@@ -101,6 +133,10 @@ module.exports = exports = {
 				status: selectedStatuses.map( ( statusData ) => statusData.value ),
 				username: selectedUsernames.value
 			};
+
+			if ( hideCasesWithNoUserEditsCheckboxValue.value ) {
+				filters.hideCasesWithNoUserEdits = 1;
+			}
 
 			updateFiltersOnPage( filters, window );
 		}
@@ -120,6 +156,8 @@ module.exports = exports = {
 			defaultAction,
 			selectedUsernames,
 			statusCheckboxes,
+			hideCasesWithNoUserEditsCheckboxLabel,
+			hideCasesWithNoUserEditsCheckboxValue,
 			onCloseButtonClick,
 			onShowResultsButtonClick
 		};

@@ -82,11 +82,21 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$pager->caseIdFilter = $this->detailedViewCaseId;
 		}
 
+		// Map camel case filter names to snake case, as event logging schema
+		// wants camel case
+		$appliedFiltersForInstrumentation = [];
+		foreach ( $pager->appliedFilters as $filterName => $filterValue ) {
+			if ( $filterName === 'hideCasesWithNoUserEdits' ) {
+				$filterName = 'hide_cases_with_no_user_edits';
+			}
+			$appliedFiltersForInstrumentation[$filterName] = $filterValue;
+		}
+
 		$pageLoadInstrumentationData = [
 			'is_paging_results' => $pager->mOffset || $pager->mIsBackwards,
 			'pager_limit' => $pager->mLimit,
 			'is_in_detail_view' => $this->isInDetailedView,
-			'applied_filters' => $pager->appliedFilters,
+			'applied_filters' => $appliedFiltersForInstrumentation,
 			'performer' => [ 'id' => $this->getContext()->getUser()->getId() ],
 		];
 		if ( $this->isInDetailedView ) {

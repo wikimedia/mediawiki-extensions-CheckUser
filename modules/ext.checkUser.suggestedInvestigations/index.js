@@ -100,4 +100,20 @@
 		suggestedInvestigationsFilterApp
 			.mount( '#ext-suggestedinvestigations-filter-app' );
 	} );
+
+	// Re-implement the Vue.js code to fade out a dismissable Codex message
+	// This is done because there is no way to infuse a CSS-only Codex
+	// component into a Vue component
+	$( '.ext-checkuser-suggestedinvestigations-warning-dismiss' ).on( 'click', function () {
+		const $warningMessage = $( this ).parents( '.cdx-message--user-dismissable' );
+		$warningMessage.addClass(
+			'ext-checkuser-suggestedinvestigations-too-many-results-warning--fading'
+		);
+
+		setTimeout( () => {
+			$warningMessage.addClass(
+				'ext-checkuser-suggestedinvestigations-too-many-results-warning--hidden'
+			);
+		}, 400 );
+	} );
 }() );

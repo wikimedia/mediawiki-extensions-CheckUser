@@ -42,6 +42,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Parsoid\Utils\DOMCompat;
 use Wikimedia\Parsoid\Utils\DOMUtils;
+use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -206,7 +207,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'Filter button is not present in the page or has an unexpected label'
 		);
 		$this->assertArrayEquals(
-			[ 'status' => [], 'username' => [] ],
+			[ 'status' => [], 'username' => [], 'hideCasesWithNoUserEdits' => false ],
 			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
 			false, true,
 			'Active filters on the page is not as expected'
@@ -606,7 +607,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'The info chip indicating how many filters were applied was not present'
 		);
 		$this->assertArrayEquals(
-			[ 'status' => [ 'open' ], 'username' => [] ],
+			[ 'status' => [ 'open' ], 'username' => [], 'hideCasesWithNoUserEdits' => false ],
 			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
 			false, true,
 			'Active filters on the page is not as expected'
@@ -642,7 +643,11 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
 		$this->assertArrayEquals(
-			[ 'status' => [], 'username' => [ $firstUser->getName() ] ],
+			[
+				'status' => [],
+				'username' => [ $firstUser->getName() ],
+				'hideCasesWithNoUserEdits' => false,
+			],
 			$jsConfigVars['wgCheckUserSuggestedInvestigationsActiveFilters'],
 			false, true,
 			'Active filters on the page is not as expected'
@@ -671,6 +676,161 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// message key and checking that no data-case-id attributes exist in the page
 		$this->assertStringContainsString( '(table_pager_empty)', $html );
 		$this->assertStringNotContainsString( 'data-case-id', $html );
+	}
+
+	/** @dataProvider provideLimitValues */
+	public function testWhenHideCasesWithNoUserEditsFilterIsSetForLocalEditCounts( int $limit ) {
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
+
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		// Create two cases each with a different user
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstUser = $this->getMutableTestUser()->getUserIdentity();
+		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+
+		// Mock that the first test user has 2 edits
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'user' )
+			->set( [ 'user_editcount' => 2 ] )
+			->where( [ 'user_id' => $firstUser->getId() ] )
+			->caller( __METHOD__ )
+			->execute();
+
+		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+
+		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
+		$context->getRequest()->setVal( 'limit', $limit );
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+		$jsConfigVars = $parserOutput->getJsConfigVars();
+
+		// Expect that the table pager only shows the first case, as only the first case
+		// has users with edits in it.
+		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+		$this->assertArrayEquals(
+			[ 'status' => [], 'username' => [], 'hideCasesWithNoUserEdits' => true ],
+			$jsConfigVars['wgCheckUserSuggestedInvestigationsActiveFilters'],
+			false, true,
+			'Active filters on the page is not as expected'
+		);
+		$this->assertFalse(
+			$jsConfigVars['wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed'],
+			'Value of JS config var wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed ' .
+				' is not as expected'
+		);
+	}
+
+	public static function provideLimitValues(): array {
+		return [
+			'Limit of 1' => [ 1 ],
+			'Limit of 2' => [ 2 ],
+			'Limit of 10' => [ 10 ],
+		];
+	}
+
+	/** @dataProvider provideLimitValues */
+	public function testWhenHideCasesWithNoUserEditsFilterIsSetForGlobalEditCounts( int $limit ) {
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+
+		$isGlobalContributionsEnabled = $this->getServiceContainer()->getSpecialPageFactory()
+			->exists( 'GlobalContributions' );
+		if ( !$isGlobalContributionsEnabled ) {
+			$this->markTestSkipped( 'Test requires GlobalContributions dependencies to be met' );
+		}
+
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => true,
+			MainConfigNames::LanguageCode => 'qqx',
+		] );
+
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		// Create two cases each with a different user
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstUser = $this->getMutableTestUser()->getUserIdentity();
+		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+
+		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+
+		// Mock that the second test user has an edit and all others do not
+		$mockCentralAuthEditCounter = $this->createMock( CentralAuthEditCounter::class );
+		$mockCentralAuthEditCounter->method( 'getCount' )
+			->willReturnCallback(
+				static fn ( CentralAuthUser $centralUser ) =>
+					$secondUser->getName() === $centralUser->getName() ? 1 : 0
+			);
+		$this->setService( 'CentralAuth.CentralAuthEditCounter', $mockCentralAuthEditCounter );
+
+		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
+		$context->getRequest()->setVal( 'limit', $limit );
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+		$jsConfigVars = $parserOutput->getJsConfigVars();
+
+		// Expect that the table pager only shows the second case, as only the second case
+		// has users with edits in it.
+		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+		$this->assertArrayEquals(
+			[ 'status' => [], 'username' => [], 'hideCasesWithNoUserEdits' => true ],
+			$jsConfigVars['wgCheckUserSuggestedInvestigationsActiveFilters'],
+			false, true,
+			'Active filters on the page is not as expected'
+		);
+		$this->assertTrue(
+			$jsConfigVars['wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed'],
+			'Value of JS config var wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed ' .
+			' is not as expected'
+		);
+	}
+
+	public function testWhenPHPFiltersLimitReached() {
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+
+		$pager = $this->getPager( $context );
+
+		// Actually hitting the limit would be expensive for tests, as we would need to create around
+		// 1,000 testing rows. Therefore, we should just fake that this has been reached.
+		$pager = TestingAccessWrapper::newFromObject( $pager );
+		$pager->phpFiltersLimitReached = true;
+
+		// Added via IContextSource::getOutput::addHTML to make sure it appears above the Codex table, however,
+		// we need to call ::getFullOutput first so that IContextSource::getOutput::addHTML is actually called
+		$pager->getFullOutput();
+		$html = $context->getOutput()->getHtml();
+
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php)',
+			$html,
+			'PHP filter limit hit message should be present in the outputted HTML'
+		);
+		$this->assertStringContainsString(
+			'ext-checkuser-suggestedinvestigations-warning-dismiss',
+			$html,
+			'The warning should be dismissable'
+		);
 	}
 
 	/**

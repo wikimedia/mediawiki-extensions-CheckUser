@@ -42,6 +42,7 @@ use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\Codex\Component\HtmlSnippet;
 use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -74,6 +75,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private array $userNamesFilter;
 
 	/**
+	 * @var bool If true, hide cases where all of the accounts in the case have no edits
+	 */
+	private bool $hideCasesWithNoUserEdits;
+
+	/**
 	 * @var int The number of filters applied (counting all filters present in the filters dialog)
 	 */
 	private int $numberOfFiltersApplied = 0;
@@ -93,6 +99,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 *   the user contributions link.
 	 */
 	private bool $useGlobalContribs;
+
+	/**
+	 * @var bool Whether the filters implemented using PHP have scanned too many rows and have
+	 *   returned only partial results
+	 */
+	private bool $phpFiltersLimitReached = false;
 
 	/**
 	 * The unique sort fields for the sort options for unique paginate
@@ -182,12 +194,18 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied++;
 		}
 
+		$this->hideCasesWithNoUserEdits = $this->mRequest->getBool( 'hideCasesWithNoUserEdits' );
+		if ( $this->hideCasesWithNoUserEdits ) {
+			$this->numberOfFiltersApplied++;
+		}
+
 		$this->appliedFilters = [
 			'status' => array_map(
 				static fn ( CaseStatus $status ) => strtolower( $status->name ),
 				$this->statusFilter
 			),
 			'username' => $this->userNamesFilter,
+			'hideCasesWithNoUserEdits' => $this->hideCasesWithNoUserEdits,
 		];
 	}
 
@@ -470,7 +488,60 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 	/** @inheritDoc */
 	public function reallyDoQuery( $offset, $limit, $order ) {
-		$cases = parent::reallyDoQuery( $offset, $limit, $order );
+		$cases = [];
+		$batchOffset = $offset;
+		$queryLimit = $limit;
+		$loopsPerformed = 0;
+		do {
+			// Each time we perform a new loop, double the number of rows fetched per query up to 512 rows (2^9).
+			// This is done to balance the number of queries needed to fetch results against selecting
+			// rows which are then discarded without use.
+			// This also avoids an indefinite loop that can be triggered by the IndexPager::isFirst call
+			// of this method (where the same single row is selected in a loop).
+			if ( $loopsPerformed !== 0 && $queryLimit < 512 ) {
+				$queryLimit *= 2;
+			}
+
+			$batchOfCases = iterator_to_array( parent::reallyDoQuery( $batchOffset, $queryLimit, $order ) );
+
+			if ( count( $batchOfCases ) ) {
+				$batchOffset = implode( '|', array_map(
+					static fn ( $indexColumn ) => $batchOfCases[array_key_last( $batchOfCases )]->$indexColumn,
+					(array)$this->mIndexField
+				) );
+			}
+
+			$caseIdsBatch = [];
+			foreach ( $batchOfCases as $case ) {
+				$caseIdsBatch[] = $case->sic_id;
+			}
+
+			// Query the users for each case row and add them to the case rows. Case rows are filtered
+			// out if no users are found for the case (as this indicates that the row has been
+			// filtered out by a filter on the users in the case)
+			$caseUsers = $this->queryUsersForCases( $caseIdsBatch );
+			foreach ( $batchOfCases as $i => $caseRow ) {
+				if ( array_key_exists( $caseRow->sic_id, $caseUsers ) ) {
+					$caseRow->users = $caseUsers[$caseRow->sic_id];
+				} else {
+					unset( $batchOfCases[$i] );
+				}
+			}
+
+			$cases = array_merge( $batchOfCases, $cases );
+
+			// We have a safeguard against too many queries that stops looking for rows after 10 loops
+			// to avoid this being a DDoS vector. This condition is reached once at least 1,023 cases
+			// and at most 6,300 cases are checked using PHP filters (cases are those returned by
+			// parent::reallyDoQuery, so does not include those excluded using SQL filters).
+			$loopsPerformed++;
+		} while ( count( $cases ) < $limit && count( $caseIdsBatch ) === $queryLimit && $loopsPerformed < 10 );
+
+		if ( !$this->phpFiltersLimitReached ) {
+			$this->phpFiltersLimitReached = $loopsPerformed >= 10;
+		}
+
+		$cases = array_slice( $cases, 0, $limit );
 
 		$caseIds = [];
 		foreach ( $cases as $case ) {
@@ -478,17 +549,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		$signals = $this->querySignalsForCases( $caseIds );
-		$caseUsers = $this->queryUsersForCases( $caseIds );
-
-		$result = [];
-
 		foreach ( $cases as $caseRow ) {
 			$caseRow->signals = $signals[$caseRow->sic_id] ?? [];
-			$caseRow->users = $caseUsers[$caseRow->sic_id] ?? [];
-			$result[] = $caseRow;
 		}
 
-		return new FakeResultWrapper( $result );
+		return new FakeResultWrapper( $cases );
 	}
 
 	/** @inheritDoc */
@@ -558,15 +623,6 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$lb->execute();
 
-		if ( $this->useGlobalContribs ) {
-			$this->centralAuthEditCounter->preloadGetCountCache( array_map(
-				static fn ( UserIdentity $user ) => CentralAuthUser::getInstance( $user ),
-				$users
-			) );
-		} else {
-			$this->userEditTracker->preloadUserEditCountCache( $users );
-		}
-
 		foreach ( array_chunk( $users, 500 ) as $usersBatch ) {
 			$this->usersWhoHaveBeenChecked = array_merge(
 				$this->localDb->newSelectQueryBuilder()
@@ -619,6 +675,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	/**
 	 * Returns an array that maps each case ID to an array of user identities
 	 * associated with that case, ordered by account ID descending for each case.
+	 *
+	 * If no key exists for a case ID, then the case should be excluded as
+	 * the case was filtered out by the “Hide cases where no accounts have edits” filter.
+	 *
 	 * @return UserIdentity[][]
 	 */
 	private function queryUsersForCases( array $caseIds ): array {
@@ -626,25 +686,50 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			return [];
 		}
 
-		$dbr = $this->getDatabase();
-		$resultCaseUserId = $dbr->newSelectQueryBuilder()
-			->select( [ 'siu_sic_id', 'siu_user_id' ] )
-			->from( 'cusi_user' )
-			->where( [
-				'siu_sic_id' => $caseIds,
-			] )
-			->orderBy( [ 'siu_sic_id', 'siu_user_id' ], SelectQueryBuilder::SORT_DESC )
-			->caller( __METHOD__ )
-			->fetchResultSet();
-
 		$userIds = [];
-		foreach ( $resultCaseUserId as $row ) {
-			$userIds[] = $row->siu_user_id;
-		}
+		$caseIdsToUserIds = [];
+
+		$dbr = $this->getDatabase();
+		$lastUserId = null;
+		$lastCaseId = null;
+		do {
+			$caseUsersQueryBuilder = $dbr->newSelectQueryBuilder()
+				->select( [ 'siu_sic_id', 'siu_user_id' ] )
+				->from( 'cusi_user' )
+				->where( [
+					'siu_sic_id' => $caseIds,
+				] );
+			if ( $lastCaseId !== null && $lastUserId !== null ) {
+				$caseUsersQueryBuilder->where(
+					$dbr->buildComparison( '<', [ 'siu_sic_id' => $lastCaseId, 'siu_user_id' => $lastUserId ] )
+				);
+			}
+			$batchOfCaseUsers = $caseUsersQueryBuilder
+				->orderBy( [ 'siu_sic_id', 'siu_user_id' ], SelectQueryBuilder::SORT_DESC )
+				->limit( 500 )
+				->caller( __METHOD__ )
+				->fetchResultSet();
+
+			foreach ( $batchOfCaseUsers as $row ) {
+				$caseId = (int)$row->siu_sic_id;
+				$userId = (int)$row->siu_user_id;
+
+				if ( !isset( $caseIdsToUserIds[$caseId] ) ) {
+					$caseIdsToUserIds[$caseId] = [];
+				}
+
+				$userIds[] = $userId;
+				$caseIdsToUserIds[$caseId][] = $userId;
+
+				$lastUserId = $userId;
+				$lastCaseId = $caseId;
+			}
+		} while ( $batchOfCaseUsers->numRows() > 0 );
+
 		$userIds = array_unique( $userIds );
 
 		$dbrUsers = $this->localDb;
-		$userIdToName = [];
+		$userIdToUserIdentity = [];
 		foreach ( array_chunk( $userIds, 100 ) as $userIdChunk ) {
 			$resultUsers = $dbrUsers->newSelectQueryBuilder()
 				->select( [ 'user_id', 'user_name' ] )
@@ -656,20 +741,55 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				->fetchResultSet();
 
 			foreach ( $resultUsers as $row ) {
-				$userIdToName[$row->user_id] = $row->user_name;
+				$userIdToUserIdentity[$row->user_id] = UserIdentityValue::newRegistered(
+					$row->user_id, $row->user_name
+				);
 			}
 		}
 
+		// Preload the local or global user edit counts (as appropriate). Needed
+		// for the $this->hideCasesWithNoUserEdits filter, but also for the "contribs"
+		// link colour check in ::formatUsersCell
+		if ( $this->useGlobalContribs ) {
+			$this->centralAuthEditCounter->preloadGetCountCache( array_map(
+				static fn ( UserIdentity $user ) => CentralAuthUser::getInstance( $user ),
+				$userIdToUserIdentity
+			) );
+		} else {
+			$this->userEditTracker->preloadUserEditCountCache( $userIdToUserIdentity );
+		}
+
+		// Group the UserIdentity objects by case IDs, while also excluding case IDs
+		// which do not meet the hideCasesWithNoUserEdits filter (if enabled)
 		$usersForCases = [];
-		foreach ( $resultCaseUserId as $row ) {
-			$caseId = $row->siu_sic_id;
-			if ( !isset( $usersForCases[$caseId] ) ) {
-				$usersForCases[$caseId] = [];
+		foreach ( $caseIdsToUserIds as $caseId => $userIds ) {
+			if ( $this->hideCasesWithNoUserEdits ) {
+				$caseHasNoEdits = true;
+
+				foreach ( $userIds as $userId ) {
+					$userIdentity = $userIdToUserIdentity[$userId];
+
+					if ( $caseHasNoEdits ) {
+						if ( $this->useGlobalContribs ) {
+							$editCount = $this->centralAuthEditCounter->getCount(
+								CentralAuthUser::getInstance( $userIdentity )
+							);
+						} else {
+							$editCount = $this->userEditTracker->getUserEditCount( $userIdentity );
+						}
+
+						$caseHasNoEdits = $editCount === 0;
+					}
+				}
+
+				if ( $caseHasNoEdits ) {
+					continue;
+				}
 			}
 
-			$userId = $row->siu_user_id;
-			$userName = $userIdToName[$userId];
-			$usersForCases[$caseId][] = UserIdentityValue::newRegistered( $userId, $userName );
+			foreach ( $userIds as $userId ) {
+				$usersForCases[$caseId][] = $userIdToUserIdentity[$userId];
+			}
 		}
 
 		return $usersForCases;
@@ -689,6 +809,43 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * @inheritDoc
 	 */
 	protected function getHeader(): string {
+		if ( !$this->mQueryDone ) {
+			$this->doQuery();
+		}
+
+		// If the query has processed and filtered out too many rows in PHP, then display
+		// a warning message about this to the user
+		if ( $this->phpFiltersLimitReached ) {
+			$codex = new Codex();
+
+			// Make a message component that has the dismiss button, which we implement using our
+			// own JS because we cannot infuse CSS-only components into Vue components.
+			$messageHtml = $this->msg(
+				'checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php'
+			)->escaped();
+			$messageHtml .= $codex->button()
+				->setIconOnly( true )
+				->setIconClass( 'mw-checkuser-suggestedinvestigations-icon--close' )
+				->setWeight( 'quiet' )
+				->setAttributes( [
+					'class' => 'cdx-message__dismiss-button ' .
+						'ext-checkuser-suggestedinvestigations-warning-dismiss',
+				] )
+				->build()
+				->getHtml();
+
+			$message = $codex->message()
+				->setType( 'warning' )
+				->setContentHtml( new HtmlSnippet( $messageHtml, [] ) )
+				->setAttributes( [
+					'class' => 'ext-checkuser-suggestedinvestigations-too-many-results-warning ' .
+						'cdx-message--user-dismissable',
+				] )
+				->build()
+				->getHtml();
+			$this->getOutput()->addHTML( $message );
+		}
+
 		if ( !$this->shouldShowVisibleCaption() ) {
 			return '';
 		}
@@ -732,6 +889,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$pout->setJsConfigVar(
 			'wgCheckUserSuggestedInvestigationsActiveFilters',
 			$this->appliedFilters
+		);
+		$pout->setJsConfigVar(
+			'wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed',
+			$this->useGlobalContribs
 		);
 		return $pout;
 	}
