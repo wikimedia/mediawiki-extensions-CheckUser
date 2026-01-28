@@ -2,8 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
-use DOMDocument;
-use DOMXPath;
 use GlobalPreferences\GlobalPreferencesFactory;
 use LogicException;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
@@ -20,6 +18,8 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use SpecialPageTestBase;
 use Wikimedia\IPUtils;
+use Wikimedia\Parsoid\Core\DOMCompat;
+use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -676,17 +676,17 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			true
 		);
 
-		$doc = new DOMDocument();
-		$doc->loadHTML( $html, LIBXML_NOERROR );
-		$entries = ( new DOMXpath( $doc ) )->query(
-			'//div[@id="mw-indicator-mw-helplink"]/a[@class="mw-helplink"]'
-		);
+		$doc = DOMUtils::parseHTML( $html );
+		$entries = iterator_to_array( DOMCompat::querySelectorAll(
+			$doc,
+			'div#mw-indicator-mw-helplink > a.mw-helplink'
+		) );
 
 		$this->assertNotEmpty( $entries );
 		$this->assertEquals(
 			"https://www.mediawiki.org/wiki/Special:MyLanguage/" .
 				"Help:Extension:CheckUser#Special:GlobalContributions_usage",
-			$entries[ 0 ]->getAttribute( 'href' )
+			DOMCompat::getAttribute( $entries[ 0 ], 'href' )
 		);
 	}
 }

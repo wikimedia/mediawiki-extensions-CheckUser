@@ -6,8 +6,8 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPa
 use MediaWiki\Context\RequestContext;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
-use Wikimedia\Parsoid\Utils\DOMCompat;
-use Wikimedia\Parsoid\Utils\DOMUtils;
+use Wikimedia\Parsoid\Core\DOMCompat;
+use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsRevisionsPager

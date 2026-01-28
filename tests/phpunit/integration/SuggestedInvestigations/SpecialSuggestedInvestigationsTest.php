@@ -32,8 +32,8 @@ use MediaWiki\Request\WebResponse;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use PHPUnit\Framework\ExpectationFailedException;
 use SpecialPageTestBase;
-use Wikimedia\Parsoid\Utils\DOMCompat;
-use Wikimedia\Parsoid\Utils\DOMUtils;
+use Wikimedia\Parsoid\Core\DOMCompat;
+use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
  * @covers \MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations

@@ -2,8 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\IPContributions;
 
-use DOMDocument;
-use DOMXPath;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
@@ -16,6 +14,8 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use SpecialPageTestBase;
 use Wikimedia\IPUtils;
+use Wikimedia\Parsoid\Core\DOMCompat;
+use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
  * @covers \MediaWiki\CheckUser\IPContributions\SpecialIPContributions
@@ -271,17 +271,16 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			true
 		);
 
-		$doc = new DOMDocument();
-		$doc->loadHTML( $html, LIBXML_NOERROR );
-		$entries = ( new DOMXpath( $doc ) )->query(
-			'//div[@id="mw-indicator-mw-helplink"]/a[@class="mw-helplink"]'
-		);
-
+		$doc = DOMUtils::parseHTML( $html );
+		$entries = iterator_to_array( DOMCompat::querySelectorAll(
+			$doc,
+			'div#mw-indicator-mw-helplink > a.mw-helplink'
+		) );
 		$this->assertNotEmpty( $entries );
 		$this->assertEquals(
 			"https://www.mediawiki.org/wiki/Special:MyLanguage/" .
 				"Help:Extension:CheckUser#Special:IPContributions_usage",
-			$entries[ 0 ]->getAttribute( 'href' )
+			DOMCompat::getAttribute( $entries[ 0 ], 'href' )
 		);
 	}
 }
