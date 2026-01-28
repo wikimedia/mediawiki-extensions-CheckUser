@@ -83,6 +83,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private array $signalsToDisplayNames = [];
 
 	/**
+	 * @var int[] User IDs of users who have at least one check on them recorded in the cu_log table
+	 */
+	private array $usersWhoHaveBeenChecked = [];
+
+	/**
 	 * @var bool Whether to use Special:GlobalContributions over Special:Contributions for
 	 *   the user contributions link.
 	 */
@@ -266,14 +271,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 			// Add link to Special:CheckUserLog if the user has been checked before and the
 			// viewing authority has the 'checkuser-log' right
-			$hasPastChecks = $this->localDb->newSelectQueryBuilder()
-				->select( '1' )
-				->from( 'cu_log' )
-				->where( [ 'cul_target_id' => $user->getId() ] )
-				->caller( __METHOD__ )
-				->fetchField();
-
-			if ( $hasPastChecks && $this->getAuthority()->isAllowed( 'checkuser-log' ) ) {
+			if (
+				in_array( $user->getId(), $this->usersWhoHaveBeenChecked ) &&
+				$this->getAuthority()->isAllowed( 'checkuser-log' )
+			) {
 				$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
 					SpecialPage::getTitleFor( 'CheckUserLog', $user->getName() ),
 					$this->msg( 'checkuser-suggestedinvestigations-user-past-checks-link-text' )
@@ -557,6 +558,21 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		if ( !$this->useGlobalContribs ) {
 			$this->userEditTracker->preloadUserEditCountCache( $users );
+		}
+
+		foreach ( array_chunk( $users, 500 ) as $usersBatch ) {
+			$this->usersWhoHaveBeenChecked = array_merge(
+				$this->localDb->newSelectQueryBuilder()
+					->select( 'cul_target_id' )
+					->from( 'cu_log' )
+					->where( [ 'cul_target_id' => array_map(
+						static fn ( UserIdentity $user ) => $user->getId(),
+						$usersBatch
+					) ] )
+					->caller( __METHOD__ )
+					->fetchFieldValues(),
+				$this->usersWhoHaveBeenChecked
+			);
 		}
 	}
 
