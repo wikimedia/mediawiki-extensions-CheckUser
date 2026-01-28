@@ -31,6 +31,7 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Navigation\CodexPagerNavigationBuilder;
+use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Pager\CodexTablePager;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -82,6 +83,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private array $signalsToDisplayNames = [];
 
 	/**
+	 * @var bool Whether to use Special:GlobalContributions over Special:Contributions for
+	 *   the user contributions link.
+	 */
+	private bool $useGlobalContribs;
+
+	/**
 	 * The unique sort fields for the sort options for unique paginate
 	 */
 	private const INDEX_FIELDS = [
@@ -99,6 +106,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly CommentFormatter $commentFormatter,
 		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
+		private readonly LinkBatchFactory $linkBatchFactory,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals
@@ -144,6 +152,9 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				'checkuser-suggestedinvestigations-signal-' . $signal
 			)->parse();
 		}
+
+		$this->useGlobalContribs = $this->specialPageFactory->exists( 'GlobalContributions' ) &&
+			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' );
 	}
 
 	/**
@@ -214,9 +225,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$detailViewLink = $this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier )->getFullText();
 
-		$useGlobalContribs = $this->specialPageFactory->exists( 'GlobalContributions' ) &&
-			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' );
-		$contributionsSpecialPage = $useGlobalContribs ? 'GlobalContributions' : 'Contributions';
+		$contributionsSpecialPage = $this->useGlobalContribs ? 'GlobalContributions' : 'Contributions';
 
 		foreach ( $users as $i => $user ) {
 			$userLink = $this->getLinkRenderer()->makeUserLink( $user, $this->getContext() );
@@ -233,7 +242,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			// Generate the link class for the "contribs" tool link
 			$userContribsLinkClass = 'mw-usertoollinks-contribs';
 
-			if ( $useGlobalContribs ) {
+			if ( $this->useGlobalContribs ) {
 				$editCount = $this->checkUserGlobalContributionsLookup->getGlobalContributionsCount(
 					$user->getName(), $this->getAuthority()
 				);
@@ -529,6 +538,26 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		return $queryInfo;
+	}
+
+	/** @inheritDoc */
+	protected function doBatchLookups(): void {
+		$users = [];
+		$lb = $this->linkBatchFactory->newLinkBatch()
+			->setCaller( __METHOD__ );
+
+		foreach ( $this->mResult as $row ) {
+			foreach ( $row->users as $user ) {
+				$users[] = $user;
+				$lb->addUser( $user );
+			}
+		}
+
+		$lb->execute();
+
+		if ( !$this->useGlobalContribs ) {
+			$this->userEditTracker->preloadUserEditCountCache( $users );
+		}
 	}
 
 	/**

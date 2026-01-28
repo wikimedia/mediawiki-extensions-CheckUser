@@ -95,6 +95,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->userIdentityLookup,
 			$this->commentFormatter,
 			$this->checkUserGlobalContributionsLookup,
+			$this->linkBatchFactory,
 			$this->linkRenderer,
 			$context,
 			$signals
