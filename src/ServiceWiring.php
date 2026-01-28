@@ -46,6 +46,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigations
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -561,6 +562,10 @@ return [
 	'CheckUserSuggestedInvestigationsPagerFactory' => static function (
 		MediaWikiServices $services
 	): SuggestedInvestigationsPagerFactory {
+		$centralAuthEditCounter = null;
+		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			$centralAuthEditCounter = CentralAuthServices::getEditCounter( $services );
+		}
 		return new SuggestedInvestigationsPagerFactory(
 			$services->getLinkRenderer(),
 			$services->getLinkBatchFactory(),
@@ -573,7 +578,7 @@ return [
 			$services->getUserEditTracker(),
 			$services->getSpecialPageFactory(),
 			$services->getUserIdentityLookup(),
-			$services->get( 'CheckUserGlobalContributionsLookup' )
+			$centralAuthEditCounter
 		);
 	},
 ];

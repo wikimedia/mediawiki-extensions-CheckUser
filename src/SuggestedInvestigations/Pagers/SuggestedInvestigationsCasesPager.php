@@ -22,12 +22,13 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Navigation\CodexPagerNavigationBuilder;
@@ -110,7 +111,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly CommentFormatter $commentFormatter,
-		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
+		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 		private readonly LinkBatchFactory $linkBatchFactory,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
@@ -158,7 +159,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			)->parse();
 		}
 
-		$this->useGlobalContribs = $this->specialPageFactory->exists( 'GlobalContributions' ) &&
+		$this->useGlobalContribs = $this->centralAuthEditCounter !== null &&
+			$this->specialPageFactory->exists( 'GlobalContributions' ) &&
 			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' );
 	}
 
@@ -248,8 +250,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$userContribsLinkClass = 'mw-usertoollinks-contribs';
 
 			if ( $this->useGlobalContribs ) {
-				$editCount = $this->checkUserGlobalContributionsLookup->getGlobalContributionsCount(
-					$user->getName(), $this->getAuthority()
+				$editCount = $this->centralAuthEditCounter->getCount(
+					CentralAuthUser::getInstance( $user )
 				);
 			} else {
 				$editCount = $this->userEditTracker->getUserEditCount( $user );
@@ -556,7 +558,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$lb->execute();
 
-		if ( !$this->useGlobalContribs ) {
+		if ( $this->useGlobalContribs ) {
+			$this->centralAuthEditCounter->preloadGetCountCache( array_map(
+				static fn ( UserIdentity $user ) => CentralAuthUser::getInstance( $user ),
+				$users
+			) );
+		} else {
 			$this->userEditTracker->preloadUserEditCountCache( $users );
 		}
 

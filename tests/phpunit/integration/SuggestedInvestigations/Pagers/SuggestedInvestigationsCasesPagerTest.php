@@ -20,7 +20,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Pagers;
 
-use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
@@ -31,6 +30,8 @@ use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInves
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\IndexPager;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -107,11 +108,15 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			);
 		$this->setService( 'UserEditTracker', $mockUserEditTracker );
 
-		// Expect that the global edit count is never fetched, as we are using the local one
-		$this->setService(
-			'CheckUserGlobalContributionsLookup',
-			$this->createNoOpMock( CheckUserGlobalContributionsLookup::class )
-		);
+		// Expect that the global edit count is never fetched, as we are using the local one.
+		// If CentralAuth is loaded, use a no-op mock. Otherwise a use of the service should
+		// mean trying to access methods on `null` (which will fail)
+		if ( $this->getServiceContainer()->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			$this->setService(
+				'CentralAuth.CentralAuthEditCounter',
+				$this->createNoOpMock( CentralAuthEditCounter::class )
+			);
+		}
 
 		$pager = $this->getPager( $context );
 
@@ -287,6 +292,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testOutputWhenGlobalContributionsUsedAsContribsLink() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+
 		$isGlobalContributionsEnabled = $this->getServiceContainer()->getSpecialPageFactory()
 			->exists( 'GlobalContributions' );
 		if ( !$isGlobalContributionsEnabled ) {
@@ -304,12 +311,13 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Mock the global edit counts for our test users so that the first test user has no edits
 		// and all other users have one edit
-		$mockUserEditTracker = $this->createMock( CheckUserGlobalContributionsLookup::class );
-		$mockUserEditTracker->method( 'getGlobalContributionsCount' )
+		$mockCentralAuthEditCounter = $this->createMock( CentralAuthEditCounter::class );
+		$mockCentralAuthEditCounter->method( 'getCount' )
 			->willReturnCallback(
-				static fn ( string $target ) => self::$testUser1->getName() === $target ? 0 : 1
+				static fn ( CentralAuthUser $centralUser ) =>
+					self::$testUser1->getName() === $centralUser->getName() ? 0 : 1
 			);
-		$this->setService( 'CheckUserGlobalContributionsLookup', $mockUserEditTracker );
+		$this->setService( 'CentralAuth.CentralAuthEditCounter', $mockCentralAuthEditCounter );
 
 		// Expect that the local edit count is never fetched, as we are using the global one
 		$this->setService( 'UserEditTracker', $this->createNoOpMock( UserEditTracker::class ) );

@@ -3,9 +3,9 @@
 namespace MediaWiki\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
@@ -39,7 +39,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly UserEditTracker $userEditTracker,
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
-		private readonly CheckUserGlobalContributionsLookup $checkUserGlobalContributionsLookup,
+		private readonly ?CentralAuthEditCounter $centralAuthEditCounter
 	) {
 	}
 
@@ -94,7 +94,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->specialPageFactory,
 			$this->userIdentityLookup,
 			$this->commentFormatter,
-			$this->checkUserGlobalContributionsLookup,
+			$this->centralAuthEditCounter,
 			$this->linkBatchFactory,
 			$this->linkRenderer,
 			$context,
