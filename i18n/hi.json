@@ -322,5 +322,6 @@
 	"log-action-filter-checkuser-temporary-account-view-ips": "अस्थायी खाते की IP डेटा देखें",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 ने सुरक्षित वेरिएबल्स देखने की {{GENDER:$2|अपनी}} पहुँच को सक्षम किया",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 ने सुरक्षित वेरिएबल्स देखने की {{GENDER:$2|अपनी}} पहुँच को अक्षम किया",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 ने $3 से संबद्ध सुरक्षित वेरिएबल्स {{GENDER:$2|देखे}}"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 ने $3 से संबद्ध सुरक्षित वेरिएबल्स {{GENDER:$2|देखे}}",
+	"checkuser-userinfocard-enable-preference-help": "किसी खाते के बारे में जानकारी वाला एक पॉपओवर खोलने के लिए सदस्यनाम के बगल में एक बटन दिखाएँ।"
 }
