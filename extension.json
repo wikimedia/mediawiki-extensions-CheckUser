@@ -235,8 +235,8 @@
 			"description": "Whether the local 'contribs' link in Special:SuggestedInvestigations should instead be a link to Special:GlobalContributions. By default this is not the case and this will have no effect if Special:GlobalContributions is not enabled on the wiki."
 		},
 		"CheckUserUserAgentTableMigrationStage": {
-			"value": 769,
-			"description": "Schema migration stage configuration to control the migration to the cu_useragent table. Current value is SCHEMA_COMPAT_READ_NEW | SCHEMA_COMPAT_WRITE_BOTH (769)."
+			"value": 768,
+			"description": "Schema migration stage configuration to control the migration to the cu_useragent table. Current value is SCHEMA_COMPAT_NEW (768)."
 		},
 		"CheckUserLogMaxRangeToShowInLog": {
 			"value": false,

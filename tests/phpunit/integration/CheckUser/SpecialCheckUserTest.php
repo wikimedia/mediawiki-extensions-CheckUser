@@ -466,6 +466,12 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	}
 
 	public function addDBDataOnce() {
+		// Some tests still check the read old behaviour, so still write old to allow that
+		$this->overrideConfigValue(
+			'CheckUserUserAgentTableMigrationStage',
+			SCHEMA_COMPAT_WRITE_OLD | SCHEMA_COMPAT_NEW
+		);
+
 		$this->disableAutoCreateTempUser();
 		$usernameTarget = $this->getTestUser();
 

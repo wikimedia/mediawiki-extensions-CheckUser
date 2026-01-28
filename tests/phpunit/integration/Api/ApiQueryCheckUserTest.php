@@ -632,6 +632,13 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 
 	public function addDBDataOnce() {
 		$this->overrideConfigValue( 'CheckUserLogLogins', true );
+
+		// Some tests still check the read old behaviour, so still write old to allow that
+		$this->overrideConfigValue(
+			'CheckUserUserAgentTableMigrationStage',
+			SCHEMA_COMPAT_WRITE_OLD | SCHEMA_COMPAT_NEW
+		);
+
 		// Add some testing entries to the CheckUser result tables to test the API
 		// Get two testing users with pre-defined usernames and a test page with a pre-defined name
 		// so that we can use them in the tests without having to store the name.
