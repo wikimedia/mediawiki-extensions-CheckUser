@@ -361,6 +361,7 @@
 	"checkuser-tempaccount-reveal-blocked-description": "Nie masz uprawnień do korzystania z tej funkcji z następującego powodu:",
 	"checkuser-tempaccount-specialblock-ips": "To jest użytkownik tymczasowy korzystający z {{PLURAL:$1|adresu|adresów}} IP: $2",
 	"checkuser-tempaccount-specialblock-ip-target": "Zobacz [[Special:IPContributions/$1|wkład kont tymczasowych z tego adresu IP]].",
+	"checkuser-tempaccount-specialblock-iprange-target": "Zobacz [[Special:IPContributions/$1|wkład kont tymczasowych z tego zakresu IP]].",
 	"checkuser-temporary-account-log-name": "Rejestr ujawniania IP",
 	"checkuser-temporary-account-log-header": "To jest rejestr:\n# Podglądania adresów IP wykorzystywanych przez konta tymczasowe;\n# Sprawdzania kont tymczasowych powiązanych z adresem lub zakresem IP;\n# Zmiany poziomów dostępu do przeglądania adresów IP wykorzystywanych przez konta tymczasowe.",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|swój własny}} dostęp do przeglądania adresów IP kont tymczasowych",
