@@ -88,7 +88,7 @@
 	"checkuser-month": "最近30天",
 	"checkuser-month-2": "最近60天",
 	"checkuser-all": "全部",
-	"checkuser-filter-title": "過濾器",
+	"checkuser-filter-title": "篩選",
 	"checkuser-filter-hide-temporary-accounts": "隱藏臨時帳號",
 	"checkuser-cidr-label": "尋找IP位址清單中共同的範圍與影響的IP位址",
 	"checkuser-cidr-res": "通用CIDR：",
