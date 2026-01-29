@@ -374,6 +374,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|sprawdził|sprawdziła|sprawdził(a)}} adresy IP dla $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|sprawdził|sprawdziła|sprawdził(a)}} konta tymczasowe z $3",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|sprawdził|sprawdziła|sprawdził(a)}} konta tymczasowe dla $3",
+	"logentry-checkuser-temporary-account-view-related-temporary-accounts": "$1 {{GENDER:$2|zobaczył|zobaczyła}} konta tymczasowe powiązane z $3",
 	"log-action-filter-checkuser-temporary-account": "Rodzaj działania:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Zmiana dostępu",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Dostęp do IP kont tymczasowych",

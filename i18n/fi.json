@@ -361,6 +361,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|katsoi}} tunnuksen $3 IP-osoitteet",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|katsoi}} IP-osoitteen $3 tilapäiset tunnukset",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|katsoi}} järjestelmänlaajuisesti IP-osoitteen $3 tilapäiset tunnukset",
+	"logentry-checkuser-temporary-account-view-related-temporary-accounts": "$1 {{GENDER:$2|katsoi}} tilapäiseen tunnukseen $3 liittyvät tilapäiset tunnukset",
 	"log-action-filter-checkuser-temporary-account": "Toiminnon tyyppi:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Pääsyn muutos",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Pääsy tilapäisen tunnuksen IP-tietoihin",
