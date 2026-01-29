@@ -172,11 +172,11 @@ QUnit.test( 'Test onLoad for a user which matches temporary account format but d
  * Call the onLoad method, click the button that is created and then verify the text that replaces
  * the button is as expected.
  *
- * @param {string} expectedText The expected text of the element that replaces the button
+ * @param {string} expectedHtml The expected HTML of the element that replaces the button
  * @param {Object} assert The QUnit assert object
  * @param {*} done Method to call to indicate this method has completed assertions
  */
-async function performOnLoadTestWhenButtonClicked( expectedText, assert, done ) {
+async function performOnLoadTestWhenButtonClicked( expectedHtml, assert, done ) {
 	// Call the method under test
 	specialBlock.onLoad();
 	// eslint-disable-next-line no-jquery/no-global-selector
@@ -199,12 +199,11 @@ async function performOnLoadTestWhenButtonClicked( expectedText, assert, done ) 
 						1,
 						'Container still present after button click'
 					);
-					// Temporarily skipped to fix T415939 in core
-					/* assert.strictEqual(
-						$( '.ext-checkuser-tempaccount-specialblock-ips', $qunitFixture ).text(),
-						expectedText,
+					assert.strictEqual(
+						$( '.ext-checkuser-tempaccount-specialblock-ips', $qunitFixture ).html(),
+						expectedHtml,
 						'Text of element that replaced button'
-					); */
+					);
 					done();
 					resolve();
 				} );
@@ -241,7 +240,7 @@ QUnit.test( 'Test onLoad for an existing temporary account with IP data', async 
 		}
 	} );
 	await performOnLoadTestWhenButtonClicked(
-		'(checkuser-tempaccount-specialblock-ips: 2, <a href="https://www.example.com/wiki/Special:IPContributions/172.20.0.1">172.20.0.1</a>(and)(word-separator)<a href="https://www.example.com/wiki/Special:IPContributions/1.2.3.4">1.2.3.4</a>)',
+		'<label class="oo-ui-widget oo-ui-widget-enabled oo-ui-labelElement oo-ui-labelElement-label oo-ui-labelWidget">(checkuser-tempaccount-specialblock-ips: 2, <a href="https://www.example.com/wiki/Special:IPContributions/172.20.0.1">172.20.0.1</a>(and)(word-separator)<a href="https://www.example.com/wiki/Special:IPContributions/1.2.3.4">1.2.3.4</a>)</label>',
 		assert, done
 	);
 	// Check that the IPs in the element that replaced the button are
@@ -290,7 +289,7 @@ QUnit.test( 'Test onLoad for an existing temporary account without IP data', ( a
 		}
 	} );
 	performOnLoadTestWhenButtonClicked(
-		'(checkuser-tempaccount-no-ip-results: 90)', assert, done
+		'<label class="oo-ui-widget oo-ui-widget-enabled oo-ui-labelElement oo-ui-labelElement-label oo-ui-labelWidget">(checkuser-tempaccount-no-ip-results: 90)</label>', assert, done
 	);
 } );
 
@@ -323,7 +322,7 @@ QUnit.test( 'Test onLoad for an existing temporary account but IP data call fail
 		}
 	} );
 	performOnLoadTestWhenButtonClicked(
-		'(checkuser-tempaccount-reveal-ip-error)', assert, done
+		'<label class="oo-ui-widget oo-ui-widget-enabled oo-ui-labelElement oo-ui-labelElement-label oo-ui-labelWidget">(checkuser-tempaccount-reveal-ip-error)</label>', assert, done
 	);
 } );
 
