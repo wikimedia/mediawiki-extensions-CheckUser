@@ -80,6 +80,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private bool $hideCasesWithNoUserEdits;
 
 	/**
+	 * @var string[] If not an empty array, then filter for these signal database names
+	 */
+	private array $signalsFilter = [];
+
+	/**
 	 * @var int The number of filters applied (counting all filters present in the filters dialog)
 	 */
 	private int $numberOfFiltersApplied = 0;
@@ -149,12 +154,15 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 		$this->mLimitsShown = [ 10, 20, 50 ];
 
-		$this->parseFilters();
-
 		$this->localDb = $this->connectionProvider->getReplicaDatabase();
 
+		$urlNamesToSignals = [];
 		foreach ( $signals as $signal ) {
 			if ( is_array( $signal ) ) {
+				if ( array_key_exists( 'urlName', $signal ) ) {
+					$urlNamesToSignals[$signal['urlName']] = $signal['name'];
+				}
+
 				if ( array_key_exists( 'displayName', $signal ) ) {
 					$this->signalsToDisplayNames[$signal['name']] = $signal['displayName'];
 					continue;
@@ -174,13 +182,15 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$this->useGlobalContribs = $this->centralAuthEditCounter !== null &&
 			$this->specialPageFactory->exists( 'GlobalContributions' ) &&
 			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' );
+
+		$this->parseFilters( $urlNamesToSignals );
 	}
 
 	/**
 	 * Parses the filters set in the request and applies them to the pager.
 	 * Intended for calling during execution of {@link self::__construct}
 	 */
-	private function parseFilters(): void {
+	private function parseFilters( array $urlNamesToSignals ): void {
 		$this->statusFilter = array_filter( array_map(
 			CaseStatus::newFromStringName( ... ),
 			$this->mRequest->getArray( 'status', [] )
@@ -199,6 +209,21 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied++;
 		}
 
+		$filteredSignals = $this->mRequest->getArray( 'signal', [] );
+		foreach ( $filteredSignals as $signal ) {
+			// Decode the URL name into the database name for the signal,
+			// treating it as the signal database name if no matching
+			// URL signal found
+			if ( array_key_exists( $signal, $urlNamesToSignals ) ) {
+				$signal = $urlNamesToSignals[$signal];
+			}
+
+			$this->signalsFilter[] = $signal;
+		}
+		if ( $this->signalsFilter ) {
+			$this->numberOfFiltersApplied++;
+		}
+
 		$this->appliedFilters = [
 			'status' => array_map(
 				static fn ( CaseStatus $status ) => strtolower( $status->name ),
@@ -206,6 +231,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			),
 			'username' => $this->userNamesFilter,
 			'hideCasesWithNoUserEdits' => $this->hideCasesWithNoUserEdits,
+			'signal' => $this->signalsFilter,
 		];
 	}
 
@@ -603,6 +629,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			} else {
 				$queryInfo['conds'][] = '1=0';
 			}
+		}
+
+		if ( $this->signalsFilter ) {
+			$queryInfo['tables'][] = 'cusi_signal';
+			$queryInfo['join_conds']['cusi_signal'] = [ 'JOIN', 'sic_id = sis_sic_id' ];
+			$queryInfo['conds']['sis_name'] = $this->signalsFilter;
 		}
 
 		return $queryInfo;

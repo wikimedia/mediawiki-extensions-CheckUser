@@ -133,6 +133,7 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 			'checkuser-suggestedinvestigations-filter-dialog-title',
 			'checkuser-suggestedinvestigations-filter-dialog-close-button',
 			'checkuser-suggestedinvestigations-filter-dialog-show-results-button',
+			'checkuser-suggestedinvestigations-filter-dialog-signal-filter-header',
 			'checkuser-suggestedinvestigations-filter-dialog-status-filter-header',
 			'checkuser-suggestedinvestigations-filter-dialog-account-activity-header',
 			'checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits',

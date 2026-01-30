@@ -19,7 +19,7 @@ const FilterDialog = require( '../../../../modules/ext.checkUser.suggestedInvest
 const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
 	props: { initialFilters: Object.assign(
 		{},
-		{ status: [], username: [], hideCasesWithNoUserEdits: false },
+		{ status: [], username: [], hideCasesWithNoUserEdits: false, signal: [] },
 		initialFilters
 	) }
 } );
@@ -32,13 +32,19 @@ const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
  * @param {string[]} [props.username] Username filter
  * @param {string[]} [props.status] Status filter
  * @param {boolean} [props.hideCasesWithNoUserEdits] Hide cases with no account edits filter
+ * @param {string[]} [props.signal] Signal filter
  * @param {boolean} [globalEditCountsUsed] The value of
  *    wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed from mw.config.get to use
  *    for the test
+ * @param {string[]|Object[]} signals The value of wgCheckUserSuggestedInvestigationsSignals
+ *    from mw.config.get for the test
  * @return {{ wrapper, dialog }} The dialog component and wrapper
  */
-const commonComponentTest = async ( props = {}, globalEditCountsUsed = false ) => {
-	mockJSConfig( { wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed: globalEditCountsUsed } );
+const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, signals = [] ) => {
+	mockJSConfig( {
+		wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed: globalEditCountsUsed,
+		wgCheckUserSuggestedInvestigationsSignals: signals
+	} );
 
 	// Render the component and wait for CdxDialog to run some code
 	const wrapper = renderComponent( props );
@@ -126,7 +132,9 @@ const commonStatusFilterCheckboxTest = async ( dialog, expectedCheckedState ) =>
  * @param {boolean} globalEditCountsUsed
  * @return {Promise<void>}
  */
-const commonHideCasesWithNoUserEditsCheckboxTest = async ( dialog, expectedCheckedState, globalEditCountsUsed ) => {
+const commonHideCasesWithNoUserEditsCheckboxTest = async (
+	dialog, expectedCheckedState, globalEditCountsUsed
+) => {
 	const hideCaseWithNoUserEditsField = dialog.find(
 		'.cdx-checkbox:has(input[name=filter-hide-cases-with-no-user-edits])'
 	);
@@ -142,6 +150,36 @@ const commonHideCasesWithNoUserEditsCheckboxTest = async ( dialog, expectedCheck
 		'input[name=filter-hide-cases-with-no-user-edits]'
 	);
 	expect( hideCasesWithNoUserEditsCheckbox.element.checked ).toEqual( expectedCheckedState );
+};
+
+/**
+ * Checks the signal filter checkboxes exist and have the expected checked state
+ *
+ * @param {*} dialog The dialog component
+ * @param {string[]} expectedDisplayNames
+ * @param {Object} expectedCheckedState
+ */
+const commonSignalFilterCheckboxTest = async (
+	dialog, expectedDisplayNames, expectedCheckedState
+) => {
+	// Expect that the status checkboxes exist
+	const statusCheckboxesField = dialog.find(
+		'.ext-checkuser-suggestedinvestigations-filter-dialog-signal-filter'
+	);
+	expect( statusCheckboxesField.exists() ).toEqual( true );
+	expect( statusCheckboxesField.text() ).toContain(
+		'(checkuser-suggestedinvestigations-filter-dialog-signal-filter-header)'
+	);
+
+	for ( const expectedDisplayName of expectedDisplayNames ) {
+		expect( statusCheckboxesField.text() ).toContain( expectedDisplayName );
+	}
+
+	for ( const [ urlName, shouldBeChecked ] of Object.entries( expectedCheckedState ) ) {
+		const checkboxField = statusCheckboxesField.find( 'input[name=filter-signal-' + urlName + ']' );
+		expect( checkboxField.exists() ).toEqual( true );
+		expect( checkboxField.element.checked ).toEqual( shouldBeChecked );
+	}
 };
 
 describe( 'Suggested Investigations change status dialog', () => {
@@ -181,7 +219,9 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 	it( 'Renders correctly when opened with hideCasesWithNoUserEdits pre-checked', async () => {
 		const { dialog } = await commonComponentTest(
-			{ status: [ 'resolved' ], hideCasesWithNoUserEdits: true }, true
+			{ status: [ 'resolved' ], hideCasesWithNoUserEdits: true },
+			true,
+			[ 'dev-signal-1', 'dev-signal-2' ]
 		);
 
 		await commonStatusFilterCheckboxTest(
@@ -189,6 +229,39 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 
 		await commonHideCasesWithNoUserEditsCheckboxTest( dialog, true, true );
+
+		await commonSignalFilterCheckboxTest(
+			dialog,
+			[
+				'(checkuser-suggestedinvestigations-signal-dev-signal-1)',
+				'(checkuser-suggestedinvestigations-signal-dev-signal-2)'
+			],
+			{ 'dev-signal-1': false, 'dev-signal-2': false }
+		);
+	} );
+
+	it( 'Renders correctly when opened with dev-signal-1 pre-checked', async () => {
+		const { dialog } = await commonComponentTest(
+			{ signal: [ 'dev-signal-1', 'dev-signal-3' ] },
+			true,
+			[
+				{ name: 'dev-signal-1' },
+				{ name: 'dev-signal-2', urlName: 'signal-5g' },
+				{ name: 'dev-signal-3', urlName: 'signal-4g', displayName: 'Dev signal 3' }
+			]
+		);
+
+		await commonHideCasesWithNoUserEditsCheckboxTest( dialog, false, true );
+
+		await commonSignalFilterCheckboxTest(
+			dialog,
+			[
+				'(checkuser-suggestedinvestigations-signal-dev-signal-1)',
+				'(checkuser-suggestedinvestigations-signal-dev-signal-2)',
+				'Dev signal 3'
+			],
+			{ 'dev-signal-1': true, 'signal-5g': false, 'signal-4g': true }
+		);
 	} );
 
 	it( 'Closes dialog if "Close" button pressed', async () => {
@@ -226,13 +299,15 @@ describe( 'Suggested Investigations change status dialog', () => {
 		// (the dialog is left open so that it's kept open until the page has reloaded)
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ status: [ 'open', 'resolved' ], username: [ 'TestUser1' ] }, window
+			{ status: [ 'open', 'resolved' ], username: [ 'TestUser1' ], signal: [] }, window
 		);
 	} );
 
-	it( 'Show results button press when hideCasesWithNoUserEdits set', async () => {
+	it( 'Show results button press when hideCasesWithNoUserEdits and signal filters set', async () => {
 		const { dialog, wrapper } = await commonComponentTest(
-			{ hideCasesWithNoUserEdits: true }
+			{ hideCasesWithNoUserEdits: true, signal: [ 'dev-signal-1' ] },
+			false,
+			[ { name: 'dev-signal-1', urlName: 'signal-1a' } ]
 		);
 
 		// Press the "Show results" button
@@ -243,7 +318,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ hideCasesWithNoUserEdits: 1, status: [], username: [] }, window
+			{ hideCasesWithNoUserEdits: 1, status: [], username: [], signal: [ 'signal-1a' ] }, window
 		);
 	} );
 } );

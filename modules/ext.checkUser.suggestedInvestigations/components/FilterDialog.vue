@@ -13,6 +13,23 @@
 		@default="onCloseButtonClick"
 	>
 		<cdx-field
+			class="ext-checkuser-suggestedinvestigations-filter-dialog-signal-filter"
+		>
+			<template #label>
+				{{ $i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-signal-filter-header'
+				).text() }}
+			</template>
+			<cdx-checkbox
+				v-for="checkbox in signalCheckboxes"
+				:key="checkbox.urlName"
+				v-model="checkbox.isChecked"
+				:name="'filter-signal-' + checkbox.urlName"
+			>
+				{{ checkbox.label }}
+			</cdx-checkbox>
+		</cdx-field>
+		<cdx-field
 			class="ext-checkuser-suggestedinvestigations-filter-dialog-status-filter"
 		>
 			<template #label>
@@ -79,6 +96,7 @@ module.exports = exports = {
 		 *  - username: An array of usernames that are being filtered for
 		 *  - hideCasesWithNoUserEdits: Boolean. If true, only show cases where at least one
 		 *      of the accounts has made an edit
+		 *  - signal: An array of signals that are being filtered for on the page
 		 */
 		initialFilters: {
 			type: Object,
@@ -87,6 +105,44 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const open = ref( true );
+
+		const signals = mw.config.get( 'wgCheckUserSuggestedInvestigationsSignals' );
+		const signalCheckboxes = ref( signals.map( ( signal ) => {
+			let signalDisplayName;
+			let urlName;
+			let signalName;
+
+			if ( typeof signal !== 'string' ) {
+				signalName = signal.name;
+
+				if ( signal.urlName ) {
+					urlName = signal.urlName;
+				} else {
+					urlName = signal.name;
+				}
+
+				if ( signal.displayName ) {
+					signalDisplayName = signal.displayName;
+				} else {
+					// For grepping, the currently known signal messages are:
+					// * checkuser-suggestedinvestigations-signal-dev-signal-1
+					// * checkuser-suggestedinvestigations-signal-dev-signal-2
+					signalDisplayName = mw.msg( 'checkuser-suggestedinvestigations-signal-' + signal.name );
+				}
+			} else {
+				urlName = signalName = signal;
+				// For grepping, the currently known signal messages are:
+				// * checkuser-suggestedinvestigations-signal-dev-signal-1
+				// * checkuser-suggestedinvestigations-signal-dev-signal-2
+				signalDisplayName = mw.msg( 'checkuser-suggestedinvestigations-signal-' + signal );
+			}
+
+			return {
+				urlName: urlName,
+				label: signalDisplayName,
+				isChecked: props.initialFilters.signal.includes( signalName )
+			};
+		} ) );
 
 		const statusCheckboxes = ref( Constants.caseStatuses.map( ( status ) => ( {
 			value: status,
@@ -129,9 +185,14 @@ module.exports = exports = {
 				( statusData ) => statusData.isChecked
 			);
 
+			const selectedSignals = signalCheckboxes.value.filter(
+				( signalData ) => signalData.isChecked
+			);
+
 			const filters = {
 				status: selectedStatuses.map( ( statusData ) => statusData.value ),
-				username: selectedUsernames.value
+				username: selectedUsernames.value,
+				signal: selectedSignals.map( ( signalData ) => signalData.urlName )
 			};
 
 			if ( hideCasesWithNoUserEditsCheckboxValue.value ) {
@@ -156,6 +217,7 @@ module.exports = exports = {
 			defaultAction,
 			selectedUsernames,
 			statusCheckboxes,
+			signalCheckboxes,
 			hideCasesWithNoUserEditsCheckboxLabel,
 			hideCasesWithNoUserEditsCheckboxValue,
 			onCloseButtonClick,

@@ -249,6 +249,20 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	public function testPageLoadInstrumentation(
 		string $subPage, array $queryParameters, array $expectedInstrumentationData
 	) {
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsGetSignals',
+			static function ( &$signals ) {
+				$signals = [
+					[
+						'name' => 'dev-signal-1',
+						'displayName' => 'Dev signal 1',
+						'description' => 'Dev signal 1: A signal for tests',
+						'urlName' => 'signal-1a',
+					],
+				];
+			}
+		);
+
 		$performer = $this->getTestUser( [ 'checkuser' ] )->getUser();
 
 		$context = RequestContext::getMain();
@@ -276,6 +290,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+						'signal' => [],
 					],
 				],
 			],
@@ -286,27 +301,32 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'is_paging_results' => true, 'pager_limit' => 20, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+						'signal' => [],
 					],
 				],
 			],
 			'Page load with filters applied' => [
 				'subPage' => '',
-				'queryParameters' => [ 'status' => 'open', 'username' => 'TestUser1' ],
+				'queryParameters' => [
+					'status' => 'open', 'username' => 'TestUser1', 'signal' => 'signal-1a',
+				],
 				'expectedInstrumentationData' => [
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [ 'open' ], 'username' => [ 'TestUser1' ],
 						'hide_cases_with_no_user_edits' => false,
+						'signal' => [ 'dev-signal-1' ],
 					],
 				],
 			],
 			'Page load with hide cases with no user edits filter applied' => [
 				'subPage' => '',
-				'queryParameters' => [ 'hideCasesWithNoUserEdits' => 1 ],
+				'queryParameters' => [ 'hideCasesWithNoUserEdits' => 1, 'signal' => 'dev-signal-1' ],
 				'expectedInstrumentationData' => [
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
+						'signal' => [ 'dev-signal-1' ],
 					],
 				],
 			],
@@ -317,6 +337,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'is_paging_results' => true, 'pager_limit' => 10, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+						'signal' => [],
 					],
 				],
 			],
@@ -328,6 +349,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'case_id' => 1,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+						'signal' => [],
 					],
 				],
 			],

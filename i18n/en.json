@@ -437,6 +437,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-title": "Filters",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Close",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Show results",
+	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risk signals",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Account activity",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Hide cases where no accounts have edits",

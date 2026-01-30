@@ -34,6 +34,7 @@ use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\IndexPager;
+use MediaWiki\Parser\ParserOutput;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
@@ -206,12 +207,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$html,
 			'Filter button is not present in the page or has an unexpected label'
 		);
-		$this->assertArrayEquals(
-			[ 'status' => [], 'username' => [], 'hideCasesWithNoUserEdits' => false ],
-			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
-			false, true,
-			'Active filters on the page is not as expected'
-		);
+		$this->assertActiveFiltersJsConfigVar( [], $parserOutput );
 	}
 
 	/**
@@ -606,12 +602,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$html,
 			'The info chip indicating how many filters were applied was not present'
 		);
-		$this->assertArrayEquals(
-			[ 'status' => [ 'open' ], 'username' => [], 'hideCasesWithNoUserEdits' => false ],
-			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
-			false, true,
-			'Active filters on the page is not as expected'
-		);
+		$this->assertActiveFiltersJsConfigVar( [ 'status' => [ 'open' ] ], $parserOutput );
 	}
 
 	public function testWhenUsernameFilterIsSet() {
@@ -642,16 +633,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// only the first case ID is present as a data attribute
 		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
-		$this->assertArrayEquals(
-			[
-				'status' => [],
-				'username' => [ $firstUser->getName() ],
-				'hideCasesWithNoUserEdits' => false,
-			],
-			$jsConfigVars['wgCheckUserSuggestedInvestigationsActiveFilters'],
-			false, true,
-			'Active filters on the page is not as expected'
-		);
+		$this->assertActiveFiltersJsConfigVar( [ 'username' => [ $firstUser->getName() ] ], $parserOutput );
 	}
 
 	public function testWhenUsernameFilterUsesUnknownUsername() {
@@ -718,12 +700,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// has users with edits in it.
 		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
-		$this->assertArrayEquals(
-			[ 'status' => [], 'username' => [], 'hideCasesWithNoUserEdits' => true ],
-			$jsConfigVars['wgCheckUserSuggestedInvestigationsActiveFilters'],
-			false, true,
-			'Active filters on the page is not as expected'
-		);
+		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoUserEdits' => true ], $parserOutput );
 		$this->assertFalse(
 			$jsConfigVars['wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed'],
 			'Value of JS config var wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed ' .
@@ -791,12 +768,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// has users with edits in it.
 		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
-		$this->assertArrayEquals(
-			[ 'status' => [], 'username' => [], 'hideCasesWithNoUserEdits' => true ],
-			$jsConfigVars['wgCheckUserSuggestedInvestigationsActiveFilters'],
-			false, true,
-			'Active filters on the page is not as expected'
-		);
+		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoUserEdits' => true ], $parserOutput );
 		$this->assertTrue(
 			$jsConfigVars['wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed'],
 			'Value of JS config var wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed ' .
@@ -830,6 +802,72 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'ext-checkuser-suggestedinvestigations-warning-dismiss',
 			$html,
 			'The warning should be dismissable'
+		);
+	}
+
+	/** @dataProvider provideWhenSignalFilterIsSet */
+	public function testWhenSignalFilterIsSet( $urlName, $signals ): void {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		// Create two cases, with different signals
+		$firstSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$secondSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'dev-signal-2', 'Test value', false
+		);
+		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $firstSignal ] );
+		$secondCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $secondSignal ] );
+
+		// Load the pager with the 'signal' query parameter set to 'dev-signal-2'
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->getRequest()->setVal( 'signal', $urlName );
+
+		$parserOutput = $this->getPager( $context, $signals )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// Expect that the table pager only shows the case with the dev-signal-2 signal
+		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+
+		$this->assertActiveFiltersJsConfigVar( [ 'signal' => [ 'dev-signal-2' ] ], $parserOutput );
+	}
+
+	public static function provideWhenSignalFilterIsSet(): array {
+		return [
+			'URL name is the database name of the signal' => [ 'dev-signal-2', [] ],
+			'URL name is the database name of the signal with signals array defined' => [
+				'dev-signal-2',
+				[ [ 'name' => 'dev-signal-2', 'urlName' => 'signal-e3' ] ],
+			],
+			'Using the URL name of the signal with signals array defined' => [
+				'signal-e3',
+				[ [ 'name' => 'dev-signal-2', 'urlName' => 'signal-e3' ] ],
+			],
+		];
+	}
+
+	/**
+	 * Asserts that the {@link ParserOutput} has the wgCheckUserSuggestedInvestigationsActiveFilters JS
+	 * config var and that is matches the expected value
+	 *
+	 * @param array $expected An array of properties that override the default value for these properties
+	 *   in the expected array
+	 */
+	private function assertActiveFiltersJsConfigVar( array $expected, ParserOutput $parserOutput ): void {
+		$this->assertArrayEquals(
+			array_merge( [
+				'status' => [],
+				'username' => [],
+				'hideCasesWithNoUserEdits' => false,
+				'signal' => [],
+			], $expected ),
+			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
+			false, true,
+			'Active filters on the page is not as expected'
 		);
 	}
 
