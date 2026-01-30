@@ -196,12 +196,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->mRequest->getArray( 'status', [] )
 		) );
 		if ( count( $this->statusFilter ) !== 0 ) {
-			$this->numberOfFiltersApplied++;
+			$this->numberOfFiltersApplied += count( $this->statusFilter );
 		}
 
 		$this->userNamesFilter = array_filter( $this->mRequest->getArray( 'username', [] ) );
 		if ( $this->userNamesFilter ) {
-			$this->numberOfFiltersApplied++;
+			$this->numberOfFiltersApplied += count( $this->userNamesFilter );
 		}
 
 		$this->hideCasesWithNoUserEdits = $this->mRequest->getBool( 'hideCasesWithNoUserEdits' );
@@ -221,7 +221,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->signalsFilter[] = $signal;
 		}
 		if ( $this->signalsFilter ) {
-			$this->numberOfFiltersApplied++;
+			$this->numberOfFiltersApplied += count( $this->signalsFilter );
 		}
 
 		$this->appliedFilters = [
