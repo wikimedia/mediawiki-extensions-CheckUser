@@ -20,7 +20,7 @@
 	"checkuser-contribs-log": "праверкі ўдзельніка",
 	"checkuser-contribs-log-initiator": "праверкі, выкананыя гэтым удзельнікам",
 	"group-checkuser": "Правяраючыя ўдзельнікаў",
-	"group-checkuser-member": "{{GENDER:$1|правяраючы|правяраючая}} ўдзельнікаў",
+	"group-checkuser-member": "{{GENDER:$1|інспэктар|інспэктарка}} ўдзельнікаў",
 	"group-temporary-account-viewer": "Праглядальнікі IP часовых рахункаў",
 	"group-temporary-account-viewer-member": "{{GENDER:$1|праглядальнік|праглядальніца}} IP часовых рахункаў",
 	"right-checkuser": "Праверка ІР-адрасоў ды іншай інфармацыі ўдзельніка",

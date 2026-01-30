@@ -331,6 +331,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 ने $3 के लिए IP पते {{GENDER:$2|देखे}}",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 ने $3 पर अस्थायी खाते {{GENDER:$2|देखे}}",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 ने $3 पर ग्लोबल रूप से अस्थायी खाते {{GENDER:$2|देखे}}",
+	"logentry-checkuser-temporary-account-view-related-temporary-accounts": "$1 ने $3 के लिए संबंधित अस्थायी खाते {{GENDER:$2|देखे}}",
 	"log-action-filter-checkuser-temporary-account": "क्रिया का प्रकार:",
 	"log-action-filter-checkuser-temporary-account-change-access": "पहुँच बदलें",
 	"log-action-filter-checkuser-temporary-account-view-ips": "अस्थायी खाते की IP डेटा देखें",
