@@ -8,6 +8,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use ArrayIterator;
 use MediaWiki\Block\DatabaseBlockStore;
+use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\SpecialContributionsHandler;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
@@ -53,12 +54,16 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		return $hookHandler;
 	}
 
-	private function createHookHandlerForBeforeMainOutput( array $performerPermissions ) {
+	private function createHookHandlerForBeforeMainOutput(
+		array $performerPermissions,
+		array $bucketedCount = [ 1, 1 ],
+		array $override = []
+	) {
 		$mockTempAcctLookup = $this->createMock( CheckUserTemporaryAccountsByIPLookup::class );
 		$mockTempAcctLookup->method( 'getBucketedCount' )
-			->willReturn( [ 1, 1 ] );
+			->willReturn( $bucketedCount );
 		$mockTempAcctLookup->method( 'getAggregateActiveTempAccountCount' )
-			->willReturn( 1 );
+			->willReturn( $bucketedCount[0] );
 		$mockTempAcctLookup->method( 'get' )
 			->willReturnCallback( static function () use ( $performerPermissions ) {
 				if ( in_array( 'checkuser-temporary-account-no-preference', $performerPermissions ) ) {
@@ -83,17 +88,17 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( [] );
 
 		$services = $this->getServiceContainer();
-		$hookHandler = $this->createHookHandler( [
+		$hookHandler = $this->createHookHandler( array_merge( [
 			'CheckUserTemporaryAccountsByIPLookup' => $mockTempAcctLookup,
 			'UserIdentityLookup' => $mockUserIdentityLookup,
 			'DatabaseBlockStore' => $mockBlockStore,
-		] );
+		], $override ) );
 
 		return $hookHandler;
 	}
 
-	/** @dataProvider provideOnSpecialContributionsBeforeMainOutput */
-	public function testOnSpecialContributionsBeforeMainOutput(
+	/** @dataProvider provideOnSpecialContributionsBeforeMainOutputSubtitle */
+	public function testOnSpecialContributionsBeforeMainOutputSubtitle(
 		bool $tempAccountsEnabled,
 		string $target,
 		bool $targetExists,
@@ -133,6 +138,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 					$this->assertStringContainsString( $expectedSubtitle, $sub );
 				} );
 		}
+		$mockOutputPage->expects( $this->never() )->method( 'addHtml' );
 
 		$mockSpecialPage = $this->getMockBuilder( ContributionsSpecialPage::class )
 			->disableOriginalConstructor()
@@ -148,7 +154,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		$hookHandler->onSpecialContributionsBeforeMainOutput( $targetExists ? 1 : 0, $mockUser, $mockSpecialPage );
 	}
 
-	public function provideOnSpecialContributionsBeforeMainOutput(): array {
+	public function provideOnSpecialContributionsBeforeMainOutputSubtitle(): array {
 		return [
 			'Temporary user, exists' => [
 				'tempAccountsEnabled' => true,
@@ -156,7 +162,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 				'targetExists' => true,
 				'targetHidden' => false,
 				'permissions' => [],
-				'expectedSubtitle' => 'checkuser-userinfocard-temporary-account-bucketcount',
+				'expectedSubtitle' => 'checkuser-contributions-temporary-account-bucketcount',
 			],
 			'Temporary user, doesn\'t exist' => [
 				'tempAccountsEnabled' => true,
@@ -204,7 +210,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 				'targetExists' => true,
 				'targetHidden' => true,
 				'permissions' => [ 'hideuser' ],
-				'expectedSubtitle' => 'checkuser-userinfocard-temporary-account-bucketcount',
+				'expectedSubtitle' => 'checkuser-contributions-temporary-account-bucketcount',
 			],
 			'IP target, has TAIV right' => [
 				'tempAccountsEnabled' => true,
@@ -221,6 +227,87 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 				'targetHidden' => false,
 				'permissions' => [ 'checkuser-temporary-account-no-preference' ],
 				'expectedSubtitle' => null,
+			],
+		];
+	}
+
+	/** @dataProvider provideOnSpecialContributionsBeforeMainOutputWarningBox */
+	public function testOnSpecialContributionsBeforeMainOutputWarningBox(
+		bool $showingRelated,
+		string $expectedLinkMsg,
+		string $pageName
+	) {
+		$this->enableAutoCreateTempUser();
+
+		$permissions = [ 'checkuser-temporary-account-no-preference' ];
+
+		$mockStatus = $this->createMock( CheckUserPermissionStatus::class );
+		$mockStatus->method( 'isGood' )->willReturn( true );
+		$mockPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$mockPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( $mockStatus );
+
+		$mockOutputPage = $this->createMock( OutputPage::class );
+		$mockOutputPage->expects( $this->never() )->method( 'addSubtitle' );
+		$mockOutputPage->expects( $this->once() )->method( 'addHTML' )
+			->willReturnCallback( function ( $html ) use ( $expectedLinkMsg ) {
+				$this->assertStringContainsString( $expectedLinkMsg, $html );
+			} );
+
+		$hookHandler = $this->createHookHandlerForBeforeMainOutput(
+			$permissions,
+			// The warning box only displays when there are multiple temporary accounts
+			[ 3, 5 ],
+			[ 'CheckUserPermissionManager' => $mockPermissionManager ]
+		);
+
+		$performer = $this->createMock( User::class );
+		$performer->method( 'isRegistered' )
+			->willReturn( true );
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setUser( $performer );
+		$context->setLanguage( 'qqx' );
+
+		$mockUser = $this->createMock( User::class );
+		$mockUser->method( 'getName' )
+			->willReturn( '~check-user-test-1' );
+		$mockUser->method( 'isRegistered' )
+			->willReturn( true );
+
+		$mockRequest = $this->createMOck( WebRequest::class );
+		$mockRequest->method( 'getBool' )->willReturn( $showingRelated );
+
+		$mockSpecialPage = $this->getMockBuilder( ContributionsSpecialPage::class )
+			->disableOriginalConstructor()
+			->onlyMethods( [ 'getOutput', 'getAuthority', 'getContext', 'getName', 'getPageTitle', 'getRequest' ] )
+			->getMock();
+		$mockSpecialPage->method( 'getOutput' )
+			->willReturn( $mockOutputPage );
+		$mockSpecialPage->method( 'getAuthority' )
+			->willReturn( $this->mockUserAuthorityWithPermissions( $performer, $permissions ) );
+		$mockSpecialPage->method( 'getContext' )
+			->willReturn( $context );
+		$mockSpecialPage->method( 'getName' )
+			->willReturn( $pageName );
+		$mockSpecialPage->method( 'getPageTitle' )
+			->willReturn( $this->createMock( Title::class ) );
+		$mockSpecialPage->method( 'getRequest' )
+			->willReturn( $mockRequest );
+
+		$hookHandler->onSpecialContributionsBeforeMainOutput( 1, $mockUser, $mockSpecialPage );
+	}
+
+	public static function provideOnSpecialContributionsBeforeMainOutputWarningBox() {
+		return [
+			'Warning box with show all link' => [
+				'showingRelated' => false,
+				'expectedLink' => 'checkuser-contributions-temporary-accounts-show-related',
+				'pageName' => 'Contributions',
+			],
+			'Warning box with hide all link' => [
+				'showingRelated' => true,
+				'expectedLink' => 'checkuser-contributions-temporary-accounts-hide-related',
+				'pageName' => 'Contributions',
 			],
 		];
 	}

@@ -500,6 +500,9 @@
 	"checkuser-temporary-account-bucketcount-min": "$1",
 	"checkuser-temporary-account-bucketcount-range": "$1–$2",
 	"checkuser-temporary-account-bucketcount-max": "$1+",
-	"checkuser-contributions-temporary-accounts-on-ip": "Temporary accounts on this IP: $1",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Temporary accounts on this IP: $1 (blocked: $2)"
+	"checkuser-contributions-temporary-accounts-show-related": "View all contributions from these accounts",
+	"checkuser-contributions-temporary-accounts-hide-related": "Hide contributions from related temporary accounts",
+	"checkuser-contributions-temporary-account-bucketcount": "Temporary accounts from all associated IPs: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip": "Temporary accounts on this IP: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Temporary accounts on this IP: $1 (blocked: $2)."
 }

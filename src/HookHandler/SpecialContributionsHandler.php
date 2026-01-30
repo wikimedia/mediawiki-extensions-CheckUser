@@ -12,6 +12,7 @@ use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\Hook\ContribsPager__getQueryInfoHook;
 use MediaWiki\Hook\SpecialContributions__getForm__filtersHook;
 use MediaWiki\Hook\SpecialContributionsBeforeMainOutputHook;
+use MediaWiki\Html\Html;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
@@ -46,7 +47,7 @@ class SpecialContributionsHandler implements
 		}
 
 		if ( $this->shouldShowCountFromAssociatedIPs( $user, $sp ) ) {
-			$this->addCountFromAssociatedIPsSubtitle( $user, $sp );
+			$this->addCountFromAssociatedIPs( $user, $sp );
 		}
 		if ( $this->shouldShowCountFromThisIP( $user, $sp ) ) {
 			$this->addCountFromThisIPSubtitle( $user->getName(), $sp );
@@ -80,12 +81,12 @@ class SpecialContributionsHandler implements
 		return true;
 	}
 
-	private function addCountFromAssociatedIPsSubtitle( UserIdentity $tempUser, ContributionsSpecialPage $sp ) {
+	private function addCountFromAssociatedIPs( UserIdentity $tempUser, ContributionsSpecialPage $sp ) {
 		// 101 is the maximum number of accounts we care about as defined by T412212
-		[ $bucketRangeStart, $bucketRangeEnd ] = $this->checkUserTemporaryAccountsByIPLookup->getBucketedCount(
-			$this->checkUserTemporaryAccountsByIPLookup
-				->getAggregateActiveTempAccountCount( $tempUser, 101 )
-		);
+		$exactCount = $this->checkUserTemporaryAccountsByIPLookup
+			->getAggregateActiveTempAccountCount( $tempUser, 101 );
+		[ $bucketRangeStart, $bucketRangeEnd ] = $this->checkUserTemporaryAccountsByIPLookup
+			->getBucketedCount( $exactCount );
 
 		$bucketMsgKey = 'checkuser-temporary-account-bucketcount-';
 		if ( $bucketRangeStart === $bucketRangeEnd ) {
@@ -106,10 +107,34 @@ class SpecialContributionsHandler implements
 			->numParams( $bucketRangeStart, $bucketRangeEnd )
 			->text();
 
-		$msg = $sp->msg( 'checkuser-userinfocard-temporary-account-bucketcount' )
+		$countMsg = $sp->msg( 'checkuser-contributions-temporary-account-bucketcount' )
 			->params( $bucketMsg );
 		$out = $sp->getOutput();
-		$out->addSubtitle( $msg );
+
+		if (
+			$exactCount > 1 &&
+			$this->canShowRelatedTemporaryAccounts( $sp->getName(), $tempUser->getName(), $sp->getUser() )
+		) {
+			$showingRelated = $sp->getRequest()->getBool( 'showRelatedTemporaryAccounts' );
+			$linkMsgKey = $showingRelated ?
+				'checkuser-contributions-temporary-accounts-hide-related' :
+				'checkuser-contributions-temporary-accounts-show-related';
+
+			$title = $sp->getPageTitle();
+			$queryParams = $sp->getRequest()->getQueryValues();
+			$queryParams['showRelatedTemporaryAccounts'] = $showingRelated ? 0 : 1;
+
+			$link = Html::rawElement(
+				'a',
+				[ 'href' => $title->getFullUrl( $queryParams ) ],
+				$sp->msg( $linkMsgKey )
+			);
+
+			$warningMsg = implode( ' ', [ $countMsg, $link ] );
+			$out->addHTML( Html::warningBox( $warningMsg ) );
+		} else {
+			$out->addSubtitle( $countMsg );
+		}
 	}
 
 	private function addCountFromThisIPSubtitle( string $ip, ContributionsSpecialPage $sp ) {
