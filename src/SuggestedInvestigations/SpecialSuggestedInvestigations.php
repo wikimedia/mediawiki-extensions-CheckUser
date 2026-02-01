@@ -57,7 +57,12 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
 		private readonly UserOptionsLookup $userOptionsLookup,
 	) {
-		parent::__construct( 'SuggestedInvestigations', 'checkuser-suggested-investigations' );
+		parent::__construct( 'SuggestedInvestigations' );
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'checkuser-suggested-investigations';
 	}
 
 	/** @inheritDoc */

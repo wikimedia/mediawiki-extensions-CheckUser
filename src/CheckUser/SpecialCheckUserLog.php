@@ -37,8 +37,13 @@ class SpecialCheckUserLog extends SpecialPage {
 		private readonly ActorStore $actorStore,
 		IConnectionProvider $dbProvider,
 	) {
-		parent::__construct( 'CheckUserLog', 'checkuser-log' );
+		parent::__construct( 'CheckUserLog' );
 		$this->dbr = $dbProvider->getReplicaDatabase();
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'checkuser-log';
 	}
 
 	/**

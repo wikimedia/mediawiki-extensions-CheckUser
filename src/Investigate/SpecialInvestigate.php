@@ -75,8 +75,13 @@ class SpecialInvestigate extends FormSpecialPage {
 		private readonly UserFactory $userFactory,
 		private readonly UrlUtils $urlUtils,
 	) {
-		parent::__construct( 'Investigate', 'checkuser' );
+		parent::__construct( 'Investigate' );
 		$this->setLinkRenderer( $linkRenderer );
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'checkuser';
 	}
 
 	/**

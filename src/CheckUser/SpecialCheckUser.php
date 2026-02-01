@@ -91,9 +91,14 @@ class SpecialCheckUser extends SpecialPage {
 		private readonly SuggestedInvestigationsMessageRenderer $suggestedInvestigationsMessageRenderer,
 		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
 	) {
-		parent::__construct( 'CheckUser', 'checkuser' );
+		parent::__construct( 'CheckUser' );
 
 		$this->centralIdLookup = $centralIdLookupFactory->getLookup();
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'checkuser';
 	}
 
 	/** @inheritDoc */

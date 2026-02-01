@@ -37,7 +37,12 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		private readonly UserFactory $userFactory,
 		private readonly EventLogger $eventLogger,
 	) {
-		parent::__construct( 'InvestigateBlock', 'checkuser' );
+		parent::__construct( 'InvestigateBlock' );
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'checkuser';
 	}
 
 	/**
