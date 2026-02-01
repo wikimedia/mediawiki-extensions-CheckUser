@@ -93,7 +93,7 @@ function handleTemporaryUserTarget( blockTarget ) {
 						message = mw.message(
 							'checkuser-tempaccount-specialblock-ips',
 							ips.length,
-							Object.assign( mw.language.listToText( ips ) )
+							$( $.parseHTML( mw.language.listToText( ips ) ) )
 						).parse();
 						message = new OO.ui.HtmlSnippet( message );
 					} else {
