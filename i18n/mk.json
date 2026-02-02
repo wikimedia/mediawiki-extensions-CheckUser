@@ -352,6 +352,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|погледа}} IP-адреси за $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|прегледа}} привремени сметки на $3",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 глобално {{GENDER:$2|прегледа}} привремени сметки на $3",
+	"logentry-checkuser-temporary-account-view-related-temporary-accounts": "$1 {{GENDER:$2|прегледа}} поврзани привремени сметки за $3",
 	"log-action-filter-checkuser-temporary-account": "Вид дејство:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Смени пристап",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Погл. IP-податоци на привремени сметки",

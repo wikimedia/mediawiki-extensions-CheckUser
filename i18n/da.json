@@ -364,6 +364,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|set}} IP-adresser for $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|set}} midlertidige konti på $3",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 globalt {{GENDER:$2|set}} midlertidige konti på $3",
+	"logentry-checkuser-temporary-account-view-related-temporary-accounts": "$1 {{GENDER:$2|har set}} relaterede midlertidige konti for $3",
 	"log-action-filter-checkuser-temporary-account": "Handlingstype:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Ændre adgang",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Adgang til IP-data til midlertidig konto",
