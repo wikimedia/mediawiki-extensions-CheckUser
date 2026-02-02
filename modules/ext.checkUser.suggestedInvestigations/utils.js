@@ -84,6 +84,13 @@ function caseStatusToChipStatus( caseStatus ) {
  * @param {window} win
  */
 function updateFiltersOnPage( filters, win ) {
+	// Let's preserve the limit setting if it exists
+	const urlParams = new URLSearchParams( win.location.search );
+	const limit = urlParams.get( 'limit' );
+	if ( limit ) {
+		filters.limit = limit;
+	}
+
 	let newUrl = mw.config.get( 'wgServer' );
 	newUrl += mw.util.getUrl( mw.config.get( 'wgPageName' ), filters );
 	win.location.replace( newUrl );

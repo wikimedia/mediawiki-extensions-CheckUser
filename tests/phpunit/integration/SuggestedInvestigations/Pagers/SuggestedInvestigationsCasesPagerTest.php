@@ -850,6 +850,41 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		];
 	}
 
+	public function testFilterIsRelayedInLimitForm() {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		// Create two cases, where one is then closed
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+		$caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+
+		$caseManager->setCaseStatus( $firstCaseId, CaseStatus::Resolved );
+
+		// Load the pager with the 'status' query parameter set to [ 'open', 'resolved' ] and an unknown parameter
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		// So that we have the limit form shown in the output
+		$context->getRequest()->setVal( 'limit', 1 );
+		$context->getRequest()->setVal( 'status', [ 'open', 'resolved', 'unknown' => 'loremIpsum' ] );
+		$context->getRequest()->setVal( 'unknownArrayField', [ 'test' ] );
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		$parsedDom = DOMUtils::parseHTML( $html );
+		$pager = DOMCompat::querySelector( $parsedDom, '.cdx-table-pager__start' );
+		$this->assertNotNull( $pager );
+
+		$this->assertNotNull( DOMCompat::querySelector( $pager, 'input[name="status[0]"][value="open"]' ) );
+		$this->assertNotNull( DOMCompat::querySelector( $pager, 'input[name="status[1]"][value="resolved"]' ) );
+		$this->assertNull( DOMCompat::querySelector( $pager, 'input[name="status[unknown]"]' ) );
+		$this->assertNull( DOMCompat::querySelector( $pager, 'input[name="unknownArrayField[0]"]' ) );
+	}
+
 	/**
 	 * Asserts that the {@link ParserOutput} has the wgCheckUserSuggestedInvestigationsActiveFilters JS
 	 * config var and that is matches the expected value

@@ -978,11 +978,36 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 	protected function createNavigationBuilder(): CodexPagerNavigationBuilder {
 		$builder = new SuggestedInvestigationsPagerNavigationBuilder(
-			$this->getContext(), $this->getRequest()->getQueryValues(),
+			$this->getContext(),
+			$this->prepareQueryValuesForNavigationBuilder( $this->getRequest()->getQueryValues() ),
 			$this->numberOfFiltersApplied
 		);
 		$builder->setNavClass( $this->getNavClass() );
 		return $builder;
+	}
+
+	private function prepareQueryValuesForNavigationBuilder( array $queryValues ): array {
+		// Flatten all known arrays with integer keys; skip unknown arrays
+		$knownArrays = [ 'signal', 'status', 'username' ];
+		$outputQueryValues = [];
+		foreach ( $queryValues as $key => $value ) {
+			if ( !is_array( $value ) ) {
+				$outputQueryValues[$key] = $value;
+				continue;
+			}
+			if ( !in_array( $key, $knownArrays, true ) ) {
+				continue;
+			}
+
+			foreach ( $value as $subKey => $subValue ) {
+				if ( !is_int( $subKey ) ) {
+					continue;
+				}
+				$newKey = $key . '[' . $subKey . ']';
+				$outputQueryValues[$newKey] = $subValue;
+			}
+		}
+		return $outputQueryValues;
 	}
 
 	/**
