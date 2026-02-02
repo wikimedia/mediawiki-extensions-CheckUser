@@ -449,7 +449,7 @@
 	"checkuser-suggestedinvestigations-table-caption": "Accounts automatically flagged as suspicious",
 	"checkuser-suggestedinvestigations-header-users": "Accounts",
 	"checkuser-suggestedinvestigations-header-signals": "Risk signals",
-	"checkuser-suggestedinvestigations-header-created": "Created",
+	"checkuser-suggestedinvestigations-header-updated": "Updated",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
 	"checkuser-suggestedinvestigations-header-actions": "Actions",

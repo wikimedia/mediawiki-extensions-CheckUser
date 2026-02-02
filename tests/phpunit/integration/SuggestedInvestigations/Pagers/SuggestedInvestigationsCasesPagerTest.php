@@ -171,14 +171,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-status-reason=""', $changeStatusButtonHtml );
 
 		// Validate the timestamp cell contains the correct data and also links to the detail view
-		$urlIdentifier = $this->newSelectQueryBuilder()
-			->select( 'sic_url_identifier' )
-			->from( 'cusi_case' )
-			->where( [ 'sic_id' => $caseId ] )
-			->caller( __METHOD__ )
-			->fetchField();
+		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
 		$this->assertStringContainsString(
-			'Special:SuggestedInvestigations/detail/' . dechex( $urlIdentifier ),
+			'Special:SuggestedInvestigations/detail/' . $urlIdentifier,
 			$html,
 			'The detail view link for the case is missing'
 		);
@@ -187,7 +182,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString(
 			$context->getLanguage()->userTimeAndDate( '20250403020100', $context->getUser() ),
 			$html,
-			'The case creation timestamp is not present in the table row for the case'
+			'The case update timestamp is not present in the table row for the case'
 		);
 
 		// Validate that both the status reason and status cells have the associated suggested investigations case
@@ -208,6 +203,80 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'Filter button is not present in the page or has an unexpected label'
 		);
 		$this->assertActiveFiltersJsConfigVar( [], $parserOutput );
+	}
+
+	public function testOutputShowsCaseUpdateTimestamp() {
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
+			MainConfigNames::LanguageCode => 'qqx',
+		] );
+		ConvertibleTimestamp::setFakeTime( '20250403020100' );
+
+		$updateTimestamp = '20250607080910';
+		$caseId = $this->addCaseWithTwoUsers();
+
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		// Expect that the global edit count is never fetched, as we are using the local one.
+		// If CentralAuth is loaded, use a no-op mock. Otherwise, a use of the service should
+		// mean trying to access methods on `null` (which will fail)
+		if ( $this->getServiceContainer()->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			$this->setService(
+				'CentralAuth.CentralAuthEditCounter',
+				$this->createNoOpMock( CentralAuthEditCounter::class )
+			);
+		}
+
+		// Make a change in the case, so that a new value is set for the
+		// sic_updated_timestamp column.
+		ConvertibleTimestamp::setFakeTime( $updateTimestamp );
+
+		$additionalUser = $this->getMutableTestUser()->getUser();
+
+		$caseManager = $this->getCaseManager();
+		$caseManager->updateCase( $caseId, [ $additionalUser ], [] );
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// 1 data row + 1 header row
+		$this->assertSame( 2, substr_count( $html, '<tr' ) );
+
+		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
+			$html,
+			'mw-checkuser-suggestedinvestigations-change-status-button'
+		);
+		$this->assertStringContainsString(
+			"data-case-id=\"{$caseId}\"",
+			$changeStatusButtonHtml
+		);
+
+		// Validate the timestamp cell contains the correct data and also links to the detail view
+		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
+		$this->assertStringContainsString(
+			'Special:SuggestedInvestigations/detail/' . $urlIdentifier,
+			$html,
+			'The detail view link for the case is missing'
+		);
+
+		$context = RequestContext::getMain();
+		$this->assertStringContainsString(
+			$context->getLanguage()->userTimeAndDate( $updateTimestamp, $context->getUser() ),
+			$html,
+			'The case update timestamp is not present in the table row for the case'
+		);
+
+		$data = $this->getCaseDataFromDB(
+			$caseId,
+			[ 'sic_created_timestamp', 'sic_updated_timestamp' ]
+		);
+		$this->assertNotEquals(
+			$data->sic_created_timestamp,
+			$data->sic_updated_timestamp,
+		);
 	}
 
 	/**
@@ -445,10 +514,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Update the cases to have a specific reason, so that we can assert that the first case and not the
 		// second case is shown in the page
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-		$caseManager->setCaseStatus( $firstCaseId, CaseStatus::Open, 'first case reason' );
-		$caseManager->setCaseStatus( $secondCaseId, CaseStatus::Invalid, 'second case reason' );
+		$this->getCaseManager()->setCaseStatus( $firstCaseId, CaseStatus::Open, 'first case reason' );
+		$this->getCaseManager()->setCaseStatus( $secondCaseId, CaseStatus::Invalid, 'second case reason' );
 
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
@@ -526,9 +593,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	) {
 		$caseId = $this->addCaseWithTwoUsers();
 
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-		$caseManager->setCaseStatus( $caseId, $caseStatus, $reasonInDatabase );
+		$this->getCaseManager()->setCaseStatus( $caseId, $caseStatus, $reasonInDatabase );
 
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
@@ -566,8 +631,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testWhenStatusFilterIsSet() {
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+		$caseManager = $this->getCaseManager();
 
 		// Create two cases, where one is then closed
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
@@ -606,9 +670,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testWhenUsernameFilterIsSet() {
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -616,6 +677,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
 
+		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
 		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
 
@@ -637,14 +699,11 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testWhenUsernameFilterUsesUnknownUsername() {
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-
 		// Create a case for an existing user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
 		);
-		$caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+		$this->getCaseManager()->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
 
 		// Load the pager with the 'username' query set to a string that isn't an existing username
 		$context = RequestContext::getMain();
@@ -664,9 +723,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	public function testWhenHideCasesWithNoUserEditsFilterIsSetForLocalEditCounts( int $limit ) {
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
 
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -682,6 +738,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			->caller( __METHOD__ )
 			->execute();
 
+		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
 		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
 
@@ -731,9 +788,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			MainConfigNames::LanguageCode => 'qqx',
 		] );
 
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -741,8 +795,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
 
-		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
-		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+		$firstCaseId = $this->getCaseManager()->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $this->getCaseManager()->createCase( [ $secondUser ], [ $signal ] );
 
 		// Mock that the second test user has an edit and all others do not
 		$mockCentralAuthEditCounter = $this->createMock( CentralAuthEditCounter::class );
@@ -807,9 +861,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 	/** @dataProvider provideWhenSignalFilterIsSet */
 	public function testWhenSignalFilterIsSet( $urlName, $signals ): void {
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-
 		// Create two cases, with different signals
 		$firstSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -817,6 +868,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$secondSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			'dev-signal-2', 'Test value', false
 		);
+		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $firstSignal ] );
 		$secondCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $secondSignal ] );
 
@@ -922,21 +974,15 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	private function addCaseWithTwoUsers() {
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-
 		self::$testUser1 = $user1 = $this->getMutableTestUser()->getUser();
 		self::$testUser2 = $user2 = $this->getMutableTestUser()->getUser();
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
 
-		return $caseManager->createCase( [ $user1, $user2 ], [ $signal ] );
+		return $this->getCaseManager()->createCase( [ $user1, $user2 ], [ $signal ] );
 	}
 
 	private function addCaseWithManyUsers() {
-		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
-		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
-
 		$users = [];
 		for ( $i = 0; $i < SpecialInvestigate::MAX_TARGETS + 1; $i++ ) {
 			$users[] = $this->getMutableTestUser()->getUser();
@@ -944,11 +990,40 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
 
-		return $caseManager->createCase( $users, [ $signal ] );
+		return $this->getCaseManager()->createCase( $users, [ $signal ] );
+	}
+
+	private function getCaseURLIdentifier( int $caseId ): string {
+		$urlIdentifier = $this->newSelectQueryBuilder()
+			->select( 'sic_url_identifier' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->fetchField();
+
+		return dechex( $urlIdentifier );
+	}
+
+	private function getCaseDataFromDB(
+		int $caseId,
+		array $columns
+	): object {
+		return $this->newSelectQueryBuilder()
+			->select( $columns )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->fetchRow();
 	}
 
 	private function getPager( IContextSource $context, array $signals = [] ): SuggestedInvestigationsCasesPager {
 		return $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsPagerFactory' )
 			->createCasesPager( $context, $signals );
+	}
+
+	private function getCaseManager(): SuggestedInvestigationsCaseManagerService {
+		return $this->getServiceContainer()->getService(
+			'CheckUserSuggestedInvestigationsCaseManager'
+		);
 	}
 }

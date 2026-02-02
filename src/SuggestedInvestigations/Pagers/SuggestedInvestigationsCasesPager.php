@@ -115,8 +115,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * The unique sort fields for the sort options for unique paginate
 	 */
 	private const INDEX_FIELDS = [
-		'sic_created_timestamp' => [ 'sic_created_timestamp', 'sic_id' ],
-		'sic_status' => [ 'sic_status', 'sic_created_timestamp', 'sic_id' ],
+		'sic_updated_timestamp' => [ 'sic_updated_timestamp', 'sic_id' ],
+		'sic_status' => [ 'sic_status', 'sic_updated_timestamp', 'sic_id' ],
 	];
 
 	/** Database with the users and cu_log table */
@@ -245,7 +245,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		return match ( $name ) {
 			'users' => $this->formatUsersCell( $value ),
 			'signals' => $this->formatSignalsCell( $value ),
-			'sic_created_timestamp' => $this->formatTimestampCell( $value ),
+			'sic_updated_timestamp' => $this->formatTimestampCell( $value ),
 			'sic_status' => $this->formatStatusCell( CaseStatus::from( (int)$value ), $this->mCurrentRow->sic_id ),
 			'sic_status_reason' => $this->formatStatusReasonCell(
 				$value,
@@ -591,7 +591,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			'fields' => [
 				'sic_id',
 				'sic_status',
-				'sic_created_timestamp',
+				'sic_updated_timestamp',
 				'sic_status_reason',
 				'sic_url_identifier',
 			],
@@ -937,13 +937,13 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			return false;
 		}
 
-		return $field === 'sic_created_timestamp'
+		return $field === 'sic_updated_timestamp'
 			|| $field === 'sic_status';
 	}
 
 	/** @inheritDoc */
 	public function getDefaultSort() {
-		return 'sic_created_timestamp';
+		return 'sic_updated_timestamp';
 	}
 
 	/** @inheritDoc */
@@ -961,7 +961,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		return [
 			'users' => $this->msg( 'checkuser-suggestedinvestigations-header-users' )->text(),
 			'signals' => $this->msg( 'checkuser-suggestedinvestigations-header-signals' )->text(),
-			'sic_created_timestamp' => $this->msg( 'checkuser-suggestedinvestigations-header-created' )->text(),
+			'sic_updated_timestamp' => $this->msg( 'checkuser-suggestedinvestigations-header-updated' )->text(),
 			'sic_status' => $this->msg( 'checkuser-suggestedinvestigations-header-status' )->text(),
 			'sic_status_reason' => $this->msg( 'checkuser-suggestedinvestigations-header-notes' )->text(),
 			'actions' => $this->msg( 'checkuser-suggestedinvestigations-header-actions' )->text(),

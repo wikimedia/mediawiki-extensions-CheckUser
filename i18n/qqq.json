@@ -483,7 +483,7 @@
 	"checkuser-suggestedinvestigations-table-caption": "Caption for the Suggested investigations table shown in the header of the table",
 	"checkuser-suggestedinvestigations-header-users": "Header of the column listing accounts to investigate in the Suggested investigations table",
 	"checkuser-suggestedinvestigations-header-signals": "Header of the column listing signals that triggered the suggestion in the Suggested investigations table",
-	"checkuser-suggestedinvestigations-header-created": "Header of the column with suggestion creation date in the Suggested investigations table",
+	"checkuser-suggestedinvestigations-header-updated": "Header of the column with the timestamp a case was last updated in the Suggested investigations table",
 	"checkuser-suggestedinvestigations-header-status": "Header of the column with investigation status in the Suggested investigations table",
 	"checkuser-suggestedinvestigations-header-notes": "Header of the column with notes in the Suggested investigations table",
 	"checkuser-suggestedinvestigations-header-actions": "Header of the column with actions in the Suggested investigations table",
