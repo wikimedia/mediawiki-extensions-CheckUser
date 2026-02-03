@@ -14,7 +14,6 @@ use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\Title;
@@ -374,7 +373,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			null,
 			self::$checkuser
 		);
-		$softwareDefinedTags = MediaWikiServices::getInstance()
+		$softwareDefinedTags = $this->getServiceContainer()
 			->getChangeTagsStore()->getSoftwareTags( true );
 		foreach ( $softwareDefinedTags as $tag ) {
 			$this->assertStringContainsString( 'value=\'' . $tag . '\'', $html );

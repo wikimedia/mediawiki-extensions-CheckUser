@@ -274,7 +274,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		$mockUser->method( 'isRegistered' )
 			->willReturn( true );
 
-		$mockRequest = $this->createMOck( WebRequest::class );
+		$mockRequest = $this->createMock( WebRequest::class );
 		$mockRequest->method( 'getBool' )->willReturn( $showingRelated );
 
 		$mockSpecialPage = $this->getMockBuilder( ContributionsSpecialPage::class )
