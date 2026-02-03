@@ -346,6 +346,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 نشانی‌های آی‌پی $3 را {{GENDER:$2|مشاهده کرد}}",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 حساب‌های موقت حاضر در $3 را {{GENDER:$2|مشاهده}} کرد",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 حساب‌های موقت حاضر در $3 را به‌صورت سراسری {{GENDER:$2|مشاهده کرد}}",
+	"logentry-checkuser-temporary-account-view-related-temporary-accounts": "$1 حساب‌های موقت مرتبط با $3 را {{GENDER:$2|مشاهده کرد}}",
 	"log-action-filter-checkuser-temporary-account": "نوع عمل:",
 	"log-action-filter-checkuser-temporary-account-change-access": "تغییر دسترسی",
 	"log-action-filter-checkuser-temporary-account-view-ips": "دسترسی به داده‌های آی‌پی حساب موقت",

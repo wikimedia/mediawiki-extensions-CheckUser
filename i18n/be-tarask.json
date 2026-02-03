@@ -62,7 +62,7 @@
 	"checkuser-localonly": "Не аб’яднаны",
 	"checkuser-massblock": "Заблякаваць выбраныя рахункі ўдзельнікаў",
 	"checkuser-massblock-text": "Пазначце палі выбару ў выніках вышэй, каб абраць рахункі і IP-адрэсы, якія хочаце заблякаваць. Пасьля можаце ўжыць кнопкі ніжэй, якія адкрыюць форму {{#special:InvestigateBlock}} з ужо запоўненымі мэтавымі палямі.",
-	"checkuser-noreason": "Вам неабходна падаць прычыну гэтага запыту.",
+	"checkuser-noreason": "Патрэбна падаць прычыну гэтага запыту.",
 	"checkuser-search": "Пошук у запісах журналу праверкі ўдзельнікаў",
 	"checkuser-search-submit": "Шукаць",
 	"checkuser-log-search-target": "Мэта:",

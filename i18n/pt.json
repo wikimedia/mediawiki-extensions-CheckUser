@@ -266,6 +266,7 @@
 	"checkuser-userinfocard-loading-label": "A carregar a informação do utilizador(a)",
 	"checkuser-userinfocard-error-no-data": "Não foi possível obter a informação para este utilizador. Por favor, tente mais tarde.",
 	"checkuser-userinfocard-activity-chart-label": "Atividade de edição nos últimos 60 dias ({{PLURAL:$1|$1 edição|$1 edições|0=sem edições}})",
+	"checkuser-userinfocard-last-edit-timestamp-label": "Última edição: $1",
 	"checkuser-userinfocard-groups": "<strong>Grupos</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>Grupos globais</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ( {{PLURAL:$2| $2 edição| $2 edições|0=Sem edições}})",

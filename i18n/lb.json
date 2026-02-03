@@ -237,6 +237,7 @@
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: Ënnersäit net fonnt",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Zoumaachen",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Resultater weisen",
+	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risikosignaler",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Zeréck op {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-header-users": "Konten",
