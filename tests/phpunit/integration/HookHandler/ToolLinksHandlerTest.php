@@ -63,7 +63,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( UserIdentityLookup::class ),
 			$this->createMock( UserIdentityUtils::class ),
 			$services->getUserOptionsLookup(),
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			null
 		) )->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
 			1, $items, 'A tool link should have been added'
@@ -147,7 +148,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityLookup(),
 			$services->getUserIdentityUtils(),
 			$mockUserOptionsLookup,
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			null
 		);
 
 		$mockUser = $this->createMock( User::class );
@@ -278,7 +280,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityLookup(),
 			$services->getUserIdentityUtils(),
 			$services->getUserOptionsLookup(),
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			null
 		);
 
 		$mockTarget = $this->createMock( User::class );
@@ -363,7 +366,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( UserIdentityLookup::class ),
 			$services->getUserIdentityUtils(),
 			$this->createMock( UserOptionsLookup::class ),
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			null
 		);
 
 		$mockUserPageTitle = $this->createMock( Title::class );
@@ -461,7 +465,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( UserIdentityLookup::class ),
 			$services->getUserIdentityUtils(),
 			$this->createMock( UserOptionsLookup::class ),
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			null
 		);
 
 		$mockUserPageTitle = $this->createMock( Title::class );
@@ -564,7 +569,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityLookup(),
 			$services->getUserIdentityUtils(),
 			$services->getUserOptionsLookup(),
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			$services->getService( 'MobileFrontend.Context' )
 		);
 
 		$mockUser = $this->createMock( User::class );
@@ -613,7 +619,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$userIdentityLookup,
 			$userIdentityUtils ?? $services->getUserIdentityUtils(),
 			$services->getUserOptionsLookup(),
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			null
 		);
 		$links = [];
 		$mockUserPageTitle = $this->createMock( Title::class );

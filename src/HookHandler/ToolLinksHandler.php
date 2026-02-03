@@ -8,9 +8,7 @@ use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\SpecialContributionsBeforeMainOutputHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
@@ -38,6 +36,7 @@ class ToolLinksHandler implements
 	private UserIdentityUtils $userIdentityUtils;
 	private UserOptionsLookup $userOptionsLookup;
 	private TempUserConfig $tempUserConfig;
+	private ?MobileContext $mobileContext;
 
 	public function __construct(
 		CheckUserPermissionManager $cuPermissionManager,
@@ -47,7 +46,8 @@ class ToolLinksHandler implements
 		UserIdentityLookup $userIdentityLookup,
 		UserIdentityUtils $userIdentityUtils,
 		UserOptionsLookup $userOptionsLookup,
-		TempUserConfig $tempUserConfig
+		TempUserConfig $tempUserConfig,
+		?MobileContext $mobileContext,
 	) {
 		$this->cuPermissionManager = $cuPermissionManager;
 		$this->permissionManager = $permissionManager;
@@ -57,6 +57,7 @@ class ToolLinksHandler implements
 		$this->userIdentityUtils = $userIdentityUtils;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->tempUserConfig = $tempUserConfig;
+		$this->mobileContext = $mobileContext;
 	}
 
 	/**
@@ -87,13 +88,7 @@ class ToolLinksHandler implements
 	 * @return bool Whether the user is in mobile view. This will always be false if MobileFrontend is not loaded.
 	 */
 	private function isMobile(): bool {
-		$isMobile = false;
-		if ( ExtensionRegistry::getInstance()->isLoaded( 'MobileFrontend' ) ) {
-			/** @var MobileContext $mobFrontContext */
-			$mobFrontContext = MediaWikiServices::getInstance()->getService( 'MobileFrontend.Context' );
-			$isMobile = $mobFrontContext->shouldDisplayMobileView();
-		}
-		return $isMobile;
+		return $this->mobileContext && $this->mobileContext->shouldDisplayMobileView();
 	}
 
 	/**

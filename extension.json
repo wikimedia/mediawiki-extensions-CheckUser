@@ -451,6 +451,9 @@
 				"UserIdentityUtils",
 				"UserOptionsLookup",
 				"TempUserConfig"
+			],
+			"optional_services": [
+				"MobileFrontend.Context"
 			]
 		},
 		"RenameUserSQLHandler": {
