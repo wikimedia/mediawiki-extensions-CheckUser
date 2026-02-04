@@ -271,6 +271,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Phạm vi ngày",
 	"checkuser-investigate-compare-table-header-ip": "Địa chỉ IP",
 	"checkuser-investigate-compare-table-header-useragent": "Tác nhân người dùng",
+	"checkuser-contributions-filters-related-temporary-accounts": "Hiện đóng góp từ các tài khoản tạm thời liên quan",
 	"checkuser-ip-contributions": "Tìm kiếm đóng góp IP",
 	"checkuser-ip-contributions-permission-error-title": "Không có quyền thực hiện",
 	"checkuser-ip-contributions-permission-error-description": "Để xem các đóng góp của tài khoản tạm thời cho một IP, vui lòng chấp nhận thỏa thuận trong [[Special:Preferences|tùy chọn của bạn]].",
@@ -434,6 +435,9 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Đóng",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tài khoản tạm thời từ tất cả các IP liên quan: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Tổng số tài khoản tạm thời từ tất cả địa chỉ IP được liên kết với tài khoản này",
-	"checkuser-contributions-temporary-accounts-on-ip": "Tài khoản tạm thời của IP này: $1",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tài khoản tạm thời của IP này: $1 (bị cấm: $2)"
+	"checkuser-contributions-temporary-accounts-show-related": "Xem tất cả đóng góp từ các tài khoản này",
+	"checkuser-contributions-temporary-accounts-hide-related": "Ẩn đóng góp từ các tài khoản tạm thời liên quan",
+	"checkuser-contributions-temporary-account-bucketcount": "Tài khoản tạm thời từ tất cả các IP liên quan: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip": "Tài khoản tạm thời của IP này: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tài khoản tạm thời của IP này: $1 (bị cấm: $2)."
 }

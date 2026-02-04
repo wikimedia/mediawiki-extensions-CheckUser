@@ -256,6 +256,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Intervallo di date",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
+	"checkuser-contributions-filters-related-temporary-accounts": "Mostra i contributi dalle utenze temporanee correlate",
 	"checkuser-ip-contributions": "Cerca i contributi dell'IP",
 	"checkuser-ip-contributions-permission-error-title": "Permessi non sufficienti",
 	"checkuser-ip-contributions-permission-error-description": "Per visualizzare i contributi effettuati tramite utenza temporanea per un IP devi accettare l'accordo nelle [[Special:Preferences|tue preferenze]].",
@@ -401,6 +402,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Chiudi",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Mostra risultati",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Stato",
+	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Attività dell'utenza",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Utenza",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Torna a {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-table-caption": "Utenze contrassegnate automaticamente come sospette",
@@ -438,6 +440,9 @@
 	"checkuser-temporary-account-bucketcount-min": "$1",
 	"checkuser-temporary-account-bucketcount-range": "$1-$2",
 	"checkuser-temporary-account-bucketcount-max": "$1+",
-	"checkuser-contributions-temporary-accounts-on-ip": "Utenze temporanee su questo IP: $1",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Utenze temporanee su questo IP: $1 (bloccate: $2)"
+	"checkuser-contributions-temporary-accounts-show-related": "Vedi tutti i contributi da queste utenze",
+	"checkuser-contributions-temporary-accounts-hide-related": "Nascondi i contributi dalle utenze temporanee correlate",
+	"checkuser-contributions-temporary-account-bucketcount": "Utenze temporanee da tutti gli IP associati: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip": "Utenze temporanee su questo IP: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Utenze temporanee su questo IP: $1 (bloccate: $2)."
 }
