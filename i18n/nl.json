@@ -20,7 +20,8 @@
 			"Vistaus",
 			"Xbaked potatox",
 			"XXBlackburnXx",
-			"Kippenvlees1"
+			"Kippenvlees1",
+			"HanV"
 		]
 	},
 	"checkuser-summary": "Dit hulpmiddel doorzoekt de recente wijzigingen om de IP-adressen van een gebruiker te achterhalen, of om voor een IP-adres de bewerkings- en gebruikersgegegevens weer te geven.\nDe met een bepaald IP-adres in verband staande gebruikers en bewerkingen kunnen via XFF-headers achterhaald worden door \"/xff\" achter het IP-adres toe te voegen. Daarbij worden zowel IPv4 (CIDR $1-32) als IPv6 (CIDR $2-128) ondersteund.\nOm prestatieredenen worden niet meer dan $3 bewerkingen weergegeven.\nGebruik dit hulpmiddel alleen in overeenstemming met het vastgestelde beleid.",
