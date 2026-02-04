@@ -209,6 +209,65 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		$this->assertSame( self::$openCase, $service->getCaseIdForUrlIdentifier( $openCaseUrlIdentifier ) );
 	}
 
+	public function testGetUserIdsInCase(): void {
+		$service = $this->createService();
+		$userIds = $service->getUserIdsInCase( self::$openCase );
+		$this->assertSame( [ 1, 2 ], $userIds );
+
+		$userIds = $service->getUserIdsInCase( self::$secondOpenCase );
+		$this->assertSame( [ 2 ], $userIds );
+
+		$userIds = $service->getUserIdsInCase( self::$closedCase );
+		$this->assertSame( [ 1 ], $userIds );
+	}
+
+	public function testGetUserIdsInCaseForNonExistentCase(): void {
+		$service = $this->createService();
+		$userIds = $service->getUserIdsInCase( 999999 );
+		$this->assertSame( [], $userIds );
+	}
+
+	public function testGetCaseStatusThrowsWhenNoRowFound(): void {
+		$service = $this->createService();
+		$caseId = 999999;
+
+		$this->expectException( InvalidArgumentException::class );
+		$this->expectExceptionMessage( "No case found with id $caseId" );
+
+		$service->getCaseStatus( $caseId );
+	}
+
+	public function testGetOpenCaseIdsForUser(): void {
+		$service = $this->createService();
+
+		$caseIds = $service->getOpenCaseIdsForUser( 1 );
+		$this->assertSame( [ self::$openCase ], $caseIds );
+
+		$caseIds = $service->getOpenCaseIdsForUser( 2 );
+		$this->assertEqualsCanonicalizing( [ self::$openCase, self::$secondOpenCase ], $caseIds );
+	}
+
+	public function testIsExtensionEnabled(): void {
+		$service = $this->createService();
+
+		$this->assertTrue( $service->areSuggestedInvestigationsEnabled() );
+	}
+
+	public function testIsExtensionDisabled(): void {
+		$this->disableSuggestedInvestigations();
+
+		$service = $this->createService();
+
+		$this->assertFalse( $service->areSuggestedInvestigationsEnabled() );
+	}
+
+	public function testGetOpenCaseIdsForUserWithNoCases(): void {
+		$service = $this->createService();
+
+		$caseIds = $service->getOpenCaseIdsForUser( 999999 );
+		$this->assertSame( [], $caseIds );
+	}
+
 	public function addDBDataOnce() {
 		$this->enableSuggestedInvestigations();
 

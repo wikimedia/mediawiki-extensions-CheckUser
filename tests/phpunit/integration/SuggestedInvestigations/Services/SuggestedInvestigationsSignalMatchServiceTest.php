@@ -263,7 +263,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 					'value' => 'test-value',
 				]
 			);
-		$this->setLogger( 'CheckUser', $logger );
+		$this->setService( 'CheckUserLogger', $logger );
 
 		// Trigger the invalid signal again, this time with $user2
 		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user2, 'test-event', [] );

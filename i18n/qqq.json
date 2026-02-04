@@ -461,6 +461,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "Message to show the number of times a user had its IP revealed\n\nParameters:\n* $1 - Number of times the user had its IP revealed\n* $2 - Last date/time when the IP was revealed",
 	"checkuser-userinfocard-ip-revealed-never": "Message to show the number of times a user had its IP revealed, when its IP was never revealed.\n\nParameters:\n* $1 - Number of times the user had its IP revealed, which will be 0",
 	"checkuser-suggestedinvestigations": "{{doc-special}}This page presents a list of accounts that triggered some signals and are brought to the attention of check users.",
+	"checkuser-suggestedinvestigations-autoclose-reason": "Reason text stored on a Suggested Investigations case when it is automatically closed because all accounts in the case have been blocked.",
 	"checkuser-suggestedinvestigations-detail-view": "{{doc-special}}This subpage of the {{msg-mw|checkuser-suggestedinvestigations}} special page shows extended information about a given case.\n\nParameters:\n* $1 - The case ID as a formatted number.",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "Used as a title on an error page when a user visits 'Special:SuggestedInvestigations/detail/X' where 'X' does not correspond to an existing case URL identifier.",
 	"checkuser-suggestedinvestigations-detail-view-not-found-page-text": "Used as page text for an error page when a user visits 'Special:SuggestedInvestigations/detail/X' where 'X' does not correspond to an existing case URL identifier.",

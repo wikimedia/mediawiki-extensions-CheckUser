@@ -62,7 +62,7 @@ return [
 		MediaWikiServices $services
 	): AccountCreationDetailsLookup {
 		return new AccountCreationDetailsLookup(
-			LoggerFactory::getInstance( 'CheckUser' ),
+			$services->get( 'CheckUserLogger' ),
 			new ServiceOptions(
 				AccountCreationDetailsLookup::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
@@ -95,7 +95,7 @@ return [
 			$services->getCentralIdLookup(),
 			$services->getExtensionRegistry(),
 			$services->getSiteLookup(),
-			LoggerFactory::getInstance( 'CheckUser' )
+			$services->get( 'CheckUserLogger' )
 		);
 	},
 	'CheckUserCentralIndexLookup' => static function (
@@ -119,7 +119,7 @@ return [
 			$services->getJobQueueGroup(),
 			$services->getTempUserConfig(),
 			$services->getUserFactory(),
-			LoggerFactory::getInstance( 'CheckUser' )
+			$services->get( 'CheckUserLogger' )
 		);
 	},
 	'CheckUserComparePagerFactory' => static function ( MediaWikiServices $services ): ComparePagerFactory {
@@ -144,7 +144,7 @@ return [
 			$services->getTempUserConfig()
 		);
 	},
-	'CheckUserDataPurger' => static function (): CheckUserDataPurger {
+	'CheckUserDataPurger' => static function () {
 		return new CheckUserDataPurger();
 	},
 	'CheckUserDurationManager' => static function (): DurationManager {
@@ -241,7 +241,7 @@ return [
 			$services->get( 'UserAgentClientHintsManager' ),
 			$services->getJobQueueGroup(),
 			$services->getRecentChangeLookup(),
-			LoggerFactory::getInstance( 'CheckUser' )
+			$services->get( 'CheckUserLogger' )
 		);
 	},
 	'CheckUserIPContributionsPagerFactory' => static function (
@@ -273,6 +273,9 @@ return [
 			$services->get( 'CheckUserPermissionManager' )
 		);
 	},
+	'CheckUserLogger' => static function () {
+		return LoggerFactory::getInstance( 'CheckUser' );
+	},
 	'CheckUserLogService' => static function (
 		MediaWikiServices $services
 	): CheckUserLogService {
@@ -280,7 +283,7 @@ return [
 			$services->getDBLoadBalancerFactory(),
 			$services->getCommentStore(),
 			$services->getCommentFormatter(),
-			LoggerFactory::getInstance( 'CheckUser' ),
+			$services->get( 'CheckUserLogger' ),
 			$services->getActorStore(),
 			$services->getUserIdentityLookup(),
 			new ServiceOptions(
@@ -300,7 +303,7 @@ return [
 			$services->getDBLoadBalancerFactory(),
 			$services->getRevisionStore(),
 			$services->getArchivedRevisionLookup(),
-			LoggerFactory::getInstance( 'CheckUser' )
+			$services->get( 'CheckUserLogger' )
 		);
 	},
 	'CheckUserPermissionManager' => static function ( MediaWikiServices $services ): CheckUserPermissionManager {
@@ -343,7 +346,7 @@ return [
 				$services->getMainConfig()
 			),
 			$services->getConnectionProvider(),
-			LoggerFactory::getInstance( 'CheckUser' ),
+			$services->get( 'CheckUserLogger' ),
 		);
 	},
 	'CheckUserSuggestedInvestigationsCaseManager' => static function (
@@ -419,7 +422,7 @@ return [
 	): TemporaryAccountLoggerFactory {
 		return new TemporaryAccountLoggerFactory(
 			$services->getActorStore(),
-			LoggerFactory::getInstance( 'CheckUser' ),
+			$services->get( 'CheckUserLogger' ),
 			$services->getDBLoadBalancerFactory(),
 			$services->getTitleFactory()
 		);
@@ -453,7 +456,7 @@ return [
 			$services->get( 'CheckUserTimelineService' ),
 			$services->get( 'CheckUserTimelineRowFormatterFactory' ),
 			$services->getLinkBatchFactory(),
-			LoggerFactory::getInstance( 'CheckUser' )
+			$services->get( 'CheckUserLogger' )
 		);
 	},
 	'CheckUserTimelineRowFormatterFactory' => static function (
@@ -546,7 +549,7 @@ return [
 			$services->get( 'CheckUserHookRunner' ),
 			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
 			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' ),
-			LoggerFactory::getInstance( 'CheckUser' ),
+			$services->get( 'CheckUserLogger' ),
 		);
 	},
 	'UserAgentClientHintsFormatter' => static function (
@@ -577,7 +580,7 @@ return [
 				UserAgentClientHintsManager::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			LoggerFactory::getInstance( 'CheckUser' )
+			$services->get( 'CheckUserLogger' )
 		);
 	},
 ];

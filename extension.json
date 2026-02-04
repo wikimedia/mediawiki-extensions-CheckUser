@@ -561,6 +561,14 @@
 			"services": [
 				"SuggestedInvestigationsSignalMatchService"
 			]
+		},
+		"SuggestedInvestigationsAutoCloseOnUsersBlockedHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler",
+			"services": [
+				"CheckUserSuggestedInvestigationsCaseLookup",
+				"JobQueueGroup",
+				"CheckUserLogger"
+			]
 		}
 	},
 	"Hooks": {
@@ -607,6 +615,7 @@
 		],
 		"SpecialPage_initList": "ConditionalRegistration",
 		"UserGroupsChanged": "groups",
+		"BlockIpComplete": "SuggestedInvestigationsAutoCloseOnUsersBlockedHandler",
 		"UserGetDefaultOptions": "preferences",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
 		"UserLinkRendererUserLinkPostRender": "UserLinkRendererUserLinkPostRenderHandler",
@@ -1213,6 +1222,10 @@
 	"JobClasses": {
 		"checkuserLogTemporaryAccountAccess": "\\MediaWiki\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob",
 		"checkuserPruneCheckUserDataJob": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob",
+		"checkuserSuggestedInvestigationsAutoClose": {
+			"factory": "MediaWiki\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseJob::newFromGlobalState",
+			"needsPage": false
+		},
 		"checkuserUpdateUserCentralIndexJob": {
 			"class": "MediaWiki\\CheckUser\\Jobs\\UpdateUserCentralIndexJob",
 			"services": [

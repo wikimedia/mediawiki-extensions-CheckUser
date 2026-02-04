@@ -153,6 +153,72 @@ class SuggestedInvestigationsCaseLookupService {
 	}
 
 	/**
+	 * Fetches the list of local wiki user IDs of users listed in a given case
+	 *
+	 * @return int[]
+	 */
+	public function getUserIdsInCase( int $caseId ): array {
+		$this->assertSuggestedInvestigationsEnabled();
+
+		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+
+		$userIds = $dbr->newSelectQueryBuilder()
+			->select( 'siu_user_id' )
+			->from( 'cusi_user' )
+			->where( [ 'siu_sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->fetchFieldValues();
+
+		return array_map( 'intval', $userIds );
+	}
+
+	/**
+	 * Fetches the list of open cases Ids referenced for a given local user ID
+	 *
+	 * @return int[]
+	 */
+	public function getOpenCaseIdsForUser( int $userId ): array {
+		$this->assertSuggestedInvestigationsEnabled();
+
+		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+
+		$userIds = $dbr->newSelectQueryBuilder()
+			->select( 'sic_id' )
+			->from( 'cusi_user' )
+			->join( 'cusi_case', null, 'siu_sic_id = sic_id' )
+			->where( [
+				'siu_user_id' => $userId,
+				'sic_status' => CaseStatus::Open->value,
+			] )
+			->caller( __METHOD__ )
+			->fetchFieldValues();
+
+		return array_map( 'intval', $userIds );
+	}
+
+	/**
+	 * Returns a {@link CaseStatus} object describing the status of the provided case ID
+	 */
+	public function getCaseStatus( int $caseId ): CaseStatus {
+		$this->assertSuggestedInvestigationsEnabled();
+
+		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+
+		$rawStatus = $dbr->newSelectQueryBuilder()
+			->select( 'sic_status' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->fetchField();
+
+		if ( $rawStatus === false ) {
+			throw new InvalidArgumentException( "No case found with id $caseId" );
+		}
+
+		return CaseStatus::from( $rawStatus );
+	}
+
+	/**
 	 * Given a iterable object or array of rows from the cusi_case table, construct an array of
 	 * {@link SuggestedInvestigationsCase} objects for those rows and return it.
 	 *
@@ -178,11 +244,18 @@ class SuggestedInvestigationsCaseLookupService {
 	}
 
 	/**
+	 * Returns whether the Suggested Investigations feature is enabled
+	 */
+	public function areSuggestedInvestigationsEnabled(): bool {
+		return $this->options->get( 'CheckUserSuggestedInvestigationsEnabled' );
+	}
+
+	/**
 	 * Helper function to return early if SI is not enabled, so we don't interact with non-existing tables in DB
 	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	private function assertSuggestedInvestigationsEnabled(): void {
-		if ( !$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+		if ( !$this->areSuggestedInvestigationsEnabled() ) {
 			throw new RuntimeException( 'Suggested Investigations is not enabled' );
 		}
 	}
