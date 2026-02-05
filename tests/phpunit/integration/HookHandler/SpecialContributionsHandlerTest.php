@@ -9,6 +9,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 use ArrayIterator;
 use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions;
 use MediaWiki\CheckUser\HookHandler\SpecialContributionsHandler;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
@@ -17,7 +18,6 @@ use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\WebRequest;
-use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Specials\Pager\ContribsPager;
 use MediaWiki\Status\Status;
@@ -140,7 +140,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 		$mockOutputPage->expects( $this->never() )->method( 'addHtml' );
 
-		$mockSpecialPage = $this->getMockBuilder( ContributionsSpecialPage::class )
+		$mockSpecialPage = $this->getMockBuilder( SpecialGlobalContributions::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'getOutput', 'getAuthority', 'getContext' ] )
 			->getMock();
@@ -277,7 +277,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		$mockRequest = $this->createMock( WebRequest::class );
 		$mockRequest->method( 'getBool' )->willReturn( $showingRelated );
 
-		$mockSpecialPage = $this->getMockBuilder( ContributionsSpecialPage::class )
+		$mockSpecialPage = $this->getMockBuilder( SpecialGlobalContributions::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'getOutput', 'getAuthority', 'getContext', 'getName', 'getPageTitle', 'getRequest' ] )
 			->getMock();
@@ -336,7 +336,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		$request = $this->createMock( WebRequest::class );
 		$request->method( 'getText' )->willReturn( $target );
 
-		$specialPage = $this->createMock( ContributionsSpecialPage::class );
+		$specialPage = $this->createMock( SpecialGlobalContributions::class );
 		$specialPage->method( 'getUser' )->willReturn( $user );
 		$specialPage->method( 'getRequest' )->willReturn( $request );
 		$specialPage->method( 'getName' )->willReturn( $pageName );
