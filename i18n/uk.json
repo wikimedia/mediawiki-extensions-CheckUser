@@ -444,7 +444,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "Облікові записи автоматично позначені як підозрілі",
 	"checkuser-suggestedinvestigations-header-users": "Облікові записи",
 	"checkuser-suggestedinvestigations-header-signals": "Сигнали ризику",
-	"checkuser-suggestedinvestigations-header-created": "Створено",
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Примітки",
 	"checkuser-suggestedinvestigations-header-actions": "Дії",

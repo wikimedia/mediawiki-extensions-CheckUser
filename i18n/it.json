@@ -408,7 +408,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "Utenze contrassegnate automaticamente come sospette",
 	"checkuser-suggestedinvestigations-header-users": "Utenze",
 	"checkuser-suggestedinvestigations-header-signals": "Segnali di rischio",
-	"checkuser-suggestedinvestigations-header-created": "Creato",
 	"checkuser-suggestedinvestigations-header-status": "Stato",
 	"checkuser-suggestedinvestigations-header-notes": "Note",
 	"checkuser-suggestedinvestigations-header-actions": "Azioni",

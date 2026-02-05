@@ -442,7 +442,7 @@
 	"checkuser-suggestedinvestigations-table-caption": "Avtomatik işarələnən şübhəli hesablar",
 	"checkuser-suggestedinvestigations-header-users": "Hesablar",
 	"checkuser-suggestedinvestigations-header-signals": "Risk siqnalları",
-	"checkuser-suggestedinvestigations-header-created": "Yaradılıb",
+	"checkuser-suggestedinvestigations-header-updated": "Yeniləmə",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Qeydlər",
 	"checkuser-suggestedinvestigations-header-actions": "Fəaliyyətlər",

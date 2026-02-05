@@ -455,7 +455,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "自動標記為可疑帳號",
 	"checkuser-suggestedinvestigations-header-users": "帳號",
 	"checkuser-suggestedinvestigations-header-signals": "風險訊號",
-	"checkuser-suggestedinvestigations-header-created": "已建立",
 	"checkuser-suggestedinvestigations-header-status": "狀態",
 	"checkuser-suggestedinvestigations-header-notes": "備註",
 	"checkuser-suggestedinvestigations-header-actions": "操作",

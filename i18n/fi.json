@@ -443,7 +443,7 @@
 	"checkuser-suggestedinvestigations-table-caption": "Tunnukset, jotka on automaattisesti liputettu mahdollisesti epäilyttäviksi",
 	"checkuser-suggestedinvestigations-header-users": "Tunnukset",
 	"checkuser-suggestedinvestigations-header-signals": "Riskisignaalit",
-	"checkuser-suggestedinvestigations-header-created": "Luotu",
+	"checkuser-suggestedinvestigations-header-updated": "Päivitetty",
 	"checkuser-suggestedinvestigations-header-status": "Tila",
 	"checkuser-suggestedinvestigations-header-notes": "Huomautukset",
 	"checkuser-suggestedinvestigations-header-actions": "Toiminnot",

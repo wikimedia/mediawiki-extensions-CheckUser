@@ -266,6 +266,7 @@
 	"checkuser-investigate-compare-table-header-activity": "بازهٔ زمانی",
 	"checkuser-investigate-compare-table-header-ip": "آی‌پی",
 	"checkuser-investigate-compare-table-header-useragent": "عامل کاربر",
+	"checkuser-contributions-filters-related-temporary-accounts": "نمایش مشارکت‌ها از حساب‌های موقت مرتبط",
 	"checkuser-ip-contributions": "جستجوی مشارکت‌های آی‌پی",
 	"checkuser-ip-contributions-permission-error-title": "خطای سطح دسترسی",
 	"checkuser-ip-contributions-permission-error-description": "برای مشاهدهٔ مشارکت‌های حساب موقت مرتبط با یک آی‌پی، لطفاً توافقنامهٔ موجود در [[Special:Preferences|ترجیحات خود]] را تأیید کنید.",
@@ -396,6 +397,13 @@
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: پرونده یافت نشد",
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: زیرصفحه یافت نشد",
 	"checkuser-suggestedinvestigations-summary-detail-view": "این صفحه حاوی اطلاعات با جزئیات تنها برای بازرسان، پیرامون '''پروندهٔ شمارهٔ $1''' است.",
+	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "فعالیت‌های حساب",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "نهفتن مواردی که هیچ حسابی در آن‌ها دارای ویرایش نیست",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "نهفتن مواردی که هیچ حسابی در آن‌ها دارای ویرایش سراسری نیست",
 	"checkuser-suggestedinvestigations-user-check-reason-prefill": "[[$1|بازرسی پیشنهادی شمارهٔ $2]]: {{GENDER:$3|$3}}",
-	"checkuser-suggestedinvestigations-user-investigate-reason-prefill": "کاربران از [[$1|بازرسی پیشنهادی شمارهٔ $2]]"
+	"checkuser-suggestedinvestigations-user-investigate-reason-prefill": "کاربران از [[$1|بازرسی پیشنهادی شمارهٔ $2]]",
+	"checkuser-contributions-temporary-accounts-show-related": "نمایش تمام مشارکت‌ها از این حساب‌ها",
+	"checkuser-contributions-temporary-accounts-hide-related": "نهفتن مشارکت‌ها از حساب‌های موقت مرتبط",
+	"checkuser-contributions-temporary-accounts-on-ip": "حساب‌های موقت بر روی این آی‌پی: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "حساب‌های موقت بر روی این آی‌پی: $1 (بسته‌شده: $2)."
 }

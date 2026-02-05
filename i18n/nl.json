@@ -447,7 +447,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "Accounts die automatisch als verdacht zijn gemarkeerd",
 	"checkuser-suggestedinvestigations-header-users": "Accounts",
 	"checkuser-suggestedinvestigations-header-signals": "Risicosignalen",
-	"checkuser-suggestedinvestigations-header-created": "Aangemaakt",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Notities",
 	"checkuser-suggestedinvestigations-header-actions": "Handelingen",

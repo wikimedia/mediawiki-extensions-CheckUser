@@ -474,7 +474,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "Comptes automatiquement signalés comme suspects",
 	"checkuser-suggestedinvestigations-header-users": "Comptes",
 	"checkuser-suggestedinvestigations-header-signals": "Signaux de risque",
-	"checkuser-suggestedinvestigations-header-created": "Créé",
 	"checkuser-suggestedinvestigations-header-status": "État",
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
 	"checkuser-suggestedinvestigations-header-actions": "Actions",

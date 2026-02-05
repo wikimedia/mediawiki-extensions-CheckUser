@@ -453,7 +453,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "推奨調査表",
 	"checkuser-suggestedinvestigations-header-users": "アカウント",
 	"checkuser-suggestedinvestigations-header-signals": "リスクシグナル",
-	"checkuser-suggestedinvestigations-header-created": "作成日時",
 	"checkuser-suggestedinvestigations-header-status": "状態",
 	"checkuser-suggestedinvestigations-header-notes": "備考",
 	"checkuser-suggestedinvestigations-header-actions": "操作",

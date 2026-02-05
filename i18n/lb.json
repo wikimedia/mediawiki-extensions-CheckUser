@@ -242,7 +242,6 @@
 	"checkuser-suggestedinvestigations-back-to-main-page": "Zeréck op {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-header-users": "Konten",
 	"checkuser-suggestedinvestigations-header-signals": "Risikosignaler",
-	"checkuser-suggestedinvestigations-header-created": "Ugeluecht",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-actions": "Aktiounen",
 	"checkuser-suggestedinvestigations-status-invalid": "Ongülteg",

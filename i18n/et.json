@@ -347,7 +347,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "Automaatselt kahtlaseks märgitud kontod",
 	"checkuser-suggestedinvestigations-header-users": "Kontod",
 	"checkuser-suggestedinvestigations-header-signals": "Riskimärgid",
-	"checkuser-suggestedinvestigations-header-created": "Loodud",
 	"checkuser-suggestedinvestigations-header-status": "Olek",
 	"checkuser-suggestedinvestigations-header-notes": "Märkused",
 	"checkuser-suggestedinvestigations-header-actions": "Toimingud",

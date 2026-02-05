@@ -206,7 +206,6 @@
 	"checkuser-userinfocard-ip-revealed-count": "Разкривания на IP: $1 (последно на $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Разкривания на IP: $1",
 	"checkuser-suggestedinvestigations-header-users": "Сметки",
-	"checkuser-suggestedinvestigations-header-created": "Създадено",
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Бележки",
 	"checkuser-suggestedinvestigations-header-actions": "Действия",

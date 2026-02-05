@@ -477,7 +477,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "自动标记为可疑账号",
 	"checkuser-suggestedinvestigations-header-users": "账号",
 	"checkuser-suggestedinvestigations-header-signals": "风险信号",
-	"checkuser-suggestedinvestigations-header-created": "创建于",
 	"checkuser-suggestedinvestigations-header-status": "状态",
 	"checkuser-suggestedinvestigations-header-notes": "备注",
 	"checkuser-suggestedinvestigations-header-actions": "操作",

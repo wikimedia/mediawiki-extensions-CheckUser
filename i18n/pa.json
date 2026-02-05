@@ -113,7 +113,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "ਖਾਤੇ ਦਾ ਨਾਂ ਲਿਖੋ...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "{{int:checkuser-suggestedinvestigations}} ਤੇ ਵਾਪਸ ਜਾਓ",
 	"checkuser-suggestedinvestigations-header-users": "ਖਾਤੇ",
-	"checkuser-suggestedinvestigations-header-created": "ਬਣਾਇਆ ਗਿਆ",
 	"checkuser-suggestedinvestigations-header-actions": "ਕਾਰਵਾਈਆਂ",
 	"checkuser-suggestedinvestigations-status-open": "ਖੋਲ੍ਹੀ ਏ",
 	"checkuser-suggestedinvestigations-status-resolved": "ਬੰਦ ਕੀਤਾ ਗਿਆ/ਕੀਤੀ ਗਈ",

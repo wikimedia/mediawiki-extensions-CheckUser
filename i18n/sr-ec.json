@@ -369,7 +369,6 @@
 	"checkuser-suggestedinvestigations-back-to-main-page": "Назад на {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-table-caption": "Налози аутоматски означени као сумњиви",
 	"checkuser-suggestedinvestigations-header-users": "Налози",
-	"checkuser-suggestedinvestigations-header-created": "Отворени",
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Напомене",
 	"checkuser-suggestedinvestigations-header-actions": "Радње",

@@ -441,7 +441,7 @@
 	"checkuser-suggestedinvestigations-table-caption": "स्वचालित रूप से संदेहजनक चिह्नित खाते",
 	"checkuser-suggestedinvestigations-header-users": "खाते",
 	"checkuser-suggestedinvestigations-header-signals": "खतरे के संकेत",
-	"checkuser-suggestedinvestigations-header-created": "निर्मित",
+	"checkuser-suggestedinvestigations-header-updated": "अद्यतित",
 	"checkuser-suggestedinvestigations-header-status": "स्थिति",
 	"checkuser-suggestedinvestigations-header-notes": "टिप्पणियाँ",
 	"checkuser-suggestedinvestigations-header-actions": "कार्रवाई",

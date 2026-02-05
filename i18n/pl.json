@@ -454,7 +454,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "Konta automatycznie oznaczone jako podejrzane",
 	"checkuser-suggestedinvestigations-header-users": "Konta",
 	"checkuser-suggestedinvestigations-header-signals": "Sygnały ryzyka",
-	"checkuser-suggestedinvestigations-header-created": "Utworzono",
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Uwagi",
 	"checkuser-suggestedinvestigations-header-actions": "Akcje",

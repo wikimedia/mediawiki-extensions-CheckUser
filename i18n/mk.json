@@ -433,7 +433,6 @@
 	"checkuser-suggestedinvestigations-table-caption": "Сметки автоматски означени како сомнителни",
 	"checkuser-suggestedinvestigations-header-users": "Сметки",
 	"checkuser-suggestedinvestigations-header-signals": "Сигнали на ризик",
-	"checkuser-suggestedinvestigations-header-created": "Создадено",
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Белешки",
 	"checkuser-suggestedinvestigations-header-actions": "Дејства",
