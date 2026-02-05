@@ -135,15 +135,15 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			'Default values on empty row' => [
 				[],
 				[
-					'cuc_ip', 'cuc_ip_hex', 'cuc_xff', 'cuc_xff_hex', 'cuc_page_id',
+					'cuc_ip_hex', 'cuc_xff', 'cuc_xff_hex', 'cuc_page_id',
 					'cuc_namespace', 'cuc_minor', 'cuc_title',
 					'cuc_this_oldid', 'cuc_last_oldid', 'cuc_type', 'cuc_agent',
 					'cuc_timestamp',
 				],
-				[ '127.0.0.1', '7F000001', '', null, 0, NS_MAIN, 0, '', 0, 0, RC_LOG, '', '20240506070809' ],
+				[ '7F000001', '', null, 0, NS_MAIN, 0, '', 0, 0, RC_LOG, '', '20240506070809' ],
 				false,
 			],
-			'TransactionProfiler warnings silenced' => [ [], [ 'cuc_ip' ], [ '127.0.0.1' ], true ],
+			'TransactionProfiler warnings silenced' => [ [], [ 'cuc_ip_hex' ], [ '7F000001' ], true ],
 		];
 	}
 
@@ -202,17 +202,17 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			'Default values on empty row' => [
 				[],
 				[
-					'cupe_ip', 'cupe_ip_hex', 'cupe_xff', 'cupe_xff_hex', 'cupe_page',
+					'cupe_ip_hex', 'cupe_xff', 'cupe_xff_hex', 'cupe_page',
 					'cupe_namespace', 'cupe_log_type', 'cupe_log_action',
 					'cupe_title', 'cupe_params', 'cupe_agent', 'cupe_timestamp',
 				],
 				[
-					'127.0.0.1', '7F000001', '', null, 0, NS_MAIN, 'checkuser-private-event',
+					'7F000001', '', null, 0, NS_MAIN, 'checkuser-private-event',
 					'', '', LogEntryBase::makeParamBlob( [] ), '', '20240506070809',
 				],
 				false,
 			],
-			'TransactionProfiler warnings silenced' => [ [], [ 'cupe_ip' ], [ '127.0.0.1' ], true ],
+			'TransactionProfiler warnings silenced' => [ [], [ 'cupe_ip_hex' ], [ '7F000001' ], true ],
 		];
 	}
 
@@ -272,11 +272,11 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public static function provideInsertIntoCuLogEventTable() {
 		return [
 			'Default values' => [
-				[ 'cule_ip', 'cule_ip_hex', 'cule_xff', 'cule_xff_hex', 'cule_agent', 'cule_timestamp' ],
-				[ '127.0.0.1', '7F000001', '', null, '', '20240506070809' ],
+				[ 'cule_ip_hex', 'cule_xff', 'cule_xff_hex', 'cule_agent', 'cule_timestamp' ],
+				[ '7F000001', '', null, '', '20240506070809' ],
 				false,
 			],
-			'TransactionProfiler warnings silenced' => [ [ 'cule_ip' ], [ '127.0.0.1' ], true ],
+			'TransactionProfiler warnings silenced' => [ [ 'cule_ip_hex' ], [ '7F000001' ], true ],
 		];
 	}
 
@@ -427,8 +427,8 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			}
 		);
 		// Call the common test method.
-		$fields = [ $prefix . 'xff', $prefix . 'xff_hex', $prefix . 'ip', $prefix . 'ip_hex', $prefix . 'agent' ];
-		$expectedValues = [ $test_xff, $xff_hex, '1.2.3.4', '01020304', 'TestAgent' ];
+		$fields = [ $prefix . 'xff', $prefix . 'xff_hex', $prefix . 'ip_hex', $prefix . 'agent' ];
+		$expectedValues = [ $test_xff, $xff_hex, '01020304', 'TestAgent' ];
 		if ( $table === 'cu_changes' ) {
 			$this->testInsertIntoCuChangesTable( [], $fields, $expectedValues, false );
 		} elseif ( $table === 'cu_private_event' ) {
@@ -823,7 +823,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 					'rc_user' => 0,
 					'rc_user_text' => 'm>External User',
 				] ),
-				[ 'cuc_ip' ],
+				[ 'cuc_ip_hex' ],
 				[],
 			],
 			'categorize' => [
@@ -832,7 +832,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 					'rc_title' => '',
 					'rc_source' => RecentChange::SRC_CATEGORIZE,
 				] ),
-				[ 'cuc_ip' ],
+				[ 'cuc_ip_hex' ],
 				[],
 			],
 		];

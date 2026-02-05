@@ -307,7 +307,6 @@ class CheckUserInsert {
 		$row = array_merge( [
 			'cule_actor'     => $this->acquireActorId( $user, CheckUserQueryInterface::LOG_EVENT_TABLE ),
 			'cule_timestamp' => $dbw->timestamp( $logEntry->getTimestamp() ),
-			'cule_ip'        => IPUtils::sanitizeIP( $ip ),
 			'cule_ip_hex'    => $ip ? IPUtils::toHex( $ip ) : null,
 			'cule_xff'       => !$isSquidOnly ? $xff : '',
 			'cule_xff_hex'   => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
@@ -396,7 +395,6 @@ class CheckUserInsert {
 				'cupe_page'       => 0,
 				'cupe_actor'      => $this->acquireActorId( $user, CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE ),
 				'cupe_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
-				'cupe_ip'         => IPUtils::sanitizeIP( $ip ),
 				'cupe_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 				'cupe_xff'        => !$isSquidOnly ? $xff : '',
 				'cupe_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
@@ -498,7 +496,6 @@ class CheckUserInsert {
 				'cuc_last_oldid' => 0,
 				'cuc_type'       => RC_LOG,
 				'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
-				'cuc_ip'         => IPUtils::sanitizeIP( $ip ),
 				'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 				'cuc_xff'        => !$isSquidOnly ? $xff : '',
 				'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
