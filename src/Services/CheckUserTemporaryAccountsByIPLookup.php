@@ -331,8 +331,8 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			$buckets = [
 				'max' => 101,
 				'ranges' => [
-					[ 1, 2 ],
-					[ 3, 5 ],
+					[ 1, 1 ],
+					[ 2, 5 ],
 					[ 6, 10 ],
 					[ 11, 20 ],
 					[ 21, 50 ],

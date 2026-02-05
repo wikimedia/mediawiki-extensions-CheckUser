@@ -90,10 +90,12 @@ class SpecialContributionsHandler implements
 
 		$bucketMsgKey = 'checkuser-temporary-account-bucketcount-';
 		if ( $bucketRangeStart === $bucketRangeEnd ) {
-			if ( $bucketRangeStart === 0 ) {
-				$bucketMsgKey .= 'min';
-			} else {
+			if ( $bucketRangeStart > 1 ) {
 				$bucketMsgKey .= 'max';
+			} else {
+				// For 0 or 1 we show the exact count, using the min message,
+				// which shows a single value
+				$bucketMsgKey .= 'min';
 			}
 		} else {
 			$bucketMsgKey .= 'range';

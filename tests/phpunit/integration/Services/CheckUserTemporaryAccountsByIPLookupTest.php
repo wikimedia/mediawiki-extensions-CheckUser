@@ -335,10 +335,15 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'bucketSchema' => null,
 				'expectedBucket' => [ 0, 0 ],
 			],
+			'exactly 1' => [
+				'count' => 1,
+				'bucketSchema' => null,
+				'expectedBucket' => [ 1, 1 ],
+			],
 			'range, lower bound' => [
 				'count' => 3,
 				'bucketSchema' => null,
-				'expectedBucket' => [ 3, 5 ],
+				'expectedBucket' => [ 2, 5 ],
 			],
 			'range, upper bound' => [
 				'count' => 10,
