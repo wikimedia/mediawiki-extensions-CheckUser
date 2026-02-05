@@ -78,6 +78,7 @@ const {
 	cdxIconAlert,
 	cdxIconEdit,
 	cdxIconArticles,
+	cdxIconArticlesSearch,
 	cdxIconHeart,
 	cdxIconSearch,
 	cdxIconUserTemporary,
@@ -215,6 +216,10 @@ module.exports = exports = {
 		tempAccountsOnIpCount: {
 			type: Array,
 			default: () => ( [] )
+		},
+		suggestedInvestigationsCaseCount: {
+			type: Number,
+			default: 0
 		}
 	},
 	setup( props ) {
@@ -289,6 +294,7 @@ module.exports = exports = {
 		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
 		const maxThanks = mw.config.get( 'wgCheckUserGEUserImpactMaxThanks' ) || 1000;
 		const canViewCheckUserLog = mw.config.get( 'wgCheckUserCanViewCheckUserLog' );
+		const canViewSuggestedInvestigations = mw.config.get( 'wgCheckUserCanViewSuggestedInvestigations' );
 		const canAccessTemporaryAccountLog = mw.config.get( 'wgCheckUserCanAccessTemporaryAccountLog' );
 		const canAccessTemporaryAccountIpAddresses = computed(
 			() => props.canAccessTemporaryAccountIpAddresses
@@ -400,6 +406,20 @@ module.exports = exports = {
 						mainLinkLogId: 'last_checked'
 					} );
 				}
+			}
+
+			if ( canViewSuggestedInvestigations && props.suggestedInvestigationsCaseCount > 0 ) {
+				const suggestedInvestigationsLink = mw.Title.makeTitle(
+					-1, 'SuggestedInvestigations'
+				).getUrl( { username: props.username } );
+				rows.push( {
+					icon: cdxIconArticlesSearch,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					messageKey: 'checkuser-userinfocard-suggested-investigations',
+					mainValue: mw.language.convertNumber( props.suggestedInvestigationsCaseCount ),
+					mainLink: suggestedInvestigationsLink,
+					mainLinkLogId: 'suggested_investigations'
+				} );
 			}
 
 			if ( props.hasIpRevealInfo ) {

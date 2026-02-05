@@ -550,6 +550,45 @@ QUnit.test( 'temporary accounts on ip count doesn\'t display for registered user
 	);
 } );
 
+QUnit.test( 'renders suggested investigations row when permission is granted and count > 0', ( assert ) => {
+	mw.config.set( 'wgCheckUserCanViewSuggestedInvestigations', true );
+	const wrapper = mountComponent( { suggestedInvestigationsCaseCount: 5 } );
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-suggested-investigations' );
+	assert.true( row !== undefined, 'Suggested investigations row exists' );
+	assert.strictEqual(
+		row.props( 'mainValue' ),
+		'5',
+		'Suggested investigations row has correct main value'
+	);
+	assert.strictEqual(
+		row.props( 'mainLink' ),
+		'/-1/SuggestedInvestigations?username=TestUser',
+		'Suggested investigations row has correct link'
+	);
+	assert.strictEqual(
+		row.props( 'mainLinkLogId' ),
+		'suggested_investigations',
+		'Suggested investigations row has correct log ID'
+	);
+} );
+
+QUnit.test( 'does not render suggested investigations row when permission is not granted', ( assert ) => {
+	mw.config.set( 'wgCheckUserCanViewSuggestedInvestigations', false );
+	const wrapper = mountComponent( { suggestedInvestigationsCaseCount: 5 } );
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-suggested-investigations' );
+	assert.strictEqual( row, undefined, 'Suggested investigations row does not exist without permission' );
+} );
+
+QUnit.test( 'does not render suggested investigations row when count is zero', ( assert ) => {
+	mw.config.set( 'wgCheckUserCanViewSuggestedInvestigations', true );
+	const wrapper = mountComponent( { suggestedInvestigationsCaseCount: 0 } );
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-suggested-investigations' );
+	assert.strictEqual( row, undefined, 'Suggested investigations row does not exist when count is zero' );
+} );
+
 // TODO: T386440 - Fix the test and remove the skip
 // This test fails when running in conjunction with the other test components in this folder.
 // When running this test file alone, this test is passing.

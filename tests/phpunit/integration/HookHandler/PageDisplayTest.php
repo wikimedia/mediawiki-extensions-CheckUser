@@ -336,7 +336,9 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup( [], $options ) );
 
 		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig(),
+			new HashConfig( [
+				'CheckUserSuggestedInvestigationsEnabled' => false,
+			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
@@ -367,6 +369,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 					'wgCheckUserCanBlock' => true,
 					'wgCheckUserCanPerformCheckUser' => true,
 					'wgCheckUserCanViewCheckUserLog' => true,
+					'wgCheckUserCanViewSuggestedInvestigations' => false,
 				],
 			],
 			'UserInfoCard is enabled, performer is a temp user' => [
@@ -380,6 +383,44 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'expected' => [],
 			],
 		];
+	}
+
+	public function testOnBeforePageDisplayForUserInfoCardWithSuggestedInvestigationsEnabled() {
+		$context = RequestContext::getMain();
+		$context->setTitle( $this->createMock( Title::class ) );
+		$performer = $this->mockRegisteredUltimateAuthority();
+		$context->setAuthority( $performer );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		$options = [ Preferences::ENABLE_USER_INFO_CARD => 1 ];
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup( [], $options ) );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CheckUserSuggestedInvestigationsEnabled' => true,
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserAutoRevealMaximumExpiry' => 1,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils(),
+			$this->getServiceContainer()->getPreferencesFactory()
+		);
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output, $this->createMock( Skin::class )
+		);
+
+		$configVars = $output->getJsConfigVars();
+		$this->assertArrayHasKey( 'wgCheckUserCanViewSuggestedInvestigations', $configVars );
+		$this->assertTrue(
+			$configVars['wgCheckUserCanViewSuggestedInvestigations'],
+			'wgCheckUserCanViewSuggestedInvestigations is true when feature is enabled and performer has permission'
+		);
 	}
 
 	/** @dataProvider provideOnBeforePageDisplayForIPInfoHookCases */

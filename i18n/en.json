@@ -393,6 +393,7 @@
 	"checkuser-userinfocard-thanks": "Thanks received: $1 (given: $2)",
 	"checkuser-userinfocard-checks": "Checks: $1 (last checked: $2)",
 	"checkuser-userinfocard-checks-empty": "Checks: $1",
+	"checkuser-userinfocard-suggested-investigations": "Suggested investigations cases: $1",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Globally {{GENDER:$1|locked}}]] since $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Globally {{GENDER:$1|locked}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Globally {{GENDER:$1|blocked}}]] since $3",

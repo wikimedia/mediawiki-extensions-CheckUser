@@ -127,6 +127,9 @@ class PageDisplay implements BeforePageDisplayHook {
 					$authority->isAllowed( 'checkuser' ),
 				'wgCheckUserCanAccessTemporaryAccountLog' =>
 					$authority->isAllowed( 'checkuser-temporary-account-log' ),
+				'wgCheckUserCanViewSuggestedInvestigations' =>
+					$authority->isAllowed( 'checkuser-suggested-investigations' ) &&
+					$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ),
 			] );
 		}
 	}

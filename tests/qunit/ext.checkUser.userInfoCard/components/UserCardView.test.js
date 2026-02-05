@@ -30,7 +30,7 @@ const mockComponents = {
 			'thanksReceived', 'thanksSent', 'activeBlocks', 'pastBlocks',
 			'localEdits', 'localEditsReverted', 'newArticles', 'checks',
 			'lastChecked', 'activeWikis', 'recentLocalEdits', 'totalLocalEdits',
-			'ipRevealCount', 'hasIpRevealInfo'
+			'ipRevealCount', 'hasIpRevealInfo', 'suggestedInvestigationsCaseCount'
 		]
 	}
 };
@@ -60,7 +60,8 @@ const sampleUserData = {
 	activeWikis: {
 		enwiki: 'https://en.wikipedia.org',
 		dewiki: 'https://de.wikipedia.org'
-	}
+	},
+	suggestedInvestigationsCaseCount: 3
 };
 
 let server;
@@ -217,5 +218,61 @@ QUnit.test( 'renders card view when API call succeeds', ( assert ) => {
 
 		const headerView = wrapper.findComponent( mockComponents.UserCardHeader );
 		assert.true( headerView.exists(), 'Header view is displayed' );
+	} );
+} );
+
+QUnit.test( 'sets suggestedInvestigationsCaseCount from API response', ( assert ) => {
+	let userInfoCardApiCalled = false;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( sampleUserData )
+			);
+			userInfoCardApiCalled = true;
+		}
+	} );
+
+	const wrapper = mountComponent();
+
+	return waitFor( () => {
+		const loadingView = wrapper.findComponent( mockComponents.UserCardLoadingView );
+		return userInfoCardApiCalled && !loadingView.exists();
+	} ).then( () => {
+		assert.strictEqual(
+			wrapper.vm.userCard.suggestedInvestigationsCaseCount,
+			3,
+			'suggestedInvestigationsCaseCount is set from API response'
+		);
+	} );
+} );
+
+QUnit.test( 'defaults suggestedInvestigationsCaseCount to 0 when not in API response', ( assert ) => {
+	let userInfoCardApiCalled = false;
+	const dataWithoutSI = Object.assign( {}, sampleUserData );
+	delete dataWithoutSI.suggestedInvestigationsCaseCount;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( dataWithoutSI )
+			);
+			userInfoCardApiCalled = true;
+		}
+	} );
+
+	const wrapper = mountComponent();
+
+	return waitFor( () => {
+		const loadingView = wrapper.findComponent( mockComponents.UserCardLoadingView );
+		return userInfoCardApiCalled && !loadingView.exists();
+	} ).then( () => {
+		assert.strictEqual(
+			wrapper.vm.userCard.suggestedInvestigationsCaseCount,
+			0,
+			'suggestedInvestigationsCaseCount defaults to 0 when not in response'
+		);
 	} );
 } );

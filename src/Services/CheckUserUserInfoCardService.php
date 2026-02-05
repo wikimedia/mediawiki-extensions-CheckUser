@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Services;
 use GrowthExperiments\UserImpact\UserImpactLookup;
 use InvalidArgumentException;
 use MediaWiki\Cache\GenderCache;
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Config\ServiceOptions;
@@ -44,6 +45,7 @@ class CheckUserUserInfoCardService {
 
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserUserInfoCardCentralWikiId',
+		'CheckUserSuggestedInvestigationsEnabled',
 		'CUDMaxAge',
 	];
 
@@ -320,6 +322,22 @@ class CheckUserUserInfoCardService {
 			if ( $numChecks > 0 ) {
 				$userInfo['checkUserLastCheck'] = $row->recent_ts;
 			}
+		}
+
+		if (
+			$authority->isAllowed( 'checkuser-suggested-investigations' ) &&
+			$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' )
+		) {
+			$cusiDbr = $this->dbProvider->getReplicaDatabase(
+				CheckUserQueryInterface::VIRTUAL_DB_DOMAIN
+			);
+			$caseCount = $cusiDbr->newSelectQueryBuilder()
+				->select( [ 'count' => 'COUNT(DISTINCT siu_sic_id)' ] )
+				->from( 'cusi_user' )
+				->where( [ 'siu_user_id' => $user->getId() ] )
+				->caller( __METHOD__ )
+				->fetchField();
+			$userInfo['suggestedInvestigationsCaseCount'] = (int)$caseCount;
 		}
 
 		$blocks = [];

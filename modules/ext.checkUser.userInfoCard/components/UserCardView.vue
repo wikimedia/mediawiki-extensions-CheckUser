@@ -55,6 +55,7 @@
 				:global-restrictions="userCard.globalRestrictions"
 				:global-restrictions-date="userCard.globalRestrictionsDate"
 				:temp-accounts-on-ip-count="userCard.tempAccountsOnIPCount"
+				:suggested-investigations-case-count="userCard.suggestedInvestigationsCaseCount"
 			></user-card-body>
 			<!--eslint-enable-->
 		</div>
@@ -130,7 +131,8 @@ module.exports = exports = {
 			hasIpRevealInfo: false,
 			globalRestrictions: null,
 			globalRestrictionsTimestamp: null,
-			tempAccountsOnIPCount: []
+			tempAccountsOnIPCount: [],
+			suggestedInvestigationsCaseCount: 0
 		} );
 
 		// Methods
@@ -175,7 +177,8 @@ module.exports = exports = {
 						ipRevealLastCheck,
 						globalRestrictions,
 						globalRestrictionsTimestamp,
-						tempAccountsOnIPCount
+						tempAccountsOnIPCount,
+						suggestedInvestigationsCaseCount
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -226,6 +229,8 @@ module.exports = exports = {
 					userCard.canAccessTemporaryAccountIpAddresses =
 						canAccessTemporaryAccountIpAddresses;
 					userCard.tempAccountsOnIPCount = tempAccountsOnIPCount;
+					userCard.suggestedInvestigationsCaseCount =
+						suggestedInvestigationsCaseCount || 0;
 
 					// Parse and format checkUserLastCheck date
 					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );

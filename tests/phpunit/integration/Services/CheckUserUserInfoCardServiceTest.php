@@ -9,7 +9,11 @@ use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Context\RequestContext;
@@ -37,6 +41,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserTempUserTestTrait;
 	use MockAuthorityTrait;
+	use SuggestedInvestigationsTestTrait;
 
 	private static User $tempUser1;
 	private static User $tempUser2;
@@ -507,6 +512,65 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			'checkUserLastCheck',
 			$result
 		);
+	}
+
+	/** @dataProvider provideSuggestedInvestigationsCaseCount */
+	public function testSuggestedInvestigationsCaseCount(
+		bool $featureEnabled,
+		bool $hasPermission,
+		int $expectedCaseCount,
+		bool $expectKeyPresent
+	) {
+		$this->enableSuggestedInvestigations();
+
+		$user = $this->getTestUser()->getUser();
+		$permissions = $hasPermission ? [ 'checkuser-suggested-investigations' ] : [];
+		$authority = $this->mockRegisteredAuthorityWithPermissions( $permissions );
+
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'test', 'value', false );
+
+		$caseManager->createCase( [ $user ], [ $signal ] );
+
+		$resolvedCaseId = $caseManager->createCase( [ $user ], [ $signal ] );
+		$caseManager->setCaseStatus( $resolvedCaseId, CaseStatus::Resolved, 'resolved' );
+
+		if ( !$featureEnabled ) {
+			$this->disableSuggestedInvestigations();
+		}
+
+		$result = $this->getObjectUnderTest()->getUserInfo( $authority, $user );
+
+		if ( $expectKeyPresent ) {
+			$this->assertArrayHasKey( 'suggestedInvestigationsCaseCount', $result );
+			$this->assertSame( $expectedCaseCount, $result['suggestedInvestigationsCaseCount'] );
+		} else {
+			$this->assertArrayNotHasKey( 'suggestedInvestigationsCaseCount', $result );
+		}
+	}
+
+	public static function provideSuggestedInvestigationsCaseCount(): array {
+		return [
+			'Feature enabled, user has permission' => [
+				'featureEnabled' => true,
+				'hasPermission' => true,
+				'expectedCaseCount' => 2,
+				'expectKeyPresent' => true,
+			],
+			'Feature disabled, user has permission' => [
+				'featureEnabled' => false,
+				'hasPermission' => true,
+				'expectedCaseCount' => 0,
+				'expectKeyPresent' => false,
+			],
+			'Feature enabled, user lacks permission' => [
+				'featureEnabled' => true,
+				'hasPermission' => false,
+				'expectedCaseCount' => 0,
+				'expectKeyPresent' => false,
+			],
+		];
 	}
 
 	/** @dataProvider provideBlockLogDelete */
