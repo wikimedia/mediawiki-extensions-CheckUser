@@ -439,6 +439,7 @@
 	"checkuser-suggestedinvestigations-table-caption": "Contas marcadas automaticamente como sospeitosas",
 	"checkuser-suggestedinvestigations-header-users": "Contas",
 	"checkuser-suggestedinvestigations-header-signals": "Sinais de risco",
+	"checkuser-suggestedinvestigations-header-updated": "Actualizado",
 	"checkuser-suggestedinvestigations-header-status": "Estado",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
 	"checkuser-suggestedinvestigations-header-actions": "Accións",

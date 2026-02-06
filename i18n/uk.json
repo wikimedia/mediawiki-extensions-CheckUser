@@ -281,6 +281,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Діапазон дат",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
+	"checkuser-contributions-filters-related-temporary-accounts": "Показати внесок пов'язаних тимчасових облікових записів",
 	"checkuser-ip-contributions": "Пошук внеску з IP",
 	"checkuser-ip-contributions-permission-error-title": "Помилка доступу",
 	"checkuser-ip-contributions-permission-error-description": "Щоб переглянути внески тимчасового облікового запису для IP, погодьтеся з умовами у [[Special:Preferences|ваших налаштуваннях]].",
@@ -486,6 +487,7 @@
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Запис|Записи}} журналу позначено $1 ($2)",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Тимчасові облікові записи з усіх пов'язаних IP-адрес: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Сукупна кількість усіх тимчасових облікових записів з усіх IP-адрес, пов'язаних із цим обліковим записом",
+	"checkuser-contributions-temporary-accounts-show-related": "Переглянути весь внесок із цих облікових записів",
 	"checkuser-contributions-temporary-accounts-on-ip": "Тимчасові облікові записи з цієї IP: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Тимчасові облікові записи на цій IP-адресі: $1 (заблоковано: $2)."
 }
