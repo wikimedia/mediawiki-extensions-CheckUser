@@ -85,38 +85,18 @@ class SpecialContributionsHandler implements
 		// 101 is the maximum number of accounts we care about as defined by T412212
 		$exactCount = $this->checkUserTemporaryAccountsByIPLookup
 			->getAggregateActiveTempAccountCount( $tempUser, 101 );
-		[ $bucketRangeStart, $bucketRangeEnd ] = $this->checkUserTemporaryAccountsByIPLookup
-			->getBucketedCount( $exactCount );
-
-		$bucketMsgKey = 'checkuser-temporary-account-bucketcount-';
-		if ( $bucketRangeStart === $bucketRangeEnd ) {
-			if ( $bucketRangeStart > 1 ) {
-				$bucketMsgKey .= 'max';
-			} else {
-				// For 0 or 1 we show the exact count, using the min message,
-				// which shows a single value
-				$bucketMsgKey .= 'min';
-			}
-		} else {
-			$bucketMsgKey .= 'range';
-		}
-
-		// Uses:
-		// * checkuser-temporary-account-bucketcount-min
-		// * checkuser-temporary-account-bucketcount-range
-		// * checkuser-temporary-account-bucketcount-max
-		$bucketMsg = $sp->msg( $bucketMsgKey )
-			->numParams( $bucketRangeStart, $bucketRangeEnd )
-			->text();
-
-		$countMsg = $sp->msg( 'checkuser-contributions-temporary-account-bucketcount' )
-			->params( $bucketMsg );
 		$out = $sp->getOutput();
 
 		if (
 			$exactCount > 1 &&
 			$this->canShowRelatedTemporaryAccounts( $sp->getName(), $tempUser->getName(), $sp->getUser() )
 		) {
+			// To show the exact count, use the -min message, which shows a single value
+			$countMsg = $sp->msg( 'checkuser-temporary-account-bucketcount-min' )
+				->params( $exactCount );
+			$warningMsg = $sp->msg( 'checkuser-contributions-temporary-account-bucketcount' )
+				->params( $countMsg );
+
 			$showingRelated = $sp->getRequest()->getBool( 'showRelatedTemporaryAccounts' );
 			$linkMsgKey = $showingRelated ?
 				'checkuser-contributions-temporary-accounts-hide-related' :
@@ -132,10 +112,37 @@ class SpecialContributionsHandler implements
 				$sp->msg( $linkMsgKey )
 			);
 
-			$warningMsg = implode( ' ', [ $countMsg, $link ] );
+			$warningMsg = implode( ' ', [ $warningMsg, $link ] );
 			$out->addHTML( Html::warningBox( $warningMsg ) );
 		} else {
-			$out->addSubtitle( $countMsg );
+			[ $bucketRangeStart, $bucketRangeEnd ] = $this->checkUserTemporaryAccountsByIPLookup
+				->getBucketedCount( $exactCount );
+
+			$bucketMsgKey = 'checkuser-temporary-account-bucketcount-';
+			if ( $bucketRangeStart === $bucketRangeEnd ) {
+				if ( $bucketRangeStart > 1 ) {
+					// For 0 or 1 we show the exact count, using the min message,
+					// which shows a single value
+					$bucketMsgKey .= 'max';
+				} else {
+					$bucketMsgKey .= 'min';
+				}
+			} else {
+				$bucketMsgKey .= 'range';
+			}
+
+			// Uses:
+			// * checkuser-temporary-account-bucketcount-min
+			// * checkuser-temporary-account-bucketcount-range
+			// * checkuser-temporary-account-bucketcount-max
+			$bucketMsg = $sp->msg( $bucketMsgKey )
+				->numParams( $bucketRangeStart, $bucketRangeEnd )
+				->text();
+
+			$subtitleMsg = $sp->msg( 'checkuser-contributions-temporary-account-bucketcount' )
+				->params( $bucketMsg );
+
+			$out->addSubtitle( $subtitleMsg );
 		}
 	}
 
