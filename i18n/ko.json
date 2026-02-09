@@ -250,6 +250,7 @@
 	"checkuser-investigate-compare-table-header-activity": "날짜 범위",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "사용자 에이전트",
+	"checkuser-contributions-filters-related-temporary-accounts": "관련 임시 계정의 기여 표시",
 	"checkuser-ip-contributions": "IP 기여 검색",
 	"checkuser-ip-contributions-permission-error-title": "권한 오류",
 	"checkuser-ip-contributions-permission-error-description": "IP에 대한 임시 계정 기여를 조회하려면 [[Special:Preferences|환경 설정]]에서 동의를 수락해 주십시오.",
@@ -391,6 +392,8 @@
 	"checkuser-suggestedinvestigations-signal-hcaptcha": "수상한 hCaptcha",
 	"checkuser-userinfocard-temporary-account-bucketcount": "연결된 모든 IP의 임시 계정: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "이 계정과 연관된 모든 IP에서의 임시 계정 수의 대략적인 값",
+	"checkuser-contributions-temporary-accounts-show-related": "이 계정들의 모든 기여 보기",
+	"checkuser-contributions-temporary-account-bucketcount": "연결된 모든 IP의 임시 계정: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "이 IP의 임시 계정: $1",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "이 IP의 임시 계정: $1 (차단됨: $2)"
 }
