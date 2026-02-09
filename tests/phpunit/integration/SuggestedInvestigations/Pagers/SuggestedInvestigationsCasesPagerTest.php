@@ -830,6 +830,58 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
+	public function testWhenHideCasesWithNoUserEditsFilterIsSetForMultipleMainQueries() {
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
+
+		// Create two cases each with a different user
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstUser = $this->getMutableTestUser()->getUserIdentity();
+		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+
+		// Mock that the first test user has 2 edits
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'user' )
+			->set( [ 'user_editcount' => 2 ] )
+			->where( [ 'user_id' => $firstUser->getId() ] )
+			->caller( __METHOD__ )
+			->execute();
+
+		$caseManager = $this->getCaseManager();
+		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+		$thirdCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+		$fourthCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+
+		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
+		$context->getRequest()->setVal( 'limit', 2 );
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// Expect that the table pager shows the first and fourth case
+		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+		$this->assertStringNotContainsString( 'data-case-id="' . $thirdCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $fourthCaseId . '"', $html );
+
+		// Check that the rows are ordered correctly by ensuring that the first case ID is present
+		// after the third using regex
+		$this->assertMatchesRegularExpression(
+			'/' . preg_quote( 'data-case-id="' . $fourthCaseId . '"', '/' ) . '[\s\S]*'
+				. preg_quote( 'data-case-id="' . $firstCaseId . '"', '/' ) . '/',
+			$html,
+			'Case with ID of 1 should be before the case with ID of 3'
+		);
+
+		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoUserEdits' => true ], $parserOutput );
+	}
+
 	public function testWhenPHPFiltersLimitReached() {
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );

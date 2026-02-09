@@ -554,7 +554,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				}
 			}
 
-			$cases = array_merge( $batchOfCases, $cases );
+			$cases = array_merge( $cases, $batchOfCases );
 
 			// We have a safeguard against too many queries that stops looking for rows after 10 loops
 			// to avoid this being a DDoS vector. This condition is reached once at least 1,023 cases
