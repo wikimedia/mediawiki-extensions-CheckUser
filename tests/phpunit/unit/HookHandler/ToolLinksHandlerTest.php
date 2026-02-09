@@ -28,7 +28,9 @@ class ToolLinksHandlerTest extends MediaWikiUnitTestCase {
 		// Default first parameter of this method is null
 		$mainRequest->setTitle();
 		$items = [];
-		$hookHandler = $this->newServiceInstance( ToolLinksHandler::class, [] );
+		$hookHandler = $this->newServiceInstance( ToolLinksHandler::class, [
+			'mobileContext' => null,
+		] );
 		$hookHandler->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
 			0, $items, 'A tool link should not have been added for a null request title.'
@@ -43,7 +45,9 @@ class ToolLinksHandlerTest extends MediaWikiUnitTestCase {
 			->willReturn( false );
 		$mainRequest->setTitle( $mockTitle );
 		$items = [];
-		$hookHandler = $this->newServiceInstance( ToolLinksHandler::class, [] );
+		$hookHandler = $this->newServiceInstance( ToolLinksHandler::class, [
+			'mobileContext' => null,
+		] );
 		$hookHandler->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
 			0, $items, 'A tool link should not have been added for a non-Special page'
@@ -68,6 +72,7 @@ class ToolLinksHandlerTest extends MediaWikiUnitTestCase {
 		$items = [];
 		$hookHandler = $this->newServiceInstance( ToolLinksHandler::class, [
 			'specialPageFactory' => $specialPageFactory,
+			'mobileContext' => null,
 		] );
 		$hookHandler->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
@@ -91,6 +96,7 @@ class ToolLinksHandlerTest extends MediaWikiUnitTestCase {
 			->willReturn( false );
 		$hookHandler = $this->newServiceInstance( ToolLinksHandler::class, [
 			'permissionManager' => $mockPermissionManager,
+			'mobileContext' => null,
 		] );
 		// Mock arguments to ::onContributionsToolLinks
 		$mockUser = $this->createMock( User::class );
