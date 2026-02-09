@@ -902,6 +902,42 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		];
 	}
 
+	public function testWhenSignalFilterIsSetWithMultipleSignalsPerCase(): void {
+		// Create two cases, with different signals
+		$firstSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$secondSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'dev-signal-2', 'Test value', true
+		);
+		$thirdSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'dev-signal-2', 'Test value2', true
+		);
+
+		$caseManager = $this->getCaseManager();
+		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $firstSignal ] );
+		$secondCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $secondSignal ] );
+		$caseManager->updateCase( $secondCaseId, [], [ $thirdSignal ] );
+
+		// Load the pager with the 'signal' query parameter set to 'dev-signal-2'
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->getRequest()->setVal( 'signal', 'dev-signal-2' );
+
+		$parserOutput = $this->getPager(
+			$context, [ [ 'name' => 'dev-signal-2', 'urlName' => 'signal-e3' ] ]
+		)->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// Expect that the table pager only shows one case which should be the dev-signal-2 case
+		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+		$this->assertSame( 2, substr_count( $html, '<tr' ) );
+
+		$this->assertActiveFiltersJsConfigVar( [ 'signal' => [ 'dev-signal-2' ] ], $parserOutput );
+	}
+
 	public function testFilterIsRelayedInLimitForm() {
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );

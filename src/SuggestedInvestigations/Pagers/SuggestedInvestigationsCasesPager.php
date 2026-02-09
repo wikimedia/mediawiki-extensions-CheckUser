@@ -632,9 +632,14 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		if ( $this->signalsFilter ) {
-			$queryInfo['tables'][] = 'cusi_signal';
-			$queryInfo['join_conds']['cusi_signal'] = [ 'JOIN', 'sic_id = sis_sic_id' ];
-			$queryInfo['conds']['sis_name'] = $this->signalsFilter;
+			$signalsFilterSubquerySql = $this->getDatabase()->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'cusi_signal' )
+				->where( [ 'sis_name' => $this->signalsFilter, 'sic_id = sis_sic_id' ] )
+				->caller( __METHOD__ )
+				->getSQL();
+
+			$queryInfo['conds'][] = "EXISTS ($signalsFilterSubquerySql)";
 		}
 
 		return $queryInfo;
