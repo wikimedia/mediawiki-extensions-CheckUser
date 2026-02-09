@@ -49,7 +49,6 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\WikiMap\WikiMap;
 
 // PHP unit does not understand code coverage for this file
@@ -89,9 +88,8 @@ return [
 		);
 	},
 	'CheckUserApiRequestAggregator' => static function (
-		 MediaWikiServices $services
+		MediaWikiServices $services
 	): CheckUserApiRequestAggregator {
-		$config = $services->getMainConfig();
 		return new CheckUserApiRequestAggregator(
 			$services->getHttpRequestFactory(),
 			$services->getCentralIdLookup(),
@@ -102,14 +100,14 @@ return [
 	},
 	'CheckUserCentralIndexLookup' => static function (
 		MediaWikiServices $services
-	) {
+	): CheckUserCentralIndexLookup {
 		return new CheckUserCentralIndexLookup(
 			$services->getConnectionProvider()
 		);
 	},
 	'CheckUserCentralIndexManager' => static function (
 		MediaWikiServices $services
-	) {
+	): CheckUserCentralIndexManager {
 		return new CheckUserCentralIndexManager(
 			new ServiceOptions(
 				CheckUserCentralIndexManager::CONSTRUCTOR_OPTIONS,
@@ -146,17 +144,17 @@ return [
 			$services->getTempUserConfig()
 		);
 	},
-	'CheckUserDataPurger' => static function () {
+	'CheckUserDataPurger' => static function (): CheckUserDataPurger {
 		return new CheckUserDataPurger();
 	},
-	'CheckUserDurationManager' => static function ( MediaWikiServices $services ): DurationManager {
+	'CheckUserDurationManager' => static function (): DurationManager {
 		return new DurationManager();
 	},
 	'CheckUserEventLogger' => static function (
-		 MediaWikiServices $services
+		MediaWikiServices $services
 	): EventLogger {
 		return new EventLogger(
-			ExtensionRegistry::getInstance()
+			$services->getExtensionRegistry()
 		);
 	},
 	'CheckUserExpiredIdsLookupService' => static function (
@@ -319,7 +317,7 @@ return [
 		return new PreliminaryCheckPagerFactory(
 			$services->getLinkRenderer(),
 			$services->getNamespaceInfo(),
-			ExtensionRegistry::getInstance(),
+			$services->getExtensionRegistry(),
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserPreliminaryCheckService' ),
 			$services->getUserFactory()
@@ -330,7 +328,7 @@ return [
 	): PreliminaryCheckService {
 		return new PreliminaryCheckService(
 			$services->getDBLoadBalancerFactory(),
-			ExtensionRegistry::getInstance(),
+			$services->getExtensionRegistry(),
 			$services->getUserGroupManagerFactory(),
 			$services->getDatabaseBlockStoreFactory(),
 			WikiMap::getCurrentWikiDbDomain()->getId()
@@ -508,7 +506,7 @@ return [
 		}
 		return new CheckUserUserInfoCardService(
 			$userImpactLookup,
-			$services->getExtensionRegistry(),
+			$extensionRegistry,
 			$services->getUserRegistrationLookup(),
 			$services->getUserGroupManager(),
 			$globalContributionsLookup,
