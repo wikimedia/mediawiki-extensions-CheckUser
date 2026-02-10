@@ -430,7 +430,6 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "Gửi",
 	"checkuser-suggestedinvestigations-change-status-dialog-title": "Thay đổi trạng thái",
 	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Trạng thái",
-	"checkuser-suggestedinvestigations-risk-signals-popover-body-hcaptcha": "<strong>{{int:checkuser-suggestedinvestigations-signal-hcaptcha}}</strong>: Tài khoản này đã được hCaptcha gắn cờ trong quá trình tạo tài khoản.",
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Đóng",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tài khoản tạm thời từ tất cả các IP liên quan: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Tổng số tài khoản tạm thời từ tất cả địa chỉ IP được liên kết với tài khoản này",
