@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
 use LogicException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
-use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
@@ -65,11 +64,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getConnectionProvider(),
 			$userIdentityLookup,
 			$this->getServiceContainer()->get( 'CheckUserLookupUtils' ),
-			$tempUserConfig,
-			new ServiceOptions(
-				TimelineService::CONSTRUCTOR_OPTIONS,
-				$this->getServiceContainer()->getMainConfig()
-			)
+			$tempUserConfig
 		);
 
 		$queryInfo = $timelineService->getQueryInfo(
@@ -350,11 +345,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			$mockConnectionProvider,
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			$this->getServiceContainer()->get( 'CheckUserLookupUtils' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			new ServiceOptions(
-				TimelineService::CONSTRUCTOR_OPTIONS,
-				$this->getServiceContainer()->getMainConfig()
-			)
+			$this->getServiceContainer()->getTempUserConfig()
 		);
 		// Call the method under test
 		$timelineService = TestingAccessWrapper::newFromObject( $timelineService );

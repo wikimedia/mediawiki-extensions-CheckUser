@@ -520,7 +520,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	protected function getQueryInfoForCuChanges(): array {
 		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
-		$queryInfo = [
+		return [
 			'fields' => [
 				'namespace' => 'cuc_namespace',
 				'title' => 'cuc_title',
@@ -532,6 +532,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'last_oldid' => 'cuc_last_oldid',
 				'ip_hex' => 'cuc_ip_hex',
 				'xff' => 'cuc_xff',
+				'agent' => 'cuua_text',
 				'actor' => 'cuc_actor',
 				'user' => 'actor_user',
 				'user_text' => 'actor_name',
@@ -543,24 +544,14 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				],
 				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
 			],
-			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ] + $commentQuery['tables'],
+			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor', 'cu_useragent' ] + $commentQuery['tables'],
 			'conds' => [],
 			'join_conds' => [
 				'actor_cuc_user' => [ 'JOIN', 'actor_cuc_user.actor_id=cuc_actor' ],
+				'cu_useragent' => [ 'LEFT JOIN', 'cuua_id = cuc_agent_id' ],
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
-
-		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-			$queryInfo['fields']['agent'] = 'cuua_text';
-			$queryInfo['tables'][] = 'cu_useragent';
-			$queryInfo['join_conds']['cu_useragent'] = [ 'LEFT JOIN', 'cuua_id = cuc_agent_id' ];
-		} else {
-			$queryInfo['fields']['agent'] = 'cuc_agent';
-		}
-
-		return $queryInfo;
 	}
 
 	/** @inheritDoc */
@@ -575,7 +566,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'ip_hex' => 'cule_ip_hex',
 				'xff' => 'cule_xff',
 				'xff_hex' => 'cule_xff_hex',
-				'agent' => 'cule_agent',
+				'agent' => 'cuua_text',
 				'actor' => 'cule_actor',
 				'user' => 'actor_user',
 				'user_text' => 'actor_name',
@@ -593,23 +584,16 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			],
 			'tables' => [
 				'cu_log_event', 'logging_cule_log_id' => 'logging', 'actor_log_actor' => 'actor',
+				'cu_useragent',
 			] + $commentQuery['tables'],
 			'conds' => [],
 			'join_conds' => [
 				'logging_cule_log_id' => [ 'JOIN', 'logging_cule_log_id.log_id=cule_log_id' ],
 				'actor_log_actor' => [ 'JOIN', 'actor_log_actor.actor_id=cule_actor' ],
+				'cu_useragent' => [ 'LEFT JOIN', 'cuua_id = cule_agent_id' ],
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
-
-		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-			$queryInfo['fields']['agent'] = 'cuua_text';
-			$queryInfo['tables'][] = 'cu_useragent';
-			$queryInfo['join_conds']['cu_useragent'] = [ 'LEFT JOIN', 'cuua_id = cule_agent_id' ];
-		} else {
-			$queryInfo['fields']['agent'] = 'cule_agent';
-		}
 
 		if ( $this->mDb->getType() == 'postgres' ) {
 			// On postgres the cuc_type type is a smallint.
@@ -642,7 +626,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'ip_hex' => 'cupe_ip_hex',
 				'xff' => 'cupe_xff',
 				'xff_hex' => 'cupe_xff_hex',
-				'agent' => 'cupe_agent',
+				'agent' => 'cuua_text',
 				'actor' => 'cupe_actor',
 				'user' => 'actor_user',
 				'user_text' => 'actor_name',
@@ -658,22 +642,16 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				],
 				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
 			],
-			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ] + $commentQuery['tables'],
+			'tables' => [
+				'cu_private_event', 'actor_cupe_actor' => 'actor', 'cu_useragent',
+			] + $commentQuery['tables'],
 			'conds' => [],
 			'join_conds' => [
 				'actor_cupe_actor' => [ $joinType, 'actor_cupe_actor.actor_id=cupe_actor' ],
+				'cu_useragent' => [ 'LEFT JOIN', 'cuua_id = cupe_agent_id' ],
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
-
-		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-			$queryInfo['fields']['agent'] = 'cuua_text';
-			$queryInfo['tables'][] = 'cu_useragent';
-			$queryInfo['join_conds']['cu_useragent'] = [ 'LEFT JOIN', 'cuua_id = cupe_agent_id' ];
-		} else {
-			$queryInfo['fields']['agent'] = 'cupe_agent';
-		}
 
 		if ( $this->mDb->getType() == 'postgres' ) {
 			// On postgres the cuc_type type is a smallint.

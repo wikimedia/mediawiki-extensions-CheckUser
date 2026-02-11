@@ -224,10 +224,8 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	/** @dataProvider provideExpectedApiResponses */
 	public function testResponseFromApi(
 		string $requestType, string $expectedRequestTypeInResponse, string $target,
-		string $timeCond, ?bool $xff, array $expectedData,
-		int $userAgentTableMigrationStage = SCHEMA_COMPAT_OLD
+		string $timeCond, ?bool $xff, array $expectedData
 	) {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
 		ConvertibleTimestamp::setFakeTime( '20230406060708' );
 		$result = $this->doCheckUserApiRequest(
 			[ 'curequest' => $requestType, 'cutarget' => $target, 'cutimecond' => $timeCond, 'cuxff' => $xff ],
@@ -301,7 +299,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'start' => '2023-04-05T06:07:07Z',
 					],
 				],
-				SCHEMA_COMPAT_READ_OLD,
 			],
 			'ipusers XFF check on 127.2.3.4' => [
 				'ipusers', 'ipusers', '127.2.3.4', '-3 months', true,
@@ -315,7 +312,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'start' => '2023-04-05T06:07:11Z',
 					],
 				],
-				SCHEMA_COMPAT_READ_NEW,
 			],
 			'actions XFF check on 127.2.3.4' => [
 				'actions', 'edits', '127.2.3.4', '-3 months', true,
@@ -341,7 +337,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'xff' => '127.2.3.4',
 					],
 				],
-				SCHEMA_COMPAT_READ_OLD,
 			],
 			'actions check on CheckUserAPITestUser2' => [
 				'actions', 'edits', 'CheckUserAPITestUser2', '2023-04-05T06:07:09Z', true,
@@ -357,7 +352,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'minor' => 'm',
 					],
 				],
-				SCHEMA_COMPAT_READ_OLD,
 			],
 			'actions on 1.2.3.5 (IP performer when temporary accounts are enabled)' => [
 				'actions',
@@ -379,7 +373,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						)->text(),
 					],
 				],
-				SCHEMA_COMPAT_READ_NEW,
 			],
 			'ipusers on 1.2.3.5 (IP performer when temporary accounts are enabled)' => [
 				'ipusers',
@@ -396,7 +389,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'name' => '1.2.3.5',
 					],
 				],
-				SCHEMA_COMPAT_READ_NEW,
 			],
 		];
 	}
@@ -632,12 +624,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 
 	public function addDBDataOnce() {
 		$this->overrideConfigValue( 'CheckUserLogLogins', true );
-
-		// Some tests still check the read old behaviour, so still write old to allow that
-		$this->overrideConfigValue(
-			'CheckUserUserAgentTableMigrationStage',
-			SCHEMA_COMPAT_WRITE_OLD | SCHEMA_COMPAT_NEW
-		);
 
 		// Add some testing entries to the CheckUser result tables to test the API
 		// Get two testing users with pre-defined usernames and a test page with a pre-defined name

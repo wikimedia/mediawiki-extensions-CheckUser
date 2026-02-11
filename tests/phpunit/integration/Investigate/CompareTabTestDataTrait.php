@@ -73,49 +73,41 @@ trait CompareTabTestDataTrait {
 				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cuc_type'       => RC_NEW,
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
 				'cuc_agent_id'   => $fooUserAgentId,
 			], [
 				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
 				'cuc_agent_id'   => $fooUserAgentId,
 			], [
 				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'bar user agent',
 				'cuc_agent_id'   => $barUserAgentId,
 			], [
 				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'bar user agent',
 				'cuc_agent_id'   => $barUserAgentId,
 			], [
 				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'foo user agent',
 				'cuc_agent_id'   => $fooUserAgentId,
 			], [
 				'cuc_actor'      => $testActorData['User1']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
 				'cuc_agent_id'   => $fooUserAgentId,
 			], [
 				'cuc_actor'      => $testActorData['User2']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
 				'cuc_agent_id'   => $fooUserAgentId,
 			], [
 				'cuc_actor'      => $testActorData['User1']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'foo user agent',
 				'cuc_agent_id'   => $fooUserAgentId,
 			],
 		];
@@ -145,22 +137,18 @@ trait CompareTabTestDataTrait {
 			[
 				'cule_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cule_agent'      => 'foo user agent',
 				'cule_agent_id'   => $fooUserAgentId,
 			], [
 				'cule_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cule_agent'      => 'bar user agent',
 				'cule_agent_id'   => $barUserAgentId,
 			], [
 				'cule_actor'      => $testActorData['1.2.3.5']['actor_id'],
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cule_agent'      => 'bar user agent',
 				'cule_agent_id'   => $barUserAgentId,
 			], [
 				'cule_actor'      => $testActorData['User1']['actor_id'],
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cule_agent'      => 'foo user agent',
 				'cule_agent_id'   => $fooUserAgentId,
 			],
 		];
@@ -184,17 +172,14 @@ trait CompareTabTestDataTrait {
 			[
 				'cupe_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cupe_agent'      => 'foo user agent',
 				'cupe_agent_id'   => $fooUserAgentId,
 			], [
 				'cupe_actor'      => $testActorData['User1']['actor_id'],
 				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cupe_agent'      => 'foo user agent',
 				'cupe_agent_id'   => $fooUserAgentId,
 			], [
 				'cupe_actor'      => $testActorData['User2']['actor_id'],
 				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cupe_agent'      => 'foo user agent',
 				'cupe_agent_id'   => $fooUserAgentId,
 			],
 		];

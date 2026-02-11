@@ -272,8 +272,6 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 	/** @dataProvider provideSubmitFormForGetActionsCheckWithResults */
 	public function testSubmitFormForGetActionsCheckWithResults( $tempAccountsHidden ) {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_READ_OLD );
-
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
@@ -317,8 +315,6 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	}
 
 	public function testSubmitFormForGetActionsCheckOnUsernameWithResults() {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_READ_NEW );
-
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
@@ -396,12 +392,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	}
 
 	/** @dataProvider provideSubmitFormForGetUsersCheckWithResults */
-	public function testSubmitFormForGetUsersCheckWithResults(
-		$tempAccountsHidden,
-		int $userAgentTableMigrationStage
-	) {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
-
+	public function testSubmitFormForGetUsersCheckWithResults( $tempAccountsHidden ) {
 		// We need to set a title in the RequestContext because the HTMLFieldsetCheckUser (used to make the
 		// checkuser helper) uses HTMLForm code which unconditionally uses the RequestContext title.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
@@ -439,12 +430,8 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 	public static function provideSubmitFormForGetUsersCheckWithResults(): array {
 		return [
-			'Temporary accounts hidden' => [ true, SCHEMA_COMPAT_READ_OLD ],
-			'Temporary accounts not hidden' => [ false, SCHEMA_COMPAT_READ_OLD ],
-			'Temporary accounts not hidden with user agent migration at read new' => [
-				false,
-				SCHEMA_COMPAT_READ_NEW,
-			],
+			'Temporary accounts hidden' => [ true ],
+			'Temporary accounts not hidden' => [ false ],
 		];
 	}
 
@@ -466,12 +453,6 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	}
 
 	public function addDBDataOnce() {
-		// Some tests still check the read old behaviour, so still write old to allow that
-		$this->overrideConfigValue(
-			'CheckUserUserAgentTableMigrationStage',
-			SCHEMA_COMPAT_WRITE_OLD | SCHEMA_COMPAT_NEW
-		);
-
 		$this->disableAutoCreateTempUser();
 		$usernameTarget = $this->getTestUser();
 

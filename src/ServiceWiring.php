@@ -512,11 +512,7 @@ return [
 			$services->getConnectionProvider(),
 			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserLookupUtils' ),
-			$services->getTempUserConfig(),
-			new ServiceOptions(
-				TimelineService::CONSTRUCTOR_OPTIONS,
-				$services->getMainConfig()
-			)
+			$services->getTempUserConfig()
 		);
 	},
 	'CheckUserTokenManager' => static function ( MediaWikiServices $services ): TokenManager {
