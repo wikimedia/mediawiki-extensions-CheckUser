@@ -429,6 +429,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "Offengelegte IP-Adressen: $1 (zuletzt $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Offengelegte IP-Adressen: $1",
 	"checkuser-suggestedinvestigations": "Vorgeschlagene Untersuchungen",
+	"checkuser-suggestedinvestigations-autoclose-reason": "Automatisch geschlossen, da alle Konten gesperrt sind.",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: Fall #$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: Fall nicht gefunden",
 	"checkuser-suggestedinvestigations-detail-view-not-found-page-text": "Es konnte kein Fall mit dem URL-Identifikator „$1“ gefunden werden.",

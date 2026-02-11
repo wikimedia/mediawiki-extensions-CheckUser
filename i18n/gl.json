@@ -416,6 +416,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "Revelacións de IP: $1 (última comprobación o $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Revelacións de IP: $1",
 	"checkuser-suggestedinvestigations": "Investigacións suxeridas",
+	"checkuser-suggestedinvestigations-autoclose-reason": "Pechouse automaticamente porque todas as contas están bloqueadas",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: caso n.º $1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: non se atopou o caso",
 	"checkuser-suggestedinvestigations-detail-view-not-found-page-text": "Non se atopou ningún caso co identificador de URL «$1».",

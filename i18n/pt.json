@@ -271,5 +271,6 @@
 	"checkuser-userinfocard-global-groups": "<strong>Grupos globais</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ( {{PLURAL:$2| $2 edição| $2 edições|0=Sem edições}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Optou por ver os IPs de contas temporárias",
-	"checkuser-userinfocard-temporary-account-bucketcount": "Contas temporárias de todos os IPs associados: $1"
+	"checkuser-userinfocard-temporary-account-bucketcount": "Contas temporárias de todos os IPs associados: $1",
+	"checkuser-contributions-temporary-account-bucketcount": "Contas temporárias de todos os IPs associados: $1."
 }

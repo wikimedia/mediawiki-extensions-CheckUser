@@ -420,6 +420,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP-paljastuksia: $1 (viimeksi $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP-paljastuksia: $1",
 	"checkuser-suggestedinvestigations": "Ehdotetut tutkinnat",
+	"checkuser-suggestedinvestigations-autoclose-reason": "Automaattisesti suljettu, koska kaikki tunnukset on estetty",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: tapaus #$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: tapausta ei löytynyt",
 	"checkuser-suggestedinvestigations-detail-view-not-found-page-text": "URL-tunnisteella ”$1” ei löytynyt tapausta.",
