@@ -14,7 +14,6 @@ CREATE TABLE /*_*/cu_changes (
   cuc_last_oldid INT UNSIGNED DEFAULT 0 NOT NULL,
   cuc_type TINYINT(3) UNSIGNED DEFAULT 0 NOT NULL,
   cuc_timestamp BINARY(14) NOT NULL,
-  cuc_ip VARCHAR(255) DEFAULT '',
   cuc_ip_hex VARCHAR(255) DEFAULT NULL,
   cuc_xff VARBINARY(255) DEFAULT '',
   cuc_xff_hex VARCHAR(255) DEFAULT NULL,
@@ -22,7 +21,6 @@ CREATE TABLE /*_*/cu_changes (
   INDEX cuc_ip_hex_time (cuc_ip_hex, cuc_timestamp),
   INDEX cuc_xff_hex_time (cuc_xff_hex, cuc_timestamp),
   INDEX cuc_timestamp (cuc_timestamp),
-  INDEX cuc_actor_ip_time (cuc_actor, cuc_ip, cuc_timestamp),
   INDEX cuc_actor_ip_hex_time (
     cuc_actor, cuc_ip_hex, cuc_timestamp
   ),

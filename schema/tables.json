@@ -65,12 +65,6 @@
 				"options": { "notnull": true }
 			},
 			{
-				"name": "cuc_ip",
-				"comment": "IP address, visible",
-				"type": "string",
-				"options": { "notnull": false, "length": 255, "default": "" }
-			},
-			{
 				"name": "cuc_ip_hex",
 				"comment": "IP address as hexidecimal",
 				"type": "string",
@@ -109,11 +103,6 @@
 			{
 				"name": "cuc_timestamp",
 				"columns": [ "cuc_timestamp" ],
-				"unique": false
-			},
-			{
-				"name": "cuc_actor_ip_time",
-				"columns": [ "cuc_actor", "cuc_ip", "cuc_timestamp" ],
 				"unique": false
 			},
 			{

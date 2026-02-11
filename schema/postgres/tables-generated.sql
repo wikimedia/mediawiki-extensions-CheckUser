@@ -14,7 +14,6 @@ CREATE TABLE cu_changes (
   cuc_last_oldid INT DEFAULT 0 NOT NULL,
   cuc_type SMALLINT DEFAULT 0 NOT NULL,
   cuc_timestamp TIMESTAMPTZ NOT NULL,
-  cuc_ip VARCHAR(255) DEFAULT '',
   cuc_ip_hex VARCHAR(255) DEFAULT NULL,
   cuc_xff TEXT DEFAULT '',
   cuc_xff_hex VARCHAR(255) DEFAULT NULL,
@@ -27,8 +26,6 @@ CREATE INDEX cuc_ip_hex_time ON cu_changes (cuc_ip_hex, cuc_timestamp);
 CREATE INDEX cuc_xff_hex_time ON cu_changes (cuc_xff_hex, cuc_timestamp);
 
 CREATE INDEX cuc_timestamp ON cu_changes (cuc_timestamp);
-
-CREATE INDEX cuc_actor_ip_time ON cu_changes (cuc_actor, cuc_ip, cuc_timestamp);
 
 CREATE INDEX cuc_actor_ip_hex_time ON cu_changes (
   cuc_actor, cuc_ip_hex, cuc_timestamp
