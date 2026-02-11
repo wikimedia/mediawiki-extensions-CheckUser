@@ -4,8 +4,8 @@ declare( strict_types=1 );
 
 namespace MediaWiki\CheckUser\Jobs;
 
-use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Context\RequestContext;
@@ -27,7 +27,7 @@ class SuggestedInvestigationsAutoCloseJob extends Job {
 		array $params,
 		private readonly SuggestedInvestigationsCaseManagerService $caseManager,
 		private readonly SuggestedInvestigationsCaseLookupService $caseLookup,
-		private readonly DatabaseBlockStore $blockStore,
+		private readonly CompositeIndefiniteBlockChecker $blockChecker,
 		private readonly LoggerInterface $logger,
 		private readonly MessageLocalizer $messageLocalizer
 	) {
@@ -45,7 +45,7 @@ class SuggestedInvestigationsAutoCloseJob extends Job {
 			$params,
 			$services->getService( 'CheckUserSuggestedInvestigationsCaseManager' ),
 			$services->getService( 'CheckUserSuggestedInvestigationsCaseLookup' ),
-			$services->getDatabaseBlockStore(),
+			$services->getService( 'CheckUserCompositeIndefiniteBlockChecker' ),
 			$services->getService( 'CheckUserLogger' ),
 			RequestContext::getMain()
 		);
@@ -66,13 +66,22 @@ class SuggestedInvestigationsAutoCloseJob extends Job {
 	/** @inheritDoc */
 	public function run(): bool {
 		$caseId = (int)$this->params['caseId'];
-
 		if ( $this->caseLookup->getCaseStatus( $caseId ) !== CaseStatus::Open ) {
 			return true;
 		}
 
 		$userIds = $this->caseLookup->getUserIdsInCase( $caseId );
-		if ( $userIds === [] || !$this->areAllUsersIndefinitelySitewideBlocked( $userIds, $caseId ) ) {
+		if ( $userIds === [] ) {
+			return true;
+		}
+
+		$unblockedUserIds = $this->blockChecker->getUnblockedUserIds( $userIds );
+		if ( $unblockedUserIds !== [] ) {
+			$this->logger->info(
+				'Users {userIds} are not indefinitely blocked, skipping auto-close for case {caseId}',
+				[ 'userIds' => implode( ', ', $unblockedUserIds ), 'caseId' => $caseId ]
+			);
+
 			return true;
 		}
 
@@ -82,31 +91,9 @@ class SuggestedInvestigationsAutoCloseJob extends Job {
 
 		$this->caseManager->setCaseStatus( $caseId, CaseStatus::Resolved, $reason );
 		$this->logger->info(
-			'Auto resolved case {caseId} as all associated users are indefinitely sitewide blocked',
+			'Auto resolved case {caseId} as all associated users are indefinitely blocked',
 			[ 'caseId' => $caseId ]
 		);
-
-		return true;
-	}
-
-	private function areAllUsersIndefinitelySitewideBlocked( array $userIds, int $caseId ): bool {
-		$blocks = $this->blockStore->newListFromConds( [ 'bt_user' => $userIds ] );
-		$blockedUserIds = [];
-		foreach ( $blocks as $block ) {
-			$target = $block->getTargetUserIdentity();
-			if ( $target !== null && $block->isSitewide() && $block->isIndefinite() ) {
-				$blockedUserIds[] = $target->getId();
-			}
-		}
-
-		$unblockedUserIds = array_diff( $userIds, $blockedUserIds );
-		if ( $unblockedUserIds !== [] ) {
-			$this->logger->info(
-				'Users {userIds} are not indefinitely sitewide blocked, skipping auto-close for case {caseId}',
-				[ 'userIds' => implode( ', ', $unblockedUserIds ), 'caseId' => $caseId ]
-			);
-			return false;
-		}
 
 		return true;
 	}

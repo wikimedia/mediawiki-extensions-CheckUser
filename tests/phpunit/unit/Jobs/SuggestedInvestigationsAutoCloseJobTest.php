@@ -4,14 +4,12 @@ declare( strict_types=1 );
 
 namespace MediaWiki\CheckUser\Tests\Unit\Jobs;
 
-use MediaWiki\Block\DatabaseBlock;
-use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Tests\Unit\FakeQqxMessageLocalizer;
-use MediaWiki\User\UserIdentity;
 use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -78,18 +76,19 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiUnitTestCase {
 		$job->run();
 	}
 
-	public function testCaseWithUsersNotAllIndefinitelySitewideBlocked(): void {
+	public function testCaseNotClosedWhenNotAllUsersBlocked(): void {
 		$caseLookUpMock = $this->getCaseLookUpMockFound();
 
-		$blockStoreMock = $this->createMock( DatabaseBlockStore::class );
-		$blockStoreMock->expects( $this->once() )
-			->method( 'newListFromConds' )
-			->willReturn( [] );
+		$blockCheckerMock = $this->createMock( CompositeIndefiniteBlockChecker::class );
+		$blockCheckerMock->expects( $this->once() )
+			->method( 'getUnblockedUserIds' )
+			->with( [ 1, 2 ] )
+			->willReturn( [ 2 ] );
 
 		$job = $this->createJobWithMocks(
 			$this->getCaseManagerMockIsNeverCalled(),
 			$caseLookUpMock,
-			$blockStoreMock
+			$blockCheckerMock
 		);
 
 		$job->run();
@@ -98,13 +97,11 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiUnitTestCase {
 	public function testCaseAutoClosedOk(): void {
 		$caseLookUpMock = $this->getCaseLookUpMockFound();
 
-		$block1 = $this->createBlockMockWithUserId( 1 );
-		$block2 = $this->createBlockMockWithUserId( 2 );
-
-		$blockStoreMock = $this->createMock( DatabaseBlockStore::class );
-		$blockStoreMock->expects( $this->once() )
-			->method( 'newListFromConds' )
-			->willReturn( [ $block1, $block2 ] );
+		$blockCheckerMock = $this->createMock( CompositeIndefiniteBlockChecker::class );
+		$blockCheckerMock->expects( $this->once() )
+			->method( 'getUnblockedUserIds' )
+			->with( [ 1, 2 ] )
+			->willReturn( [] );
 
 		$caseManagerMock = $this->createMock( SuggestedInvestigationsCaseManagerService::class );
 		$caseManagerMock->expects( $this->once() )
@@ -114,7 +111,7 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiUnitTestCase {
 		$job = $this->createJobWithMocks(
 			$caseManagerMock,
 			$caseLookUpMock,
-			$blockStoreMock
+			$blockCheckerMock
 		);
 
 		$this->assertTrue( $job->run() );
@@ -124,6 +121,7 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiUnitTestCase {
 		$caseManagerMock = $this->createMock( SuggestedInvestigationsCaseManagerService::class );
 		$caseManagerMock->expects( $this->never() )
 			->method( 'setCaseStatus' );
+
 		return $caseManagerMock;
 	}
 
@@ -138,33 +136,22 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiUnitTestCase {
 			->method( 'getUserIdsInCase' )
 			->with( self::CASE_ID )
 			->willReturn( [ 1, 2 ] );
+
 		return $caseLookUpMock;
 	}
 
 	private function createJobWithMocks(
 		SuggestedInvestigationsCaseManagerService $caseManager,
 		SuggestedInvestigationsCaseLookupService $caseLookup,
-		?DatabaseBlockStore $blockStore = null
+		?CompositeIndefiniteBlockChecker $blockChecker = null
 	): SuggestedInvestigationsAutoCloseJob {
 		return new SuggestedInvestigationsAutoCloseJob(
 			[ 'caseId' => self::CASE_ID ],
 			$caseManager,
 			$caseLookup,
-			$blockStore ?? $this->createMock( DatabaseBlockStore::class ),
+			$blockChecker ?? $this->createMock( CompositeIndefiniteBlockChecker::class ),
 			$this->createMock( LoggerInterface::class ),
 			new FakeQqxMessageLocalizer()
 		);
-	}
-
-	private function createBlockMockWithUserId( int $userId ): DatabaseBlock&MockObject {
-		$userIdentity = $this->createMock( UserIdentity::class );
-		$userIdentity->expects( $this->once() )->method( 'getId' )->willReturn( $userId );
-
-		$block = $this->createMock( DatabaseBlock::class );
-		$block->expects( $this->once() )->method( 'getTargetUserIdentity' )->willReturn( $userIdentity );
-		$block->expects( $this->once() )->method( 'isSitewide' )->willReturn( true );
-		$block->expects( $this->once() )->method( 'isIndefinite' )->willReturn( true );
-
-		return $block;
 	}
 }

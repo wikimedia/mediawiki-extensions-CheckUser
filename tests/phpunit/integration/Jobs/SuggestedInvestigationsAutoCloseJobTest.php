@@ -91,6 +91,18 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiIntegrationTestCa
 			'Case should be resolved when all users are blocked' );
 	}
 
+	public function testNewFromGlobalState(): void {
+		$job = SuggestedInvestigationsAutoCloseJob::newFromGlobalState( [ 'caseId' => 123 ] );
+		$this->assertInstanceOf( SuggestedInvestigationsAutoCloseJob::class, $job );
+	}
+
+	public function testStaticFactory(): void {
+		$job = SuggestedInvestigationsAutoCloseJob::newSpec( 123, true );
+		$this->assertSame( SuggestedInvestigationsAutoCloseJob::TYPE, $job->getType() );
+		$this->assertSame( 123, $job->getParams()['caseId'] );
+		$this->assertArrayHasKey( 'jobReleaseTimestamp', $job->getParams() );
+	}
+
 	private function getJob( int $caseId ): SuggestedInvestigationsAutoCloseJob {
 		$services = $this->getServiceContainer();
 
@@ -98,7 +110,7 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiIntegrationTestCa
 			[ 'caseId' => $caseId ],
 			$this->caseManager,
 			$services->getService( 'CheckUserSuggestedInvestigationsCaseLookup' ),
-			$services->getDatabaseBlockStore(),
+			$services->getService( 'CheckUserCompositeIndefiniteBlockChecker' ),
 			$services->getService( 'CheckUserLogger' ),
 			RequestContext::getMain()
 		);
