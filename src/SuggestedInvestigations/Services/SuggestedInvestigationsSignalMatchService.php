@@ -24,6 +24,7 @@ class SuggestedInvestigationsSignalMatchService {
 	public const EVENT_SET_EMAIL = 'setemail';
 	public const EVENT_CONFIRM_EMAIL = 'confirmemail';
 	public const EVENT_SUCCESSFUL_EDIT = 'successfuledit';
+	public const EVENT_CHECKUSER_PRIVATE_EVENT = 'checkuser-private-event';
 
 	public function __construct(
 		private readonly ServiceOptions $options,

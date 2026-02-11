@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
@@ -24,6 +25,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Profiler;
 use Psr\Log\LoggerInterface;
+use Wikimedia\ScopedCallback;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -357,6 +359,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
 			$this->getServiceContainer()->getJobQueueGroup(),
 			$this->getServiceContainer()->getRecentChangeLookup(),
+			$this->getServiceContainer()->get( 'SuggestedInvestigationsSignalMatchService' ),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 		if ( $table === 'cu_changes' ) {
@@ -593,6 +596,43 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			'cu_log_event for write new' => [ 'cu_log_event', SCHEMA_COMPAT_WRITE_NEW ],
 			'cu_private_event for write new' => [ 'cu_private_event', SCHEMA_COMPAT_WRITE_NEW ],
 		];
+	}
+
+	public function testInsertIntoCuPrivateEventTableForSuggestedInvestigationsSignalMatch() {
+		$performer = $this->getTestUser()->getUserIdentity();
+		$rowIdFromInsertionMethod = 0;
+
+		$mockSuggestedInvestigationsSignalMatchService = $this->createMock(
+			SuggestedInvestigationsSignalMatchService::class
+		);
+		$mockSuggestedInvestigationsSignalMatchService->expects( $this->once() )
+			->method( 'matchSignalsAgainstUser' )
+			->with(
+				$performer,
+				SuggestedInvestigationsSignalMatchService::EVENT_CHECKUSER_PRIVATE_EVENT,
+				$this->callback( function ( $extraData ) use ( &$rowIdFromInsertionMethod ) {
+					$this->assertArrayHasKey( 'row', $extraData );
+					$this->assertArrayHasKey( 'cupe_log_action', $extraData['row'] );
+					$this->assertSame( 'test-action', $extraData['row']['cupe_log_action'] );
+
+					$this->assertArrayHasKey( 'id', $extraData );
+					$this->assertSame( $rowIdFromInsertionMethod, $extraData['id'] );
+					return true;
+				} )
+			);
+
+		$this->setService(
+			'SuggestedInvestigationsSignalMatchService',
+			$mockSuggestedInvestigationsSignalMatchService
+		);
+
+		$scope = DeferredUpdates::preventOpportunisticUpdates();
+		$rowIdFromInsertionMethod = $this->setUpObject()->insertIntoCuPrivateEventTable(
+			[ 'cupe_log_action' => 'test-action' ], __METHOD__, $performer
+		);
+		ScopedCallback::consume( $scope );
+
+		DeferredUpdates::doUpdates();
 	}
 
 	public function testInsertIntoCuLogEventTableLogId() {
