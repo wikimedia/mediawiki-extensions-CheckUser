@@ -36,6 +36,7 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\LocalIndefiniteBlockCheck;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
@@ -145,8 +146,12 @@ return [
 			$services->getTempUserConfig()
 		);
 	},
-	'CheckUserCompositeIndefiniteBlockChecker' => static function (): CompositeIndefiniteBlockChecker {
-		$blockChecks = [];
+	'CheckUserCompositeIndefiniteBlockChecker' => static function (
+		MediaWikiServices $services
+	): CompositeIndefiniteBlockChecker {
+		$blockChecks = [
+			new LocalIndefiniteBlockCheck( $services->getDatabaseBlockStore() ),
+		];
 
 		return new CompositeIndefiniteBlockChecker( $blockChecks );
 	},
