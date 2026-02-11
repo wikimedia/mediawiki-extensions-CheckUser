@@ -142,12 +142,6 @@
 				"options": { "notnull": true }
 			},
 			{
-				"name": "cule_ip",
-				"comment": "IP address, visible",
-				"type": "string",
-				"options": { "notnull": false, "length": 255, "default": "" }
-			},
-			{
 				"name": "cule_ip_hex",
 				"comment": "IP address as hexadecimal",
 				"type": "string",
@@ -186,11 +180,6 @@
 			{
 				"name": "cule_timestamp",
 				"columns": [ "cule_timestamp" ],
-				"unique": false
-			},
-			{
-				"name": "cule_actor_ip_time",
-				"columns": [ "cule_actor", "cule_ip", "cule_timestamp" ],
 				"unique": false
 			},
 			{

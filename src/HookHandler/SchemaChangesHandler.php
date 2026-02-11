@@ -312,6 +312,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'cuc_ip',
 			"$base/$dbType/patch-cu_changes-drop-cuc_ip.sql"
 		);
+		$updater->dropExtensionField(
+			'cu_log_event',
+			'cule_ip',
+			"$base/$dbType/patch-cu_log_event-drop-cule_ip.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
