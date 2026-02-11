@@ -43,7 +43,6 @@ CREATE TABLE /*_*/cu_log_event (
   cule_ip_hex VARCHAR(255) DEFAULT NULL,
   cule_xff BLOB DEFAULT '',
   cule_xff_hex VARCHAR(255) DEFAULT NULL,
-  cule_agent BLOB DEFAULT NULL,
   cule_agent_id BIGINT UNSIGNED DEFAULT 0 NOT NULL
 );
 

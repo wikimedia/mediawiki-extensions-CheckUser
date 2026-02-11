@@ -362,6 +362,7 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 			'scripts' => [
 				$sqlPatchesDir . '/patch-cu_changes-add-cuc_agent.sql',
 				$sqlPatchesDir . '/patch-cu_private_event-add-cupe_agent.sql',
+				$sqlPatchesDir . '/patch-cu_log_event-add-cule_agent.sql',
 			],
 			'alter' => [ 'cu_private_event', 'cu_changes' ],
 		];
