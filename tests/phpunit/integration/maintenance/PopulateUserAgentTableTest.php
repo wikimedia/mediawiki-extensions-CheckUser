@@ -9,6 +9,9 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use Wikimedia\Rdbms\IMaintainableDatabase;
+use Wikimedia\Services\ServiceContainer;
 
 /**
  * @group CheckUser
@@ -21,6 +24,31 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {
 		return PopulateUserAgentTable::class;
+	}
+
+	public function testWhenCheckUserInsertIsNotDefined() {
+		// Mock that the CheckUserInsert service is not defined (which happens during install.php)
+		// by making the service container have no services
+		/** @var MockObject&PopulateUserAgentTable $maintenance */
+		$maintenance = $this->getMockBuilder( $this->getMaintenanceClass() )
+			->onlyMethods( [ 'getServiceContainer' ] )
+			->getMock();
+		$maintenance->method( 'getServiceContainer' )
+			->willReturn( new ServiceContainer() );
+
+		$this->assertTrue(
+			$maintenance->execute(),
+			'::execute needs to return true to avoid install.php failing to execute'
+		);
+
+		// ::execute should not have resulted in an updatelog row, as we want the script
+		// to be run during an update.php run to actually migrate any rows that need
+		// migration
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'updatelog' )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
 	}
 
 	public function testSuccessfulPopulation() {
@@ -322,5 +350,19 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 			"... 2 rows populated\nDone. Populated 2 rows.",
 			$actualOutput
 		);
+	}
+
+	/** @inheritDoc */
+	protected function getSchemaOverrides( IMaintainableDatabase $db ) {
+		// The script relies on the state of the CheckUser result tables before the
+		// cu_useragent table migration was finished. Therefore, we need to add
+		// back the *_agent columns to each result table for the test to work.
+		$sqlPatchesDir = __DIR__ . '/patches/' . $db->getType();
+		return [
+			'scripts' => [
+				$sqlPatchesDir . '/patch-cu_private_event-add-cupe_agent.sql',
+			],
+			'alter' => [ 'cu_private_event' ],
+		];
 	}
 }

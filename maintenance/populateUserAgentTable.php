@@ -38,9 +38,31 @@ class PopulateUserAgentTable extends LoggedUpdateMaintenance {
 	}
 
 	/** @inheritDoc */
+	public function execute() {
+		// If the CheckUserInsert service is not defined, we cannot run the script as we require
+		// the service. This happens during install.php and when update.php is run the service
+		// should be defined (at which point we can run the script to mark it as completed).
+		if ( !$this->getServiceContainer()->has( 'CheckUserInsert' ) ) {
+			return true;
+		}
+
+		return parent::execute();
+	}
+
+	/** @inheritDoc */
 	public function doDBUpdates() {
 		$dbr = $this->getReplicaDB();
 		$dbw = $this->getPrimaryDB();
+
+		$mainLb = $this->getServiceContainer()->getDBLoadBalancerFactory()->getMainLB();
+		$maintainableDbw = $mainLb->getMaintenanceConnectionRef( DB_PRIMARY );
+
+		if ( !$maintainableDbw->fieldExists( 'cu_private_event', 'cupe_agent', __METHOD__ ) ) {
+			$this->output(
+				"The cupe_agent field does not exist in cu_private_event which is needed for the migration.\n"
+			);
+			return true;
+		}
 
 		/** @var CheckUserInsert $checkUserInsert */
 		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );

@@ -80,7 +80,6 @@ CREATE TABLE cu_private_event (
   cupe_ip_hex VARCHAR(255) DEFAULT NULL,
   cupe_xff TEXT DEFAULT '',
   cupe_xff_hex VARCHAR(255) DEFAULT NULL,
-  cupe_agent TEXT DEFAULT NULL,
   cupe_agent_id BIGINT DEFAULT 0 NOT NULL,
   PRIMARY KEY(cupe_id)
 );
