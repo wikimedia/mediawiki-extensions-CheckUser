@@ -270,8 +270,9 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			"$base/$dbType/patch-cusi_signal-add-sis_trigger_id.sql", true,
 		] );
 		$updater->addExtensionUpdateOnVirtualDomain( [
-			self::VIRTUAL_DB_DOMAIN, 'modifyField', 'cusi_case', 'sic_url_identifier',
+			self::VIRTUAL_DB_DOMAIN, 'modifyTableIfFieldNotExists', 'cusi_case', 'sic_updated_timestamp',
 			"$base/$dbType/patch-cusi_case-modify-sic_url_identifier.sql", true,
+			'sic_url_identifier',
 		] );
 		$updater->addExtensionUpdateOnVirtualDomain( [
 			self::VIRTUAL_DB_DOMAIN, 'addField', 'cusi_case', 'sic_updated_timestamp',
@@ -286,7 +287,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'runMaintenance',
 			PopulateUserAgentTable::class,
 		] );
-		$updater->addPostDatabaseUpdateMaintenance( PopulateSicUpdatedTimestamp::class );
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_DB_DOMAIN,
+			'runMaintenance',
+			PopulateSicUpdatedTimestamp::class,
+		] );
 		$updater->addPostDatabaseUpdateMaintenance( QueueAutoCloseSICases::class );
 		$updater->addExtensionUpdateOnVirtualDomain( [
 			self::VIRTUAL_DB_DOMAIN, 'addField', 'cusi_user', 'siu_info',
@@ -322,6 +327,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'cupe_ip',
 			"$base/$dbType/patch-cu_private_event-drop-cupe_ip.sql"
 		);
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_DB_DOMAIN, 'modifyField', 'cusi_case', 'sic_updated_timestamp',
+			"$base/$dbType/patch-cusi_case-modify-sic_updated_timestamp-remove_default.sql", true,
+		] );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.

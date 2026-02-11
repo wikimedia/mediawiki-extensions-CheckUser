@@ -2,13 +2,13 @@
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
-use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateSicUpdatedTimestamp;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\Rdbms\IMaintainableDatabase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -108,6 +108,8 @@ class PopulateSicUpdatedTimestampTest extends MaintenanceBaseTestCase {
 	}
 
 	public function testWhenSuggestedInvestigationsCaseTableHasRowsToPopulate() {
+		$this->markTestSkippedIfDbType( 'sqlite' );
+
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
 
@@ -129,31 +131,13 @@ class PopulateSicUpdatedTimestampTest extends MaintenanceBaseTestCase {
 			[ UserIdentityValue::newRegistered( 4, 'Test user 4' ) ], [ $signal ]
 		);
 
-		// Clear the sic_updated_timestamp for all but the fourth cusi_case row
-		// by setting it to the default value (sometimes an empty string otherwise null)
-
-		// Set two rows to use a value of null as sic_updated_timestamp, unless
-		// the column does not support nullable values where an empty string is used instead
-		// (these being WMF production and wikis running non-release versions of 1.46)
-		$maintainableDb = $this->getServiceContainer()->getDBLoadBalancerFactory()
-			->getLoadBalancer( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN )
-			->getMaintenanceConnectionRef( DB_PRIMARY );
-		$fieldInfo = $maintainableDb->fieldInfo( 'cusi_case', 'sic_updated_timestamp' );
-		if ( $fieldInfo !== false && $fieldInfo->isNullable() ) {
-			$this->getDb()->newUpdateQueryBuilder()
-				->update( 'cusi_case' )
-				->set( [ 'sic_updated_timestamp' => null ] )
-				->where( [ 'sic_id' => [ $firstCaseId, $secondCaseId ] ] )
-				->caller( __METHOD__ )
-				->execute();
-		} else {
-			$this->getDb()->newUpdateQueryBuilder()
-				->update( 'cusi_case' )
-				->set( [ 'sic_updated_timestamp' => '' ] )
-				->where( [ 'sic_id' => [ $firstCaseId, $secondCaseId ] ] )
-				->caller( __METHOD__ )
-				->execute();
-		}
+		// Set two rows to use a value of null as sic_updated_timestamp
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'cusi_case' )
+			->set( [ 'sic_updated_timestamp' => null ] )
+			->where( [ 'sic_id' => [ $firstCaseId, $secondCaseId ] ] )
+			->caller( __METHOD__ )
+			->execute();
 
 		// On some non-release branches of 1.46, the sic_updated_timestamp could have
 		// a default of an empty string (T415348).
@@ -201,5 +185,22 @@ class PopulateSicUpdatedTimestampTest extends MaintenanceBaseTestCase {
 				[ $thirdCaseId, $this->getDb()->timestamp( '20260504030203' ) ],
 				[ $fourthCaseId, $this->getDb()->timestamp( '20260504030204' ) ],
 			] );
+	}
+
+	/** @inheritDoc */
+	protected function getSchemaOverrides( IMaintainableDatabase $db ): array {
+		// The schema changes require temporary tables on sqlite (which are fragile), so the tests
+		// are skipped for sqlite (including the need to make any schema modifications for the test)
+		if ( $db->getType() === 'sqlite' ) {
+			return [];
+		}
+
+		return [
+			'scripts' => [
+				__DIR__ . '/patches/' . $db->getType() .
+					'/patch-cusi_case-modify-sic_updated_timestamp-nullable.sql',
+			],
+			'drop' => [ 'cusi_case' ],
+		];
 	}
 }
