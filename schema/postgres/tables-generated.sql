@@ -18,7 +18,6 @@ CREATE TABLE cu_changes (
   cuc_ip_hex VARCHAR(255) DEFAULT NULL,
   cuc_xff TEXT DEFAULT '',
   cuc_xff_hex VARCHAR(255) DEFAULT NULL,
-  cuc_agent TEXT DEFAULT NULL,
   cuc_agent_id BIGINT DEFAULT 0 NOT NULL,
   PRIMARY KEY(cuc_id)
 );

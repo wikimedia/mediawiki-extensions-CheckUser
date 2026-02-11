@@ -89,12 +89,6 @@
 				"options": { "notnull": false, "length": 255 }
 			},
 			{
-				"name": "cuc_agent",
-				"comment": "User agent",
-				"type": "binary",
-				"options": { "notnull": false, "length": 255 }
-			},
-			{
 				"name": "cuc_agent_id",
 				"comment": "Foreign key to cu_useragent table on the cuua_id field. Represents the user agent string used for this change.",
 				"type": "bigint",

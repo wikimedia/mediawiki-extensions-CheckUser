@@ -295,6 +295,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'cupe_agent',
 			"$base/$dbType/patch-cu_private_event-drop-cupe_agent.sql"
 		);
+		$updater->dropExtensionField(
+			'cu_changes',
+			'cuc_agent',
+			"$base/$dbType/patch-cu_changes-drop-cuc_agent.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
