@@ -11,13 +11,6 @@ CREATE TABLE /*_*/cusi_case (
   sic_updated_timestamp BLOB NOT NULL
 );
 
-CREATE UNIQUE INDEX sic_status_created_timestamp_id ON /*_*/cusi_case (
-  sic_status, sic_created_timestamp,
-  sic_id
-);
-
-CREATE UNIQUE INDEX sic_created_timestamp_id ON /*_*/cusi_case (sic_created_timestamp, sic_id);
-
 CREATE UNIQUE INDEX sic_status_updated_timestamp_id ON /*_*/cusi_case (
   sic_status, sic_updated_timestamp,
   sic_id

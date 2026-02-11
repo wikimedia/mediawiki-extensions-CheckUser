@@ -42,18 +42,6 @@
 		],
 		"indexes": [
 			{
-				"name": "sic_status_created_timestamp_id",
-				"columns": [ "sic_status", "sic_created_timestamp", "sic_id" ],
-				"unique": true,
-				"comment": "Used for several things. Allows sorting and paging the Codex table by the 'Status' column (the created timestamp and ID are used to ensure unique paging). Also allows the system to find the newest open case given a pre-determined list of sic_id values, so the system can add new users to an existing case."
-			},
-			{
-				"name": "sic_created_timestamp_id",
-				"columns": [ "sic_created_timestamp", "sic_id" ],
-				"unique": true,
-				"comment": "Used to sort and page cases by their creation timestamp (the ID makes paging consistent in case two cases have the same creation timestamp) for the Codex table on the Special page for Suggested investigations."
-			},
-			{
 				"name": "sic_status_updated_timestamp_id",
 				"columns": [ "sic_status", "sic_updated_timestamp", "sic_id" ],
 				"unique": true,

@@ -331,6 +331,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			self::VIRTUAL_DB_DOMAIN, 'modifyField', 'cusi_case', 'sic_updated_timestamp',
 			"$base/$dbType/patch-cusi_case-modify-sic_updated_timestamp-remove_default.sql", true,
 		] );
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_DB_DOMAIN, 'dropIndex', 'cusi_case', 'sic_created_timestamp_id',
+			"$base/$dbType/patch-cusi_case-drop-sic_created_timestamp-indexes.sql", true,
+		] );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.

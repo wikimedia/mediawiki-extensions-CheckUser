@@ -12,13 +12,6 @@ CREATE TABLE cusi_case (
   PRIMARY KEY(sic_id)
 );
 
-CREATE UNIQUE INDEX sic_status_created_timestamp_id ON cusi_case (
-  sic_status, sic_created_timestamp,
-  sic_id
-);
-
-CREATE UNIQUE INDEX sic_created_timestamp_id ON cusi_case (sic_created_timestamp, sic_id);
-
 CREATE UNIQUE INDEX sic_status_updated_timestamp_id ON cusi_case (
   sic_status, sic_updated_timestamp,
   sic_id
