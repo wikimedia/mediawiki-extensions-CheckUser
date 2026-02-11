@@ -40,6 +40,7 @@ use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvest
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
+use MediaWiki\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
@@ -143,6 +144,11 @@ return [
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getTempUserConfig()
 		);
+	},
+	'CheckUserCompositeIndefiniteBlockChecker' => static function (): CompositeIndefiniteBlockChecker {
+		$blockChecks = [];
+
+		return new CompositeIndefiniteBlockChecker( $blockChecks );
 	},
 	'CheckUserDataPurger' => static function () {
 		return new CheckUserDataPurger();

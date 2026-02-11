@@ -1,0 +1,52 @@
+<?php
+
+declare( strict_types=1 );
+
+namespace MediaWiki\CheckUser\Tests\Unit\SuggestedInvestigations\Services;
+
+use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\IndefiniteBlockCheckInterface;
+use MediaWiki\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
+use MediaWikiUnitTestCase;
+
+/**
+ * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker
+ * @group CheckUser
+ */
+class CompositeIndefiniteBlockCheckerTest extends MediaWikiUnitTestCase {
+
+	public function testUsersBlockedAcrossMultipleChecks(): void {
+		$localCheck = $this->createMock( IndefiniteBlockCheckInterface::class );
+		$localCheck->expects( $this->once() )
+			->method( 'getIndefinitelyBlockedUserIds' )
+			->with( [ 1, 2 ] )
+			->willReturn( [ 1 ] );
+
+		$globalCheck = $this->createMock( IndefiniteBlockCheckInterface::class );
+		$globalCheck->expects( $this->once() )
+			->method( 'getIndefinitelyBlockedUserIds' )
+			->with( [ 2 ] )
+			->willReturn( [ 2 ] );
+
+		$checker = new CompositeIndefiniteBlockChecker( [ $localCheck, $globalCheck ] );
+
+		$this->assertSame( [], $checker->getUnblockedUserIds( [ 1, 2 ] ) );
+	}
+
+	public function testReturnsUnblockedUsers(): void {
+		$check = $this->createMock( IndefiniteBlockCheckInterface::class );
+		$check->expects( $this->once() )
+			->method( 'getIndefinitelyBlockedUserIds' )
+			->with( [ 1, 2 ] )
+			->willReturn( [ 1 ] );
+
+		$checker = new CompositeIndefiniteBlockChecker( [ $check ] );
+
+		$this->assertSame( [ 2 ], $checker->getUnblockedUserIds( [ 1, 2 ] ) );
+	}
+
+	public function testNoChecksReturnsAllUsersAsUnblocked(): void {
+		$checker = new CompositeIndefiniteBlockChecker( [] );
+
+		$this->assertSame( [ 1, 2 ], $checker->getUnblockedUserIds( [ 1, 2 ] ) );
+	}
+}
