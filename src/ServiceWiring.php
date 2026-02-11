@@ -36,6 +36,7 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
 use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\LocalIndefiniteBlockCheck;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
@@ -49,6 +50,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
+use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\WikiMap\WikiMap;
@@ -152,6 +154,17 @@ return [
 		$blockChecks = [
 			new LocalIndefiniteBlockCheck( $services->getDatabaseBlockStore() ),
 		];
+
+		if ( $services->getExtensionRegistry()->isLoaded( 'GlobalBlocking' ) ) {
+			$globalBlockingServices = GlobalBlockingServices::wrap( $services );
+
+			$blockChecks[] = new GlobalIndefiniteBlockCheck(
+				$globalBlockingServices->getGlobalBlockLookup(),
+				$services->getCentralIdLookup(),
+				$services->getUserIdentityLookup(),
+				$services->getMainConfig()->get( 'ApplyGlobalBlocks' )
+			);
+		}
 
 		return new CompositeIndefiniteBlockChecker( $blockChecks );
 	},
