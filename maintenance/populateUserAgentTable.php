@@ -39,14 +39,6 @@ class PopulateUserAgentTable extends LoggedUpdateMaintenance {
 
 	/** @inheritDoc */
 	public function doDBUpdates() {
-		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
-		if ( !( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
-			$this->error(
-				'This script requires write new for the user agent table migration stage.'
-			);
-			return false;
-		}
-
 		$dbr = $this->getReplicaDB();
 		$dbw = $this->getPrimaryDB();
 

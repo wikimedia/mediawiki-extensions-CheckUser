@@ -44,7 +44,6 @@ class CheckUserInsert {
 
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserClientHintsEnabled',
-		'CheckUserUserAgentTableMigrationStage',
 	];
 
 	/**
@@ -297,17 +296,10 @@ class CheckUserInsert {
 			'cule_xff_hex'   => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 		], $row );
 
+		// Set the User-Agent in the row via a reference to the cu_useragent table
 		$agent = $this->getAgent( $row['cule_agent'] ?? null, $request );
-
-		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$row['cule_agent'] = $agent;
-		} else {
-			unset( $row['cule_agent'] );
-		}
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$row['cule_agent_id'] = $this->acquireUserAgentTableId( $agent );
-		}
+		unset( $row['cule_agent'] );
+		$row['cule_agent_id'] = $this->acquireUserAgentTableId( $agent );
 
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
@@ -387,17 +379,10 @@ class CheckUserInsert {
 			$row
 		);
 
+		// Set the User-Agent in the row via a reference to the cu_useragent table
 		$agent = $this->getAgent( $row['cupe_agent'] ?? null, $request );
-
-		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$row['cupe_agent'] = $agent;
-		} else {
-			unset( $row['cupe_agent'] );
-		}
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$row['cupe_agent_id'] = $this->acquireUserAgentTableId( $agent );
-		}
+		unset( $row['cupe_agent'] );
+		$row['cupe_agent_id'] = $this->acquireUserAgentTableId( $agent );
 
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
@@ -503,17 +488,10 @@ class CheckUserInsert {
 			$row
 		);
 
+		// Set the User-Agent in the row via a reference to the cu_useragent table
 		$agent = $this->getAgent( $row['cuc_agent'] ?? null, $request );
-
-		$userAgentTableMigrationStage = $this->options->get( 'CheckUserUserAgentTableMigrationStage' );
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$row['cuc_agent'] = $agent;
-		} else {
-			unset( $row['cuc_agent'] );
-		}
-		if ( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$row['cuc_agent_id'] = $this->acquireUserAgentTableId( $agent );
-		}
+		unset( $row['cuc_agent'] );
+		$row['cuc_agent_id'] = $this->acquireUserAgentTableId( $agent );
 
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode

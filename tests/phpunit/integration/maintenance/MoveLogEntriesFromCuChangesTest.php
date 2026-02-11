@@ -77,6 +77,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 				[],
 				$expectedRow
 			);
+
 			// Insert rows for log entries, which need moving.
 			$attribs = self::getDefaultRecentChangeAttribs();
 			$rcRow = [
@@ -90,6 +91,11 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 				'cuc_type'       => RC_LOG,
 				'cuc_page_id'    => $attribs['rc_cur_id'],
 				'cuc_timestamp'  => $this->getDb()->timestamp( $attribs['rc_timestamp'] ),
+				// cuc_agent_id did not exist when this script was created, so
+				// for compatability this column is ignored and cuc_agent is instead read
+				// by the code we are testing
+				'cuc_agent'      => 'Test agent',
+				'cuc_agent_id'   => 0,
 			];
 
 			/** @var CheckUserInsert $checkUserInsert */

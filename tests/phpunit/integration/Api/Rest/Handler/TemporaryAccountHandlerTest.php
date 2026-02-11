@@ -603,7 +603,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$commonData = [
 			'cuc_type'       => RC_EDIT,
-			'cuc_agent'      => 'foo user agent',
 			'cuc_agent_id'   => 0,
 			'cuc_namespace'  => NS_MAIN,
 			'cuc_title'      => 'Foo_Page',
@@ -648,7 +647,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$commonData = [
 			'cule_xff'      => 0,
 			'cule_xff_hex'  => null,
-			'cule_agent'    => 'foo user agent',
 			'cule_agent_id' => 0,
 		];
 
@@ -670,7 +668,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		$commonData = [
-			'cupe_agent'    => 'foo user agent',
 			'cupe_agent_id' => 0,
 			'cupe_xff'      => 0,
 			'cupe_xff_hex'  => null,

@@ -725,7 +725,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cule_log_id'     => 10,
 				'cule_timestamp'  => $this->getDb()->timestamp( '20200101000000' ),
-				'cule_agent'      => 'foo user agent',
 				'cule_agent_id'   => 0,
 				'cule_xff'        => 0,
 				'cule_xff_hex'    => null,
@@ -735,7 +734,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cule_log_id'     => 100,
 				'cule_timestamp'  => $this->getDb()->timestamp( '20210101000000' ),
-				'cule_agent'      => 'foo user agent',
 				'cule_agent_id'   => 0,
 				'cule_xff'        => 0,
 				'cule_xff_hex'    => null,
@@ -745,7 +743,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cule_log_id'     => 1000,
 				'cule_timestamp'  => $this->getDb()->timestamp( '20220101000000' ),
-				'cule_agent'      => 'foo user agent',
 				'cule_agent_id'   => 0,
 				'cule_xff'        => 0,
 				'cule_xff_hex'    => null,
@@ -932,7 +929,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$commonData = [
 			'cuc_type'       => RC_EDIT,
-			'cuc_agent'      => 'foo user agent',
 			'cuc_agent_id'   => 0,
 			'cuc_namespace'  => NS_MAIN,
 			'cuc_title'      => 'Foo_Page',

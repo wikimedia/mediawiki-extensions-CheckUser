@@ -114,7 +114,6 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 		$rows = array_map( static function ( $row ) {
 			return array_merge( [
 				'cuc_type'       => RC_EDIT,
-				'cuc_agent'      => 'foo user agent',
 				'cuc_agent_id'   => 0,
 				'cuc_namespace'  => NS_MAIN,
 				'cuc_title'      => 'Foo_Page',
@@ -151,9 +150,9 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 
 		$rows = array_map( static function ( $row ) {
 			return array_merge( [
-				'cule_xff'     => 0,
+				'cule_xff' => 0,
 				'cule_xff_hex' => null,
-				'cule_agent'   => 'foo user agent',
+				'cule_agent_id' => 0,
 			], $row );
 		}, $testData );
 
@@ -182,10 +181,10 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 
 		$rows = array_map( static function ( $row ) {
 			return array_merge( [
-				'cupe_agent'   => 'foo user agent',
-				'cupe_xff'     => 0,
+				'cupe_agent_id' => 0,
+				'cupe_xff' => 0,
 				'cupe_xff_hex' => null,
-				'cupe_params'  => '',
+				'cupe_params' => '',
 			], $row );
 		}, $testData );
 

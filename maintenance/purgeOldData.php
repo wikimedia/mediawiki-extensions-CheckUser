@@ -114,11 +114,6 @@ class PurgeOldData extends Maintenance {
 	}
 
 	private function pruneUserAgentTable(): void {
-		$userAgentTableMigrationStage = $this->getConfig()->get( 'CheckUserUserAgentTableMigrationStage' );
-		if ( !( $userAgentTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
-			return;
-		}
-
 		$this->output( "Pruning unused rows from cu_useragent...\n" );
 
 		// To avoid race conditions of newly added cu_useragent rows being deleted

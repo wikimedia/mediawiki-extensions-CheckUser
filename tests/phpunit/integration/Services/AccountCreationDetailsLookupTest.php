@@ -43,12 +43,7 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/** @dataProvider provideUserAgentTableMigrationStageValues */
-	public function testGetAccountCreationIPAndUserAgentForPrivateLog(
-		int $userAgentTableMigrationStage
-	) {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
-
+	public function testGetAccountCreationIPAndUserAgentForPrivateLog() {
 		// Force the account creation event to be logged to the private table
 		// instead of the public one
 		$this->overrideConfigValue( MainConfigNames::NewUserLog, false );
@@ -67,17 +62,6 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 			false, true,
 			'IP and User Agent returned is not as expected'
 		);
-	}
-
-	public static function provideUserAgentTableMigrationStageValues(): array {
-		return [
-			'User Agent table migration stage set to read old' => [
-				SCHEMA_COMPAT_READ_OLD | SCHEMA_COMPAT_WRITE_BOTH,
-			],
-			'User Agent table migration stage set to read new' => [
-				SCHEMA_COMPAT_READ_NEW | SCHEMA_COMPAT_WRITE_BOTH,
-			],
-		];
 	}
 
 	public function testGetAccountCreationIPAndUserAgentForPublicLogAndTemporaryAccount() {
@@ -99,12 +83,7 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/** @dataProvider provideUserAgentTableMigrationStageValues */
-	public function testGetAccountCreationIPAndUserAgentForPublicLog(
-		int $userAgentTableMigrationStage
-	) {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
-
+	public function testGetAccountCreationIPAndUserAgentForPublicLog() {
 		$user = $this->getTestUser()->getUser();
 
 		// Create a newusers log that is sent to Special:RecentChanges which should cause an insert to
@@ -140,12 +119,7 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/** @dataProvider provideUserAgentTableMigrationStageValues */
-	public function testGetAccountCreationIPAndUserAgentForPublicLogWithAutocreate(
-		int $userAgentTableMigrationStage
-	) {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
-
+	public function testGetAccountCreationIPAndUserAgentForPublicLogWithAutocreate() {
 		$user = $this->getTestUser()->getUser();
 
 		// Create a newusers log with 'autocreate' action which should cause an insert to
@@ -171,12 +145,7 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/** @dataProvider provideUserAgentTableMigrationStageValues */
-	public function testGetAccountCreationIPAndUserAgentWhenLogIdProvided(
-		int $userAgentTableMigrationStage
-	) {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $userAgentTableMigrationStage );
-
+	public function testGetAccountCreationIPAndUserAgentWhenLogIdProvided() {
 		$createdUser = $this->getTestUser()->getUser();
 		$performer = $this->getTestSysop()->getUserIdentity();
 

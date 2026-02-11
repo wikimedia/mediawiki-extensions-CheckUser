@@ -54,12 +54,12 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 
 	/**
 	 * @param bool $shouldPurgeRecentChanges Whether the maintenance script should purge data from recentchanges
+	 * @param bool $shouldPurgeCentralIndexRows
 	 * @return string The expected output regex
 	 */
 	private function generateExpectedOutputRegex(
 		bool $shouldPurgeRecentChanges,
-		bool $shouldPurgeCentralIndexRows,
-		bool $shouldPurgeUserAgentTable
+		bool $shouldPurgeCentralIndexRows
 	): string {
 		$expectedOutputRegex = '/';
 		foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
@@ -74,17 +74,12 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 		if ( $shouldPurgeRecentChanges ) {
 			$expectedOutputRegex .= "Purging data from recentchanges[\s\S]*";
 		}
-		if ( $shouldPurgeUserAgentTable ) {
-			$expectedOutputRegex .= "Pruning unused rows from cu_useragent[\s\S]*";
-		}
-		$expectedOutputRegex .= 'Done/';
+		$expectedOutputRegex .= "Pruning unused rows from cu_useragent[\s\S]*Done/";
 		return $expectedOutputRegex;
 	}
 
 	/** @dataProvider provideExecute */
 	public function testExecute( $config, $shouldPurgeRecentChanges ) {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_WRITE_OLD );
-
 		// Expect that the PurgeRecentChanges script is run if $shouldPurgeRecentChanges is true.
 		$this->overrideConfigValues( $config );
 		$this->maintenance->expects( $this->exactly( (int)$shouldPurgeRecentChanges ) )
@@ -120,7 +115,7 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 
 		// Verify the output of the maintenance script is as expected
 		$this->expectOutputRegex( $this->generateExpectedOutputRegex(
-			$shouldPurgeRecentChanges, true, false
+			$shouldPurgeRecentChanges, true
 		) );
 		$mockCheckUserDataPurger->checkThatExpectedCallsHaveBeenMade();
 	}
@@ -135,7 +130,6 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 	public function testExecuteForUserAgentTablePurging() {
 		$this->overrideConfigValues( [
 			'CheckUserWriteToCentralIndex' => false,
-			'CheckUserUserAgentTableMigrationStage' => SCHEMA_COMPAT_WRITE_BOTH,
 			MainConfigNames::PutIPinRC => false,
 		] );
 
@@ -161,7 +155,7 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 
 		// Verify the output of the maintenance script is as expected
 		$this->expectOutputRegex( $this->generateExpectedOutputRegex(
-			false, false, true
+			false, false
 		) );
 
 		// Check that all but the second, third, fifth, sixth and eighth user agent are deleted:

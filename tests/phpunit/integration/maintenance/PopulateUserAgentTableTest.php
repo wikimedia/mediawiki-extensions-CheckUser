@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Maintenance\PopulateUserAgentTable;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
@@ -20,18 +21,6 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {
 		return PopulateUserAgentTable::class;
-	}
-
-	public function testPopulationFailsWhenMigrationStageIsNotWriteNew(): void {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
-
-		$this->assertFalse( $this->maintenance->execute() );
-
-		$actualOutput = $this->getActualOutputForAssertion();
-		$this->assertStringContainsString(
-			'This script requires write new for the user agent table migration stage',
-			$actualOutput
-		);
 	}
 
 	public function testSuccessfulPopulation() {
@@ -115,7 +104,6 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 	 *   the maintenance script is run
 	 */
 	private function setUpDatabaseForPopulationTest(): int {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_WRITE_BOTH );
 		/** @var CheckUserInsert $checkUserInsert */
 		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
 		$target = $this->getTestUser()->getUserIdentity();
@@ -124,59 +112,55 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 		// CheckUser result tables, as we will later assert on the row IDs
 		$this->truncateTables( [ 'cu_changes', 'cu_log_event', 'cu_private_event' ] );
 
-		// Write some testing entries to cu_changes, cu_log_event, and cu_private_event
-		// writing both for the user agent table migration
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'test1' );
-		$rc = new RecentChange;
-		$rc->setAttribs( array_merge(
-			self::getDefaultRecentChangeAttribs(),
-			[ 'rc_user' => $target->getId(), 'rc_user_text' => $target->getName() ],
-		) );
-		$checkUserInsert->updateCheckUserData( $rc );
+		// Write some testing entries to cu_changes, cu_log_event, and cu_private_event.
+		// These entries have the *_agent column populated manually in this method, with the
+		// *_agent_id column populated for us by the CheckUserInsert service
+		$this->insertCheckUserDataRow(
+			'test1',
+			[ 'rc_user' => $target->getId(), 'rc_user_text' => $target->getName(), 'rc_this_oldid' => 123 ],
+			'cu_changes',
+			[ 'cuc_this_oldid' => 123 ]
+		);
 
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'test2' );
-		$rc = new RecentChange;
-		$rc->setAttribs( array_merge(
-			self::getDefaultRecentChangeAttribs(),
-			[ 'rc_user' => $target->getId(), 'rc_user_text' => $target->getName() ],
-		) );
-		$checkUserInsert->updateCheckUserData( $rc );
+		$this->insertCheckUserDataRow(
+			'test2',
+			[ 'rc_user' => $target->getId(), 'rc_user_text' => $target->getName(), 'rc_this_oldid' => 1234 ],
+			'cu_changes',
+			[ 'cuc_this_oldid' => 1234 ]
+		);
 
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'test2' );
 		$logId = $this->newLogEntry();
-		$rc = new RecentChange;
-		$rc->setAttribs( array_merge(
-			self::getDefaultRecentChangeAttribs(),
+		$this->insertCheckUserDataRow(
+			'test2',
 			[
 				'rc_source' => RecentChange::SRC_LOG, 'rc_logid' => $logId,
 				'rc_user' => $target->getId(), 'rc_user_text' => $target->getName(),
-			]
-		) );
-		$checkUserInsert->updateCheckUserData( $rc );
+			],
+			'cu_log_event',
+			[ 'cule_log_id' => $logId ]
+		);
 
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'test3' );
-		$rc = new RecentChange;
-		$rc->setAttribs( array_merge(
-			self::getDefaultRecentChangeAttribs(),
+		$this->insertCheckUserDataRow(
+			'test3',
 			[
 				'rc_source' => RecentChange::SRC_LOG, 'rc_logid' => 0,
 				'rc_log_type' => 'test', 'rc_log_action' => 'test2',
 				'rc_user' => $target->getId(), 'rc_user_text' => $target->getName(),
-			]
-		) );
-		$checkUserInsert->updateCheckUserData( $rc );
+			],
+			'cu_private_event',
+			[ 'cupe_log_action' => 'test2' ]
+		);
 
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'test3' );
-		$rc = new RecentChange;
-		$rc->setAttribs( array_merge(
-			self::getDefaultRecentChangeAttribs(),
+		$this->insertCheckUserDataRow(
+			'test3',
 			[
 				'rc_source' => RecentChange::SRC_LOG, 'rc_logid' => 0,
 				'rc_log_type' => 'test2', 'rc_log_action' => 'test3',
 				'rc_user' => $target->getId(), 'rc_user_text' => $target->getName(),
-			]
-		) );
-		$checkUserInsert->updateCheckUserData( $rc );
+			],
+			'cu_private_event',
+			[ 'cupe_log_action' => 'test3' ]
+		);
 
 		// Drop all entries from cu_useragent except from the one for 'test1'
 		// and replace the associated references with 0 to simulate the
@@ -212,6 +196,34 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 			->execute();
 
 		return $existingUserAgentTableId;
+	}
+
+	/**
+	 * Creates an event in one of the CheckUser result tables, along with populating the *_agent column
+	 * with the value of the User-Agent header.
+	 */
+	private function insertCheckUserDataRow(
+		string $userAgent, array $rcAttribs, string $table, array $tableUniqueCond
+	): void {
+		// Create the testing event using the provided RecentChanges attribs
+		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', $userAgent );
+		$rc = new RecentChange;
+		$rc->setAttribs( array_merge(
+			self::getDefaultRecentChangeAttribs(),
+			$rcAttribs
+		) );
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+		$checkUserInsert->updateCheckUserData( $rc );
+
+		// Manually set the *_agent column for the newly created event so that we can test the value
+		// of this column is populated into the cu_useragent table and *_agent_id column
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( $table )
+			->set( [ CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . 'agent' => $userAgent ] )
+			->where( $tableUniqueCond )
+			->caller( __METHOD__ )
+			->execute();
 	}
 
 	public function testSuccessfulPopulationWhenAgentColumnValuesAreIsNull() {

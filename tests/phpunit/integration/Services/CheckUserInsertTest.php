@@ -90,9 +90,6 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuChangesTable(
 		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
-		// Write new and both is tested by ::testInsertionMethodsForUserAgentTableWrites
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
-
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$performer = $this->getTestUser()->getUserIdentity();
 		// Only mock the service if we don't already have an instance of CheckUserInsert. Mocking at this stage
@@ -141,10 +138,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				[
 					'cuc_ip_hex', 'cuc_xff', 'cuc_xff_hex', 'cuc_page_id',
 					'cuc_namespace', 'cuc_minor', 'cuc_title',
-					'cuc_this_oldid', 'cuc_last_oldid', 'cuc_type', 'cuc_agent',
+					'cuc_this_oldid', 'cuc_last_oldid', 'cuc_type',
 					'cuc_timestamp',
 				],
-				[ '7F000001', '', null, 0, NS_MAIN, 0, '', 0, 0, RC_LOG, '', '20240506070809' ],
+				[ '7F000001', '', null, 0, NS_MAIN, 0, '', 0, 0, RC_LOG, '20240506070809' ],
 				false,
 			],
 			'TransactionProfiler warnings silenced' => [ [], [ 'cuc_ip_hex' ], [ '7F000001' ], true ],
@@ -155,9 +152,6 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuPrivateEventTable(
 		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
-		// Write new and both is tested by ::testInsertionMethodsForUserAgentTableWrites
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
-
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$performer = $this->getTestUser()->getUserIdentity();
 		// Only mock the service if we don't already have an instance of CheckUserInsert. Mocking at this stage
@@ -208,11 +202,11 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				[
 					'cupe_ip_hex', 'cupe_xff', 'cupe_xff_hex', 'cupe_page',
 					'cupe_namespace', 'cupe_log_type', 'cupe_log_action',
-					'cupe_title', 'cupe_params', 'cupe_agent', 'cupe_timestamp',
+					'cupe_title', 'cupe_params', 'cupe_timestamp',
 				],
 				[
 					'7F000001', '', null, 0, NS_MAIN, 'checkuser-private-event',
-					'', '', LogEntryBase::makeParamBlob( [] ), '', '20240506070809',
+					'', '', LogEntryBase::makeParamBlob( [] ), '20240506070809',
 				],
 				false,
 			],
@@ -224,9 +218,6 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testInsertIntoCuLogEventTable(
 		array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
 	) {
-		// Write new and both is tested by ::testInsertionMethodsForUserAgentTableWrites
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
-
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$logId = $this->newLogEntry();
 		// Delete any entries that were created by ::newLogEntry.
@@ -276,8 +267,8 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public static function provideInsertIntoCuLogEventTable() {
 		return [
 			'Default values' => [
-				[ 'cule_ip_hex', 'cule_xff', 'cule_xff_hex', 'cule_agent', 'cule_timestamp' ],
-				[ '7F000001', '', null, '', '20240506070809' ],
+				[ 'cule_ip_hex', 'cule_xff', 'cule_xff_hex', 'cule_timestamp' ],
+				[ '7F000001', '', null, '20240506070809' ],
 				false,
 			],
 			'TransactionProfiler warnings silenced' => [ [ 'cule_ip_hex' ], [ '7F000001' ], true ],
@@ -331,10 +322,6 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideFieldsThatAreTruncated */
 	public function testTruncationForInsertMethods( $table, string $field ) {
-		// Pin the value as the same as the values in ::testInsertIntoCuChangesTable to avoid
-		// refreshes of the service container due to changes in the config values
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', SCHEMA_COMPAT_OLD );
-
 		// Define a mock ContentLanguage service that mocks ::truncateForDatabase
 		// so that if the method changes implementation this test will not fail and/or
 		// the wiki running the test isn't in English.
@@ -422,6 +409,16 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$this->fail( 'Unexpected table.' );
 		}
+
+		// Get the ID in the cu_useragent row for the User-Agent 'TestAgent'
+		$dbw = $this->getDb();
+		$dbw->newInsertQueryBuilder()
+			->insertInto( 'cu_useragent' )
+			->row( [ 'cuua_text' => 'TestAgent' ] )
+			->caller( __METHOD__ )
+			->execute();
+		$userAgentTableId = $dbw->insertId();
+
 		// Set a temporary hook to modify the XFF, IP and user agent fields.
 		$this->setTemporaryHook(
 			$hook,
@@ -432,8 +429,8 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			}
 		);
 		// Call the common test method.
-		$fields = [ $prefix . 'xff', $prefix . 'xff_hex', $prefix . 'ip_hex', $prefix . 'agent' ];
-		$expectedValues = [ $test_xff, $xff_hex, '01020304', 'TestAgent' ];
+		$fields = [ $prefix . 'xff', $prefix . 'xff_hex', $prefix . 'ip_hex', $prefix . 'agent_id' ];
+		$expectedValues = [ $test_xff, $xff_hex, '01020304', $userAgentTableId ];
 		if ( $table === 'cu_changes' ) {
 			$this->testInsertIntoCuChangesTable( [], $fields, $expectedValues, false );
 		} elseif ( $table === 'cu_private_event' ) {
@@ -535,11 +532,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideInsertionMethodsForUserAgentTableWrites */
-	public function testInsertionMethodsForUserAgentTableWrites(
-		string $table, int $schemaMigrationStage
-	): void {
-		$this->overrideConfigValue( 'CheckUserUserAgentTableMigrationStage', $schemaMigrationStage );
-
+	public function testInsertionMethodsForUserAgentTableWrites( string $table ): void {
 		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'test' );
 
 		if ( $table === 'cu_changes' ) {
@@ -580,23 +573,17 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// and has the *_agent column correctly populated based on the migration stage
 		$prefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
 		$this->newSelectQueryBuilder()
-			->select( [ "{$prefix}agent", "{$prefix}agent_id" ] )
+			->select( "{$prefix}agent_id" )
 			->from( $table )
 			->caller( __METHOD__ )
-			->assertRowValue( [
-				$schemaMigrationStage & SCHEMA_COMPAT_WRITE_OLD ? 'test' : null,
-				$userAgentTableId,
-			] );
+			->assertFieldValue( $userAgentTableId );
 	}
 
 	public static function provideInsertionMethodsForUserAgentTableWrites(): array {
 		return [
-			'cu_changes for write both' => [ 'cu_changes', SCHEMA_COMPAT_WRITE_BOTH ],
-			'cu_log_event for write both' => [ 'cu_log_event', SCHEMA_COMPAT_WRITE_BOTH ],
-			'cu_private_event for write both' => [ 'cu_private_event', SCHEMA_COMPAT_WRITE_BOTH ],
-			'cu_changes for write new' => [ 'cu_changes', SCHEMA_COMPAT_WRITE_NEW ],
-			'cu_log_event for write new' => [ 'cu_log_event', SCHEMA_COMPAT_WRITE_NEW ],
-			'cu_private_event for write new' => [ 'cu_private_event', SCHEMA_COMPAT_WRITE_NEW ],
+			'cu_changes' => [ 'cu_changes' ],
+			'cu_log_event' => [ 'cu_log_event' ],
+			'cu_private_event' => [ 'cu_private_event' ],
 		];
 	}
 
