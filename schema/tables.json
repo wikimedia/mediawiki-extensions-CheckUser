@@ -253,12 +253,6 @@
 				"options": { "notnull": true }
 			},
 			{
-				"name": "cupe_ip",
-				"comment": "IP address, visible",
-				"type": "string",
-				"options": { "notnull": false, "length": 255, "default": "" }
-			},
-			{
 				"name": "cupe_ip_hex",
 				"comment": "IP address as hexadecimal",
 				"type": "string",
@@ -297,11 +291,6 @@
 			{
 				"name": "cupe_timestamp",
 				"columns": [ "cupe_timestamp" ],
-				"unique": false
-			},
-			{
-				"name": "cupe_actor_ip_time",
-				"columns": [ "cupe_actor", "cupe_ip", "cupe_timestamp" ],
 				"unique": false
 			},
 			{
