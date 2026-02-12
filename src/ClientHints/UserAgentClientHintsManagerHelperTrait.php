@@ -17,9 +17,9 @@ use TypeError;
  */
 trait UserAgentClientHintsManagerHelperTrait {
 
-	private UserAgentClientHintsManager $userAgentClientHintsManager;
-	private JobQueueGroup $jobQueueGroup;
-	private LoggerInterface $logger;
+	private readonly UserAgentClientHintsManager $userAgentClientHintsManager;
+	private readonly JobQueueGroup $jobQueueGroup;
+	private readonly LoggerInterface $logger;
 
 	/**
 	 * Stores Client Hints data from the HTTP headers in the given $request and associate it with the

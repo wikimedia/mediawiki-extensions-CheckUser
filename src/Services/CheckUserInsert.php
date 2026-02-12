@@ -55,19 +55,10 @@ class CheckUserInsert {
 		'flow' => 142,
 	];
 
-	private ActorStore $actorStore;
-	private CheckUserUtilityService $checkUserUtilityService;
-	private CommentStore $commentStore;
-	private HookRunner $hookRunner;
-	private IConnectionProvider $connectionProvider;
-	private Language $contentLanguage;
-	private TempUserConfig $tempUserConfig;
-	private CheckUserCentralIndexManager $checkUserCentralIndexManager;
-	private UserAgentClientHintsManager $userAgentClientHintsManager;
-	private JobQueueGroup $jobQueueGroup;
-	private RecentChangeLookup $recentChangeLookup;
-	private ServiceOptions $options;
-	private LoggerInterface $logger;
+	private readonly HookRunner $hookRunner;
+	private readonly UserAgentClientHintsManager $userAgentClientHintsManager;
+	private readonly JobQueueGroup $jobQueueGroup;
+	private readonly LoggerInterface $logger;
 
 	/**
 	 * The maximum number of bytes that fit in CheckUser's text fields,
@@ -76,33 +67,24 @@ class CheckUserInsert {
 	public const TEXT_FIELD_LENGTH = 255;
 
 	public function __construct(
-		ServiceOptions $options,
-		ActorStore $actorStore,
-		CheckUserUtilityService $checkUserUtilityService,
-		CommentStore $commentStore,
+		private readonly ServiceOptions $options,
+		private readonly ActorStore $actorStore,
+		private readonly CheckUserUtilityService $checkUserUtilityService,
+		private readonly CommentStore $commentStore,
 		HookContainer $hookContainer,
-		IConnectionProvider $connectionProvider,
-		Language $contentLanguage,
-		TempUserConfig $tempUserConfig,
-		CheckUserCentralIndexManager $checkUserCentralIndexManager,
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly Language $contentLanguage,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly CheckUserCentralIndexManager $checkUserCentralIndexManager,
 		UserAgentClientHintsManager $userAgentClientHintsManager,
 		JobQueueGroup $jobQueueGroup,
-		RecentChangeLookup $recentChangeLookup,
+		private readonly RecentChangeLookup $recentChangeLookup,
 		LoggerInterface $logger
 	) {
-		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
-		$this->options = $options;
-		$this->actorStore = $actorStore;
-		$this->checkUserUtilityService = $checkUserUtilityService;
-		$this->commentStore = $commentStore;
+		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->hookRunner = new HookRunner( $hookContainer );
-		$this->connectionProvider = $connectionProvider;
-		$this->contentLanguage = $contentLanguage;
-		$this->tempUserConfig = $tempUserConfig;
-		$this->checkUserCentralIndexManager = $checkUserCentralIndexManager;
 		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
 		$this->jobQueueGroup = $jobQueueGroup;
-		$this->recentChangeLookup = $recentChangeLookup;
 		$this->logger = $logger;
 	}
 

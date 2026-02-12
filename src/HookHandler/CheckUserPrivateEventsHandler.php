@@ -46,15 +46,15 @@ class CheckUserPrivateEventsHandler implements
 
 	use UserAgentClientHintsManagerHelperTrait;
 
-	private CheckUserInsert $checkUserInsert;
-	private Config $config;
-	private UserIdentityLookup $userIdentityLookup;
-	private UserFactory $userFactory;
-	private ReadOnlyMode $readOnlyMode;
-	private UserAgentClientHintsManager $userAgentClientHintsManager;
-	private JobQueueGroup $jobQueueGroup;
-	private IConnectionProvider $dbProvider;
-	private LoggerInterface $logger;
+	private readonly CheckUserInsert $checkUserInsert;
+	private readonly Config $config;
+	private readonly UserIdentityLookup $userIdentityLookup;
+	private readonly UserFactory $userFactory;
+	private readonly ReadOnlyMode $readOnlyMode;
+	private readonly UserAgentClientHintsManager $userAgentClientHintsManager;
+	private readonly JobQueueGroup $jobQueueGroup;
+	private readonly IConnectionProvider $dbProvider;
+	private readonly LoggerInterface $logger;
 
 	/** @var string Used for tests. Falls back to MW_ENTRY_POINT */
 	private string $mediawikiEntryPoint;
