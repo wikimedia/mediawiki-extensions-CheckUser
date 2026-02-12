@@ -419,12 +419,21 @@ class CheckUserUserInfoCardService {
 		// If the user is a temporary account, get the number of accounts active on the same IPs/ranges
 		$userInfo['tempAccountsOnIPCount'] = [];
 		if ( $this->tempUserConfig->isTempName( $user->getName() ) ) {
-			// 101 is the maximum number of accounts we care about as defined by T412212
-			$bucketCount = $this->checkUserTemporaryAccountsByIPLookup->getBucketedCount(
-				$this->checkUserTemporaryAccountsByIPLookup
-					->getAggregateActiveTempAccountCount( $user, 101 )
-			);
-			$userInfo['tempAccountsOnIPCount'] = $bucketCount;
+				// 101 is the maximum number of accounts we care about as defined by T412212
+			if ( $authorityPermissionStatus->isGood() ) {
+				// If performer has TAIV rights, show exact number of accounts
+				$exactCount = $this->checkUserTemporaryAccountsByIPLookup
+					->getAggregateActiveTempAccountCount( $user, 101 );
+				// Send this number to the front-end in the range format it expects
+				$userInfo['tempAccountsOnIPCount'] = [ $exactCount, $exactCount ];
+			} else {
+				// Otherwise, show the bucketed range
+				$bucketCount = $this->checkUserTemporaryAccountsByIPLookup->getBucketedCount(
+					$this->checkUserTemporaryAccountsByIPLookup
+						->getAggregateActiveTempAccountCount( $user, 101 )
+				);
+				$userInfo['tempAccountsOnIPCount'] = $bucketCount;
+			}
 		}
 
 		$this->statsFactory->withComponent( 'CheckUser' )

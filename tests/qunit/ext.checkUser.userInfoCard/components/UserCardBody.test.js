@@ -526,9 +526,13 @@ QUnit.test.each( 'should correctly display range, min, and max for temp accounts
 		{ tempAccountsOnIpCount: [ 1, 2 ], username: '~2025-1' },
 		'(checkuser-temporary-account-bucketcount-range: 1, 2)'
 	],
-	max: [
+	exact: [
 		{ tempAccountsOnIpCount: [ 11, 11 ], username: '~2025-1' },
-		'(checkuser-temporary-account-bucketcount-max: 11, 11)'
+		'(checkuser-temporary-account-bucketcount-min: 11, 11)'
+	],
+	max: [
+		{ tempAccountsOnIpCount: [ 101, 101 ], username: '~2025-1' },
+		'(checkuser-temporary-account-bucketcount-max: 101, 101)'
 	]
 }, ( assert, [ props, expectedString ] ) => {
 	const wrapper = mountComponent( props );

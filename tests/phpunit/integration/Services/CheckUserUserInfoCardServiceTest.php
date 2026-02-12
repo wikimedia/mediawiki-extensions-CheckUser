@@ -756,6 +756,20 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( false, $result['canAccessTemporaryAccountIpAddresses'] );
 	}
 
+	public function testAuthorityGetsExactAccountsOnIPCount() {
+		$checkUserTemporaryAccountsByIPLookup = $this->createMock( CheckUserTemporaryAccountsByIPLookup::class );
+		$checkUserTemporaryAccountsByIPLookup
+			->expects( $this->never() )
+			->method( 'getBucketedCount' );
+		$userInfoCardService = $this->getObjectUnderTest( [
+			'CheckUserTemporaryAccountsByIPLookup' => $checkUserTemporaryAccountsByIPLookup,
+		] );
+		$userInfoCardService->getUserInfo(
+			$this->getTestSysop()->getAuthority(),
+			self::$tempUser1
+		);
+	}
+
 	/**
 	 * @dataProvider provideUserPageIsKnown
 	 */

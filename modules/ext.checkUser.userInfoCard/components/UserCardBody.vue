@@ -457,15 +457,21 @@ module.exports = exports = {
 			if ( mw.util.isTemporaryUser( props.username ) && tempAccountsOnIpCount.length === 2 ) {
 				const bucketRangeStart = tempAccountsOnIpCount[ 0 ];
 				const bucketRangeEnd = tempAccountsOnIpCount[ 1 ];
-
 				let bucketMsgKey = 'checkuser-temporary-account-bucketcount-';
+
+				// Range start and end are the same if:
+				// 1. the user has the right to see exact counts
+				// 2. either 0 or 1 accounts were found
+				// 3. more accounts than the max were found
+				// Otherwise, the user sees a bucketed count.
 				if ( bucketRangeStart === bucketRangeEnd ) {
-					if ( bucketRangeStart > 1 ) {
-						bucketMsgKey += 'max';
-					} else {
-						// For 0 or 1 we show the exact count, using the min message,
-						// which shows a single value
+					// If a precise number is returned, the only time we want to show
+					// that there are more accounts is if it exceeds our defined limit
+					// of 101, per T412212
+					if ( bucketRangeStart < 101 ) {
 						bucketMsgKey += 'min';
+					} else {
+						bucketMsgKey += 'max';
 					}
 				} else {
 					bucketMsgKey += 'range';
