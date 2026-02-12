@@ -32,6 +32,7 @@ CREATE UNIQUE INDEX sic_url_identifier ON cusi_case (sic_url_identifier);
 CREATE TABLE cusi_user (
   siu_user_id INT NOT NULL,
   siu_sic_id INT NOT NULL,
+  siu_info INT NOT NULL,
   PRIMARY KEY(siu_sic_id, siu_user_id)
 );
 

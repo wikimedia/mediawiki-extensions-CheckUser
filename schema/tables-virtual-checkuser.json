@@ -89,6 +89,12 @@
 				"comment": "Part of composite primary key. The cusi_case row (suggested investigation) that this user is associated with.",
 				"type": "integer",
 				"options": { "unsigned": true, "notnull": true }
+			},
+			{
+				"name": "siu_info",
+				"comment": "A bitfield column storing information about the user for the case. Set by signal logic which may be in private code.",
+				"type": "integer",
+				"options": { "unsigned": true, "notnull": true }
 			}
 		],
 		"indexes": [

@@ -27,6 +27,7 @@ CREATE TABLE /*_*/cusi_case (
 CREATE TABLE /*_*/cusi_user (
   siu_user_id INT UNSIGNED NOT NULL,
   siu_sic_id INT UNSIGNED NOT NULL,
+  siu_info INT UNSIGNED NOT NULL,
   INDEX siu_user_id (siu_user_id),
   PRIMARY KEY(siu_sic_id, siu_user_id)
 ) /*$wgDBTableOptions*/;

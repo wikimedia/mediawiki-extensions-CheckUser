@@ -283,6 +283,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		);
 		$updater->addPostDatabaseUpdateMaintenance( PopulateUserAgentTable::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateSicUpdatedTimestamp::class );
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_DB_DOMAIN, 'addField', 'cusi_user', 'siu_info',
+			"$base/$dbType/patch-cusi_user-add-siu_info.sql", true,
+		] );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.

@@ -31,6 +31,7 @@ CREATE UNIQUE INDEX sic_url_identifier ON /*_*/cusi_case (sic_url_identifier);
 CREATE TABLE /*_*/cusi_user (
   siu_user_id INTEGER UNSIGNED NOT NULL,
   siu_sic_id INTEGER UNSIGNED NOT NULL,
+  siu_info INTEGER UNSIGNED NOT NULL,
   PRIMARY KEY(siu_sic_id, siu_user_id)
 );
 
