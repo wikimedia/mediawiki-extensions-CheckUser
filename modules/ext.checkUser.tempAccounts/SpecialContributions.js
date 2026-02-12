@@ -11,16 +11,16 @@ const ipReveal = require( './ipReveal.js' );
  *   as they have different guaranteed existing elements.
  */
 module.exports = function ( documentRoot, pageTitle ) {
-	// Check if there is a temporary user link in the first revision line in the list. If not,
+	// Check if there is a temporary user link in any revision line in the list. If not,
 	// the page has only one target, so we need to add the custom logic for contributions
 	// pages with no temporary user links
-	const $firstUserLink = $( '#bodyContent', documentRoot )
+	const $userLinks = $( '#bodyContent', documentRoot )
 		.find( '.mw-contributions-list [data-mw-revid]' )
-		.first()
 		.find( '.mw-tempuserlink' )
 		// Do not include the edit summary, which might contain user links
 		.not( '.comment .mw-tempuserlink' );
-	if ( $firstUserLink.length === 0 ) {
+
+	if ( $userLinks.length === 0 ) {
 		// The contributions page has only one target and therefore no user links
 		ipReveal.enableIpRevealForContributionsPage( documentRoot, pageTitle );
 	} else {
