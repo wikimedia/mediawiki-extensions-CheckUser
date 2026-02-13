@@ -374,6 +374,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->addCaseWithTwoUsers();
 		$context = RequestContext::getMain();
 		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
 		// Mock the global edit counts for our test users so that the first test user has no edits
 		// and all other users have one edit
@@ -555,6 +556,70 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'mw-checkuser-suggestedinvestigations-filter-button',
 			$html,
 			'Detailed view should not have the filter button'
+		);
+	}
+
+	public function testOutputWhenUsersHidden() {
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
+			MainConfigNames::LanguageCode => 'qqx',
+		] );
+		ConvertibleTimestamp::setFakeTime( '20250403020100' );
+
+		// Get a case with one of the users blocked with a 'hideuser' block
+		$this->addCaseWithTwoUsers();
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				self::$testUser1,
+				$this->mockRegisteredUltimateAuthority(),
+				'indefinite',
+				'Test reason',
+				[ 'isHideUser' => true ]
+			)
+			->placeBlock();
+
+		// Load the special page with a user who cannot see hidden users
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] ) );
+
+		$pager = $this->getPager( $context );
+
+		$html = $pager->getFullOutput()->getContentHolder()->getAsHtmlString();
+
+		$this->assertStringContainsString(
+			'(rev-deleted-user)',
+			$html,
+			'First test username should be replaced with the rev-deleted-user message'
+		);
+
+		$this->assertStringNotContainsString(
+			'?title=Special:CheckUser/' . str_replace( ' ', '_', self::$testUser1->getName() ) .
+			'&amp;reason=%28checkuser-suggestedinvestigations-user-check-reason-prefill',
+			$html,
+			'Should not contain link to Special:CheckUser for the first user'
+		);
+		$this->assertStringContainsString(
+			'?title=Special:CheckUser/' . str_replace( ' ', '_', self::$testUser2->getName() ) .
+			'&amp;reason=%28checkuser-suggestedinvestigations-user-check-reason-prefill',
+			$html,
+			'Should contain link to Special:CheckUser for the second user'
+		);
+
+		$name2 = urlencode( self::$testUser2->getName() );
+		$this->assertStringContainsString(
+			'?title=Special:Investigate&amp;targets=' . $name2 .
+			'&amp;reason=%28checkuser-suggestedinvestigations-user-investigate-reason-prefill',
+			$html,
+			'Should contain link to Special:Investigate in the case row with only the second user'
+		);
+
+		$this->assertStringNotContainsString(
+			self::$testUser1->getName(),
+			$html,
+			'As the first test user is not visible by the viewing authority, ' .
+				'their name should be not visible anywhere on the page'
 		);
 	}
 

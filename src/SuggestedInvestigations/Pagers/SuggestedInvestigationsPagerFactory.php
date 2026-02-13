@@ -96,6 +96,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->commentFormatter,
 			$this->centralAuthEditCounter,
 			$this->linkBatchFactory,
+			$this->userFactory,
 			$this->linkRenderer,
 			$context,
 			$signals

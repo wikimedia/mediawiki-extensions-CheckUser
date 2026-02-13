@@ -39,6 +39,7 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserEditTracker;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
@@ -130,6 +131,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly CommentFormatter $commentFormatter,
 		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly UserFactory $userFactory,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals
@@ -279,66 +281,84 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$contributionsSpecialPage = $this->useGlobalContribs ? 'GlobalContributions' : 'Contributions';
 
 		foreach ( $users as $i => $user ) {
-			$userLink = $this->getLinkRenderer()->makeUserLink( $user, $this->getContext() );
+			$userVisible = $this->getAuthority()->isAllowed( 'hideuser' ) ||
+				!$this->userFactory->newFromUserIdentity( $user )->isHidden();
+			if ( $userVisible ) {
+				$userLink = $this->getLinkRenderer()->makeUserLink( $user, $this->getContext() );
 
-			// Generate a link to Special:CheckUser with a prefilled 'reason' input field that links back to the
-			// case that this user is in.
-			$checkUserPrefilledReason = $this->msg( 'checkuser-suggestedinvestigations-user-check-reason-prefill' )
-				->params( $detailViewLink )
-				->numParams( $this->mCurrentRow->sic_id )
-				->params( $user->getName() )
-				->inContentLanguage()
-				->text();
-
-			// Generate the link class for the "contribs" tool link
-			$userContribsLinkClass = 'mw-usertoollinks-contribs';
-
-			if ( $this->useGlobalContribs ) {
-				$editCount = $this->centralAuthEditCounter->getCount(
-					CentralAuthUser::getInstance( $user )
-				);
-			} else {
-				$editCount = $this->userEditTracker->getUserEditCount( $user );
-			}
-			if ( $editCount === 0 ) {
-				// Use same CSS classes as Linker::userToolLinkArray to get a red link when no contribs
-				$userContribsLinkClass .= ' mw-usertoollinks-contribs-no-edits';
-			}
-
-			// Add link to either Special:Contributions or Special:GlobalContributions
-			$userToolLinks = [];
-			$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
-				SpecialPage::getTitleFor( $contributionsSpecialPage, $user->getName() ),
-				$this->msg( 'contribslink' )
+				// Generate a link to Special:CheckUser with a prefilled 'reason' input field that links back to the
+				// case that this user is in.
+				$checkUserPrefilledReason = $this->msg( 'checkuser-suggestedinvestigations-user-check-reason-prefill' )
+					->params( $detailViewLink )
+					->numParams( $this->mCurrentRow->sic_id )
 					->params( $user->getName() )
-					->text(),
-				[ 'class' => $userContribsLinkClass ]
-			);
+					->inContentLanguage()
+					->text();
 
-			// Add link to Special:CheckUserLog if the user has been checked before and the
-			// viewing authority has the 'checkuser-log' right
-			if (
-				in_array( $user->getId(), $this->usersWhoHaveBeenChecked ) &&
-				$this->getAuthority()->isAllowed( 'checkuser-log' )
-			) {
-				$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUserLog', $user->getName() ),
-					$this->msg( 'checkuser-suggestedinvestigations-user-past-checks-link-text' )
-						->params( $user->getName() )
-						->text()
-				);
-			}
+				// Generate the link class for the "contribs" tool link
+				$userContribsLinkClass = 'mw-usertoollinks-contribs';
 
-			// Add link to Special:CheckUser if the user has the 'checkuser' right
-			if ( $this->getAuthority()->isAllowed( 'checkuser' ) ) {
+				if ( $this->useGlobalContribs ) {
+					$editCount = $this->centralAuthEditCounter->getCount(
+						CentralAuthUser::getInstance( $user )
+					);
+				} else {
+					$editCount = $this->userEditTracker->getUserEditCount( $user );
+				}
+				if ( $editCount === 0 ) {
+					// Use same CSS classes as Linker::userToolLinkArray to get a red link when no contribs
+					$userContribsLinkClass .= ' mw-usertoollinks-contribs-no-edits';
+				}
+
+				// Add link to either Special:Contributions or Special:GlobalContributions
+				$userToolLinks = [];
 				$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
-					$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
+					SpecialPage::getTitleFor( $contributionsSpecialPage, $user->getName() ),
+					$this->msg( 'contribslink' )
 						->params( $user->getName() )
 						->text(),
-					[],
-					[ 'reason' => $checkUserPrefilledReason ]
+					[ 'class' => $userContribsLinkClass ]
 				);
+
+				// Add link to Special:CheckUserLog if the user has been checked before and the
+				// viewing authority has the 'checkuser-log' right
+				if (
+					in_array( $user->getId(), $this->usersWhoHaveBeenChecked ) &&
+					$this->getAuthority()->isAllowed( 'checkuser-log' )
+				) {
+					$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
+						SpecialPage::getTitleFor( 'CheckUserLog', $user->getName() ),
+						$this->msg( 'checkuser-suggestedinvestigations-user-past-checks-link-text' )
+							->params( $user->getName() )
+							->text()
+					);
+				}
+
+				// Add link to Special:CheckUser if the user has the 'checkuser' right
+				if ( $this->getAuthority()->isAllowed( 'checkuser' ) ) {
+					$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
+						SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
+						$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
+							->params( $user->getName() )
+							->text(),
+						[],
+						[ 'reason' => $checkUserPrefilledReason ]
+					);
+				}
+			} else {
+				$userLink = Html::element(
+					'span',
+					[ 'class' => 'history-deleted' ],
+					$this->msg( 'rev-deleted-user' )->text()
+				);
+				$userToolLinks = [];
+			}
+
+			$userToolLinksHtml = '';
+			if ( $userToolLinks !== [] ) {
+				$userToolLinksHtml = $this->msg( 'parentheses' )
+					->rawParams( $this->getLanguage()->pipeList( $userToolLinks ) )
+					->escaped();
 			}
 
 			$formattedUsers .= Html::rawElement(
@@ -348,12 +368,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 						: '',
 				],
 				$this->msg( 'checkuser-suggestedinvestigations-user' )
-					->rawParams(
-						$userLink,
-						$this->msg( 'parentheses' )
-							->rawParams( $this->getLanguage()->pipeList( $userToolLinks ) )
-							->escaped()
-					)
+					->rawParams( $userLink, $userToolLinksHtml )
 					->parse()
 			);
 		}
@@ -440,7 +455,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		] );
 
 		/** @var UserIdentity[] $users */
-		$users = $this->mCurrentRow->users;
+		$users = array_filter(
+			$this->mCurrentRow->users,
+			fn ( UserIdentity $user ) => $this->getAuthority()->isAllowed( 'hideuser' ) ||
+				!$this->userFactory->newFromUserIdentity( $user )->isHidden()
+		);
 
 		$investigateEnabled = false;
 		$investigateUrl = null;
