@@ -36,6 +36,7 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
 use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\LocalIndefiniteBlockCheck;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
@@ -163,6 +164,13 @@ return [
 				$services->getCentralIdLookup(),
 				$services->getUserIdentityLookup(),
 				$services->getMainConfig()->get( 'ApplyGlobalBlocks' )
+			);
+		}
+
+		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			$blockChecks[] = new CentralAuthLockCheck(
+				CentralAuthServices::getGlobalUserSelectQueryBuilderFactory( $services ),
+				$services->getUserIdentityLookup()
 			);
 		}
 

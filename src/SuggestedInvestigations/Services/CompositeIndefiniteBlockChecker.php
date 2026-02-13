@@ -16,11 +16,11 @@ class CompositeIndefiniteBlockChecker {
 	 * Return user IDs that are not indefinitely blocked by any of the
 	 * registered block checks.
 	 *
-	 * @param int[] $userIds
+	 * @param int[] $localUserIds
 	 * @return int[] User IDs that remain unblocked
 	 */
-	public function getUnblockedUserIds( array $userIds ): array {
-		$unblockedUserIds = $userIds;
+	public function getUnblockedUserIds( array $localUserIds ): array {
+		$unblockedUserIds = $localUserIds;
 		foreach ( $this->blockChecks as $check ) {
 			$blockedUserIds = $check->getIndefinitelyBlockedUserIds( $unblockedUserIds );
 			$unblockedUserIds = array_values( array_diff( $unblockedUserIds, $blockedUserIds ) );
