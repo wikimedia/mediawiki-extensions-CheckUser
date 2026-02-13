@@ -1222,7 +1222,13 @@
 		}
 	},
 	"JobClasses": {
-		"checkuserLogTemporaryAccountAccess": "\\MediaWiki\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob",
+		"checkuserLogTemporaryAccountAccess": {
+			"class": "\\MediaWiki\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob",
+			"services": [
+				"CheckUserTemporaryAccountLoggerFactory",
+				"UserIdentityLookup"
+			]
+		},
 		"checkuserPruneCheckUserDataJob": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob",
 		"checkuserSuggestedInvestigationsAutoClose": {
 			"factory": "MediaWiki\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseJob::newFromGlobalState",
