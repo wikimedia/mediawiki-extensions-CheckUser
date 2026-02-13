@@ -427,7 +427,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP reveals: $1 (last checked $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP reveals: $1",
 	"checkuser-suggestedinvestigations": "Suggested investigations",
-	"checkuser-suggestedinvestigations-autoclose-reason": "Automatically closed as all accounts are blocked",
+	"checkuser-suggestedinvestigations-autoclose-reason": "Automatically closed as all accounts are blocked or locked",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: case #$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: case not found",
 	"checkuser-suggestedinvestigations-detail-view-not-found-page-text": "No case could be found with the URL identifier \"$1\".",
