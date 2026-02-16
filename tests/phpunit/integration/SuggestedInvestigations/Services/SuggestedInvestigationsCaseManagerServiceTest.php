@@ -23,6 +23,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Services
 use InvalidArgumentException;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
@@ -210,6 +211,36 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 			->where( [ 'sic_id' => $secondCaseId ] )
 			->caller( __METHOD__ )
 			->assertFieldValue( '1234' );
+	}
+
+	public function testCreateCaseWithUserInfoBitFlags(): void {
+		$users = [
+			new SuggestedInvestigationsCaseUser(
+				UserIdentityValue::newRegistered( 1, 'Test user 1' ),
+				2
+			),
+			new SuggestedInvestigationsCaseUser(
+				UserIdentityValue::newRegistered( 2, 'Test user 1' ),
+				4
+			),
+		];
+		$signals = [
+			SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false ),
+		];
+
+		$service = $this->createService();
+		$caseId = $service->createCase( $users, $signals );
+
+		// Check that the user info bit flags are as expected
+		$this->newSelectQueryBuilder()
+			->select( [ 'siu_user_id', 'siu_info' ] )
+			->from( 'cusi_user' )
+			->where( [ 'siu_sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->assertResultSet( [
+				[ 1, 2 ],
+				[ 2, 4 ],
+			] );
 	}
 
 	/** @dataProvider provideDisallowCreateCase */
@@ -417,6 +448,81 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 			->from( 'cusi_signal' )
 			->caller( __METHOD__ )
 			->assertRowValue( [ $caseId, 'Lorem', 'ipsum' ] );
+	}
+
+	public function testUpdateCaseWithUserInfoBitFlagsForExistingUser(): void {
+		$user = UserIdentityValue::newRegistered( 1, 'Test user 1' );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+
+		$service = $this->createService();
+		$caseId = $service->createCase( [ $user ], [ $signal ] );
+
+		// Assert that only one user with no user info bit flags exists at first
+		$this->newSelectQueryBuilder()
+			->select( [ 'siu_sic_id', 'siu_user_id', 'siu_info' ] )
+			->from( 'cusi_user' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $caseId, '1', '0' ] );
+
+		// Update the case, adding a siu_info field value
+		$service->updateCase(
+			$caseId,
+			[ new SuggestedInvestigationsCaseUser( $user, 2 ) ],
+			[]
+		);
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'siu_sic_id', 'siu_user_id', 'siu_info' ] )
+			->from( 'cusi_user' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $caseId, '1', '2' ] );
+
+		// Update the case again, adding adding more bits to the bit flag which should
+		// be inclusive bitwise OR'd to the current value of siu_info
+		$service->updateCase(
+			$caseId,
+			[ new SuggestedInvestigationsCaseUser( $user, 5 ) ],
+			[]
+		);
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'siu_sic_id', 'siu_user_id', 'siu_info' ] )
+			->from( 'cusi_user' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $caseId, '1', '7' ] );
+	}
+
+	public function testUpdateCaseWithUserInfoBitFlagsForNewUser(): void {
+		$user = UserIdentityValue::newRegistered( 1, 'Test user 1' );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+
+		$service = $this->createService();
+		$caseId = $service->createCase( [ $user ], [ $signal ] );
+
+		// Assert that only one user with no user info bit flags exists at first
+		$this->newSelectQueryBuilder()
+			->select( [ 'siu_sic_id', 'siu_user_id', 'siu_info' ] )
+			->from( 'cusi_user' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $caseId, '1', '0' ] );
+
+		// Update the case, adding a new user with a user info bit flag
+		$service->updateCase(
+			$caseId,
+			[ new SuggestedInvestigationsCaseUser(
+				UserIdentityValue::newRegistered( 2, 'Test user 1' ), 2
+			) ],
+			[]
+		);
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'siu_sic_id', 'siu_user_id', 'siu_info' ] )
+			->from( 'cusi_user' )
+			->caller( __METHOD__ )
+			->assertResultSet( [
+				[ $caseId, '1', '0' ],
+				[ $caseId, '2', '2' ],
+			] );
 	}
 
 	/**

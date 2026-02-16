@@ -18,6 +18,7 @@ class SuggestedInvestigationsSignalMatchResult {
 		private readonly array $equivalentNamesForMerging = [],
 		private readonly int $triggerId = 0,
 		private readonly string $triggerIdTable = '',
+		private readonly int $userInfoBitFlags = 0,
 	) {
 	}
 
@@ -37,13 +38,18 @@ class SuggestedInvestigationsSignalMatchResult {
 	 * @param string[] $equivalentNamesForMerging A list of values that can be returned by {@link self::getName} that
 	 *   should be considered as the same as this signal's {@link self::getName} value when merging cases.
 	 *   Only used if $allowsMerging is true. Defaults to an empty array.
+	 * @param int $userInfoBitFlags The integer representing bit flags to be stored with the matched user
+	 *   which represents information about this user related to the case and/or signals the user matched.
+	 *   If the user already exists in a case, the bit flags are combined using the bitwise inclusive OR
+	 *   operator (`|`).
 	 */
 	public static function newPositiveResult(
 		string $name, string $value, bool $allowsMerging, int $triggerId = 0, string $triggerIdTable = '',
-		array $equivalentNamesForMerging = []
+		array $equivalentNamesForMerging = [], int $userInfoBitFlags = 0
 	): self {
 		return new self(
-			true, $name, $value, $allowsMerging, $equivalentNamesForMerging, $triggerId, $triggerIdTable
+			true, $name, $value, $allowsMerging, $equivalentNamesForMerging, $triggerId, $triggerIdTable,
+			$userInfoBitFlags
 		);
 	}
 
@@ -146,5 +152,22 @@ class SuggestedInvestigationsSignalMatchResult {
 			throw new LogicException( 'No trigger table is associated with a negative match for a signal.' );
 		}
 		return $this->triggerIdTable;
+	}
+
+	/**
+	 * If the signal matched the user, then this returns the bit flags storing information about
+	 * this user related to the case and/or this matched signal. If the user is already associated
+	 * with this signal and case, then the bit flags should be combined using the bitwise inclusive OR
+	 * operator (`|`).
+	 *
+	 * @throws LogicException If the signal did not match the user.
+	 */
+	public function getUserInfoBitFlags(): int {
+		if ( !$this->isMatch ) {
+			throw new LogicException(
+				'No user info bit flags are associated with a negative match for a signal.'
+			);
+		}
+		return $this->userInfoBitFlags;
 	}
 }

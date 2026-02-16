@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Hook;
 
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\User\UserIdentity;
 
@@ -20,8 +21,8 @@ interface CheckUserSuggestedInvestigationsBeforeCaseCreatedHook {
 	 *
 	 * @param SuggestedInvestigationsSignalMatchResult[] $signals The array of
 	 *   {@link SuggestedInvestigationsSignalMatchResult} being associated with the newly created case.
-	 * @param UserIdentity[] &$users The users being attached to the case. Handlers of this hook can
-	 *   add additional users to this array if desired
+	 * @param UserIdentity[]|SuggestedInvestigationsCaseUser[] &$users The users being attached to the case.
+	 *   Handlers of this hook can add additional users to this array if desired
 	 */
 	public function onCheckUserSuggestedInvestigationsBeforeCaseCreated(
 		array $signals, array &$users

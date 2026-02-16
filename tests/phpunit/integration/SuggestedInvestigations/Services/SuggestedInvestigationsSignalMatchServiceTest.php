@@ -49,7 +49,12 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$initialSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			'test-signal', 'test-value', $mergeable );
 		$signalThatMatchesViaHook = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'test-signal', 'test-value', $mergeable, 123, 'revision'
+			name: 'test-signal',
+			value: 'test-value',
+			allowsMerging: $mergeable,
+			triggerId: 123,
+			triggerIdTable: 'revision',
+			userInfoBitFlags: 2
 		);
 
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
@@ -87,20 +92,24 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 
 		// The user should be added to a single case: either $openCase (if mergeable) or a new case (if not).
 		// They should not be added to the closed case.
-		$caseIds = $this->getDb()->newSelectQueryBuilder()
-			->select( 'siu_sic_id' )
+		$caseUserRows = $this->getDb()->newSelectQueryBuilder()
+			->select( [ 'siu_sic_id', 'siu_info' ] )
 			->from( 'cusi_user' )
 			->where( [ 'siu_user_id' => $user2->getId() ] )
 			->caller( __METHOD__ )
-			->fetchFieldValues();
-		$this->assertCount( 1, $caseIds );
+			->fetchResultSet();
+		$this->assertSame( 1, $caseUserRows->numRows() );
+		$caseUserRow = $caseUserRows->fetchRow();
+		$caseIdSecondUserIsIn = (int)$caseUserRow['siu_sic_id'];
 
 		if ( $mergeable ) {
-			$this->assertSame( $openCase, (int)$caseIds[0] );
+			$this->assertSame( $openCase, $caseIdSecondUserIsIn );
 		} else {
-			$this->assertNotContains( $closedCase, $caseIds );
-			$this->assertNotContains( $openCase, $caseIds );
+			$this->assertNotSame( $closedCase, $caseIdSecondUserIsIn );
+			$this->assertNotSame( $openCase, $caseIdSecondUserIsIn );
 		}
+
+		$this->assertSame( 2, (int)$caseUserRow['siu_info'] );
 
 		// Check that the signals are correctly added to the case, using the same logic as above for
 		// what case the matched signal should be on

@@ -24,6 +24,7 @@ use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
@@ -33,6 +34,7 @@ use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\RawSQLValue;
 
 class SuggestedInvestigationsCaseManagerService {
 
@@ -73,7 +75,7 @@ class SuggestedInvestigationsCaseManagerService {
 	 *
 	 * For now, only cases with one signal are supported, so the $signals array must contain exactly one element.
 	 * @throws InvalidArgumentException If $users is empty or more than one signal is provided, this throws.
-	 * @param UserIdentity[] $users
+	 * @param UserIdentity[]|SuggestedInvestigationsCaseUser[] $users
 	 * @phan-param non-empty-array $users
 	 * @param SuggestedInvestigationsSignalMatchResult[] $signals
 	 * @phan-param non-empty-array $signals
@@ -107,7 +109,7 @@ class SuggestedInvestigationsCaseManagerService {
 			$caseId = $dbw->insertId();
 
 			// We don't need to check if the case exists, so let's just use the internal versions of methods
-			$this->addUsersToCaseInternal( $caseId, $users );
+			$this->addUsersToCaseInternal( $caseId, $this->convertUsersToCaseUsers( $users ) );
 			$this->addSignalsToCaseInternal( $caseId, $signals );
 			$dbw->endAtomic( __METHOD__ );
 		} catch ( \Exception $e ) {
@@ -155,7 +157,7 @@ class SuggestedInvestigationsCaseManagerService {
 	 *
 	 * @throws InvalidArgumentException When $caseId does not match an existing case
 	 * @param int $caseId
-	 * @param UserIdentity[] $users
+	 * @param UserIdentity[]|SuggestedInvestigationsCaseUser[] $users
 	 * @param SuggestedInvestigationsSignalMatchResult[] $signals
 	 */
 	public function updateCase( int $caseId, array $users, array $signals ): void {
@@ -183,7 +185,7 @@ class SuggestedInvestigationsCaseManagerService {
 		}
 
 		if ( count( $users ) !== 0 ) {
-			$this->addUsersToCaseInternal( $caseId, $users );
+			$this->addUsersToCaseInternal( $caseId, $this->convertUsersToCaseUsers( $users ) );
 
 			$newUsers = array_udiff(
 				$users,
@@ -279,23 +281,38 @@ class SuggestedInvestigationsCaseManagerService {
 	/**
 	 * Adds users to a case, skipping the input data checks.
 	 * @param int $caseId
-	 * @param UserIdentity[] $users
+	 * @param SuggestedInvestigationsCaseUser[] $users
 	 */
 	private function addUsersToCaseInternal( int $caseId, array $users ): void {
 		$dbw = $this->getPrimaryDatabase();
 
-		// Using array_values to silence Phan warning about $rows being associative
-		$rows = array_map( static fn ( $user ) => [
-			'siu_sic_id' => $caseId,
-			'siu_user_id' => $user->getId(),
-		], array_values( $users ) );
+		// We need to perform the INSERTs grouped by the value being set as siu_info so that we can update it
+		// using a bitwise operator on a duplicate key violation.
+		$userInfoFlagsToUserIds = [];
+		foreach ( $users as $user ) {
+			if ( !array_key_exists( $user->getUserInfoBitFlags(), $userInfoFlagsToUserIds ) ) {
+				$userInfoFlagsToUserIds[$user->getUserInfoBitFlags()] = [];
+			}
 
-		$dbw->newInsertQueryBuilder()
-			->insert( 'cusi_user' )
-			->ignore()
-			->rows( $rows )
-			->caller( __METHOD__ )
-			->execute();
+			$userInfoFlagsToUserIds[$user->getUserInfoBitFlags()][] = $user->getId();
+		}
+
+		foreach ( $userInfoFlagsToUserIds as $userInfoFlags => $userIds ) {
+			$dbw->newInsertQueryBuilder()
+				->insert( 'cusi_user' )
+				->rows( array_map( static fn ( $userId ) => [
+					'siu_sic_id' => $caseId,
+					'siu_user_id' => $userId,
+					'siu_info' => $userInfoFlags,
+				], $userIds ) )
+				->onDuplicateKeyUpdate()
+				->uniqueIndexFields( [ 'siu_sic_id', 'siu_user_id' ] )
+				// Note that passing the $userInfoFlags as raw SQL is fine because the value
+				// is an PHP integer and so cannot contain SQL injection
+				->set( [ 'siu_info' => new RawSQLValue( 'siu_info | ' . $userInfoFlags ) ] )
+				->caller( __METHOD__ )
+				->execute();
+		}
 	}
 
 	/**
@@ -484,5 +501,23 @@ class SuggestedInvestigationsCaseManagerService {
 			fn ( $userId ) => $this->userIdentityLookup->getUserIdentityByUserId( $userId ),
 			$userIds
 		) );
+	}
+
+	/**
+	 * Converts a list of {@link UserIdentity} objects to a list of {@link SuggestedInvestigationsCaseUser}
+	 * objects. {@link SuggestedInvestigationsCaseUser} objects in the provided list are untouched, while
+	 * converted {@link UserIdentity} objects have the user info bit flags set to 0 (i.e. no flags set).
+	 *
+	 * @param UserIdentity[]|SuggestedInvestigationsCaseUser[] $users
+	 * @return SuggestedInvestigationsCaseUser[]
+	 */
+	private function convertUsersToCaseUsers( array $users ): array {
+		return array_map( static function ( $user ) {
+			if ( $user instanceof SuggestedInvestigationsCaseUser ) {
+				return $user;
+			}
+
+			return new SuggestedInvestigationsCaseUser( $user, 0 );
+		}, $users );
 	}
 }
