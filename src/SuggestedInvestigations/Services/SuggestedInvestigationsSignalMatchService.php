@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCase;
+use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
 use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
@@ -73,14 +74,20 @@ class SuggestedInvestigationsSignalMatchService {
 		);
 
 		foreach ( $signalMatchResults as $signalMatchResult ) {
+			/** @var SuggestedInvestigationsSignalMatchResult $signalMatchResult */
 			if ( !$signalMatchResult->isMatch() ) {
 				continue;
 			}
 
+			$caseUserIdentity = new SuggestedInvestigationsCaseUser(
+				$userIdentity,
+				$signalMatchResult->getUserInfoBitFlags()
+			);
+
 			if ( $signalMatchResult->valueMatchAllowsMerging() ) {
-				$this->processMergeableSignal( $userIdentity, $signalMatchResult );
+				$this->processMergeableSignal( $caseUserIdentity, $signalMatchResult );
 			} else {
-				$this->createNewCase( $userIdentity, $signalMatchResult );
+				$this->createNewCase( $caseUserIdentity, $signalMatchResult );
 			}
 		}
 	}
@@ -92,7 +99,7 @@ class SuggestedInvestigationsSignalMatchService {
 	 * * If there aren't, creates a new SI case for the user and signal.
 	 */
 	private function processMergeableSignal(
-		UserIdentity $user,
+		SuggestedInvestigationsCaseUser $user,
 		SuggestedInvestigationsSignalMatchResult $signal
 	): void {
 		$invalidCasesWithExactMatch = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Invalid ] );
@@ -121,7 +128,7 @@ class SuggestedInvestigationsSignalMatchService {
 	 * Creates a new SI case for the user and signal.
 	 */
 	private function createNewCase(
-		UserIdentity $user,
+		SuggestedInvestigationsCaseUser $user,
 		SuggestedInvestigationsSignalMatchResult $signal
 	): void {
 		$signals = [ $signal ];
@@ -135,12 +142,12 @@ class SuggestedInvestigationsSignalMatchService {
 	/**
 	 * Adds the given user and signal to all the SI cases provided.
 	 *
-	 * @param UserIdentity $user
+	 * @param SuggestedInvestigationsCaseUser $user
 	 * @param SuggestedInvestigationsSignalMatchResult $signal
 	 * @param SuggestedInvestigationsCase[] $cases
 	 */
 	private function updateCases(
-		UserIdentity $user, SuggestedInvestigationsSignalMatchResult $signal, array $cases
+		SuggestedInvestigationsCaseUser $user, SuggestedInvestigationsSignalMatchResult $signal, array $cases
 	): void {
 		foreach ( $cases as $case ) {
 			$this->caseManager->updateCase( $case->getId(), [ $user ], [ $signal ] );
