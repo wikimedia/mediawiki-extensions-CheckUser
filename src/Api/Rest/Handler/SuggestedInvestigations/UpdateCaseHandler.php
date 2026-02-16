@@ -80,7 +80,9 @@ class UpdateCaseHandler extends SimpleHandler {
 		};
 
 		try {
-			$this->caseManager->setCaseStatus( $caseId, $newStatus, $reason );
+			$this->caseManager->setCaseStatus(
+				$caseId, $newStatus, $reason, $this->getAuthority()->getUser()->getId()
+			);
 		} catch ( InvalidArgumentException ) {
 			throw new LocalizedHttpException(
 				MessageValue::new( 'checkuser-suggestedinvestigations-case-update-case-not-found' ),

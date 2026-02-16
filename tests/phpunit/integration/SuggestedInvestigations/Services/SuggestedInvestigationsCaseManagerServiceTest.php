@@ -459,7 +459,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
 		$service = $this->createService();
-		$service->setCaseStatus( $caseId, $newStatus, $reason );
+		$service->setCaseStatus( $caseId, $newStatus, $reason, $performer->getId() );
 
 		// Assert the new state has been persisted to the DB
 		$this->assertEquals( $newStatus, $this->getCaseStatus( $caseId ) );

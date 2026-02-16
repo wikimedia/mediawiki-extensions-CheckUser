@@ -221,13 +221,19 @@ class SuggestedInvestigationsCaseManagerService {
 	 * @param int $caseId The ID of the case to modify.
 	 * @param CaseStatus $status The new case status.
 	 * @param string $reason Optionally, a reason for the status change.
+	 * @param int|null $performerUserId The user ID of the performer, or null for system actions.
 	 *
 	 * @return void
 	 *
 	 * @throws InvalidArgumentException if $caseId does not match an existing case.
 	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
-	public function setCaseStatus( int $caseId, CaseStatus $status, string $reason = '' ): void {
+	public function setCaseStatus(
+		int $caseId,
+		CaseStatus $status,
+		string $reason = '',
+		?int $performerUserId = null
+	): void {
 		$this->assertSuggestedInvestigationsEnabled();
 		$this->assertCaseExists( $caseId );
 
@@ -252,16 +258,20 @@ class SuggestedInvestigationsCaseManagerService {
 
 		// Track when statuses are changed on cases
 		if ( $oldCaseStatus !== $status->value ) {
-			$context = RequestContext::getMain();
+			$interactionData = [
+				'action_subtype' => strtolower( $status->name ),
+				'case_id' => $caseId,
+				'case_note' => $reason,
+			];
+
+			if ( $performerUserId !== null ) {
+				$interactionData['performer'] = [ 'id' => $performerUserId ];
+			}
+
 			$this->instrumentationClient->submitInteraction(
-				$context,
+				RequestContext::getMain(),
 				'case_status_change',
-				[
-					'action_subtype' => strtolower( $status->name ),
-					'case_id' => $caseId,
-					'case_note' => $reason,
-					'performer' => [ 'id' => $context->getUser()->getId() ],
-				]
+				$interactionData
 			);
 		}
 	}

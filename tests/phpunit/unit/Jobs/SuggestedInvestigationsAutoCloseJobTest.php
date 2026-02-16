@@ -106,7 +106,7 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiUnitTestCase {
 		$caseManagerMock = $this->createMock( SuggestedInvestigationsCaseManagerService::class );
 		$caseManagerMock->expects( $this->once() )
 			->method( 'setCaseStatus' )
-			->with( self::CASE_ID, CaseStatus::Resolved, $this->isType( 'string' ) );
+			->with( self::CASE_ID, CaseStatus::Resolved, $this->isType( 'string' ), null );
 
 		$job = $this->createJobWithMocks(
 			$caseManagerMock,
