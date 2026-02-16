@@ -1,0 +1,72 @@
+<?php
+
+declare( strict_types=1 );
+
+namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+
+use CentralAuthTestUser;
+use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\User\UserIdentity;
+use MediaWikiIntegrationTestCase;
+use TestUser;
+
+/**
+ * @covers \MediaWiki\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnGlobalLockHandler
+ * @covers \MediaWiki\CheckUser\HookHandler\AbstractSuggestedInvestigationsAutoCloseHandler
+ * @group CheckUser
+ * @group Database
+ */
+class SuggestedInvestigationsAutoCloseOnGlobalLockHandlerTest extends MediaWikiIntegrationTestCase {
+	use SuggestedInvestigationsTestTrait;
+
+	private JobQueueGroup $jobQueueGroup;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+
+		$this->enableSuggestedInvestigations();
+		$this->jobQueueGroup = $this->getServiceContainer()->getJobQueueGroup();
+	}
+
+	public function testJobPushedForOpenCase(): void {
+		$testUser = $this->getMutableTestUser();
+		$this->createCaseForUser( $testUser->getUserIdentity() );
+		$centralAuthUser = $this->createCentralAuthUser( $testUser );
+
+		$this->setGroupPermissions( 'sysop', 'centralauth-lock', true );
+		$context = RequestContext::getMain();
+		$context->setUser( $this->getTestSysop()->getUser() );
+
+		// Triggers SuggestedInvestigationsAutoCloseOnGlobalLockHandler::onCentralAuthGlobalUserLockStatusChanged
+		$centralAuthUser->adminLockHide( true, null, 'test lock', $context );
+
+		$this->assertSame(
+			1,
+			$this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseJob::TYPE )->getSize(),
+			'A job should be pushed for an open case'
+		);
+	}
+
+	private function createCaseForUser( UserIdentity $user ): int {
+		return $this->getServiceContainer()
+			->getService( 'CheckUserSuggestedInvestigationsCaseManager' )
+			->createCase(
+				[ $user ],
+				[ SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'TestSignal', 'value', false ) ]
+			);
+	}
+
+	private function createCentralAuthUser( TestUser $testUser ): CentralAuthUser {
+		$caTestUser = CentralAuthTestUser::newFromTestUser( $testUser );
+		$caTestUser->save( $this->getDb() );
+
+		return $caTestUser->getCentralUser();
+	}
+}

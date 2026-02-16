@@ -19,6 +19,7 @@ use Psr\Log\NullLogger;
 
 /**
  * @covers \MediaWiki\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler
+ * @covers \MediaWiki\CheckUser\HookHandler\AbstractSuggestedInvestigationsAutoCloseHandler
  * @group CheckUser
  */
 class SuggestedInvestigationsAutoCloseOnUsersBlockedHandlerTest extends MediaWikiUnitTestCase {

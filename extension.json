@@ -569,6 +569,23 @@
 				"JobQueueGroup",
 				"CheckUserLogger"
 			]
+		},
+		"SuggestedInvestigationsAutoCloseOnGlobalBlockHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnGlobalBlockHandler",
+			"services": [
+				"CheckUserSuggestedInvestigationsCaseLookup",
+				"JobQueueGroup",
+				"CheckUserLogger"
+			]
+		},
+		"SuggestedInvestigationsAutoCloseOnGlobalLockHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnGlobalLockHandler",
+			"services": [
+				"CheckUserSuggestedInvestigationsCaseLookup",
+				"JobQueueGroup",
+				"CheckUserLogger",
+				"UserIdentityLookup"
+			]
 		}
 	},
 	"Hooks": {
@@ -616,6 +633,8 @@
 		"SpecialPage_initList": "ConditionalRegistration",
 		"UserGroupsChanged": "groups",
 		"BlockIpComplete": "SuggestedInvestigationsAutoCloseOnUsersBlockedHandler",
+		"GlobalBlockingGlobalBlockAudit": "SuggestedInvestigationsAutoCloseOnGlobalBlockHandler",
+		"CentralAuthGlobalUserLockStatusChanged": "SuggestedInvestigationsAutoCloseOnGlobalLockHandler",
 		"UserGetDefaultOptions": "preferences",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
 		"UserLinkRendererUserLinkPostRender": "UserLinkRendererUserLinkPostRenderHandler",

@@ -21,6 +21,8 @@ class CheckUserExtensionJsonTest extends ExtensionJsonTestBase {
 			'GlobalPreferencesHandler' => 'GlobalPreferences',
 			'GlobalBlockingHandler' => 'GlobalBlocking',
 			'IPInfoHandler' => 'IPInfo',
+			'SuggestedInvestigationsAutoCloseOnGlobalBlockHandler' => 'GlobalBlocking',
+			'SuggestedInvestigationsAutoCloseOnGlobalLockHandler' => 'CentralAuth',
 			'UserMerge' => 'UserMerge',
 		];
 		foreach ( self::getExtensionJson()['HookHandlers'] ?? [] as $name => $specification ) {
