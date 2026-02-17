@@ -1229,7 +1229,16 @@
 				"UserIdentityLookup"
 			]
 		},
-		"checkuserPruneCheckUserDataJob": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob",
+		"checkuserPruneCheckUserDataJob": {
+			"class": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob",
+			"services": [
+				"CheckUserCentralIndexManager",
+				"CheckUserDataPurger",
+				"MainConfig",
+				"ConnectionProvider",
+				"UserAgentClientHintsManager"
+			]
+		},
 		"checkuserSuggestedInvestigationsAutoClose": {
 			"factory": "MediaWiki\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseJob::newFromGlobalState",
 			"needsPage": false
