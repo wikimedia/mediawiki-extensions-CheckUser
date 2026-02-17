@@ -559,7 +559,7 @@
 		"SuggestedInvestigationsHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsHandler",
 			"services": [
-				"SuggestedInvestigationsSignalMatchService"
+				"JobQueueGroup"
 			]
 		},
 		"SuggestedInvestigationsAutoCloseOnUsersBlockedHandler": {
@@ -1247,6 +1247,13 @@
 				"CheckUserSuggestedInvestigationsCaseLookup",
 				"CheckUserCompositeIndefiniteBlockChecker",
 				"CheckUserLogger"
+			],
+			"needsPage": false
+		},
+		"checkuserSuggestedInvestigationsMatchSignalsAgainstUserJob": {
+			"class": "MediaWiki\\CheckUser\\Jobs\\SuggestedInvestigationsMatchSignalsAgainstUserJob",
+			"services": [
+				"SuggestedInvestigationsSignalMatchService"
 			],
 			"needsPage": false
 		},

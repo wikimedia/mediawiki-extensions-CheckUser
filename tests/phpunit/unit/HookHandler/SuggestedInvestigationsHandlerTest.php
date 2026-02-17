@@ -3,12 +3,14 @@
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\SuggestedInvestigationsHandler;
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
-use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
+use MediaWiki\JobQueue\IJobSpecification;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Page\WikiPage;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Storage\EditResult;
 use MediaWiki\User\User;
+use MediaWiki\User\UserIdentity;
 use MediaWikiUnitTestCase;
 
 /**
@@ -16,29 +18,15 @@ use MediaWikiUnitTestCase;
  */
 class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 
-	private SuggestedInvestigationsSignalMatchService $suggestedInvestigationsSignalMatchService;
-	private SuggestedInvestigationsHandler $sut;
-
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->suggestedInvestigationsSignalMatchService = $this->createMock(
-			SuggestedInvestigationsSignalMatchService::class
-		);
-
-		$this->sut = new SuggestedInvestigationsHandler( $this->suggestedInvestigationsSignalMatchService );
-	}
-
 	/** @dataProvider provideOnLocalUserCreated */
 	public function testOnLocalUserCreated( bool $autocreated, string $expectedEventType ) {
 		$mockUser = $this->createMock( User::class );
 
-		$this->suggestedInvestigationsSignalMatchService->expects( $this->once() )
-			->method( 'matchSignalsAgainstUser' )
-			->with( $mockUser, $expectedEventType );
+		$objectUnderTest = new SuggestedInvestigationsHandler(
+			$this->setUpMockJobQueue( $mockUser, $expectedEventType, [] )
+		);
 
-		$this->sut->onLocalUserCreated( $mockUser, $autocreated );
-		DeferredUpdates::doUpdates();
+		$objectUnderTest->onLocalUserCreated( $mockUser, $autocreated );
 	}
 
 	public static function provideOnLocalUserCreated(): array {
@@ -61,16 +49,16 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		$mockEditResult->method( 'isNullEdit' )
 			->willReturn( $isNullEdit );
 
-		$this->suggestedInvestigationsSignalMatchService
-			->expects( $expectsSignalMatch ? $this->once() : $this->never() )
-			->method( 'matchSignalsAgainstUser' )
-			->with( $mockUser, 'successfuledit', [ 'revId' => $revId ] );
+		$objectUnderTest = new SuggestedInvestigationsHandler(
+			$this->setUpMockJobQueue(
+				$mockUser, 'successfuledit', [ 'revId' => $revId ], $expectsSignalMatch
+			)
+		);
 
-		$this->sut->onPageSaveComplete(
+		$objectUnderTest->onPageSaveComplete(
 			$this->createMock( WikiPage::class ), $mockUser, '', 0, $revisionRecord,
 			$mockEditResult
 		);
-		DeferredUpdates::doUpdates();
 	}
 
 	public static function provideOnPageSaveComplete(): array {
@@ -83,24 +71,58 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 	public function testOnUserSetEmail() {
 		$mockUser = $this->createMock( User::class );
 
-		$this->suggestedInvestigationsSignalMatchService->expects( $this->once() )
-			->method( 'matchSignalsAgainstUser' )
-			->with( $mockUser, 'setemail' );
+		$objectUnderTest = new SuggestedInvestigationsHandler(
+			$this->setUpMockJobQueue( $mockUser, 'setemail', [] )
+		);
 
 		$email = 'test@test.com';
-		$this->sut->onUserSetEmail( $mockUser, $email );
-		DeferredUpdates::doUpdates();
+		$objectUnderTest->onUserSetEmail( $mockUser, $email );
 	}
 
 	public function testOnUserSetEmailAuthenticationTimestamp() {
 		$mockUser = $this->createMock( User::class );
 
-		$this->suggestedInvestigationsSignalMatchService->expects( $this->once() )
-			->method( 'matchSignalsAgainstUser' )
-			->with( $mockUser, 'confirmemail' );
+		$objectUnderTest = new SuggestedInvestigationsHandler(
+			$this->setUpMockJobQueue( $mockUser, 'confirmemail', [] )
+		);
 
 		$timestamp = '20250405060708';
-		$this->sut->onUserSetEmailAuthenticationTimestamp( $mockUser, $timestamp );
-		DeferredUpdates::doUpdates();
+		$objectUnderTest->onUserSetEmailAuthenticationTimestamp( $mockUser, $timestamp );
+	}
+
+	private function setUpMockJobQueue(
+		UserIdentity $expectedUserIdentity, string $expectedEventType, array $expectedExtraData,
+		bool $expectsCall = true
+	): JobQueueGroup {
+		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$mockJobQueueGroup->expects( $expectsCall ? $this->once() : $this->never() )
+			->method( 'lazyPush' )
+			->willReturnCallback( function ( $job ) use (
+				$expectedUserIdentity, $expectedEventType, $expectedExtraData
+			) {
+				$this->assertInstanceOf( IJobSpecification::class, $job );
+				$this->assertSame(
+					SuggestedInvestigationsMatchSignalsAgainstUserJob::TYPE,
+					$job->getType(),
+					'Inserted job was not of the expected type'
+				);
+
+				$jobParams = $job->getParams();
+				unset( $jobParams['requestId'] );
+				$this->assertArrayEquals(
+					[
+						'userIdentityId' => $expectedUserIdentity->getId(),
+						'userIdentityName' => $expectedUserIdentity->getName(),
+						'eventType' => $expectedEventType,
+						'extraData' => $expectedExtraData,
+					],
+					$jobParams,
+					false,
+					true,
+					'Job parameters are not as expected'
+				);
+			} );
+
+		return $mockJobQueueGroup;
 	}
 }

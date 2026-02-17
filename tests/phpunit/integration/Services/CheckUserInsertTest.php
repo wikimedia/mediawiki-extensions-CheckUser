@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
+use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
@@ -13,6 +14,8 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Exception\CannotCreateActorException;
+use MediaWiki\JobQueue\IJobSpecification;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Language\Language;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\DatabaseLogEntry;
@@ -25,7 +28,6 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Profiler;
 use Psr\Log\LoggerInterface;
-use Wikimedia\ScopedCallback;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -600,39 +602,45 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	public function testInsertIntoCuPrivateEventTableForSuggestedInvestigationsSignalMatch() {
 		$performer = $this->getTestUser()->getUserIdentity();
-		$rowIdFromInsertionMethod = 0;
 
-		$mockSuggestedInvestigationsSignalMatchService = $this->createMock(
-			SuggestedInvestigationsSignalMatchService::class
-		);
-		$mockSuggestedInvestigationsSignalMatchService->expects( $this->once() )
-			->method( 'matchSignalsAgainstUser' )
-			->with(
-				$performer,
-				SuggestedInvestigationsSignalMatchService::EVENT_CHECKUSER_PRIVATE_EVENT,
-				$this->callback( function ( $extraData ) use ( &$rowIdFromInsertionMethod ) {
-					$this->assertArrayHasKey( 'row', $extraData );
-					$this->assertArrayHasKey( 'cupe_log_action', $extraData['row'] );
-					$this->assertSame( 'test-action', $extraData['row']['cupe_log_action'] );
+		$actualJob = null;
+		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$mockJobQueueGroup->expects( $this->atLeastOnce() )
+			->method( 'push' )
+			->willReturnCallback( function ( $job ) use ( &$actualJob ) {
+				if ( $job->getType() === SuggestedInvestigationsMatchSignalsAgainstUserJob::TYPE ) {
+					if ( $actualJob === null ) {
+						$actualJob = $job;
+					} else {
+						$this->fail( 'Only expected one match signals job to be pushed' );
+					}
+				}
+			} );
 
-					$this->assertArrayHasKey( 'id', $extraData );
-					$this->assertSame( $rowIdFromInsertionMethod, $extraData['id'] );
-					return true;
-				} )
-			);
+		$this->setService( 'JobQueueGroup', $mockJobQueueGroup );
 
-		$this->setService(
-			'SuggestedInvestigationsSignalMatchService',
-			$mockSuggestedInvestigationsSignalMatchService
-		);
-
-		$scope = DeferredUpdates::preventOpportunisticUpdates();
 		$rowIdFromInsertionMethod = $this->setUpObject()->insertIntoCuPrivateEventTable(
 			[ 'cupe_log_action' => 'test-action' ], __METHOD__, $performer
 		);
-		ScopedCallback::consume( $scope );
 
-		DeferredUpdates::doUpdates();
+		$this->assertInstanceOf( IJobSpecification::class, $actualJob );
+		$this->assertSame( SuggestedInvestigationsMatchSignalsAgainstUserJob::TYPE, $actualJob->getType() );
+
+		// Assert on the job parameters
+		$this->assertArrayContains(
+			[
+				'userIdentityId' => $performer->getId(),
+				'userIdentityName' => $performer->getName(),
+				'eventType' => SuggestedInvestigationsSignalMatchService::EVENT_CHECKUSER_PRIVATE_EVENT,
+				'extraData' => [
+					// The provided 'row' here is incomplete to what actually is provided, but we use
+					// ::assertArrayContains to avoid needing to assert on the entire row structure
+					'row' => [ 'cupe_log_action' => 'test-action' ],
+					'id' => $rowIdFromInsertionMethod,
+				],
+			],
+			$actualJob->getParams()
+		);
 	}
 
 	public function testInsertIntoCuLogEventTableLogId() {

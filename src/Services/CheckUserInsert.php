@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Services;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
 use MediaWiki\CheckUser\Hook\HookRunner;
+use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Config\ServiceOptions;
@@ -422,22 +423,16 @@ class CheckUserInsert {
 
 		// Allow SI to match signals when private CheckUser events are inserted
 		DeferredUpdates::addCallableUpdate(
-			function () use (
-				$user, $silenceReplicaWarnings, $row, $insertedId
-			) {
-				$trxProfiler = Profiler::instance()->getTransactionProfiler();
-				$scope = $silenceReplicaWarnings ?
-					$trxProfiler->silenceForScope( $trxProfiler::EXPECTATION_REPLICAS_ONLY ) : null;
-
-				$this->suggestedInvestigationsSignalMatchService->matchSignalsAgainstUser(
-					$user, SuggestedInvestigationsSignalMatchService::EVENT_CHECKUSER_PRIVATE_EVENT,
+			function () use ( $user, $row, $insertedId ) {
+				$this->jobQueueGroup->push( SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec(
+					$user,
+					SuggestedInvestigationsSignalMatchService::EVENT_CHECKUSER_PRIVATE_EVENT,
 					[ 'row' => $row, 'id' => $insertedId ]
-				);
-
-				ScopedCallback::consume( $scope );
+				) );
 			},
 			DeferredUpdates::POSTSEND,
-			// Cancel this update if the main transaction round is rolled back
+			// Cancel the signal matching if the main transaction round is rolled back
+			// (as no matching cu_private_event row would exist)
 			$dbw
 		);
 
