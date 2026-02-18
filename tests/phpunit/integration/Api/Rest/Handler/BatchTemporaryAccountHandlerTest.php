@@ -865,7 +865,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->table( 'abuse_filter_log' )
 			->row(
 				array_merge( $template, [
-					'afl_timestamp' => ConvertibleTimestamp::now(),
+					'afl_timestamp' => $dbw->timestamp( ConvertibleTimestamp::now() ),
 				] )
 			)
 			->execute();
@@ -882,7 +882,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->row(
 				array_merge( $template, [
 					'afl_ip_hex' => '',
-					'afl_timestamp' => '20150101012345',
+					'afl_timestamp' => $dbw->timestamp( '20150101012345' ),
 				] )
 			)
 			->execute();
@@ -898,7 +898,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->row(
 				array_merge( $template, [
 					'afl_ip_hex' => '',
-					'afl_timestamp' => ConvertibleTimestamp::now(),
+					'afl_timestamp' => $dbw->timestamp( ConvertibleTimestamp::now() ),
 				] )
 			)
 			->execute();
