@@ -1192,6 +1192,7 @@
 		"checkuser-temporary-account/*": {
 			"class": "MediaWiki\\CheckUser\\Logging\\TemporaryAccountLogFormatter",
 			"services": [
+				"ExtensionRegistry",
 				"UserFactory"
 			]
 		},

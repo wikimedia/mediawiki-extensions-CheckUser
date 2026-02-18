@@ -6,20 +6,18 @@ use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Logging\LogEntry;
 use MediaWiki\Logging\LogFormatter;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Message\Message;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\UserFactory;
 
 class TemporaryAccountLogFormatter extends LogFormatter {
 
-	private UserFactory $userFactory;
-
 	public function __construct(
 		LogEntry $entry,
-		UserFactory $userFactory
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly UserFactory $userFactory,
 	) {
 		parent::__construct( $entry );
-		$this->userFactory = $userFactory;
 	}
 
 	/**
@@ -57,7 +55,7 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 			$params[2] = Message::rawParam( Linker::userLink( 0, $ip ) );
 		}
 
-		if ( MediaWikiServices::getInstance()->getExtensionRegistry()->isLoaded( 'Abuse Filter' ) ) {
+		if ( $this->extensionRegistry->isLoaded( 'Abuse Filter' ) ) {
 			// Modify external log af-view-protected-var-value
 			if (
 				$this->entry->getSubtype() === 'af-' . ProtectedVarsAccessLogger::ACTION_VIEW_PROTECTED_VARIABLE_VALUE
@@ -93,7 +91,7 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 				return 'logentry-checkuser-temporary-account-disable-auto-reveal';
 			}
 		} elseif (
-			MediaWikiServices::getInstance()->getExtensionRegistry()->isLoaded( 'Abuse Filter' ) &&
+			$this->extensionRegistry->isLoaded( 'Abuse Filter' ) &&
 			$this->entry->getSubtype() === 'af-' . ProtectedVarsAccessLogger::ACTION_VIEW_PROTECTED_VARIABLE_VALUE
 		) {
 			$params = $this->entry->getParameters();
