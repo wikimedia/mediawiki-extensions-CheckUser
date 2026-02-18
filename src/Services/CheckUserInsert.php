@@ -92,6 +92,7 @@ class CheckUserInsert {
 	 * Note that other extensions (like AbuseFilter) may call this function directly
 	 * if they want to send data to CU without creating a recentchanges entry.
 	 *
+	 * @stable to call since 1.46
 	 * @param RecentChange $rc
 	 * @param bool $silenceReplicaWarnings Whether to silence {@link TransactionProfiler} warnings about making
 	 *   writes or accessing primary DB connections. Default this is not silenced.
