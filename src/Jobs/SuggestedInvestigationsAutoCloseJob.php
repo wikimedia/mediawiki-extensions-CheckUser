@@ -13,7 +13,6 @@ use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\Job;
 use MediaWiki\JobQueue\JobSpecification;
 use MediaWiki\Language\MessageLocalizer;
-use MediaWiki\MediaWikiServices;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -36,17 +35,25 @@ class SuggestedInvestigationsAutoCloseJob extends Job {
 
 	/**
 	 * @param array $params ['caseId', 'jobReleaseTimeStamp'] int The ID of the case to potentially auto-close
+	 * @param SuggestedInvestigationsCaseManagerService $caseManager
+	 * @param SuggestedInvestigationsCaseLookupService $caseLookup
+	 * @param CompositeIndefiniteBlockChecker $blockChecker
+	 * @param LoggerInterface $logger
 	 * @return self
 	 */
-	public static function newFromGlobalState( array $params ): self {
-		$services = MediaWikiServices::getInstance();
-
+	public static function newFromGlobalState(
+		array $params,
+		SuggestedInvestigationsCaseManagerService $caseManager,
+		SuggestedInvestigationsCaseLookupService $caseLookup,
+		CompositeIndefiniteBlockChecker $blockChecker,
+		LoggerInterface $logger,
+	): self {
 		return new self(
 			$params,
-			$services->getService( 'CheckUserSuggestedInvestigationsCaseManager' ),
-			$services->getService( 'CheckUserSuggestedInvestigationsCaseLookup' ),
-			$services->getService( 'CheckUserCompositeIndefiniteBlockChecker' ),
-			$services->getService( 'CheckUserLogger' ),
+			$caseManager,
+			$caseLookup,
+			$blockChecker,
+			$logger,
 			RequestContext::getMain()
 		);
 	}

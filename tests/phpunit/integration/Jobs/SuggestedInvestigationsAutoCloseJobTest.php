@@ -92,7 +92,14 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiIntegrationTestCa
 	}
 
 	public function testNewFromGlobalState(): void {
-		$job = SuggestedInvestigationsAutoCloseJob::newFromGlobalState( [ 'caseId' => 123 ] );
+		$services = $this->getServiceContainer();
+		$job = SuggestedInvestigationsAutoCloseJob::newFromGlobalState(
+			[ 'caseId' => 123 ],
+			$services->getService( 'CheckUserSuggestedInvestigationsCaseManager' ),
+			$services->getService( 'CheckUserSuggestedInvestigationsCaseLookup' ),
+			$services->getService( 'CheckUserCompositeIndefiniteBlockChecker' ),
+			$services->getService( 'CheckUserLogger' )
+		);
 		$this->assertInstanceOf( SuggestedInvestigationsAutoCloseJob::class, $job );
 	}
 

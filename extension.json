@@ -1241,6 +1241,12 @@
 		},
 		"checkuserSuggestedInvestigationsAutoClose": {
 			"factory": "MediaWiki\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseJob::newFromGlobalState",
+			"services": [
+				"CheckUserSuggestedInvestigationsCaseManager",
+				"CheckUserSuggestedInvestigationsCaseLookup",
+				"CheckUserCompositeIndefiniteBlockChecker",
+				"CheckUserLogger"
+			],
 			"needsPage": false
 		},
 		"checkuserUpdateUserCentralIndexJob": {
