@@ -55,6 +55,7 @@ use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\WikiMap\WikiMap;
+use Psr\Log\LoggerInterface;
 
 // PHP unit does not understand code coverage for this file
 // as the @covers annotation cannot cover a specific file
@@ -176,7 +177,7 @@ return [
 
 		return new CompositeIndefiniteBlockChecker( $blockChecks );
 	},
-	'CheckUserDataPurger' => static function () {
+	'CheckUserDataPurger' => static function (): CheckUserDataPurger {
 		return new CheckUserDataPurger();
 	},
 	'CheckUserDurationManager' => static function (): DurationManager {
@@ -306,7 +307,7 @@ return [
 			$services->get( 'CheckUserPermissionManager' )
 		);
 	},
-	'CheckUserLogger' => static function () {
+	'CheckUserLogger' => static function (): LoggerInterface {
 		return LoggerFactory::getInstance( 'CheckUser' );
 	},
 	'CheckUserLogService' => static function (
