@@ -12,10 +12,9 @@ use Wikimedia\Rdbms\IReadableDatabase;
  * a ClientHintsReferenceIds object of reference IDs.
  */
 class UserAgentClientHintsLookup {
-	private IReadableDatabase $dbr;
-
-	public function __construct( IReadableDatabase $dbr ) {
-		$this->dbr = $dbr;
+	public function __construct(
+		private readonly IReadableDatabase $dbr,
+	) {
 	}
 
 	/**

@@ -11,27 +11,14 @@ use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\User\UserFactory;
 
 class ComparePagerFactory implements PagerFactory {
-	private LinkRenderer $linkRenderer;
-	private TokenQueryManager $tokenQueryManager;
-	private DurationManager $durationManager;
-	private CompareService $compare;
-	private UserFactory $userFactory;
-	private LinkBatchFactory $linkBatchFactory;
-
 	public function __construct(
-		LinkRenderer $linkRenderer,
-		TokenQueryManager $tokenQueryManager,
-		DurationManager $durationManager,
-		CompareService $compare,
-		UserFactory $userFactory,
-		LinkBatchFactory $linkBatchFactory
+		private readonly LinkRenderer $linkRenderer,
+		private readonly TokenQueryManager $tokenQueryManager,
+		private readonly DurationManager $durationManager,
+		private readonly CompareService $compare,
+		private readonly UserFactory $userFactory,
+		private readonly LinkBatchFactory $linkBatchFactory,
 	) {
-		$this->linkRenderer = $linkRenderer;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->durationManager = $durationManager;
-		$this->compare = $compare;
-		$this->userFactory = $userFactory;
-		$this->linkBatchFactory = $linkBatchFactory;
 	}
 
 	/**

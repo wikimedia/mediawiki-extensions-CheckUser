@@ -16,15 +16,12 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
  */
 class ApiQueryCheckUser extends ApiQueryBase {
 
-	private ApiQueryCheckUserResponseFactory $responseFactory;
-
 	public function __construct(
 		ApiQuery $query,
 		string $moduleName,
-		ApiQueryCheckUserResponseFactory $responseFactory
+		private readonly ApiQueryCheckUserResponseFactory $responseFactory,
 	) {
 		parent::__construct( $query, $moduleName, 'cu' );
-		$this->responseFactory = $responseFactory;
 	}
 
 	public function execute() {

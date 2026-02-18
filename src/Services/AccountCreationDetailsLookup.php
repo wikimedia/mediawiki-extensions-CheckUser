@@ -27,7 +27,7 @@ class AccountCreationDetailsLookup {
 
 	public function __construct(
 		private readonly LoggerInterface $logger,
-		private readonly ServiceOptions $options
+		private readonly ServiceOptions $options,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}

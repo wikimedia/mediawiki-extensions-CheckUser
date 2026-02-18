@@ -24,8 +24,6 @@ use Wikimedia\Rdbms\ReadOnlyMode;
  */
 abstract class AbstractTemporaryAccountIPHandler extends AbstractTemporaryAccountHandler {
 
-	private TempUserConfig $tempUserConfig;
-
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
@@ -34,15 +32,14 @@ abstract class AbstractTemporaryAccountIPHandler extends AbstractTemporaryAccoun
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
 		BlockManager $blockManager,
-		TempUserConfig $tempUserConfig,
+		private readonly TempUserConfig $tempUserConfig,
 		CheckUserPermissionManager $checkUserPermissionsManager,
-		ReadOnlyMode $readOnlyMode
+		ReadOnlyMode $readOnlyMode,
 	) {
 		parent::__construct(
 			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
 			$blockManager, $checkUserPermissionsManager, $readOnlyMode
 		);
-		$this->tempUserConfig = $tempUserConfig;
 	}
 
 	/**

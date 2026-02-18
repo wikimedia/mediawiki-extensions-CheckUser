@@ -14,18 +14,11 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class PerformRetroactiveAutoblockHandler implements PerformRetroactiveAutoblockHook, CheckUserQueryInterface {
 
-	private IConnectionProvider $dbProvider;
-	private DatabaseBlockStoreFactory $databaseBlockStoreFactory;
-	private Config $config;
-
 	public function __construct(
-		IConnectionProvider $dbProvider,
-		DatabaseBlockStoreFactory $databaseBlockStoreFactory,
-		Config $config
+		private readonly IConnectionProvider $dbProvider,
+		private readonly DatabaseBlockStoreFactory $databaseBlockStoreFactory,
+		private readonly Config $config,
 	) {
-		$this->dbProvider = $dbProvider;
-		$this->databaseBlockStoreFactory = $databaseBlockStoreFactory;
-		$this->config = $config;
 	}
 
 	/**

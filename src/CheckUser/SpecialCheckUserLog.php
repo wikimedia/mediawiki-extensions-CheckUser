@@ -25,34 +25,19 @@ class SpecialCheckUserLog extends SpecialPage {
 	 */
 	protected array $opts;
 
-	private IReadableDatabase $dbr;
-
-	private LinkBatchFactory $linkBatchFactory;
-	private PermissionManager $permissionManager;
-	private CommentStore $commentStore;
-	private CommentFormatter $commentFormatter;
-	private CheckUserLogService $checkUserLogService;
-	private UserFactory $userFactory;
-	private ActorStore $actorStore;
+	private readonly IReadableDatabase $dbr;
 
 	public function __construct(
-		LinkBatchFactory $linkBatchFactory,
-		PermissionManager $permissionManager,
-		CommentStore $commentStore,
-		CommentFormatter $commentFormatter,
-		CheckUserLogService $checkUserLogService,
-		UserFactory $userFactory,
-		ActorStore $actorStore,
-		IConnectionProvider $dbProvider
+		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly PermissionManager $permissionManager,
+		private readonly CommentStore $commentStore,
+		private readonly CommentFormatter $commentFormatter,
+		private readonly CheckUserLogService $checkUserLogService,
+		private readonly UserFactory $userFactory,
+		private readonly ActorStore $actorStore,
+		IConnectionProvider $dbProvider,
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->permissionManager = $permissionManager;
-		$this->commentStore = $commentStore;
-		$this->commentFormatter = $commentFormatter;
-		$this->checkUserLogService = $checkUserLogService;
-		$this->userFactory = $userFactory;
-		$this->actorStore = $actorStore;
 		$this->dbr = $dbProvider->getReplicaDatabase();
 	}
 

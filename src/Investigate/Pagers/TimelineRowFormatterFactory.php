@@ -14,33 +14,16 @@ use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 
 class TimelineRowFormatterFactory {
-	private LinkRenderer $linkRenderer;
-	private CheckUserLookupUtils $checkUserLookupUtils;
-	private TitleFormatter $titleFormatter;
-	private SpecialPageFactory $specialPageFactory;
-	private CommentFormatter $commentFormatter;
-	private UserFactory $userFactory;
-	private CommentStore $commentStore;
-	private LogFormatterFactory $logFormatterFactory;
-
 	public function __construct(
-		LinkRenderer $linkRenderer,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		TitleFormatter $titleFormatter,
-		SpecialPageFactory $specialPageFactory,
-		CommentFormatter $commentFormatter,
-		UserFactory $userFactory,
-		CommentStore $commentStore,
-		LogFormatterFactory $logFormatterFactory
+		private readonly LinkRenderer $linkRenderer,
+		private readonly CheckUserLookupUtils $checkUserLookupUtils,
+		private readonly TitleFormatter $titleFormatter,
+		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly CommentFormatter $commentFormatter,
+		private readonly UserFactory $userFactory,
+		private readonly CommentStore $commentStore,
+		private readonly LogFormatterFactory $logFormatterFactory,
 	) {
-		$this->linkRenderer = $linkRenderer;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		$this->titleFormatter = $titleFormatter;
-		$this->specialPageFactory = $specialPageFactory;
-		$this->commentFormatter = $commentFormatter;
-		$this->userFactory = $userFactory;
-		$this->commentStore = $commentStore;
-		$this->logFormatterFactory = $logFormatterFactory;
 	}
 
 	/**

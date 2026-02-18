@@ -13,7 +13,7 @@ class GroupsHandler implements
 	public function __construct(
 		private readonly CentralIdLookup $centralIdLookup,
 		private readonly WANObjectCache $wanCache,
-		private readonly SpecialPageFactory $specialPageFactory
+		private readonly SpecialPageFactory $specialPageFactory,
 	) {
 	}
 

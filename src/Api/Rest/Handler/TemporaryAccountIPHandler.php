@@ -20,8 +20,6 @@ use Wikimedia\Rdbms\ReadOnlyMode;
  */
 class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
 
-	private CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup;
-
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
@@ -31,15 +29,14 @@ class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		TempUserConfig $tempUserConfig,
-		CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup,
+		private readonly CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup,
 		CheckUserPermissionManager $checkUserPermissionsManager,
-		ReadOnlyMode $readOnlyMode
+		ReadOnlyMode $readOnlyMode,
 	) {
 		parent::__construct(
 			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
 			$blockManager, $tempUserConfig, $checkUserPermissionsManager, $readOnlyMode
 		);
-		$this->checkUserTemporaryAccountsByIPLookup = $checkUserTemporaryAccountsByIPLookup;
 	}
 
 	/**

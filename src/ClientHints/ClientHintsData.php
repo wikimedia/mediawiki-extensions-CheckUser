@@ -25,17 +25,6 @@ class ClientHintsData implements JsonSerializable {
 		"Sec-CH-UA-WoW64" => "woW64",
 	];
 
-	private ?string $architecture;
-	private ?string $bitness;
-	private ?array $brands;
-	private ?string $formFactor;
-	private ?array $fullVersionList;
-	private ?bool $mobile;
-	private ?string $model;
-	private ?string $platform;
-	private ?string $platformVersion;
-	private ?bool $woW64;
-
 	/**
 	 * @param string|null $architecture
 	 * @param string|null $bitness
@@ -49,27 +38,17 @@ class ClientHintsData implements JsonSerializable {
 	 * @param bool|null $woW64
 	 */
 	public function __construct(
-		?string $architecture,
-		?string $bitness,
-		?array $brands,
-		?string $formFactor,
-		?array $fullVersionList,
-		?bool $mobile,
-		?string $model,
-		?string $platform,
-		?string $platformVersion,
-		?bool $woW64
+		private readonly ?string $architecture,
+		private readonly ?string $bitness,
+		private readonly ?array $brands,
+		private readonly ?string $formFactor,
+		private readonly ?array $fullVersionList,
+		private readonly ?bool $mobile,
+		private readonly ?string $model,
+		private readonly ?string $platform,
+		private readonly ?string $platformVersion,
+		private readonly ?bool $woW64,
 	) {
-		$this->architecture = $architecture;
-		$this->bitness = $bitness;
-		$this->brands = $brands;
-		$this->formFactor = $formFactor;
-		$this->fullVersionList = $fullVersionList;
-		$this->mobile = $mobile;
-		$this->model = $model;
-		$this->platform = $platform;
-		$this->platformVersion = $platformVersion;
-		$this->woW64 = $woW64;
 	}
 
 	/**

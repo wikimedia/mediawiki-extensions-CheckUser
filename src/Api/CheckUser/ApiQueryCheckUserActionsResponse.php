@@ -28,49 +28,26 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse {
 
-	private MessageLocalizer $messageLocalizer;
-	private UserIdentityLookup $userIdentityLookup;
-	private CommentStore $commentStore;
-	private UserFactory $userFactory;
-	private LogFormatterFactory $logFormatterFactory;
-
 	/**
-	 * @param ApiQueryCheckUser $module
-	 * @param IConnectionProvider $dbProvider
-	 * @param Config $config
-	 * @param MessageLocalizer $messageLocalizer
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param UserNameUtils $userNameUtils
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param CommentStore $commentStore
-	 * @param UserFactory $userFactory
-	 * @param LogFormatterFactory $logFormatterFactory
-	 *
 	 * @internal Use CheckUserApiResponseFactory::newFromRequest() instead
 	 */
 	public function __construct(
 		ApiQueryCheckUser $module,
 		IConnectionProvider $dbProvider,
 		Config $config,
-		MessageLocalizer $messageLocalizer,
+		private readonly MessageLocalizer $messageLocalizer,
 		CheckUserLogService $checkUserLogService,
 		UserNameUtils $userNameUtils,
 		CheckUserLookupUtils $checkUserLookupUtils,
-		UserIdentityLookup $userIdentityLookup,
-		CommentStore $commentStore,
-		UserFactory $userFactory,
-		LogFormatterFactory $logFormatterFactory
+		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly CommentStore $commentStore,
+		private readonly UserFactory $userFactory,
+		private readonly LogFormatterFactory $logFormatterFactory,
 	) {
 		parent::__construct(
 			$module, $dbProvider, $config, $messageLocalizer,
 			$checkUserLogService, $userNameUtils, $checkUserLookupUtils
 		);
-		$this->messageLocalizer = $messageLocalizer;
-		$this->userIdentityLookup = $userIdentityLookup;
-		$this->commentStore = $commentStore;
-		$this->userFactory = $userFactory;
-		$this->logFormatterFactory = $logFormatterFactory;
 	}
 
 	/** @inheritDoc */

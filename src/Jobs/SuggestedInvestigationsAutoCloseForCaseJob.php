@@ -28,7 +28,7 @@ class SuggestedInvestigationsAutoCloseForCaseJob extends Job {
 		private readonly SuggestedInvestigationsCaseLookupService $caseLookup,
 		private readonly CompositeIndefiniteBlockChecker $blockChecker,
 		private readonly LoggerInterface $logger,
-		private readonly MessageLocalizer $messageLocalizer
+		private readonly MessageLocalizer $messageLocalizer,
 	) {
 		parent::__construct( self::TYPE, $params );
 	}

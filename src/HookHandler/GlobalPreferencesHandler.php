@@ -8,12 +8,9 @@ use MediaWiki\User\UserIdentity;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class GlobalPreferencesHandler implements GlobalPreferencesSetGlobalPreferencesHook {
-	private TemporaryAccountLoggerFactory $loggerFactory;
-
 	public function __construct(
-		TemporaryAccountLoggerFactory $loggerFactory
+		private readonly TemporaryAccountLoggerFactory $loggerFactory,
 	) {
-		$this->loggerFactory = $loggerFactory;
 	}
 
 	/**

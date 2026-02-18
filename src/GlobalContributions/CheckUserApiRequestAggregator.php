@@ -26,11 +26,6 @@ use Psr\Log\LoggerInterface;
  * failures, and difficult to test. However, there is no other way to look up permissions until T380867.
  */
 class CheckUserApiRequestAggregator {
-	private HttpRequestFactory $httpRequestFactory;
-	private CentralIdLookup $centralIdLookup;
-	private ExtensionRegistry $extensionRegistry;
-	private SiteLookup $siteLookup;
-	private LoggerInterface $logger;
 	private UserIdentity $userIdentity;
 	private array $params;
 	private array $wikis;
@@ -40,17 +35,12 @@ class CheckUserApiRequestAggregator {
 	public const AUTHENTICATE_CENTRAL_AUTH = 1;
 
 	public function __construct(
-		HttpRequestFactory $httpRequestFactory,
-		CentralIdLookup $centralIdLookup,
-		ExtensionRegistry $extensionRegistry,
-		SiteLookup $siteLookup,
-		LoggerInterface $logger
+		private readonly HttpRequestFactory $httpRequestFactory,
+		private readonly CentralIdLookup $centralIdLookup,
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly SiteLookup $siteLookup,
+		private readonly LoggerInterface $logger,
 	) {
-		$this->httpRequestFactory = $httpRequestFactory;
-		$this->centralIdLookup = $centralIdLookup;
-		$this->extensionRegistry = $extensionRegistry;
-		$this->siteLookup = $siteLookup;
-		$this->logger = $logger;
 	}
 
 	/**

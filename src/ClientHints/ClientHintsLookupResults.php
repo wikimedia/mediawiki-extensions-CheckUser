@@ -14,21 +14,16 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
  * list.
  */
 class ClientHintsLookupResults {
-	/** @var int[][] */
-	private array $referenceIdsToClientHintsDataIndex;
-
-	/** @var ClientHintsData[] */
-	private array $clientHintsDataObjects;
-
 	/**
 	 * @param int[][] $referenceIdsToClientHintsDataIndex A map of reference type and reference ID values
 	 *   to integer keys in $clientHintsDataObjects array.
 	 * @param ClientHintsData[] $clientHintsDataObjects An array of ClientHintsData objects where the keys are
 	 *   integers that are the second-dimension value in the first parameter.
 	 */
-	public function __construct( array $referenceIdsToClientHintsDataIndex, array $clientHintsDataObjects ) {
-		$this->referenceIdsToClientHintsDataIndex = $referenceIdsToClientHintsDataIndex;
-		$this->clientHintsDataObjects = $clientHintsDataObjects;
+	public function __construct(
+		private array $referenceIdsToClientHintsDataIndex,
+		private readonly array $clientHintsDataObjects,
+	) {
 	}
 
 	/**

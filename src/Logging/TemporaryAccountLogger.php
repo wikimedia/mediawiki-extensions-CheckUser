@@ -69,13 +69,6 @@ class TemporaryAccountLogger {
 	 */
 	public const LOG_TYPE = 'checkuser-temporary-account';
 
-	private ActorStore $actorStore;
-	private LoggerInterface $logger;
-	private IConnectionProvider $dbProvider;
-	private TitleFactory $titleFactory;
-
-	private int $delay;
-
 	/**
 	 * @param ActorStore $actorStore
 	 * @param LoggerInterface $logger
@@ -86,19 +79,13 @@ class TemporaryAccountLogger {
 	 * @throws ParameterAssertionException
 	 */
 	public function __construct(
-		ActorStore $actorStore,
-		LoggerInterface $logger,
-		IConnectionProvider $dbProvider,
-		TitleFactory $titleFactory,
-		int $delay
+		private readonly ActorStore $actorStore,
+		private readonly LoggerInterface $logger,
+		private readonly IConnectionProvider $dbProvider,
+		private readonly TitleFactory $titleFactory,
+		private readonly int $delay,
 	) {
 		Assert::parameter( $delay > 0, 'delay', 'delay must be positive' );
-
-		$this->actorStore = $actorStore;
-		$this->logger = $logger;
-		$this->dbProvider = $dbProvider;
-		$this->titleFactory = $titleFactory;
-		$this->delay = $delay;
 	}
 
 	/**

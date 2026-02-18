@@ -12,18 +12,11 @@ use MediaWiki\User\UserOptionsLookup;
 
 class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserLinkPostRenderHook {
 
-	private UserOptionsLookup $userOptionsLookup;
-	private UserNameUtils $userNameUtils;
-	private Config $config;
-
 	public function __construct(
-		UserOptionsLookup $userOptionsLookup,
-		UserNameUtils $userNameUtils,
-		Config $config
+		private readonly UserOptionsLookup $userOptionsLookup,
+		private readonly UserNameUtils $userNameUtils,
+		private readonly Config $config,
 	) {
-		$this->userOptionsLookup = $userOptionsLookup;
-		$this->userNameUtils = $userNameUtils;
-		$this->config = $config;
 	}
 
 	public function onUserLinkRendererUserLinkPostRender(

@@ -19,16 +19,6 @@ use Wikimedia\Rdbms\IResultWrapper;
 
 class CheckUserLogPager extends RangeChronologicalPager {
 
-	/** @var array The options provided to the CheckUserLog form. May be empty. */
-	private array $opts;
-
-	private LinkBatchFactory $linkBatchFactory;
-	private CommentFormatter $commentFormatter;
-	private CheckUserLogService $checkUserLogService;
-	private CommentStore $commentStore;
-	private UserFactory $userFactory;
-	private ActorStore $actorStore;
-
 	/**
 	 * @param IContextSource $context
 	 * @param array $opts A array of keys that can include 'target', 'initiator', 'start', 'end'
@@ -44,22 +34,15 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 */
 	public function __construct(
 		IContextSource $context,
-		array $opts,
-		LinkBatchFactory $linkBatchFactory,
-		CommentStore $commentStore,
-		CommentFormatter $commentFormatter,
-		CheckUserLogService $checkUserLogService,
-		UserFactory $userFactory,
-		ActorStore $actorStore
+		private readonly array $opts,
+		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly CommentStore $commentStore,
+		private readonly CommentFormatter $commentFormatter,
+		private readonly CheckUserLogService $checkUserLogService,
+		private readonly UserFactory $userFactory,
+		private readonly ActorStore $actorStore,
 	) {
 		parent::__construct( $context );
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->commentStore = $commentStore;
-		$this->commentFormatter = $commentFormatter;
-		$this->checkUserLogService = $checkUserLogService;
-		$this->userFactory = $userFactory;
-		$this->actorStore = $actorStore;
-		$this->opts = $opts;
 
 		// Date filtering: use timestamp if available - From SpecialContributions.php
 		$startTimestamp = '';

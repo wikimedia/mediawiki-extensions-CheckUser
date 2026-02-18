@@ -30,9 +30,7 @@ use Wikimedia\Rdbms\IConnectionProvider;
 class SpecialIPContributions extends ContributionsSpecialPage {
 	private const BASE_HELP_URL = 'https://www.mediawiki.org/wiki/Special:MyLanguage/Help:';
 
-	private IPContributionsPagerFactory $pagerFactory;
 	private ?IPContributionsPager $pager = null;
-	private CheckUserPermissionManager $checkUserPermissionManager;
 
 	public function __construct(
 		PermissionManager $permissionManager,
@@ -45,8 +43,8 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
 		UserGroupAssignmentService $userGroupAssignmentService,
-		IPContributionsPagerFactory $pagerFactory,
-		CheckUserPermissionManager $checkUserPermissionManager
+		private readonly IPContributionsPagerFactory $pagerFactory,
+		private readonly CheckUserPermissionManager $checkUserPermissionManager,
 	) {
 		parent::__construct(
 			$permissionManager,
@@ -61,8 +59,6 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 			$userGroupAssignmentService,
 			'IPContributions'
 		);
-		$this->pagerFactory = $pagerFactory;
-		$this->checkUserPermissionManager = $checkUserPermissionManager;
 	}
 
 	/**

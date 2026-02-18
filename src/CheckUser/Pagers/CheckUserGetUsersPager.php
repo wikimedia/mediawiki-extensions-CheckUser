@@ -72,13 +72,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	private ClientHintsLookupResults $clientHintsLookupResults;
 
-	private PermissionManager $permissionManager;
-	private UserEditTracker $userEditTracker;
-	private CheckUserUtilityService $checkUserUtilityService;
-	private UserAgentClientHintsLookup $clientHintsLookup;
-	private UserAgentClientHintsFormatter $clientHintsFormatter;
 	private ExtensionRegistry $extensionRegistry;
-	private LinkBatchFactory $linkBatchFactory;
 
 	public function __construct(
 		FormOptions $opts,
@@ -86,7 +80,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		bool $xfor,
 		string $logType,
 		TokenQueryManager $tokenQueryManager,
-		PermissionManager $permissionManager,
+		private readonly PermissionManager $permissionManager,
 		UserGroupManager $userGroupManager,
 		CentralIdLookup $centralIdLookup,
 		IConnectionProvider $dbProvider,
@@ -95,17 +89,17 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		UserFactory $userFactory,
 		CheckUserLogService $checkUserLogService,
 		CheckUserLookupUtils $checkUserLookupUtils,
-		UserEditTracker $userEditTracker,
-		CheckUserUtilityService $checkUserUtilityService,
-		UserAgentClientHintsLookup $clientHintsLookup,
-		UserAgentClientHintsFormatter $clientHintsFormatter,
+		private readonly UserEditTracker $userEditTracker,
+		private readonly CheckUserUtilityService $checkUserUtilityService,
+		private readonly UserAgentClientHintsLookup $clientHintsLookup,
+		private readonly UserAgentClientHintsFormatter $clientHintsFormatter,
 		UserOptionsLookup $userOptionsLookup,
 		DatabaseBlockStore $blockStore,
-		LinkBatchFactory $linkBatchFactory,
+		private readonly LinkBatchFactory $linkBatchFactory,
 		TempUserConfig $tempUserConfig,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
-		?int $limit = null
+		?int $limit = null,
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
@@ -120,13 +114,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$this->globalBlockingToollink = ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' )
 			? $this->getConfig()->get( 'CheckUserGBtoollink' ) : false;
 		$this->aliases = $this->getLanguage()->getSpecialPageAliases();
-		$this->permissionManager = $permissionManager;
-		$this->userEditTracker = $userEditTracker;
-		$this->checkUserUtilityService = $checkUserUtilityService;
-		$this->clientHintsLookup = $clientHintsLookup;
-		$this->clientHintsFormatter = $clientHintsFormatter;
 		$this->extensionRegistry = ExtensionRegistry::getInstance();
-		$this->linkBatchFactory = $linkBatchFactory;
 	}
 
 	/**

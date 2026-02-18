@@ -11,27 +11,14 @@ use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\UserFactory;
 
 class PreliminaryCheckPagerFactory implements PagerFactory {
-	private LinkRenderer $linkRenderer;
-	private NamespaceInfo $namespaceInfo;
-	private ExtensionRegistry $extensionRegistry;
-	private TokenQueryManager $tokenQueryManager;
-	private PreliminaryCheckService $preliminaryCheck;
-	private UserFactory $userFactory;
-
 	public function __construct(
-		LinkRenderer $linkRenderer,
-		NamespaceInfo $namespaceInfo,
-		ExtensionRegistry $extensionRegistry,
-		TokenQueryManager $tokenQueryManager,
-		PreliminaryCheckService $preliminaryCheck,
-		UserFactory $userFactory
+		private readonly LinkRenderer $linkRenderer,
+		private readonly NamespaceInfo $namespaceInfo,
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly TokenQueryManager $tokenQueryManager,
+		private readonly PreliminaryCheckService $preliminaryCheck,
+		private readonly UserFactory $userFactory,
 	) {
-		$this->linkRenderer = $linkRenderer;
-		$this->namespaceInfo = $namespaceInfo;
-		$this->extensionRegistry = $extensionRegistry;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->preliminaryCheck = $preliminaryCheck;
-		$this->userFactory = $userFactory;
 	}
 
 	/**

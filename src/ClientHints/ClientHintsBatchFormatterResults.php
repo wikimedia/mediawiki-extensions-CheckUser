@@ -10,21 +10,16 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
  * which contains reference IDs to formatted strings of Client Hints data.
  */
 class ClientHintsBatchFormatterResults {
-	/** @var int[][] */
-	private array $referenceIdsToFormattedClientHintsIndex;
-
-	/** @var string[] */
-	private array $formattedClientHints;
-
 	/**
 	 * @param int[][] $referenceIdsToFormattedClientHintsIndex A map of reference type and reference ID values
 	 *   to integer keys in $formattedClientHints array.
 	 * @param string[] $formattedClientHints An array of strings where the keys are integers that are the
 	 *   second-dimension value in the first parameter.
 	 */
-	public function __construct( array $referenceIdsToFormattedClientHintsIndex, array $formattedClientHints ) {
-		$this->referenceIdsToFormattedClientHintsIndex = $referenceIdsToFormattedClientHintsIndex;
-		$this->formattedClientHints = $formattedClientHints;
+	public function __construct(
+		private array $referenceIdsToFormattedClientHintsIndex,
+		private readonly array $formattedClientHints,
+	) {
 	}
 
 	/**

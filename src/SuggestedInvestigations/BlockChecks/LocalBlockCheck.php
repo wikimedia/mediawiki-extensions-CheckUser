@@ -9,7 +9,7 @@ use MediaWiki\Block\DatabaseBlockStore;
 class LocalBlockCheck implements IndefiniteBlockCheckInterface, BlockCheckInterface {
 
 	public function __construct(
-		private readonly DatabaseBlockStore $blockStore
+		private readonly DatabaseBlockStore $blockStore,
 	) {
 	}
 

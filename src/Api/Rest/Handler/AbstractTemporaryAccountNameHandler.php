@@ -23,9 +23,6 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 
 	use TemporaryAccountNameTrait;
 
-	protected CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
-	protected TemporaryAccountLoggerFactory $loggerFactory;
-
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
@@ -35,9 +32,9 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		CheckUserPermissionManager $checkUserPermissionsManager,
-		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
-		TemporaryAccountLoggerFactory $loggerFactory,
-		ReadOnlyMode $readOnlyMode
+		protected readonly CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
+		protected readonly TemporaryAccountLoggerFactory $loggerFactory,
+		ReadOnlyMode $readOnlyMode,
 	) {
 		parent::__construct(
 			$config,
@@ -50,8 +47,6 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 			$checkUserPermissionsManager,
 			$readOnlyMode
 		);
-		$this->autoRevealLookup = $autoRevealLookup;
-		$this->loggerFactory = $loggerFactory;
 	}
 
 	/**

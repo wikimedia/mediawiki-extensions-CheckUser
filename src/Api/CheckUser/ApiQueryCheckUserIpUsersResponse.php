@@ -18,25 +18,20 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse {
 
-	private UserFactory $userFactory;
-	private MessageLocalizer $messageLocalizer;
-
 	public function __construct(
 		ApiQueryCheckUser $module,
 		IConnectionProvider $dbProvider,
 		Config $config,
-		MessageLocalizer $messageLocalizer,
+		private readonly MessageLocalizer $messageLocalizer,
 		CheckUserLogService $checkUserLogService,
 		UserNameUtils $userNameUtils,
 		CheckUserLookupUtils $checkUserLookupUtils,
-		UserFactory $userFactory
+		private readonly UserFactory $userFactory,
 	) {
 		parent::__construct(
 			$module, $dbProvider, $config, $messageLocalizer, $checkUserLogService,
 			$userNameUtils, $checkUserLookupUtils
 		);
-		$this->userFactory = $userFactory;
-		$this->messageLocalizer = $messageLocalizer;
 	}
 
 	/** @inheritDoc */

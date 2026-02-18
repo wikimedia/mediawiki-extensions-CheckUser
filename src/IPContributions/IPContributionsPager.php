@@ -21,10 +21,6 @@ use MediaWiki\User\UserIdentity;
 use Wikimedia\Rdbms\IExpression;
 
 class IPContributionsPager extends ContributionsPager {
-	private TempUserConfig $tempUserConfig;
-	private CheckUserLookupUtils $checkUserLookupUtils;
-	private JobQueueGroup $jobQueueGroup;
-
 	/**
 	 * @param LinkRenderer $linkRenderer
 	 * @param LinkBatchFactory $linkBatchFactory
@@ -48,12 +44,12 @@ class IPContributionsPager extends ContributionsPager {
 		NamespaceInfo $namespaceInfo,
 		CommentFormatter $commentFormatter,
 		UserFactory $userFactory,
-		TempUserConfig $tempUserConfig,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		JobQueueGroup $jobQueueGroup,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly CheckUserLookupUtils $checkUserLookupUtils,
+		private readonly JobQueueGroup $jobQueueGroup,
 		IContextSource $context,
 		array $options,
-		?UserIdentity $target = null
+		?UserIdentity $target = null,
 	) {
 		parent::__construct(
 			$linkRenderer,
@@ -67,10 +63,6 @@ class IPContributionsPager extends ContributionsPager {
 			$options,
 			$target
 		);
-		$this->tempUserConfig = $tempUserConfig;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		$this->jobQueueGroup = $jobQueueGroup;
-
 		if ( $this->isArchive ) {
 			$this->revisionIdField = 'ar_rev_id';
 			$this->revisionParentIdField = 'ar_parent_id';

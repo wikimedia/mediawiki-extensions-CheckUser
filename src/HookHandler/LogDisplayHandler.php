@@ -13,18 +13,11 @@ use MediaWiki\User\UserNameUtils;
 
 class LogDisplayHandler implements LogEventsListLineEndingHook, ChangesListInsertLogEntryHook {
 
-	private UserNameUtils $userNameUtils;
-	private Config $config;
-	private CheckUserPermissionManager $checkUserPermissionManager;
-
 	public function __construct(
-		UserNameUtils $userNameUtils,
-		Config $config,
-		CheckUserPermissionManager $checkUserPermissionManager
+		private readonly UserNameUtils $userNameUtils,
+		private readonly Config $config,
+		private readonly CheckUserPermissionManager $checkUserPermissionManager,
 	) {
-		$this->userNameUtils = $userNameUtils;
-		$this->config = $config;
-		$this->checkUserPermissionManager = $checkUserPermissionManager;
 	}
 
 	/** @inheritDoc */

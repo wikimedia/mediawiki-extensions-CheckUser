@@ -16,10 +16,9 @@ class CheckUserCentralIndexLookup implements CheckUserQueryInterface {
 	 */
 	private const MAX_ACTIVE_BATCH_SIZE = 1000;
 
-	private IConnectionProvider $dbProvider;
-
-	public function __construct( IConnectionProvider $dbProvider ) {
-		$this->dbProvider = $dbProvider;
+	public function __construct(
+		private readonly IConnectionProvider $dbProvider,
+	) {
 	}
 
 	/**

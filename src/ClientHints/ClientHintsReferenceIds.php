@@ -14,8 +14,6 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
  * list.
  */
 class ClientHintsReferenceIds {
-	private array $referenceIds;
-
 	/**
 	 * Get a new ClientHintsReferenceIds object,
 	 * optionally setting the internal reference IDs array.
@@ -23,8 +21,9 @@ class ClientHintsReferenceIds {
 	 * @param array $referenceIds If provided, set the internal referenceIds array to
 	 *   this value. By default this is the empty array.
 	 */
-	public function __construct( array $referenceIds = [] ) {
-		$this->referenceIds = $referenceIds;
+	public function __construct(
+		private array $referenceIds = [],
+	) {
 	}
 
 	/**

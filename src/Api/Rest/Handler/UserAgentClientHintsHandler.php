@@ -32,24 +32,13 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 class UserAgentClientHintsHandler extends SimpleHandler {
 	use TokenAwareHandlerTrait;
 
-	private Config $config;
-	private RevisionStore $revisionStore;
-	private UserAgentClientHintsManager $userAgentClientHintsManager;
-	private IConnectionProvider $dbProvider;
-	private ActorStore $actorStore;
-
 	public function __construct(
-		Config $config,
-		RevisionStore $revisionStore,
-		UserAgentClientHintsManager $userAgentClientHintsManager,
-		IConnectionProvider $dbProvider,
-		ActorStore $actorStore
+		private readonly Config $config,
+		private readonly RevisionStore $revisionStore,
+		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
+		private readonly IConnectionProvider $dbProvider,
+		private readonly ActorStore $actorStore,
 	) {
-		$this->config = $config;
-		$this->revisionStore = $revisionStore;
-		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
-		$this->dbProvider = $dbProvider;
-		$this->actorStore = $actorStore;
 	}
 
 	/**

@@ -18,18 +18,11 @@ class AbuseFilterHandler implements
 	AbuseFilterCanViewProtectedVariablesHook
 	{
 
-	private TemporaryAccountLoggerFactory $loggerFactory;
-	private CheckUserPermissionManager $checkUserPermissionManager;
-	private TempUserConfig $tempUserConfig;
-
 	public function __construct(
-		TemporaryAccountLoggerFactory $loggerFactory,
-		CheckUserPermissionManager $checkUserPermissionManager,
-		TempUserConfig $tempUserConfig
+		private readonly TemporaryAccountLoggerFactory $loggerFactory,
+		private readonly CheckUserPermissionManager $checkUserPermissionManager,
+		private readonly TempUserConfig $tempUserConfig,
 	) {
-		$this->loggerFactory = $loggerFactory;
-		$this->checkUserPermissionManager = $checkUserPermissionManager;
-		$this->tempUserConfig = $tempUserConfig;
 	}
 
 	/**

@@ -47,7 +47,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		TempUserConfig $tempUserConfig,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
-		?int $limit = null
+		?int $limit = null,
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager, $userGroupManager, $centralIdLookup,
 			$dbProvider, $specialPageFactory, $userIdentityLookup, $checkUserLogService, $userFactory,

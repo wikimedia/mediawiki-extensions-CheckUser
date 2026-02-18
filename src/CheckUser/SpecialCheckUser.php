@@ -60,80 +60,36 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected $opts;
 
-	private LinkBatchFactory $linkBatchFactory;
-	private UserGroupManager $userGroupManager;
-	private CentralIdLookup $centralIdLookup;
-	private PermissionManager $permissionManager;
-	private UserIdentityLookup $userIdentityLookup;
-	private TokenQueryManager $tokenQueryManager;
-	private IConnectionProvider $dbProvider;
-	private UserFactory $userFactory;
-	private CheckUserLogService $checkUserLogService;
-	private CommentFormatter $commentFormatter;
-	private UserEditTracker $userEditTracker;
-	private UserNamePrefixSearch $userNamePrefixSearch;
-	private UserNameUtils $userNameUtils;
-	private HookRunner $hookRunner;
-	private CheckUserUtilityService $checkUserUtilityService;
-	private CommentStore $commentStore;
-	private UserAgentClientHintsLookup $clientHintsLookup;
-	private UserAgentClientHintsFormatter $clientHintsFormatter;
-	private CheckUserLookupUtils $checkUserLookupUtils;
-	private LogFormatterFactory $logFormatterFactory;
-	private UserOptionsLookup $userOptionsLookup;
-	private DatabaseBlockStore $blockStore;
-	private TempUserConfig $tempUserConfig;
+	private readonly CentralIdLookup $centralIdLookup;
 
 	public function __construct(
-		LinkBatchFactory $linkBatchFactory,
-		UserGroupManager $userGroupManager,
+		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly UserGroupManager $userGroupManager,
 		CentralIdLookupFactory $centralIdLookupFactory,
-		PermissionManager $permissionManager,
-		UserIdentityLookup $userIdentityLookup,
-		TokenQueryManager $tokenQueryManager,
-		IConnectionProvider $dbProvider,
-		UserFactory $userFactory,
-		CheckUserLogService $checkUserLogService,
-		CommentFormatter $commentFormatter,
-		UserEditTracker $userEditTracker,
-		UserNamePrefixSearch $userNamePrefixSearch,
-		UserNameUtils $userNameUtils,
-		HookRunner $hookRunner,
-		CheckUserUtilityService $checkUserUtilityService,
-		CommentStore $commentStore,
-		UserAgentClientHintsLookup $clientHintsLookup,
-		UserAgentClientHintsFormatter $clientHintsFormatter,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		LogFormatterFactory $logFormatterFactory,
-		UserOptionsLookup $userOptionsLookup,
-		DatabaseBlockStore $blockStore,
-		TempUserConfig $tempUserConfig
+		private readonly PermissionManager $permissionManager,
+		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly TokenQueryManager $tokenQueryManager,
+		private readonly IConnectionProvider $dbProvider,
+		private readonly UserFactory $userFactory,
+		private readonly CheckUserLogService $checkUserLogService,
+		private readonly CommentFormatter $commentFormatter,
+		private readonly UserEditTracker $userEditTracker,
+		private readonly UserNamePrefixSearch $userNamePrefixSearch,
+		private readonly UserNameUtils $userNameUtils,
+		private readonly HookRunner $hookRunner,
+		private readonly CheckUserUtilityService $checkUserUtilityService,
+		private readonly CommentStore $commentStore,
+		private readonly UserAgentClientHintsLookup $clientHintsLookup,
+		private readonly UserAgentClientHintsFormatter $clientHintsFormatter,
+		private readonly CheckUserLookupUtils $checkUserLookupUtils,
+		private readonly LogFormatterFactory $logFormatterFactory,
+		private readonly UserOptionsLookup $userOptionsLookup,
+		private readonly DatabaseBlockStore $blockStore,
+		private readonly TempUserConfig $tempUserConfig,
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->userGroupManager = $userGroupManager;
 		$this->centralIdLookup = $centralIdLookupFactory->getLookup();
-		$this->permissionManager = $permissionManager;
-		$this->userIdentityLookup = $userIdentityLookup;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->dbProvider = $dbProvider;
-		$this->userFactory = $userFactory;
-		$this->checkUserLogService = $checkUserLogService;
-		$this->commentFormatter = $commentFormatter;
-		$this->userEditTracker = $userEditTracker;
-		$this->userNamePrefixSearch = $userNamePrefixSearch;
-		$this->userNameUtils = $userNameUtils;
-		$this->hookRunner = $hookRunner;
-		$this->checkUserUtilityService = $checkUserUtilityService;
-		$this->commentStore = $commentStore;
-		$this->clientHintsLookup = $clientHintsLookup;
-		$this->clientHintsFormatter = $clientHintsFormatter;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		$this->logFormatterFactory = $logFormatterFactory;
-		$this->userOptionsLookup = $userOptionsLookup;
-		$this->blockStore = $blockStore;
-		$this->tempUserConfig = $tempUserConfig;
 	}
 
 	/** @inheritDoc */

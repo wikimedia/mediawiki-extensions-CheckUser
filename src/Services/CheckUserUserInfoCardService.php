@@ -70,7 +70,7 @@ class CheckUserUserInfoCardService {
 		private readonly GenderCache $genderCache,
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly ServiceOptions $options,
-		private readonly CentralIdLookup $centralIdLookup
+		private readonly CentralIdLookup $centralIdLookup,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}

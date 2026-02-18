@@ -14,21 +14,12 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
 
 abstract class ChangeService implements CheckUserQueryInterface {
 
-	protected IConnectionProvider $dbProvider;
-	protected CheckUserLookupUtils $checkUserLookupUtils;
-	protected TempUserConfig $tempUserConfig;
-	private UserIdentityLookup $userIdentityLookup;
-
 	public function __construct(
-		IConnectionProvider $dbProvider,
-		UserIdentityLookup $userIdentityLookup,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		TempUserConfig $tempUserConfig
+		protected readonly IConnectionProvider $dbProvider,
+		private readonly UserIdentityLookup $userIdentityLookup,
+		protected readonly CheckUserLookupUtils $checkUserLookupUtils,
+		protected readonly TempUserConfig $tempUserConfig,
 	) {
-		$this->dbProvider = $dbProvider;
-		$this->userIdentityLookup = $userIdentityLookup;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		$this->tempUserConfig = $tempUserConfig;
 	}
 
 	/**

@@ -73,16 +73,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 */
 	protected ClientHintsBatchFormatterResults $formattedClientHintsData;
 
-	private LoggerInterface $logger;
-	private LinkBatchFactory $linkBatchFactory;
-	private CommentFormatter $commentFormatter;
-	private UserEditTracker $userEditTracker;
-	private HookRunner $hookRunner;
-	private CheckUserUtilityService $checkUserUtilityService;
-	private CommentStore $commentStore;
-	private UserAgentClientHintsLookup $clientHintsLookup;
-	private UserAgentClientHintsFormatter $clientHintsFormatter;
-	private LogFormatterFactory $logFormatterFactory;
+	private readonly LoggerInterface $logger;
 
 	public function __construct(
 		FormOptions $opts,
@@ -92,27 +83,27 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		TokenQueryManager $tokenQueryManager,
 		UserGroupManager $userGroupManager,
 		CentralIdLookup $centralIdLookup,
-		LinkBatchFactory $linkBatchFactory,
+		private readonly LinkBatchFactory $linkBatchFactory,
 		IConnectionProvider $dbProvider,
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
 		UserFactory $userFactory,
 		CheckUserLookupUtils $checkUserLookupUtils,
 		CheckUserLogService $checkUserLogService,
-		CommentFormatter $commentFormatter,
-		UserEditTracker $userEditTracker,
-		HookRunner $hookRunner,
-		CheckUserUtilityService $checkUserUtilityService,
-		CommentStore $commentStore,
-		UserAgentClientHintsLookup $clientHintsLookup,
-		UserAgentClientHintsFormatter $clientHintsFormatter,
-		LogFormatterFactory $logFormatterFactory,
+		private readonly CommentFormatter $commentFormatter,
+		private readonly UserEditTracker $userEditTracker,
+		private readonly HookRunner $hookRunner,
+		private readonly CheckUserUtilityService $checkUserUtilityService,
+		private readonly CommentStore $commentStore,
+		private readonly UserAgentClientHintsLookup $clientHintsLookup,
+		private readonly UserAgentClientHintsFormatter $clientHintsFormatter,
+		private readonly LogFormatterFactory $logFormatterFactory,
 		UserOptionsLookup $userOptionsLookup,
 		DatabaseBlockStore $blockStore,
 		TempUserConfig $tempUserConfig,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
-		?int $limit = null
+		?int $limit = null,
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
@@ -121,15 +112,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->commentFormatter = $commentFormatter;
-		$this->userEditTracker = $userEditTracker;
-		$this->hookRunner = $hookRunner;
-		$this->checkUserUtilityService = $checkUserUtilityService;
-		$this->commentStore = $commentStore;
-		$this->clientHintsLookup = $clientHintsLookup;
-		$this->clientHintsFormatter = $clientHintsFormatter;
-		$this->logFormatterFactory = $logFormatterFactory;
 		$this->preCacheMessages();
 		$this->mGroupByDate = true;
 	}

@@ -33,18 +33,13 @@ class UserAgentClientHintsFormatter {
 		"woW64" => "checkuser-clienthints-name-wow64",
 	];
 
-	private MessageLocalizer $messageLocalizer;
-	private ServiceOptions $options;
-
 	private array $msgCache;
 
 	public function __construct(
-		MessageLocalizer $messageLocalizer,
-		ServiceOptions $options
+		private readonly MessageLocalizer $messageLocalizer,
+		private readonly ServiceOptions $options,
 	) {
-		$this->messageLocalizer = $messageLocalizer;
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
-		$this->options = $options;
 		$this->generateMsgCache();
 	}
 

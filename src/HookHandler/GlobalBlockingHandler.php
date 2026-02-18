@@ -15,18 +15,11 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class GlobalBlockingHandler implements GlobalBlockingGetRetroactiveAutoblockIPsHook, CheckUserQueryInterface {
 
-	private IConnectionProvider $dbProvider;
-	private CentralIdLookup $centralIdLookup;
-	private ActorStoreFactory $actorStoreFactory;
-
 	public function __construct(
-		IConnectionProvider $dbProvider,
-		CentralIdLookup $centralIdLookup,
-		ActorStoreFactory $actorStoreFactory
+		private readonly IConnectionProvider $dbProvider,
+		private readonly CentralIdLookup $centralIdLookup,
+		private readonly ActorStoreFactory $actorStoreFactory,
 	) {
-		$this->dbProvider = $dbProvider;
-		$this->centralIdLookup = $centralIdLookup;
-		$this->actorStoreFactory = $actorStoreFactory;
 	}
 
 	/** @inheritDoc */

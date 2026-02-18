@@ -37,10 +37,6 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 
 	private const BASE_HELP_URL = 'https://www.mediawiki.org/wiki/Special:MyLanguage/Help:';
 
-	private CentralIdLookup $centralIdLookup;
-	private GlobalContributionsPagerFactory $pagerFactory;
-	private StatsFactory $statsFactory;
-
 	private ?GlobalContributionsPager $pager = null;
 
 	public function __construct(
@@ -54,9 +50,9 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
 		UserGroupAssignmentService $userGroupAssignmentService,
-		CentralIdLookup $centralIdLookup,
-		GlobalContributionsPagerFactory $pagerFactory,
-		StatsFactory $statsFactory
+		private readonly CentralIdLookup $centralIdLookup,
+		private readonly GlobalContributionsPagerFactory $pagerFactory,
+		private readonly StatsFactory $statsFactory,
 	) {
 		parent::__construct(
 			$permissionManager,
@@ -71,9 +67,6 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			$userGroupAssignmentService,
 			'GlobalContributions'
 		);
-		$this->centralIdLookup = $centralIdLookup;
-		$this->pagerFactory = $pagerFactory;
-		$this->statsFactory = $statsFactory;
 	}
 
 	/**

@@ -28,7 +28,7 @@ class SuggestedInvestigationsCase {
 	public function __construct(
 		private readonly int $id,
 		private readonly CaseStatus $status,
-		private readonly string $reason = ''
+		private readonly string $reason = '',
 	) {
 	}
 

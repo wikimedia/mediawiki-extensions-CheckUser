@@ -93,7 +93,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		private readonly ChangeTagsStoreFactory $changeTagsStoreFactory,
 		IContextSource $context,
 		array $options,
-		?UserIdentity $target = null
+		?UserIdentity $target = null,
 	) {
 		$options['runHooks'] = false;
 

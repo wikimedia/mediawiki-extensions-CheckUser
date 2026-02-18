@@ -11,7 +11,7 @@ class CentralAuthLockCheck implements IndefiniteBlockCheckInterface, BlockCheckI
 
 	public function __construct(
 		private readonly GlobalUserSelectQueryBuilderFactory $globalUserSelectQueryBuilderFactory,
-		private readonly UserIdentityLookup $userIdentityLookup
+		private readonly UserIdentityLookup $userIdentityLookup,
 	) {
 	}
 

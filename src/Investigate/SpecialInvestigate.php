@@ -43,21 +43,6 @@ use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class SpecialInvestigate extends FormSpecialPage {
-	private Language $contentLanguage;
-	private UserOptionsManager $userOptionsManager;
-	private PagerFactory $preliminaryCheckPagerFactory;
-	private PagerFactory $comparePagerFactory;
-	private TimelinePagerFactory $timelinePagerFactory;
-	private TokenQueryManager $tokenQueryManager;
-	private DurationManager $durationManager;
-	private EventLogger $eventLogger;
-	private CheckUserSubtitleLinksHook $subtitleLinksHookRunner;
-	private PermissionManager $permissionManager;
-	private CheckUserLogService $checkUserLogService;
-	private UserIdentityLookup $userIdentityLookup;
-	private UserFactory $userFactory;
-	private UrlUtils $urlUtils;
-
 	/** @var IndexLayout|null */
 	private $layout;
 
@@ -75,37 +60,23 @@ class SpecialInvestigate extends FormSpecialPage {
 
 	public function __construct(
 		LinkRenderer $linkRenderer,
-		Language $contentLanguage,
-		UserOptionsManager $userOptionsManager,
-		PagerFactory $preliminaryCheckPagerFactory,
-		PagerFactory $comparePagerFactory,
-		TimelinePagerFactory $timelinePagerFactory,
-		TokenQueryManager $tokenQueryManager,
-		DurationManager $durationManager,
-		EventLogger $eventLogger,
-		CheckUserSubtitleLinksHook $subtitleLinksHookRunner,
-		PermissionManager $permissionManager,
-		CheckUserLogService $checkUserLogService,
-		UserIdentityLookup $userIdentityLookup,
-		UserFactory $userFactory,
-		UrlUtils $urlUtils
+		private readonly Language $contentLanguage,
+		private readonly UserOptionsManager $userOptionsManager,
+		private readonly PagerFactory $preliminaryCheckPagerFactory,
+		private readonly PagerFactory $comparePagerFactory,
+		private readonly TimelinePagerFactory $timelinePagerFactory,
+		private readonly TokenQueryManager $tokenQueryManager,
+		private readonly DurationManager $durationManager,
+		private readonly EventLogger $eventLogger,
+		private readonly CheckUserSubtitleLinksHook $subtitleLinksHookRunner,
+		private readonly PermissionManager $permissionManager,
+		private readonly CheckUserLogService $checkUserLogService,
+		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly UserFactory $userFactory,
+		private readonly UrlUtils $urlUtils,
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->setLinkRenderer( $linkRenderer );
-		$this->contentLanguage = $contentLanguage;
-		$this->userOptionsManager = $userOptionsManager;
-		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
-		$this->comparePagerFactory = $comparePagerFactory;
-		$this->timelinePagerFactory = $timelinePagerFactory;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->durationManager = $durationManager;
-		$this->eventLogger = $eventLogger;
-		$this->subtitleLinksHookRunner = $subtitleLinksHookRunner;
-		$this->permissionManager = $permissionManager;
-		$this->checkUserLogService = $checkUserLogService;
-		$this->userIdentityLookup = $userIdentityLookup;
-		$this->userFactory = $userFactory;
-		$this->urlUtils = $urlUtils;
 	}
 
 	/**

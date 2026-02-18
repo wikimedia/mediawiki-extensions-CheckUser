@@ -23,25 +23,17 @@ class CheckUserLookupUtils {
 
 	public const CONSTRUCTOR_OPTIONS = [ 'CheckUserCIDRLimit' ];
 
-	private ServiceOptions $options;
-	private IReadableDatabase $dbr;
-	private RevisionLookup $revisionLookup;
-	private ArchivedRevisionLookup $archivedRevisionLookup;
-	private LoggerInterface $logger;
+	private readonly IReadableDatabase $dbr;
 
 	public function __construct(
-		ServiceOptions $options,
+		private readonly ServiceOptions $options,
 		IConnectionProvider $dbProvider,
-		RevisionLookup $revisionLookup,
-		ArchivedRevisionLookup $archivedRevisionLookup,
-		LoggerInterface $logger
+		private readonly RevisionLookup $revisionLookup,
+		private readonly ArchivedRevisionLookup $archivedRevisionLookup,
+		private LoggerInterface $logger,
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
-		$this->options = $options;
 		$this->dbr = $dbProvider->getReplicaDatabase();
-		$this->revisionLookup = $revisionLookup;
-		$this->archivedRevisionLookup = $archivedRevisionLookup;
-		$this->logger = $logger;
 	}
 
 	/**

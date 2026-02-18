@@ -19,33 +19,16 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityUtils;
 
 class PageDisplay implements BeforePageDisplayHook {
-	private Config $config;
-	private CheckUserPermissionManager $checkUserPermissionManager;
-	private CheckUserIPRevealManager $checkUserIPRevealManager;
-	private UserOptionsLookup $userOptionsLookup;
-	private TempUserConfig $tempUserConfig;
-	private ExtensionRegistry $extensionRegistry;
-	private UserIdentityUtils $userIdentityUtils;
-	private PreferencesFactory $preferencesFactory;
-
 	public function __construct(
-		Config $config,
-		CheckUserPermissionManager $checkUserPermissionManager,
-		CheckUserIPRevealManager $checkUserIPRevealManager,
-		TempUserConfig $tempUserConfig,
-		UserOptionsLookup $userOptionsLookup,
-		ExtensionRegistry $extensionRegistry,
-		UserIdentityUtils $userIdentityUtils,
-		PreferencesFactory $preferencesFactory
+		private readonly Config $config,
+		private readonly CheckUserPermissionManager $checkUserPermissionManager,
+		private readonly CheckUserIPRevealManager $checkUserIPRevealManager,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly UserOptionsLookup $userOptionsLookup,
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly UserIdentityUtils $userIdentityUtils,
+		private readonly PreferencesFactory $preferencesFactory,
 	) {
-		$this->config = $config;
-		$this->checkUserPermissionManager = $checkUserPermissionManager;
-		$this->checkUserIPRevealManager = $checkUserIPRevealManager;
-		$this->tempUserConfig = $tempUserConfig;
-		$this->userOptionsLookup = $userOptionsLookup;
-		$this->extensionRegistry = $extensionRegistry;
-		$this->userIdentityUtils = $userIdentityUtils;
-		$this->preferencesFactory = $preferencesFactory;
 	}
 
 	/**

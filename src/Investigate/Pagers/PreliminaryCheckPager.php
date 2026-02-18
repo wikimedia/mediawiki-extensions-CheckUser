@@ -42,12 +42,6 @@ use Wikimedia\Rdbms\IReadableDatabase;
  * @ingroup Pager
  */
 class PreliminaryCheckPager extends TablePager {
-	private NamespaceInfo $namespaceInfo;
-	private ExtensionRegistry $extensionRegistry;
-	private TokenQueryManager $tokenQueryManager;
-	private PreliminaryCheckService $preliminaryCheckService;
-	private UserFactory $userFactory;
-
 	/** @var array Data loaded from the token provided in the request. */
 	protected $tokenData;
 
@@ -57,24 +51,18 @@ class PreliminaryCheckPager extends TablePager {
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
-		NamespaceInfo $namespaceInfo,
-		TokenQueryManager $tokenQueryManager,
-		ExtensionRegistry $extensionRegistry,
-		PreliminaryCheckService $preliminaryCheckService,
-		UserFactory $userFactory
+		private readonly NamespaceInfo $namespaceInfo,
+		private readonly TokenQueryManager $tokenQueryManager,
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly PreliminaryCheckService $preliminaryCheckService,
+		private readonly UserFactory $userFactory,
 	) {
-		// This must be done before getIndexField is called by the TablePager constructor
-		$this->extensionRegistry = $extensionRegistry;
 		if ( $this->isGlobalCheck() ) {
 			// @phan-suppress-next-line PhanPossiblyNullTypeMismatchProperty
 			$this->mDb = $this->getCentralReplicaDB();
 		}
 
 		parent::__construct( $context, $linkRenderer );
-		$this->namespaceInfo = $namespaceInfo;
-		$this->preliminaryCheckService = $preliminaryCheckService;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->userFactory = $userFactory;
 
 		$this->tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
 		$this->mOffset = $this->tokenData['offset'] ?? '';

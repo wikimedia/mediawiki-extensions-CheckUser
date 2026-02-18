@@ -127,7 +127,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	];
 
 	/** Database with the users and cu_log table */
-	private IReadableDatabase $localDb;
+	private readonly IReadableDatabase $localDb;
 
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
@@ -141,7 +141,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly CompositeBlockChecker $compositeBlockChecker,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
-		array $signals
+		array $signals,
 	) {
 		// If we didn't set mDb here, the parent constructor would set it to the database replica
 		// for the default database domain

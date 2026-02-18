@@ -29,7 +29,7 @@ class SuggestedInvestigationsRevisionsPager extends ContributionsPager {
 		IContextSource $context,
 		private readonly array $revisionIds,
 		array $options,
-		?UserIdentity $target
+		?UserIdentity $target,
 	) {
 		parent::__construct(
 			$linkRenderer,

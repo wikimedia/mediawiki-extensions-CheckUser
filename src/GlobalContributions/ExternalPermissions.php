@@ -30,7 +30,7 @@ class ExternalPermissions {
 
 	public function __construct(
 		private readonly array $permissions = [],
-		private readonly bool $encounteredLookupError = false
+		private readonly bool $encounteredLookupError = false,
 	) {
 	}
 

@@ -13,28 +13,16 @@ use MediaWiki\User\UserIdentity;
 use MessageLocalizer;
 
 class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
-	private TokenQueryManager $tokenQueryManager;
-	private UserIdentity $target;
-	private WebRequest $request;
-	private CsrfTokenSet $csrfTokenSet;
-
-	/** @var FormOptions The submitted form data in a helper class. */
-	private FormOptions $opts;
 
 	public function __construct(
 		MessageLocalizer $messageLocalizer,
-		TokenQueryManager $tokenQueryManager,
-		CsrfTokenSet $csrfTokenSet,
-		WebRequest $request,
-		FormOptions $opts,
-		UserIdentity $target
+		private readonly TokenQueryManager $tokenQueryManager,
+		private readonly CsrfTokenSet $csrfTokenSet,
+		private readonly WebRequest $request,
+		private readonly FormOptions $opts,
+		private readonly UserIdentity $target,
 	) {
 		parent::__construct( $messageLocalizer );
-		$this->opts = $opts;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->target = $target;
-		$this->request = $request;
-		$this->csrfTokenSet = $csrfTokenSet;
 	}
 
 	/** @inheritDoc */

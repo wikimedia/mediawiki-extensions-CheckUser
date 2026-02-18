@@ -20,12 +20,13 @@ class UpdateUserCentralIndexJob extends Job implements CheckUserQueryInterface {
 	 */
 	public const TYPE = 'checkuserUpdateUserCentralIndexJob';
 
-	private IConnectionProvider $dbProvider;
-
 	/** @inheritDoc */
-	public function __construct( ?Title $title, array $params, IConnectionProvider $dbProvider ) {
+	public function __construct(
+		?Title $title,
+		array $params,
+		private readonly IConnectionProvider $dbProvider,
+	) {
 		parent::__construct( self::TYPE, $params );
-		$this->dbProvider = $dbProvider;
 	}
 
 	/** @return bool */

@@ -10,18 +10,11 @@ use Wikimedia\Rdbms\IConnectionProvider;
 
 class RecentChangeSaveHandler implements RecentChange_saveHook {
 
-	private CheckUserInsert $checkUserInsert;
-	private JobQueueGroup $jobQueueGroup;
-	private IConnectionProvider $dbProvider;
-
 	public function __construct(
-		CheckUserInsert $checkUserInsert,
-		JobQueueGroup $jobQueueGroup,
-		IConnectionProvider $dbProvider
+		private readonly CheckUserInsert $checkUserInsert,
+		private readonly JobQueueGroup $jobQueueGroup,
+		private readonly IConnectionProvider $dbProvider,
 	) {
-		$this->checkUserInsert = $checkUserInsert;
-		$this->jobQueueGroup = $jobQueueGroup;
-		$this->dbProvider = $dbProvider;
 	}
 
 	/**

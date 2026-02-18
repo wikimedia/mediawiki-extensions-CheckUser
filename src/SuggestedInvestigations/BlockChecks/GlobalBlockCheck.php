@@ -15,7 +15,7 @@ class GlobalBlockCheck implements IndefiniteBlockCheckInterface, BlockCheckInter
 		private readonly GlobalBlockLookup $globalBlockLookup,
 		private readonly CentralIdLookup $centralIdLookup,
 		private readonly UserIdentityLookup $userIdentityLookup,
-		private readonly bool $applyGlobalBlocksEnabled
+		private readonly bool $applyGlobalBlocksEnabled,
 	) {
 	}
 

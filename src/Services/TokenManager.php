@@ -17,20 +17,14 @@ class TokenManager {
 	/** @var string|null */
 	private $cipherMethod;
 
-	private string $secret;
-
-	/**
-	 * @param string $secret
-	 */
 	public function __construct(
-		string $secret
+		private readonly string $secret,
 	) {
 		if ( $secret === '' ) {
 			throw new ConfigException(
 				'CheckUser Token Manager requires $wgSecretKey to be set.'
 			);
 		}
-		$this->secret = $secret;
 	}
 
 	/**

@@ -27,44 +27,20 @@ use MediaWiki\User\UserRigorOptions;
 use Wikimedia\IPUtils;
 
 class TimelineRowFormatter {
-	private LinkRenderer $linkRenderer;
-	private CheckUserLookupUtils $checkUserLookupUtils;
-	private TitleFormatter $titleFormatter;
-	private SpecialPageFactory $specialPageFactory;
-	private UserFactory $userFactory;
-	private CommentFormatter $commentFormatter;
-	private CommentStore $commentStore;
-	private LogFormatterFactory $logFormatterFactory;
-
 	private array $message = [];
 
-	private Language $language;
-
-	private User $user;
-
 	public function __construct(
-		LinkRenderer $linkRenderer,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		TitleFormatter $titleFormatter,
-		SpecialPageFactory $specialPageFactory,
-		CommentFormatter $commentFormatter,
-		UserFactory $userFactory,
-		CommentStore $commentStore,
-		LogFormatterFactory $logFormatterFactory,
-		User $user,
-		Language $language
+		private readonly LinkRenderer $linkRenderer,
+		private readonly CheckUserLookupUtils $checkUserLookupUtils,
+		private readonly TitleFormatter $titleFormatter,
+		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly CommentFormatter $commentFormatter,
+		private readonly UserFactory $userFactory,
+		private readonly CommentStore $commentStore,
+		private readonly LogFormatterFactory $logFormatterFactory,
+		private readonly User $user,
+		private readonly Language $language,
 	) {
-		$this->linkRenderer = $linkRenderer;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		$this->titleFormatter = $titleFormatter;
-		$this->specialPageFactory = $specialPageFactory;
-		$this->commentFormatter = $commentFormatter;
-		$this->userFactory = $userFactory;
-		$this->commentStore = $commentStore;
-		$this->logFormatterFactory = $logFormatterFactory;
-		$this->user = $user;
-		$this->language = $language;
-
 		$this->preCacheMessages();
 	}
 

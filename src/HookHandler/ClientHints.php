@@ -16,12 +16,10 @@ use Wikimedia\ParamValidator\ParamValidator;
  */
 class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook, APIGetAllowedParamsHook {
 
-	private Config $config;
-	private SpecialPageFactory $specialPageFactory;
-
-	public function __construct( Config $config, SpecialPageFactory $specialPageFactory ) {
-		$this->config = $config;
-		$this->specialPageFactory = $specialPageFactory;
+	public function __construct(
+		private readonly Config $config,
+		private readonly SpecialPageFactory $specialPageFactory,
+	) {
 	}
 
 	/** @inheritDoc */

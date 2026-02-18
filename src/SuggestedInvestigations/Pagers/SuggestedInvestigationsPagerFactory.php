@@ -41,7 +41,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly CompositeBlockChecker $compositeBlockChecker,
-		private readonly ?CentralAuthEditCounter $centralAuthEditCounter
+		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 	) {
 	}
 

@@ -57,9 +57,6 @@ class CheckUserInsert {
 	];
 
 	private readonly HookRunner $hookRunner;
-	private readonly UserAgentClientHintsManager $userAgentClientHintsManager;
-	private readonly JobQueueGroup $jobQueueGroup;
-	private readonly LoggerInterface $logger;
 
 	/**
 	 * The maximum number of bytes that fit in CheckUser's text fields,
@@ -77,17 +74,14 @@ class CheckUserInsert {
 		private readonly Language $contentLanguage,
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly CheckUserCentralIndexManager $checkUserCentralIndexManager,
-		UserAgentClientHintsManager $userAgentClientHintsManager,
-		JobQueueGroup $jobQueueGroup,
+		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
+		private readonly JobQueueGroup $jobQueueGroup,
 		private readonly RecentChangeLookup $recentChangeLookup,
 		private readonly SuggestedInvestigationsSignalMatchService $suggestedInvestigationsSignalMatchService,
-		LoggerInterface $logger
+		private readonly LoggerInterface $logger,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->hookRunner = new HookRunner( $hookContainer );
-		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
-		$this->jobQueueGroup = $jobQueueGroup;
-		$this->logger = $logger;
 	}
 
 	/**

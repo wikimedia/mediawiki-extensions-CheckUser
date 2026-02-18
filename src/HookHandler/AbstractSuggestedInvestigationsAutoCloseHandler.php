@@ -17,7 +17,7 @@ abstract class AbstractSuggestedInvestigationsAutoCloseHandler {
 	public function __construct(
 		protected readonly SuggestedInvestigationsCaseLookupService $caseLookupService,
 		protected readonly JobQueueGroup $jobQueueGroup,
-		protected readonly LoggerInterface $logger
+		protected readonly LoggerInterface $logger,
 	) {
 	}
 

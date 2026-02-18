@@ -18,12 +18,6 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
 class TimelinePager extends ReverseChronologicalPager {
-	private CheckUserFormatRowHook $formatRowHookRunner;
-	private TimelineService $timelineService;
-	private TimelineRowFormatter $timelineRowFormatter;
-	private TokenQueryManager $tokenQueryManager;
-	private LinkBatchFactory $linkBatchFactory;
-
 	/** @var string */
 	private $start;
 
@@ -54,26 +48,18 @@ class TimelinePager extends ReverseChronologicalPager {
 	 */
 	private $filteredTargets;
 
-	private LoggerInterface $logger;
-
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
-		CheckUserFormatRowHook $formatRowHookRunner,
-		TokenQueryManager $tokenQueryManager,
+		private readonly CheckUserFormatRowHook $formatRowHookRunner,
+		private readonly TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
-		TimelineService $timelineService,
-		TimelineRowFormatter $timelineRowFormatter,
-		LinkBatchFactory $linkBatchFactory,
-		LoggerInterface $logger
+		private TimelineService $timelineService,
+		private TimelineRowFormatter $timelineRowFormatter,
+		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct( $context, $linkRenderer );
-		$this->formatRowHookRunner = $formatRowHookRunner;
-		$this->timelineService = $timelineService;
-		$this->timelineRowFormatter = $timelineRowFormatter;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->logger = $logger;
 
 		$tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
 		$this->mOffset = $tokenData['offset'] ?? '';

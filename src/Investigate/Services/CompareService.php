@@ -22,7 +22,7 @@ class CompareService extends ChangeService {
 		'CheckUserInvestigateMaximumRowCount',
 	];
 
-	private int $limit;
+	private readonly int $limit;
 
 	public function __construct(
 		ServiceOptions $options,

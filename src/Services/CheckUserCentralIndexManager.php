@@ -32,33 +32,16 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		'CheckUserCuciUserRandomChanceDebounceCutoff',
 	];
 
-	private ServiceOptions $options;
-	private ILBFactory $lbFactory;
-	private CentralIdLookup $centralIdLookup;
-	private UserGroupManager $userGroupManager;
-	private JobQueueGroup $jobQueueGroup;
-	private TempUserConfig $tempUserConfig;
-	private UserFactory $userFactory;
-	private LoggerInterface $logger;
-
 	public function __construct(
-		ServiceOptions $options,
-		ILBFactory $lbFactory,
-		CentralIdLookup $centralIdLookup,
-		UserGroupManager $userGroupManager,
-		JobQueueGroup $jobQueueGroup,
-		TempUserConfig $tempUserConfig,
-		UserFactory $userFactory,
-		LoggerInterface $logger
+		private readonly ServiceOptions $options,
+		private readonly ILBFactory $lbFactory,
+		private readonly CentralIdLookup $centralIdLookup,
+		private readonly UserGroupManager $userGroupManager,
+		private readonly JobQueueGroup $jobQueueGroup,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly UserFactory $userFactory,
+		private readonly LoggerInterface $logger,
 	) {
-		$this->options = $options;
-		$this->lbFactory = $lbFactory;
-		$this->centralIdLookup = $centralIdLookup;
-		$this->userGroupManager = $userGroupManager;
-		$this->jobQueueGroup = $jobQueueGroup;
-		$this->tempUserConfig = $tempUserConfig;
-		$this->userFactory = $userFactory;
-		$this->logger = $logger;
 	}
 
 	/**

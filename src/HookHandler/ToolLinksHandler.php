@@ -28,36 +28,17 @@ class ToolLinksHandler implements
 	UserToolLinksEditHook
 {
 
-	private CheckUserPermissionManager $cuPermissionManager;
-	private PermissionManager $permissionManager;
-	private SpecialPageFactory $specialPageFactory;
-	private LinkRenderer $linkRenderer;
-	private UserIdentityLookup $userIdentityLookup;
-	private UserIdentityUtils $userIdentityUtils;
-	private UserOptionsLookup $userOptionsLookup;
-	private TempUserConfig $tempUserConfig;
-	private ?MobileContext $mobileContext;
-
 	public function __construct(
-		CheckUserPermissionManager $cuPermissionManager,
-		PermissionManager $permissionManager,
-		SpecialPageFactory $specialPageFactory,
-		LinkRenderer $linkRenderer,
-		UserIdentityLookup $userIdentityLookup,
-		UserIdentityUtils $userIdentityUtils,
-		UserOptionsLookup $userOptionsLookup,
-		TempUserConfig $tempUserConfig,
-		?MobileContext $mobileContext,
+		private readonly CheckUserPermissionManager $cuPermissionManager,
+		private readonly PermissionManager $permissionManager,
+		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly LinkRenderer $linkRenderer,
+		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly UserIdentityUtils $userIdentityUtils,
+		private readonly UserOptionsLookup $userOptionsLookup,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly ?MobileContext $mobileContext,
 	) {
-		$this->cuPermissionManager = $cuPermissionManager;
-		$this->permissionManager = $permissionManager;
-		$this->specialPageFactory = $specialPageFactory;
-		$this->linkRenderer = $linkRenderer;
-		$this->userIdentityLookup = $userIdentityLookup;
-		$this->userIdentityUtils = $userIdentityUtils;
-		$this->userOptionsLookup = $userOptionsLookup;
-		$this->tempUserConfig = $tempUserConfig;
-		$this->mobileContext = $mobileContext;
 	}
 
 	/**

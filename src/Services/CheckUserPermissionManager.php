@@ -15,24 +15,12 @@ use Wikimedia\IPUtils;
  * Perform CheckUser-related permission checks.
  */
 class CheckUserPermissionManager {
-	private UserOptionsLookup $userOptionsLookup;
-
-	private SpecialPageFactory $specialPageFactory;
-
-	private CentralIdLookup $centralIdLookup;
-
-	private UserFactory $userFactory;
-
 	public function __construct(
-		UserOptionsLookup $userOptionsLookup,
-		SpecialPageFactory $specialPageFactory,
-		CentralIdLookup $centralIdLookup,
-		UserFactory $userFactory
+		private readonly UserOptionsLookup $userOptionsLookup,
+		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly CentralIdLookup $centralIdLookup,
+		private readonly UserFactory $userFactory,
 	) {
-		$this->userOptionsLookup = $userOptionsLookup;
-		$this->specialPageFactory = $specialPageFactory;
-		$this->centralIdLookup = $centralIdLookup;
-		$this->userFactory = $userFactory;
 	}
 
 	/**

@@ -38,11 +38,6 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
 class ComparePager extends TablePager {
-	private CompareService $compareService;
-	private TokenQueryManager $tokenQueryManager;
-	private UserFactory $userFactory;
-	private LinkBatchFactory $linkBatchFactory;
-
 	/** @var array */
 	private $fieldNames;
 
@@ -67,7 +62,7 @@ class ComparePager extends TablePager {
 	/**
 	 * If set, makes the pager to not show temporary accounts in the results.
 	 */
-	private bool $excludeTempAccounts;
+	private readonly bool $excludeTempAccounts;
 
 	/**
 	 * Targets that have been added to the investigation but that are not
@@ -84,17 +79,13 @@ class ComparePager extends TablePager {
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
-		TokenQueryManager $tokenQueryManager,
+		private readonly TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
-		CompareService $compareService,
-		UserFactory $userFactory,
-		LinkBatchFactory $linkBatchFactory
+		private readonly CompareService $compareService,
+		private readonly UserFactory $userFactory,
+		private readonly LinkBatchFactory $linkBatchFactory,
 	) {
 		parent::__construct( $context, $linkRenderer );
-		$this->compareService = $compareService;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->userFactory = $userFactory;
-		$this->linkBatchFactory = $linkBatchFactory;
 
 		$tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
 		$this->mOffset = $tokenData['offset'] ?? '';

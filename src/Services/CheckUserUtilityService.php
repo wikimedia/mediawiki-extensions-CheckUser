@@ -8,17 +8,10 @@ use Wikimedia\IPUtils;
 
 class CheckUserUtilityService {
 
-	private ProxyLookup $proxyLookup;
-
-	private bool $usePrivateIPs;
-
-	/**
-	 * @param ProxyLookup $proxyLookup
-	 * @param bool $usePrivateIPs
-	 */
-	public function __construct( ProxyLookup $proxyLookup, bool $usePrivateIPs ) {
-		$this->proxyLookup = $proxyLookup;
-		$this->usePrivateIPs = $usePrivateIPs;
+	public function __construct(
+		private readonly ProxyLookup $proxyLookup,
+		private readonly bool $usePrivateIPs,
+	) {
 	}
 
 	/**

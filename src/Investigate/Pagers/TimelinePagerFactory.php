@@ -12,33 +12,16 @@ use MediaWiki\Page\LinkBatchFactory;
 use Psr\Log\LoggerInterface;
 
 class TimelinePagerFactory implements PagerFactory {
-	private LinkRenderer $linkRenderer;
-	private CheckUserFormatRowHook $formatRowHookRunner;
-	private TokenQueryManager $tokenQueryManager;
-	private DurationManager $durationManager;
-	private TimelineService $service;
-	private TimelineRowFormatterFactory $rowFormatterFactory;
-	private LinkBatchFactory $linkBatchFactory;
-	private LoggerInterface $logger;
-
 	public function __construct(
-		LinkRenderer $linkRenderer,
-		CheckUserFormatRowHook $formatRowHookRunner,
-		TokenQueryManager $tokenQueryManager,
-		DurationManager $durationManager,
-		TimelineService $service,
-		TimelineRowFormatterFactory $rowFormatterFactory,
-		LinkBatchFactory $linkBatchFactory,
-		LoggerInterface $logger
+		private readonly LinkRenderer $linkRenderer,
+		private readonly CheckUserFormatRowHook $formatRowHookRunner,
+		private readonly TokenQueryManager $tokenQueryManager,
+		private readonly DurationManager $durationManager,
+		private readonly TimelineService $service,
+		private readonly TimelineRowFormatterFactory $rowFormatterFactory,
+		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly LoggerInterface $logger,
 	) {
-		$this->linkRenderer = $linkRenderer;
-		$this->formatRowHookRunner = $formatRowHookRunner;
-		$this->tokenQueryManager = $tokenQueryManager;
-		$this->durationManager = $durationManager;
-		$this->service = $service;
-		$this->rowFormatterFactory = $rowFormatterFactory;
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->logger = $logger;
 	}
 
 	/**

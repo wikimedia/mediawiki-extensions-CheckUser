@@ -25,33 +25,19 @@ use OOUI\Widget;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigateBlock extends FormSpecialPage {
-	private BlockUserFactory $blockUserFactory;
-	private BlockPermissionCheckerFactory $blockPermissionCheckerFactory;
-	private PermissionManager $permissionManager;
-	private TitleFormatter $titleFormatter;
-	private UserFactory $userFactory;
-	private EventLogger $eventLogger;
-
 	private array $blockedUsers = [];
 
 	private bool $noticesFailed = false;
 
 	public function __construct(
-		BlockUserFactory $blockUserFactory,
-		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
-		PermissionManager $permissionManager,
-		TitleFormatter $titleFormatter,
-		UserFactory $userFactory,
-		EventLogger $eventLogger
+		private readonly BlockUserFactory $blockUserFactory,
+		private readonly BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
+		private readonly PermissionManager $permissionManager,
+		private readonly TitleFormatter $titleFormatter,
+		private readonly UserFactory $userFactory,
+		private readonly EventLogger $eventLogger,
 	) {
 		parent::__construct( 'InvestigateBlock', 'checkuser' );
-
-		$this->blockUserFactory = $blockUserFactory;
-		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
-		$this->permissionManager = $permissionManager;
-		$this->titleFormatter = $titleFormatter;
-		$this->userFactory = $userFactory;
-		$this->eventLogger = $eventLogger;
 	}
 
 	/**

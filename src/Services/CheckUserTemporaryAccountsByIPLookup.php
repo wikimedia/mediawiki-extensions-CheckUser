@@ -31,37 +31,19 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserMaximumRowCount',
 	];
-	private JobQueueGroup $jobQueueGroup;
-	private IConnectionProvider $connectionProvider;
-	private ServiceOptions $serviceOptions;
-	private TempUserConfig $tempUserConfig;
-	private UserFactory $userFactory;
-	private UserOptionsLookup $userOptionsLookup;
-	private PermissionManager $permissionManager;
-	private CheckUserPermissionManager $checkUserPermissionManager;
-	private CheckUserLookupUtils $checkUserLookupUtils;
 
 	public function __construct(
-		ServiceOptions $serviceOptions,
-		IConnectionProvider $connectionProvider,
-		JobQueueGroup $jobQueueGroup,
-		TempUserConfig $tempUserConfig,
-		UserFactory $userFactory,
-		PermissionManager $permissionManager,
-		CheckUserPermissionManager $checkUserPermissionManager,
-		UserOptionsLookup $userOptionsLookup,
-		CheckUserLookupUtils $checkUserLookupUtils
+		private readonly ServiceOptions $serviceOptions,
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly JobQueueGroup $jobQueueGroup,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly UserFactory $userFactory,
+		private readonly PermissionManager $permissionManager,
+		private readonly CheckUserPermissionManager $checkUserPermissionManager,
+		private readonly UserOptionsLookup $userOptionsLookup,
+		private readonly CheckUserLookupUtils $checkUserLookupUtils,
 	) {
 		$serviceOptions->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
-		$this->serviceOptions = $serviceOptions;
-		$this->connectionProvider = $connectionProvider;
-		$this->jobQueueGroup = $jobQueueGroup;
-		$this->tempUserConfig = $tempUserConfig;
-		$this->userFactory = $userFactory;
-		$this->userOptionsLookup = $userOptionsLookup;
-		$this->permissionManager = $permissionManager;
-		$this->checkUserPermissionManager = $checkUserPermissionManager;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
 	}
 
 	/**

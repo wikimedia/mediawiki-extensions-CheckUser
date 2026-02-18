@@ -19,12 +19,12 @@ class StoreClientHintsDataJob extends Job {
 	 */
 	public const TYPE = 'checkuserStoreClientHintsDataJob';
 
-	private UserAgentClientHintsManager $userAgentClientHintsManager;
-
 	/** @inheritDoc */
-	public function __construct( array $params, UserAgentClientHintsManager $userAgentClientHintsManager ) {
+	public function __construct(
+		array $params,
+		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
+	) {
 		parent::__construct( self::TYPE, $params );
-		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
 	}
 
 	/**

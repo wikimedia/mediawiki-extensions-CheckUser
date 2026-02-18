@@ -52,24 +52,18 @@ class UserAgentClientHintsManager {
 		self::IDENTIFIER_CU_LOG_EVENT => 'cule_log_id',
 		self::IDENTIFIER_CU_PRIVATE_EVENT => 'cupe_id',
 	];
-	private IDatabase $dbw;
-	private IReadableDatabase $dbr;
-	private RevisionLookup $revisionLookup;
-	private ServiceOptions $options;
-	private LoggerInterface $logger;
+	private readonly IDatabase $dbw;
+	private readonly IReadableDatabase $dbr;
 
 	public function __construct(
 		IConnectionProvider $connectionProvider,
-		RevisionLookup $revisionLookup,
-		ServiceOptions $options,
-		LoggerInterface $logger
+		private readonly RevisionLookup $revisionLookup,
+		private readonly ServiceOptions $options,
+		private readonly LoggerInterface $logger,
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
-		$this->options = $options;
 		$this->dbw = $connectionProvider->getPrimaryDatabase();
 		$this->dbr = $connectionProvider->getReplicaDatabase();
-		$this->revisionLookup = $revisionLookup;
-		$this->logger = $logger;
 	}
 
 	/**

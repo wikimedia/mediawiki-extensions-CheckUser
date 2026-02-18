@@ -23,18 +23,11 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	private const GLOBAL_CONTRIBUTIONS_KEY = 'global-contributions';
 	private const IP_AUTO_REVEAL_KEY = 'checkuser-ip-auto-reveal';
 
-	private Config $config;
-	private CheckUserPermissionManager $permissionManager;
-	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
-
 	public function __construct(
-		Config $config,
-		CheckUserPermissionManager $checkUserPermissionManager,
-		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup
+		private readonly Config $config,
+		private readonly CheckUserPermissionManager $permissionManager,
+		private readonly CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
 	) {
-		$this->config = $config;
-		$this->permissionManager = $checkUserPermissionManager;
-		$this->autoRevealLookup = $autoRevealLookup;
 	}
 
 	/** @inheritDoc */

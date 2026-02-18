@@ -17,19 +17,15 @@ class CheckUserExpiredIdsLookupService {
 		'CUDMaxAge',
 	];
 
-	private IConnectionProvider $connectionProvider;
-	private ExtensionRegistry $extensionRegistry;
-	private int $maxDataAgeSeconds;
+	private readonly int $maxDataAgeSeconds;
 
 	public function __construct(
 		ServiceOptions $options,
-		IConnectionProvider $connectionProvider,
-		ExtensionRegistry $extensionRegistry
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly ExtensionRegistry $extensionRegistry,
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 
-		$this->connectionProvider = $connectionProvider;
-		$this->extensionRegistry = $extensionRegistry;
 		$this->maxDataAgeSeconds = $options->get( 'CUDMaxAge' );
 	}
 

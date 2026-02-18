@@ -11,7 +11,7 @@ class SuggestedInvestigationsPagerNavigationBuilder extends CodexPagerNavigation
 	public function __construct(
 		private readonly IContextSource $context,
 		array $queryValues,
-		private readonly int $numberOfFiltersApplied
+		private readonly int $numberOfFiltersApplied,
 	) {
 		parent::__construct( $this->context, $queryValues );
 	}

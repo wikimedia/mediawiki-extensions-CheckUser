@@ -8,12 +8,9 @@ use MediaWiki\IPInfo\Hook\IPInfoIPInfoHandlerHook;
 use MediaWiki\Permissions\Authority;
 
 class IPInfoHandler implements IPInfoIPInfoHandlerHook {
-	private CheckUserGlobalContributionsLookup $globalContributionsLookup;
-
 	public function __construct(
-		CheckUserGlobalContributionsLookup $globalContributionsLookup
+		private readonly CheckUserGlobalContributionsLookup $globalContributionsLookup,
 	) {
-		$this->globalContributionsLookup = $globalContributionsLookup;
 	}
 
 	/**

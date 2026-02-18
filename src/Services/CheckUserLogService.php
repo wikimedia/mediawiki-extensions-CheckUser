@@ -35,7 +35,7 @@ class CheckUserLogService {
 		private readonly LoggerInterface $logger,
 		private readonly ActorStore $actorStore,
 		private readonly UserIdentityLookup $userIdentityLookup,
-		private readonly ServiceOptions $options
+		private readonly ServiceOptions $options,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}

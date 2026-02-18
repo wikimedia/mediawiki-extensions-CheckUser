@@ -46,38 +46,22 @@ class CheckUserPrivateEventsHandler implements
 
 	use UserAgentClientHintsManagerHelperTrait;
 
-	private readonly CheckUserInsert $checkUserInsert;
-	private readonly Config $config;
-	private readonly UserIdentityLookup $userIdentityLookup;
-	private readonly UserFactory $userFactory;
-	private readonly ReadOnlyMode $readOnlyMode;
-	private readonly UserAgentClientHintsManager $userAgentClientHintsManager;
-	private readonly JobQueueGroup $jobQueueGroup;
-	private readonly IConnectionProvider $dbProvider;
 	private readonly LoggerInterface $logger;
 
 	/** @var string Used for tests. Falls back to MW_ENTRY_POINT */
 	private string $mediawikiEntryPoint;
 
 	public function __construct(
-		CheckUserInsert $checkUserInsert,
-		Config $config,
-		UserIdentityLookup $userIdentityLookup,
-		UserFactory $userFactory,
-		ReadOnlyMode $readOnlyMode,
-		UserAgentClientHintsManager $userAgentClientHintsManager,
-		JobQueueGroup $jobQueueGroup,
-		IConnectionProvider $dbProvider,
-		?string $mediawikiEntryPoint = null
+		private readonly CheckUserInsert $checkUserInsert,
+		private readonly Config $config,
+		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly UserFactory $userFactory,
+		private readonly ReadOnlyMode $readOnlyMode,
+		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
+		private readonly JobQueueGroup $jobQueueGroup,
+		private readonly IConnectionProvider $dbProvider,
+		?string $mediawikiEntryPoint = null,
 	) {
-		$this->checkUserInsert = $checkUserInsert;
-		$this->config = $config;
-		$this->userIdentityLookup = $userIdentityLookup;
-		$this->userFactory = $userFactory;
-		$this->readOnlyMode = $readOnlyMode;
-		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
-		$this->jobQueueGroup = $jobQueueGroup;
-		$this->dbProvider = $dbProvider;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->mediawikiEntryPoint = $mediawikiEntryPoint ?? MW_ENTRY_POINT;
 	}

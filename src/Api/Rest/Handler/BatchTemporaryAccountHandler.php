@@ -30,10 +30,6 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	use TemporaryAccountRevisionTrait;
 	use TemporaryAccountLogTrait;
 
-	private RevisionStore $revisionStore;
-	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
-	private TemporaryAccountLoggerFactory $loggerFactory;
-
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
@@ -42,13 +38,13 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
 		BlockManager $blockManager,
-		RevisionStore $revisionStore,
+		private readonly RevisionStore $revisionStore,
 		CheckUserPermissionManager $checkUserPermissionsManager,
-		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
-		TemporaryAccountLoggerFactory $loggerFactory,
+		private readonly CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
+		private readonly TemporaryAccountLoggerFactory $loggerFactory,
 		ReadOnlyMode $readOnlyMode,
 		private readonly ExtensionRegistry $extensionRegistry,
-		private readonly CheckUserExpiredIdsLookupService $expiredIdsLookupService
+		private readonly CheckUserExpiredIdsLookupService $expiredIdsLookupService,
 	) {
 		parent::__construct(
 			$config,
@@ -61,9 +57,6 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 			$checkUserPermissionsManager,
 			$readOnlyMode
 		);
-		$this->revisionStore = $revisionStore;
-		$this->autoRevealLookup = $autoRevealLookup;
-		$this->loggerFactory = $loggerFactory;
 	}
 
 	/**

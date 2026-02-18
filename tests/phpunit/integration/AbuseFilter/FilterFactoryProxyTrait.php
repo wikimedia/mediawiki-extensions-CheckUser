@@ -27,10 +27,9 @@ trait FilterFactoryProxyTrait {
 		return new class( $this->getDb() ) {
 			use FilterFromSpecsTestTrait;
 
-			private IDatabase $dbw;
-
-			public function __construct( IDatabase $dbw ) {
-				$this->dbw = $dbw;
+			public function __construct(
+				private readonly IDatabase $dbw,
+			) {
 			}
 
 			public function getFilter( array $specs ): Filter {

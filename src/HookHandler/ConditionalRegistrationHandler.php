@@ -19,18 +19,11 @@ use MediaWiki\WikiMap\WikiMap;
  */
 class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQuery__moduleManagerHook {
 
-	private Config $config;
-	private TempUserConfig $tempUserConfig;
-	private ExtensionRegistry $extensionRegistry;
-
 	public function __construct(
-		Config $config,
-		TempUserConfig $tempUserConfig,
-		ExtensionRegistry $extensionRegistry
+		private readonly Config $config,
+		private readonly TempUserConfig $tempUserConfig,
+		private readonly ExtensionRegistry $extensionRegistry,
 	) {
-		$this->config = $config;
-		$this->tempUserConfig = $tempUserConfig;
-		$this->extensionRegistry = $extensionRegistry;
 	}
 
 	/** @inheritDoc */

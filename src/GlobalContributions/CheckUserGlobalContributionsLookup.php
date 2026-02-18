@@ -26,16 +26,6 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 
 	use ContributionsRangeTrait;
 
-	private IConnectionProvider $dbProvider;
-	private ExtensionRegistry $extensionRegistry;
-	private CentralIdLookup $centralIdLookup;
-	private CheckUserLookupUtils $checkUserLookupUtils;
-	private Config $config;
-	private RevisionStore $revisionStore;
-	private CheckUserApiRequestAggregator $apiRequestAggregator;
-	private WANObjectCache $wanCache;
-	private StatsFactory $statsFactory;
-
 	/**
 	 * Prometheus counter metric name for API lookup errors.
 	 */
@@ -52,25 +42,16 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	public const EXTERNAL_PERMISSIONS_CACHE_MISS_METRIC_NAME = 'checkuser_external_permissions_cache_miss';
 
 	public function __construct(
-		IConnectionProvider $dbProvider,
-		ExtensionRegistry $extensionRegistry,
-		CentralIdLookup $centralIdLookup,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		Config $config,
-		RevisionStore $revisionStore,
-		CheckUserApiRequestAggregator $apiRequestAggregator,
-		WANObjectCache $wanCache,
-		StatsFactory $statsFactory
+		private readonly IConnectionProvider $dbProvider,
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly CentralIdLookup $centralIdLookup,
+		private readonly CheckUserLookupUtils $checkUserLookupUtils,
+		private readonly Config $config,
+		private readonly RevisionStore $revisionStore,
+		private readonly CheckUserApiRequestAggregator $apiRequestAggregator,
+		private readonly WANObjectCache $wanCache,
+		private readonly StatsFactory $statsFactory,
 	) {
-		$this->dbProvider = $dbProvider;
-		$this->extensionRegistry = $extensionRegistry;
-		$this->centralIdLookup = $centralIdLookup;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		$this->config = $config;
-		$this->revisionStore = $revisionStore;
-		$this->apiRequestAggregator = $apiRequestAggregator;
-		$this->wanCache = $wanCache;
-		$this->statsFactory = $statsFactory;
 	}
 
 	/**

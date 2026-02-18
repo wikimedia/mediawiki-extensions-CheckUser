@@ -14,18 +14,13 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
  * API query module for global contributions.
  */
 class ApiQueryGlobalContributions extends ApiQueryBase {
-	private GlobalContributionsPagerFactory $pagerFactory;
-	private UserNameUtils $userNameUtils;
-
 	public function __construct(
 		ApiQuery $query,
 		string $moduleName,
-		GlobalContributionsPagerFactory $pagerFactory,
-		UserNameUtils $userNameUtils
+		private readonly GlobalContributionsPagerFactory $pagerFactory,
+		private readonly UserNameUtils $userNameUtils,
 	) {
 		parent::__construct( $query, $moduleName, 'guc' );
-		$this->pagerFactory = $pagerFactory;
-		$this->userNameUtils = $userNameUtils;
 	}
 
 	public function execute() {

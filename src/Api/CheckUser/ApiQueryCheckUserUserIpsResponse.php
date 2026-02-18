@@ -17,18 +17,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class ApiQueryCheckUserUserIpsResponse extends ApiQueryCheckUserAbstractResponse {
 
-	private UserIdentityLookup $userIdentityLookup;
-
 	/**
-	 * @param ApiQueryCheckUser $module
-	 * @param IConnectionProvider $dbProvider
-	 * @param Config $config
-	 * @param MessageLocalizer $messageLocalizer
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param UserNameUtils $userNameUtils
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param UserIdentityLookup $userIdentityLookup
-	 *
 	 * @internal Use CheckUserApiResponseFactory::newFromRequest() instead
 	 */
 	public function __construct(
@@ -39,13 +28,12 @@ class ApiQueryCheckUserUserIpsResponse extends ApiQueryCheckUserAbstractResponse
 		CheckUserLogService $checkUserLogService,
 		UserNameUtils $userNameUtils,
 		CheckUserLookupUtils $checkUserLookupUtils,
-		UserIdentityLookup $userIdentityLookup
+		private readonly UserIdentityLookup $userIdentityLookup,
 	) {
 		parent::__construct(
 			$module, $dbProvider, $config, $messageLocalizer,
 			$checkUserLogService, $userNameUtils, $checkUserLookupUtils
 		);
-		$this->userIdentityLookup = $userIdentityLookup;
 	}
 
 	/** @inheritDoc */

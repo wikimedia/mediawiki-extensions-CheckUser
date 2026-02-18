@@ -23,7 +23,7 @@ class SuggestedInvestigationsAutoCloseOnGlobalLockHandler
 		JobQueueGroup $jobQueueGroup,
 		LoggerInterface $logger,
 		private readonly UserIdentityLookup $userIdentityLookup,
-		private readonly SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher $crossWikiJobDispatcher
+		private readonly SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher $crossWikiJobDispatcher,
 	) {
 		parent::__construct( $caseLookupService, $jobQueueGroup, $logger );
 	}

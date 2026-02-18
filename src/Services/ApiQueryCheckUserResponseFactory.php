@@ -20,45 +20,20 @@ use Wikimedia\Rdbms\IConnectionProvider;
 
 class ApiQueryCheckUserResponseFactory {
 
-	private IConnectionProvider $dbProvider;
-	private Config $config;
-	private MessageLocalizer $messageLocalizer;
-	private CheckUserLogService $checkUserLogService;
-	private UserNameUtils $userNameUtils;
-	private CheckUserLookupUtils $checkUserLookupUtils;
-	private UserIdentityLookup $userIdentityLookup;
-	private CommentStore $commentStore;
-	private RevisionStore $revisionStore;
-	private ArchivedRevisionLookup $archivedRevisionLookup;
-	private UserFactory $userFactory;
-	private LogFormatterFactory $logFormatterFactory;
-
 	public function __construct(
-		IConnectionProvider $dbProvider,
-		Config $config,
-		MessageLocalizer $messageLocalizer,
-		CheckUserLogService $checkUserLogService,
-		UserNameUtils $userNameUtils,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		UserIdentityLookup $userIdentityLookup,
-		CommentStore $commentStore,
-		RevisionStore $revisionStore,
-		ArchivedRevisionLookup $archivedRevisionLookup,
-		UserFactory $userFactory,
-		LogFormatterFactory $logFormatterFactory
+		private readonly IConnectionProvider $dbProvider,
+		private readonly Config $config,
+		private readonly MessageLocalizer $messageLocalizer,
+		private readonly CheckUserLogService $checkUserLogService,
+		private readonly UserNameUtils $userNameUtils,
+		private readonly CheckUserLookupUtils $checkUserLookupUtils,
+		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly CommentStore $commentStore,
+		private readonly RevisionStore $revisionStore,
+		private readonly ArchivedRevisionLookup $archivedRevisionLookup,
+		private readonly UserFactory $userFactory,
+		private readonly LogFormatterFactory $logFormatterFactory,
 	) {
-		$this->dbProvider = $dbProvider;
-		$this->config = $config;
-		$this->messageLocalizer = $messageLocalizer;
-		$this->checkUserLogService = $checkUserLogService;
-		$this->userNameUtils = $userNameUtils;
-		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		$this->userIdentityLookup = $userIdentityLookup;
-		$this->commentStore = $commentStore;
-		$this->revisionStore = $revisionStore;
-		$this->archivedRevisionLookup = $archivedRevisionLookup;
-		$this->userFactory = $userFactory;
-		$this->logFormatterFactory = $logFormatterFactory;
 	}
 
 	/**

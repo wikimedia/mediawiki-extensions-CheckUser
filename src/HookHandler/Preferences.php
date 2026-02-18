@@ -44,27 +44,14 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 
 	public const ENABLE_USER_INFO_CARD = 'checkuser-userinfocard-enable';
 
-	private PermissionManager $permissionManager;
-	private TemporaryAccountLoggerFactory $loggerFactory;
-	private Config $config;
-	private UserOptionsLookup $userOptionsLookup;
-	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
-	private CheckUserPermissionManager $checkUserPermissionManager;
-
 	public function __construct(
-		PermissionManager $permissionManager,
-		TemporaryAccountLoggerFactory $loggerFactory,
-		Config $config,
-		UserOptionsLookup $userOptionsLookup,
-		CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
-		CheckUserPermissionManager $checkUserPermissionManager
+		private readonly PermissionManager $permissionManager,
+		private readonly TemporaryAccountLoggerFactory $loggerFactory,
+		private readonly Config $config,
+		private readonly UserOptionsLookup $userOptionsLookup,
+		private readonly CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
+		private readonly CheckUserPermissionManager $checkUserPermissionManager,
 	) {
-		$this->permissionManager = $permissionManager;
-		$this->loggerFactory = $loggerFactory;
-		$this->config = $config;
-		$this->userOptionsLookup = $userOptionsLookup;
-		$this->autoRevealLookup = $autoRevealLookup;
-		$this->checkUserPermissionManager = $checkUserPermissionManager;
 	}
 
 	/**
