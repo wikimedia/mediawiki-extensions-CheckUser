@@ -623,6 +623,69 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
+	public function testInvestigateDisabledWhenAllUsersSuppressed() {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
+
+		// Get a case with all users blocked with a 'hideuser' block
+		$this->addCaseWithTwoUsers();
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				self::$testUser1,
+				$this->mockRegisteredUltimateAuthority(),
+				'indefinite',
+				'Test reason',
+				[ 'isHideUser' => true ]
+			)
+			->placeBlock();
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				self::$testUser2,
+				$this->mockRegisteredUltimateAuthority(),
+				'indefinite',
+				'Test reason',
+				[ 'isHideUser' => true ]
+			)
+			->placeBlock();
+
+		// Load the special page with a user who cannot see hidden users
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+		$context->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] ) );
+
+		$pager = $this->getPager( $context );
+
+		$html = $pager->getBody();
+
+		$this->assertStringContainsString(
+			'(rev-deleted-user)',
+			$html,
+			'All usernames should be replaced with the rev-deleted-user message'
+		);
+
+		$investigateButtonHtml = $this->assertAndGetByElementClass(
+			$html, 'mw-checkuser-suggestedinvestigations-investigate-action'
+		);
+		$this->assertStringContainsString(
+			'title="(checkuser-suggestedinvestigations-action-investigate)"',
+			$investigateButtonHtml
+		);
+		$this->assertStringContainsString( 'cdx-button--fake-button--disabled', $investigateButtonHtml );
+
+		$this->assertStringNotContainsString(
+			self::$testUser1->getName(),
+			$html,
+			'As the first test user is not visible by the viewing authority, ' .
+			'their name should be not visible anywhere on the page'
+		);
+		$this->assertStringNotContainsString(
+			self::$testUser2->getName(),
+			$html,
+			'As the second test user is not visible by the viewing authority, ' .
+			'their name should be not visible anywhere on the page'
+		);
+	}
+
 	public function testInvestigateDisabledWhenTooManyUsers() {
 		$caseId = $this->addCaseWithManyUsers();
 

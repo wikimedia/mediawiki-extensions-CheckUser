@@ -464,8 +464,9 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$investigateEnabled = false;
 		$investigateUrl = null;
 
-		// Enable the "Investigate" button only if there are not too many targets
-		if ( count( $users ) <= SpecialInvestigate::MAX_TARGETS ) {
+		// Enable the "Investigate" button only if there are not too many targets and at least one
+		// not suppressed username target
+		if ( count( $users ) <= SpecialInvestigate::MAX_TARGETS && count( $users ) !== 0 ) {
 			$investigateEnabled = true;
 
 			$prefilledReason = $this->msg( 'checkuser-suggestedinvestigations-user-investigate-reason-prefill' )
@@ -491,10 +492,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$investigateEnabled ? 'cdx-button--fake-button--enabled' : 'cdx-button--fake-button--disabled',
 			'cdx-button--weight-quiet',
 			'cdx-button--icon-only',
+			'mw-checkuser-suggestedinvestigations-investigate-action',
 		];
 
 		$investigateButtonTitle = $this->msg( 'checkuser-suggestedinvestigations-action-investigate' )->text();
-		if ( !$investigateEnabled ) {
+		if ( !$investigateEnabled && count( $users ) !== 0 ) {
 			$investigateButtonTitle = $this->msg( 'checkuser-suggestedinvestigations-action-investigate-disabled' )
 				->numParams( SpecialInvestigate::MAX_TARGETS )->text();
 		}
