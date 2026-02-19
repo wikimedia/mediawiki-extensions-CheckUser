@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
  * {@see SuggestedInvestigationsAutoCloseJob} for each of the user's open cases.
  *
  * This is the second level of the two-level dispatch used when a user is globally
- * blocked or locked: {@see CrossWikiAutoCloseJobDispatcher} pushes one instance of
+ * blocked or locked: {@see SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher} pushes one instance of
  * this job to each remote wiki where the user has an account, and this job then
  * handles the wiki-local auto-close logic without any delay.
  */

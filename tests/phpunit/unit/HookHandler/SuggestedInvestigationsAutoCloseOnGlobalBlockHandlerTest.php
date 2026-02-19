@@ -5,6 +5,8 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnGlobalBlockHandler;
+// phpcs:ignore Generic.Files.LineLength.TooLong
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -22,6 +24,7 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 
 	private SuggestedInvestigationsCaseLookupService&MockObject $caseLookup;
 	private JobQueueGroup&MockObject $jobQueueGroup;
+	private SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher&MockObject $crossWikiJobDispatcher;
 	private SuggestedInvestigationsAutoCloseOnGlobalBlockHandler $handler;
 
 	protected function setUp(): void {
@@ -33,17 +36,30 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 
 		$this->caseLookup = $this->createMock( SuggestedInvestigationsCaseLookupService::class );
 		$this->jobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$this->crossWikiJobDispatcher = $this->createMock(
+			SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher::class
+		);
 		$this->handler = new SuggestedInvestigationsAutoCloseOnGlobalBlockHandler(
 			$this->caseLookup,
 			$this->jobQueueGroup,
-			new NullLogger()
+			new NullLogger(),
+			$this->crossWikiJobDispatcher
 		);
 	}
 
 	public static function provideEarlyReturnCases(): iterable {
-		yield 'Suggested Investigations feature disabled' => [ false, 1, true ];
-		yield 'block target is null' => [ true, null, true ];
-		yield 'block is not indefinite' => [ true, 1, false ];
+		yield 'Suggested Investigations feature disabled' => [
+			'isExtensionEnabled' => false, 'targetUserId' => 1, 'isIndefinite' => true,
+		];
+		yield 'block target is null' => [
+			'isExtensionEnabled' => true, 'targetUserId' => null, 'isIndefinite' => true,
+		];
+		yield 'block is not indefinite' => [
+			'isExtensionEnabled' => true, 'targetUserId' => 1, 'isIndefinite' => false,
+		];
+		yield 'block target is an IP address' => [
+			'isExtensionEnabled' => true, 'targetUserId' => 0, 'isIndefinite' => true,
+		];
 	}
 
 	/**
@@ -61,6 +77,10 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 		$this->jobQueueGroup
 			->expects( $this->never() )
 			->method( 'lazyPush' );
+
+		$this->crossWikiJobDispatcher
+			->expects( $this->never() )
+			->method( 'dispatch' );
 
 		$this->handler->onGlobalBlockingGlobalBlockAudit(
 			$this->getGlobalBlockMock( $targetUserId, $isIndefinite )

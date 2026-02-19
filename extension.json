@@ -571,7 +571,8 @@
 			"services": [
 				"CheckUserSuggestedInvestigationsCaseLookup",
 				"JobQueueGroup",
-				"CheckUserLogger"
+				"CheckUserLogger",
+				"CheckUserCrossWikiAutoCloseJobDispatcher"
 			]
 		},
 		"SuggestedInvestigationsAutoCloseOnGlobalLockHandler": {
@@ -580,7 +581,8 @@
 				"CheckUserSuggestedInvestigationsCaseLookup",
 				"JobQueueGroup",
 				"CheckUserLogger",
-				"UserIdentityLookup"
+				"UserIdentityLookup",
+				"CheckUserCrossWikiAutoCloseJobDispatcher"
 			]
 		}
 	},

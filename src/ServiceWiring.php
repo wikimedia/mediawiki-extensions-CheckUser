@@ -49,6 +49,8 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSu
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
+// phpcs:ignore Generic.Files.LineLength.TooLong
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
@@ -177,6 +179,16 @@ return [
 		}
 
 		return new CompositeIndefiniteBlockChecker( $blockChecks );
+	},
+	'CheckUserCrossWikiAutoCloseJobDispatcher' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher {
+		return new SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher(
+			$services->getJobQueueGroupFactory(),
+			$services->get( 'CheckUserLogger' ),
+			$services->getExtensionRegistry()->isLoaded( 'CentralAuth' ),
+			WikiMap::getCurrentWikiId(),
+		);
 	},
 	'CheckUserDataPurger' => static function (): CheckUserDataPurger {
 		return new CheckUserDataPurger();

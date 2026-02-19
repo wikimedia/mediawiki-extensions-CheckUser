@@ -7,6 +7,8 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 use MediaWiki\Extension\CentralAuth\Hooks\CentralAuthGlobalUserLockStatusChangedHook;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnGlobalLockHandler;
+// phpcs:ignore Generic.Files.LineLength.TooLong
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\User\UserIdentityLookup;
@@ -25,6 +27,7 @@ class SuggestedInvestigationsAutoCloseOnGlobalLockHandlerTest extends MediaWikiU
 	private SuggestedInvestigationsCaseLookupService&MockObject $caseLookup;
 	private JobQueueGroup&MockObject $jobQueueGroup;
 	private UserIdentityLookup&MockObject $userIdentityLookup;
+	private SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher&MockObject $crossWikiJobDispatcher;
 	private SuggestedInvestigationsAutoCloseOnGlobalLockHandler $handler;
 
 	/**
@@ -47,11 +50,15 @@ class SuggestedInvestigationsAutoCloseOnGlobalLockHandlerTest extends MediaWikiU
 		$this->caseLookup = $this->createMock( SuggestedInvestigationsCaseLookupService::class );
 		$this->jobQueueGroup = $this->createMock( JobQueueGroup::class );
 		$this->userIdentityLookup = $this->createMock( UserIdentityLookup::class );
+		$this->crossWikiJobDispatcher = $this->createMock(
+			SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher::class
+		);
 		$this->handler = new SuggestedInvestigationsAutoCloseOnGlobalLockHandler(
 			$this->caseLookup,
 			$this->jobQueueGroup,
 			new NullLogger(),
-			$this->userIdentityLookup
+			$this->userIdentityLookup,
+			$this->crossWikiJobDispatcher
 		);
 	}
 
@@ -61,24 +68,28 @@ class SuggestedInvestigationsAutoCloseOnGlobalLockHandlerTest extends MediaWikiU
 			'isExtensionEnabled' => false,
 			'localUserExists' => true,
 			'localUserRegistered' => true,
+			'expectsDispatch' => false,
 		];
 		yield 'local user not found' => [
 			'isLocked' => true,
 			'isExtensionEnabled' => true,
 			'localUserExists' => false,
 			'localUserRegistered' => false,
+			'expectsDispatch' => true,
 		];
 		yield 'local user not registered' => [
 			'isLocked' => true,
 			'isExtensionEnabled' => true,
 			'localUserExists' => true,
 			'localUserRegistered' => false,
+			'expectsDispatch' => true,
 		];
 		yield 'user is unlocked (isLocked=false)' => [
 			'isLocked' => false,
 			'isExtensionEnabled' => true,
 			'localUserExists' => true,
 			'localUserRegistered' => true,
+			'expectsDispatch' => false,
 		];
 	}
 
@@ -86,12 +97,16 @@ class SuggestedInvestigationsAutoCloseOnGlobalLockHandlerTest extends MediaWikiU
 	 * @dataProvider provideEarlyReturnCases
 	 */
 	public function testEarlyReturn(
-		bool $isLocked, bool $isExtensionEnabled, bool $localUserExists, bool $localUserRegistered
+		bool $isLocked, bool $isExtensionEnabled, bool $localUserExists, bool $localUserRegistered,
+		bool $expectsDispatch
 	): void {
 		$this->caseLookup->expects( $this->never() )
 			->method( 'getOpenCaseIdsForUser' );
 		$this->jobQueueGroup->expects( $this->never() )
 			->method( 'lazyPush' );
+		$this->crossWikiJobDispatcher->expects( $expectsDispatch ? $this->once() : $this->never() )
+			->method( 'dispatch' )
+			->with( 'TestUser' );
 
 		if ( $isLocked ) {
 			$this->mockSuggestedInvestigationEnabled( $isExtensionEnabled );
@@ -121,7 +136,7 @@ class SuggestedInvestigationsAutoCloseOnGlobalLockHandlerTest extends MediaWikiU
 
 	private function getCentralAuthUserMock( string $name ): CentralAuthUser {
 		$centralAuthUser = $this->createMock( CentralAuthUser::class );
-		$centralAuthUser->expects( $this->atMost( 1 ) )
+		$centralAuthUser->expects( $this->any() )
 			->method( 'getName' )
 			->willReturn( $name );
 
