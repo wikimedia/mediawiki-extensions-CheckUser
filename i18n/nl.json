@@ -424,6 +424,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP-adresweergaven: $1 (laatste controle $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP-adresweergaven: $1",
 	"checkuser-suggestedinvestigations": "Voorgestelde onderzoeken",
+	"checkuser-suggestedinvestigations-autoclose-reason": "Automatisch gesloten omdat alle accounts geblokkeerd zijn.",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: zaak #$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: zaak niet gevonden",
 	"checkuser-suggestedinvestigations-detail-view-not-found-page-text": "Er kon geen zaak worden gevonden met de URL-identificatie \"$1\".",

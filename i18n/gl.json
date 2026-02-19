@@ -383,6 +383,7 @@
 	"checkuser-userinfocard-thanks": "Agradecementos recibidos: $1 (dados: $2)",
 	"checkuser-userinfocard-checks": "Verificacións: $1 (última verificación: $2)",
 	"checkuser-userinfocard-checks-empty": "Verificacións: $1",
+	"checkuser-userinfocard-suggested-investigations": "Casos de investigación suxeridos: $1",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|{{GENDER:$1|Bloqueado|Bloqueada}} globalmente]] desde o $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|{{GENDER:$1|Bloqueado|Bloqueada}} globalmente]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|{{GENDER:$1|Bloqueado|Bloqueada}} globalmente]] desde o $3",

@@ -391,6 +391,7 @@
 	"checkuser-userinfocard-temporary-account-bucketcount": "연결된 모든 IP의 임시 계정: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "이 계정과 연관된 모든 IP에서의 임시 계정 수의 대략적인 값",
 	"checkuser-contributions-temporary-accounts-show-related": "이 계정들의 모든 기여 보기",
+	"checkuser-contributions-temporary-accounts-hide-related": "관련 임시 계정의 기여 숨기기",
 	"checkuser-contributions-temporary-account-bucketcount": "연결된 모든 IP의 임시 계정: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "이 IP의 임시 계정: $1",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "이 IP의 임시 계정: $1 (차단됨: $2)"

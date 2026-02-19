@@ -483,6 +483,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "ポップオーバーでリスクシグナルの詳細情報を閲覧",
 	"checkuser-userinfocard-temporary-account-bucketcount": "接続元が共通の仮アカウント: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "このアカウントにより使用されたすべてのIPアドレスに紐づいている仮アカウントの総数",
+	"checkuser-contributions-temporary-account-bucketcount": "接続元が共通の仮アカウント: $1。",
 	"checkuser-contributions-temporary-accounts-on-ip": "このIPアドレス上の仮アカウント数: $1",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "このIPアドレス上の仮アカウント数: $1 (ブロック済み: $2)"
 }

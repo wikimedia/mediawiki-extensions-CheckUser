@@ -393,6 +393,7 @@
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Ha abilitato la visualizzazione degli IP delle utenze temporanee",
 	"checkuser-userinfocard-ip-revealed-count": "IP visualizzato: $1 (ultima verifica $2)",
 	"checkuser-userinfocard-ip-revealed-never": "IP visualizzato: $1",
+	"checkuser-suggestedinvestigations-autoclose-reason": "Chiuso automaticamente poiché tutte le utenze sono bloccate",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: caso n. $1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: caso non trovato",
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: sottopagina non trovata",

@@ -440,6 +440,7 @@
 	"checkuser-suggestedinvestigations-table-caption": "חשבונות שסומנו אוטומטית בתור חשודים",
 	"checkuser-suggestedinvestigations-header-users": "חשבונות",
 	"checkuser-suggestedinvestigations-header-signals": "אותות סיכון",
+	"checkuser-suggestedinvestigations-header-updated": "עדכון",
 	"checkuser-suggestedinvestigations-header-status": "מצב",
 	"checkuser-suggestedinvestigations-header-notes": "הערות",
 	"checkuser-suggestedinvestigations-header-actions": "פעולות",

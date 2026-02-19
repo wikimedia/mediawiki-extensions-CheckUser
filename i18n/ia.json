@@ -407,7 +407,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "Revelationes IP: $1 (ultime consultation $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Revelationes IP: $1",
 	"checkuser-suggestedinvestigations": "Investigationes suggerite",
-	"checkuser-suggestedinvestigations-autoclose-reason": "Claudite automaticamente perque tote le contos ha essite blocate",
+	"checkuser-suggestedinvestigations-autoclose-reason": "Claudite automaticamente perque tote le contos ha essite blocate o serrate",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: caso №$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: caso non trovate",
 	"checkuser-suggestedinvestigations-detail-view-not-found-page-text": "Necun caso poteva esser trovate con le identificator de adresse URL “$1”.",
