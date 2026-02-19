@@ -1265,6 +1265,16 @@
 			],
 			"needsPage": false
 		},
+		"checkuserSuggestedInvestigationsAutoCloseForUser": {
+			"class": "MediaWiki\\Extension\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseForUserJob",
+			"services": [
+				"UserIdentityLookup",
+				"CheckUserSuggestedInvestigationsCaseLookup",
+				"JobQueueGroup",
+				"CheckUserLogger"
+			],
+			"needsPage": false
+		},
 		"checkuserSuggestedInvestigationsMatchSignalsAgainstUserJob": {
 			"class": "MediaWiki\\Extension\\CheckUser\\Jobs\\SuggestedInvestigationsMatchSignalsAgainstUserJob",
 			"services": [
