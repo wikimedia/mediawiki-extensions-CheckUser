@@ -5,7 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Jobs;
 
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
@@ -15,12 +15,12 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
  * @group CheckUser
  * @group Database
  */
-class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiIntegrationTestCase {
+class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiIntegrationTestCase {
 	use SuggestedInvestigationsTestTrait;
 
 	private SuggestedInvestigationsCaseManagerService $caseManager;
@@ -93,27 +93,27 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiIntegrationTestCa
 
 	public function testNewFromGlobalState(): void {
 		$services = $this->getServiceContainer();
-		$job = SuggestedInvestigationsAutoCloseJob::newFromGlobalState(
+		$job = SuggestedInvestigationsAutoCloseForCaseJob::newFromGlobalState(
 			[ 'caseId' => 123 ],
 			$services->getService( 'CheckUserSuggestedInvestigationsCaseManager' ),
 			$services->getService( 'CheckUserSuggestedInvestigationsCaseLookup' ),
 			$services->getService( 'CheckUserCompositeIndefiniteBlockChecker' ),
 			$services->getService( 'CheckUserLogger' )
 		);
-		$this->assertInstanceOf( SuggestedInvestigationsAutoCloseJob::class, $job );
+		$this->assertInstanceOf( SuggestedInvestigationsAutoCloseForCaseJob::class, $job );
 	}
 
 	public function testStaticFactory(): void {
-		$job = SuggestedInvestigationsAutoCloseJob::newSpec( 123, true );
-		$this->assertSame( SuggestedInvestigationsAutoCloseJob::TYPE, $job->getType() );
+		$job = SuggestedInvestigationsAutoCloseForCaseJob::newSpec( 123, true );
+		$this->assertSame( SuggestedInvestigationsAutoCloseForCaseJob::TYPE, $job->getType() );
 		$this->assertSame( 123, $job->getParams()['caseId'] );
 		$this->assertArrayHasKey( 'jobReleaseTimestamp', $job->getParams() );
 	}
 
-	private function getJob( int $caseId ): SuggestedInvestigationsAutoCloseJob {
+	private function getJob( int $caseId ): SuggestedInvestigationsAutoCloseForCaseJob {
 		$services = $this->getServiceContainer();
 
-		return new SuggestedInvestigationsAutoCloseJob(
+		return new SuggestedInvestigationsAutoCloseForCaseJob(
 			[ 'caseId' => $caseId ],
 			$this->caseManager,
 			$services->getService( 'CheckUserSuggestedInvestigationsCaseLookup' ),

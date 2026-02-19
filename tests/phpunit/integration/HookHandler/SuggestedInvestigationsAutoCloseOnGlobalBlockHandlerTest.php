@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
 // phpcs:ignore Generic.Files.LineLength.TooLong
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
@@ -66,7 +66,7 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 
 		$this->assertSame(
 			1,
-			$this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseJob::TYPE )->getSize(),
+			$this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseForCaseJob::TYPE )->getSize(),
 			'A job should be pushed for an open case'
 		);
 	}

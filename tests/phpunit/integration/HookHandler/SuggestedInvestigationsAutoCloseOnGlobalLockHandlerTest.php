@@ -7,7 +7,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 use CentralAuthTestUser;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
 // phpcs:ignore Generic.Files.LineLength.TooLong
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
@@ -62,7 +62,7 @@ class SuggestedInvestigationsAutoCloseOnGlobalLockHandlerTest extends MediaWikiI
 
 		$this->assertSame(
 			1,
-			$this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseJob::TYPE )->getSize(),
+			$this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseForCaseJob::TYPE )->getSize(),
 			'A job should be pushed for an open case'
 		);
 	}

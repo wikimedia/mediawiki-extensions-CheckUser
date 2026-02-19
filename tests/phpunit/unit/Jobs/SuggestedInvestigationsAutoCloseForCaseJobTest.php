@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\Jobs;
 
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
@@ -15,25 +15,25 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
- * @covers \MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob
  * @group CheckUser
  */
-class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiUnitTestCase {
+class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiUnitTestCase {
 
 	private const CASE_ID = 123;
 
 	public function testNewSpecWithDelayedJobsEnabled(): void {
-		$spec = SuggestedInvestigationsAutoCloseJob::newSpec( self::CASE_ID, true );
+		$spec = SuggestedInvestigationsAutoCloseForCaseJob::newSpec( self::CASE_ID, true );
 
-		$this->assertSame( SuggestedInvestigationsAutoCloseJob::TYPE, $spec->getType() );
+		$this->assertSame( SuggestedInvestigationsAutoCloseForCaseJob::TYPE, $spec->getType() );
 		$this->assertSame( self::CASE_ID, $spec->getParams()['caseId'] );
 		$this->assertArrayHasKey( 'jobReleaseTimestamp', $spec->getParams() );
 	}
 
 	public function testNewSpecWithDelayedJobsDisabled(): void {
-		$spec = SuggestedInvestigationsAutoCloseJob::newSpec( self::CASE_ID, false );
+		$spec = SuggestedInvestigationsAutoCloseForCaseJob::newSpec( self::CASE_ID, false );
 
-		$this->assertSame( SuggestedInvestigationsAutoCloseJob::TYPE, $spec->getType() );
+		$this->assertSame( SuggestedInvestigationsAutoCloseForCaseJob::TYPE, $spec->getType() );
 		$this->assertSame( self::CASE_ID, $spec->getParams()['caseId'] );
 		$this->assertArrayNotHasKey( 'jobReleaseTimestamp', $spec->getParams() );
 	}
@@ -144,8 +144,8 @@ class SuggestedInvestigationsAutoCloseJobTest extends MediaWikiUnitTestCase {
 		SuggestedInvestigationsCaseManagerService $caseManager,
 		SuggestedInvestigationsCaseLookupService $caseLookup,
 		?CompositeIndefiniteBlockChecker $blockChecker = null
-	): SuggestedInvestigationsAutoCloseJob {
-		return new SuggestedInvestigationsAutoCloseJob(
+	): SuggestedInvestigationsAutoCloseForCaseJob {
+		return new SuggestedInvestigationsAutoCloseForCaseJob(
 			[ 'caseId' => self::CASE_ID ],
 			$caseManager,
 			$caseLookup,

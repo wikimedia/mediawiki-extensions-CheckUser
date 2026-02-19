@@ -16,9 +16,9 @@ use MediaWiki\Language\MessageLocalizer;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
-class SuggestedInvestigationsAutoCloseJob extends Job {
+class SuggestedInvestigationsAutoCloseForCaseJob extends Job {
 
-	public const TYPE = 'checkuserSuggestedInvestigationsAutoClose';
+	public const TYPE = 'checkuserSuggestedInvestigationsAutoCloseForCase';
 
 	private const DELAY_SECONDS = 3600;
 
@@ -60,7 +60,7 @@ class SuggestedInvestigationsAutoCloseJob extends Job {
 
 	/**
 	 * @param int $caseId
-	 * @param bool $delayedJobsEnabled Whether delayed jobs are enabled in the job queue to avoid exceptions
+	 * @param bool $delayedJobsEnabled Whether to delay the job
 	 */
 	public static function newSpec( int $caseId, bool $delayedJobsEnabled ): IJobSpecification {
 		$params = [ 'caseId' => $caseId ];

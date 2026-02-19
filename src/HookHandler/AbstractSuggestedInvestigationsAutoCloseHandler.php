@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\JobQueue\JobQueueGroup;
 use Psr\Log\LoggerInterface;
@@ -25,17 +25,17 @@ abstract class AbstractSuggestedInvestigationsAutoCloseHandler {
 		$openCaseIds = $this->caseLookupService->getOpenCaseIdsForUser( $localUserId );
 
 		foreach ( $openCaseIds as $caseId ) {
-			$job = SuggestedInvestigationsAutoCloseJob::newSpec( $caseId, $this->isDelayedJobsEnabled() );
+			$job = SuggestedInvestigationsAutoCloseForCaseJob::newSpec( $caseId, $this->isDelayedJobsEnabled() );
 			$this->jobQueueGroup->lazyPush( $job );
 		}
 	}
 
 	private function isDelayedJobsEnabled(): bool {
-		if ( $this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseJob::TYPE )->delayedJobsEnabled() ) {
+		if ( $this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseForCaseJob::TYPE )->delayedJobsEnabled() ) {
 			return true;
 		}
 
-		$this->logger->warning( SuggestedInvestigationsAutoCloseJob::class . ' delayed jobs are not supported' );
+		$this->logger->warning( SuggestedInvestigationsAutoCloseForCaseJob::class . ' delayed jobs are not supported' );
 
 		return false;
 	}

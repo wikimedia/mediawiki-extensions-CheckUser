@@ -6,7 +6,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler;
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\JobQueue;
@@ -90,7 +90,7 @@ class SuggestedInvestigationsAutoCloseOnUsersBlockedHandlerTest extends MediaWik
 				static $expectedCaseIds = [ 10, 20 ];
 				$expectedCaseId = array_shift( $expectedCaseIds );
 
-				return $spec->getType() === SuggestedInvestigationsAutoCloseJob::TYPE
+				return $spec->getType() === SuggestedInvestigationsAutoCloseForCaseJob::TYPE
 					&& $spec->getParams()['caseId'] === $expectedCaseId;
 			} ) );
 
@@ -113,7 +113,7 @@ class SuggestedInvestigationsAutoCloseOnUsersBlockedHandlerTest extends MediaWik
 		// createMock() stubs all methods including final ones, so delayedJobsEnabled() returns false
 		$jobQueue = $this->createMock( JobQueue::class );
 		$this->jobQueueGroup->expects( $this->exactly( 2 ) )->method( 'get' )
-			->with( SuggestedInvestigationsAutoCloseJob::TYPE )
+			->with( SuggestedInvestigationsAutoCloseForCaseJob::TYPE )
 			->willReturn( $jobQueue );
 	}
 }

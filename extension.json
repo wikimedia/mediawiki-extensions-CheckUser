@@ -1257,8 +1257,8 @@
 				"UserAgentClientHintsManager"
 			]
 		},
-		"checkuserSuggestedInvestigationsAutoClose": {
-			"factory": "MediaWiki\\Extension\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseJob::newFromGlobalState",
+		"checkuserSuggestedInvestigationsAutoCloseForCase": {
+			"factory": "MediaWiki\\Extension\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseForCaseJob::newFromGlobalState",
 			"services": [
 				"CheckUserSuggestedInvestigationsCaseManager",
 				"CheckUserSuggestedInvestigationsCaseLookup",

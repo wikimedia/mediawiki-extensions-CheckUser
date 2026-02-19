@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Resolves a username to a local user identity and enqueues
- * {@see SuggestedInvestigationsAutoCloseJob} for each of the user's open cases.
+ * {@see SuggestedInvestigationsAutoCloseForCaseJob} for each of the user's open cases.
  *
  * This is the second level of the two-level dispatch used when a user is globally
  * blocked or locked: {@see SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher} pushes one instance of
@@ -59,7 +59,7 @@ class SuggestedInvestigationsAutoCloseForUserJob extends Job {
 		$openCaseIds = $this->caseLookup->getOpenCaseIdsForUser( $localUser->getId() );
 		foreach ( $openCaseIds as $caseId ) {
 			$this->jobQueueGroup->lazyPush(
-				SuggestedInvestigationsAutoCloseJob::newSpec( $caseId, false )
+				SuggestedInvestigationsAutoCloseForCaseJob::newSpec( $caseId, false )
 			);
 		}
 
