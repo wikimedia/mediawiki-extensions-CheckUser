@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\Navigation;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Navigation;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder
  */
 class SuggestedInvestigationsPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\SuggestedInvestigations\Model;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations\Model;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWikiUnitTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus
  */
 class CaseStatusTest extends MediaWikiUnitTestCase {
 	/** @dataProvider provideNewFromStringName */

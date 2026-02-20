@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\CheckUser\Pagers;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\DeAbstractedCheckUserPagerTest;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers\DeAbstractedCheckUserPagerTest;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Message\Message;
 use MediaWiki\Pager\IndexPager;
@@ -22,7 +22,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  *
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager
  */
 class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 	public function testGetTimeRangeStringFirstAndLastEqual() {

@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\IPContributions;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\IPContributions;
 
-use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\ErrorPageError;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Exception\UserBlockedError;
+use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
@@ -18,8 +18,8 @@ use Wikimedia\Parsoid\Core\DOMCompat;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
- * @covers \MediaWiki\CheckUser\IPContributions\SpecialIPContributions
- * @covers \MediaWiki\CheckUser\IPContributions\IPContributionsPager
+ * @covers \MediaWiki\Extension\CheckUser\IPContributions\SpecialIPContributions
+ * @covers \MediaWiki\Extension\CheckUser\IPContributions\IPContributionsPager
  * @group CheckUser
  * @group Database
  */

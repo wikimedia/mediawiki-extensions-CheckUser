@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Maintenance;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\SelectQueryBuilder;

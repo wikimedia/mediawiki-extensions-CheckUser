@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\CheckUserPermissionStatus;
-use MediaWiki\CheckUser\HookHandler\SidebarLinksHandler;
-use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
-use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\HookHandler\SidebarLinksHandler;
+use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Message\Message;
 use MediaWiki\Output\OutputPage;
@@ -20,7 +20,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\HookHandler\SidebarLinksHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\SidebarLinksHandler
  */
 class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @var (Authority&MockObject) */

@@ -2,15 +2,15 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Unit\Jobs;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\Jobs;
 
-use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob
  * @group CheckUser
  */
 class SuggestedInvestigationsMatchSignalsAgainstUserJobTest extends MediaWikiUnitTestCase {

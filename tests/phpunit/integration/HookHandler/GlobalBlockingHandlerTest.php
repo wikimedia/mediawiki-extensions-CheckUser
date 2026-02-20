@@ -1,15 +1,15 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\GlobalBlockingHandler;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\HookHandler\GlobalBlockingHandler;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\MainConfigNames;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\GlobalBlockingHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\GlobalBlockingHandler
  * @group Database
  * @group CheckUser
  */

@@ -1,15 +1,15 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Maintenance\PurgeOldData;
-use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
-use MediaWiki\CheckUser\Services\CheckUserInsert;
-use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
-use MediaWiki\CheckUser\Tests\Integration\Maintenance\Mocks\SemiMockedCheckUserDataPurger;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Maintenance\PurgeOldData;
+use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance\Mocks\SemiMockedCheckUserDataPurger;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Maintenance\Maintenance;
 use MediaWiki\RecentChanges\RecentChange;
@@ -22,7 +22,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\Maintenance\PurgeOldData
+ * @covers \MediaWiki\Extension\CheckUser\Maintenance\PurgeOldData
  */
 class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 	use CheckUserCommonTraitTest;

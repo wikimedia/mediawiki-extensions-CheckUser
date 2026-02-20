@@ -2,21 +2,21 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Integration\Jobs;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Jobs;
 
-use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
-use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
-use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
-use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
  * @group CheckUser
  * @group Database
  */

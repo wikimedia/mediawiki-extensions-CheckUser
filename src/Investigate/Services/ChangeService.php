@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Investigate\Services;
+namespace MediaWiki\Extension\CheckUser\Investigate\Services;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;

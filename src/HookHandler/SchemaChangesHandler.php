@@ -1,19 +1,19 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
-use MediaWiki\CheckUser\Maintenance\FixTrailingSpacesInLogs;
-use MediaWiki\CheckUser\Maintenance\MigrateTemporaryAccountIPViewerGroup;
-use MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
-use MediaWiki\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
-use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
-use MediaWiki\CheckUser\Maintenance\PopulateCucComment;
-use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
-use MediaWiki\CheckUser\Maintenance\PopulateSicUpdatedTimestamp;
-use MediaWiki\CheckUser\Maintenance\PopulateSicUrlIdentifier;
-use MediaWiki\CheckUser\Maintenance\PopulateUserAgentTable;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
+use MediaWiki\Extension\CheckUser\Maintenance\FixTrailingSpacesInLogs;
+use MediaWiki\Extension\CheckUser\Maintenance\MigrateTemporaryAccountIPViewerGroup;
+use MediaWiki\Extension\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTable;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateCucComment;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateCulComment;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateSicUpdatedTimestamp;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateSicUrlIdentifier;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateUserAgentTable;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 
 class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQueryInterface {

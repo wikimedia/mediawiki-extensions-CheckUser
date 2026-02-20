@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
-use MediaWiki\CheckUser\CheckUserPermissionStatus;
-use MediaWiki\CheckUser\HookHandler\LogDisplayHandler;
-use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\HookHandler\LogDisplayHandler;
+use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Logging\LogEventsList;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -16,7 +16,7 @@ use MediaWikiUnitTestCase;
 use MockTitleTrait;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\LogDisplayHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\LogDisplayHandler
  */
 class LogDisplayHandlerTest extends MediaWikiUnitTestCase {
 

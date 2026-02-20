@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\ClientHints;
+namespace MediaWiki\Extension\CheckUser\ClientHints;
 
 use JsonSerializable;
-use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Request\WebRequest;
 use TypeError;

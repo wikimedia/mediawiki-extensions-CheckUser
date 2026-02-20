@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\SpecialLogAddIPRevealLogTypeAliasHandler;
-use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CheckUser\HookHandler\SpecialLogAddIPRevealLogTypeAliasHandler;
+use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Permissions\Authority;
 use MediaWikiUnitTestCase;
@@ -13,7 +13,7 @@ use MediaWikiUnitTestCase;
 /**
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\HookHandler\SpecialLogAddIPRevealLogTypeAliasHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\SpecialLogAddIPRevealLogTypeAliasHandler
  */
 class SpecialLogAddIPRevealLogTypeAliasHandlerTest extends MediaWikiUnitTestCase {
 

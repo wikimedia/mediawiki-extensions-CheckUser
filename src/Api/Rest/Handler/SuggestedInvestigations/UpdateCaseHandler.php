@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Api\Rest\Handler\SuggestedInvestigations;
+namespace MediaWiki\Extension\CheckUser\Api\Rest\Handler\SuggestedInvestigations;
 
 use InvalidArgumentException;
-use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Config\Config;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Language\Language;
 use MediaWiki\Rest\Handler\Helper\RestAuthorizeTrait;
 use MediaWiki\Rest\HttpException;

@@ -2,9 +2,9 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Jobs;
+namespace MediaWiki\Extension\CheckUser\Jobs;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\Job;
 use MediaWiki\JobQueue\JobSpecification;

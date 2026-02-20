@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
-use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTable;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\RecentChanges\RecentChange;
@@ -17,7 +17,7 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  * @group Database
  *
- * @covers \MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable
+ * @covers \MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTable
  */
 class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 

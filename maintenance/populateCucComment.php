@@ -18,7 +18,7 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Maintenance;
 
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 

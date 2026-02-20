@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
-use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\Config\Config;
+use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook;
 use MediaWiki\ResourceLoader\ResourceLoader;
@@ -47,7 +47,8 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 				],
 				[
 					'name' => 'defaultAutoRevealDuration.json',
-					'callback' => 'MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getAutoRevealMaximumExpiry',
+					'callback' => 'MediaWiki\\Extension\\CheckUser\\'
+						. 'HookHandler\\DurationMessages::getAutoRevealMaximumExpiry',
 				],
 			],
 			'messages' => [

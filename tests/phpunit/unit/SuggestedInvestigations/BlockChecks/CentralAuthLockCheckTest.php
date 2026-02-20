@@ -2,15 +2,15 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Unit\SuggestedInvestigations\BlockChecks;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations\BlockChecks;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\Extension\CentralAuth\User\GlobalUserSelectQueryBuilderFactory;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiUnitTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck
  * @group CheckUser
  */
 class CentralAuthLockCheckTest extends MediaWikiUnitTestCase {

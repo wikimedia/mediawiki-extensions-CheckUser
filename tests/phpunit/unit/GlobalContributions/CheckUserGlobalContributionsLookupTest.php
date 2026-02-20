@@ -1,14 +1,14 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\GlobalContributions;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\GlobalContributions;
 
 use InvalidArgumentException;
 use LogicException;
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
-use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
+use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Revision\RevisionStore;
@@ -23,7 +23,7 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Stats\StatsFactory;
 
 /**
- * @covers \MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup
+ * @covers \MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup
  * @group CheckUser
  */
 class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {

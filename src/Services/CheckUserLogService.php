@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Services;
+namespace MediaWiki\Extension\CheckUser\Services;
 
 use LogicException;
 use MediaWiki\CommentFormatter\CommentFormatter;

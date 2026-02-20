@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\Api\CheckUser;
+namespace MediaWiki\Extension\CheckUser\Api\CheckUser;
 
 use InvalidArgumentException;
-use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Services\CheckUserLogService;
-use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\Config;
+use MediaWiki\Extension\CheckUser\Api\ApiQueryCheckUser;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\User\UserNameUtils;
 use MessageLocalizer;
 use Wikimedia\IPUtils;

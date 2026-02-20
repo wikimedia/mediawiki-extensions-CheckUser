@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Hook;
+namespace MediaWiki\Extension\CheckUser\Hook;
 
 use MediaWiki\Output\OutputPage;
 
@@ -22,3 +22,12 @@ interface CheckUserSuggestedInvestigationsOnDetailViewRenderHook {
 	 */
 	public function onCheckUserSuggestedInvestigationsOnDetailViewRender( int $caseId, $output ): void;
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	CheckUserSuggestedInvestigationsOnDetailViewRenderHook::class,
+	'MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsOnDetailViewRenderHook' );
+// @codeCoverageIgnoreEnd

@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Pagers;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -103,3 +103,12 @@ class SuggestedInvestigationsPagerFactory {
 		);
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	SuggestedInvestigationsPagerFactory::class,
+	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Pagers\\SuggestedInvestigationsPagerFactory' );
+// @codeCoverageIgnoreEnd

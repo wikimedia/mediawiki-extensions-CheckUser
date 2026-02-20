@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Navigation;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation;
 
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;

@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\SuggestedInvestigationsHandler;
-use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
+use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsHandler;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Page\WikiPage;
@@ -14,7 +14,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWikiUnitTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\SuggestedInvestigationsHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsHandler
  */
 class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 

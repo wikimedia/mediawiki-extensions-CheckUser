@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Hook;
+namespace MediaWiki\Extension\CheckUser\Hook;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
-use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\User\UserIdentity;
 
 interface CheckUserSuggestedInvestigationsBeforeCaseCreatedHook {
@@ -28,3 +28,13 @@ interface CheckUserSuggestedInvestigationsBeforeCaseCreatedHook {
 		array $signals, array &$users
 	): void;
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	CheckUserSuggestedInvestigationsBeforeCaseCreatedHook::class,
+	'MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsBeforeCaseCreatedHook'
+);
+// @codeCoverageIgnoreEnd

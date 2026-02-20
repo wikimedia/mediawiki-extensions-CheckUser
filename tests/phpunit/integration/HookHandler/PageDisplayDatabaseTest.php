@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use ArrayUtils;
-use MediaWiki\CheckUser\HookHandler\PageDisplay;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\HookHandler\PageDisplay;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Skin\Skin;
@@ -17,7 +17,7 @@ use MediaWiki\User\UserOptionsManager;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\PageDisplay
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\PageDisplay
  * @group Database
  */
 class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {

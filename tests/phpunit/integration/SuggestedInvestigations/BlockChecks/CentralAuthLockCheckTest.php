@@ -2,18 +2,18 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\BlockChecks;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\BlockChecks;
 
 use CentralAuthTestUser;
-use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\IDatabase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck
  * @group CheckUser
  * @group Database
  */

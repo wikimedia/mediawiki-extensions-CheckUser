@@ -1,18 +1,18 @@
 <?php
 
-namespace MediaWiki\CheckUser\Investigate;
+namespace MediaWiki\Extension\CheckUser\Investigate;
 
-use MediaWiki\CheckUser\Hook\CheckUserSubtitleLinksHook;
-use MediaWiki\CheckUser\Investigate\Pagers\ComparePager;
-use MediaWiki\CheckUser\Investigate\Pagers\PagerFactory;
-use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
-use MediaWiki\CheckUser\Investigate\Pagers\TimelinePager;
-use MediaWiki\CheckUser\Investigate\Pagers\TimelinePagerFactory;
-use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
-use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
-use MediaWiki\CheckUser\Services\CheckUserLogService;
-use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Extension\CheckUser\Hook\CheckUserSubtitleLinksHook;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\ComparePager;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\PagerFactory;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelinePager;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelinePagerFactory;
+use MediaWiki\Extension\CheckUser\Investigate\Utilities\DurationManager;
+use MediaWiki\Extension\CheckUser\Investigate\Utilities\EventLogger;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
+use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Language\Language;

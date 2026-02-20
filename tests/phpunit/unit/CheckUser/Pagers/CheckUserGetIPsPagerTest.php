@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\CheckUser\Pagers;
 
-use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use Wikimedia\IPUtils;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -12,7 +12,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  *
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager
  */
 class CheckUserGetIPsPagerTest extends CheckUserPagerUnitTestBase {
 

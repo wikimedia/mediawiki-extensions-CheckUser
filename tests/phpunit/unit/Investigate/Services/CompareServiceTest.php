@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\Investigate\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\Investigate\Services;
 
-use MediaWiki\CheckUser\Investigate\Services\CompareService;
-use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Extension\CheckUser\Investigate\Services\CompareService;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiUnitTestCase;
@@ -12,7 +12,7 @@ use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 
 /**
- * @covers \MediaWiki\CheckUser\Investigate\Services\CompareService
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Services\CompareService
  */
 class CompareServiceTest extends MediaWikiUnitTestCase {
 	public function testGetTargetsOverLimitWhenDBDoesNotSupportOrderAndLimitInUnion() {

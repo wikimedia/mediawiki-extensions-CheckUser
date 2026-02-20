@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Model;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model;
 
 use MediaWiki\DAO\WikiAwareEntityTrait;
 use MediaWiki\User\UserIdentity;
@@ -64,3 +64,13 @@ readonly class SuggestedInvestigationsCaseUser implements UserIdentity {
 		return $this->userIdentity->isRegistered();
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	SuggestedInvestigationsCaseUser::class,
+	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Model\\SuggestedInvestigationsCaseUser'
+);
+// @codeCoverageIgnoreEnd

@@ -2,14 +2,14 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Unit\SuggestedInvestigations\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations\Services;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\IndefiniteBlockCheckInterface;
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\IndefiniteBlockCheckInterface;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
 use MediaWikiUnitTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker
  * @group CheckUser
  */
 class CompositeIndefiniteBlockCheckerTest extends MediaWikiUnitTestCase {

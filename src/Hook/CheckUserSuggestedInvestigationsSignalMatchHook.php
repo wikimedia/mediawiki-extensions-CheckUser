@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Hook;
+namespace MediaWiki\Extension\CheckUser\Hook;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\User\UserIdentity;
 
 interface CheckUserSuggestedInvestigationsSignalMatchHook {
@@ -34,3 +34,13 @@ interface CheckUserSuggestedInvestigationsSignalMatchHook {
 		$userIdentity, string $eventType, array &$signalMatchResults, array $extraData
 	): void;
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	CheckUserSuggestedInvestigationsSignalMatchHook::class,
+	'MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsSignalMatchHook'
+);
+// @codeCoverageIgnoreEnd

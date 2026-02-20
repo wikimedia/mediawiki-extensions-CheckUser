@@ -1,21 +1,21 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use GlobalPreferences\GlobalPreferencesFactory;
 use JobQueueGroup;
-use MediaWiki\CheckUser\Api\Rest\Handler\BatchTemporaryAccountHandler;
-use MediaWiki\CheckUser\CheckUserPermissionStatus;
-use MediaWiki\CheckUser\HookHandler\Preferences;
-use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
-use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
-use MediaWiki\CheckUser\Tests\Integration\AbuseFilter\FilterFactoryProxyTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
 use MediaWiki\Extension\AbuseFilter\Filter\Flags;
 use MediaWiki\Extension\AbuseFilter\Filter\MutableFilter;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
+use MediaWiki\Extension\CheckUser\Api\Rest\Handler\BatchTemporaryAccountHandler;
+use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
+use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
+use MediaWiki\Extension\CheckUser\Tests\Integration\AbuseFilter\FilterFactoryProxyTrait;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Permissions\PermissionManager;
@@ -46,11 +46,11 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\Api\Rest\Handler\BatchTemporaryAccountHandler
- * @covers \MediaWiki\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountHandler
- * @covers \MediaWiki\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountNameHandler
- * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionTrait
- * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogger
+ * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\BatchTemporaryAccountHandler
+ * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountHandler
+ * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountNameHandler
+ * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionTrait
+ * @covers \MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger
  */
 class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 

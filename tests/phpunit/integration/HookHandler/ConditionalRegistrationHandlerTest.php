@@ -1,17 +1,17 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Api\ApiModuleManager;
-use MediaWiki\CheckUser\HookHandler\ConditionalRegistrationHandler;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Extension\CheckUser\HookHandler\ConditionalRegistrationHandler;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\ConditionalRegistrationHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\ConditionalRegistrationHandler
  */
 class ConditionalRegistrationHandlerTest extends MediaWikiIntegrationTestCase {
 	private HashConfig $config;

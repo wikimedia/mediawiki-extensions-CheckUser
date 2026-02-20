@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\ClientHints;
+namespace MediaWiki\Extension\CheckUser\ClientHints;
 
-use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
-use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\Jobs\StoreClientHintsDataJob;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Request\WebRequest;
 use Profiler;

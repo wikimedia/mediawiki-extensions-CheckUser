@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
-use MediaWiki\CheckUser\Maintenance\MigrateTemporaryAccountIPViewerGroup;
+use MediaWiki\Extension\CheckUser\Maintenance\MigrateTemporaryAccountIPViewerGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\UserIdentity;
@@ -10,7 +10,7 @@ use MediaWiki\User\UserIdentity;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\Maintenance\MigrateTemporaryAccountIPViewerGroup
+ * @covers \MediaWiki\Extension\CheckUser\Maintenance\MigrateTemporaryAccountIPViewerGroup
  */
 class MigrateTemporaryAccountIPViewerGroupTest extends MaintenanceBaseTestCase {
 

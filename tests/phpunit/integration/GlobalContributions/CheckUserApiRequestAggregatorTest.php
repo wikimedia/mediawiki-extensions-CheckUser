@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\GlobalContributions;
 
 use LogicException;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\Http\HttpRequestFactory;
 use MediaWiki\Site\MediaWikiSite;
 use MediaWiki\Site\SiteLookup;
@@ -17,7 +17,7 @@ use Wikimedia\Http\MultiHttpClient;
 use Wikimedia\TestingAccessWrapper;
 
 /**
- * @covers \MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator
+ * @covers \MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator
  * @group CheckUser
  * @group Database
  */

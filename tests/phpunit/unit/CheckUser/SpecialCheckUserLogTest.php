@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\CheckUser;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\CheckUser;
 
-use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
+use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\User\ActorStore;
 use MediaWikiUnitTestCase;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -11,7 +11,7 @@ use Wikimedia\TestingAccessWrapper;
 /**
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser
  */
 class SpecialCheckUserLogTest extends MediaWikiUnitTestCase {
 	private function commonVerifyInitiator( string $initiatorName, $mockReturnValue ) {

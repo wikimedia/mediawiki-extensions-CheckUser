@@ -1,14 +1,14 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\SuggestedInvestigations\Model;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations\Model;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser
  */
 class SuggestedInvestigationsCaseUserTest extends MediaWikiUnitTestCase {
 	/** @dataProvider provideUserIdentityProperties */

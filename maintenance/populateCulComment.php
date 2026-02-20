@@ -18,10 +18,10 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Maintenance;
 
-use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use Psr\Log\NullLogger;
 use Wikimedia\Services\NoSuchServiceException;

@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Services;
+namespace MediaWiki\Extension\CheckUser\Services;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Revision\ArchivedRevisionLookup;
@@ -220,3 +220,10 @@ class CheckUserLookupUtils {
 		return $revRecord;
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias( CheckUserLookupUtils::class, 'MediaWiki\\CheckUser\\Services\\CheckUserLookupUtils' );
+// @codeCoverageIgnoreEnd

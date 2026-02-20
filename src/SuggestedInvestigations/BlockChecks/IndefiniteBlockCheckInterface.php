@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks;
 
 interface IndefiniteBlockCheckInterface {
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser;
 
-use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
-use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
+use MediaWiki\Extension\CheckUser\Services\TokenManager;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -15,7 +15,7 @@ use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
- * @covers \MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\CheckUserPagerNavigationBuilder
  */
 class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Hook;
+namespace MediaWiki\Extension\CheckUser\Hook;
 
 interface CheckUserSuggestedInvestigationsGetSignalsHook {
 	/**
@@ -33,3 +33,12 @@ interface CheckUserSuggestedInvestigationsGetSignalsHook {
 	 */
 	public function onCheckUserSuggestedInvestigationsGetSignals( array &$signals ): void;
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	CheckUserSuggestedInvestigationsGetSignalsHook::class,
+	'MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsGetSignalsHook' );
+// @codeCoverageIgnoreEnd

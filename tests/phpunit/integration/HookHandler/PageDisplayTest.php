@@ -1,17 +1,17 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use ArrayUtils;
 use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Block\Block;
-use MediaWiki\CheckUser\CheckUserPermissionStatus;
-use MediaWiki\CheckUser\HookHandler\PageDisplay;
-use MediaWiki\CheckUser\HookHandler\Preferences;
-use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\HookHandler\PageDisplay;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
+use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Skin\Skin;
@@ -24,8 +24,8 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\PageDisplay
- * @covers \MediaWiki\CheckUser\Services\CheckUserIPRevealManager
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\PageDisplay
+ * @covers \MediaWiki\Extension\CheckUser\Services\CheckUserIPRevealManager
  */
 class PageDisplayTest extends MediaWikiIntegrationTestCase {
 

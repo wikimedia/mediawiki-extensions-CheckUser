@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Investigate;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate;
 
 use CentralAuthTestUser;
-use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPagerFactory;
-use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
-use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\PreliminaryCheckPagerFactory;
+use MediaWiki\Extension\CheckUser\Investigate\Services\PreliminaryCheckService;
+use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\HookContainer\HookRunner;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -23,10 +23,10 @@ use TestUser;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @covers \MediaWiki\CheckUser\Investigate\SpecialInvestigate
- * @covers \MediaWiki\CheckUser\Investigate\Pagers\TimelinePager
- * @covers \MediaWiki\CheckUser\Investigate\Pagers\ComparePager
- * @covers \MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelinePager
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Pagers\ComparePager
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Pagers\PreliminaryCheckPager
  * @group CheckUser
  * @group Database
  */

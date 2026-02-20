@@ -18,7 +18,7 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Model;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model;
 
 /**
  * This class represents a Suggested Investigations case and its properties.

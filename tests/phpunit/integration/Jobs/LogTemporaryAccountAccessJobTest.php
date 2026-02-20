@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\IPContributions;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\IPContributions;
 
-use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
+use MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob
  * @group CheckUser
  * @group Database
  */

@@ -18,14 +18,14 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
-use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
-use MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\WebResponse;
@@ -36,7 +36,7 @@ use Wikimedia\Parsoid\Core\DOMCompat;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations
  * @group Database
  */
 class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {

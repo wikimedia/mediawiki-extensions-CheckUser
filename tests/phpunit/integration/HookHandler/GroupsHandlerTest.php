@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\GroupsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\GroupsHandler;
 use MediaWiki\MainConfigNames;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -14,7 +14,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\HookHandler\GroupsHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\GroupsHandler
  */
 class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 	private static string $timestampNow = '20230406060708';

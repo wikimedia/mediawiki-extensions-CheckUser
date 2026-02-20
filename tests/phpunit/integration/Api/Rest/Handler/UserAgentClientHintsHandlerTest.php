@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use MediaWiki\Auth\AuthenticationResponse;
-use MediaWiki\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
-use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
-use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
@@ -20,7 +20,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler
+ * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler
  */
 class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 	use HandlerTestTrait;

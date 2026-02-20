@@ -1,7 +1,7 @@
 <?php
-namespace MediaWiki\CheckUser\Services;
+namespace MediaWiki\Extension\CheckUser\Services;
 
-use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -156,3 +156,10 @@ class CheckUserPermissionManager {
 		return $centralId !== 0;
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias( CheckUserPermissionManager::class, 'MediaWiki\\CheckUser\\Services\\CheckUserPermissionManager' );
+// @codeCoverageIgnoreEnd

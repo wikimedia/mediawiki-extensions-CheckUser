@@ -1,17 +1,17 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Api;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api;
 
 use MediaWiki\Api\ApiMain;
 use MediaWiki\Api\ApiQuery;
 use MediaWiki\Api\ApiQueryTokens;
-use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
-use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
-use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\CommentStore\CommentStoreComment;
 use MediaWiki\Content\WikitextContent;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\Api\ApiQueryCheckUser;
+use MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
+use MediaWiki\Extension\CheckUser\Services\ApiQueryCheckUserResponseFactory;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\HookContainer\HookRunner;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Permissions\Authority;
@@ -30,12 +30,12 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group medium
  * @group Database
  *
- * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser
- * @covers \MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse
- * @covers \MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserActionsResponse
- * @covers \MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserIpUsersResponse
- * @covers \MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserUserIpsResponse
- * @covers \MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory
+ * @covers \MediaWiki\Extension\CheckUser\Api\ApiQueryCheckUser
+ * @covers \MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse
+ * @covers \MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserActionsResponse
+ * @covers \MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserIpUsersResponse
+ * @covers \MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserUserIpsResponse
+ * @covers \MediaWiki\Extension\CheckUser\Services\ApiQueryCheckUserResponseFactory
  */
 class ApiQueryCheckUserTest extends ApiTestCase {
 

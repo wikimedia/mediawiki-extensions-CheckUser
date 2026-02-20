@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Pagers;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers;
 
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;

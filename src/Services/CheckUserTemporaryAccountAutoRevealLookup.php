@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaWiki\CheckUser\Services;
+namespace MediaWiki\Extension\CheckUser\Services;
 
 use GlobalPreferences\GlobalPreferencesFactory;
 use GlobalPreferences\Storage;
-use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Preferences\PreferencesFactory;
 use Wikimedia\Timestamp\ConvertibleTimestamp;

@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Pagers;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\Pagers;
 
-use MediaWiki\CheckUser\Investigate\Pagers\TimelinePager;
-use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
-use MediaWiki\CheckUser\Investigate\Services\TimelineService;
-use MediaWiki\CheckUser\Services\TokenQueryManager;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelinePager;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelineRowFormatter;
+use MediaWiki\Extension\CheckUser\Investigate\Services\TimelineService;
+use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Page\LinkBatch;
@@ -23,8 +23,8 @@ use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @covers \MediaWiki\CheckUser\Investigate\Pagers\TimelinePager
- * @covers \MediaWiki\CheckUser\Investigate\Services\TimelineService
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelinePager
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Services\TimelineService
  * @group CheckUser
  * @group Database
  */

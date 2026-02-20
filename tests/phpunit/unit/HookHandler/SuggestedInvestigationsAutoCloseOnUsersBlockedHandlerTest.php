@@ -2,12 +2,12 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\Block\DatabaseBlock;
-use MediaWiki\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler;
-use MediaWiki\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
+use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseJob;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\JobQueue;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -18,8 +18,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler
- * @covers \MediaWiki\CheckUser\HookHandler\AbstractSuggestedInvestigationsAutoCloseHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\AbstractSuggestedInvestigationsAutoCloseHandler
  * @group CheckUser
  */
 class SuggestedInvestigationsAutoCloseOnUsersBlockedHandlerTest extends MediaWikiUnitTestCase {

@@ -1,17 +1,17 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Block\DatabaseBlockStoreFactory;
-use MediaWiki\CheckUser\HookHandler\PerformRetroactiveAutoblockHandler;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Extension\CheckUser\HookHandler\PerformRetroactiveAutoblockHandler;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\PerformRetroactiveAutoblockHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\PerformRetroactiveAutoblockHandler
  */
 class PerformRetroactiveAutoblockHandlerTest extends MediaWikiUnitTestCase {
 	public function testOnPerformRetroactiveAutoblockForNonExistentUser() {

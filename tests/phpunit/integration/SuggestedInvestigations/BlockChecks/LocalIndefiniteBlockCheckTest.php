@@ -2,15 +2,15 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\BlockChecks;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\BlockChecks;
 
 use MediaWiki\Block\DatabaseBlockStore;
-use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\LocalIndefiniteBlockCheck;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalIndefiniteBlockCheck;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\LocalIndefiniteBlockCheck
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalIndefiniteBlockCheck
  * @group CheckUser
  * @group Database
  */

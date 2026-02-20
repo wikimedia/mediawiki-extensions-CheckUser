@@ -1,14 +1,14 @@
 <?php
 
-namespace MediaWiki\CheckUser\Investigate;
+namespace MediaWiki\Extension\CheckUser\Investigate;
 
 use Exception;
 use MediaWiki\Api\ApiMain;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUser;
 use MediaWiki\Block\BlockUserFactory;
-use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Extension\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Linker\Linker;
 use MediaWiki\MainConfigNames;

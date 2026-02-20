@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
@@ -14,7 +14,7 @@ use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 
 /**
- * @covers \MediaWiki\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables
+ * @covers \MediaWiki\Extension\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables
  * @group CheckUser
  * @group Database
  */

@@ -1,14 +1,14 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
-use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
-use MediaWiki\CheckUser\Services\CheckUserInsert;
-use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\User\User;
@@ -19,7 +19,7 @@ use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler
  * @group CheckUser
  */
 class CheckUserPrivateEventsHandlerTest extends MediaWikiUnitTestCase {

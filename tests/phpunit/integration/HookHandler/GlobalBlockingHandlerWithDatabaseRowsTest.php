@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
-use MediaWiki\CheckUser\HookHandler\GlobalBlockingHandler;
-use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\GlobalBlockingHandler;
+use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
@@ -18,7 +18,7 @@ use MediaWikiIntegrationTestCase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\GlobalBlockingHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\GlobalBlockingHandler
  * @group Database
  * @group CheckUser
  */

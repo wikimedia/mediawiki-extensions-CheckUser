@@ -1,16 +1,16 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\CentralAuthHandler;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Extension\CheckUser\HookHandler\CentralAuthHandler;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\ObjectCache\WANObjectCache;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\CentralAuthHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\CentralAuthHandler
  * @group CheckUser
  * @group Database
  */

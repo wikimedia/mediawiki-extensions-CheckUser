@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Services;
+namespace MediaWiki\Extension\CheckUser\Services;
 
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MainConfigNames;
@@ -185,3 +185,10 @@ class AccountCreationDetailsLookup {
 	}
 
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias( AccountCreationDetailsLookup::class, 'MediaWiki\\CheckUser\\Services\\AccountCreationDetailsLookup' );
+// @codeCoverageIgnoreEnd

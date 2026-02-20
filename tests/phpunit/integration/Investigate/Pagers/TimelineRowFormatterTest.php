@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Pagers;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\Pagers;
 
-use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\LogFormatter;
 use MediaWiki\Logging\LogPage;
@@ -16,7 +16,7 @@ use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 
 /**
- * @covers \MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelineRowFormatter
  * @group CheckUser
  * @group Database
  */

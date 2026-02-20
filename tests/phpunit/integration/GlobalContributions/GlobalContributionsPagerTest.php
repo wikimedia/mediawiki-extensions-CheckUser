@@ -1,19 +1,19 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\GlobalContributions;
 
 use MediaWiki\ChangeTags\ChangeTagsStore;
 use MediaWiki\ChangeTags\ChangeTagsStoreFactory;
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
-use MediaWiki\CheckUser\GlobalContributions\ExternalPermissions;
-use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentFormatter\RevisionCommentBatch;
 use MediaWiki\CommentStore\CommentStoreComment;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\DAO\WikiAwareEntity;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
+use MediaWiki\Extension\CheckUser\GlobalContributions\ExternalPermissions;
+use MediaWiki\Extension\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
@@ -38,7 +38,7 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
 
 /**
- * @covers \MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager
+ * @covers \MediaWiki\Extension\CheckUser\GlobalContributions\GlobalContributionsPager
  * @group CheckUser
  * @group Database
  */

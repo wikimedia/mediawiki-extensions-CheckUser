@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
@@ -12,7 +12,7 @@ use MediaWikiIntegrationTestCase;
 
 /**
  * @group Database
- * @covers \MediaWiki\CheckUser\HookHandler\UserLinkRendererUserLinkPostRenderHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\UserLinkRendererUserLinkPostRenderHandler
  */
 class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegrationTestCase {
 

@@ -4,18 +4,18 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use ArrayIterator;
 use MediaWiki\Block\DatabaseBlockStore;
-use MediaWiki\CheckUser\CheckUserPermissionStatus;
-use MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions;
-use MediaWiki\CheckUser\HookHandler\SpecialContributionsHandler;
-use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
-use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\GlobalContributions\SpecialGlobalContributions;
+use MediaWiki\Extension\CheckUser\HookHandler\SpecialContributionsHandler;
+use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -33,7 +33,7 @@ use StatusValue;
 /**
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\HookHandler\SpecialContributionsHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\SpecialContributionsHandler
  */
 class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 	use CheckUserTempUserTestTrait;

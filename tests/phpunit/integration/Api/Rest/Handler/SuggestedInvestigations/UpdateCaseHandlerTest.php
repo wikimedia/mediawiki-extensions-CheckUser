@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 
-use MediaWiki\CheckUser\Api\Rest\Handler\SuggestedInvestigations\UpdateCaseHandler;
-use MediaWiki\CheckUser\SuggestedInvestigations\Model\CaseStatus;
-use MediaWiki\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
-use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
-use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Extension\CheckUser\Api\Rest\Handler\SuggestedInvestigations\UpdateCaseHandler;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
@@ -17,7 +17,7 @@ use RuntimeException;
 use Wikimedia\Message\MessageValue;
 
 /**
- * @covers \MediaWiki\CheckUser\Api\Rest\Handler\SuggestedInvestigations\UpdateCaseHandler
+ * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\SuggestedInvestigations\UpdateCaseHandler
  * @group Database
  */
 class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {

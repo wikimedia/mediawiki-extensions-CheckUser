@@ -1,5 +1,5 @@
 <?php
-namespace MediaWiki\CheckUser\Tests\Integration\AbuseFilter;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\AbuseFilter;
 
 use MediaWiki\Extension\AbuseFilter\Filter\Filter;
 use MediaWiki\Extension\AbuseFilter\Tests\Integration\FilterFromSpecsTestTrait;

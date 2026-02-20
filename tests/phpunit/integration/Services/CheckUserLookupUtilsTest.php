@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Revision\RevisionArchiveRecord;
@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 use Wikimedia\TestingAccessWrapper;
 
 /**
- * @covers \MediaWiki\CheckUser\Services\CheckUserLookupUtils
+ * @covers \MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils
  * @group Database
  */
 class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {

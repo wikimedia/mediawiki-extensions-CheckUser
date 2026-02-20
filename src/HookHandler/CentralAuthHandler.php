@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Extension\CentralAuth\Hooks\CentralAuthGlobalUserGroupMembershipChangedHook;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;

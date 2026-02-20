@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks;
 
 use MediaWiki\Extension\CentralAuth\User\GlobalUserSelectQueryBuilderFactory;
 use MediaWiki\User\UserIdentityLookup;

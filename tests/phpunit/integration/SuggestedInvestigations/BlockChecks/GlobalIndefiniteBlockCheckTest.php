@@ -2,9 +2,9 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\BlockChecks;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\BlockChecks;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLocalStatusManager;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockManager;
@@ -14,7 +14,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck
  * @group CheckUser
  * @group Database
  */

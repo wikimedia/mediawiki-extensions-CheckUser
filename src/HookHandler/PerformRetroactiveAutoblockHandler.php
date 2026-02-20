@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Block\DatabaseBlockStoreFactory;
 use MediaWiki\Block\Hook\PerformRetroactiveAutoblockHook;
-use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Config\Config;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;

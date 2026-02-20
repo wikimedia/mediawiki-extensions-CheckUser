@@ -1,16 +1,16 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\GlobalContributions;
 
 use GlobalPreferences\GlobalPreferencesFactory;
 use LogicException;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
-use MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions;
-use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
-use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
-use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
+use MediaWiki\Extension\CheckUser\GlobalContributions\SpecialGlobalContributions;
+use MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob;
+use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
+use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
@@ -23,9 +23,9 @@ use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @covers \MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions
- * @covers \MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager
- * @covers \MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob
+ * @covers \MediaWiki\Extension\CheckUser\GlobalContributions\SpecialGlobalContributions
+ * @covers \MediaWiki\Extension\CheckUser\GlobalContributions\GlobalContributionsPager
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob
  * @group CheckUser
  * @group Database
  */

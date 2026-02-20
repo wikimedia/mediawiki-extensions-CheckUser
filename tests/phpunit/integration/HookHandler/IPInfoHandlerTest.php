@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use LogicException;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
-use MediaWiki\CheckUser\HookHandler\IPInfoHandler;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
+use MediaWiki\Extension\CheckUser\HookHandler\IPInfoHandler;
 use MediaWiki\IPInfo\Rest\Handler\NoRevisionHandler;
 use MediaWiki\IPInfo\Rest\Handler\RevisionHandler;
 use MediaWiki\Permissions\Authority;
@@ -21,7 +21,7 @@ use MediaWikiIntegrationTestCase;
 use MockHttpTrait;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\IPInfoHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\IPInfoHandler
  * @group CheckUser
  * @group Database
  */

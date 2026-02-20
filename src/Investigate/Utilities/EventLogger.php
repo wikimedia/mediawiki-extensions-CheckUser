@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Investigate\Utilities;
+namespace MediaWiki\Extension\CheckUser\Investigate\Utilities;
 
 use MediaWiki\Extension\EventLogging\EventLogging;
 use MediaWiki\Registration\ExtensionRegistry;

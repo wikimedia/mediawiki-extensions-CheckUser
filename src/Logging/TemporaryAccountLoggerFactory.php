@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Logging;
+namespace MediaWiki\Extension\CheckUser\Logging;
 
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\ActorStore;
@@ -49,3 +49,10 @@ class TemporaryAccountLoggerFactory {
 		);
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias( TemporaryAccountLoggerFactory::class, 'MediaWiki\\CheckUser\\Logging\\TemporaryAccountLoggerFactory' );
+// @codeCoverageIgnoreEnd

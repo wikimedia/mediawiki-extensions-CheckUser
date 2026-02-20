@@ -1,18 +1,18 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
-use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\Extension\CheckUser\HookHandler\RecentChangeSaveHandler;
+use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\RecentChangeSaveHandler
  * @group Database
  * @group CheckUser
  */
@@ -80,8 +80,8 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @dataProvider providePruneIPDataData
-	 * @covers \MediaWiki\CheckUser\Jobs\PruneCheckUserDataJob
-	 * @covers \MediaWiki\CheckUser\Services\CheckUserDataPurger
+	 * @covers \MediaWiki\Extension\CheckUser\Jobs\PruneCheckUserDataJob
+	 * @covers \MediaWiki\Extension\CheckUser\Services\CheckUserDataPurger
 	 */
 	public function testPruneIPDataData( int $currentTime, int $maxCUDataAge, array $timestamps, int $afterCount ) {
 		// Check that PruneCheckUserDataJob::run will call CheckUserCentralIndexManager::purgeExpiredRows

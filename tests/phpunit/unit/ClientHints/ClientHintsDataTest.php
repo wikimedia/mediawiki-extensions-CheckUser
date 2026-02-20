@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\ClientHints;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\ClientHints;
 
-use MediaWiki\CheckUser\ClientHints\ClientHintsData;
-use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\Request\FauxRequest;
 use MediaWikiUnitTestCase;
 use TypeError;
@@ -11,7 +11,7 @@ use TypeError;
 /**
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\ClientHints\ClientHintsData
+ * @covers \MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData
  */
 class ClientHintsDataTest extends MediaWikiUnitTestCase {
 	use CheckUserClientHintsCommonTraitTest;

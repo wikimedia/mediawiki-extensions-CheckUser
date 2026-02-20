@@ -1,9 +1,9 @@
 <?php
-namespace MediaWiki\CheckUser\Tests\Unit\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\Services;
 
 use MediaWiki\Block\Block;
-use MediaWiki\CheckUser\CheckUserPermissionStatus;
-use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -16,7 +16,7 @@ use MediaWiki\User\UserRigorOptions;
 use MediaWikiUnitTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\Services\CheckUserPermissionManager
+ * @covers \MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager
  */
 class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 	private UserOptionsLookup $userOptionsLookup;

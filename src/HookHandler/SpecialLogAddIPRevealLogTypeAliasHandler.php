@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
-use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Hook\SpecialLogGetSubpagesForPrefixSearchHook;
 use MediaWiki\Hook\SpecialLogResolveLogTypeHook;
 use MediaWiki\MainConfigNames;

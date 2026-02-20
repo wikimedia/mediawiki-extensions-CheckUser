@@ -19,7 +19,7 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Model;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model;
 
 /**
  * Lists the different statuses a SuggestedInvestigations case can be
@@ -44,3 +44,13 @@ enum CaseStatus: int {
 		};
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	CaseStatus::class,
+	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Model\\CaseStatus'
+);
+// @codeCoverageIgnoreEnd

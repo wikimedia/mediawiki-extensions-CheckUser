@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\Services;
 
-use MediaWiki\CheckUser\Services\CheckUserInsert;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Language\Language;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
@@ -11,7 +11,7 @@ use MediaWikiUnitTestCase;
 use Wikimedia\TestingAccessWrapper;
 
 /**
- * @covers \MediaWiki\CheckUser\Services\CheckUserInsert
+ * @covers \MediaWiki\Extension\CheckUser\Services\CheckUserInsert
  */
 class CheckUserInsertTest extends MediaWikiUnitTestCase {
 

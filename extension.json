@@ -244,13 +244,13 @@
 	},
 	"APIListModules": {
 		"checkuser": {
-			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUser",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\ApiQueryCheckUser",
 			"services": [
 				"ApiQueryCheckUserResponseFactory"
 			]
 		},
 		"checkuserlog": {
-			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\ApiQueryCheckUserLog",
 			"services": [
 				"CommentStore",
 				"CheckUserLogService",
@@ -260,7 +260,7 @@
 	},
 	"APIMetaModules": {
 		"checkuserformattedblockinfo": {
-			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryFormattedBlockInfo",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\ApiQueryFormattedBlockInfo",
 			"services": [
 				"FormatterFactory"
 			]
@@ -279,7 +279,7 @@
 		{
 			"path": "/checkuser/v0/suggestedinvestigations/case/{caseId}/update",
 			"method": "POST",
-			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\SuggestedInvestigations\\UpdateCaseHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\SuggestedInvestigations\\UpdateCaseHandler",
 			"services": [
 				"MainConfig",
 				"ContentLanguage",
@@ -290,7 +290,7 @@
 		{
 			"path": "/checkuser/v0/userinfo",
 			"method": "POST",
-			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserInfoHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoHandler",
 			"services": [
 				"CheckUserUserInfoCardService",
 				"UserFactory"
@@ -299,7 +299,7 @@
 		{
 			"path": "/checkuser/v0/temporaryaccount/{name}",
 			"method": "POST",
-			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountHandler",
 			"services": [
 				"MainConfig",
 				"JobQueueGroup",
@@ -317,7 +317,7 @@
 		{
 			"path": "/checkuser/v0/temporaryaccount/ip/{ip}",
 			"method": "POST",
-			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountIPHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountIPHandler",
 			"services": [
 				"MainConfig",
 				"JobQueueGroup",
@@ -335,7 +335,7 @@
 		{
 			"path": "/checkuser/v0/batch-temporaryaccount",
 			"method": "POST",
-			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\BatchTemporaryAccountHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\BatchTemporaryAccountHandler",
 			"services": [
 				"MainConfig",
 				"JobQueueGroup",
@@ -356,7 +356,7 @@
 		{
 			"path": "/checkuser/v0/useragent-clienthints/{type}/{id}",
 			"method": "POST",
-			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler",
 			"services": [
 				"MainConfig",
 				"RevisionStore",
@@ -368,14 +368,14 @@
 	],
 	"HookHandlers": {
 		"clienthints": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\ClientHints",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\ClientHints",
 			"services": [
 				"MainConfig",
 				"SpecialPageFactory"
 			]
 		},
 		"preferences": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\Preferences",
 			"services": [
 				"PermissionManager",
 				"CheckUserTemporaryAccountLoggerFactory",
@@ -386,7 +386,7 @@
 			]
 		},
 		"groups": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\GroupsHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\GroupsHandler",
 			"services": [
 				"CentralIdLookup",
 				"MainWANObjectCache",
@@ -394,13 +394,13 @@
 			]
 		},
 		"GlobalPreferencesHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\GlobalPreferencesHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\GlobalPreferencesHandler",
 			"services": [
 				"CheckUserTemporaryAccountLoggerFactory"
 			]
 		},
 		"pageDisplay": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\PageDisplay",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\PageDisplay",
 			"services": [
 				"MainConfig",
 				"CheckUserPermissionManager",
@@ -413,7 +413,7 @@
 			]
 		},
 		"CheckUserPrivateEvents": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\CheckUserPrivateEventsHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\CheckUserPrivateEventsHandler",
 			"services": [
 				"CheckUserInsert",
 				"MainConfig",
@@ -426,7 +426,7 @@
 			]
 		},
 		"RetroactiveAutoBlock": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\PerformRetroactiveAutoblockHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\PerformRetroactiveAutoblockHandler",
 			"services": [
 				"DBLoadBalancerFactory",
 				"DatabaseBlockStoreFactory",
@@ -434,10 +434,10 @@
 			]
 		},
 		"SchemaChanges": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SchemaChangesHandler"
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SchemaChangesHandler"
 		},
 		"ToolLinks": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\ToolLinksHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\ToolLinksHandler",
 			"services": [
 				"CheckUserPermissionManager",
 				"PermissionManager",
@@ -453,10 +453,10 @@
 			]
 		},
 		"RenameUserSQLHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\RenameUserSQLHandler"
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\RenameUserSQLHandler"
 		},
 		"GlobalBlockingHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\GlobalBlockingHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\GlobalBlockingHandler",
 			"services": [
 				"ConnectionProvider",
 				"CentralIdLookup",
@@ -464,10 +464,10 @@
 			]
 		},
 		"SpecialPageBeforeExecute": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageBeforeExecuteHandler"
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SpecialPageBeforeExecuteHandler"
 		},
 		"ConditionalRegistration": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\ConditionalRegistrationHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\ConditionalRegistrationHandler",
 			"services": [
 				"MainConfig",
 				"TempUserConfig",
@@ -475,7 +475,7 @@
 			]
 		},
 		"RecentChangeSaveHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\RecentChangeSaveHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\RecentChangeSaveHandler",
 			"services": [
 				"CheckUserInsert",
 				"JobQueueGroup",
@@ -483,7 +483,7 @@
 			]
 		},
 		"RLRegisterModules": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\RLRegisterModulesHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\RLRegisterModulesHandler",
 			"services": [
 				"ExtensionRegistry",
 				"CheckUserHookRunner",
@@ -491,10 +491,10 @@
 			]
 		},
 		"UserMerge": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\UserMergeHandler"
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserMergeHandler"
 		},
 		"SidebarLinksHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SidebarLinksHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SidebarLinksHandler",
 			"services": [
 				"MainConfig",
 				"CheckUserPermissionManager",
@@ -502,7 +502,7 @@
 			]
 		},
 		"LogDisplayHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\LogDisplayHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\LogDisplayHandler",
 			"services": [
 				"UserNameUtils",
 				"MainConfig",
@@ -510,7 +510,7 @@
 			]
 		},
 		"SpecialContributions": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialContributionsHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SpecialContributionsHandler",
 			"services": [
 				"TempUserConfig",
 				"CheckUserTemporaryAccountsByIPLookup",
@@ -521,10 +521,10 @@
 			]
 		},
 		"SpecialLogAddIPRevealLogTypeAliasHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialLogAddIPRevealLogTypeAliasHandler"
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SpecialLogAddIPRevealLogTypeAliasHandler"
 		},
 		"AbuseFilterHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\AbuseFilterHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\AbuseFilterHandler",
 			"services": [
 				"CheckUserTemporaryAccountLoggerFactory",
 				"CheckUserPermissionManager",
@@ -532,7 +532,7 @@
 			]
 		},
 		"UserLinkRendererUserLinkPostRenderHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\UserLinkRendererUserLinkPostRenderHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserLinkRendererUserLinkPostRenderHandler",
 			"services": [
 				"UserOptionsLookup",
 				"UserNameUtils",
@@ -540,26 +540,26 @@
 			]
 		},
 		"IPInfoHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\IPInfoHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\IPInfoHandler",
 			"services": [
 				"CheckUserGlobalContributionsLookup"
 			]
 		},
 		"CentralAuthHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\CentralAuthHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\CentralAuthHandler",
 			"services": [
 				"MainWANObjectCache",
 				"SpecialPageFactory"
 			]
 		},
 		"SuggestedInvestigationsHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SuggestedInvestigationsHandler",
 			"services": [
 				"JobQueueGroup"
 			]
 		},
 		"SuggestedInvestigationsAutoCloseOnUsersBlockedHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnUsersBlockedHandler",
 			"services": [
 				"CheckUserSuggestedInvestigationsCaseLookup",
 				"JobQueueGroup",
@@ -567,7 +567,7 @@
 			]
 		},
 		"SuggestedInvestigationsAutoCloseOnGlobalBlockHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnGlobalBlockHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnGlobalBlockHandler",
 			"services": [
 				"CheckUserSuggestedInvestigationsCaseLookup",
 				"JobQueueGroup",
@@ -575,7 +575,7 @@
 			]
 		},
 		"SuggestedInvestigationsAutoCloseOnGlobalLockHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnGlobalLockHandler",
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SuggestedInvestigationsAutoCloseOnGlobalLockHandler",
 			"services": [
 				"CheckUserSuggestedInvestigationsCaseLookup",
 				"JobQueueGroup",
@@ -796,7 +796,7 @@
 				"SpecialContributions.js",
 				{
 					"name": "durations.json",
-					"callback": "MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getTranslatedDurations",
+					"callback": "MediaWiki\\Extension\\CheckUser\\HookHandler\\DurationMessages::getTranslatedDurations",
 					"callbackParam": [
 						3600,
 						86400,
@@ -805,7 +805,7 @@
 				},
 				{
 					"name": "maxDurationError.json",
-					"callback": "MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getTranslatedMaxDuration"
+					"callback": "MediaWiki\\Extension\\CheckUser\\HookHandler\\DurationMessages::getTranslatedMaxDuration"
 				},
 				{
 					"name": "icons.json",
@@ -914,7 +914,7 @@
 				"investigate/blockform.js",
 				{
 					"name": "investigate/message.json",
-					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
+					"callback": "MediaWiki\\Extension\\CheckUser\\ToolLinksMessages::getParsedMessage",
 					"callbackParam": "checkuser-investigate-compare-toollinks"
 				}
 			],
@@ -1122,7 +1122,7 @@
 	],
 	"SpecialPages": {
 		"CheckUser": {
-			"class": "MediaWiki\\CheckUser\\CheckUser\\SpecialCheckUser",
+			"class": "MediaWiki\\Extension\\CheckUser\\CheckUser\\SpecialCheckUser",
 			"services": [
 				"LinkBatchFactory",
 				"UserGroupManager",
@@ -1150,7 +1150,7 @@
 			]
 		},
 		"CheckUserLog": {
-			"class": "MediaWiki\\CheckUser\\CheckUser\\SpecialCheckUserLog",
+			"class": "MediaWiki\\Extension\\CheckUser\\CheckUser\\SpecialCheckUserLog",
 			"services": [
 				"LinkBatchFactory",
 				"PermissionManager",
@@ -1163,7 +1163,7 @@
 			]
 		},
 		"Investigate": {
-			"class": "MediaWiki\\CheckUser\\Investigate\\SpecialInvestigate",
+			"class": "MediaWiki\\Extension\\CheckUser\\Investigate\\SpecialInvestigate",
 			"services": [
 				"LinkRenderer",
 				"ContentLanguage",
@@ -1183,7 +1183,7 @@
 			]
 		},
 		"InvestigateBlock": {
-			"class": "MediaWiki\\CheckUser\\Investigate\\SpecialInvestigateBlock",
+			"class": "MediaWiki\\Extension\\CheckUser\\Investigate\\SpecialInvestigateBlock",
 			"services": [
 				"BlockUserFactory",
 				"BlockPermissionCheckerFactory",
@@ -1205,14 +1205,14 @@
 	},
 	"LogActionsHandlers": {
 		"checkuser-temporary-account/*": {
-			"class": "MediaWiki\\CheckUser\\Logging\\TemporaryAccountLogFormatter",
+			"class": "MediaWiki\\Extension\\CheckUser\\Logging\\TemporaryAccountLogFormatter",
 			"services": [
 				"ExtensionRegistry",
 				"UserFactory"
 			]
 		},
 		"checkuser-private-event/*": {
-			"class": "MediaWiki\\CheckUser\\Logging\\CheckUserPrivateEventLogFormatter",
+			"class": "MediaWiki\\Extension\\CheckUser\\Logging\\CheckUserPrivateEventLogFormatter",
 			"services": [
 				"UserFactory"
 			]
@@ -1239,14 +1239,14 @@
 	},
 	"JobClasses": {
 		"checkuserLogTemporaryAccountAccess": {
-			"class": "\\MediaWiki\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob",
+			"class": "\\MediaWiki\\Extension\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob",
 			"services": [
 				"CheckUserTemporaryAccountLoggerFactory",
 				"UserIdentityLookup"
 			]
 		},
 		"checkuserPruneCheckUserDataJob": {
-			"class": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob",
+			"class": "\\MediaWiki\\Extension\\CheckUser\\Jobs\\PruneCheckUserDataJob",
 			"services": [
 				"CheckUserCentralIndexManager",
 				"CheckUserDataPurger",
@@ -1256,7 +1256,7 @@
 			]
 		},
 		"checkuserSuggestedInvestigationsAutoClose": {
-			"factory": "MediaWiki\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseJob::newFromGlobalState",
+			"factory": "MediaWiki\\Extension\\CheckUser\\Jobs\\SuggestedInvestigationsAutoCloseJob::newFromGlobalState",
 			"services": [
 				"CheckUserSuggestedInvestigationsCaseManager",
 				"CheckUserSuggestedInvestigationsCaseLookup",
@@ -1266,20 +1266,20 @@
 			"needsPage": false
 		},
 		"checkuserSuggestedInvestigationsMatchSignalsAgainstUserJob": {
-			"class": "MediaWiki\\CheckUser\\Jobs\\SuggestedInvestigationsMatchSignalsAgainstUserJob",
+			"class": "MediaWiki\\Extension\\CheckUser\\Jobs\\SuggestedInvestigationsMatchSignalsAgainstUserJob",
 			"services": [
 				"SuggestedInvestigationsSignalMatchService"
 			],
 			"needsPage": false
 		},
 		"checkuserUpdateUserCentralIndexJob": {
-			"class": "MediaWiki\\CheckUser\\Jobs\\UpdateUserCentralIndexJob",
+			"class": "MediaWiki\\Extension\\CheckUser\\Jobs\\UpdateUserCentralIndexJob",
 			"services": [
 				"ConnectionProvider"
 			]
 		},
 		"checkuserStoreClientHintsDataJob": {
-			"class": "MediaWiki\\CheckUser\\Jobs\\StoreClientHintsDataJob",
+			"class": "MediaWiki\\Extension\\CheckUser\\Jobs\\StoreClientHintsDataJob",
 			"services": [
 				"UserAgentClientHintsManager"
 			],
@@ -1287,6 +1287,16 @@
 		}
 	},
 	"AutoloadClasses": {
+		"MediaWiki\\Extension\\CheckUser\\CheckUserQueryInterface": "src/CheckUserQueryInterface.php",
+		"MediaWiki\\Extension\\CheckUser\\Hook\\CheckUserInsertChangesRowHook": "src/Hook/CheckUserInsertChangesRowHook.php",
+		"MediaWiki\\Extension\\CheckUser\\Hook\\CheckUserInsertLogEventRowHook": "src/Hook/CheckUserInsertLogEventRowHook.php",
+		"MediaWiki\\Extension\\CheckUser\\Hook\\CheckUserInsertPrivateEventRowHook": "src/Hook/CheckUserInsertPrivateEventRowHook.php",
+		"MediaWiki\\Extension\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsOnDetailViewRenderHook": "src/Hook/CheckUserSuggestedInvestigationsOnDetailViewRenderHook.php",
+		"MediaWiki\\Extension\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsBeforeCaseCreatedHook": "src/Hook/CheckUserSuggestedInvestigationsBeforeCaseCreatedHook.php",
+		"MediaWiki\\Extension\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsGetSignalsHook": "src/Hook/CheckUserSuggestedInvestigationsGetSignalsHook.php",
+		"MediaWiki\\Extension\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsSignalMatchHook": "src/Hook/CheckUserSuggestedInvestigationsSignalMatchHook.php",
+		"MediaWiki\\Extension\\CheckUser\\SuggestedInvestigations\\Pagers\\SuggestedInvestigationsPagerFactory": "src/SuggestedInvestigations/Pagers/SuggestedInvestigationsPagerFactory.php",
+		"MediaWiki\\Extension\\CheckUser\\SuggestedInvestigations\\Signals\\SuggestedInvestigationsSignalMatchResult": "src/SuggestedInvestigations/Signals/SuggestedInvestigationsSignalMatchResult.php",
 		"MediaWiki\\CheckUser\\CheckUserQueryInterface": "src/CheckUserQueryInterface.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertChangesRow": "src/Hook/CheckUserInsertChangesRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertChangesRowHook": "src/Hook/CheckUserInsertChangesRowHook.php",
@@ -1294,33 +1304,43 @@
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertLogEventRowHook": "src/Hook/CheckUserInsertLogEventRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertPrivateEventRow": "src/Hook/CheckUserInsertPrivateEventRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertPrivateEventRowHook": "src/Hook/CheckUserInsertPrivateEventRowHook.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PurgeOldData": "maintenance/purgeOldData.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucComment": "maintenance/populateCucComment.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateCulComment": "maintenance/populateCulComment.php",
-		"MediaWiki\\CheckUser\\Maintenance\\MoveLogEntriesFromCuChanges": "maintenance/moveLogEntriesFromCuChanges.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateCheckUserTablesWithSimulatedData": "maintenance/populateCheckUserTablesWithSimulatedData.php",
-		"MediaWiki\\CheckUser\\Maintenance\\GenerateStatsAboutClientHintsData": "maintenance/generateStatsAboutClientHintsData.php",
-		"MediaWiki\\CheckUser\\Maintenance\\FixTrailingSpacesInLogs": "maintenance/fixTrailingSpacesInLogs.php",
-		"MediaWiki\\CheckUser\\Maintenance\\DeleteReadOldRowsInCuChanges": "maintenance/deleteReadOldRowsInCuChanges.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateCentralCheckUserIndexTables": "maintenance/populateCentralCheckUserIndexTables.php",
-		"MediaWiki\\CheckUser\\Maintenance\\MigrateTemporaryAccountIPViewerGroup": "maintenance/migrateTemporaryAccountIPViewerGroup.php",
-		"MediaWiki\\CheckUser\\Maintenance\\RevokeTemporaryAccountViewerGroup": "maintenance/revokeTemporaryAccountViewerGroup.php",
-		"MediaWiki\\CheckUser\\Maintenance\\CreateFakeSuggestedInvestigationCases": "maintenance/createFakeSuggestedInvestigationCases.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateSicUrlIdentifier": "maintenance/populateSicUrlIdentifier.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateUserAgentTable": "maintenance/populateUserAgentTable.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateSicUpdatedTimestamp": "maintenance/populateSicUpdatedTimestamp.php"
+		"MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsOnDetailViewRenderHook": "src/Hook/CheckUserSuggestedInvestigationsOnDetailViewRenderHook.php",
+		"MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsBeforeCaseCreatedHook": "src/Hook/CheckUserSuggestedInvestigationsBeforeCaseCreatedHook.php",
+		"MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsGetSignalsHook": "src/Hook/CheckUserSuggestedInvestigationsGetSignalsHook.php",
+		"MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsSignalMatchHook": "src/Hook/CheckUserSuggestedInvestigationsSignalMatchHook.php",
+		"MediaWiki\\CheckUser\\SuggestedInvestigations\\Pagers\\SuggestedInvestigationsPagerFactory": "src/SuggestedInvestigations/Pagers/SuggestedInvestigationsPagerFactory.php",
+		"MediaWiki\\CheckUser\\SuggestedInvestigations\\Signals\\SuggestedInvestigationsSignalMatchResult": "src/SuggestedInvestigations/Signals/SuggestedInvestigationsSignalMatchResult.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PurgeOldData": "maintenance/purgeOldData.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateCucComment": "maintenance/populateCucComment.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateCulComment": "maintenance/populateCulComment.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\MoveLogEntriesFromCuChanges": "maintenance/moveLogEntriesFromCuChanges.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateCheckUserTablesWithSimulatedData": "maintenance/populateCheckUserTablesWithSimulatedData.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\GenerateStatsAboutClientHintsData": "maintenance/generateStatsAboutClientHintsData.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\FixTrailingSpacesInLogs": "maintenance/fixTrailingSpacesInLogs.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\DeleteReadOldRowsInCuChanges": "maintenance/deleteReadOldRowsInCuChanges.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateCentralCheckUserIndexTables": "maintenance/populateCentralCheckUserIndexTables.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\MigrateTemporaryAccountIPViewerGroup": "maintenance/migrateTemporaryAccountIPViewerGroup.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\RevokeTemporaryAccountViewerGroup": "maintenance/revokeTemporaryAccountViewerGroup.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\CreateFakeSuggestedInvestigationCases": "maintenance/createFakeSuggestedInvestigationCases.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateSicUrlIdentifier": "maintenance/populateSicUrlIdentifier.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateUserAgentTable": "maintenance/populateUserAgentTable.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateSicUpdatedTimestamp": "maintenance/populateSicUpdatedTimestamp.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
 	],
 	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\CheckUser\\": "src/",
 		"MediaWiki\\CheckUser\\": "src/"
 	},
 	"TestAutoloadClasses": {
-		"MediaWiki\\CheckUser\\Tests\\Integration\\Maintenance\\Mocks\\SemiMockedCheckUserDataPurger": "tests/phpunit/integration/maintenance/mocks/SemiMockedCheckUserDataPurger.php"
+		"MediaWiki\\Extension\\CheckUser\\Tests\\Integration\\Maintenance\\Mocks\\SemiMockedCheckUserDataPurger": "tests/phpunit/integration/maintenance/mocks/SemiMockedCheckUserDataPurger.php"
 	},
 	"TestAutoloadNamespaces": {
+		"MediaWiki\\Extension\\CheckUser\\Tests\\": "tests/phpunit/",
+		"MediaWiki\\Extension\\CheckUser\\Tests\\Unit\\": "tests/phpunit/unit/",
+		"MediaWiki\\Extension\\CheckUser\\Tests\\Integration\\": "tests/phpunit/integration/",
 		"MediaWiki\\CheckUser\\Tests\\": "tests/phpunit/",
 		"MediaWiki\\CheckUser\\Tests\\Unit\\": "tests/phpunit/unit/",
 		"MediaWiki\\CheckUser\\Tests\\Integration\\": "tests/phpunit/integration/"

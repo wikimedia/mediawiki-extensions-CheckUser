@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks;
 
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLookup;
 use MediaWiki\User\CentralId\CentralIdLookup;

@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\SuggestedInvestigations;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations;
 
 use LogicException;
-use MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWikiUnitTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult
  */
 class SuggestedInvestigationsSignalMatchResultTest extends MediaWikiUnitTestCase {
 	public function testNewNegativeResult(): void {

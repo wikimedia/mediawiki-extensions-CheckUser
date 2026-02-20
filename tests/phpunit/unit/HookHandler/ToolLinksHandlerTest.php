@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\HookHandler\ToolLinksHandler;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -16,7 +16,7 @@ use MediaWikiUnitTestCase;
 /**
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\HookHandler\ToolLinksHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\ToolLinksHandler
  */
 class ToolLinksHandlerTest extends MediaWikiUnitTestCase {
 

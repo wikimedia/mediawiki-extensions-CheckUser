@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Maintenance;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use Wikimedia\Rdbms\RawSQLValue;
 

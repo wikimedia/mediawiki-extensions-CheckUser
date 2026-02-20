@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Api\ApiLogout;
 use MediaWiki\Api\Hook\APIGetAllowedParamsHook;

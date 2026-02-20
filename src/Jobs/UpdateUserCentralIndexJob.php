@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Jobs;
+namespace MediaWiki\Extension\CheckUser\Jobs;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\JobQueue\Job;
 use MediaWiki\Title\Title;
 use Wikimedia\Rdbms\IConnectionProvider;

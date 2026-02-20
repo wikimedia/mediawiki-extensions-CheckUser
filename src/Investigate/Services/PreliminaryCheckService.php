@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Investigate\Services;
+namespace MediaWiki\Extension\CheckUser\Investigate\Services;
 
 use MediaWiki\Block\DatabaseBlockStoreFactory;
 use MediaWiki\Registration\ExtensionRegistry;

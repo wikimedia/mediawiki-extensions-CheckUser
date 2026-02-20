@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
-use MediaWiki\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IMaintainableDatabase;
@@ -12,7 +12,7 @@ use Wikimedia\TestingAccessWrapper;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges
+ * @covers \MediaWiki\Extension\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges
  */
 class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 

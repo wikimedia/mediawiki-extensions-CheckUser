@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
-use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
@@ -21,7 +21,7 @@ use Wikimedia\IPUtils;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\Services\CheckUserCentralIndexManager
+ * @covers \MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager
  */
 class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 
@@ -506,7 +506,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob
+	 * @covers \MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob
 	 */
 	public function testRecordActionInCentralIndexesForSuccessfulUserIndexInsert() {
 		$performer = $this->getTestUser()->getUserIdentity();

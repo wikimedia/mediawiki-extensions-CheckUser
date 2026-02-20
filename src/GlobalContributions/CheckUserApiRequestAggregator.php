@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\GlobalContributions;
+namespace MediaWiki\Extension\CheckUser\GlobalContributions;
 
 use CentralAuthSessionProvider;
 use Exception;

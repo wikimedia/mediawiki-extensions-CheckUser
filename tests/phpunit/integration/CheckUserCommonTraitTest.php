@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration;
 
 use LogicException;
-use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\RecentChanges\RecentChange;
 

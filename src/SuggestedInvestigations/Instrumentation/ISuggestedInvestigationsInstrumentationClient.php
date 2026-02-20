@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation;
 
 use MediaWiki\Context\IContextSource;
 use MediaWiki\User\UserIdentity;

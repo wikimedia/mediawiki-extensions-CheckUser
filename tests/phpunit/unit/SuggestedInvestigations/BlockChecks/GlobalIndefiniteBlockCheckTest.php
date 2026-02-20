@@ -2,9 +2,9 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\Tests\Unit\SuggestedInvestigations\BlockChecks;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations\BlockChecks;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLookup;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -14,7 +14,7 @@ use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * @covers \MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck
  * @group CheckUser
  */
 class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {

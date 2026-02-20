@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Api\Hook\ApiQuery__moduleManagerHook;
-use MediaWiki\CheckUser\Api\GlobalContributions\ApiQueryGlobalContributions;
-use MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions;
-use MediaWiki\CheckUser\IPContributions\SpecialIPContributions;
-use MediaWiki\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Config\Config;
+use MediaWiki\Extension\CheckUser\Api\GlobalContributions\ApiQueryGlobalContributions;
+use MediaWiki\Extension\CheckUser\GlobalContributions\SpecialGlobalContributions;
+use MediaWiki\Extension\CheckUser\IPContributions\SpecialIPContributions;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
 use MediaWiki\User\TempUser\TempUserConfig;

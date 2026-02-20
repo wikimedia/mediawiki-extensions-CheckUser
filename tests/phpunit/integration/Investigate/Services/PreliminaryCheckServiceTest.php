@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\Services;
 
 use MediaWiki\Block\DatabaseBlockStoreFactory;
-use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
+use MediaWiki\Extension\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserGroupManagerFactory;
@@ -17,8 +17,8 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
  * Test class for PreliminaryCheckService class
  *
  * @group CheckUser
- * @covers \MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService
- * @covers \MediaWiki\CheckUser\Investigate\Services\ChangeService
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Services\PreliminaryCheckService
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Services\ChangeService
  */
 class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 

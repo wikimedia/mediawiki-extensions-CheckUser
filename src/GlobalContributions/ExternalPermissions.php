@@ -18,7 +18,7 @@
  * @file
  */
 
-namespace MediaWiki\CheckUser\GlobalContributions;
+namespace MediaWiki\Extension\CheckUser\GlobalContributions;
 
 /**
  * Value Object encapsulating information about a given set of rights

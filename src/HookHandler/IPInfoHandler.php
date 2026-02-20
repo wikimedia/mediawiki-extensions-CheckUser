@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use LogicException;
-use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
+use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\IPInfo\Hook\IPInfoIPInfoHandlerHook;
 use MediaWiki\Permissions\Authority;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Logging;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Logging;
 
-use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\JobQueue\JobSpecification;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Request\FauxRequest;
@@ -12,8 +12,8 @@ use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogger
- * @covers \MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob
+ * @covers \MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob
  * @group CheckUser
  * @group Database
  */

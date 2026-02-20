@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\Services;
 
 use LogicException;
-use MediaWiki\CheckUser\ClientHints\ClientHintsData;
-use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
-use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
@@ -23,7 +23,7 @@ use Wikimedia\TestingAccessWrapper;
 /**
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\Services\UserAgentClientHintsManager
+ * @covers \MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager
  */
 class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	use MockServiceDependenciesTrait;
@@ -97,7 +97,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 					'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
 					'uachm_reference_id' => 1,
 				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::insertClientHintValues',
+				'MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager::insertClientHintValues',
 				[],
 				[]
 			)->willReturn( 11 );
@@ -163,7 +163,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 					// Condition is: [ 'uach_name' => 'mobile', 'uach_value' => false ]
 					$dbrMock->orExpr( [] ),
 				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::selectClientHintMappings',
+				'MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager::selectClientHintMappings',
 				[],
 				[]
 			)->willReturn( new FakeResultWrapper( [] ) );
@@ -202,7 +202,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 					// Condition is: [ 'uach_name' => 'mobile', 'uach_value' => false ]
 					$dbrMock->orExpr( [] ),
 				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::selectClientHintMappings',
+				'MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager::selectClientHintMappings',
 				[],
 				[]
 			)->willReturn( new FakeResultWrapper( [
@@ -219,7 +219,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 				[
 					[ 'uachm_uach_id' => 2, 'uachm_reference_type' => 0, 'uachm_reference_id' => 1 ],
 				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::insertMappingRows',
+				'MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager::insertMappingRows',
 				[ 'IGNORE' ]
 			);
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );

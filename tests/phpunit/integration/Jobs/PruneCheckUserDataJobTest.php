@@ -1,19 +1,19 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Jobs;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Jobs;
 
-use MediaWiki\CheckUser\Jobs\PruneCheckUserDataJob;
-use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
-use MediaWiki\CheckUser\Services\CheckUserDataPurger;
-use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\CheckUser\Tests\Integration\HookHandler\RecentChangeSaveHandlerTest;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Extension\CheckUser\Jobs\PruneCheckUserDataJob;
+use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\Extension\CheckUser\Services\CheckUserDataPurger;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler\RecentChangeSaveHandlerTest;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 
 /**
- * @covers \MediaWiki\CheckUser\Jobs\PruneCheckUserDataJob
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\PruneCheckUserDataJob
  * @group CheckUser
  * @see RecentChangeSaveHandlerTest::testPruneIPDataData for other tests that cover this job
  */

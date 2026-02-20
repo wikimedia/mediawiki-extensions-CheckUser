@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
-use MediaWiki\CheckUser\Maintenance\RevokeTemporaryAccountViewerGroup;
+use MediaWiki\Extension\CheckUser\Maintenance\RevokeTemporaryAccountViewerGroup;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\User;
@@ -11,7 +11,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\Maintenance\RevokeTemporaryAccountViewerGroup
+ * @covers \MediaWiki\Extension\CheckUser\Maintenance\RevokeTemporaryAccountViewerGroup
  */
 class RevokeTemporaryAccountViewerGroupTest extends MaintenanceBaseTestCase {
 	use TempUserTestTrait;

@@ -1,19 +1,19 @@
 <?php
-namespace MediaWiki\CheckUser\Tests\Integration\Services;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
-use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
-use MediaWiki\CheckUser\Services\AccountCreationDetailsLookup;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\Services\AccountCreationDetailsLookup;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\NullLogger;
 
 /**
- * @covers \MediaWiki\CheckUser\Services\AccountCreationDetailsLookup
+ * @covers \MediaWiki\Extension\CheckUser\Services\AccountCreationDetailsLookup
  * @group Database
  */
 class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {

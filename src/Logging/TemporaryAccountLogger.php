@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Logging;
+namespace MediaWiki\Extension\CheckUser\Logging;
 
 use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Logging\ManualLogEntry;
@@ -374,3 +374,10 @@ class TemporaryAccountLogger {
 		return new ManualLogEntry( self::LOG_TYPE, $subtype );
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias( TemporaryAccountLogger::class, 'MediaWiki\\CheckUser\\Logging\\TemporaryAccountLogger' );
+// @codeCoverageIgnoreEnd

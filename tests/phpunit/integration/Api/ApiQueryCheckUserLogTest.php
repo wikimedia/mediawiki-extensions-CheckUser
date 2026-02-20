@@ -1,13 +1,13 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Api;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api;
 
 use MediaWiki\Api\ApiMain;
 use MediaWiki\Api\ApiQuery;
 use MediaWiki\Api\ApiUsageException;
-use MediaWiki\CheckUser\Api\ApiQueryCheckUserLog;
-use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Extension\CheckUser\Api\ApiQueryCheckUserLog;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Tests\Api\ApiTestCase;
 use Wikimedia\TestingAccessWrapper;
@@ -18,7 +18,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group medium
  * @group Database
  *
- * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUserLog
+ * @covers \MediaWiki\Extension\CheckUser\Api\ApiQueryCheckUserLog
  */
 class ApiQueryCheckUserLogTest extends ApiTestCase {
 

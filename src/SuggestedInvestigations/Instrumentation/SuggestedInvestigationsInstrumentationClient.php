@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Instrumentation;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation;
 
-use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\EventBus\Serializers\MediaWiki\UserEntitySerializer;
 use MediaWiki\Extension\EventLogging\MetricsPlatform\MetricsClientFactory;
 use MediaWiki\Registration\ExtensionRegistry;

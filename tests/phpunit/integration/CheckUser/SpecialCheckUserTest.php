@@ -1,15 +1,15 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser;
 
-use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
-use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
-use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
-use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
-use MediaWiki\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
-use MediaWiki\CheckUser\Tests\SpecialCheckUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
+use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Extension\CheckUser\Tests\SpecialCheckUserTestTrait;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -29,10 +29,10 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  * @group Database
  *
- * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
- * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager
- * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager
- * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager
  */
 class SpecialCheckUserTest extends SpecialPageTestBase {
 

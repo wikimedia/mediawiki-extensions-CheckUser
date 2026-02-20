@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Logging;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Logging;
 
 use LogFormatterTestCase;
-use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
+use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 
@@ -12,7 +12,7 @@ use MediaWiki\User\UserIdentityValue;
  * @group CheckUser
  * @group Database For checking if temp accounts are expired and style them as such
  *
- * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogFormatter
+ * @covers \MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogFormatter
  */
 class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 	public function setUp(): void {

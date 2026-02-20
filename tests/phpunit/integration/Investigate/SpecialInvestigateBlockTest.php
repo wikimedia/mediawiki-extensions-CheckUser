@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Investigate;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate;
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
@@ -12,7 +12,7 @@ use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @covers \MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigateBlock
  * @group CheckUser
  * @group Database
  */

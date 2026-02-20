@@ -2,9 +2,9 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Services;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
 
-use MediaWiki\CheckUser\SuggestedInvestigations\BlockChecks\IndefiniteBlockCheckInterface;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\IndefiniteBlockCheckInterface;
 
 class CompositeIndefiniteBlockChecker {
 
@@ -32,3 +32,13 @@ class CompositeIndefiniteBlockChecker {
 		return $unblockedUserIds;
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	CompositeIndefiniteBlockChecker::class,
+	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Services\\CompositeIndefiniteBlockChecker'
+);
+// @codeCoverageIgnoreEnd

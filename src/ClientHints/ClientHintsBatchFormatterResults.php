@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\ClientHints;
+namespace MediaWiki\Extension\CheckUser\ClientHints;
 
 use InvalidArgumentException;
-use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 
 /**
  * Value object for the result of UserAgentClientHintsFormatter::batchFormatClientHintsData

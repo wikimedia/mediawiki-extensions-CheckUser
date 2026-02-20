@@ -1,10 +1,10 @@
 <?php
-namespace MediaWiki\CheckUser\Api\GlobalContributions;
+namespace MediaWiki\Extension\CheckUser\Api\GlobalContributions;
 
 use MediaWiki\Api\ApiBase;
 use MediaWiki\Api\ApiQuery;
 use MediaWiki\Api\ApiQueryBase;
-use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
+use MediaWiki\Extension\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\ParamValidator\ParamValidator;

@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
-use MediaWiki\CheckUser\Maintenance\PurgeOldData;
-use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\Maintenance\PurgeOldData;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Maintenance\Maintenance;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -15,7 +15,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
- * @covers \MediaWiki\CheckUser\Maintenance\PurgeOldData
+ * @covers \MediaWiki\Extension\CheckUser\Maintenance\PurgeOldData
  */
 class PurgeOldDataTest extends MaintenanceBaseTestCase {
 

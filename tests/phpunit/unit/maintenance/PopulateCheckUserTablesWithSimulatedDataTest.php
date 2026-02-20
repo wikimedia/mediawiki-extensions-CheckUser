@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\Maintenance;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\Maintenance;
 
-use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData;
 use MediaWikiUnitTestCase;
 use ReflectionClass;
 use Wikimedia\IPUtils;
@@ -13,7 +13,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 /**
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData
+ * @covers \MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData
  */
 class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase {
 	public function setUpObjectUnderTest() {

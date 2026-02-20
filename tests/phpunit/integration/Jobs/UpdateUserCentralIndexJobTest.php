@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration\Jobs;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\Jobs;
 
-use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
+use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob
+ * @covers \MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob
  * @group CheckUser
  * @group Database
  * @see CheckUserCentralIndexManagerTest::testRecordActionInCentralIndexesForSuccessfulUserIndexInsert for other

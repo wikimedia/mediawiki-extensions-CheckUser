@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\Api\ApiBase;
 use MediaWiki\Api\ApiLogout;
 use MediaWiki\Api\ApiQuery;
-use MediaWiki\CheckUser\HookHandler\ClientHints;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Extension\CheckUser\HookHandler\ClientHints;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\WebRequest;
@@ -19,7 +19,7 @@ use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\ClientHints
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\ClientHints
  */
 class ClientHintsTest extends MediaWikiUnitTestCase {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Services;
+namespace MediaWiki\Extension\CheckUser\Services;
 
 use MediaWiki\Request\ProxyLookup;
 use MediaWiki\Request\WebRequest;
@@ -90,8 +90,15 @@ class CheckUserUtilityService {
 	}
 }
 
+// @codeCoverageIgnoreStart
 /**
  * Retain the old namespace for backwards compatibility.
  * @deprecated since 1.41
  */
-class_alias( CheckUserUtilityService::class, 'MediaWiki\CheckUser\CheckUserUtilityService' );
+class_alias( CheckUserUtilityService::class, 'MediaWiki\\CheckUser\\CheckUserUtilityService' );
+
+/**
+ * @deprecated since 1.46
+ */
+class_alias( CheckUserUtilityService::class, 'MediaWiki\\CheckUser\\Services\\CheckUserUtilityService' );
+// @codeCoverageIgnoreEnd

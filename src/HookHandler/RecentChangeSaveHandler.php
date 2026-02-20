@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\HookHandler;
+namespace MediaWiki\Extension\CheckUser\HookHandler;
 
-use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\JobQueue\JobSpecification;

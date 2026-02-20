@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit\CheckUser;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\CheckUser;
 
-use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
-use MediaWiki\CheckUser\Tests\SpecialCheckUserTestTrait;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\Extension\CheckUser\Tests\SpecialCheckUserTestTrait;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
@@ -14,7 +14,7 @@ use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
- * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
+ * @covers \MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser
  */
 class SpecialCheckUserTest extends MediaWikiUnitTestCase {
 

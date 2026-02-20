@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\Extension\CheckUser\Tests;
 
-use MediaWiki\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 
 /**
  * A helper trait used by classes that need to get an example ClientHintsData object,

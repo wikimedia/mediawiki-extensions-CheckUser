@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\Extension\CheckUser\Tests;
 
 use MediaWiki\Block\DatabaseBlockStoreFactory;
-use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
-use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
-use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
+use MediaWiki\Extension\CheckUser\Investigate\Services\PreliminaryCheckService;
+use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;
@@ -15,7 +15,7 @@ use Wikimedia\Rdbms\IConnectionProvider;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager
+ * @covers \MediaWiki\Extension\CheckUser\Investigate\Pagers\PreliminaryCheckPager
  */
 class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 

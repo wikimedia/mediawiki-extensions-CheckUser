@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Hook;
+namespace MediaWiki\Extension\CheckUser\Hook;
 
-use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\User\UserIdentity;
@@ -129,3 +129,10 @@ class HookRunner implements
 		);
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias( HookRunner::class, 'MediaWiki\\CheckUser\\Hook\\HookRunner' );
+// @codeCoverageIgnoreEnd

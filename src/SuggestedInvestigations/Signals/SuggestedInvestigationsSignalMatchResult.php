@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\SuggestedInvestigations\Signals;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals;
 
 use LogicException;
 
@@ -171,3 +171,12 @@ class SuggestedInvestigationsSignalMatchResult {
 		return $this->userInfoBitFlags;
 	}
 }
+
+// @codeCoverageIgnoreStart
+/**
+ * @deprecated since 1.46
+ */
+class_alias(
+	SuggestedInvestigationsSignalMatchResult::class,
+	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Signals\\SuggestedInvestigationsSignalMatchResult' );
+// @codeCoverageIgnoreEnd
