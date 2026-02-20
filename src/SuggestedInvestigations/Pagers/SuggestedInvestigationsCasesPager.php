@@ -631,10 +631,13 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		if ( $this->userNamesFilter ) {
-			$userIdentities = $this->userIdentityLookup->newSelectQueryBuilder()
+			$userIdentitiesQueryBuilder = $this->userIdentityLookup->newSelectQueryBuilder()
 				->whereUserNames( $this->userNamesFilter )
-				->caller( __METHOD__ )
-				->fetchUserIdentities();
+				->caller( __METHOD__ );
+			if ( !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
+				$userIdentitiesQueryBuilder->hidden( false );
+			}
+			$userIdentities = $userIdentitiesQueryBuilder->fetchUserIdentities();
 			$userIds = array_map(
 				static fn ( UserIdentity $user ) => $user->getId(),
 				iterator_to_array( $userIdentities )
