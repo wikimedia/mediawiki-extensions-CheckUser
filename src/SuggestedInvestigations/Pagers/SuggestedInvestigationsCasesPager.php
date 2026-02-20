@@ -630,41 +630,58 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			);
 		}
 
-		if ( $this->userNamesFilter ) {
-			$userIdentitiesQueryBuilder = $this->userIdentityLookup->newSelectQueryBuilder()
-				->whereUserNames( $this->userNamesFilter )
-				->caller( __METHOD__ );
-			if ( !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
-				$userIdentitiesQueryBuilder->hidden( false );
-			}
-			$userIdentities = $userIdentitiesQueryBuilder->fetchUserIdentities();
-			$userIds = array_map(
-				static fn ( UserIdentity $user ) => $user->getId(),
-				iterator_to_array( $userIdentities )
-			);
+		$queryInfo = $this->applyUsernameFilter( $queryInfo );
+		$queryInfo = $this->applySignalsFilter( $queryInfo );
 
-			// If there are user IDs, then join on the query.
-			// If none of the usernames equate to user IDs, then make the query return nothing
-			// to indicate these usernames are not in any case.
-			if ( $userIds ) {
-				$queryInfo['tables'][] = 'cusi_user';
-				$queryInfo['join_conds']['cusi_user'] = [ 'JOIN', 'sic_id = siu_sic_id' ];
-				$queryInfo['conds']['siu_user_id'] = $userIds;
-			} else {
-				$queryInfo['conds'][] = '1=0';
-			}
+		return $queryInfo;
+	}
+
+	private function applyUsernameFilter( array $queryInfo ): array {
+		if ( !$this->userNamesFilter ) {
+			return $queryInfo;
 		}
 
-		if ( $this->signalsFilter ) {
-			$signalsFilterSubquerySql = $this->getDatabase()->newSelectQueryBuilder()
-				->select( '1' )
-				->from( 'cusi_signal' )
-				->where( [ 'sis_name' => $this->signalsFilter, 'sic_id = sis_sic_id' ] )
-				->caller( __METHOD__ )
-				->getSQL();
+		$userIdentitiesQueryBuilder = $this->userIdentityLookup->newSelectQueryBuilder()
+			->whereUserNames( $this->userNamesFilter )
+			->caller( __METHOD__ );
 
-			$queryInfo['conds'][] = "EXISTS ($signalsFilterSubquerySql)";
+		// Filter out local hidden usernames
+		if ( !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
+			$userIdentitiesQueryBuilder->hidden( false );
 		}
+
+		$userIdentities = $userIdentitiesQueryBuilder->fetchUserIdentities();
+		$userIds = array_map(
+			static fn ( UserIdentity $user ) => $user->getId(),
+			iterator_to_array( $userIdentities )
+		);
+
+		// If there are user IDs, then join on the query.
+		// If none of the usernames equate to user IDs, then make the query return nothing
+		// to indicate these usernames are not in any case.
+		if ( $userIds ) {
+			$queryInfo['tables'][] = 'cusi_user';
+			$queryInfo['join_conds']['cusi_user'] = [ 'JOIN', 'sic_id = siu_sic_id' ];
+			$queryInfo['conds']['siu_user_id'] = $userIds;
+		} else {
+			$queryInfo['conds'][] = '1=0';
+		}
+
+		return $queryInfo;
+	}
+
+	private function applySignalsFilter( array $queryInfo ): array {
+		if ( !$this->signalsFilter ) {
+			return $queryInfo;
+		}
+		$signalsFilterSubquerySql = $this->getDatabase()->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cusi_signal' )
+			->where( [ 'sis_name' => $this->signalsFilter, 'sic_id = sis_sic_id' ] )
+			->caller( __METHOD__ )
+			->getSQL();
+
+		$queryInfo['conds'][] = "EXISTS ($signalsFilterSubquerySql)";
 
 		return $queryInfo;
 	}
