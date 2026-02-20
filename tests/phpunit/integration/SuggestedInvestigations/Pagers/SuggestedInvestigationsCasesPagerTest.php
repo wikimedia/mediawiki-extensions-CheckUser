@@ -96,9 +96,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		ConvertibleTimestamp::setFakeTime( '20250403020100' );
 
 		$caseId = $this->addCaseWithTwoUsers();
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
 		// Mock the edit counts for our test users so that the first test user has no edits
@@ -215,9 +213,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$updateTimestamp = '20250607080910';
 		$caseId = $this->addCaseWithTwoUsers();
 
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
 		// Expect that the global edit count is never fetched, as we are using the local one.
@@ -321,9 +317,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		ConvertibleTimestamp::setFakeTime( '20250403020100' );
 
 		$this->addCaseWithTwoUsers();
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
 		$pager = $this->getPager( $context, $signals );
@@ -517,9 +511,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->getCaseManager()->setCaseStatus( $firstCaseId, CaseStatus::Open, 'first case reason' );
 		$this->getCaseManager()->setCaseStatus( $secondCaseId, CaseStatus::Invalid, 'second case reason' );
 
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 
 		$pager = $this->getPager( $context );
 		$pager->caseIdFilter = $firstCaseId;
@@ -561,9 +553,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	public function testInvestigateDisabledWhenTooManyUsers() {
 		$caseId = $this->addCaseWithManyUsers();
 
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 
 		$pager = $this->getPager( $context );
 
@@ -595,9 +585,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$this->getCaseManager()->setCaseStatus( $caseId, $caseStatus, $reasonInDatabase );
 
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 
 		$pager = $this->getPager( $context );
 
@@ -643,9 +631,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$caseManager->setCaseStatus( $firstCaseId, CaseStatus::Resolved );
 
 		// Load the pager with the 'status' query parameter set to 'open'
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'status', 'open' );
 
 		$parserOutput = $this->getPager( $context )->getFullOutput();
@@ -682,9 +668,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
 
 		// Load the pager with the 'username' query set to the first user's username
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'username', $firstUser->getName() );
 
 		$parserOutput = $this->getPager( $context )->getFullOutput();
@@ -706,9 +690,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->getCaseManager()->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
 
 		// Load the pager with the 'username' query set to a string that isn't an existing username
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'username', __METHOD__ . wfRandomString() );
 
 		$html = $this->getPager( $context )->getBody();
@@ -717,6 +699,70 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// message key and checking that no data-case-id attributes exist in the page
 		$this->assertStringContainsString( '(table_pager_empty)', $html );
 		$this->assertStringNotContainsString( 'data-case-id', $html );
+	}
+
+	/** @dataProvider provideWhenUsernameFilterUsesHiddenUsername */
+	public function testWhenUsernameFilterUsesHiddenUsername(
+		array $performerPermissions, bool $expectVisible
+	): void {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
+
+		// Create a case with one user, then hide that user
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$user = $this->getMutableTestUser()->getUser();
+		$caseId = $this->getCaseManager()->createCase( [ $user ], [ $signal ] );
+
+		$this->placeHideUserBlock( $user );
+
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'username', $user->getName() );
+		$context->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( $performerPermissions ) );
+
+		$html = $this->getPager( $context )->getBody();
+
+		if ( $expectVisible ) {
+			$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $html );
+			$this->assertStringContainsString( $user->getName(), $html );
+		} else {
+			$this->assertStringContainsString( '(table_pager_empty)', $html );
+			$this->assertStringNotContainsString( 'data-case-id', $html );
+		}
+	}
+
+	public static function provideWhenUsernameFilterUsesHiddenUsername(): array {
+		return [
+			'without hideuser permission' => [ [ 'hideuser' ], false ],
+			'with hideuser permission' => [ [], true ],
+		];
+	}
+
+	public function testWhenUsernameFilterIncludesHiddenAndVisibleUsername(): void {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
+
+		// Create two cases each with a different user
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstUser = $this->getMutableTestUser()->getUser();
+		$secondUser = $this->getMutableTestUser()->getUser();
+
+		$caseManager = $this->getCaseManager();
+		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+
+		// Hide the first user
+		$this->placeHideUserBlock( $firstUser );
+
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'username', [ $firstUser->getName(), $secondUser->getName() ] );
+		$context->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] ) );
+
+		$html = $this->getPager( $context )->getBody();
+
+		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
 	}
 
 	/** @dataProvider provideLimitValues */
@@ -743,9 +789,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
 
 		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
 		$context->getRequest()->setVal( 'limit', $limit );
 
@@ -808,9 +852,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->setService( 'CentralAuth.CentralAuthEditCounter', $mockCentralAuthEditCounter );
 
 		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
 		$context->getRequest()->setVal( 'limit', $limit );
 
@@ -855,9 +897,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$fourthCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
 
 		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
 		$context->getRequest()->setVal( 'limit', 2 );
 
@@ -883,9 +923,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testWhenPHPFiltersLimitReached() {
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 
 		$pager = $this->getPager( $context );
 
@@ -897,7 +935,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// Added via IContextSource::getOutput::addHTML to make sure it appears above the Codex table, however,
 		// we need to call ::getFullOutput first so that IContextSource::getOutput::addHTML is actually called
 		$pager->getFullOutput();
-		$html = $context->getOutput()->getHtml();
+		$html = $context->getOutput()->getHTML();
 
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php)',
@@ -925,9 +963,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$secondCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $secondSignal ] );
 
 		// Load the pager with the 'signal' query parameter set to 'dev-signal-2'
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'signal', $urlName );
 
 		$parserOutput = $this->getPager( $context, $signals )->getFullOutput();
@@ -972,9 +1008,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$caseManager->updateCase( $secondCaseId, [], [ $thirdSignal ] );
 
 		// Load the pager with the 'signal' query parameter set to 'dev-signal-2'
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'signal', 'dev-signal-2' );
 
 		$parserOutput = $this->getPager(
@@ -1004,9 +1038,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$caseManager->setCaseStatus( $firstCaseId, CaseStatus::Resolved );
 
 		// Load the pager with the 'status' query parameter set to [ 'open', 'resolved' ] and an unknown parameter
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
-		$context->setLanguage( 'qqx' );
+		$context = $this->makeQqxContext();
 		// So that we have the limit form shown in the output
 		$context->getRequest()->setVal( 'limit', 1 );
 		$context->getRequest()->setVal( 'status', [ 'open', 'resolved', 'unknown' => 'loremIpsum' ] );
@@ -1107,6 +1139,26 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	private function getPager( IContextSource $context, array $signals = [] ): SuggestedInvestigationsCasesPager {
 		return $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsPagerFactory' )
 			->createCasesPager( $context, $signals );
+	}
+
+	private function makeQqxContext(): RequestContext {
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setLanguage( 'qqx' );
+
+		return $context;
+	}
+
+	private function placeHideUserBlock( UserIdentity $user ): void {
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$user,
+				$this->mockRegisteredUltimateAuthority(),
+				'indefinite',
+				'Test reason',
+				[ 'isHideUser' => true ]
+			)
+			->placeBlock();
 	}
 
 	private function getCaseManager(): SuggestedInvestigationsCaseManagerService {
