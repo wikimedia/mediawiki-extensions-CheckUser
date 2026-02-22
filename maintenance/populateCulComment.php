@@ -110,7 +110,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			return true;
 		}
 
-		if ( !$dbw->fieldExists( 'cu_log', 'cul_reason' ) ) {
+		if ( !$dbw->fieldExists( 'cu_log', 'cul_reason', __METHOD__ ) ) {
 			$this->output( "The cul_reason field does not exist which is needed for migration.\n" );
 			return true;
 		}

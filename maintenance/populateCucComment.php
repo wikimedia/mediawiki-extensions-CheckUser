@@ -91,7 +91,7 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 			return true;
 		}
 
-		if ( !$dbw->fieldExists( 'cu_changes', 'cuc_comment' ) ) {
+		if ( !$dbw->fieldExists( 'cu_changes', 'cuc_comment', __METHOD__ ) ) {
 			$this->output( "cuc_comment has already been dropped.\n" );
 			return true;
 		}
