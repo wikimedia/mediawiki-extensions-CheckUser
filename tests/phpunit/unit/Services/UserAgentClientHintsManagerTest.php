@@ -239,12 +239,8 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [],
 			UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [],
 		] );
-		$loggerMock = $this->createMock( LoggerInterface::class );
-		$loggerMock->expects( $this->once() )
-			->method( 'info' )
-			->with( "No mapping rows deleted." );
 		$objectToTest = TestingAccessWrapper::newFromObject(
-			$this->newServiceInstance( UserAgentClientHintsManager::class, [ 'logger' => $loggerMock ] )
+			$this->newServiceInstance( UserAgentClientHintsManager::class, [] )
 		);
 		/** @var Status $result */
 		$result = $objectToTest->deleteMappingRows( $clientHintReferenceIds );

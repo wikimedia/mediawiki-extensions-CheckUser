@@ -222,14 +222,6 @@ class UserAgentClientHintsManager {
 				$mappingRowsDeleted += $this->dbw->affectedRows();
 			} while ( $batchToDelete->count() );
 		}
-		if ( !$mappingRowsDeleted ) {
-			$this->logger->info( "No mapping rows deleted." );
-		} else {
-			$this->logger->debug(
-				"Deleted {mapping_rows_deleted} mapping rows.",
-				[ 'mapping_rows_deleted' => $mappingRowsDeleted ]
-			);
-		}
 		return $mappingRowsDeleted;
 	}
 
@@ -285,12 +277,6 @@ class UserAgentClientHintsManager {
 					break;
 				}
 			}
-		}
-		if ( $mappingRowsDeleted ) {
-			$this->logger->info(
-				"Deleted {mapping_rows_deleted} orphaned mapping rows.",
-				[ 'mapping_rows_deleted' => $mappingRowsDeleted ]
-			);
 		}
 		return $mappingRowsDeleted;
 	}
