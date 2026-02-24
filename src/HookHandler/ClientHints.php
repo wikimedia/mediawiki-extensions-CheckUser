@@ -111,9 +111,9 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 			// Roundabout way to ensure we have a list of values like "architecture", "bitness"
 			// etc for use with the client-side JS API. Make sure we get 1) just the values
 			// from the configuration, 2) filter out any empty entries, 3) convert to a list
-			'wgCheckUserClientHintsHeadersJsApi' => array_values( array_filter( array_values(
+			'wgCheckUserClientHintsHeadersJsApi' => array_values( array_filter(
 				$this->config->get( 'CheckUserClientHintsHeaders' )
-			) ) ),
+			) ),
 		] );
 		$out->addModules( 'ext.checkUser.clientHints' );
 	}

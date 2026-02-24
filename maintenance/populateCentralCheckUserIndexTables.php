@@ -86,9 +86,9 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance {
 				->caller( __METHOD__ )
 				->fetchFieldValues();
 
-			$lastActorId = end( $batchOfActorIds );
-			$firstActorId = reset( $batchOfActorIds );
-			if ( $firstActorId !== false ) {
+			$lastActorId = array_last( $batchOfActorIds );
+			$firstActorId = array_first( $batchOfActorIds );
+			if ( $firstActorId !== null ) {
 				$this->output( "...Processing users with actor IDs $firstActorId to $lastActorId\n" );
 			}
 
@@ -176,7 +176,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance {
 
 					// After processing a batch of IPs for a user, wait for replica DBs to catch up.
 					$this->waitForReplication();
-					$lastIp = end( $batchOfIPHexes );
+					$lastIp = array_last( $batchOfIPHexes );
 				} while ( count( $batchOfIPHexes ) );
 			}
 		} while ( count( $batchOfActorIds ) );

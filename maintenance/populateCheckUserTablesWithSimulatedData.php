@@ -62,6 +62,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
 	private array $ipv6Ranges = [];
 
+	/** @var string[]|null */
 	private array $ipsToUse;
 
 	private FauxRequest $mainRequest;
@@ -436,20 +437,12 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	 * in the property self::ipsToUse excluding those provided
 	 * in the arguments.
 	 *
-	 * @param array $ipsExcluded The IPs to exclude from the random selection
+	 * @param string[] $ipsExcluded The IPs to exclude from the random selection
 	 * @return string|null A random IP or null if no IPs are left after the exclusion step.
 	 */
 	private function returnRandomIpExceptExcluded( array $ipsExcluded ): ?string {
-		$ipsToChoose = array_flip( array_filter(
-			$this->ipsToUse,
-			static function ( $item ) use ( $ipsExcluded ) {
-				return !in_array( $item, $ipsExcluded );
-			}
-		) );
-		if ( count( $ipsToChoose ) ) {
-			return array_rand( $ipsToChoose );
-		}
-		return null;
+		$ipsToChoose = array_diff( $this->ipsToUse, $ipsExcluded );
+		return $ipsToChoose ? array_rand( array_flip( $ipsToChoose ) ) : null;
 	}
 
 	/**

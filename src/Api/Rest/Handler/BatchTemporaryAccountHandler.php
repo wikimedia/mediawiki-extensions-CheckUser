@@ -233,9 +233,12 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	 * Returns the IPs associated with a given set of abuse_filter_log IDs.
 	 *
 	 * This method assumes that the AbuseFilter extension is installed.
+	 *
+	 * @param int[] $abuseFilterLogIds
+	 * @return array<int,string>
 	 */
 	private function getAbuseFilterLogIPs( array $abuseFilterLogIds ): array {
-		if ( count( $abuseFilterLogIds ) === 0 ) {
+		if ( !$abuseFilterLogIds ) {
 			return [];
 		}
 
@@ -246,7 +249,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 
 		// Remove any IPs which are false (meaning the user could not see the abuse_filter_log row) and then
 		// return the list.
-		return array_filter( $abuseLogIps, static fn ( $value ) => $value !== false );
+		return array_filter( $abuseLogIps );
 	}
 
 	/**

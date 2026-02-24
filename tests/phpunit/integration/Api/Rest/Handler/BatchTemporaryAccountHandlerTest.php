@@ -1005,14 +1005,10 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$mockSelectQueryBuilder->method( 'fetchResultSet' )
 			->willReturnCallback( static function () use ( $mockSelectQueryBuilder, $revColumnName ) {
 				return new FakeResultWrapper( array_map(
-					static function ( $revId ) use ( $revColumnName ) {
-						return [ $revColumnName => $revId ];
-					},
-					array_values( array_filter(
+					static fn ( $revId ) => [ $revColumnName => $revId ],
+					array_values( array_intersect(
 						$mockSelectQueryBuilder->getQueryInfo()['conds'][$revColumnName],
-						static function ( $revId ) {
-							return in_array( $revId, [ 10, 100, 1000 ] );
-						}
+						[ 10, 100, 1000 ]
 					) )
 				) );
 			} );

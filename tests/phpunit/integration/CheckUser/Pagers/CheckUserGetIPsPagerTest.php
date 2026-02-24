@@ -56,12 +56,9 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 		);
 		$this->assertArrayEquals(
 			$expectedTemplateParams,
-			array_filter(
+			array_intersect_key(
 				$object->templateParser->lastCalledWith[1],
-				static function ( $key ) use ( $expectedTemplateParams ) {
-					return array_key_exists( $key, $expectedTemplateParams );
-				},
-				ARRAY_FILTER_USE_KEY
+				$expectedTemplateParams
 			),
 			false,
 			true,

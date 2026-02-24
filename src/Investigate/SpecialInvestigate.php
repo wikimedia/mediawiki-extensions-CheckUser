@@ -287,7 +287,7 @@ class SpecialInvestigate extends FormSpecialPage {
 			case $this->getTabParam( 'preliminary-check' ):
 				/** @var PreliminaryCheckPager $pager */
 				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
-				$hasIpTargets = (bool)array_filter(
+				$hasIpTargets = array_any(
 					$this->getTokenData()['targets'] ?? [],
 					IPUtils::isIPAddress( ... )
 				);
