@@ -290,7 +290,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
-						'signal' => [],
+						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
 					],
 				],
 			],
@@ -301,7 +301,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'is_paging_results' => true, 'pager_limit' => 20, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
-						'signal' => [],
+						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
 					],
 				],
 			],
@@ -315,6 +315,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [ 'open' ], 'username' => [ 'TestUser1' ],
 						'hide_cases_with_no_user_edits' => false,
+						'hide_cases_with_no_blocked_users' => false,
 						'signal' => [ 'dev-signal-1' ],
 					],
 				],
@@ -326,7 +327,18 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
-						'signal' => [ 'dev-signal-1' ],
+						'hide_cases_with_no_blocked_users' => false, 'signal' => [ 'dev-signal-1' ],
+					],
+				],
+			],
+			'Page load with hide cases with no blocked users filter applied' => [
+				'subPage' => '',
+				'queryParameters' => [ 'hideCasesWithNoBlockedUsers' => 1, 'signal' => 'dev-signal-1' ],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
+						'hide_cases_with_no_blocked_users' => true, 'signal' => [ 'dev-signal-1' ],
 					],
 				],
 			],
@@ -337,7 +349,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'is_paging_results' => true, 'pager_limit' => 10, 'is_in_detail_view' => false,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
-						'signal' => [],
+						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
 					],
 				],
 			],
@@ -349,7 +361,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'case_id' => 1,
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
-						'signal' => [],
+						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
 					],
 				],
 			],

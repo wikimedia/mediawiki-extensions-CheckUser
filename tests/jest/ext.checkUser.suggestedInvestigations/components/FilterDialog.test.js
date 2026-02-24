@@ -19,7 +19,7 @@ const FilterDialog = require( '../../../../modules/ext.checkUser.suggestedInvest
 const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
 	props: { initialFilters: Object.assign(
 		{},
-		{ status: [], username: [], hideCasesWithNoUserEdits: false, signal: [] },
+		{ status: [], username: [], hideCasesWithNoUserEdits: false, hideCasesWithNoBlockedUsers: false, signal: [] },
 		initialFilters
 	) }
 } );
@@ -153,6 +153,29 @@ const commonHideCasesWithNoUserEditsCheckboxTest = async (
 };
 
 /**
+ * Checks whether the "Hide cases where no accounts are blocked" checkbox exists and
+ * that it has the correct checked status
+ *
+ * @param {*} dialog The dialog component
+ * @param {boolean} expectedCheckedState
+ * @return {Promise<void>}
+ */
+const commonHideCasesWithNoBlockedUsersCheckboxTest = async ( dialog, expectedCheckedState ) => {
+	const hideCasesWithNoBlockedUsersField = dialog.find(
+		'.cdx-checkbox:has(input[name=filter-hide-cases-with-no-blocked-users])'
+	);
+
+	expect( hideCasesWithNoBlockedUsersField.text() ).toContain(
+		'(checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users)'
+	);
+
+	const hideCasesWithNoBlockedUsersCheckbox = hideCasesWithNoBlockedUsersField.find(
+		'input[name=filter-hide-cases-with-no-blocked-users]'
+	);
+	expect( hideCasesWithNoBlockedUsersCheckbox.element.checked ).toEqual( expectedCheckedState );
+};
+
+/**
  * Checks the signal filter checkboxes exist and have the expected checked state
  *
  * @param {*} dialog The dialog component
@@ -215,6 +238,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 
 		await commonHideCasesWithNoUserEditsCheckboxTest( dialog, false, false );
+		await commonHideCasesWithNoBlockedUsersCheckboxTest( dialog, false );
 	} );
 
 	it( 'Renders correctly when opened with hideCasesWithNoUserEdits pre-checked', async () => {
@@ -319,6 +343,51 @@ describe( 'Suggested Investigations change status dialog', () => {
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{ hideCasesWithNoUserEdits: 1, status: [], username: [], signal: [ 'signal-1a' ] }, window
+		);
+	} );
+
+	it( 'Renders correctly when opened with hideCasesWithNoBlockedUsers pre-checked', async () => {
+		const { dialog } = await commonComponentTest(
+			{ hideCasesWithNoBlockedUsers: true }
+		);
+
+		await commonHideCasesWithNoUserEditsCheckboxTest( dialog, false, false );
+		await commonHideCasesWithNoBlockedUsersCheckboxTest( dialog, true );
+	} );
+
+	it( '`Show results` button press when both activity filters set', async () => {
+		const { dialog, wrapper } = await commonComponentTest(
+			{ hideCasesWithNoUserEdits: true, hideCasesWithNoBlockedUsers: true }
+		);
+
+		const showResultsButton = dialog.find(
+			'.cdx-dialog__footer__primary-action'
+		);
+		await showResultsButton.trigger( 'click' );
+
+		expect( wrapper.vm.open ).toEqual( true );
+		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
+			{ hideCasesWithNoUserEdits: 1, hideCasesWithNoBlockedUsers: 1, status: [], username: [], signal: [] },
+			window
+		);
+	} );
+
+	it( '`Show results` button press includes hideCasesWithNoBlockedUsers when checkbox is checked', async () => {
+		const { dialog, wrapper } = await commonComponentTest(
+			{ hideCasesWithNoBlockedUsers: true, signal: [ 'dev-signal-1' ] },
+			false,
+			[ { name: 'dev-signal-1', urlName: 'signal-1a' } ]
+		);
+
+		// Press the "Show results" button
+		const showResultsButton = dialog.find(
+			'.cdx-dialog__footer__primary-action'
+		);
+		await showResultsButton.trigger( 'click' );
+
+		expect( wrapper.vm.open ).toEqual( true );
+		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
+			{ hideCasesWithNoBlockedUsers: 1, status: [], username: [], signal: [ 'signal-1a' ] }, window
 		);
 	} );
 } );

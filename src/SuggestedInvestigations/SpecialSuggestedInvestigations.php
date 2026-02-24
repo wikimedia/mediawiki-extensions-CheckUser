@@ -88,6 +88,8 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		foreach ( $pager->appliedFilters as $filterName => $filterValue ) {
 			if ( $filterName === 'hideCasesWithNoUserEdits' ) {
 				$filterName = 'hide_cases_with_no_user_edits';
+			} elseif ( $filterName === 'hideCasesWithNoBlockedUsers' ) {
+				$filterName = 'hide_cases_with_no_blocked_users';
 			}
 			$appliedFiltersForInstrumentation[$filterName] = $filterValue;
 		}

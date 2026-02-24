@@ -29,6 +29,7 @@ use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Navigation\CodexPagerNavigationBuilder;
@@ -79,6 +80,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * @var bool If true, hide cases where all of the accounts in the case have no edits
 	 */
 	private bool $hideCasesWithNoUserEdits;
+
+	/**
+	 * @var bool If true, hide cases where all of the accounts in the case are unblocked
+	 */
+	private bool $hideCasesWithNoBlockedUsers;
 
 	/**
 	 * @var string[] If not an empty array, then filter for these signal database names
@@ -132,6 +138,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 		private readonly LinkBatchFactory $linkBatchFactory,
 		private readonly UserFactory $userFactory,
+		private readonly CompositeBlockChecker $compositeBlockChecker,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals
@@ -211,6 +218,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied++;
 		}
 
+		$this->hideCasesWithNoBlockedUsers = $this->mRequest->getBool( 'hideCasesWithNoBlockedUsers' );
+		if ( $this->hideCasesWithNoBlockedUsers ) {
+			$this->numberOfFiltersApplied++;
+		}
+
 		$filteredSignals = $this->mRequest->getArray( 'signal', [] );
 		foreach ( $filteredSignals as $signal ) {
 			// Decode the URL name into the database name for the signal,
@@ -233,6 +245,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			),
 			'username' => $this->userNamesFilter,
 			'hideCasesWithNoUserEdits' => $this->hideCasesWithNoUserEdits,
+			'hideCasesWithNoBlockedUsers' => $this->hideCasesWithNoBlockedUsers,
 			'signal' => $this->signalsFilter,
 		];
 	}
@@ -755,7 +768,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * associated with that case, ordered by account ID descending for each case.
 	 *
 	 * If no key exists for a case ID, then the case should be excluded as
-	 * the case was filtered out by the “Hide cases where no accounts have edits” filter.
+	 * the case was filtered out by the “Hide cases where no accounts have edits” or
+	 * "Hide cases where no accounts are blocked" filter.
 	 *
 	 * @return UserIdentity[][]
 	 */
@@ -837,6 +851,13 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->userEditTracker->preloadUserEditCountCache( $userIdToUserIdentity );
 		}
 
+		$unblockedUserIds = [];
+		if ( $this->hideCasesWithNoBlockedUsers ) {
+			$unblockedUserIds = $this->compositeBlockChecker->getUserIdsNotBlocked(
+				array_keys( $userIdToUserIdentity )
+			);
+		}
+
 		// Group the UserIdentity objects by case IDs, while also excluding case IDs
 		// which do not meet the hideCasesWithNoUserEdits filter (if enabled)
 		$usersForCases = [];
@@ -861,6 +882,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				}
 
 				if ( $caseHasNoEdits ) {
+					continue;
+				}
+			}
+
+			if ( $this->hideCasesWithNoBlockedUsers ) {
+				if ( array_diff( $userIds, $unblockedUserIds ) === [] ) {
 					continue;
 				}
 			}

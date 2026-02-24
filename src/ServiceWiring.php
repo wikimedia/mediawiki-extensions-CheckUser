@@ -433,6 +433,7 @@ return [
 			$services->getUserEditTracker(),
 			$services->getSpecialPageFactory(),
 			$services->getUserIdentityLookup(),
+			$services->get( 'CheckUserCompositeBlockChecker' ),
 			$centralAuthEditCounter
 		);
 	},

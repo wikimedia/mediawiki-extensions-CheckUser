@@ -1022,6 +1022,55 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoUserEdits' => true ], $parserOutput );
 	}
 
+	public function testWhenHideCasesWithNoBlockedUsersFilterIsSet() {
+		// Create three cases where:
+		// * The first case has a user that is not blocked
+		// * The second case has a user that is blocked with an indefinite block
+		// * The third case has a user that is blocked temporarily and an unblocked user
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstUser = $this->getMutableTestUser()->getUserIdentity();
+		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+		$thirdUser = $this->getMutableTestUser()->getUserIdentity();
+
+		$caseManager = $this->getCaseManager();
+		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+		$thirdCaseId = $caseManager->createCase( [ $thirdUser ], [ $signal ] );
+		$caseManager->updateCase( $thirdCaseId, [ $firstUser ], [] );
+
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$secondUser,
+				$this->mockRegisteredUltimateAuthority(),
+				'indefinite'
+			)
+			->placeBlock();
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$thirdUser,
+				$this->mockRegisteredUltimateAuthority(),
+				'3 months'
+			)
+			->placeBlock();
+
+		// Load the pager with the 'hideCasesWithNoBlockedUsers' query param set to 1
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'hideCasesWithNoBlockedUsers', 1 );
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// Expect that the table pager shows the second and third case, as these contain at least one user
+		// with an active block
+		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $thirdCaseId . '"', $html );
+
+		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoBlockedUsers' => true ], $parserOutput );
+	}
+
 	public function testWhenPHPFiltersLimitReached() {
 		$context = $this->makeQqxContext();
 
@@ -1170,6 +1219,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 				'status' => [],
 				'username' => [],
 				'hideCasesWithNoUserEdits' => false,
+				'hideCasesWithNoBlockedUsers' => false,
 				'signal' => [],
 			], $expected ),
 			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],

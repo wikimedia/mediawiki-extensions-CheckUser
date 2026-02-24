@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
@@ -39,6 +40,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly UserEditTracker $userEditTracker,
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly CompositeBlockChecker $compositeBlockChecker,
 		private readonly ?CentralAuthEditCounter $centralAuthEditCounter
 	) {
 	}
@@ -97,6 +99,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->centralAuthEditCounter,
 			$this->linkBatchFactory,
 			$this->userFactory,
+			$this->compositeBlockChecker,
 			$this->linkRenderer,
 			$context,
 			$signals

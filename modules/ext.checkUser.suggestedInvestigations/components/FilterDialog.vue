@@ -62,6 +62,14 @@
 			>
 				{{ hideCasesWithNoUserEditsCheckboxLabel }}
 			</cdx-checkbox>
+			<cdx-checkbox
+				v-model="hideCasesWithNoBlockedUsersCheckboxValue"
+				name="filter-hide-cases-with-no-blocked-users"
+			>
+				{{ $i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users'
+				).text() }}
+			</cdx-checkbox>
 		</cdx-field>
 		<filter-dialog-username-filter v-model:selected-usernames="selectedUsernames">
 		</filter-dialog-username-filter>
@@ -96,6 +104,8 @@ module.exports = exports = {
 		 *  - username: An array of usernames that are being filtered for
 		 *  - hideCasesWithNoUserEdits: Boolean. If true, only show cases where at least one
 		 *      of the accounts has made an edit
+		 *  - hideCasesWithNoBlockedUsers: Boolean. If true, only show cases where at least one
+		 *      of the accounts has been blocked
 		 *  - signal: An array of signals that are being filtered for on the page
 		 */
 		initialFilters: {
@@ -172,6 +182,10 @@ module.exports = exports = {
 			props.initialFilters.hideCasesWithNoUserEdits
 		);
 
+		const hideCasesWithNoBlockedUsersCheckboxValue = ref(
+			props.initialFilters.hideCasesWithNoBlockedUsers
+		);
+
 		function onCloseButtonClick() {
 			open.value = false;
 		}
@@ -199,6 +213,10 @@ module.exports = exports = {
 				filters.hideCasesWithNoUserEdits = 1;
 			}
 
+			if ( hideCasesWithNoBlockedUsersCheckboxValue.value ) {
+				filters.hideCasesWithNoBlockedUsers = 1;
+			}
+
 			updateFiltersOnPage( filters, window );
 		}
 
@@ -220,6 +238,7 @@ module.exports = exports = {
 			signalCheckboxes,
 			hideCasesWithNoUserEditsCheckboxLabel,
 			hideCasesWithNoUserEditsCheckboxValue,
+			hideCasesWithNoBlockedUsersCheckboxValue,
 			onCloseButtonClick,
 			onShowResultsButtonClick
 		};

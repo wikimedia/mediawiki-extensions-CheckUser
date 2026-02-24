@@ -445,6 +445,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Account activity",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Hide cases where no accounts have edits",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Hide cases where no accounts have edits globally",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Hide cases where no accounts are blocked",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Account",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Type account name...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Back to {{int:checkuser-suggestedinvestigations}}",
