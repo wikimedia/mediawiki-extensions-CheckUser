@@ -7,7 +7,7 @@ namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks;
 use MediaWiki\Extension\CentralAuth\User\GlobalUserSelectQueryBuilderFactory;
 use MediaWiki\User\UserIdentityLookup;
 
-class CentralAuthLockCheck implements IndefiniteBlockCheckInterface {
+class CentralAuthLockCheck implements IndefiniteBlockCheckInterface, BlockCheckInterface {
 
 	public function __construct(
 		private readonly GlobalUserSelectQueryBuilderFactory $globalUserSelectQueryBuilderFactory,
@@ -17,6 +17,15 @@ class CentralAuthLockCheck implements IndefiniteBlockCheckInterface {
 
 	/** @inheritDoc */
 	public function getIndefinitelyBlockedUserIds( array $userIds ): array {
+		return $this->commonFetchLockedUsers( $userIds );
+	}
+
+	/** @inheritDoc */
+	public function getBlockedUserIds( array $userIds ): array {
+		return $this->commonFetchLockedUsers( $userIds );
+	}
+
+	private function commonFetchLockedUsers( array $userIds ): array {
 		if ( $userIds === [] ) {
 			return [];
 		}

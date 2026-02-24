@@ -41,8 +41,8 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalIndefiniteBlockCheck;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalBlockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 // phpcs:ignore Generic.Files.LineLength.TooLong
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
@@ -157,13 +157,13 @@ return [
 		MediaWikiServices $services
 	): CompositeIndefiniteBlockChecker {
 		$blockChecks = [
-			new LocalIndefiniteBlockCheck( $services->getDatabaseBlockStore() ),
+			new LocalBlockCheck( $services->getDatabaseBlockStore() ),
 		];
 
 		if ( $services->getExtensionRegistry()->isLoaded( 'GlobalBlocking' ) ) {
 			$globalBlockingServices = GlobalBlockingServices::wrap( $services );
 
-			$blockChecks[] = new GlobalIndefiniteBlockCheck(
+			$blockChecks[] = new GlobalBlockCheck(
 				$globalBlockingServices->getGlobalBlockLookup(),
 				$services->getCentralIdLookup(),
 				$services->getUserIdentityLookup(),

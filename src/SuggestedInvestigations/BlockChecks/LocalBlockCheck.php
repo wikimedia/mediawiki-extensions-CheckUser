@@ -6,7 +6,7 @@ namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks;
 
 use MediaWiki\Block\DatabaseBlockStore;
 
-class LocalIndefiniteBlockCheck implements IndefiniteBlockCheckInterface {
+class LocalBlockCheck implements IndefiniteBlockCheckInterface, BlockCheckInterface {
 
 	public function __construct(
 		private readonly DatabaseBlockStore $blockStore
@@ -24,6 +24,20 @@ class LocalIndefiniteBlockCheck implements IndefiniteBlockCheckInterface {
 			}
 		}
 
-		return $blockedUserIds;
+		return array_unique( $blockedUserIds );
+	}
+
+	/** @inheritDoc */
+	public function getBlockedUserIds( array $userIds ): array {
+		$blocks = $this->blockStore->newListFromConds( [ 'bt_user' => $userIds ] );
+		$blockedUserIds = [];
+		foreach ( $blocks as $block ) {
+			$target = $block->getTargetUserIdentity();
+			if ( $target !== null ) {
+				$blockedUserIds[] = $target->getId();
+			}
+		}
+
+		return array_unique( $blockedUserIds );
 	}
 }

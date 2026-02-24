@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\BlockChecks;
 
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLocalStatusManager;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockManager;
@@ -14,16 +14,16 @@ use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck
  * @group CheckUser
  * @group Database
  */
-class GlobalIndefiniteBlockCheckTest extends MediaWikiIntegrationTestCase {
+class GlobalBlockCheckTest extends MediaWikiIntegrationTestCase {
 
 	/** @var UserIdentity[] */
 	private static array $testUsers;
 
-	private GlobalIndefiniteBlockCheck $check;
+	private GlobalBlockCheck $check;
 	private GlobalBlockManager $globalBlockManager;
 	private GlobalBlockLocalStatusManager $globalBlockLocalStatusManager;
 	private Authority $adminUser;
@@ -49,7 +49,7 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiIntegrationTestCase {
 		$this->globalBlockLocalStatusManager = $globalBlockingServices->getGlobalBlockLocalStatusManager();
 		$this->adminUser = $this->getTestSysop()->getAuthority();
 
-		$this->check = new GlobalIndefiniteBlockCheck(
+		$this->check = new GlobalBlockCheck(
 			$globalBlockingServices->getGlobalBlockLookup(),
 			$this->getServiceContainer()->getCentralIdLookup(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
@@ -82,7 +82,7 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testTemporaryGlobalBlockIsNotReturned(): void {
+	public function testTemporaryGlobalBlockIsNotReturnedForIndefiniteCheck(): void {
 		$user = self::$testUsers['temporary'];
 		$this->globalBlockManager->block(
 			$user->getName(),
@@ -94,6 +94,21 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame(
 			[],
 			$this->check->getIndefinitelyBlockedUserIds( [ $user->getId() ] )
+		);
+	}
+
+	public function testTemporaryGlobalBlockIsReturned(): void {
+		$user = self::$testUsers['temporary'];
+		$this->globalBlockManager->block(
+			$user->getName(),
+			'temporary global block',
+			'20300101000000',
+			$this->adminUser
+		);
+
+		$this->assertSame(
+			[ $user->getId() ],
+			$this->check->getBlockedUserIds( [ $user->getId() ] )
 		);
 	}
 
@@ -124,7 +139,19 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiIntegrationTestCase {
 				$unblockedUser->getId(),
 				$locallyWhitelistedUser->getId(),
 				$temporarilyBlockedUser->getId(),
-			] )
+			] ),
+			'The return value from ::getIndefinitelyBlockedUserIds was not as expected'
+		);
+		$this->assertArrayEquals(
+			[ $blockedUser->getId(), $temporarilyBlockedUser->getId() ],
+			$this->check->getBlockedUserIds( [
+				$blockedUser->getId(),
+				$unblockedUser->getId(),
+				$locallyWhitelistedUser->getId(),
+				$temporarilyBlockedUser->getId(),
+			] ),
+			false, false,
+			'The return value from ::getBlockedUserIds was not as expected'
 		);
 	}
 

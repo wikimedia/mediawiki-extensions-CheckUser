@@ -30,5 +30,6 @@ class CentralAuthLockCheckTest extends MediaWikiUnitTestCase {
 		);
 
 		$this->assertSame( [], $check->getIndefinitelyBlockedUserIds( [] ) );
+		$this->assertSame( [], $check->getBlockedUserIds( [] ) );
 	}
 }

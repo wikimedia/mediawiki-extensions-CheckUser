@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations\BlockChecks;
 
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLookup;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -14,15 +14,15 @@ use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalIndefiniteBlockCheck
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck
  * @group CheckUser
  */
-class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {
+class GlobalBlockCheckTest extends MediaWikiUnitTestCase {
 
 	private GlobalBlockLookup&MockObject $globalBlockLookup;
 	private CentralIdLookup&MockObject $centralIdLookup;
 	private UserIdentityLookup&MockObject $userIdentityLookup;
-	private GlobalIndefiniteBlockCheck $globalIndefiniteBlockCheck;
+	private GlobalBlockCheck $globalBlockCheck;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -35,7 +35,7 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {
 		$this->centralIdLookup = $this->createMock( CentralIdLookup::class );
 		$this->userIdentityLookup = $this->createMock( UserIdentityLookup::class );
 
-		$this->globalIndefiniteBlockCheck = new GlobalIndefiniteBlockCheck(
+		$this->globalBlockCheck = new GlobalBlockCheck(
 			$this->globalBlockLookup,
 			$this->centralIdLookup,
 			$this->userIdentityLookup,
@@ -44,9 +44,9 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {
 	}
 
 	/**
-	 * @dataProvider provideBlockScenarios
+	 * @dataProvider provideIndefiniteBlockCheckScenarios
 	 */
-	public function testBlockCheck(
+	public function testIndefiniteBlockCheck(
 		int|null $userCentralId,
 		string|null $globalBlockExpiry,
 		array $expected
@@ -68,10 +68,10 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {
 				->method( 'getGlobalBlockingBlock' );
 		}
 
-		$this->assertSame( $expected, $this->globalIndefiniteBlockCheck->getIndefinitelyBlockedUserIds( [ 1 ] ) );
+		$this->assertSame( $expected, $this->globalBlockCheck->getIndefinitelyBlockedUserIds( [ 1 ] ) );
 	}
 
-	public static function provideBlockScenarios(): array {
+	public static function provideIndefiniteBlockCheckScenarios(): array {
 		return [
 			'user indefinitely globally blocked' => [
 				'centralId' => 200,
@@ -96,10 +96,47 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {
 		];
 	}
 
+	/** @dataProvider provideBlockCheckScenarios */
+	public function testBlockCheck(
+		string|null $globalBlockExpiry,
+		array $expected
+	): void {
+		$this->mockUserHasCentralId( 200 );
+
+		$globalBlock = null;
+		if ( $globalBlockExpiry !== null ) {
+			$globalBlock = (object)[ 'gb_expiry' => $globalBlockExpiry, 'gb_id' => 1 ];
+		}
+
+		$this->globalBlockLookup->expects( $this->once() )
+			->method( 'getGlobalBlockingBlock' )
+			->with( null, 200 )
+			->willReturn( $globalBlock );
+
+		$this->assertSame( $expected, $this->globalBlockCheck->getBlockedUserIds( [ 1 ] ) );
+	}
+
+	public static function provideBlockCheckScenarios(): array {
+		return [
+			'user indefinitely globally blocked' => [
+				'globalBlockExpiry' => 'infinity',
+				'expected' => [ 1 ],
+			],
+			'global block not indefinite' => [
+				'globalBlockExpiry' => '20300101000000',
+				'expected' => [ 1 ],
+			],
+			'user has no global block' => [
+				'globalBlockExpiry' => null,
+				'expected' => [],
+			],
+		];
+	}
+
 	public function testApplyGlobalEarlyExit(): void {
 		$globalBlockLookup = $this->createNoOpMock( GlobalBlockLookup::class );
 
-		$check = new GlobalIndefiniteBlockCheck(
+		$check = new GlobalBlockCheck(
 			$globalBlockLookup,
 			$this->centralIdLookup,
 			$this->userIdentityLookup,
@@ -107,6 +144,7 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {
 		);
 
 		$this->assertSame( [], $check->getIndefinitelyBlockedUserIds( [ 1 ] ) );
+		$this->assertSame( [], $check->getBlockedUserIds( [ 1 ] ) );
 	}
 
 	public function testUserIdentityNotFound(): void {
@@ -121,7 +159,7 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {
 		$this->globalBlockLookup->expects( $this->never() )
 			->method( 'getGlobalBlockingBlock' );
 
-		$this->assertSame( [], $this->globalIndefiniteBlockCheck->getIndefinitelyBlockedUserIds( [ 1 ] ) );
+		$this->assertSame( [], $this->globalBlockCheck->getIndefinitelyBlockedUserIds( [ 1 ] ) );
 	}
 
 	private function mockUserHasCentralId( int|null $userCentralId ): void {

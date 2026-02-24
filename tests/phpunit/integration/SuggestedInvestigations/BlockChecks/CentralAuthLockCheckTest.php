@@ -54,9 +54,18 @@ class CentralAuthLockCheckTest extends MediaWikiIntegrationTestCase {
 		$unlockedUser = self::$testUsers['unlocked'];
 		$unlockedUser2 = self::$testUsers['unlocked2'];
 
+		$expectedArray = [ $lockedUser->getId() ];
 		$this->assertSame(
-			[ $lockedUser->getId() ],
+			$expectedArray,
 			$this->check->getIndefinitelyBlockedUserIds( [
+				$lockedUser->getId(),
+				$unlockedUser->getId(),
+				$unlockedUser2->getId(),
+			] )
+		);
+		$this->assertSame(
+			$expectedArray,
+			$this->check->getBlockedUserIds( [
 				$lockedUser->getId(),
 				$unlockedUser->getId(),
 				$unlockedUser2->getId(),

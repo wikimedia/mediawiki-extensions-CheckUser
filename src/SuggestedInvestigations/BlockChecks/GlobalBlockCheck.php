@@ -7,8 +7,9 @@ namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLookup;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserIdentityLookup;
+use stdClass;
 
-class GlobalIndefiniteBlockCheck implements IndefiniteBlockCheckInterface {
+class GlobalBlockCheck implements IndefiniteBlockCheckInterface, BlockCheckInterface {
 
 	public function __construct(
 		private readonly GlobalBlockLookup $globalBlockLookup,
@@ -26,7 +27,12 @@ class GlobalIndefiniteBlockCheck implements IndefiniteBlockCheckInterface {
 
 		$blockedUserIds = [];
 		foreach ( $userIds as $userId ) {
-			if ( $this->isIndefinitelyGloballyBlocked( $userId ) ) {
+			$globalBlockRow = $this->getGlobalBlockRow( $userId );
+			if ( $globalBlockRow === null ) {
+				continue;
+			}
+
+			if ( $this->isIndefiniteBlock( $globalBlockRow ) ) {
 				$blockedUserIds[] = $userId;
 			}
 		}
@@ -34,23 +40,38 @@ class GlobalIndefiniteBlockCheck implements IndefiniteBlockCheckInterface {
 		return $blockedUserIds;
 	}
 
-	private function isIndefinitelyGloballyBlocked( int $userId ): bool {
+	/** @inheritDoc */
+	public function getBlockedUserIds( array $userIds ): array {
+		if ( !$this->applyGlobalBlocksEnabled ) {
+			return [];
+		}
+
+		$blockedUserIds = [];
+		foreach ( $userIds as $userId ) {
+			$globalBlockRow = $this->getGlobalBlockRow( $userId );
+			if ( $globalBlockRow !== null ) {
+				$blockedUserIds[] = $userId;
+			}
+		}
+
+		return $blockedUserIds;
+	}
+
+	private function getGlobalBlockRow( int $userId ): ?stdClass {
 		$userIdentity = $this->userIdentityLookup->getUserIdentityByUserId( $userId );
 		if ( $userIdentity === null ) {
-			return false;
+			return null;
 		}
 
 		$centralId = $this->centralIdLookup->centralIdFromLocalUser(
 			$userIdentity, CentralIdLookup::AUDIENCE_RAW
 		);
 		if ( $centralId === 0 ) {
-			return false;
+			return null;
 		}
 
-		$globalBlock = $this->globalBlockLookup->getGlobalBlockingBlock( null, $centralId );
 		// this will also check if the GlobalBlock is locally whitelisted
-
-		return $globalBlock !== null && $this->isIndefiniteBlock( $globalBlock );
+		return $this->globalBlockLookup->getGlobalBlockingBlock( null, $centralId );
 	}
 
 	private function isIndefiniteBlock( object $globalBlock ): bool {
