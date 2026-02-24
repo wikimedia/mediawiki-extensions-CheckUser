@@ -56,7 +56,7 @@
 	"checkuser-gblocked": "Заблякаваны глябальна",
 	"checkuser-locked": "Заблякаваны",
 	"checkuser-wasblocked": "Заблякаваны раней",
-	"checkuser-localonly": "Не аб’яднаны",
+	"checkuser-localonly": "Не зьяднаны",
 	"checkuser-massblock": "Заблякаваць выбраныя рахункі ўдзельнікаў",
 	"checkuser-massblock-text": "Пазначце палі выбару ў выніках вышэй, каб абраць рахункі і IP-адрэсы, якія хочаце заблякаваць. Пасьля можаце ўжыць кнопкі ніжэй, якія адкрыюць форму {{#special:InvestigateBlock}} з ужо запоўненымі мэтавымі палямі.",
 	"checkuser-noreason": "Патрэбна падаць прычыну гэтага запыту.",

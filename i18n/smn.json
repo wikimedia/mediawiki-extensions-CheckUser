@@ -5,6 +5,7 @@
 			"Yupik"
 		]
 	},
+	"checkuser-contribs": "täärhist kevttee IP-čujottâsâid",
 	"checkuser-clienthints-name-architecture": "Arkkitektuur",
 	"checkuser-clienthints-name-platform": "Vuáđu",
 	"checkuser-clienthints-name-platform-version": "Vuáđu versio",
@@ -19,6 +20,7 @@
 	"checkuser-investigate-subtitle-cancel-button-label": "Jooskâ",
 	"checkuser-investigate-subtitle-continue-button-label": "Juáđhi",
 	"checkuser-investigate-indicator-logs": "Lokih",
+	"checkuser-investigate-tab-preliminary-check": "Kevtteetubdâlduv tiäđuh",
 	"checkuser-investigate-targets-label": "Kevtteenoomah já IP-čujottâsah:",
 	"checkuser-investigate-targets-placeholder": "Kevtteenommâ teikâ 1.1.1.1",
 	"checkuser-investigate-reason-label": "Suijâ",
