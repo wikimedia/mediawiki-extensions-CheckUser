@@ -14,6 +14,7 @@ use MediaWiki\Extension\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateSicUpdatedTimestamp;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateSicUrlIdentifier;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateUserAgentTable;
+use MediaWiki\Extension\CheckUser\Maintenance\QueueAutoCloseSICases;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 
 class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQueryInterface {
@@ -286,6 +287,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			PopulateUserAgentTable::class,
 		] );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateSicUpdatedTimestamp::class );
+		$updater->addPostDatabaseUpdateMaintenance( QueueAutoCloseSICases::class );
 		$updater->addExtensionUpdateOnVirtualDomain( [
 			self::VIRTUAL_DB_DOMAIN, 'addField', 'cusi_user', 'siu_info',
 			"$base/$dbType/patch-cusi_user-add-siu_info.sql", true,

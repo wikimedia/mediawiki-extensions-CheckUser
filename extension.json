@@ -1337,7 +1337,8 @@
 		"MediaWiki\\Extension\\CheckUser\\Maintenance\\CreateFakeSuggestedInvestigationCases": "maintenance/createFakeSuggestedInvestigationCases.php",
 		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateSicUrlIdentifier": "maintenance/populateSicUrlIdentifier.php",
 		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateUserAgentTable": "maintenance/populateUserAgentTable.php",
-		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateSicUpdatedTimestamp": "maintenance/populateSicUpdatedTimestamp.php"
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateSicUpdatedTimestamp": "maintenance/populateSicUpdatedTimestamp.php",
+		"MediaWiki\\Extension\\CheckUser\\Maintenance\\QueueAutoCloseSICases": "maintenance/queueAutoCloseSICases.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
