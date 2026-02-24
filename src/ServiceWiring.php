@@ -48,6 +48,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISugge
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
 // phpcs:ignore Generic.Files.LineLength.TooLong
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
@@ -153,32 +154,15 @@ return [
 			$services->getTempUserConfig()
 		);
 	},
+	'CheckUserCompositeBlockChecker' => static function (
+		MediaWikiServices $services
+	): CompositeBlockChecker {
+		return new CompositeBlockChecker( $services->get( '_CheckUserBlockChecks' ) );
+	},
 	'CheckUserCompositeIndefiniteBlockChecker' => static function (
 		MediaWikiServices $services
 	): CompositeIndefiniteBlockChecker {
-		$blockChecks = [
-			new LocalBlockCheck( $services->getDatabaseBlockStore() ),
-		];
-
-		if ( $services->getExtensionRegistry()->isLoaded( 'GlobalBlocking' ) ) {
-			$globalBlockingServices = GlobalBlockingServices::wrap( $services );
-
-			$blockChecks[] = new GlobalBlockCheck(
-				$globalBlockingServices->getGlobalBlockLookup(),
-				$services->getCentralIdLookup(),
-				$services->getUserIdentityLookup(),
-				$services->getMainConfig()->get( 'ApplyGlobalBlocks' )
-			);
-		}
-
-		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
-			$blockChecks[] = new CentralAuthLockCheck(
-				CentralAuthServices::getGlobalUserSelectQueryBuilderFactory( $services ),
-				$services->getUserIdentityLookup()
-			);
-		}
-
-		return new CompositeIndefiniteBlockChecker( $blockChecks );
+		return new CompositeIndefiniteBlockChecker( $services->get( '_CheckUserBlockChecks' ) );
 	},
 	'CheckUserCrossWikiAutoCloseJobDispatcher' => static function (
 		MediaWikiServices $services
@@ -625,6 +609,31 @@ return [
 			),
 			$services->get( 'CheckUserLogger' )
 		);
+	},
+	'_CheckUserBlockChecks' => static function ( MediaWikiServices $services ): array {
+		$blockChecks = [
+			new LocalBlockCheck( $services->getDatabaseBlockStore() ),
+		];
+
+		if ( $services->getExtensionRegistry()->isLoaded( 'GlobalBlocking' ) ) {
+			$globalBlockingServices = GlobalBlockingServices::wrap( $services );
+
+			$blockChecks[] = new GlobalBlockCheck(
+				$globalBlockingServices->getGlobalBlockLookup(),
+				$services->getCentralIdLookup(),
+				$services->getUserIdentityLookup(),
+				$services->getMainConfig()->get( 'ApplyGlobalBlocks' )
+			);
+		}
+
+		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			$blockChecks[] = new CentralAuthLockCheck(
+				CentralAuthServices::getGlobalUserSelectQueryBuilderFactory( $services ),
+				$services->getUserIdentityLookup()
+			);
+		}
+
+		return $blockChecks;
 	},
 ];
 // @codeCoverageIgnoreEnd

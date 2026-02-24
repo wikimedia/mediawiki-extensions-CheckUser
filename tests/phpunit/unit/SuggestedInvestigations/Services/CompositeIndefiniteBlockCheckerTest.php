@@ -14,7 +14,7 @@ use MediaWikiUnitTestCase;
  */
 class CompositeIndefiniteBlockCheckerTest extends MediaWikiUnitTestCase {
 
-	public function testUsersBlockedAcrossMultipleChecks(): void {
+	public function testGetUserIdsNotIndefinitelyBlockedBlockedAcrossMultipleChecks(): void {
 		$localCheck = $this->createMock( IndefiniteBlockCheckInterface::class );
 		$localCheck->expects( $this->once() )
 			->method( 'getIndefinitelyBlockedUserIds' )
@@ -29,10 +29,10 @@ class CompositeIndefiniteBlockCheckerTest extends MediaWikiUnitTestCase {
 
 		$checker = new CompositeIndefiniteBlockChecker( [ $localCheck, $globalCheck ] );
 
-		$this->assertSame( [], $checker->getUnblockedUserIds( [ 1, 2 ] ) );
+		$this->assertSame( [], $checker->getUserIdsNotIndefinitelyBlocked( [ 1, 2 ] ) );
 	}
 
-	public function testReturnsUnblockedUsers(): void {
+	public function testGetUserIdsNotIndefinitelyBlockedReturnsUnblockedUsers(): void {
 		$check = $this->createMock( IndefiniteBlockCheckInterface::class );
 		$check->expects( $this->once() )
 			->method( 'getIndefinitelyBlockedUserIds' )
@@ -41,12 +41,12 @@ class CompositeIndefiniteBlockCheckerTest extends MediaWikiUnitTestCase {
 
 		$checker = new CompositeIndefiniteBlockChecker( [ $check ] );
 
-		$this->assertSame( [ 2 ], $checker->getUnblockedUserIds( [ 1, 2 ] ) );
+		$this->assertSame( [ 2 ], $checker->getUserIdsNotIndefinitelyBlocked( [ 1, 2 ] ) );
 	}
 
 	public function testNoChecksReturnsAllUsersAsUnblocked(): void {
 		$checker = new CompositeIndefiniteBlockChecker( [] );
 
-		$this->assertSame( [ 1, 2 ], $checker->getUnblockedUserIds( [ 1, 2 ] ) );
+		$this->assertSame( [ 1, 2 ], $checker->getUserIdsNotIndefinitelyBlocked( [ 1, 2 ] ) );
 	}
 }

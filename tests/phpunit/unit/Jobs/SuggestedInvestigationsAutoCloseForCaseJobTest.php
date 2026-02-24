@@ -76,12 +76,12 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiUnitTestCa
 		$job->run();
 	}
 
-	public function testCaseNotClosedWhenNotAllUsersBlocked(): void {
+	public function testCaseNotClosedWhenNotAllUsersIndefinitelyBlocked(): void {
 		$caseLookUpMock = $this->getCaseLookUpMockFound();
 
 		$blockCheckerMock = $this->createMock( CompositeIndefiniteBlockChecker::class );
 		$blockCheckerMock->expects( $this->once() )
-			->method( 'getUnblockedUserIds' )
+			->method( 'getUserIdsNotIndefinitelyBlocked' )
 			->with( [ 1, 2 ] )
 			->willReturn( [ 2 ] );
 
@@ -99,7 +99,7 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiUnitTestCa
 
 		$blockCheckerMock = $this->createMock( CompositeIndefiniteBlockChecker::class );
 		$blockCheckerMock->expects( $this->once() )
-			->method( 'getUnblockedUserIds' )
+			->method( 'getUserIdsNotIndefinitelyBlocked' )
 			->with( [ 1, 2 ] )
 			->willReturn( [] );
 

@@ -82,7 +82,7 @@ class SuggestedInvestigationsAutoCloseForCaseJob extends Job {
 			return true;
 		}
 
-		$unblockedUserIds = $this->blockChecker->getUnblockedUserIds( $localUserIds );
+		$unblockedUserIds = $this->blockChecker->getUserIdsNotIndefinitelyBlocked( $localUserIds );
 		if ( $unblockedUserIds !== [] ) {
 			$this->logger->info(
 				'Users {userIds} are not indefinitely blocked, skipping auto-close for case {caseId}',
