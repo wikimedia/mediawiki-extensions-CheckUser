@@ -16,8 +16,8 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserFactory;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
-use Wikimedia\Rdbms\LBFactory;
 
 class SpecialCheckUserLog extends SpecialPage {
 	/**
@@ -43,7 +43,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		CheckUserLogService $checkUserLogService,
 		UserFactory $userFactory,
 		ActorStore $actorStore,
-		LBFactory $lbFactory
+		IConnectionProvider $dbProvider
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -53,7 +53,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userFactory = $userFactory;
 		$this->actorStore = $actorStore;
-		$this->dbr = $lbFactory->getReplicaDatabase();
+		$this->dbr = $dbProvider->getReplicaDatabase();
 	}
 
 	/**

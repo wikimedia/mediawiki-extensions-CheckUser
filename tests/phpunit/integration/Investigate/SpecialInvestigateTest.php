@@ -348,23 +348,24 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 			} );
 		$this->setService(
 			'CheckUserPreliminaryCheckPagerFactory',
-			static function () use ( $services, $mockExtensionRegistry ) {
-				return new PreliminaryCheckPagerFactory(
-					$services->getLinkRenderer(), $services->getNamespaceInfo(),
-					$mockExtensionRegistry, $services->get( 'CheckUserTokenQueryManager' ),
-					$services->get( 'CheckUserPreliminaryCheckService' ), $services->getUserFactory()
-				);
-			}
+			static fn () => new PreliminaryCheckPagerFactory(
+				$services->getLinkRenderer(),
+				$services->getNamespaceInfo(),
+				$mockExtensionRegistry,
+				$services->get( 'CheckUserTokenQueryManager' ),
+				$services->get( 'CheckUserPreliminaryCheckService' ),
+				$services->getUserFactory()
+			)
 		);
 		$this->setService(
 			'CheckUserPreliminaryCheckService',
-			static function () use ( $services, $mockExtensionRegistry ) {
-				return new PreliminaryCheckService(
-					$services->getDBLoadBalancerFactory(), $mockExtensionRegistry,
-					$services->getUserGroupManagerFactory(), $services->getDatabaseBlockStoreFactory(),
-					WikiMap::getCurrentWikiDbDomain()->getId()
-				);
-			}
+			static fn () => new PreliminaryCheckService(
+				$services->getConnectionProvider(),
+				$mockExtensionRegistry,
+				$services->getUserGroupManagerFactory(),
+				$services->getDatabaseBlockStoreFactory(),
+				WikiMap::getCurrentWikiDbDomain()->getId()
+			)
 		);
 		// Load the special page for the compare tab with a target that has rows in the CheckUser result tables.
 		$html = $this->commonTestViewAccountInformationTab( self::$firstTestUser->getName() );

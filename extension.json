@@ -1161,7 +1161,7 @@
 				"CheckUserLogService",
 				"UserFactory",
 				"ActorStore",
-				"DBLoadBalancerFactory"
+				"ConnectionProvider"
 			]
 		},
 		"Investigate": {

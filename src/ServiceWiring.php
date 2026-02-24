@@ -377,7 +377,7 @@ return [
 		MediaWikiServices $services
 	): PreliminaryCheckService {
 		return new PreliminaryCheckService(
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getExtensionRegistry(),
 			$services->getUserGroupManagerFactory(),
 			$services->getDatabaseBlockStoreFactory(),
