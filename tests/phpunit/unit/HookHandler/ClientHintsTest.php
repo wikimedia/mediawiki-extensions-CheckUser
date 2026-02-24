@@ -27,9 +27,8 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$special = $this->createMock( SpecialPage::class );
 		$special->method( 'getName' )->willReturn( 'Foo' );
 		$webRequest = $this->createMock( WebRequest::class );
-		$webResponse = $this->createMock( WebResponse::class );
+		$webResponse = $this->createNoOpMock( WebResponse::class );
 		$webRequest->method( 'response' )->willReturn( $webResponse );
-		$webResponse->expects( $this->never() )->method( 'header' );
 		$special->method( 'getRequest' )->willReturn( $webRequest );
 		$specialPageFactoryMock = $this->createMock( SpecialPageFactory::class );
 		$specialPageFactoryMock->method( 'getPage' )->willReturn( $special );
@@ -160,8 +159,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$special = $this->createMock( SpecialPage::class );
 		$skinMock = $this->createMock( Skin::class );
 		$requestMock = $this->createMock( WebRequest::class );
-		$webResponseMock = $this->createMock( WebResponse::class );
-		$webResponseMock->expects( $this->never() )->method( 'header' );
+		$webResponseMock = $this->createNoOpMock( WebResponse::class );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->expects( $this->once() )->method( 'addModules' )
@@ -273,15 +271,13 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		);
 		$title = $this->createMock( Title::class );
 		$title->method( 'isSpecialPage' )->willReturn( true );
-		$outputPage = $this->createMock( OutputPage::class );
-		$outputPage->method( 'getTitle' )->willReturn( $title );
 		// We should not add ext.checkUser.clientHints to page if feature flag is off.
-		$outputPage->expects( $this->never() )->method( 'addModules' );
+		$outputPage = $this->createNoOpMock( OutputPage::class, [ 'getTitle', 'getRequest' ] );
+		$outputPage->method( 'getTitle' )->willReturn( $title );
 		$webRequest = $this->createMock( WebRequest::class );
-		$webResponse = $this->createMock( WebResponse::class );
+		// WebResponse::header should never be called, because global config flag is off.
+		$webResponse = $this->createNoOpMock( WebResponse::class );
 		$webRequest->method( 'response' )->willReturn( $webResponse );
-		// ::header() should never be called, because global config flag is off.
-		$webResponse->expects( $this->never() )->method( 'header' );
 		$outputPage->method( 'getRequest' )->willReturn( $webRequest );
 		$skin = $this->createMock( Skin::class );
 		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
@@ -393,8 +389,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			$specialPageFactoryMock
 		);
 		$title = $this->createMock( Title::class );
-		$webResponseMock = $this->createMock( WebResponse::class );
-		$webResponseMock->expects( $this->never() )->method( 'header' );
+		$webResponseMock = $this->createNoOpMock( WebResponse::class );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
 		$outputPage->expects( $this->once() )->method( 'addModules' )

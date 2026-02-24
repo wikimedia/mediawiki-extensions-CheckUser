@@ -29,20 +29,11 @@ class GlobalPreferencesHandlerTest extends MediaWikiIntegrationTestCase {
 	) {
 		$user = $this->createMock( User::class );
 
-		$logger = $this->createMock( TemporaryAccountLogger::class );
-		foreach ( [
-			'logGlobalAccessEnabled',
-			'logGlobalAccessDisabled',
-			'logAutoRevealAccessEnabled',
-			'logAutoRevealAccessDisabled',
-		] as $logMethod ) {
-			if ( $expectedLogMethod === $logMethod ) {
-				$logger->expects( $this->once() )
-					->method( $logMethod );
-			} else {
-				$logger->expects( $this->never() )
-					->method( $logMethod );
-			}
+		if ( !$expectedLogMethod ) {
+			$logger = $this->createNoOpMock( TemporaryAccountLogger::class );
+		} else {
+			$logger = $this->createNoOpMock( TemporaryAccountLogger::class, [ $expectedLogMethod ] );
+			$logger->expects( $this->once() )->method( $expectedLogMethod );
 		}
 
 		$loggerFactory = $this->createMock( TemporaryAccountLoggerFactory::class );

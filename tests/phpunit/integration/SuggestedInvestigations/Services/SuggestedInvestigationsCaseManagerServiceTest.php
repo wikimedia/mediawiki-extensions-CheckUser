@@ -430,9 +430,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 
 		// Mock SuggestedInvestigationsInstrumentationClient so that we can check event is never created (as no
 		// update should be performed)
-		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
-		$client->expects( $this->never() )
-			->method( 'submitInteraction' );
+		$client = $this->createNoOpMock( SuggestedInvestigationsInstrumentationClient::class );
 		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
 
 		$service = $this->createService();

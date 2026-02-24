@@ -1147,9 +1147,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		// Since this pager calls out to other wikis, extension hooks should not be run
 		// because the extension may not be loaded on the external wiki (T385092).
-		$hookContainer = $this->createMock( HookContainer::class );
-		$hookContainer->expects( $this->never() )
-			->method( 'run' );
+		$hookContainer = $this->createNoOpMock( HookContainer::class );
 
 		// Object representing the current user
 		$authority = new SimpleAuthority(
@@ -1550,10 +1548,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		// Since this pager calls out to other wikis, extension hooks should not be run
 		// because the extension may not be loaded on the external wiki (T385092).
-		$hookContainer = $this->createMock( HookContainer::class );
-		$hookContainer
-			->expects( $this->never() )
-			->method( 'run' );
+		$hookContainer = $this->createNoOpMock( HookContainer::class );
 
 		$pager = $this->getPagerWithOverrides( [
 			'HookContainer' => $hookContainer,

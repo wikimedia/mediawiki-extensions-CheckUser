@@ -49,7 +49,7 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiUnitTestCa
 			->method( 'getUserIdsInCase' );
 
 		$job = $this->createJobWithMocks(
-			$this->getCaseManagerMockIsNeverCalled(),
+			$this->createNoOpMock( SuggestedInvestigationsCaseManagerService::class ),
 			$caseLookUpMock
 		);
 
@@ -69,7 +69,7 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiUnitTestCa
 			->willReturn( [] );
 
 		$job = $this->createJobWithMocks(
-			$this->getCaseManagerMockIsNeverCalled(),
+			$this->createNoOpMock( SuggestedInvestigationsCaseManagerService::class ),
 			$caseLookUpMock
 		);
 
@@ -86,7 +86,7 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiUnitTestCa
 			->willReturn( [ 2 ] );
 
 		$job = $this->createJobWithMocks(
-			$this->getCaseManagerMockIsNeverCalled(),
+			$this->createNoOpMock( SuggestedInvestigationsCaseManagerService::class ),
 			$caseLookUpMock,
 			$blockCheckerMock
 		);
@@ -115,14 +115,6 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiUnitTestCa
 		);
 
 		$this->assertTrue( $job->run() );
-	}
-
-	private function getCaseManagerMockIsNeverCalled(): SuggestedInvestigationsCaseManagerService {
-		$caseManagerMock = $this->createMock( SuggestedInvestigationsCaseManagerService::class );
-		$caseManagerMock->expects( $this->never() )
-			->method( 'setCaseStatus' );
-
-		return $caseManagerMock;
 	}
 
 	private function getCaseLookUpMockFound(): SuggestedInvestigationsCaseLookupService&MockObject {

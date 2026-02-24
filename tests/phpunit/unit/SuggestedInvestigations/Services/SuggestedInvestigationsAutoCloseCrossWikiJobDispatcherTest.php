@@ -17,9 +17,7 @@ use Psr\Log\NullLogger;
 class SuggestedInvestigationsAutoCloseCrossWikiJobDispatcherTest extends MediaWikiUnitTestCase {
 
 	public function testDispatchReturnsEarlyWhenCentralAuthNotAvailable(): void {
-		$jobQueueGroupFactory = $this->createMock( JobQueueGroupFactory::class );
-		$jobQueueGroupFactory->expects( $this->never() )
-			->method( 'makeJobQueueGroup' );
+		$jobQueueGroupFactory = $this->createNoOpMock( JobQueueGroupFactory::class );
 
 		$dispatcher = new SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher(
 			$jobQueueGroupFactory,

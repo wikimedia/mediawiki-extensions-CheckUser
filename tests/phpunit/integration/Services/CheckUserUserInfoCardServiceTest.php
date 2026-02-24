@@ -757,12 +757,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testAuthorityGetsExactAccountsOnIPCount() {
-		$checkUserTemporaryAccountsByIPLookup = $this->createMock( CheckUserTemporaryAccountsByIPLookup::class );
-		$checkUserTemporaryAccountsByIPLookup
-			->expects( $this->never() )
-			->method( 'getBucketedCount' );
+		$ipLookup = $this->createNoOpMock( CheckUserTemporaryAccountsByIPLookup::class );
 		$userInfoCardService = $this->getObjectUnderTest( [
-			'CheckUserTemporaryAccountsByIPLookup' => $checkUserTemporaryAccountsByIPLookup,
+			'CheckUserTemporaryAccountsByIPLookup' => $ipLookup,
 		] );
 		$userInfoCardService->getUserInfo(
 			$this->getTestSysop()->getAuthority(),
@@ -1181,12 +1178,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testAccountsOnIPsCountNotShownForRegisteredUsers() {
-		$checkUserTemporaryAccountsByIPLookup = $this->createMock( CheckUserTemporaryAccountsByIPLookup::class );
-		$checkUserTemporaryAccountsByIPLookup
-			->expects( $this->never() )
-			->method( 'getBucketedCount' );
+		$ipLookup = $this->createNoOpMock( CheckUserTemporaryAccountsByIPLookup::class );
 		$userInfoCardService = $this->getObjectUnderTest( [
-			'CheckUserTemporaryAccountsByIPLookup' => $checkUserTemporaryAccountsByIPLookup,
+			'CheckUserTemporaryAccountsByIPLookup' => $ipLookup,
 		] );
 		$userInfoCardService->getUserInfo(
 			$this->getTestSysop()->getAuthority(),

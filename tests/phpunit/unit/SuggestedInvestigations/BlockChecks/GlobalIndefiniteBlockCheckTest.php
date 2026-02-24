@@ -97,9 +97,7 @@ class GlobalIndefiniteBlockCheckTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testApplyGlobalEarlyExit(): void {
-		$globalBlockLookup = $this->createMock( GlobalBlockLookup::class );
-		$globalBlockLookup->expects( $this->never() )
-			->method( 'getGlobalBlockingBlock' );
+		$globalBlockLookup = $this->createNoOpMock( GlobalBlockLookup::class );
 
 		$check = new GlobalIndefiniteBlockCheck(
 			$globalBlockLookup,

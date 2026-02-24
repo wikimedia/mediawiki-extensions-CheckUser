@@ -69,12 +69,10 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 		$this->installMockDatabase( false );
 		// Expect that UserAgentClientHintsManager::deleteOrphanedMapRows are called (as this can be run even if
 		// no lock is acquired).
-		$mockUserAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
-		$mockUserAgentClientHintsManager->method( 'deleteOrphanedMapRows' )
+		$hintsManager = $this->createNoOpMock( UserAgentClientHintsManager::class, [ 'deleteOrphanedMapRows' ] );
+		$hintsManager->method( 'deleteOrphanedMapRows' )
 			->willReturn( 123 );
-		$mockUserAgentClientHintsManager->expects( $this->never() )
-			->method( 'deleteMappingRows' );
-		$this->setService( 'UserAgentClientHintsManager', $mockUserAgentClientHintsManager );
+		$this->setService( 'UserAgentClientHintsManager', $hintsManager );
 		$this->maintenance->method( 'createChild' )
 			->with( PurgeRecentChanges::class )
 			->willReturn( $this->createMock( PurgeRecentChanges::class ) );

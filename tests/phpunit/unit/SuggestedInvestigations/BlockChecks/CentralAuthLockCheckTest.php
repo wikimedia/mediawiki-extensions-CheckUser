@@ -24,15 +24,10 @@ class CentralAuthLockCheckTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testEmptyInput(): void {
-		$factory = $this->createMock( GlobalUserSelectQueryBuilderFactory::class );
-		$factory->expects( $this->never() )
-			->method( 'newGlobalUserSelectQueryBuilder' );
-
-		$lookup = $this->createMock( UserIdentityLookup::class );
-		$lookup->expects( $this->never() )
-			->method( 'newSelectQueryBuilder' );
-
-		$check = new CentralAuthLockCheck( $factory, $lookup );
+		$check = new CentralAuthLockCheck(
+			$this->createNoOpMock( GlobalUserSelectQueryBuilderFactory::class ),
+			$this->createNoOpMock( UserIdentityLookup::class )
+		);
 
 		$this->assertSame( [], $check->getIndefinitelyBlockedUserIds( [] ) );
 	}

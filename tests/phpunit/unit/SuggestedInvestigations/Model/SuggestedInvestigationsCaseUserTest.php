@@ -17,13 +17,11 @@ class SuggestedInvestigationsCaseUserTest extends MediaWikiUnitTestCase {
 	): void {
 		// Create a mock UserIdentity which expects a call to the method with the same name as the
 		// method we are testing (testing that the method just passes through)
-		$userIdentity = $this->createMock( UserIdentity::class );
+		$userIdentity = $this->createNoOpMock( UserIdentity::class, [ $methodName ] );
 		$userIdentity->expects( $this->once() )
 			->method( $methodName )
 			->with( ...$mockArguments )
 			->willReturn( $mockReturnValue );
-		$userIdentity->expects( $this->never() )
-			->method( $this->anythingBut( $methodName ) );
 
 		// Check the return value is as expected
 		$objectUnderTest = new SuggestedInvestigationsCaseUser( $userIdentity, 0 );
