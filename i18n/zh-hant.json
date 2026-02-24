@@ -408,6 +408,7 @@
 	"checkuser-userinfocard-thanks": "收到的感謝次數：$1（送出感謝次數：$2）",
 	"checkuser-userinfocard-checks": "檢查次數：$1 （上一次檢查：$2）",
 	"checkuser-userinfocard-checks-empty": "檢查次數：$1",
+	"checkuser-userinfocard-suggested-investigations": "建議調查案件：$1",
 	"checkuser-userinfocard-global-restrictions-locked": "自$3起[[$2|已全域{{GENDER:$1|鎖定}}]]",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|已全域{{GENDER:$1|鎖定}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "自$3起[[$2|全域{{GENDER:$1|封鎖}}]]",

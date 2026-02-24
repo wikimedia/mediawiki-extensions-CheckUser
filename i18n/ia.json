@@ -375,6 +375,7 @@
 	"checkuser-userinfocard-thanks": "Regratiamentos recipite: $1 (date: $2)",
 	"checkuser-userinfocard-checks": "Verificationes: $1 (ultime verification: $2)",
 	"checkuser-userinfocard-checks-empty": "Verificationes: $1",
+	"checkuser-userinfocard-suggested-investigations": "Casos de investigation suggerite: $1",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Globalmente {{GENDER:$1|serrate}}]] desde le $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Globalmente {{GENDER:$1|serrate}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Globalmente {{GENDER:$1|blocate}}]] desde le $3",

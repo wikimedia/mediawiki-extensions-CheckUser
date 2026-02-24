@@ -395,6 +395,7 @@
 	"checkuser-userinfocard-thanks": "الشكر المستلم: $1 (المُعطى: $2 )",
 	"checkuser-userinfocard-checks": "الشيكات: $1 (آخر فحص: $2 )",
 	"checkuser-userinfocard-checks-empty": "الشيكات: $1",
+	"checkuser-userinfocard-suggested-investigations": "قضايا التحقيق المقترحة: $1",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|{{GENDER:$1|مقفل}} عالميا]] منذ $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|{{GENDER:$1|مقفل}} عالميا]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|{{GENDER:$1|ممنوع}} عالميا]] منذ $3",
