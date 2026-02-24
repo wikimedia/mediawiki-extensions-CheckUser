@@ -25,7 +25,10 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		return MoveLogEntriesFromCuChanges::class;
 	}
 
-	protected function commonTestNoMove( $expectedCuChangesCount, $expectedCuPrivateRowCount = 0 ) {
+	protected function commonTestNoMove(
+		int $expectedCuChangesCount,
+		int $expectedCuPrivateRowCount = 0
+	): void {
 		$this->assertRowCount(
 			$expectedCuPrivateRowCount, 'cu_private_event', 'cupe_id',
 			'Rows were moved to cu_private_event when they should not have been moved.'
@@ -38,7 +41,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 
 	protected function commonTestMoved(
 		$expectedCuChangesRowCount, $expectedCuChangesRowCountWithOnlyReadOld, $expectedCuPrivateRowCount
-	) {
+	): void {
 		$this->assertRowCount(
 			$expectedCuPrivateRowCount, 'cu_private_event', 'cupe_id',
 			'Rows were moved to cu_private_event when they should not have been moved.'

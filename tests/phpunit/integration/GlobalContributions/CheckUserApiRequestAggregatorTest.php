@@ -31,7 +31,9 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 		$this->externalWiki = 'otherwiki';
 	}
 
-	private function getMockHttpRequestFactory( int $authMode = CheckUserApiRequestAggregator::AUTHENTICATE_NONE ) {
+	private function getMockHttpRequestFactory(
+		int $authMode = CheckUserApiRequestAggregator::AUTHENTICATE_NONE
+	): HttpRequestFactory {
 		$multiHttpClient = $this->createMock( MultiHttpClient::class );
 		$multiHttpClient->method( 'runMulti' )
 			->willReturnCallback( function ( array $reqs ) use ( $authMode ): array {
@@ -73,7 +75,7 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 		return $httpRequestFactory;
 	}
 
-	private function getMockSiteLookup() {
+	private function getMockSiteLookup(): SiteLookup {
 		$site = $this->createMock( MediaWikiSite::class );
 		$site->method( 'getFileUrl' )
 			->willReturn( 'test' );

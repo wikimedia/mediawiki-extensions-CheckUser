@@ -139,14 +139,10 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
 		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
 		$extensionRegistry->method( 'isLoaded' )
-			->willReturnCallback( static function ( $name ) use ( $isIpInfoAvailable, $isGlobalPreferencesAvailable ) {
-				if ( $name === 'IPInfo' ) {
-					return $isIpInfoAvailable;
-				}
-				if ( $name === 'GlobalPreferences' ) {
-					return $isGlobalPreferencesAvailable;
-				}
-				return false;
+			->willReturnCallback( static fn ( $name ) => match ( $name ) {
+				'IPInfo' => $isIpInfoAvailable,
+				'GlobalPreferences' => $isGlobalPreferencesAvailable,
+				default => false
 			} );
 
 		$pageDisplayHookHandler = new PageDisplay(

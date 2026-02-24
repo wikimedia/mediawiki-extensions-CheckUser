@@ -30,7 +30,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 
 	public function commonTestAddLogEntry(
 		$logType, $targetType, $target, $reason, $targetID, $assertSelectFieldNames, $assertSelectFieldValues
-	) {
+	): void {
 		$object = $this->setUpObject();
 		$object->addLogEntry(
 			$this->getTestUser( 'checkuser' )->getUser(), $logType, $targetType, $target, $reason, $targetID

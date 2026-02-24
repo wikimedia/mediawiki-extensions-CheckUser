@@ -80,7 +80,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			->fetchField();
 	}
 
-	public function addTestingDataForPurging() {
+	public function addTestingDataForPurging(): void {
 		// Add some testing cuci_temp_edit rows
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cuci_temp_edit' )
@@ -180,9 +180,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 		// the timestamps (as each row has a unique timestamp in our test data).
 		$this->assertArrayEquals(
 			array_map(
-				function ( $timestamp ) {
-					return $this->getDb()->timestamp( $timestamp );
-				},
+				$this->getDb()->timestamp( ... ),
 				$expectedTimestampsInTempEditTable
 			),
 			$this->newSelectQueryBuilder()
@@ -192,9 +190,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 		);
 		$this->assertArrayEquals(
 			array_map(
-				function ( $timestamp ) {
-					return $this->getDb()->timestamp( $timestamp );
-				},
+				$this->getDb()->timestamp( ... ),
 				$expectedTimestampsInUserTable
 			),
 			$this->newSelectQueryBuilder()
@@ -375,7 +371,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 
 	private function commonRecordActionInCentralIndexes(
 		$performer, $lastTimestamp, $timestamp, $shouldPassMtRandCheck
-	) {
+	): void {
 		// Insert a pre-existing entry with the $lastTimestamp as the timestamp (and cuci_temp_edit if the performer
 		// is a temporary account)
 		$this->getDb()->newInsertQueryBuilder()

@@ -43,7 +43,7 @@ class SemiMockedCheckUserDataPurger extends CheckUserDataPurger {
 		return $returnValue;
 	}
 
-	public function checkThatExpectedCallsHaveBeenMade() {
+	public function checkThatExpectedCallsHaveBeenMade(): void {
 		// Check that a call has been made twice for each table
 		foreach ( self::RESULT_TABLES as $table ) {
 			Assert::assertSame( 2, $this->seenTables[$table] );

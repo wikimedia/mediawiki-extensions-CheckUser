@@ -30,6 +30,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use stdClass;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -105,7 +106,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $this->revisionStore );
 	}
 
-	private function getPagerWithOverrides( $overrides ) {
+	private function getPagerWithOverrides( array $overrides ): GlobalContributionsPager {
 		$services = $this->getServiceContainer();
 		return new GlobalContributionsPager(
 			$this->linkRenderer,
@@ -132,7 +133,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	private function getPager( $userName ): GlobalContributionsPager {
+	private function getPager( string $userName ): GlobalContributionsPager {
 		return $this->getServiceContainer()->get( 'CheckUserGlobalContributionsPagerFactory' )
 			->createPager(
 				RequestContext::getMain(),
@@ -141,17 +142,23 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			);
 	}
 
-	private function getWrappedPager( string $userName, $pageTitle, $pageNamespace = 0 ) {
+	/**
+	 * @return GlobalContributionsPager
+	 */
+	private function getWrappedPager( string $userName, string $pageTitle, int $pageNamespace = NS_MAIN ) {
 		$pager = $this->wrapPager( $this->getPager( $userName ) );
 		$pager->currentPage = Title::makeTitle( $pageNamespace, $pageTitle );
 		return $pager;
 	}
 
+	/**
+	 * @return GlobalContributionsPager
+	 */
 	private function wrapPager( GlobalContributionsPager $pager ) {
 		return TestingAccessWrapper::newFromObject( $pager );
 	}
 
-	private function getRow( $options = [] ) {
+	private function getRow( array $options = [] ): stdClass {
 		return (object)( array_merge(
 			[
 				'rev_id' => '2',

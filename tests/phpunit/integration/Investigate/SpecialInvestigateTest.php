@@ -75,14 +75,13 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 	 * @param string[] $excludeTargets Targets to exclude from the check
 	 * @param string $subPage The subpage
 	 * @param bool $filterTempAccounts Whether to filter out results for temporary accounts.
-	 * @return FauxRequest|WebRequest
 	 */
 	private function getValidRequest(
 		array $targets,
 		array $excludeTargets,
 		string $subPage,
 		bool $filterTempAccounts = false
-	) {
+	): WebRequest {
 		$request = RequestContext::getMain()->getRequest();
 		// Generate a valid token and set it in the request.
 		$token = $this->getServiceContainer()->get( 'CheckUserTokenQueryManager' )->updateToken(
@@ -296,7 +295,7 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		$this->assertStringNotContainsString( 'data-value="~2025-1"', $html );
 	}
 
-	private function commonTestViewAccountInformationTab( $target ) {
+	private function commonTestViewAccountInformationTab( string $target ): string {
 		// Get the HTML for the account information tab.
 		$html = $this->getHtmlForTab( [ $target ], $this->getTabParam( 'preliminary-check' ), true );
 		// Verify that the HTML does not include the form field to exclude a user from the preliminary check results,

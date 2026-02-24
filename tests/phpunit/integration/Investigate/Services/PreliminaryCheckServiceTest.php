@@ -70,12 +70,10 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 
 		if ( $options['isCentralAuthAvailable'] ) {
 			$rows = new FakeResultWrapper( array_map(
-				static function ( $wiki ) use ( $user ) {
-					return (object)[
-						'lu_name' => $user['name'],
-						'lu_wiki' => $wiki,
-					];
-				},
+				static fn ( $wiki ) => (object)[
+					'lu_name' => $user['name'],
+					'lu_wiki' => $wiki,
+				],
 				$options['attachedWikis']
 			) );
 		} else {

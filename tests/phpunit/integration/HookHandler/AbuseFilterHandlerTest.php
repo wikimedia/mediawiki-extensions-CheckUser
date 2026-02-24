@@ -31,7 +31,7 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
 	}
 
-	private function getHookHandler() {
+	private function getHookHandler(): AbuseFilterHandler {
 		return new AbuseFilterHandler(
 			$this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
@@ -156,7 +156,7 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 			->assertFieldValue( 0 );
 	}
 
-	private function mockAllUsersHaveAcceptedIPRevealPreference() {
+	private function mockAllUsersHaveAcceptedIPRevealPreference(): void {
 		$this->setService(
 			'UserOptionsLookup',
 			new StaticUserOptionsLookup( [], [ 'checkuser-temporary-account-enable' => 1 ] )

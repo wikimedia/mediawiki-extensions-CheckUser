@@ -23,7 +23,7 @@ class CentralAuthHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
 	}
 
-	private function getHookHandler( $overrides = [] ) {
+	private function getHookHandler( array $overrides = [] ): CentralAuthHandler {
 		$services = $this->getServiceContainer();
 		return new CentralAuthHandler(
 			$overrides[ 'wanCache' ] ?? $services->getMainWANObjectCache(),

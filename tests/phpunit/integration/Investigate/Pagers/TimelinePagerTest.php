@@ -32,8 +32,11 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserTempUserTestTrait;
 
+	/**
+	 * @return TimelinePager
+	 */
 	private function getObjectUnderTest( array $overrides = [] ) {
-		return TestingAccessWrapper::newFromObject( new TimelinePager(
+		$pager = new TimelinePager(
 			RequestContext::getMain(),
 			$overrides['linkRenderer'] ?? $this->getServiceContainer()->getLinkRenderer(),
 			$overrides['hookRuner'] ?? $this->getServiceContainer()->get( 'CheckUserHookRunner' ),
@@ -46,7 +49,8 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				),
 			$overrides['linkBatchFactory'] ?? $this->getServiceContainer()->getLinkBatchFactory(),
 			$overrides['logger'] ?? LoggerFactory::getInstance( 'CheckUser' )
-		) );
+		);
+		return TestingAccessWrapper::newFromObject( $pager );
 	}
 
 	/** @dataProvider provideFormatRow */

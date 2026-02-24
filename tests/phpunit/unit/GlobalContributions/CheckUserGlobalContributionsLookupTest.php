@@ -29,9 +29,8 @@ use Wikimedia\Stats\StatsFactory;
 class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 	/**
 	 * @param array $overrides Allow tests to stub out services as necessary
-	 * @return CheckUserGlobalContributionsLookup
 	 */
-	private function getLookupWithOverrides( $overrides ) {
+	private function getLookupWithOverrides( array $overrides ): CheckUserGlobalContributionsLookup {
 		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
 		$extensionRegistry->method( 'isLoaded' )
 			->willReturn( true );
@@ -53,9 +52,8 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 	 * Convenience function to get a database with an expected query result
 	 *
 	 * @param string[] $activeWikis array of wikis to return as the query result
-	 * @return IConnectionProvider
 	 */
-	private function getMockDbProviderWithActiveWikiLookupResults( $activeWikis ) {
+	private function getMockDbProviderWithActiveWikiLookupResults( array $activeWikis ): IConnectionProvider {
 		// Mock fetching the recently active wikis
 		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
 		$queryBuilder

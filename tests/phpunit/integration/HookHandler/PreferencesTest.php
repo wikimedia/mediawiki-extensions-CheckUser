@@ -70,17 +70,11 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 		$prefs = [];
 
 		$this->permissionManager->method( 'userHasRight' )
-			->willReturnCallback( static function ( $user, $right ) use ( $options ) {
-				if ( $right === 'checkuser-temporary-account' ) {
-					return $options['hasRight'];
-				}
-				if ( $right === 'checkuser-temporary-account-no-preference' ) {
-					return $options['hasNoPreferenceRight'];
-				}
-				if ( $right === 'checkuser' ) {
-					return false;
-				}
-				return true;
+			->willReturnCallback( static fn ( $user, $action ) => match ( $action ) {
+				'checkuser-temporary-account' => $options['hasRight'],
+				'checkuser-temporary-account-no-preference' => $options['hasNoPreferenceRight'],
+				'checkuser' => false,
+				default => true
 			} );
 		$this->permissionManager->method( 'userHasAnyRight' )
 			->willReturnCallback( static function ( $user, ...$rights ) use ( $options ) {

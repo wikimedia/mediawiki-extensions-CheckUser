@@ -1282,7 +1282,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		return DOMCompat::getOuterHTML( $element[0] );
 	}
 
-	private function addCaseWithTwoUsers() {
+	private function addCaseWithTwoUsers(): int {
 		self::$testUser1 = $user1 = $this->getMutableTestUser()->getUser();
 		self::$testUser2 = $user2 = $this->getMutableTestUser()->getUser();
 
@@ -1295,7 +1295,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		return $this->getCaseManager()->createCase( [ $user1, $user2 ], [ $signal ] );
 	}
 
-	private function addCaseWithManyUsers() {
+	private function addCaseWithManyUsers(): int {
 		$users = [];
 		for ( $i = 0; $i < SpecialInvestigate::MAX_TARGETS + 1; $i++ ) {
 			$users[] = $this->getMutableTestUser()->getUser();

@@ -66,7 +66,7 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 		return $globalBlock;
 	}
 
-	private function commonTestRetroactiveAutoblockWhenNoIpsFound( GlobalBlock $globalBlock ) {
+	private function commonTestRetroactiveAutoblockWhenNoIpsFound( GlobalBlock $globalBlock ): void {
 		$ips = [];
 		$returnValue = $this->getObjectUnderTest()->onGlobalBlockingGetRetroactiveAutoblockIPs(
 			$globalBlock, 100, $ips

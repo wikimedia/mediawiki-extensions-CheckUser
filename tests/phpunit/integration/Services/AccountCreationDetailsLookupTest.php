@@ -20,7 +20,7 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserTempUserTestTrait;
 
-	private function getCheckUserPrivateEventsHandler() {
+	private function getCheckUserPrivateEventsHandler(): CheckUserPrivateEventsHandler {
 		return new CheckUserPrivateEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),

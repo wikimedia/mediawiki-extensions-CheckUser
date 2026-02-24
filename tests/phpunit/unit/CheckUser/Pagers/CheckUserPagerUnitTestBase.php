@@ -16,7 +16,11 @@ abstract class CheckUserPagerUnitTestBase extends MediaWikiUnitTestCase {
 	 */
 	abstract protected function getPagerClass(): string;
 
-	public function commonGetQueryInfoForTableSpecificMethod( $methodName, $propertiesToSet, $expectedQueryInfo ) {
+	public function commonGetQueryInfoForTableSpecificMethod(
+		string $methodName,
+		array $propertiesToSet,
+		array $expectedQueryInfo
+	): void {
 		$object = $this->getMockBuilder( $this->getPagerClass() )
 			->disableOriginalConstructor()
 			->getMock();

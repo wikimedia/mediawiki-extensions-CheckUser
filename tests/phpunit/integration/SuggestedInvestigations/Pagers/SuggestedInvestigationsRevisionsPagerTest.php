@@ -80,7 +80,7 @@ class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTest
 		$this->assertUserCorrectlyAddedToRowHtml( $passUserToPager, $deletedRevisionRowHtml );
 	}
 
-	private function assertUserCorrectlyAddedToRowHtml( bool $userPassedToPager, string $rowHtml ) {
+	private function assertUserCorrectlyAddedToRowHtml( bool $userPassedToPager, string $rowHtml ): void {
 		if ( $userPassedToPager ) {
 			$this->assertStringNotContainsString(
 				static::$editingUser->getName(),

@@ -23,7 +23,7 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 		return DeleteReadOldRowsInCuChanges::class;
 	}
 
-	private function addRows( $numberOfReadOldRows, $numberOfNormalRows ) {
+	private function addRows( int $numberOfReadOldRows, int $numberOfNormalRows ): void {
 		$rows = [];
 		$testUser = $this->getTestUser()->getUser();
 		for ( $i = 0; $i < $numberOfReadOldRows; $i++ ) {
@@ -62,7 +62,7 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 	}
 
 	/** @dataProvider provideRowCountsAndBatchSize */
-	public function testExecute( $numberOfReadOldRows, $numberOfNormalRows, $batchSize ) {
+	public function testExecute( int $numberOfReadOldRows, int $numberOfNormalRows, int $batchSize ) {
 		// Set up cu_changes
 		$this->addRows( $numberOfReadOldRows, $numberOfNormalRows );
 		// Run the script

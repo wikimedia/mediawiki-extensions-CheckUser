@@ -275,9 +275,8 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 			->willReturn( [
 				$mockedQueryInfoForCuChanges, $mockedQueryInfoForCuLogEvent, $mockedQueryInfoForCuPrivateEvent,
 			] );
-		$mockDb->method( 'newSelectQueryBuilder' )->willReturnCallback( static function () use ( $mockDb ) {
-			return new SelectQueryBuilder( $mockDb );
-		} );
+		$mockDb->method( 'newSelectQueryBuilder' )
+			->willReturnCallback( static fn () => new SelectQueryBuilder( $mockDb ) );
 		$expectedSelects = [ 'cu_changes' => true, 'cu_log_event' => true, 'cu_private_event' => true ];
 		$mockDb->expects( $this->exactly( 3 ) )
 			->method( 'select' )

@@ -426,6 +426,9 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		);
 	}
 
+	/**
+	 * @return CheckUserTemporaryAccountsByIPLookup
+	 */
 	public function getObjectUnderTest() {
 		/** @var CheckUserTemporaryAccountsByIPLookup $objectUnderTest */
 		$objectUnderTest = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountsByIPLookup' );

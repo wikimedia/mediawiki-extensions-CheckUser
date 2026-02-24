@@ -14,11 +14,16 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser
  */
 class SpecialCheckUserLogTest extends MediaWikiUnitTestCase {
-	private function commonVerifyInitiator( string $initiatorName, $mockReturnValue ) {
+
+	/**
+	 * @return SpecialCheckUserLog
+	 */
+	private function commonVerifyInitiator( string $initiatorName, ?int $mockReturnValue ) {
 		$objectUnderTest = $this->getMockBuilder( SpecialCheckUserLog::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [] )
 			->getMock();
+		/** @var SpecialCheckUserLog $objectUnderTest */
 		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
 		$mockActorStore = $this->createMock( ActorStore::class );
 		$mockDbr = $this->createMock( IReadableDatabase::class );

@@ -28,7 +28,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	private static function getExampleJsApiData() {
+	private static function getExampleJsApiData(): array {
 		return [
 			'No client hint data' => [],
 			'Example Windows device using Chrome' => [

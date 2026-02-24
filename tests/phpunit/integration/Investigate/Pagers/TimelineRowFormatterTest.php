@@ -401,7 +401,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	private function getDefaultsForTimelineRow() {
+	private function getDefaultsForTimelineRow(): array {
 		return [
 			'namespace' => 0, 'title' => 'Test', 'actiontext' => '', 'timestamp' => '20210405060708',
 			'minor' => 0, 'page_id' => 0, 'type' => RC_EDIT, 'this_oldid' => 0, 'last_oldid' => 0,

@@ -73,7 +73,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	private function mockSkinMessages() {
+	private function mockSkinMessages(): void {
 		$this->skin
 			->method( 'msg' )
 			->willReturnCallback( static function ( $key ): Message {

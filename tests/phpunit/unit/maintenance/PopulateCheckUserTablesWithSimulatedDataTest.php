@@ -181,14 +181,10 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 				PopulateCheckUserTablesWithSimulatedData::class, [ 'mtRand' ]
 			);
 			$objectUnderTest->method( 'mtRand' )
-				->willReturnCallback( static function ( $min, $max ) use ( $mtRandValue ) {
-					if ( $mtRandValue === 'min' ) {
-						return $min;
-					} elseif ( $mtRandValue === 'max' ) {
-						return $max;
-					} else {
-						return $mtRandValue;
-					}
+				->willReturnCallback( static fn ( $min, $max ) => match ( $mtRandValue ) {
+					'min' => $min,
+					'max' => $max,
+					default => $mtRandValue
 				} );
 			$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
 		} else {

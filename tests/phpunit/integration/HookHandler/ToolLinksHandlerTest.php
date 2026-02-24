@@ -606,7 +606,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	private function commonTestOnContributionsToolLinks(
 		string $userName, $linkRenderer, array $userRights, array $expectedLinksArray,
 		array $serviceOverrides = []
-	) {
+	): void {
 		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
 			->onlyMethods( [ 'getLinkRenderer', 'getUser' ] )
 			->getMock();

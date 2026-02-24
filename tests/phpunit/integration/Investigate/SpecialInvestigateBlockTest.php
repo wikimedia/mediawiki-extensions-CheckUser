@@ -9,6 +9,7 @@ use MediaWiki\Request\FauxRequest;
 use MediaWiki\Revision\SlotRecord;
 use MediaWiki\Tests\SpecialPage\FormSpecialPageTestCase;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\User\User;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -55,7 +56,7 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		);
 	}
 
-	private function getUserForSuccess() {
+	private function getUserForSuccess(): User {
 		return $this->getMutableTestUser( [ 'checkuser', 'sysop' ] )->getUser();
 	}
 
@@ -133,10 +134,8 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 	 * SocialProfile user pages do not use wikitext and therefore block attempts to edit them using the API,
 	 * so Special:InvestigateBlock does not work when SocialProfile is installed. We need to skip the tests
 	 * to avoid failures in CI.
-	 *
-	 * @return void
 	 */
-	private function markTestSkippedIfSocialProfileExtensionInstalled() {
+	private function markTestSkippedIfSocialProfileExtensionInstalled(): void {
 		if ( $this->isSocialProfileExtensionInstalled() ) {
 			$this->markTestSkipped( "Extension SocialProfile cannot be installed when running this test (T390590)" );
 		}

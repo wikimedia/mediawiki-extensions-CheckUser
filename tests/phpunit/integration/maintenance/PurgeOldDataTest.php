@@ -48,17 +48,15 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 	 * @param bool $shouldReturnScopedLock Whether IDatabase::getScopedLockAndFlush should return a ScopedCallback (
 	 *   otherwise it returns null).
 	 */
-	private function installMockDatabase( bool $shouldReturnScopedLock ) {
+	private function installMockDatabase( bool $shouldReturnScopedLock ): void {
 		// Mock ::getScopedLockAndFlush to return null, to simulate that we were unable to acquire a lock.
 		$mockDatabase = $this->createMock( IDatabase::class );
 		$mockDatabase->method( 'getScopedLockAndFlush' )
 			->willReturn( $shouldReturnScopedLock ? $this->createMock( ScopedCallback::class ) : null );
 		// Mock ::timestamp to use the real behaviour.
-		$mockDatabase->method( 'timestamp' )
-			->willReturnCallback( static function ( $ts ) {
-				$t = new ConvertibleTimestamp( $ts );
-				return $t->getTimestamp( TS_MW );
-			} );
+		$mockDatabase->method( 'timestamp' )->willReturnCallback(
+			static fn ( $ts ) => ( new ConvertibleTimestamp( $ts ) )->getTimestamp( TS_MW )
+		);
 		$mockDatabase->method( 'getDomainID' )
 			->willReturn( 'enwiki' );
 		$this->maintenance->method( 'getPrimaryDB' )

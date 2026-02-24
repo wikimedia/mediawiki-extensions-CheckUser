@@ -55,7 +55,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 	}
 
 	/** @dataProvider provideGetQueryInfoForCuChanges */
-	public function testGetQueryInfoForCuChanges( $expectedQueryInfo ) {
+	public function testGetQueryInfoForCuChanges( array $expectedQueryInfo ) {
 		$this->commonGetQueryInfoForTableSpecificMethod(
 			'getQueryInfoForCuChanges',
 			[

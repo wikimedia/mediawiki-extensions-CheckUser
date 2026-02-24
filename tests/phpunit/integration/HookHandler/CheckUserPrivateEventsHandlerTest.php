@@ -53,13 +53,9 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	 * Re-define the CheckUserInsert service to expect no calls to any of its methods.
 	 * This is done to assert that no inserts to the database occur instead of having
 	 * to assert a row count of zero.
-	 *
-	 * @return void
 	 */
-	private function expectNoCheckUserInsertCalls() {
-		$this->setService( 'CheckUserInsert', function () {
-			return $this->createNoOpMock( CheckUserInsert::class );
-		} );
+	private function expectNoCheckUserInsertCalls(): void {
+		$this->setService( 'CheckUserInsert', $this->createNoOpMock( CheckUserInsert::class ) );
 	}
 
 	public function testUserLogoutComplete() {
@@ -317,7 +313,10 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	private function getMockAuthenticationResponseForStatus( $status, $user = 'test' ) {
+	private function getMockAuthenticationResponseForStatus(
+		string $status,
+		string $user = 'test'
+	): AuthenticationResponse {
 		$req = $this->getMockForAbstractClass( AuthenticationRequest::class );
 		switch ( $status ) {
 			case AuthenticationResponse::PASS:
@@ -394,7 +393,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	private function commonOnEmailUser(
 		MailAddress $to, MailAddress $from, array $cuPrivateWhere, bool $shouldCollectClientHintsData = true
-	) {
+	): void {
 		// Call the method under test with the provided arguments and some mock arguments that are unused.
 		$subject = 'Test subject';
 		$text = 'Test text';

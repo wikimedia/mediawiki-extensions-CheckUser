@@ -35,6 +35,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use StatusValue;
 use Wikimedia\IPUtils;
@@ -655,7 +656,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	private function mockHandler() {
+	private function mockHandler(): BatchTemporaryAccountHandler&MockObject {
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
 			->willReturn( CheckUserPermissionStatus::newGood() );
@@ -963,7 +964,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		return $logEntry;
 	}
 
-	private function getMockRevisionStore() {
+	private function getMockRevisionStore(): RevisionStore&MockObject {
 		// Mock the RevisionStore to say that all revisions can be viewed by the authority (we need to do this as
 		// the revisions are not inserted to the DB).
 		$mockRevision = $this->createMock( RevisionRecord::class );

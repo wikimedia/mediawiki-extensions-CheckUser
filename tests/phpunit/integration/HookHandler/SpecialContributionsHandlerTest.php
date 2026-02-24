@@ -39,7 +39,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 	use CheckUserTempUserTestTrait;
 	use MockAuthorityTrait;
 
-	private function createHookHandler( array $overrideServices = [] ) {
+	private function createHookHandler( array $overrideServices = [] ): SpecialContributionsHandler {
 		$services = $this->getServiceContainer();
 		$hookHandler = new SpecialContributionsHandler(
 			$overrideServices['TempUserConfig'] ?? $services->getTempUserConfig(),
@@ -59,7 +59,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		array $performerPermissions,
 		array $bucketedCount = [ 1, 1 ],
 		array $override = []
-	) {
+	): SpecialContributionsHandler {
 		$mockTempAcctLookup = $this->createMock( CheckUserTemporaryAccountsByIPLookup::class );
 		$mockTempAcctLookup->method( 'getBucketedCount' )
 			->willReturn( $bucketedCount );

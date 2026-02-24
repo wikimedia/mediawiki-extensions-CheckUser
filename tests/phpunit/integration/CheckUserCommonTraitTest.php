@@ -90,11 +90,10 @@ trait CheckUserCommonTraitTest {
 	 * @param string $idField The primary key for that table
 	 * @param string $message The message to be used for an assertion failure.
 	 * @param array $where Any conditions to apply (default no conditions; optional)
-	 * @return void
 	 */
 	public function assertRowCount(
 		int $expectedRowCount, string $table, string $idField, string $message, array $where = []
-	) {
+	): void {
 		if ( !$this->needsDB() ) {
 			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
 				' method should return true. Use @group Database.' );
@@ -112,9 +111,8 @@ trait CheckUserCommonTraitTest {
 
 	/**
 	 * Provides default attributes for a recent change.
-	 * @return array
 	 */
-	public static function getDefaultRecentChangeAttribs() {
+	public static function getDefaultRecentChangeAttribs(): array {
 		// From RecentChangeTest.php's provideAttribs
 		return [
 			'rc_timestamp' => wfTimestamp( TS_MW ),

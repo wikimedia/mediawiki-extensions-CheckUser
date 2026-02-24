@@ -111,21 +111,20 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 			$this->getTestingRowForTable( self::CHANGES_TABLE, $anonUser, $anonUser->getName(), '20240506070810', 107 ),
 		];
 
-		$rows = array_map( static function ( $row ) {
-			return array_merge( [
-				'cuc_type'       => RC_EDIT,
-				'cuc_agent_id'   => 0,
-				'cuc_namespace'  => NS_MAIN,
-				'cuc_title'      => 'Foo_Page',
-				'cuc_minor'      => 0,
-				'cuc_page_id'    => 1,
-				'cuc_xff'        => 0,
-				'cuc_xff_hex'    => null,
-				'cuc_comment_id' => 0,
-				'cuc_last_oldid' => 0,
-				'cuc_this_oldid' => 0,
-			], $row );
-		}, $testData );
+		$rows = array_map( static fn ( $row ) => [
+			'cuc_type'       => RC_EDIT,
+			'cuc_agent_id'   => 0,
+			'cuc_namespace'  => NS_MAIN,
+			'cuc_title'      => 'Foo_Page',
+			'cuc_minor'      => 0,
+			'cuc_page_id'    => 1,
+			'cuc_xff'        => 0,
+			'cuc_xff_hex'    => null,
+			'cuc_comment_id' => 0,
+			'cuc_last_oldid' => 0,
+			'cuc_this_oldid' => 0,
+			...$row,
+		], $testData );
 
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_changes' )
@@ -148,13 +147,12 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 			$this->getTestingRowForTable( self::LOG_EVENT_TABLE, $anonUser, $anonUser->getName(), '20240506070810' ),
 		];
 
-		$rows = array_map( static function ( $row ) {
-			return array_merge( [
-				'cule_xff' => 0,
-				'cule_xff_hex' => null,
-				'cule_agent_id' => 0,
-			], $row );
-		}, $testData );
+		$rows = array_map( static fn ( $row ) => [
+			'cule_xff' => 0,
+			'cule_xff_hex' => null,
+			'cule_agent_id' => 0,
+			...$row,
+		], $testData );
 
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_log_event' )
@@ -179,14 +177,13 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 			),
 		];
 
-		$rows = array_map( static function ( $row ) {
-			return array_merge( [
-				'cupe_agent_id' => 0,
-				'cupe_xff' => 0,
-				'cupe_xff_hex' => null,
-				'cupe_params' => '',
-			], $row );
-		}, $testData );
+		$rows = array_map( static fn ( $row ) => [
+			'cupe_agent_id' => 0,
+			'cupe_xff' => 0,
+			'cupe_xff_hex' => null,
+			'cupe_params' => '',
+			...$row,
+		], $testData );
 
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_private_event' )

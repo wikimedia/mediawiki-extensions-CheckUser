@@ -64,20 +64,21 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	private function getMockedConnectionProvider( $dbwMock, $dbrMock ) {
-		$connectionProviderMock = $this->createMock( IConnectionProvider::class );
-		$connectionProviderMock->expects( $this->once() )
+	private function getObjectUnderTest(
+		IDatabase $dbwMock,
+		IReadableDatabase $dbrMock,
+		?LoggerInterface $logger = null
+	): UserAgentClientHintsManager {
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->expects( $this->once() )
 			->method( 'getPrimaryDatabase' )
 			->willReturn( $dbwMock );
-		$connectionProviderMock->expects( $this->once() )
+		$dbProvider->expects( $this->once() )
 			->method( 'getReplicaDatabase' )
 			->willReturn( $dbrMock );
-		return $connectionProviderMock;
-	}
 
-	private function getObjectUnderTest( $dbwMock, $dbrMock, $logger = null ): UserAgentClientHintsManager {
 		return $this->newServiceInstance( UserAgentClientHintsManager::class, [
-			'connectionProvider' => $this->getMockedConnectionProvider( $dbwMock, $dbrMock ),
+			'connectionProvider' => $dbProvider,
 			'logger' => $logger ?? LoggerFactory::getInstance( 'CheckUser' ),
 		] );
 	}

@@ -180,9 +180,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 				[ 70, 0, null, $firstMockRevisionRecord ],
 				[ 75, 0, null, $secondMockRevisionRecord ],
 			] );
-		$this->setService( 'RevisionStore', static function () use ( $mockRevisionStore ) {
-			return $mockRevisionStore;
-		} );
+		$this->setService( 'RevisionStore', $mockRevisionStore );
 		// Add two map row entries, with the first having reference ID of 1 and the second having a reference ID of 2.
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );

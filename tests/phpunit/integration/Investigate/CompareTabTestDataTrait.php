@@ -112,20 +112,19 @@ trait CompareTabTestDataTrait {
 			],
 		];
 
-		$testDataForCuChanges = array_map( static function ( $row ) use ( $timestampForDb ) {
-			return array_merge( [
-				'cuc_namespace'  => NS_MAIN,
-				'cuc_title'      => 'Foo_Page',
-				'cuc_minor'      => 0,
-				'cuc_page_id'    => 1,
-				'cuc_timestamp'  => $timestampForDb,
-				'cuc_xff'        => 0,
-				'cuc_xff_hex'    => null,
-				'cuc_comment_id' => 0,
-				'cuc_this_oldid' => 0,
-				'cuc_last_oldid' => 0,
-			], $row );
-		}, $testDataForCuChanges );
+		$testDataForCuChanges = array_map( static fn ( $row ) => [
+			'cuc_namespace'  => NS_MAIN,
+			'cuc_title'      => 'Foo_Page',
+			'cuc_minor'      => 0,
+			'cuc_page_id'    => 1,
+			'cuc_timestamp'  => $timestampForDb,
+			'cuc_xff'        => 0,
+			'cuc_xff_hex'    => null,
+			'cuc_comment_id' => 0,
+			'cuc_this_oldid' => 0,
+			'cuc_last_oldid' => 0,
+			...$row,
+		], $testDataForCuChanges );
 
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_changes' )
@@ -153,14 +152,13 @@ trait CompareTabTestDataTrait {
 			],
 		];
 
-		$testDataForCuLogEvent = array_map( static function ( $row ) use ( $timestampForDb ) {
-			return array_merge( [
-				'cule_log_id'     => 0,
-				'cule_timestamp'  => $timestampForDb,
-				'cule_xff'        => 0,
-				'cule_xff_hex'    => null,
-			], $row );
-		}, $testDataForCuLogEvent );
+		$testDataForCuLogEvent = array_map( static fn ( $row ) => [
+			'cule_log_id'     => 0,
+			'cule_timestamp'  => $timestampForDb,
+			'cule_xff'        => 0,
+			'cule_xff_hex'    => null,
+			...$row,
+		], $testDataForCuLogEvent );
 
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_log_event' )
@@ -184,19 +182,18 @@ trait CompareTabTestDataTrait {
 			],
 		];
 
-		$testDataForCuPrivateEvent = array_map( static function ( $row ) use ( $timestampForDb ) {
-			return array_merge( [
-				'cupe_namespace'  => NS_MAIN,
-				'cupe_title'      => 'Foo_Page',
-				'cupe_timestamp'  => $timestampForDb,
-				'cupe_xff'        => 0,
-				'cupe_xff_hex'    => null,
-				'cupe_log_action' => 'foo',
-				'cupe_log_type'   => 'bar',
-				'cupe_params' => '',
-				'cupe_comment_id' => 0,
-			], $row );
-		}, $testDataForCuPrivateEvent );
+		$testDataForCuPrivateEvent = array_map( static fn ( $row ) => [
+			'cupe_namespace'  => NS_MAIN,
+			'cupe_title'      => 'Foo_Page',
+			'cupe_timestamp'  => $timestampForDb,
+			'cupe_xff'        => 0,
+			'cupe_xff_hex'    => null,
+			'cupe_log_action' => 'foo',
+			'cupe_log_type'   => 'bar',
+			'cupe_params' => '',
+			'cupe_comment_id' => 0,
+			...$row,
+		], $testDataForCuPrivateEvent );
 
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_private_event' )

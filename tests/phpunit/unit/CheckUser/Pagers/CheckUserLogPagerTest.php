@@ -16,11 +16,16 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserLogPager
  */
 class CheckUserLogPagerTest extends MediaWikiUnitTestCase {
-	private function commonGetPerformerSearchConds( string $initiatorName, $mockReturnValue ) {
+
+	/**
+	 * @return CheckUserLogPager
+	 */
+	private function commonGetPerformerSearchConds( string $initiatorName, ?int $mockReturnValue ) {
 		$objectUnderTest = $this->getMockBuilder( CheckUserLogPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [] )
 			->getMock();
+		/** @var CheckUserLogPager $objectUnderTest */
 		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
 		$mockActorStore = $this->createMock( ActorStore::class );
 		$mockDbr = $this->createMock( IReadableDatabase::class );

@@ -51,7 +51,7 @@ class FixTrailingSpacesInLogsTest extends MaintenanceBaseTestCase {
 		);
 	}
 
-	public function addDBDataWhenRowsExist() {
+	public function addDBDataWhenRowsExist(): void {
 		// Add a few testing entries to the cu_log table
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );

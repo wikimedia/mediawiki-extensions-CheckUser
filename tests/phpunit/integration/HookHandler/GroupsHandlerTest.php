@@ -28,7 +28,7 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
 	}
 
-	private function getHandler( $overrideServices ) {
+	private function getHandler( array $overrideServices ): GroupsHandler {
 		$services = $this->getServiceContainer();
 
 		$arguments = array_merge( [
