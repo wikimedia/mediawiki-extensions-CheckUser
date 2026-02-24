@@ -525,7 +525,7 @@ class SuggestedInvestigationsCaseManagerService {
 			->fetchFieldValues();
 
 		return array_filter( array_map(
-			fn ( $userId ) => $this->userIdentityLookup->getUserIdentityByUserId( $userId ),
+			$this->userIdentityLookup->getUserIdentityByUserId( ... ),
 			$userIds
 		) );
 	}

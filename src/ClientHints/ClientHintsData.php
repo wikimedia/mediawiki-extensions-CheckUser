@@ -298,9 +298,7 @@ class ClientHintsData implements JsonSerializable {
 						// Sort so "brand" is always first and then "version".
 						ksort( $item );
 						// Trim the data to remove leading and trailing spaces.
-						$item = array_map( static function ( $value ) {
-							return trim( $value );
-						}, $item );
+						$item = array_map( trim( ... ), $item );
 						// Convert arrays to a string by imploding
 						$itemsAsString[] = implode( ' ', $item );
 					} elseif ( is_string( $item ) || is_numeric( $item ) ) {

@@ -87,9 +87,7 @@ trait TemporaryAccountRevisionTrait {
 			// Find the IDs which were not found in the revision table so that we can check the archive table.
 			$missingIds = array_diff(
 				$ids,
-				array_map( static function ( $row ) {
-					return $row->rev_id;
-				}, iterator_to_array( $revisionRows ) )
+				array_map( static fn ( $row ) => $row->rev_id, iterator_to_array( $revisionRows ) )
 			);
 			if ( count( $missingIds ) ) {
 				// If IDs are missing, then they are probably in the archive table. If not they are not,

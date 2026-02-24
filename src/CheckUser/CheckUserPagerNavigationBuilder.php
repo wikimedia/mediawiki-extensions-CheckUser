@@ -43,10 +43,10 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 			);
 		}
 		$query = array_merge( $this->linkQuery, $query );
-		$opts = $this->opts;
-		$fields = array_filter( AbstractCheckUserPager::TOKEN_MANAGED_FIELDS, static function ( $field ) use ( $opts ) {
-			return $opts->validateName( $field );
-		} );
+		$fields = array_filter(
+			AbstractCheckUserPager::TOKEN_MANAGED_FIELDS,
+			$this->opts->validateName( ... )
+		);
 		$fieldData = [];
 		foreach ( $fields as $field ) {
 			if ( !in_array( $field, [ 'dir', 'offset', 'limit' ] ) ) {
@@ -80,12 +80,10 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 		// be set on each POST request (otherwise they will revert back to their default value).
 		$filterFields = array_filter(
 			array_keys( AbstractCheckUserPager::FILTER_FIELDS ),
-			static function ( $field ) use ( $opts ) {
-				return $opts->validateName( $field );
-			}
+			$this->opts->validateName( ... )
 		);
 		foreach ( $filterFields as $field ) {
-			$formFields[] = Html::hidden( $field, $opts->getValue( $field ) );
+			$formFields[] = Html::hidden( $field, $this->opts->getValue( $field ) );
 		}
 
 		$formFields[] = Html::submitButton(

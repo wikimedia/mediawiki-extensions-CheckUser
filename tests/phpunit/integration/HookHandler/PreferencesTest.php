@@ -151,9 +151,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 		$prefs = [];
 
 		$this->permissionManager->method( 'userHasRight' )
-			->willReturnCallback( static function ( $user, $right ) {
-				return $right === 'checkuser';
-			} );
+			->willReturnCallback( static fn ( $user, $right ) => $right === 'checkuser' );
 
 		$this->sut->onGetPreferences( $this->user, $prefs );
 

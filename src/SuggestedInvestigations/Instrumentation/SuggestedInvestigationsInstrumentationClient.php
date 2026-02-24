@@ -134,7 +134,7 @@ class SuggestedInvestigationsInstrumentationClient implements ISuggestedInvestig
 
 			$interactionData['users_in_case'] = $this->getUserFragmentsArray(
 				array_filter( array_map(
-					fn ( $userId ) => $this->userIdentityLookup->getUserIdentityByUserId( $userId ),
+					$this->userIdentityLookup->getUserIdentityByUserId( ... ),
 					$userIdsInCase
 				) )
 			);

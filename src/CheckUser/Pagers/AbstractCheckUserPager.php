@@ -627,10 +627,10 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		// Add the 'token' field which is used to encode the data stored in the main search form in a way which
 		// cannot be tampered with. We need to pass this so that if the user uses the filter form there will be
 		// no additional CheckUserLog entry created.
-		$opts = $this->opts;
-		$tokenManagedFields = array_filter( self::TOKEN_MANAGED_FIELDS, static function ( $field ) use ( $opts ) {
-			return $opts->validateName( $field );
-		} );
+		$tokenManagedFields = array_filter(
+			self::TOKEN_MANAGED_FIELDS,
+			$this->opts->validateName( ... )
+		);
 		$fieldData = [];
 		$fieldData['user'] = $this->target->getName();
 		foreach ( $tokenManagedFields as $field ) {
