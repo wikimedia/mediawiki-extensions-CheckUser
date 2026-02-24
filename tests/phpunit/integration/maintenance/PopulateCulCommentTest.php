@@ -27,9 +27,7 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 	 * The schema override does not work for postgres, so skip these tests if using postgres
 	 */
 	protected function setUp(): void {
-		if ( $this->getDb()->getType() === 'postgres' ) {
-			$this->markTestSkipped( 'This test does not work on postgres' );
-		}
+		$this->markTestSkippedIfDbType( 'postgres' );
 		parent::setUp();
 	}
 
