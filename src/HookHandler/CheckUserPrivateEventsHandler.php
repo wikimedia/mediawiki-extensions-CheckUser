@@ -245,7 +245,7 @@ class CheckUserPrivateEventsHandler implements
 	 * @inheritDoc
 	 */
 	public function onEmailUser( &$to, &$from, &$subject, &$text, &$error ) {
-		if ( !$this->config->get( 'SecretKey' ) || $from->name === $to->name ) {
+		if ( !$this->config->get( MainConfigNames::SecretKey ) || $from->name === $to->name ) {
 			return;
 		}
 
@@ -260,7 +260,7 @@ class CheckUserPrivateEventsHandler implements
 			return;
 		}
 
-		$hash = md5( $userTo->getEmail() . $userTo->getId() . $this->config->get( 'SecretKey' ) );
+		$hash = md5( $userTo->getEmail() . $userTo->getId() . $this->config->get( MainConfigNames::SecretKey ) );
 
 		// Define the title as the userpage of the user who sent the email. The user
 		// who receives the email is private information, so cannot be used.
