@@ -16,11 +16,13 @@
 	"checkuser-nomatch": "Ij käunnʼjam ni mii.",
 	"checkuser-nomatch-edits": "Ij käunnʼjam ni mii.\nMââimõs muuttâs leäi $1 čiâss $2.",
 	"checkuser-search-submit": "Ooʒʒ",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Piij ǩidd",
 	"checkuser-investigateblock-target": "Õõʹnninõõm da IP-addrõõzz",
 	"checkuser-investigateblock-reason": "Mäinn",
 	"checkuser-investigate-subtitle-cancel-button-label": "Jõõsk",
 	"checkuser-investigate-subtitle-continue-button-label": "Jueʹtǩ",
 	"checkuser-investigate-notice-no-results": "Ij käunnʼjam ni mii.",
+	"checkuser-investigate-tab-preliminary-check": "Tobdldõõǥǥ teâđ",
 	"checkuser-investigate-targets-label": "Õõʹnninõõm leʹbe IP-addrõõzz:",
 	"checkuser-investigate-targets-placeholder": "Õõʹnninõmm leʹbe 1.1.1.1",
 	"checkuser-investigate-duration-label": "Pââʹjj",
@@ -40,5 +42,6 @@
 	"checkuser-ip-contributions-contributions-link": "muttâz",
 	"checkuser-global-contributions-link": "riâžldõkveiddsõs muttâz",
 	"checkuser-global-contributions-link-sidebar": "Riâžldõkveiddsõs muttâz",
-	"checkuser-global-contributions-results-title": "Õõʹnni $1 riâžldõkveiddsõs muttâz"
+	"checkuser-global-contributions-results-title": "Õõʹnni $1 riâžldõkveiddsõs muttâz",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Jõõsk"
 }

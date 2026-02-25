@@ -34,7 +34,8 @@
 			"LowensteinYang",
 			"Peterxy12",
 			"臺灣象象",
-			"Erik Baas"
+			"Erik Baas",
+			"ShuQizhe"
 		]
 	},
 	"checkuser-summary": "本工具會掃描近期變更的內容以獲得某位使用者用過的IP位址、或顯示某個IP位址的編輯資料或使用者資料。\n可透過在IP位址後附加「/xff」的XFF標頭，來檢索客戶端IP位址的使用者與編輯紀錄。本工具有支援IPv4（CIDR $1-32）與IPv6（CIDR $2-128）。\n因效能上的考量，本工具只會回傳最近$3筆的編輯。\n請依照政策使用此工具。",

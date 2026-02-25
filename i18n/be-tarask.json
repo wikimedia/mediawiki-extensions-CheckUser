@@ -59,7 +59,7 @@
 	"checkuser-gblocked": "Заблякаваны глябальна",
 	"checkuser-locked": "Заблякаваны",
 	"checkuser-wasblocked": "Заблякаваны раней",
-	"checkuser-localonly": "Не аб’яднаны",
+	"checkuser-localonly": "Не зьяднаны",
 	"checkuser-massblock": "Заблякаваць выбраныя рахункі ўдзельнікаў",
 	"checkuser-massblock-text": "Пазначце палі выбару ў выніках вышэй, каб абраць рахункі і IP-адрэсы, якія хочаце заблякаваць. Пасьля можаце ўжыць кнопкі ніжэй, якія адкрыюць форму {{#special:InvestigateBlock}} з ужо запоўненымі мэтавымі палямі.",
 	"checkuser-noreason": "Патрэбна падаць прычыну гэтага запыту.",
@@ -113,5 +113,6 @@
 	"checkuser-investigate-compare-table-header-useragent": "Агент удзельніка",
 	"checkuser-global-contributions-link": "глябальны ўнёсак",
 	"checkuser-global-contributions-link-sidebar": "Глябальны ўнёсак",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Скасаваць",
 	"checkuser-userinfocard-enable-preference-help": "Паказваць побач зь імёнамі карыстальнікаў кнопку, якая адкрые выплыўнае вакенца з інфармацыяй пра рахунак."
 }

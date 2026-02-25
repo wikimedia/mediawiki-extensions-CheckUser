@@ -5,6 +5,7 @@
 			"Yupik"
 		]
 	},
+	"checkuser-contribs": "täärhist kevttee IP-čujottâsâid",
 	"checkuser-clienthints-name-architecture": "Arkkitektuur",
 	"checkuser-clienthints-name-platform": "Vuáđu",
 	"checkuser-clienthints-name-platform-version": "Vuáđu versio",
@@ -14,11 +15,13 @@
 	"checkuser-logs-link-text": "lokih",
 	"checkuser-search-submit": "Uusâ",
 	"checkuser-token-fail": "Kevttimpuddâfeilâ. Keččâl uđđâsist.",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Toopâ",
 	"checkuser-investigateblock": "Eesti kevtteid",
 	"checkuser-investigateblock-target": "Kevtteenoomah já IP-čujottâsah",
 	"checkuser-investigate-subtitle-cancel-button-label": "Jooskâ",
 	"checkuser-investigate-subtitle-continue-button-label": "Juáđhi",
 	"checkuser-investigate-indicator-logs": "Lokih",
+	"checkuser-investigate-tab-preliminary-check": "Kevtteetubdâlduv tiäđuh",
 	"checkuser-investigate-targets-label": "Kevtteenoomah já IP-čujottâsah:",
 	"checkuser-investigate-targets-placeholder": "Kevtteenommâ teikâ 1.1.1.1",
 	"checkuser-investigate-reason-label": "Suijâ",
@@ -27,5 +30,7 @@
 	"checkuser-investigate-compare-copy-button-label": "Čääiti wikiteevstâ",
 	"checkuser-investigate-compare-copy-button-label-hide": "Čievâ wikiteevstâ",
 	"checkuser-investigate-compare-table-button-contribs-label": "Hammiimeh",
-	"checkuser-investigate-compare-table-header-username": "Kevtteenommâ"
+	"checkuser-investigate-compare-table-header-username": "Kevtteenommâ",
+	"checkuser-ip-auto-reveal-link-sidebar": "IP automaatlâš čäittim",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Jooskâ"
 }
