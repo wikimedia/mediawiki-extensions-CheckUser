@@ -371,7 +371,7 @@
 	"checkuser-userinfocard-past-blocks": "Keçmiş bloklar: $1",
 	"checkuser-userinfocard-global-edits": "Qlobal redaktə sayı: $1",
 	"checkuser-userinfocard-local-edits": "Lokal redaktə sayı: $1 ($2 geri qaytarılan)",
-	"checkuser-userinfocard-local-edits-reverts-unknown": "Lokal redaktə: $1",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Lokal redaktə sayı: $1",
 	"checkuser-userinfocard-new-articles": "Yeni məqalə sayı: $1",
 	"checkuser-userinfocard-thanks": "Qəbul edilmiş təşəkkür: $1 ($2 verilib)",
 	"checkuser-userinfocard-checks": "Təftişlər: $1 (son yoxlanış: $2)",
