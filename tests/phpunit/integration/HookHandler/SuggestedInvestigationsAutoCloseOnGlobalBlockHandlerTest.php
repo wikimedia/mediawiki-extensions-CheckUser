@@ -9,6 +9,7 @@ use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJo
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockManager;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -68,6 +69,36 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 			1,
 			$this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseForCaseJob::TYPE )->getSize(),
 			'A job should be pushed for an open case'
+		);
+	}
+
+	public function testCrossWikiJobDispatchedWhenUserHasNoLocalAccount(): void {
+		$username = 'NonExistentUser12345';
+
+		$this->crossWikiJobDispatcher
+			->expects( $this->once() )
+			->method( 'dispatch' )
+			->with( $username );
+
+		$nonLocalUserBlock = new GlobalBlock( [
+			'target' => $this->getServiceContainer()->getBlockTargetFactory()->newFromString( $username ),
+			'expiry' => 'infinity',
+			'isAutoblock' => false,
+			'enableAutoblock' => false,
+			'xff' => false,
+			'id' => 0,
+			'byCentralId' => 0,
+			'createAccount' => false,
+			'blockEmail' => false,
+		] );
+		$this->getServiceContainer()->getHookContainer()->run(
+			'GlobalBlockingGlobalBlockAudit', [ $nonLocalUserBlock ]
+		);
+
+		$this->assertSame(
+			0,
+			$this->jobQueueGroup->get( SuggestedInvestigationsAutoCloseForCaseJob::TYPE )->getSize(),
+			'No local job should be enqueued for a user with no local account'
 		);
 	}
 

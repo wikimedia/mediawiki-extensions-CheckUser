@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
+use MediaWiki\Block\Block;
 // phpcs:ignore Generic.Files.LineLength.TooLong
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
@@ -33,11 +34,14 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandler
 		}
 
 		$targetUser = $globalBlock->getTargetUserIdentity();
-		if ( $targetUser === null || $targetUser->getId() === 0 || !$globalBlock->isIndefinite() ) {
+		if ( $targetUser === null || !$globalBlock->isIndefinite() || $globalBlock->getType() !== Block::TYPE_USER ) {
 			return;
 		}
 
-		$this->enqueueAutoCloseJobsForUser( $targetUser->getId() );
+		if ( $targetUser->getId() !== 0 ) {
+			$this->enqueueAutoCloseJobsForUser( $targetUser->getId() );
+		}
+
 		$this->crossWikiJobDispatcher->dispatch( $targetUser->getName() );
 	}
 
