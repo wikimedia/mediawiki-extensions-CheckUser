@@ -207,14 +207,11 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 		);
 
 		if ( $error === '' ) {
-			$this->assertTrue( $status->isGood() );
-			$this->assertNull( $status->getValue() );
+			$this->assertStatusGood( $status );
+			$this->assertStatusValue( null, $status );
 		} else {
-			$this->assertFalse( $status->isGood() );
-			$this->assertEquals(
-				$error,
-				$status->getMessages()[0]->getKey()
-			);
+			$this->assertStatusNotGood( $status );
+			$this->assertStatusMessage( $error, $status );
 		}
 	}
 
@@ -313,14 +310,11 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 		);
 
 		if ( $errorMessage === '' ) {
-			$this->assertTrue( $status->isGood() );
-			$this->assertNull( $status->getValue() );
+			$this->assertStatusGood( $status );
+			$this->assertStatusValue( null, $status );
 		} else {
-			$this->assertFalse( $status->isGood() );
-			$this->assertEquals(
-				$errorMessage,
-				$status->getMessages()[0]->getKey()
-			);
+			$this->assertStatusNotGood( $status );
+			$this->assertStatusMessage( $errorMessage, $status );
 		}
 	}
 

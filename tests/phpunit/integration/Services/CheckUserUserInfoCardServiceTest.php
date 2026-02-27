@@ -108,7 +108,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$tempUserCreator = $this->getServiceContainer()->getTempUserCreator();
 		$result1 = $tempUserCreator->create( '~check-user-test-1', new FauxRequest() );
 		$result2 = $tempUserCreator->create( '~check-user-test-2', new FauxRequest() );
-		$this->assertTrue( $result1->isGood() && $result2->isGood() );
+		$this->assertStatusGood( $result1 );
+		$this->assertStatusGood( $result2 );
 
 		self::$tempUser1 = $result1->getUser();
 		self::$tempUser2 = $result2->getUser();
