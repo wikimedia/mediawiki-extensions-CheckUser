@@ -57,10 +57,10 @@
 				).text() }}
 			</template>
 			<cdx-checkbox
-				v-model="hideCasesWithNoUserEditsCheckboxValue"
-				name="filter-hide-cases-with-no-user-edits"
+				v-model="showCasesWithNoUserEditsCheckboxValue"
+				name="filter-show-cases-with-no-user-edits"
 			>
-				{{ hideCasesWithNoUserEditsCheckboxLabel }}
+				{{ showCasesWithNoUserEditsCheckboxLabel }}
 			</cdx-checkbox>
 			<cdx-checkbox
 				v-model="hideCasesWithNoBlockedUsersCheckboxValue"
@@ -102,8 +102,9 @@ module.exports = exports = {
 		 * Requires the following keys:
 		 *  - status: An array of statuses that are being filtered for on the page
 		 *  - username: An array of usernames that are being filtered for
-		 *  - hideCasesWithNoUserEdits: Boolean. If true, only show cases where at least one
-		 *      of the accounts has made an edit
+		 *  - hideCasesWithNoUserEdits: Boolean. If true (server default), cases where no account
+		 *      has made an edit are hidden. The checkbox inverts this: checked means the user
+		 *      opts in to seeing those cases (i.e. hideCasesWithNoUserEdits=false on the server).
 		 *  - hideCasesWithNoBlockedUsers: Boolean. If true, only show cases where at least one
 		 *      of the accounts has been blocked
 		 *  - signal: An array of signals that are being filtered for on the page
@@ -168,18 +169,18 @@ module.exports = exports = {
 		const selectedUsernames = ref( props.initialFilters.username );
 
 		let noUserEditsCheckboxLabelMsgKey =
-			'checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits';
+			'checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits';
 		if ( mw.config.get( 'wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed' ) ) {
 			noUserEditsCheckboxLabelMsgKey += '-globally';
 		}
 
 		// Uses:
-		// * checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits
-		// * checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally
-		const hideCasesWithNoUserEditsCheckboxLabel = mw.msg( noUserEditsCheckboxLabelMsgKey );
+		// * checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits
+		// * checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally
+		const showCasesWithNoUserEditsCheckboxLabel = mw.msg( noUserEditsCheckboxLabelMsgKey );
 
-		const hideCasesWithNoUserEditsCheckboxValue = ref(
-			props.initialFilters.hideCasesWithNoUserEdits
+		const showCasesWithNoUserEditsCheckboxValue = ref(
+			!props.initialFilters.hideCasesWithNoUserEdits
 		);
 
 		const hideCasesWithNoBlockedUsersCheckboxValue = ref(
@@ -209,8 +210,11 @@ module.exports = exports = {
 				signal: selectedSignals.map( ( signalData ) => signalData.urlName )
 			};
 
-			if ( hideCasesWithNoUserEditsCheckboxValue.value ) {
-				filters.hideCasesWithNoUserEdits = 1;
+			// When the "show cases with no user edits" checkbox is checked, explicitly
+			// set hideCasesWithNoUserEdits=0. When unchecked, we omit the param entirely
+			// and let the server apply its default (hideCasesWithNoUserEdits=true).
+			if ( showCasesWithNoUserEditsCheckboxValue.value ) {
+				filters.hideCasesWithNoUserEdits = 0;
 			}
 
 			if ( hideCasesWithNoBlockedUsersCheckboxValue.value ) {
@@ -236,8 +240,8 @@ module.exports = exports = {
 			selectedUsernames,
 			statusCheckboxes,
 			signalCheckboxes,
-			hideCasesWithNoUserEditsCheckboxLabel,
-			hideCasesWithNoUserEditsCheckboxValue,
+			showCasesWithNoUserEditsCheckboxLabel,
+			showCasesWithNoUserEditsCheckboxValue,
 			hideCasesWithNoBlockedUsersCheckboxValue,
 			onCloseButtonClick,
 			onShowResultsButtonClick

@@ -721,6 +721,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	public function testWhenStatusFilterIsSet() {
 		$caseManager = $this->getCaseManager();
 
+		$this->setUserEditCount( $this->getTestUser()->getUserIdentity(), 1 );
+
 		// Create two cases, where one is then closed
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -762,6 +764,10 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+
+		foreach ( [ $firstUser, $secondUser ] as $user ) {
+			$this->setUserEditCount( $user, 1 );
+		}
 
 		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
@@ -812,6 +818,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			self::SIGNAL, 'Test value', false
 		);
 		$user = $this->getMutableTestUser()->getUser();
+
+		$this->setUserEditCount( $user, 1 );
+
 		$caseId = $this->getCaseManager()->createCase( [ $user ], [ $signal ] );
 
 		$this->placeHideUserBlock( $user );
@@ -848,6 +857,10 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$firstUser = $this->getMutableTestUser()->getUser();
 		$secondUser = $this->getMutableTestUser()->getUser();
 
+		foreach ( [ $firstUser, $secondUser ] as $user ) {
+			$this->setUserEditCount( $user, 1 );
+		}
+
 		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
 		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
@@ -877,12 +890,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
 
 		// Mock that the first test user has 2 edits
-		$this->getDb()->newUpdateQueryBuilder()
-			->update( 'user' )
-			->set( [ 'user_editcount' => 2 ] )
-			->where( [ 'user_id' => $firstUser->getId() ] )
-			->caller( __METHOD__ )
-			->execute();
+		$this->setUserEditCount( $firstUser, 2 );
 
 		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
@@ -907,6 +915,34 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'Value of JS config var wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed ' .
 				' is not as expected'
 		);
+	}
+
+	public function testWhenNoFiltersSetHideCasesWithNoUserEditsDefaultsToTrue() {
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
+
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$firstUser = $this->getMutableTestUser()->getUserIdentity();
+		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+
+		$this->setUserEditCount( $firstUser, 2 );
+
+		$caseManager = $this->getCaseManager();
+		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+
+		// Load the pager with no query params set
+		$context = $this->makeQqxContext();
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// Expect that the table pager only shows the first case, as only the first case
+		// has users with edits in it (hideCasesWithNoUserEdits defaults to true).
+		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+		$this->assertActiveFiltersJsConfigVar( [], $parserOutput );
 	}
 
 	public static function provideLimitValues(): array {
@@ -983,12 +1019,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
 
 		// Mock that the first test user has 2 edits
-		$this->getDb()->newUpdateQueryBuilder()
-			->update( 'user' )
-			->set( [ 'user_editcount' => 2 ] )
-			->where( [ 'user_id' => $firstUser->getId() ] )
-			->caller( __METHOD__ )
-			->execute();
+		$this->setUserEditCount( $firstUser, 2 );
 
 		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
@@ -1033,6 +1064,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
 		$thirdUser = $this->getMutableTestUser()->getUserIdentity();
+		$this->setUserEditCount( $secondUser, 1 );
+		$this->setUserEditCount( $thirdUser, 1 );
 
 		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
@@ -1100,6 +1133,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 	/** @dataProvider provideWhenSignalFilterIsSet */
 	public function testWhenSignalFilterIsSet( $urlName, $signals ): void {
+		$this->setUserEditCount( $this->getTestUser()->getUserIdentity(), 1 );
+
 		// Create two cases, with different signals
 		$firstSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -1140,6 +1175,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testWhenSignalFilterIsSetWithMultipleSignalsPerCase(): void {
+		$this->setUserEditCount( $this->getTestUser()->getUserIdentity(), 1 );
+
 		// Create two cases, with different signals
 		$firstSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -1176,6 +1213,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	public function testFilterIsRelayedInLimitForm() {
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		$this->setUserEditCount( $this->getTestUser()->getUserIdentity(), 1 );
 
 		// Create two cases, where one is then closed
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
@@ -1218,7 +1257,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			array_merge( [
 				'status' => [],
 				'username' => [],
-				'hideCasesWithNoUserEdits' => false,
+				'hideCasesWithNoUserEdits' => true,
 				'hideCasesWithNoBlockedUsers' => false,
 				'signal' => [],
 			], $expected ),
@@ -1247,6 +1286,10 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		self::$testUser1 = $user1 = $this->getMutableTestUser()->getUser();
 		self::$testUser2 = $user2 = $this->getMutableTestUser()->getUser();
 
+		foreach ( [ $user1, $user2 ] as $user ) {
+			$this->setUserEditCount( $user, 1 );
+		}
+
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
 
 		return $this->getCaseManager()->createCase( [ $user1, $user2 ], [ $signal ] );
@@ -1256,6 +1299,10 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$users = [];
 		for ( $i = 0; $i < SpecialInvestigate::MAX_TARGETS + 1; $i++ ) {
 			$users[] = $this->getMutableTestUser()->getUser();
+		}
+
+		foreach ( $users as $user ) {
+			$this->setUserEditCount( $user, 1 );
 		}
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
@@ -1315,5 +1362,14 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		return $this->getServiceContainer()->getService(
 			'CheckUserSuggestedInvestigationsCaseManager'
 		);
+	}
+
+	private function setUserEditCount( UserIdentity $user, int $count ): void {
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'user' )
+			->set( [ 'user_editcount' => $count ] )
+			->where( [ 'user_id' => $user->getId() ] )
+			->caller( __METHOD__ )
+			->execute();
 	}
 }

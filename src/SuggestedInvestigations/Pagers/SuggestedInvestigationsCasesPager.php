@@ -213,8 +213,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied += count( $this->userNamesFilter );
 		}
 
-		$this->hideCasesWithNoUserEdits = $this->mRequest->getBool( 'hideCasesWithNoUserEdits' );
-		if ( $this->hideCasesWithNoUserEdits ) {
+		// Default to true; the JS sends hideCasesWithNoUserEdits=0 to explicitly opt out
+		$this->hideCasesWithNoUserEdits = $this->mRequest->getBool( 'hideCasesWithNoUserEdits', true );
+
+		// Only count as an applied filter when set to non-default (i.e. =0)
+		if ( !$this->hideCasesWithNoUserEdits ) {
 			$this->numberOfFiltersApplied++;
 		}
 
