@@ -379,32 +379,16 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		// Sort the entire results set by timestamp, wiki sequence number
 		// and finally revision ID as a tie-breaker, then apply the limit.
-		usort( $results, static function ( $a, $b ) use ( $order ) {
-			$aTimestamp = $a->rev_timestamp;
-			$bTimestamp = $b->rev_timestamp;
-
-			if ( $aTimestamp !== $bTimestamp ) {
-				if ( $order === self::QUERY_DESCENDING ) {
-					return $bTimestamp <=> $aTimestamp;
-				}
-
-				return $aTimestamp <=> $bTimestamp;
-			}
-
-			if ( $a->wiki_seq_no !== $b->wiki_seq_no ) {
-				if ( $order === self::QUERY_DESCENDING ) {
-					return $b->wiki_seq_no <=> $a->wiki_seq_no;
-				}
-
-				return $a->wiki_seq_no <=> $b->wiki_seq_no;
-			}
-
-			if ( $order === self::QUERY_DESCENDING ) {
-				return $b->rev_id <=> $a->rev_id;
-			}
-
-			return $a->rev_id <=> $b->rev_id;
-		} );
+		usort( $results, $order === self::QUERY_DESCENDING ?
+			static fn ( $a, $b ) =>
+				( $b->rev_timestamp <=> $a->rev_timestamp ?:
+				$b->wiki_seq_no <=> $a->wiki_seq_no ?:
+				$b->rev_id <=> $a->rev_id ) :
+			static fn ( $a, $b ) =>
+				( $a->rev_timestamp <=> $b->rev_timestamp ?:
+				$a->wiki_seq_no <=> $b->wiki_seq_no ?:
+				$a->rev_id <=> $b->rev_id )
+		);
 
 		return new FakeResultWrapper( array_slice( $results, 0, $limit ) );
 	}

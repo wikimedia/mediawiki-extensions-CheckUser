@@ -358,18 +358,14 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		$sorted = [];
 		foreach ( $entities as $entitySet ) {
 			foreach ( $entitySet as $entity => $timestamp ) {
-				if ( !isset( $sorted[$entity] ) ) {
-					$sorted[$entity] = $timestamp;
-				} elseif ( $sorted[$entity] < $timestamp ) {
+				if ( !isset( $sorted[$entity] ) || $sorted[$entity] < $timestamp ) {
 					$sorted[$entity] = $timestamp;
 				}
 			}
 		}
 
 		// Results may be out of order, re-order them by timestamp descending
-		uasort( $sorted, static function ( $a, $b ) {
-			return ( $a <=> $b ) * -1;
-		} );
+		arsort( $sorted );
 
 		// Drop the timestamp as we only care about the entity value which is now sorted in descending time order
 		$sorted = array_keys( $sorted );
