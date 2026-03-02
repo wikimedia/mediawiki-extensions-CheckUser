@@ -448,6 +448,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Kontoaktivität",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Fälle ausblenden, in denen keine Konten Bearbeitungen vorgenommen haben",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Fälle ausblenden, in denen keine Konten globale Bearbeitetungen vorgenommen haben",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Fälle ausblenden, in denen keine Konten gesperrt sind",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Konto",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Kontonamen eingeben ...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Zurück zu {{int:checkuser-suggestedinvestigations}}",

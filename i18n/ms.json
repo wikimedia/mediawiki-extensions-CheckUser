@@ -431,6 +431,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Kegiatan akaun",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Sembunyikan kes apabila tiada akaun yang mempunyai suntingan",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Sembunyikan kes apabila tiada akaun mempunyai suntingan sejagat",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Sembunyikan kes apabila tiada akaun yang disekat",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Akaun",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Taip nama akaun...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Kembali ke {{int:checkuser-suggestedinvestigations}}",

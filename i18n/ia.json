@@ -426,6 +426,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Activitate del contos",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Celar casos ubi necun conto ha modificationes",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Celar casos ubi necun conto ha modificationes globalmente",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Celar casos ubi necun conto ha essite blocate",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Conto",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Insere nomine de conto…",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Retornar a {{int:checkuser-suggestedinvestigations}}",

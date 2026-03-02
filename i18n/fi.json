@@ -439,6 +439,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Tunnuksen toiminta",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Piilota tapaukset, joissa millään tunnuksella ei ole muokkauksia",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Piilota tapaukset, joissa millään tunnuksella ei ole muokkauksia järjestelmänlaajuisesti",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Piilota tapaukset, joissa mitään tunnusta ei ole estetty",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Käyttäjätunnus",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Syötä tunnuksen nimi...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Takaisin sivulle {{int:checkuser-suggestedinvestigations}}",

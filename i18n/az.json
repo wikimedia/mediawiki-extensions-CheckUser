@@ -438,6 +438,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Hesab fəaliyyəti",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Heç bir hesabın redaktə etmədiyi halları gizlət",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Qlobal miqyasda heç bir hesabın redaktə etmədiyi halları gizlət",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Heç bir hesabın bloklanmadığı işləri gizlət",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Hesab",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Hesab adını yaz...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "{{int:checkuser-suggestedinvestigations}} səhifəsinə qayıt",

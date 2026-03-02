@@ -435,6 +435,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Actividade da conta",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Agochar os casos nos que ningunha conta ten edicións",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Agochar os casos nos que ningunha conta ten edicións globais",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Agochar os casos nos que non hai contas bloqueadas",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Conta",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Escribe o nome da conta...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Volver a «{{int:checkuser-suggestedinvestigations}}»",
