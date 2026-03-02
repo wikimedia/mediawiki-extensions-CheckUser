@@ -75,7 +75,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			// the CheckUser services may not have been loaded yet.
 			// Therefore manually construct the CheckUserLogService so we can use it.
 			$checkUserLogService = new CheckUserLogService(
-				$services->getDBLoadBalancerFactory(),
+				$services->getConnectionProvider(),
 				$services->getCommentStore(),
 				$services->getCommentFormatter(),
 				// No need to log as this maintenance script does not use any methods

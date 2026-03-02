@@ -314,7 +314,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				CompareService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$userIdentityLookup,
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getTempUserConfig()

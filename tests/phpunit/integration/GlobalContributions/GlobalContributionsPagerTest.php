@@ -121,7 +121,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['GlobalContributionsLookup'] ?? $services->get( 'CheckUserGlobalContributionsLookup' ),
 			$overrides['PermissionManager'] ?? $services->getPermissionManager(),
 			$overrides['PreferencesFactory'] ?? $services->getPreferencesFactory(),
-			$overrides['LoadBalancerFactory'] ?? $services->getConnectionProvider(),
+			$overrides['ConnectionProvider'] ?? $services->getConnectionProvider(),
 			$overrides['JobQueueGroup'] ?? $services->getJobQueueGroup(),
 			$overrides['UserLinkRenderer'] ?? $this->userLinkRenderer,
 			$overrides['RevisionStoreFactory'] ?? $this->revisionStoreFactory,
@@ -714,7 +714,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->get( 'CheckUserGlobalContributionsLookup' ),
 				$services->getPermissionManager(),
 				$services->getPreferencesFactory(),
-				$services->getDBLoadBalancerFactory(),
+				$services->getConnectionProvider(),
 				$services->getJobQueueGroup(),
 				$this->userLinkRenderer,
 				$this->revisionStoreFactory,
@@ -1284,7 +1284,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
 			'HookContainer' => $hookContainer,
-			'LoadBalancerFactory' => $dbProvider,
+			'ConnectionProvider' => $dbProvider,
 			'GlobalContributionsLookup' => $globalContributionsLookup,
 			'Context' => $context,
 			'CommentFormatter' => $commentFormatter,
@@ -1552,7 +1552,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		$pager = $this->getPagerWithOverrides( [
 			'HookContainer' => $hookContainer,
-			'LoadBalancerFactory' => $dbProvider,
+			'ConnectionProvider' => $dbProvider,
 		] );
 
 		$pager = TestingAccessWrapper::newFromObject( $pager );

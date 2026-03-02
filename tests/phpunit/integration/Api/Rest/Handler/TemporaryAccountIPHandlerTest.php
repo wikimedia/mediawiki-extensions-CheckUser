@@ -101,7 +101,7 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
 				'userNameUtils' => $services->getUserNameUtils(),
-				'dbProvider' => $services->getDBLoadBalancerFactory(),
+				'dbProvider' => $services->getConnectionProvider(),
 				'actorStore' => $services->getActorStore(),
 				'blockManager' => $services->getBlockManager(),
 				'tempUserConfig' => $services->getTempUserConfig(),

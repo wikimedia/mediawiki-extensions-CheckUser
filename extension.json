@@ -305,7 +305,7 @@
 				"JobQueueGroup",
 				"PermissionManager",
 				"UserNameUtils",
-				"DBLoadBalancerFactory",
+				"ConnectionProvider",
 				"ActorStore",
 				"BlockManager",
 				"CheckUserPermissionManager",
@@ -323,7 +323,7 @@
 				"JobQueueGroup",
 				"PermissionManager",
 				"UserNameUtils",
-				"DBLoadBalancerFactory",
+				"ConnectionProvider",
 				"ActorStore",
 				"BlockManager",
 				"TempUserConfig",
@@ -341,7 +341,7 @@
 				"JobQueueGroup",
 				"PermissionManager",
 				"UserNameUtils",
-				"DBLoadBalancerFactory",
+				"ConnectionProvider",
 				"ActorStore",
 				"BlockManager",
 				"RevisionStore",
@@ -428,7 +428,7 @@
 		"RetroactiveAutoBlock": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\PerformRetroactiveAutoblockHandler",
 			"services": [
-				"DBLoadBalancerFactory",
+				"ConnectionProvider",
 				"DatabaseBlockStoreFactory",
 				"MainConfig"
 			]
@@ -479,7 +479,7 @@
 			"services": [
 				"CheckUserInsert",
 				"JobQueueGroup",
-				"DBLoadBalancerFactory"
+				"ConnectionProvider"
 			]
 		},
 		"RLRegisterModules": {
@@ -1132,7 +1132,7 @@
 				"PermissionManager",
 				"UserIdentityLookup",
 				"CheckUserTokenQueryManager",
-				"DBLoadBalancerFactory",
+				"ConnectionProvider",
 				"UserFactory",
 				"CheckUserLogService",
 				"CommentFormatter",

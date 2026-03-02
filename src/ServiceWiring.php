@@ -83,7 +83,7 @@ return [
 		MediaWikiServices $services
 	): ApiQueryCheckUserResponseFactory {
 		return new ApiQueryCheckUserResponseFactory(
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getMainConfig(),
 			RequestContext::getMain(),
 			$services->get( 'CheckUserLogService' ),
@@ -148,7 +148,7 @@ return [
 				CompareService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getTempUserConfig()
@@ -203,7 +203,7 @@ return [
 		MediaWikiServices $services
 	): CheckUserGlobalContributionsLookup {
 		return new CheckUserGlobalContributionsLookup(
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getExtensionRegistry(),
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserLookupUtils' ),
@@ -238,7 +238,7 @@ return [
 			$services->get( 'CheckUserGlobalContributionsLookup' ),
 			$services->getPermissionManager(),
 			$preferencesFactory,
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getJobQueueGroup(),
 			$services->getUserLinkRenderer(),
 			$services->getRevisionStoreFactory(),
@@ -264,7 +264,7 @@ return [
 			$services->get( 'CheckUserUtilityService' ),
 			$services->getCommentStore(),
 			$services->getHookContainer(),
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getContentLanguage(),
 			$services->getTempUserConfig(),
 			$services->get( 'CheckUserCentralIndexManager' ),
@@ -311,7 +311,7 @@ return [
 		MediaWikiServices $services
 	): CheckUserLogService {
 		return new CheckUserLogService(
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getCommentStore(),
 			$services->getCommentFormatter(),
 			$services->get( 'CheckUserLogger' ),
@@ -331,7 +331,7 @@ return [
 				CheckUserLookupUtils::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getRevisionStore(),
 			$services->getArchivedRevisionLookup(),
 			$services->get( 'CheckUserLogger' )
@@ -455,7 +455,7 @@ return [
 		return new TemporaryAccountLoggerFactory(
 			$services->getActorStore(),
 			$services->get( 'CheckUserLogger' ),
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getTitleFactory()
 		);
 	},
@@ -467,7 +467,7 @@ return [
 				CheckUserTemporaryAccountsByIPLookup::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getJobQueueGroup(),
 			$services->getTempUserConfig(),
 			$services->getUserFactory(),
@@ -602,7 +602,7 @@ return [
 		MediaWikiServices $services
 	): UserAgentClientHintsManager {
 		return new UserAgentClientHintsManager(
-			$services->getDBLoadBalancerFactory(),
+			$services->getConnectionProvider(),
 			$services->getRevisionStore(),
 			new ServiceOptions(
 				UserAgentClientHintsManager::CONSTRUCTOR_OPTIONS,

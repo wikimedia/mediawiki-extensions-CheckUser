@@ -529,7 +529,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
 				'userNameUtils' => $userNameUtils,
-				'dbProvider' => $services->getDBLoadBalancerFactory(),
+				'dbProvider' => $services->getConnectionProvider(),
 				'actorStore' => $actorStore,
 				'blockManager' => $services->getBlockManager(),
 				'revisionStore' => $mockRevisionStore,
