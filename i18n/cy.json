@@ -13,7 +13,7 @@
 	"checkuser": "Archwilio defnyddiwr",
 	"checkuserlog": "Log archwilio defnyddiwr",
 	"checkuser-contribs": "archwilio cyfeiriadau IP y defnyddiwr",
-	"checkuser-contribs-log": "archwiliadau diweddar",
+	"checkuser-contribs-log": "archwiliadau defnyddiwr",
 	"checkuser-contribs-log-initiator": "archwiliadau gan y defnyddiwr hwn",
 	"group-checkuser": "Archwilwyr defnyddwyr",
 	"group-checkuser-member": "{{GENDER:$1|Archwiliwr defnyddwyr}}",

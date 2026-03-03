@@ -263,6 +263,7 @@
 	"checkuser-global-contributions-permission-error-title": "Ошибка прав доступа",
 	"checkuser-global-contributions-target-label": "IP-адрес или диапазон:",
 	"checkuser-global-contributions-search-form-wrapper": "Поиск глобального вклада",
+	"prefs-checkuser-tempaccount": "Раскрытие IP-адресов временных учётных записей",
 	"checkuser-tempaccount-reveal-ip-button-label": "Показать IP",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2",

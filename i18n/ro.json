@@ -13,19 +13,23 @@
 			"NGC 54",
 			"Trotinel Iftode",
 			"Paloi Sciurala",
-			"SalinaTheTranslator"
+			"SalinaTheTranslator",
+			"Valentin JJ."
 		]
 	},
-	"checkuser-summary": "Acestă unealtă scanează schimbările recente pentru a regăsi adresele IP folosite de un utilizator sau arată modificările/utilizatorul pentru o anumită adresă IP.\nUtilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând adresa IP prin intermediul „/xff”. IPv4 (CIDR $1-32) și IPv6 (CIDR $2-128) sunt acceptate.\nNu mai mult de 5000 de modificări vor fi returnate din motive de performanță.\nUtilizați unealta în concordanță cu politica proiectului.",
+	"checkuser-summary": "Acestă unealtă scanează schimbările recente pentru a prelua adresele IP folosite de un utilizator sau arată modificările/datele utilizatorul pentru o anumită adresă IP.\nUtilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând adresa IP prin intermediul „/xff”. IPv4 (CIDR $1-32) și IPv6 (CIDR $2-128) sunt acceptate.\nNu mai mult de $3 modificări vor fi returnate din motive de performanță.\nUtilizați unealta în concordanță cu politica proiectului.",
 	"checkuser-desc": "Autorizează utilizatorii cu drepturile specifice să poată verifica adresele IP și alte informații",
 	"checkuser": "Verifică utilizatorul",
 	"checkuserlog": "Jurnal verificare utilizator",
 	"checkuser-contribs": "verifică IP-urile utilizatorilor",
 	"checkuser-contribs-log": "verificări de utilizatori",
+	"checkuser-contribs-log-initiator": "verificări efectuate de acest utilizator",
 	"group-checkuser": "Checkuseri",
 	"group-checkuser-member": "{{GENDER:$1|checkuser}}",
 	"right-checkuser": "Verifică adresele IP ale utilizatorilor și alte informații",
 	"right-checkuser-log": "Vezi jurnalul checkuser",
+	"right-checkuser-temporary-account": "vezi adresele IP utilizate de conturile temporare",
+	"right-checkuser-temporary-account-log": "Vezi jurnalul de acces la adresele IP ale conturilor temporare",
 	"action-checkuser": "verifică adresa IP a utilizatorului și alte informații",
 	"action-checkuser-log": "vizualizează jurnalul checkuser",
 	"grouppage-checkuser": "{{ns:project}}:Checkuser",
@@ -62,6 +66,7 @@
 	"logentry-checkuser-private-event-autocreate-account": "a fost creat automat",
 	"logentry-checkuser-private-event-create-account": "a fost creat",
 	"checkuser-ip-contributions-subtitle": "Se afișează rezultate din {{PLURAL:$1|ultima zi|ultimele $1 zile|ultimele $1 de zile}}.",
+	"prefs-checkuser-tempaccount": "Dezvăluirea adresei IP a contului temporar",
 	"checkuser-tempaccount-reveal-ip-button-label": "Arată IP-ul",
 	"checkuser-tempaccount-reveal-ip-missing": "indisponibil",
 	"checkuser-tempaccount-reveal-ip-error": "eroare"
