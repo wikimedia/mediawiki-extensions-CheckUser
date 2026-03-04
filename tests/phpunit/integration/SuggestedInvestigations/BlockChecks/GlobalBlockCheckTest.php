@@ -10,6 +10,7 @@ use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLocalStatusManager;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockManager;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 
@@ -153,6 +154,31 @@ class GlobalBlockCheckTest extends MediaWikiIntegrationTestCase {
 			false, false,
 			'The return value from ::getBlockedUserIds was not as expected'
 		);
+	}
+
+	public function testGetBlockedUserIdsWhenUserIdDoesNotExist(): void {
+		$this->assertSame( [], $this->check->getBlockedUserIds( [ 999999 ] ) );
+	}
+
+	public function testGetBlockedUserIdsWhenNoCentralId(): void {
+		$blockedUser = self::$testUsers['blocked'];
+
+		// Get a mock CentralIdLookup that finds no central ID attached
+		// to the username on the local wiki
+		$mockCentralIdLookup = $this->createMock( CentralIdLookup::class );
+		$mockCentralIdLookup->expects( $this->once() )
+			->method( 'lookupAttachedUserNames' )
+			->with( [ $blockedUser->getName() => false ], CentralIdLookup::AUDIENCE_RAW )
+			->willReturnArgument( 0 );
+
+		$check = new GlobalBlockCheck(
+			GlobalBlockingServices::wrap( $this->getServiceContainer() )->getGlobalBlockLookup(),
+			$mockCentralIdLookup,
+			$this->getServiceContainer()->getUserIdentityLookup(),
+			true
+		);
+
+		$this->assertSame( [], $check->getBlockedUserIds( [ $blockedUser->getId() ] ) );
 	}
 
 	private function globallyBlockIndefinitely( UserIdentity $user ): void {
