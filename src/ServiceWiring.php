@@ -434,6 +434,7 @@ return [
 			$services->getSpecialPageFactory(),
 			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserCompositeBlockChecker' ),
+			$services->get( 'CheckUserLogger' ),
 			$centralAuthEditCounter
 		);
 	},

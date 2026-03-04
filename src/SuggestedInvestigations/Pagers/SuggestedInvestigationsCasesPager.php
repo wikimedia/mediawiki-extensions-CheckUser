@@ -44,6 +44,7 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Codex\Component\HtmlSnippet;
 use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -139,6 +140,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly LinkBatchFactory $linkBatchFactory,
 		private readonly UserFactory $userFactory,
 		private readonly CompositeBlockChecker $compositeBlockChecker,
+		private readonly LoggerInterface $logger,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals,
@@ -952,6 +954,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				->build()
 				->getHtml();
 			$this->getOutput()->addHTML( $message );
+
+			$this->logger->warning(
+				'PHP filter limits reached, so SI did not show a full page of results',
+				[ 'applied_filters' => $this->appliedFilters, 'limit' => $this->mLimit ]
+			);
 		}
 
 		if ( !$this->shouldShowVisibleCaption() ) {

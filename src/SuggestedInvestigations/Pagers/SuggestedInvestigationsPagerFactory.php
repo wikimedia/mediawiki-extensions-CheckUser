@@ -17,6 +17,7 @@ use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 /**
@@ -41,6 +42,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly CompositeBlockChecker $compositeBlockChecker,
+		private readonly LoggerInterface $logger,
 		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 	) {
 	}
@@ -100,6 +102,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->linkBatchFactory,
 			$this->userFactory,
 			$this->compositeBlockChecker,
+			$this->logger,
 			$this->linkRenderer,
 			$context,
 			$signals
