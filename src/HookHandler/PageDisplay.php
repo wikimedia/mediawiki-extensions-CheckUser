@@ -35,10 +35,29 @@ class PageDisplay implements BeforePageDisplayHook {
 	 * @inheritDoc
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
+		$this->addSpecialContributionsStyles( $out, $skin );
 		$this->loadIPInfoGlobalContributionsLink( $out, $skin );
 		$this->addUserInfoCardConfigVars( $out );
 		$this->addTemporaryAccountsOnboardingDialog( $out );
 		$this->addIPRevealButtons( $out );
+	}
+
+	/**
+	 * Add collapsing functionality for list of related temporary accounts on Special:Contributions
+	 */
+	private function addSpecialContributionsStyles( OutputPage $out, Skin $skin ): void {
+		// This feature only exists on Special:Contributions and only if the user has permissions
+		$title = $out->getTitle();
+		$relevantUser = $skin->getRelevantUser();
+		if (
+			!$title || !$title->isSpecial( 'Contributions' ) ||
+			!$relevantUser ||
+			!$this->userIdentityUtils->isTemp( $relevantUser ) ||
+			!$this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses( $out->getUser() )->isGood()
+		) {
+			return;
+		}
+		$out->addModuleStyles( 'ext.checkUser.specialContributions.styles' );
 	}
 
 	/**

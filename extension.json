@@ -997,6 +997,14 @@
 				"parentheses-end",
 				"pipe-separator"
 			]
+		},
+		"ext.checkUser.specialContributions.styles": {
+			"class": "MediaWiki\\ResourceLoader\\LessVarFileModule",
+			"localBasePath": "modules/ext.checkUser.specialContributions.styles",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.specialContributions.styles",
+			"styles": [
+				"contributions.less"
+			]
 		}
 	},
 	"ForeignResourcesDir": "modules/lib",

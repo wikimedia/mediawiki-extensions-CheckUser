@@ -13,6 +13,8 @@ use MediaWiki\Hook\ContribsPager__getQueryInfoHook;
 use MediaWiki\Hook\SpecialContributions__getForm__filtersHook;
 use MediaWiki\Hook\SpecialContributionsBeforeMainOutputHook;
 use MediaWiki\Html\Html;
+use MediaWiki\Linker\Linker;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
@@ -112,8 +114,78 @@ class SpecialContributionsHandler implements
 				$sp->msg( $linkMsgKey )
 			);
 
-			$warningMsg = implode( ' ', [ $warningMsg, $link ] );
-			$out->addHTML( Html::warningBox( $warningMsg ) );
+			// Generate list of all the related temporary accounts found
+			$listOfTempAccounts = '';
+			$relatedTempAccounts = $this->checkUserTemporaryAccountsByIPLookup
+				->getActiveTempAccountNames( $sp->getUser(), $tempUser, 101 )->value;
+			if ( $relatedTempAccounts ) {
+				$listOfTempAccounts .= Html::openElement( 'div', [ 'class' => 'ext-checkuser-related-tas' ] );
+
+				// This checkbox controls visibility via CSS and will be hidden.
+				// It exists here, outside of visual order, to support visibility toggling via css
+				// because mediawiki's browser support doesn't broadly support :has.
+				// See ext.checkUser.specialContributions/contributions.less for implementation details.
+				$listOfTempAccounts .= Html::check(
+					'ext-checkuser-related-tas-list-visibility',
+					false,
+					[
+						'id' => 'ext-checkuser-related-tas-list-visibility',
+					]
+				);
+
+				// Collapse list when over 5 accounts, per T417222
+				$listClasses = 'ext-checkuser-related-tas-list';
+				if ( count( $relatedTempAccounts ) > 5 ) {
+					$listClasses .= ' ext-checkuser-taslist-collapsible';
+				}
+				$listOfTempAccounts .= Html::openElement( 'ul', [ 'class' => $listClasses ] );
+				foreach ( $relatedTempAccounts as $tempAccountName ) {
+					$targetTempAccount = $this->userIdentityLookup->getUserIdentityByName( $tempAccountName );
+					if ( !$targetTempAccount ) {
+						continue;
+					}
+
+					// "TA username (talk | block | etc.)"
+					$services = MediaWikiServices::getInstance();
+					$userLink = $services->getUserLinkRenderer()->userLink( $targetTempAccount, $sp->getContext() );
+					$userToolLinks = Linker::userToolLinks(
+						$targetTempAccount->getId(),
+						$targetTempAccount->getName(),
+						true
+					);
+					$listOfTempAccounts .= Html::rawElement(
+						'li', [ 'class' => 'ext-checkuser-related-ta' ],
+						Html::rawElement( 'bdi', [], $userLink . $userToolLinks )
+					);
+				}
+				$listOfTempAccounts .= Html::closeElement( 'ul' );
+
+				// Label associated with the checkbox, which allows it to be clicked in lieu of the hidden checkbox
+				$visibilityToggleLabel = Html::openElement(
+					'label',
+					[
+						'class' => 'ext-checkuser-related-tas-toggle',
+						'for' => 'ext-checkuser-related-tas-list-visibility',
+					]
+				);
+				$visibilityToggleLabel .= Html::rawElement(
+					'span',
+					[ 'class' => 'ext-checkuser-related-tas-list-visibility-showlabel' ],
+					$sp->msg( 'checkuser-contributions-temporary-accounts-related-list-toggle-show' )
+				);
+				$visibilityToggleLabel .= Html::rawElement(
+					'span',
+					[ 'class' => 'ext-checkuser-related-tas-list-visibility-hidelabel' ],
+					$sp->msg( 'checkuser-contributions-temporary-accounts-related-list-toggle-hide' )
+				);
+				$visibilityToggleLabel .= Html::closeElement( 'label' );
+				$listOfTempAccounts .= $visibilityToggleLabel;
+
+				$listOfTempAccounts .= Html::closeElement( 'div' );
+			}
+
+			$warningMsg = implode( ' ', [ $warningMsg, $link, $listOfTempAccounts ] );
+			$out->addHTML( Html::noticeBox( $warningMsg ) );
 		} else {
 			[ $bucketRangeStart, $bucketRangeEnd ] = $this->checkUserTemporaryAccountsByIPLookup
 				->getBucketedCount( $exactCount );
