@@ -37,7 +37,7 @@
 	"group-checkuser-member": "{{GENDER:$1|osoitepaljastimen käyttäjä}}",
 	"group-temporary-account-viewer": "tilapäisten tunnusten IP-osoitteiden tarkastajat",
 	"group-temporary-account-viewer-member": "{{GENDER:$1|tilapäisten tunnusten IP-osoitteiden tarkastaja}}",
-	"right-checkuser": "Tarkasta käyttäjän IP-osoitteita ja muita tietoja",
+	"right-checkuser": "Tarkastaa käyttäjän IP-osoitteita ja muita tietoja",
 	"right-checkuser-log": "Katsoa osoitepaljastinlokia",
 	"right-checkuser-temporary-account": "Tarkastella tilapäisten tunnusten käyttämiä IP-osoitteita",
 	"right-checkuser-temporary-account-no-preference": "Tarkastele tilapäisten tunnusten käyttämiä IP-osoitteita ilman, että ominaisuutta tarvitsee ottaa käyttöön asetuksissa",
