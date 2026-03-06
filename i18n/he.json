@@ -436,6 +436,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "פעילות חשבון",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "הסתרת מקרים שבהם לשום חשבון אין עריכות",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "הסתרת מקרים שבהם לשום חשבון אין עריכות באופן גלובלי",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "הסתרת מקרים שבהם שום חשבון לא נחסם",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "חשבון",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "נא להקליד שם חשבון...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "חזרה ל{{int:checkuser-suggestedinvestigations}}",
