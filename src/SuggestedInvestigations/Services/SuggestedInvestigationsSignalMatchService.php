@@ -33,6 +33,7 @@ class SuggestedInvestigationsSignalMatchService {
 		private readonly SuggestedInvestigationsCaseLookupService $caseLookup,
 		private readonly SuggestedInvestigationsCaseManagerService $caseManager,
 		private readonly LoggerInterface $logger,
+		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -90,6 +91,8 @@ class SuggestedInvestigationsSignalMatchService {
 				$this->createNewCase( $caseUserIdentity, $signalMatchResult );
 			}
 		}
+
+		$this->bumpCaseTimestampForUserIfFirstEdit( $eventType, $userIdentity, $extraData );
 	}
 
 	/**
@@ -153,4 +156,24 @@ class SuggestedInvestigationsSignalMatchService {
 			$this->caseManager->updateCase( $case->getId(), [ $user ], [ $signal ] );
 		}
 	}
+
+	private function bumpCaseTimestampForUserIfFirstEdit(
+		string $eventType, UserIdentity $userIdentity, array $extraData
+	): void {
+		$revId = $extraData['revId'] ?? null;
+
+		if (
+			$eventType !== self::EVENT_SUCCESSFUL_EDIT
+			|| $revId === null
+			|| !$this->userRevisionLookup->isFirstEditByUser( $userIdentity, $revId )
+		) {
+			return;
+		}
+
+		$openCaseIds = $this->caseLookup->getOpenCaseIdsForUser( $userIdentity->getId() );
+		if ( $openCaseIds ) {
+			$this->caseManager->updateCasesUpdatedAtTimestamps( $openCaseIds );
+		}
+	}
+
 }

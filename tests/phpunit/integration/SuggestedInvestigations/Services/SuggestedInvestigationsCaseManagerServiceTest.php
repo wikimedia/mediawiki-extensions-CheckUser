@@ -31,6 +31,8 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInves
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use RuntimeException;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -600,6 +602,44 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				'expectedActionSubtype' => '',
 			],
 		];
+	}
+
+	public function testTouchCasesMultipleCases(): void {
+		$service = $this->createService();
+		$user = UserIdentityValue::newRegistered( 1, 'Test user 1' );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'test-signal', 'test-value', false );
+
+		ConvertibleTimestamp::setFakeTime( '20211111111111' );
+		$caseId1 = $service->createCase( [ $user ], [ $signal ] );
+		$caseId2 = $service->createCase( [ $user ], [ $signal ] );
+		$caseId3 = $service->createCase( [ $user ], [ $signal ] );
+
+		ConvertibleTimestamp::setFakeTime( '20222222222222' );
+		$service->updateCasesUpdatedAtTimestamps( [ $caseId1, $caseId2 ] );
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'sic_id', 'sic_updated_timestamp' ] )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => [ $caseId1, $caseId2, $caseId3 ] ] )
+			->orderBy( 'sic_id', SelectQueryBuilder::SORT_ASC )
+			->caller( __METHOD__ )
+			->assertResultSet( [
+				[ $caseId1, $this->getDb()->timestamp( '20222222222222' ) ],
+				[ $caseId2, $this->getDb()->timestamp( '20222222222222' ) ],
+				[ $caseId3, $this->getDb()->timestamp( '20211111111111' ) ],
+			] );
+	}
+
+	public function testUpdateCasesUpdatedAtTimestampsThrowsOnNonExistentCaseId(): void {
+		$service = $this->createService();
+		$user = UserIdentityValue::newRegistered( 1, 'Test user 1' );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'test-signal', 'test-value', false );
+
+		$caseId = $service->createCase( [ $user ], [ $signal ] );
+
+		$this->expectException( RuntimeException::class );
+		$this->expectExceptionMessage( '99999' );
+		$service->updateCasesUpdatedAtTimestamps( [ $caseId, 99999 ] );
 	}
 
 	private function countUsers( int $caseId ): array {

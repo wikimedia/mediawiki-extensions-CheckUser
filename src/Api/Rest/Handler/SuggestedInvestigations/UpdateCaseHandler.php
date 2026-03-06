@@ -2,9 +2,9 @@
 
 namespace MediaWiki\Extension\CheckUser\Api\Rest\Handler\SuggestedInvestigations;
 
-use InvalidArgumentException;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Config\Config;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\CaseNotFoundException;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Language\Language;
@@ -83,7 +83,7 @@ class UpdateCaseHandler extends SimpleHandler {
 			$this->caseManager->setCaseStatus(
 				$caseId, $newStatus, $reason, $this->getAuthority()->getUser()->getId()
 			);
-		} catch ( InvalidArgumentException ) {
+		} catch ( CaseNotFoundException ) {
 			throw new LocalizedHttpException(
 				MessageValue::new( 'checkuser-suggestedinvestigations-case-update-case-not-found' ),
 				400

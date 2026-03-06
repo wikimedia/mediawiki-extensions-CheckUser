@@ -56,6 +56,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
@@ -439,6 +440,13 @@ return [
 			$centralAuthEditCounter
 		);
 	},
+	'CheckUserSuggestedInvestigationsUserRevisionLookup' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsUserRevisionLookup {
+		return new SuggestedInvestigationsUserRevisionLookup(
+			$services->getDBLoadBalancerFactory(),
+		);
+	},
 	'CheckUserTemporaryAccountAutoRevealLookup' => static function (
 		MediaWikiServices $services
 	): CheckUserTemporaryAccountAutoRevealLookup {
@@ -610,6 +618,7 @@ return [
 			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
 			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' ),
 			$services->get( 'CheckUserLogger' ),
+			$services->get( 'CheckUserSuggestedInvestigationsUserRevisionLookup' ),
 		);
 	},
 	'UserAgentClientHintsFormatter' => static function (

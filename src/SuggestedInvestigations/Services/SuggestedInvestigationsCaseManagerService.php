@@ -24,6 +24,7 @@ use InvalidArgumentException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\CaseNotFoundException;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
@@ -162,7 +163,7 @@ class SuggestedInvestigationsCaseManagerService {
 	 */
 	public function updateCase( int $caseId, array $users, array $signals ): void {
 		$this->assertSuggestedInvestigationsEnabled();
-		$this->assertCaseExists( $caseId );
+		$this->assertCasesExist( [ $caseId ] );
 
 		if ( count( $signals ) === 0 && count( $users ) === 0 ) {
 			return;
@@ -227,7 +228,7 @@ class SuggestedInvestigationsCaseManagerService {
 	 *
 	 * @return void
 	 *
-	 * @throws InvalidArgumentException if $caseId does not match an existing case.
+	 * @throws CaseNotFoundException if $caseId does not match an existing case.
 	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function setCaseStatus(
@@ -237,7 +238,7 @@ class SuggestedInvestigationsCaseManagerService {
 		?int $performerUserId = null
 	): void {
 		$this->assertSuggestedInvestigationsEnabled();
-		$this->assertCaseExists( $caseId );
+		$this->assertCasesExist( [ $caseId ] );
 
 		$dbr = $this->getPrimaryDatabase();
 		$oldCaseStatus = (int)$dbr->newSelectQueryBuilder()
@@ -415,31 +416,53 @@ class SuggestedInvestigationsCaseManagerService {
 		};
 	}
 
-	/** Helper function to check if a case with given ID exists */
-	private function caseExists( int $caseId ): bool {
-		$dbr = $this->getReplicaDatabase();
-		$rowCount = $dbr->newSelectQueryBuilder()
-			->select( 'COUNT(*)' )
-			->from( 'cusi_case' )
-			->where( [ 'sic_id' => $caseId ] )
-			->caller( __METHOD__ )
-			->fetchField();
+	/**
+	 * Updates the `sic_updated_timestamp` of each case in $caseIds to the current time.
+	 * This surfaces cases in the queue without adding signals or users.
+	 *
+	 * @param int[] $caseIds
+	 */
+	public function updateCasesUpdatedAtTimestamps( array $caseIds ): void {
+		$this->assertSuggestedInvestigationsEnabled();
 
-		return $rowCount > 0;
+		if ( !$caseIds ) {
+			return;
+		}
+
+		$this->assertCasesExist( $caseIds );
+
+		$dbw = $this->getPrimaryDatabase();
+		$dbw->newUpdateQueryBuilder()
+			->update( 'cusi_case' )
+			->set( [ 'sic_updated_timestamp' => $dbw->timestamp() ] )
+			->where( [ 'sic_id' => $caseIds ] )
+			->caller( __METHOD__ )
+			->execute();
 	}
 
 	/**
-	 * Asserts that a case with the given ID exists.
+	 * Asserts that all cases with the given IDs exist.
 	 *
-	 * @param int $caseId ID for the case to test for.
-	 * @return void
+	 * @param int[] $caseIds IDs for the cases to test for.
 	 *
-	 * @throws InvalidArgumentException if $caseId does not match an existing case
-	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
+	 * @throws CaseNotFoundException if any ID does not match an existing case
 	 */
-	private function assertCaseExists( int $caseId ): void {
-		if ( !$this->caseExists( $caseId ) ) {
-			throw new InvalidArgumentException( "Case ID $caseId does not exist" );
+	private function assertCasesExist( array $caseIds ): void {
+		$existingIds = array_map(
+			'intval',
+			$this->getReplicaDatabase()->newSelectQueryBuilder()
+				->select( 'sic_id' )
+				->from( 'cusi_case' )
+				->where( [ 'sic_id' => $caseIds ] )
+				->caller( __METHOD__ )
+				->fetchFieldValues()
+		);
+		$missingIds = array_diff( $caseIds, $existingIds );
+
+		if ( $missingIds ) {
+			throw new CaseNotFoundException(
+				'Case IDs do not exist: ' . implode( ', ', $missingIds )
+			);
 		}
 	}
 
