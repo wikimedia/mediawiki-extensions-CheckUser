@@ -345,8 +345,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Riskimärgid",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Olek",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Konto tegevus",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Peida juhtumid, mille puhul ühelgi kontol pole muudatusi",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Peida juhtumid, mille puhul ühelgi kontol pole muudatusi üheski vikis",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Peida juhtumid, mille puhul ükski konto pole blokeeritud",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Konto",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Sisesta konto nimi...",

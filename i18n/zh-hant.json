@@ -457,8 +457,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "風險訊號",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "狀態",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "帳號活動",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "隱藏帳號沒做過編輯的案例",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "全域隱藏帳號沒做過編輯的案例",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "帳號",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "輸入帳號名稱…",
 	"checkuser-suggestedinvestigations-back-to-main-page": "返回{{int:checkuser-suggestedinvestigations}}",

@@ -239,6 +239,8 @@
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Resultater weisen",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risikosignaler",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
+	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "Fäll weisen, wou kee Kont eng Ännerung huet",
+	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally": "Fäll weisen, wou kee Kont global eng Ännerung huet",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Zeréck op {{int:checkuser-suggestedinvestigations}}",
 	"checkuser-suggestedinvestigations-header-users": "Konten",
 	"checkuser-suggestedinvestigations-header-signals": "Risikosignaler",

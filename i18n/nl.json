@@ -441,8 +441,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risicosignalen",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Accountactiviteit",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Verberg gevallen waarin geen account bewerkingen hebben uitgevoerd",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Verberg gevallen waarin geen account globaal bewerkingen heeft uitgevoerd.",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Account",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Accountnaam invoeren...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Terug naar {{int:checkuser-suggestedinvestigations}}",

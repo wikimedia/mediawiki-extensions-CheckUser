@@ -41,7 +41,7 @@
 	"checkuser-clienthints-value-yes": "هو",
 	"checkuser-clienthints-value-no": "نه",
 	"checkuser-clienthints-list-item": "$1: $2",
-	"checkuser-reason": "سبب:",
+	"checkuser-reason": "لامل:",
 	"checkuser-reason-api": "ای‌پي‌آی: $1",
 	"checkuser-showlog": "يادښت کتل",
 	"checkuser-query": "وروستي بدلونونه پلټل",

@@ -444,8 +444,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Сигнали ризику",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Статус",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Активність облікового запису",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Приховати справи, де всі облікові записи не мають редагувань",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Приховати справи, де всі облікові записи не мають редагувань глобально",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Приховати справи, де всі облікові записи не заблоковані",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Обліковий запис",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Введіть назву облікового запису…",

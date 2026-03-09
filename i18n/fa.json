@@ -398,8 +398,6 @@
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: زیرصفحه یافت نشد",
 	"checkuser-suggestedinvestigations-summary-detail-view": "این صفحه حاوی اطلاعات با جزئیات تنها برای بازرسان، پیرامون '''پروندهٔ شمارهٔ $1''' است.",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "فعالیت‌های حساب",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "نهفتن مواردی که هیچ حسابی در آن‌ها دارای ویرایش نیست",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "نهفتن مواردی که هیچ حسابی در آن‌ها دارای ویرایش سراسری نیست",
 	"checkuser-suggestedinvestigations-user-check-reason-prefill": "[[$1|بازرسی پیشنهادی شمارهٔ $2]]: {{GENDER:$3|$3}}",
 	"checkuser-suggestedinvestigations-user-investigate-reason-prefill": "کاربران از [[$1|بازرسی پیشنهادی شمارهٔ $2]]",
 	"checkuser-contributions-temporary-accounts-show-related": "نمایش تمام مشارکت‌ها از این حساب‌ها",

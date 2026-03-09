@@ -475,8 +475,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Signaux de risque",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "État",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Activité du compte",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Masquer les cas pour lesquels les comptes n'ont effectué aucune modification",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Masquer les cas pour lesquels les comptes n'ont effectué aucune modification sur l'ensemble des wikis",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Compte",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Saisissez un nom de compte…",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Retour à {{int:checkuser-suggestedinvestigations}}",

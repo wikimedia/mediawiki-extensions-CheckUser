@@ -427,8 +427,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Сигнали на ризик",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Статус",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Активност на сметката",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Скриј случаи кајшто сметките немаат уредувања",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Скриј случаи кајшто нема ниедна сметка со глобални уредувања",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Сметка",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Внесете име на сметка...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Назад на {{int:checkuser-suggestedinvestigations}}",

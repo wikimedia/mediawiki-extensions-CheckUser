@@ -448,8 +448,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Pokaż wyniki",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Aktywność konta",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits": "Ukryj przypadki, w których żadne konto nie ma edycji",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-user-edits-globally": "Ukryj przypadki, w których żadne konto nie ma edycji na jakiejkolwiek wiki globalnie",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Konto",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Wpisz nazwę konta...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Wróć do Sugestii sprawdzeń",
