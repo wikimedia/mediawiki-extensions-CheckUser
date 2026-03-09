@@ -40,6 +40,7 @@ use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalBlockCheck;
@@ -522,6 +523,35 @@ return [
 	'CheckUserTokenQueryManager' => static function ( MediaWikiServices $services ): TokenQueryManager {
 		return new TokenQueryManager(
 			$services->get( 'CheckUserTokenManager' )
+		);
+	},
+	'CheckUserUserInfoCardBlockStatusCache' => static function (
+		MediaWikiServices $services
+	): UserInfoCardBlockStatusCache {
+		$globalBlockChecks = [];
+		if ( $services->getExtensionRegistry()->isLoaded( 'GlobalBlocking' ) ) {
+			$globalBlockingServices = GlobalBlockingServices::wrap( $services );
+			$globalBlockChecks[] = new GlobalBlockCheck(
+				$globalBlockingServices->getGlobalBlockLookup(),
+				$services->getCentralIdLookup(),
+				$services->getUserIdentityLookup(),
+				$services->getMainConfig()->get( 'ApplyGlobalBlocks' )
+			);
+		}
+		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			$globalBlockChecks[] = new CentralAuthLockCheck(
+				CentralAuthServices::getGlobalUserSelectQueryBuilderFactory( $services ),
+				$services->getUserIdentityLookup()
+			);
+		}
+		return new UserInfoCardBlockStatusCache(
+			$services->getMainWANObjectCache(),
+			new CompositeIndefiniteBlockChecker(
+				[ new LocalBlockCheck( $services->getDatabaseBlockStore() ) ]
+			),
+			new CompositeIndefiniteBlockChecker( $globalBlockChecks ),
+			$services->getUserIdentityLookup(),
+			$services->getStatsFactory()
 		);
 	},
 	'CheckUserUserInfoCardService' => static function (
