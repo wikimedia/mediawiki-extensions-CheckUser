@@ -586,6 +586,24 @@
 				"UserIdentityLookup",
 				"CheckUserCrossWikiAutoCloseJobDispatcher"
 			]
+		},
+		"UserInfoCardCacheInvalidationHandler": {
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserInfoCardCacheInvalidationHandler",
+			"services": [
+				"CheckUserUserInfoCardBlockStatusCache"
+			]
+		},
+		"UserInfoCardCacheInvalidationOnGlobalBlockHandler": {
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserInfoCardCacheInvalidationOnGlobalBlockHandler",
+			"services": [
+				"CheckUserUserInfoCardBlockStatusCache"
+			]
+		},
+		"UserInfoCardCacheInvalidationOnGlobalLockHandler": {
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserInfoCardCacheInvalidationOnGlobalLockHandler",
+			"services": [
+				"CheckUserUserInfoCardBlockStatusCache"
+			]
 		}
 	},
 	"Hooks": {
@@ -632,9 +650,20 @@
 		],
 		"SpecialPage_initList": "ConditionalRegistration",
 		"UserGroupsChanged": "groups",
-		"BlockIpComplete": "SuggestedInvestigationsAutoCloseOnUsersBlockedHandler",
-		"GlobalBlockingGlobalBlockAudit": "SuggestedInvestigationsAutoCloseOnGlobalBlockHandler",
-		"CentralAuthGlobalUserLockStatusChanged": "SuggestedInvestigationsAutoCloseOnGlobalLockHandler",
+		"BlockIpComplete": [
+			"SuggestedInvestigationsAutoCloseOnUsersBlockedHandler",
+			"UserInfoCardCacheInvalidationHandler"
+		],
+		"UnblockUserComplete": "UserInfoCardCacheInvalidationHandler",
+		"GlobalBlockingGlobalBlockAudit": [
+			"SuggestedInvestigationsAutoCloseOnGlobalBlockHandler",
+			"UserInfoCardCacheInvalidationOnGlobalBlockHandler"
+		],
+		"GlobalBlockingGlobalUnblockAudit": "UserInfoCardCacheInvalidationOnGlobalBlockHandler",
+		"CentralAuthGlobalUserLockStatusChanged": [
+			"SuggestedInvestigationsAutoCloseOnGlobalLockHandler",
+			"UserInfoCardCacheInvalidationOnGlobalLockHandler"
+		],
 		"UserGetDefaultOptions": "preferences",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
 		"UserLinkRendererUserLinkPostRender": "UserLinkRendererUserLinkPostRenderHandler",
