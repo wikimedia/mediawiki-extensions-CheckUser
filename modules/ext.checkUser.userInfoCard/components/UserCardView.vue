@@ -9,6 +9,7 @@
 			:user-page-is-known="userCard.userPageIsKnown"
 			:user-page-watched="userCard.userPageWatched"
 			:special-central-auth-url="userCard.specialCentralAuthUrl"
+			:has-local-block-global-block-or-lock="userCard.hasLocalBlockGlobalBlockOrLock"
 			@close="$emit( 'close' )"
 		></user-card-header>
 	</teleport>
@@ -132,7 +133,8 @@ module.exports = exports = {
 			globalRestrictions: null,
 			globalRestrictionsTimestamp: null,
 			tempAccountsOnIPCount: [],
-			suggestedInvestigationsCaseCount: 0
+			suggestedInvestigationsCaseCount: 0,
+			hasLocalBlockGlobalBlockOrLock: false
 		} );
 
 		// Methods
@@ -178,7 +180,8 @@ module.exports = exports = {
 						globalRestrictions,
 						globalRestrictionsTimestamp,
 						tempAccountsOnIPCount,
-						suggestedInvestigationsCaseCount
+						suggestedInvestigationsCaseCount,
+						hasLocalBlockGlobalBlockOrLock
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
 					const userPageUrl = userTitleObj.getUrl();
@@ -263,6 +266,7 @@ module.exports = exports = {
 					userCard.groups = groups;
 					userCard.globalGroups = globalGroups;
 					userCard.globalRestrictions = globalRestrictions;
+					userCard.hasLocalBlockGlobalBlockOrLock = !!hasLocalBlockGlobalBlockOrLock;
 
 					const globalRestrictionsDate =
 						parseMediaWikiTimestamp( globalRestrictionsTimestamp );

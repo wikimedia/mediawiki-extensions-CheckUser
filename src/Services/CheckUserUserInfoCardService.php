@@ -71,6 +71,7 @@ class CheckUserUserInfoCardService {
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly ServiceOptions $options,
 		private readonly CentralIdLookup $centralIdLookup,
+		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -174,6 +175,9 @@ class CheckUserUserInfoCardService {
 		$userInfo['localRegistration'] = $this->userRegistrationLookup->getRegistration( $user );
 		$userInfo['firstRegistration'] = $this->userRegistrationLookup->getFirstRegistration( $user );
 		$userInfo['userPageIsKnown'] = $this->userPageIsKnown( $user );
+
+		$userInfo['hasLocalBlockGlobalBlockOrLock'] = $this->blockStatusCache
+			->isIndefinitelyBlockedOrLocked( $user->getName() );
 
 		$groups = $this->userGroupManager->getUserGroups( $user );
 		sort( $groups );

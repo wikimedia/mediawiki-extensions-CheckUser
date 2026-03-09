@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use IContextSource;
 use MediaWiki\Config\Config;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
 use MediaWiki\User\UserIdentity;
@@ -16,6 +17,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 		private readonly UserOptionsLookup $userOptionsLookup,
 		private readonly UserNameUtils $userNameUtils,
 		private readonly Config $config,
+		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 	) {
 	}
 
@@ -56,7 +58,15 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 				$this->config->get( 'CheckUserUserInfoCardShowXToolsLink' )
 			);
 
-			$iconClass = $this->userNameUtils->isTemp( $targetUser->getName() ) ? 'userTemporary' : 'userAvatar';
+			$isBlocked = $this->blockStatusCache->isIndefinitelyBlockedOrLocked( $targetUser->getName() );
+
+			if ( $isBlocked ) {
+				$iconClass = 'userBlocked';
+			} elseif ( $this->userNameUtils->isTemp( $targetUser->getName() ) ) {
+				$iconClass = 'userTemporary';
+			} else {
+				$iconClass = 'userAvatar';
+			}
 			// CSS-only Codex icon button
 			$icon = Html::rawElement(
 				'span',

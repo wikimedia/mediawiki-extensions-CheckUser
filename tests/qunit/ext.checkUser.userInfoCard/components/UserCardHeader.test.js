@@ -134,6 +134,19 @@ QUnit.test( 'sets the correct aria-label on the close button', ( assert ) => {
 	);
 } );
 
+QUnit.test( 'shows blocked icon when hasLocalBlockGlobalBlockOrLock is true', ( assert ) => {
+	const defaultWrapper = mountComponent();
+	const blockedWrapper = mountComponent( { hasLocalBlockGlobalBlockOrLock: true } );
+
+	const defaultIcon = defaultWrapper.findAllComponents( { name: 'CdxIcon' } )[ 0 ].props( 'icon' );
+	const blockedIcon = blockedWrapper.findAllComponents( { name: 'CdxIcon' } )[ 0 ].props( 'icon' );
+	assert.notStrictEqual(
+		blockedIcon,
+		defaultIcon,
+		'Blocked user icon differs from the default user icon'
+	);
+} );
+
 // TODO: T386440 - Fix the test and remove the skip
 // This test fails when running in conjunction with the other test components in this folder.
 // When running this test file alone, this test is passing.

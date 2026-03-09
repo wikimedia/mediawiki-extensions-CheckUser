@@ -586,7 +586,8 @@ return [
 				CheckUserUserInfoCardService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getCentralIdLookup()
+			$services->getCentralIdLookup(),
+			$services->get( 'CheckUserUserInfoCardBlockStatusCache' )
 		);
 	},
 	'CheckUserUtilityService' => static function (

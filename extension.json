@@ -538,7 +538,8 @@
 			"services": [
 				"UserOptionsLookup",
 				"UserNameUtils",
-				"MainConfig"
+				"MainConfig",
+				"CheckUserUserInfoCardBlockStatusCache"
 			]
 		},
 		"IPInfoHandler": {
@@ -731,7 +732,8 @@
 						"cdxIconSearch",
 						"cdxIconNotice",
 						"cdxIconUserTemporaryLocation",
-						"cdxIconUserTemporary"
+						"cdxIconUserTemporary",
+						"cdxIconUserBlocked"
 					]
 				}
 			],
