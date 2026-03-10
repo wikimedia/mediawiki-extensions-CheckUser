@@ -517,7 +517,8 @@
 				"CheckUserPermissionManager",
 				"SpecialPageFactory",
 				"UserIdentityLookup",
-				"DatabaseBlockStore"
+				"DatabaseBlockStore",
+				"StatsFactory"
 			]
 		},
 		"SpecialLogAddIPRevealLogTypeAliasHandler": {

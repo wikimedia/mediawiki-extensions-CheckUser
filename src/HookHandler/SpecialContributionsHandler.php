@@ -23,6 +23,7 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
+use Wikimedia\Stats\StatsFactory;
 
 // phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
 class SpecialContributionsHandler implements
@@ -32,6 +33,22 @@ class SpecialContributionsHandler implements
 {
 	use ContributionsRangeTrait;
 
+	/**
+	 * Prometheus counter metric name for any privileged (ip view) user viewing temporary account contributions
+	 */
+	public const PRIVILEGED_VIEW_TA_CONTRIBUTIONS = 'privileged_view_ta_contributions';
+
+	/**
+	 * Prometheus counter metric name for privileged views of connected temporary account contributions
+	 */
+	public const PRIVILEGED_VIEW_TA_CONNECTED_CONTRIBUTIONS = 'privileged_view_ta_connected_contributions';
+
+	/**
+	 * Prometheus counter metric name for privileged views of temporary accounts with other connected accounts
+	 * but without viewing those contributions
+	 */
+	public const PRIVILEGED_VIEW_TA_SINGLE_CONTRIBUTIONS = 'privileged_view_ta_single_contributions';
+
 	public function __construct(
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup,
@@ -39,6 +56,7 @@ class SpecialContributionsHandler implements
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly DatabaseBlockStore $databaseBlockStore,
+		private readonly StatsFactory $statsFactory
 	) {
 	}
 
@@ -88,10 +106,20 @@ class SpecialContributionsHandler implements
 		$exactCount = $this->checkUserTemporaryAccountsByIPLookup
 			->getAggregateActiveTempAccountCount( $tempUser, 101 );
 		$out = $sp->getOutput();
+		$performerCanShowRelatedTemporaryAccounts = $this
+			->canShowRelatedTemporaryAccounts( $sp->getName(), $tempUser->getName(), $sp->getUser() );
+
+		// Record when a user with ip view rights visits Special:Contributions for a temporary account; See T416591.
+		if ( $performerCanShowRelatedTemporaryAccounts ) {
+			$this->statsFactory
+				->withComponent( 'CheckUser' )
+				->getCounter( self::PRIVILEGED_VIEW_TA_CONTRIBUTIONS )
+				->increment();
+		}
 
 		if (
 			$exactCount > 1 &&
-			$this->canShowRelatedTemporaryAccounts( $sp->getName(), $tempUser->getName(), $sp->getUser() )
+			$performerCanShowRelatedTemporaryAccounts
 		) {
 			// To show the exact count, use the -min message, which shows a single value
 			$countMsg = $sp->msg( 'checkuser-temporary-account-bucketcount-min' )
@@ -186,6 +214,15 @@ class SpecialContributionsHandler implements
 
 			$warningMsg = implode( ' ', [ $warningMsg, $link, $listOfTempAccounts ] );
 			$out->addHTML( Html::noticeBox( $warningMsg ) );
+
+			// Record if the user is viewing the connected contributions or not; See T416591.
+			$viewType = $showingRelated ?
+				self::PRIVILEGED_VIEW_TA_CONNECTED_CONTRIBUTIONS :
+				self::PRIVILEGED_VIEW_TA_SINGLE_CONTRIBUTIONS;
+			$this->statsFactory
+				->withComponent( 'CheckUser' )
+				->getCounter( $viewType )
+				->increment();
 		} else {
 			[ $bucketRangeStart, $bucketRangeEnd ] = $this->checkUserTemporaryAccountsByIPLookup
 				->getBucketedCount( $exactCount );

@@ -49,6 +49,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 			$overrideServices['SpecialPageFactory'] ?? $this->createMock( SpecialPageFactory::class ),
 			$overrideServices['UserIdentityLookup'] ?? $this->createMock( UserIdentityLookup::class ),
 			$overrideServices['DatabaseBlockStore'] ?? $this->createMock( DatabaseBlockStore::class ),
+			$overrideServices['StatsFactory'] ?? $services->getStatsFactory(),
 		);
 
 		return $hookHandler;
@@ -112,6 +113,9 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->disableAutoCreateTempUser( [ 'known' => false ] );
 		}
 
+		// Stop hooks from other extensions from running
+		$this->clearHook( 'SpecialContributionsBeforeMainOutput' );
+
 		$hookHandler = $this->createHookHandlerForBeforeMainOutput( $permissions );
 
 		$performer = $this->createMock( User::class );
@@ -142,7 +146,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$mockSpecialPage = $this->getMockBuilder( SpecialGlobalContributions::class )
 			->disableOriginalConstructor()
-			->onlyMethods( [ 'getOutput', 'getAuthority', 'getContext' ] )
+			->onlyMethods( [ 'getOutput', 'getAuthority', 'getContext', 'getName' ] )
 			->getMock();
 		$mockSpecialPage->method( 'getOutput' )
 			->willReturn( $mockOutputPage );
@@ -150,6 +154,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $this->mockUserAuthorityWithPermissions( $performer, $permissions ) );
 		$mockSpecialPage->method( 'getContext' )
 			->willReturn( $context );
+		$mockSpecialPage->method( 'getName' )->willReturn( 'GlobalContributions' );
 
 		$hookHandler->onSpecialContributionsBeforeMainOutput( $targetExists ? 1 : 0, $mockUser, $mockSpecialPage );
 	}
@@ -235,7 +240,8 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testOnSpecialContributionsBeforeMainOutputWarningBox(
 		bool $showingRelated,
 		string $expectedLinkMsg,
-		string $pageName
+		string $pageName,
+		array $instrumentationCounts
 	) {
 		$this->enableAutoCreateTempUser();
 
@@ -295,6 +301,27 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $mockRequest );
 
 		$hookHandler->onSpecialContributionsBeforeMainOutput( 1, $mockUser, $mockSpecialPage );
+
+		// Verify that the instrumentation was logged as expected
+		$statsFactory = $this->getServiceContainer()->getStatsFactory()->withComponent( 'CheckUser' );
+		$this->assertSame(
+			$instrumentationCounts[0],
+			$statsFactory->getCounter(
+				SpecialContributionsHandler::PRIVILEGED_VIEW_TA_CONTRIBUTIONS
+			)->getSampleCount()
+		);
+		$this->assertSame(
+			$instrumentationCounts[1],
+			$statsFactory->getCounter(
+				SpecialContributionsHandler::PRIVILEGED_VIEW_TA_CONNECTED_CONTRIBUTIONS
+			)->getSampleCount()
+		);
+		$this->assertSame(
+			$instrumentationCounts[2],
+			$statsFactory->getCounter(
+				SpecialContributionsHandler::PRIVILEGED_VIEW_TA_SINGLE_CONTRIBUTIONS
+			)->getSampleCount()
+		);
 	}
 
 	public static function provideOnSpecialContributionsBeforeMainOutputWarningBox() {
@@ -303,11 +330,13 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 				'showingRelated' => false,
 				'expectedLink' => 'checkuser-contributions-temporary-accounts-show-related',
 				'pageName' => 'Contributions',
+				'instrumentationCounts' => [ 1, 0, 1 ],
 			],
 			'Warning box with hide all link' => [
 				'showingRelated' => true,
 				'expectedLink' => 'checkuser-contributions-temporary-accounts-hide-related',
 				'pageName' => 'Contributions',
+				'instrumentationCounts' => [ 1, 1, 0 ],
 			],
 		];
 	}
