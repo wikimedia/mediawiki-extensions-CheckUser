@@ -26,6 +26,7 @@ use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCase;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -194,6 +195,22 @@ class SuggestedInvestigationsCaseLookupService {
 			->fetchFieldValues();
 
 		return array_map( 'intval', $userIds );
+	}
+
+	/**
+	 * Gets whether the provided user is in any suggested investigations case,
+	 * regardless of the status of the case.
+	 */
+	public function isUserInAnyCase( UserIdentity $userIdentity ): bool {
+		$this->assertSuggestedInvestigationsEnabled();
+
+		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		return (bool)$dbr->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cusi_user' )
+			->where( [ 'siu_user_id' => $userIdentity->getId() ] )
+			->caller( __METHOD__ )
+			->fetchField();
 	}
 
 	/**

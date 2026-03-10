@@ -268,6 +268,16 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		$this->assertSame( [], $caseIds );
 	}
 
+	public function testIsUserInAnyCaseWhenNoCasesFound(): void {
+		$service = $this->createService();
+		$this->assertFalse( $service->isUserInAnyCase( new UserIdentityValue( 234, 'TestUser' ) ) );
+	}
+
+	public function testIsUserInAnyCaseWhenCasesFound(): void {
+		$service = $this->createService();
+		$this->assertTrue( $service->isUserInAnyCase( new UserIdentityValue( 1, 'Test user 1' ) ) );
+	}
+
 	public function addDBDataOnce() {
 		$this->enableSuggestedInvestigations();
 

@@ -6,6 +6,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Extension\CheckUser\HookHandler\ToolLinksHandler;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Output\OutputPage;
@@ -64,6 +65,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( UserIdentityUtils::class ),
 			$services->getUserOptionsLookup(),
 			$services->getTempUserConfig(),
+			$this->createMock( SuggestedInvestigationsCaseLookupService::class ),
 			null
 		) )->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
@@ -149,6 +151,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityUtils(),
 			$mockUserOptionsLookup,
 			$services->getTempUserConfig(),
+			$this->createMock( SuggestedInvestigationsCaseLookupService::class ),
 			null
 		);
 
@@ -281,6 +284,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityUtils(),
 			$services->getUserOptionsLookup(),
 			$services->getTempUserConfig(),
+			$this->createMock( SuggestedInvestigationsCaseLookupService::class ),
 			null
 		);
 
@@ -372,6 +376,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityUtils(),
 			$this->createMock( UserOptionsLookup::class ),
 			$services->getTempUserConfig(),
+			$this->createMock( SuggestedInvestigationsCaseLookupService::class ),
 			null
 		);
 
@@ -476,6 +481,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityUtils(),
 			$this->createMock( UserOptionsLookup::class ),
 			$services->getTempUserConfig(),
+			$this->createMock( SuggestedInvestigationsCaseLookupService::class ),
 			null
 		);
 
@@ -584,6 +590,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityUtils(),
 			$services->getUserOptionsLookup(),
 			$services->getTempUserConfig(),
+			$this->createMock( SuggestedInvestigationsCaseLookupService::class ),
 			$services->getService( 'MobileFrontend.Context' )
 		);
 
@@ -597,8 +604,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function commonTestOnContributionsToolLinks(
-		string $userName, $linkRenderer, ?UserIdentityUtils $userIdentityUtils,
-		bool $hasCheckUserRight, bool $hasCheckUserLogRight, array $expectedLinksArray
+		string $userName, $linkRenderer, array $userRights, array $expectedLinksArray,
+		array $serviceOverrides = []
 	) {
 		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
 			->onlyMethods( [ 'getLinkRenderer', 'getUser' ] )
@@ -613,13 +620,12 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$mockCUPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 
-		// Mock the PermissionManager to avoid the database
+		// Mock the PermissionManager to avoid using the database
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
 		$mockPermissionManager->method( 'userHasRight' )
-			->willReturnMap( [
-				[ $mockPerformingUser, 'checkuser', $hasCheckUserRight ],
-				[ $mockPerformingUser, 'checkuser-log', $hasCheckUserLogRight ],
-			] );
+			->with( $mockPerformingUser, $this->anything() )
+			->willReturnCallback( static fn ( $user, $right ) => in_array( $right, $userRights, true ) );
+
 		$userIdentityLookup = $this->createMock( UserIdentityLookup::class );
 		$userIdentityLookup->method( 'getUserIdentityByUserId' )
 			->with( 1 )
@@ -631,9 +637,11 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getSpecialPageFactory(),
 			$services->getLinkRenderer(),
 			$userIdentityLookup,
-			$userIdentityUtils ?? $services->getUserIdentityUtils(),
+			$serviceOverrides['userIdentityUtils'] ?? $services->getUserIdentityUtils(),
 			$services->getUserOptionsLookup(),
 			$services->getTempUserConfig(),
+			$serviceOverrides['suggestedInvestigationsCaseLookup'] ??
+				$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
 			null
 		);
 		$links = [];
@@ -663,8 +671,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'user' => $userPageTitle ]
 			)->willReturn( 'CheckUser mocked link' );
 		$this->commonTestOnContributionsToolLinks(
-			$userPageTitle, $mockLinkRenderer, null,
-			true, false, [ 'checkuser' => 'CheckUser mocked link' ]
+			$userPageTitle, $mockLinkRenderer, [ 'checkuser' ], [ 'checkuser' => 'CheckUser mocked link' ]
 		);
 	}
 
@@ -698,13 +705,11 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				$this->assertSame( $curExpected[3], $query );
 				return $curExpected[4];
 			} );
-		$mockUserIdentityUtils = $this->createMock( UserIdentityUtils::class );
-		$mockUserIdentityUtils->method( 'isNamed' )
-			->with( $userPageTitle )
-			->willReturn( true );
+
 		$this->commonTestOnContributionsToolLinks(
-			$userPageTitle, $mockLinkRenderer, $mockUserIdentityUtils,
-			false, true, [
+			$userPageTitle, $mockLinkRenderer,
+			[ 'checkuser-log' ],
+			[
 				'checkuser-log' => 'CheckUserLog mocked link',
 				'checkuser-log-initiator' => 'CheckUserLog initiator mocked link',
 			]
@@ -728,8 +733,76 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			->with( $userPageTitle )
 			->willReturn( false );
 		$this->commonTestOnContributionsToolLinks(
-			$userPageTitle, $mockLinkRenderer, $mockUserIdentityUtils,
-			false, true, [ 'checkuser-log' => 'CheckUserLog mocked link' ]
+			$userPageTitle, $mockLinkRenderer,
+			[ 'checkuser-log' ], [ 'checkuser-log' => 'CheckUserLog mocked link' ],
+			[ 'userIdentityUtils' => $mockUserIdentityUtils ]
 		);
+	}
+
+	/** @dataProvider provideOnContributionsToolLinksForSILink */
+	public function testOnContributionsToolLinksForSILink(
+		bool $suggestedInvestigationsEnabled, array $userRights, bool $isUserInAnyCase, bool $linkShouldBeAdded
+	) {
+		$mockSuggestedInvestigationsCaseLookup = $this->createMock(
+			SuggestedInvestigationsCaseLookupService::class
+		);
+		$mockSuggestedInvestigationsCaseLookup->method( 'isUserInAnyCase' )
+			->willReturn( $isUserInAnyCase );
+		$mockSuggestedInvestigationsCaseLookup->method( 'areSuggestedInvestigationsEnabled' )
+			->willReturn( $suggestedInvestigationsEnabled );
+
+		$userPageTitle = 'Test user';
+
+		// We should see the mock link renderer called if we expect to see the SI cases link added
+		$mockLinkRenderer = $this->createMock( LinkRenderer::class );
+		$mockLinkRenderer->expects( $linkShouldBeAdded ? $this->once() : $this->never() )
+			->method( 'makeKnownLink' )
+			->with(
+				SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
+				wfMessage( 'checkuser-suggestedinvestigations-contributions-tool-link' )->text(),
+				[ 'class' => 'mw-contributions-link-suggested-investigations' ],
+				[ 'username' => $userPageTitle, 'hideCasesWithNoUserEdits' => 0 ]
+			)
+			->willReturn( 'Suggested Investigations mocked link' );
+
+		if ( $linkShouldBeAdded ) {
+			$expectedLinksArray = [ 'suggested-investigations' => 'Suggested Investigations mocked link' ];
+		} else {
+			$expectedLinksArray = [];
+		}
+
+		$this->commonTestOnContributionsToolLinks(
+			$userPageTitle, $mockLinkRenderer, $userRights, $expectedLinksArray,
+			[ 'suggestedInvestigationsCaseLookup' => $mockSuggestedInvestigationsCaseLookup ]
+		);
+	}
+
+	public static function provideOnContributionsToolLinksForSILink(): array {
+		return [
+			'Suggested Investigations is disabled' => [
+				'suggestedInvestigationsEnabled' => false,
+				'userRights' => [ 'checkuser-suggested-investigations' ],
+				'isUserInAnyCase' => true,
+				'linkShouldBeAdded' => false,
+			],
+			'User does not have checkuser-suggested-investigations right' => [
+				'suggestedInvestigationsEnabled' => true,
+				'userRights' => [],
+				'isUserInAnyCase' => true,
+				'linkShouldBeAdded' => false,
+			],
+			'Target user is not in any SI case' => [
+				'suggestedInvestigationsEnabled' => true,
+				'userRights' => [ 'checkuser-suggested-investigations' ],
+				'isUserInAnyCase' => false,
+				'linkShouldBeAdded' => false,
+			],
+			'All conditions met' => [
+				'suggestedInvestigationsEnabled' => true,
+				'userRights' => [ 'checkuser-suggested-investigations' ],
+				'isUserInAnyCase' => true,
+				'linkShouldBeAdded' => true,
+			],
+		];
 	}
 }

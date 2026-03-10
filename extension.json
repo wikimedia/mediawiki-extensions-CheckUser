@@ -446,7 +446,8 @@
 				"UserIdentityLookup",
 				"UserIdentityUtils",
 				"UserOptionsLookup",
-				"TempUserConfig"
+				"TempUserConfig",
+				"CheckUserSuggestedInvestigationsCaseLookup"
 			],
 			"optional_services": [
 				"MobileFrontend.Context"

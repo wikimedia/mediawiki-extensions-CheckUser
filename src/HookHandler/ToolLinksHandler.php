@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Hook\SpecialContributionsBeforeMainOutputHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Linker\LinkRenderer;
@@ -37,6 +38,7 @@ class ToolLinksHandler implements
 		private readonly UserIdentityUtils $userIdentityUtils,
 		private readonly UserOptionsLookup $userOptionsLookup,
 		private readonly TempUserConfig $tempUserConfig,
+		private readonly SuggestedInvestigationsCaseLookupService $suggestedInvestigationsCaseLookupService,
 		private readonly ?MobileContext $mobileContext,
 	) {
 	}
@@ -148,6 +150,7 @@ class ToolLinksHandler implements
 	public function onContributionsToolLinks(
 		$id, Title $title, array &$tools, SpecialPage $specialPage
 	) {
+		$targetUserIdentity = $id ? $this->userIdentityLookup->getUserIdentityByUserId( $id ) : null;
 		$user = $specialPage->getUser();
 		$linkRenderer = $specialPage->getLinkRenderer();
 
@@ -215,8 +218,7 @@ class ToolLinksHandler implements
 				[ 'class' => 'mw-contributions-link-check-user-log' ],
 				[ 'cuSearch' => $title->getText() ]
 			);
-			$userIdentity = $this->userIdentityLookup->getUserIdentityByUserId( $id );
-			if ( $id && $userIdentity && $this->userIdentityUtils->isNamed( $userIdentity ) ) {
+			if ( $targetUserIdentity && $this->userIdentityUtils->isNamed( $targetUserIdentity ) ) {
 				$tools['checkuser-log-initiator'] = $linkRenderer->makeKnownLink(
 					SpecialPage::getTitleFor( 'CheckUserLog' ),
 					$specialPage->msg( 'checkuser-contribs-log-initiator' )->text(),
@@ -224,6 +226,26 @@ class ToolLinksHandler implements
 					[ 'cuInitiator' => $title->getText() ]
 				);
 			}
+		}
+
+		if (
+			$targetUserIdentity &&
+			$this->suggestedInvestigationsCaseLookupService->areSuggestedInvestigationsEnabled() &&
+			$this->permissionManager->userHasRight( $user, 'checkuser-suggested-investigations' ) &&
+			$this->suggestedInvestigationsCaseLookupService->isUserInAnyCase( $targetUserIdentity )
+		) {
+			$tools['suggested-investigations'] = $linkRenderer->makeKnownLink(
+				SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
+				$specialPage->msg( 'checkuser-suggestedinvestigations-contributions-tool-link' )->text(),
+				[ 'class' => 'mw-contributions-link-suggested-investigations' ],
+				[
+					'username' => $title->getText(),
+					// We want to show all cases the user is in, even if the current user has no edits
+					// The default of this filter is to exclude zero-edit users, so we need to
+					// explicitly disable it here
+					'hideCasesWithNoUserEdits' => 0,
+				]
+			);
 		}
 	}
 
