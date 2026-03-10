@@ -344,7 +344,12 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
 		$mockPermissionManager->method( 'userHasRight' )
-			->willReturn( $canSeeDeleted );
+			->with( $user, $this->anything() )
+			->willReturnCallback( static fn ( $user, $right ) => match ( $right ) {
+				'checkuser-temporary-account-no-preference' => true,
+				'deletedhistory' => $canSeeDeleted,
+				default => false,
+			} );
 
 		$cuPermissionStatus = $this->createMock( CheckUserPermissionStatus::class );
 		$cuPermissionStatus->method( 'isGood' )
@@ -352,7 +357,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$mockCUPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 		$mockCUPermissionManager
-			->expects( $canSeeDeleted ? $this->once() : $this->never() )
+			->expects( $this->once() )
 			->method( 'canAccessUserGlobalContributions' )
 			->with( $user, '1.2.3.4' )
 			->willReturn( $cuPermissionStatus );
@@ -422,6 +427,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testOnContributionsToolLinksGlobalContributions(
 		string $pageName,
 		bool $accessIsAllowed,
+		bool $canSeeDeleted,
 		bool $expectLink
 	) {
 		$this->enableAutoCreateTempUser();
@@ -452,9 +458,13 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $cuPermissionStatus );
 
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
-		$mockPermissionManager
-			->method( 'userHasRight' )
-			->willReturn( true );
+		$mockPermissionManager->method( 'userHasRight' )
+			->with( $user, $this->anything() )
+			->willReturnCallback( static fn ( $user, $right ) => match ( $right ) {
+				'checkuser-temporary-account-no-preference' => true,
+				'deletedhistory' => $canSeeDeleted,
+				default => false,
+			} );
 
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
@@ -498,24 +508,28 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideOnContributionsToolLinksGlobalContributions() {
 		return [
-			'Link is added on Special:GlobalContributions' => [
+			'Link is added on Special:Contributions' => [
 				'pageName' => 'Contributions',
 				'accessIsAllowed' => true,
+				'canSeeDeleted' => false,
 				'expectLink' => true,
 			],
 			'Link is added on Special:DeletedContributions' => [
 				'pageName' => 'DeletedContributions',
 				'accessIsAllowed' => true,
+				'canSeeDeleted' => true,
 				'expectLink' => true,
 			],
 			'Link is added on Special:IPContributions' => [
 				'pageName' => 'IPContributions',
 				'accessIsAllowed' => true,
+				'canSeeDeleted' => true,
 				'expectLink' => true,
 			],
 			'Link is not added on Special:Contributions if access is not allowed' => [
 				'pageName' => 'Contributions',
 				'accessIsAllowed' => false,
+				'canSeeDeleted' => false,
 				'expectLink' => false,
 			],
 		];
