@@ -25,7 +25,7 @@
 	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|Праглядальнік|Праглядальніца}} IP часовых уліковых запісаў",
 	"right-checkuser": "Праверка ІР-адрасоў ды іншай інфармацыі ўдзельніка",
 	"right-checkuser-log": "Прагляд журнала праверкі ўдзельнікаў",
-	"right-checkuser-temporary-account": "Прагляд IP-адрэсаў, выкарыстоўваных часовымі ўліковымі запісамі",
+	"right-checkuser-temporary-account": "Прагляд IP-адрэсаў, ужытых часовымі рахункамі",
 	"right-checkuser-temporary-account-log": "Прагляд журналу доступу да IP-адрэсаў часовых рахункаў",
 	"action-checkuser": "праверку ІР-адрасоў і іншай інфармацыі ўдзельніка",
 	"action-checkuser-log": "прагляд журнала праверкі ўдзельнікаў",
