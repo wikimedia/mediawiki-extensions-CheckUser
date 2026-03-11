@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Davidzdh",
 			"Dream Star.cn",
 			"LNDDYL",
 			"WAN233",
@@ -9,8 +10,10 @@
 	},
 	"group-checkuser": "知簿",
 	"group-checkuser-member": "{{GENDER:$1|知簿}}",
+	"checkuser-target": "網際位址，或載簿之名稱：",
 	"checkuser-search": "尋",
 	"checkuser-search-submit": "尋",
 	"checkuser-helper-user": "用戶",
+	"checkuser-investigate-subtitle-cancel-button-label": "罷",
 	"checkuser-suggestedinvestigations-header-updated": "新矣"
 }

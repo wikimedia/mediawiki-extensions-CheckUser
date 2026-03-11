@@ -408,7 +408,7 @@
 	"checkuser-userinfocard-enable-preference-help": "किसी खाते के बारे में जानकारी वाला एक पॉपओवर खोलने के लिए सदस्यनाम के बगल में एक बटन दिखाएँ।",
 	"checkuser-userinfocard-activity-chart-label": "पिछले 60 दिनों में सम्पादन गतिविधि ({{PLURAL:$1|$1 सम्पादन|0=कोई सम्पादन नहीं}})",
 	"checkuser-userinfocard-last-edit-timestamp-label": "अंतिम सम्पादन: $1",
-	"checkuser-ipinfo-global-contributions-label": "ग्लोबल योगदान",
+	"checkuser-ipinfo-global-contributions-label": "वैश्विक योगदान",
 	"checkuser-ipinfo-global-contributions-tooltip": "इस IP पते से किए गए क्रॉस-विकि सम्पादनों की संख्या।",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 ग्लोबल सम्पादन|0=कोई ग्लोबल सम्पादन नहीं}}",
 	"tooltip-t-global-contributions": "{{GENDER:$1|इस सदस्य}} द्वारा सभी विकियों पर योगदानों की एक सूची",
