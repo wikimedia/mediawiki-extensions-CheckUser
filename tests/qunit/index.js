@@ -36,3 +36,5 @@ require( './ext.checkUser.userInfoCard/composables/useInstrument.test.js' );
 require( './ext.checkUser.userInfoCard/composables/useWatchList.test.js' );
 require( './ext.checkUser.suggestedInvestigations/rest.test.js' );
 require( './ext.checkUser.suggestedInvestigations/utils.test.js' );
+require( './ext.checkUser.suggestedInvestigations/instrumentation.test.js' );
+require( './ext.checkUser.suggestedInvestigations/composables/useInstrument.test.js' );

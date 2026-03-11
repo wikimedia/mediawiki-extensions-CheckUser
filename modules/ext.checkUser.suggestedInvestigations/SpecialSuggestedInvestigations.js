@@ -1,4 +1,9 @@
-( function () {
+'use strict';
+
+/**
+ * Runs the JavaScript for the Special:SuggestedInvestigations page, called from the dispatcher.
+ */
+module.exports = function () {
 	const $userLists = $( '.mw-checkuser-suggestedinvestigations-users' );
 	$userLists.each( function () {
 		const $list = $( this );
@@ -116,4 +121,4 @@
 			);
 		}, 400 );
 	} );
-}() );
+};

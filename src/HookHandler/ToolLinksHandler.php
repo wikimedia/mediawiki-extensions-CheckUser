@@ -235,6 +235,9 @@ class ToolLinksHandler implements
 			$this->permissionManager->userHasRight( $user, 'checkuser-suggested-investigations' ) &&
 			$this->suggestedInvestigationsCaseLookupService->isUserInAnyCase( $targetUserIdentity )
 		) {
+			// Needed to instrument the tool link added below
+			$specialPage->getOutput()->addModules( 'ext.checkUser.suggestedInvestigations' );
+
 			$tools['suggested-investigations'] = $linkRenderer->makeKnownLink(
 				SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
 				$specialPage->msg( 'checkuser-suggestedinvestigations-contributions-tool-link' )->text(),
