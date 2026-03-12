@@ -829,6 +829,7 @@
 				"AbuseLog.js",
 				"SpecialBlock.js",
 				"SpecialContributions.js",
+				"connectedAccounts/listToClipboard.js",
 				{
 					"name": "durations.json",
 					"callback": "MediaWiki\\Extension\\CheckUser\\HookHandler\\DurationMessages::getTranslatedDurations",
@@ -886,7 +887,9 @@
 				"checkuser-ip-auto-reveal-off-dialog-error-disable",
 				"checkuser-ip-auto-reveal-off-dialog-extend-action",
 				"checkuser-ip-auto-reveal-off-dialog-off-action",
-				"pipe-separator"
+				"pipe-separator",
+				"checkuser-contributions-temporary-accounts-related-list-copy-copied",
+				"checkuser-contributions-temporary-accounts-related-list-copy-error"
 			],
 			"dependencies": [
 				"oojs-ui-core",
@@ -1029,14 +1032,6 @@
 				"parentheses-start",
 				"parentheses-end",
 				"pipe-separator"
-			]
-		},
-		"ext.checkUser.specialContributions.styles": {
-			"class": "MediaWiki\\ResourceLoader\\LessVarFileModule",
-			"localBasePath": "modules/ext.checkUser.specialContributions.styles",
-			"remoteExtPath": "CheckUser/modules/ext.checkUser.specialContributions.styles",
-			"styles": [
-				"contributions.less"
 			]
 		}
 	},

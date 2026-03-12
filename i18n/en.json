@@ -508,5 +508,8 @@
 	"checkuser-contributions-temporary-accounts-on-ip": "Temporary accounts on this IP: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Temporary accounts on this IP: $1 (blocked: $2).",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Show all accounts",
-	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Hide"
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Hide",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copy list of accounts",
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "List of accounts copied to clipboard",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Failed to copy list of accounts"
 }

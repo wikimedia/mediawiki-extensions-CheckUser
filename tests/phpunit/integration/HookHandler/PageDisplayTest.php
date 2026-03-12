@@ -341,64 +341,6 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider provideTestOnBeforePageDisplayLoadSpecialContributionsStyles
-	 */
-	public function testOnBeforePageDisplayLoadSpecialContributionsStyles(
-		bool $canAccessTemporaryAccountIPAddresses,
-		string $pageTitle,
-		string $targetUser,
-		bool $isLoaded
-	) {
-		$this->enableAutoCreateTempUser();
-
-		// Disable extensions to disable other functions this test ignores
-		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
-		$extensionRegistry->method( 'isLoaded' )
-			->willReturn( false );
-
-		$cuPermissionManagerAccessCheck = $this->createMock( CheckUserPermissionStatus::class );
-		$cuPermissionManagerAccessCheck->method( 'isGood' )
-			->willReturn( $canAccessTemporaryAccountIPAddresses );
-		$mockCUPermissionManager = $this->createMock( CheckUserPermissionManager::class );
-		$mockCUPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
-			->willReturn( $cuPermissionManagerAccessCheck );
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserTemporaryAccountMaxAge' => 1234,
-				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
-				'CUDMaxAge' => 12345,
-				'CheckUserAutoRevealMaximumExpiry' => 1,
-			] ),
-			$mockCUPermissionManager,
-			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup(),
-			$extensionRegistry,
-			$this->getServiceContainer()->getUserIdentityUtils(),
-			$this->getServiceContainer()->getPreferencesFactory()
-		);
-
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$performer = $this->mockRegisteredUltimateAuthority();
-		$context->setAuthority( $performer );
-		$output = $context->getOutput();
-		$output->setContext( $context );
-		$context->setTitle( SpecialPage::getTitleFor( $pageTitle ) );
-
-		$skin = $this->createMock( Skin::class );
-		$skin->method( 'getRelevantUser' )->willReturn(
-			UserIdentityValue::newRegistered( 1, $targetUser )
-		);
-
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $skin
-		);
-		$this->assertEquals(
-			$isLoaded, in_array( 'ext.checkUser.specialContributions.styles', $output->getModuleStyles() )
-		);
-	}
-
 	/** @dataProvider provideOnBeforePageDisplayForUserInfoCard */
 	public function testOnBeforePageDisplayForUserInfoCard(
 		bool $isEnabled,

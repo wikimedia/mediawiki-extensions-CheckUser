@@ -16,6 +16,7 @@
 			if ( mw.config.get( 'wgRelevantUserName' ) &&
 				mw.util.isTemporaryUser( mw.config.get( 'wgRelevantUserName' ) ) ) {
 				require( './SpecialContributions.js' )( document, 'Contributions' );
+				require( './connectedAccounts/listToClipboard.js' )();
 			}
 			break;
 		case 'DeletedContributions':

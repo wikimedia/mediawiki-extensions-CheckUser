@@ -23,6 +23,7 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
+use OOUI\ButtonWidget;
 use Wikimedia\Stats\StatsFactory;
 
 // phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
@@ -106,6 +107,7 @@ class SpecialContributionsHandler implements
 		$exactCount = $this->checkUserTemporaryAccountsByIPLookup
 			->getAggregateActiveTempAccountCount( $tempUser, 101 );
 		$out = $sp->getOutput();
+		$out->enableOOUI();
 		$performerCanShowRelatedTemporaryAccounts = $this
 			->canShowRelatedTemporaryAccounts( $sp->getName(), $tempUser->getName(), $sp->getUser() );
 
@@ -144,6 +146,7 @@ class SpecialContributionsHandler implements
 
 			// Generate list of all the related temporary accounts found
 			$listOfTempAccounts = '';
+			$toClipboardButton = '';
 			$relatedTempAccounts = $this->checkUserTemporaryAccountsByIPLookup
 				->getActiveTempAccountNames( $sp->getUser(), $tempUser, 101 )->value;
 			if ( $relatedTempAccounts ) {
@@ -210,9 +213,15 @@ class SpecialContributionsHandler implements
 				$listOfTempAccounts .= $visibilityToggleLabel;
 
 				$listOfTempAccounts .= Html::closeElement( 'div' );
+
+				$toClipboardButton = new ButtonWidget( [
+					'label' => $sp->msg( 'checkuser-contributions-temporary-accounts-related-list-copy-button' ),
+					'icon' => 'copy',
+					'classes' => [ 'ext-checkuser-related-tas-list-copy-button' ],
+				] );
 			}
 
-			$warningMsg = implode( ' ', [ $warningMsg, $link, $listOfTempAccounts ] );
+			$warningMsg = implode( ' ', [ $warningMsg, $link, $listOfTempAccounts, $toClipboardButton ] );
 			$out->addHTML( Html::noticeBox( $warningMsg ) );
 
 			// Record if the user is viewing the connected contributions or not; See T416591.
