@@ -28,6 +28,12 @@
 				"options": { "notnull": true, "length": 255, "default": "" }
 			},
 			{
+				"name": "sic_status_changed_by",
+				"comment": "The user ID of the user who last changed the status. 0 for system actions (e.g. auto-close). NULL when status change tracking data is not available.",
+				"type": "integer",
+				"options": { "unsigned": true, "notnull": false, "default": null }
+			},
+			{
 				"name": "sic_created_timestamp",
 				"comment": "The timestamp representing when the case was created by the system.",
 				"type": "mwtimestamp",
@@ -58,6 +64,12 @@
 				"columns": [ "sic_url_identifier" ],
 				"unique": true,
 				"comment": "Allows searching for cases based on their URL identifier (such as when a user loads the special page for a given case using this identifier). Secondly, allows the system to check and enforce that the URL identifier is unique for each case."
+			},
+			{
+				"name": "sic_status_changed_by_updated_timestamp_id",
+				"columns": [ "sic_status_changed_by", "sic_updated_timestamp", "sic_id" ],
+				"unique": false,
+				"comment": "Allows filtering cases by the user who last changed the status and sorting the filtered results by updated timestamp."
 			}
 		],
 		"pk": [ "sic_id" ]

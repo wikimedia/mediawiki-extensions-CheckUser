@@ -7,6 +7,7 @@ CREATE TABLE /*_*/cusi_case (
   sic_url_identifier INTEGER UNSIGNED NOT NULL,
   sic_status SMALLINT UNSIGNED DEFAULT 0 NOT NULL,
   sic_status_reason BLOB DEFAULT '' NOT NULL,
+  sic_status_changed_by INTEGER UNSIGNED DEFAULT NULL,
   sic_created_timestamp BLOB NOT NULL,
   sic_updated_timestamp BLOB NOT NULL
 );
@@ -19,6 +20,11 @@ CREATE UNIQUE INDEX sic_status_updated_timestamp_id ON /*_*/cusi_case (
 CREATE UNIQUE INDEX sic_updated_timestamp_id ON /*_*/cusi_case (sic_updated_timestamp, sic_id);
 
 CREATE UNIQUE INDEX sic_url_identifier ON /*_*/cusi_case (sic_url_identifier);
+
+CREATE INDEX sic_status_changed_by_updated_timestamp_id ON /*_*/cusi_case (
+  sic_status_changed_by, sic_updated_timestamp,
+  sic_id
+);
 
 
 CREATE TABLE /*_*/cusi_user (

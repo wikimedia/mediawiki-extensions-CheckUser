@@ -7,6 +7,7 @@ CREATE TABLE cusi_case (
   sic_url_identifier INT NOT NULL,
   sic_status SMALLINT DEFAULT 0 NOT NULL,
   sic_status_reason TEXT DEFAULT '' NOT NULL,
+  sic_status_changed_by INT DEFAULT NULL,
   sic_created_timestamp TIMESTAMPTZ NOT NULL,
   sic_updated_timestamp TIMESTAMPTZ NOT NULL,
   PRIMARY KEY(sic_id)
@@ -20,6 +21,11 @@ CREATE UNIQUE INDEX sic_status_updated_timestamp_id ON cusi_case (
 CREATE UNIQUE INDEX sic_updated_timestamp_id ON cusi_case (sic_updated_timestamp, sic_id);
 
 CREATE UNIQUE INDEX sic_url_identifier ON cusi_case (sic_url_identifier);
+
+CREATE INDEX sic_status_changed_by_updated_timestamp_id ON cusi_case (
+  sic_status_changed_by, sic_updated_timestamp,
+  sic_id
+);
 
 
 CREATE TABLE cusi_user (
