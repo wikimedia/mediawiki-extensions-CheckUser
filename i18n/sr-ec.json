@@ -393,5 +393,7 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "Сакрити доприносе са повезаних привремених налога",
 	"checkuser-contributions-temporary-account-bucketcount": "Привремени налози са свих повезаних IP адреса: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Привремених налога на овој IP: $1",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Привремених налога на овој IP: $1 (блокирано: $2)"
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Привремених налога на овој IP: $1 (блокирано: $2)",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Прикажи све налоге",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Сакриј"
 }

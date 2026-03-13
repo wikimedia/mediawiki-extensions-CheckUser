@@ -473,11 +473,14 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Baca maklumat lanjut tentang isyarat risiko dalam tetimbul",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Suntingan}} ditandakan oleh $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "Log {{PLURAL:$2|entri}} ditandakan oleh $1 ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "Kes SI",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Akaun sementara daripada semua IP yang berkaitan: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Kiraan agregat semua akaun sementara daripada semua IP yang dikaitkan dengan akaun ini",
 	"checkuser-contributions-temporary-accounts-show-related": "Lihat semua sumbangan daripada akaun-akaun ini",
 	"checkuser-contributions-temporary-accounts-hide-related": "Sembunyikan sumbangan daripada akaun-akaun sementara yang berkaitan",
 	"checkuser-contributions-temporary-account-bucketcount": "Akaun sementara daripada semua IP berkaitan: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Akaun sementara pada IP ini: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Akaun sementara pada IP ini:$1 (disekat: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Akaun sementara pada IP ini:$1 (disekat: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Tunjukkan semua akaun",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Sorokkan"
 }

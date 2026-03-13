@@ -480,11 +480,14 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Kiçik pəncərədə risk siqnalları haqqında daha ətraflı məlumat əldə edin",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "$1 ($2) tərəfindən işarələnən {{PLURAL:$2|redaktə|redaktələr}}",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "$1 ($2) tərəfindən işarələnən {{PLURAL:$2|jurnal qeydi|jurnal qeydləri}}",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "TA işləri",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Bütün əlaqəli IP-lərdəki müvəqqəti hesablar: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Bu hesabla əlaqəli bütün IP-lərdən olan bütün müvəqqəti hesabların ümumi sayı",
 	"checkuser-contributions-temporary-accounts-show-related": "Bu hesabların bütün töhfələrinə bax",
 	"checkuser-contributions-temporary-accounts-hide-related": "Əlaqəli müvəqqəti hesablardan töhfələri gizlət",
 	"checkuser-contributions-temporary-account-bucketcount": "Bütün əlaqəli IP-lərdəki müvəqqəti hesablar: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Bu IP-dəki müvəqqəti hesablar: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Bu IP-dəki müvəqqəti hesablar: $1 ($2 bloklanan)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Bu IP-dəki müvəqqəti hesablar: $1 ($2 bloklanan).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Bütün hesabları göstər",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Gizlət"
 }

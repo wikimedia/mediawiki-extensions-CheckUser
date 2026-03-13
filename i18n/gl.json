@@ -483,5 +483,7 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "Agochar as contribucións das contas temporais relacionadas",
 	"checkuser-contributions-temporary-account-bucketcount": "Contas temporais de todos os enderezos IP asociados: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Contas temporais neste enderezo IP: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Contas temporais neste enderezo IP: $1 (bloqueadas: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Contas temporais neste enderezo IP: $1 (bloqueadas: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Mostrar todas as contas",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Agochar"
 }

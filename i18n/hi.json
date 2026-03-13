@@ -479,11 +479,14 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "जोखिम के संकेतों के बारे में अधिक जानकारी एक पॉपओवर में पढ़ें",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "$1 द्वारा चिह्नित {{PLURAL:$2|किया गया|किए गए}} सम्पादन ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "$1 द्वारा चिह्नित की गई {{PLURAL:$2|लॉग प्रविष्टि|लॉग प्रविष्टियाँ}} ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "SI मुकदमे",
 	"checkuser-userinfocard-temporary-account-bucketcount": "सभी संबद्ध IP-ओं से अस्थायी खाते: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "इस खाते से संबद्ध सभी IP-ओं से बने सभी अस्थायी खातों की कुल संख्या",
 	"checkuser-contributions-temporary-accounts-show-related": "इन खातों से सभी योगदान देखें",
 	"checkuser-contributions-temporary-accounts-hide-related": "संबंधित अस्थायी खातों से योगदान छिपाएँ",
 	"checkuser-contributions-temporary-account-bucketcount": "सभी संबद्ध IP-ओं से अस्थायी खाते: $1।",
 	"checkuser-contributions-temporary-accounts-on-ip": "इस IP पर अस्थायी खाते: $1।",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "इस IP पर अस्थायी खाते: $1 (अवरोधित: $2)।"
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "इस IP पर अस्थायी खाते: $1 (अवरोधित: $2)।",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "सभी खाते दिखाएँ",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "छिपाएँ"
 }
