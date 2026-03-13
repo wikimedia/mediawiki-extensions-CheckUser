@@ -96,7 +96,7 @@ class SuggestedInvestigationsAutoCloseForCaseJob extends Job {
 			->msg( 'checkuser-suggestedinvestigations-autoclose-reason' )
 			->text();
 
-		$this->caseManager->setCaseStatus( $caseId, CaseStatus::Resolved, $reason, null );
+		$this->caseManager->setCaseStatus( $caseId, CaseStatus::Resolved, $reason, 0 );
 		$this->logger->info(
 			'Auto resolved case {caseId} as all associated users are indefinitely blocked',
 			[ 'caseId' => $caseId ]

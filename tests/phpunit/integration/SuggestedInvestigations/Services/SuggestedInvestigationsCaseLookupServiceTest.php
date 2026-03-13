@@ -98,6 +98,7 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 			$this->assertSame( self::$closedCase, $cases[0]->getId() );
 			$this->assertSame( CaseStatus::Resolved, $cases[0]->getStatus() );
 			$this->assertSame( 'Test reason', $cases[0]->getReason() );
+			$this->assertSame( 0, $cases[0]->getStatusChangedBy() );
 		}
 	}
 

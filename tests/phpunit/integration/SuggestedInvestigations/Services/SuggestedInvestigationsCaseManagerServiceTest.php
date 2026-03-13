@@ -569,6 +569,32 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 
 		// Assert the new state has been persisted to the DB
 		$this->assertEquals( $newStatus, $this->getCaseStatus( $caseId ) );
+
+		// Assert the performer user ID has been persisted to the DB
+		$this->newSelectQueryBuilder()
+			->select( 'sic_status_changed_by' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->assertFieldValue( (string)$performer->getId() );
+	}
+
+	public function testSetCaseStatusWithSystemPerformer(): void {
+		$user1 = $this->getMutableTestUser()->getUserIdentity();
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+
+		$service = $this->createService();
+		$caseId = $service->createCase( [ $user1 ], [ $signal ] );
+
+		$service->setCaseStatus( $caseId, CaseStatus::Resolved, 'auto-closed' );
+
+		// Assert that sic_status_changed_by is 0 when performer is system action
+		$this->newSelectQueryBuilder()
+			->select( 'sic_status_changed_by' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->assertFieldValue( '0' );
 	}
 
 	public static function setCaseStatusDataProvider(): array {

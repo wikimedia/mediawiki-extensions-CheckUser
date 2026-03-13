@@ -29,6 +29,7 @@ class SuggestedInvestigationsCase {
 		private readonly int $id,
 		private readonly CaseStatus $status,
 		private readonly string $reason = '',
+		private readonly ?int $statusChangedBy = null,
 	) {
 	}
 
@@ -42,5 +43,15 @@ class SuggestedInvestigationsCase {
 
 	public function getReason(): string {
 		return $this->reason;
+	}
+
+	/**
+	 * Returns:
+	 * * `null` when we do not have this information,
+	 * * `0` when the system last changed the status, or
+	 * * the user ID of the user who last changed the status
+	 */
+	public function getStatusChangedBy(): ?int {
+		return $this->statusChangedBy;
 	}
 }

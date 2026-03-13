@@ -227,7 +227,7 @@ class SuggestedInvestigationsCaseManagerService {
 	 * @param int $caseId The ID of the case to modify.
 	 * @param CaseStatus $status The new case status.
 	 * @param string $reason Optionally, a reason for the status change.
-	 * @param int|null $performerUserId The user ID of the performer, or null for system actions.
+	 * @param int $performerUserId The user ID of the performer, or 0 for system actions.
 	 *
 	 * @return void
 	 *
@@ -238,7 +238,7 @@ class SuggestedInvestigationsCaseManagerService {
 		int $caseId,
 		CaseStatus $status,
 		string $reason = '',
-		?int $performerUserId = null
+		int $performerUserId = 0
 	): void {
 		$this->assertSuggestedInvestigationsEnabled();
 		$this->assertCasesExist( [ $caseId ] );
@@ -257,6 +257,7 @@ class SuggestedInvestigationsCaseManagerService {
 			->set( [
 				'sic_status' => $status->value,
 				'sic_status_reason' => trim( $reason ),
+				'sic_status_changed_by' => $performerUserId,
 			] )
 			->where( [ 'sic_id' => $caseId ] )
 			->caller( __METHOD__ )
@@ -270,7 +271,7 @@ class SuggestedInvestigationsCaseManagerService {
 				'case_note' => $reason,
 			];
 
-			if ( $performerUserId !== null ) {
+			if ( $performerUserId !== 0 ) {
 				$interactionData['performer'] = [ 'id' => $performerUserId ];
 			}
 

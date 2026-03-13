@@ -66,7 +66,7 @@ class SuggestedInvestigationsCaseLookupService {
 
 		// DISTINCT is needed because there may be many matching cusi_signal rows for a given cusi_case row.
 		$mergeableCases = $dbr->newSelectQueryBuilder()
-			->select( [ 'sic_id', 'sic_status', 'sic_status_reason' ] )
+			->select( [ 'sic_id', 'sic_status', 'sic_status_reason', 'sic_status_changed_by' ] )
 			->distinct()
 			->from( 'cusi_signal' )
 			->join( 'cusi_case', null, 'sis_sic_id = sic_id' )
@@ -110,7 +110,7 @@ class SuggestedInvestigationsCaseLookupService {
 
 		// DISTINCT is needed because there may be many matching cusi_signal rows for a given cusi_case row.
 		$queryBuilder = $dbr->newSelectQueryBuilder()
-			->select( [ 'sic_id', 'sic_status', 'sic_status_reason' ] )
+			->select( [ 'sic_id', 'sic_status', 'sic_status_reason', 'sic_status_changed_by' ] )
 			->distinct()
 			->from( 'cusi_signal' )
 			->join( 'cusi_case', null, 'sis_sic_id = sic_id' )
@@ -264,7 +264,10 @@ class SuggestedInvestigationsCaseLookupService {
 				continue;
 			}
 
-			$cases[] = new SuggestedInvestigationsCase( (int)$row->sic_id, $caseStatus, $row->sic_status_reason );
+			$statusChangedBy = $row->sic_status_changed_by !== null ? (int)$row->sic_status_changed_by : null;
+			$cases[] = new SuggestedInvestigationsCase(
+				(int)$row->sic_id, $caseStatus, $row->sic_status_reason, $statusChangedBy
+			);
 		}
 
 		return $cases;
