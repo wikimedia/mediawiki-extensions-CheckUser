@@ -1,6 +1,6 @@
 'use strict';
 
-const rest = require( 'ext.checkUser.userInfoCard/modules/ext.checkUser.userInfoCard/rest.js' );
+const rest = require( 'ext.checkUser.userInfoCard/rest.js' );
 
 let server;
 

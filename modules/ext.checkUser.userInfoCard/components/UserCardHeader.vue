@@ -35,7 +35,7 @@
 
 <script>
 const { ref, onActivated, onMounted, nextTick, computed } = require( 'vue' );
-const { CdxIcon, CdxButton } = require( '@wikimedia/codex' );
+const { CdxIcon, CdxButton } = require( '../codex.js' );
 const UserCardMenu = require( './UserCardMenu.vue' );
 const {
 	cdxIconUserAvatar, cdxIconUserTemporary, cdxIconClose, cdxIconUserBlocked

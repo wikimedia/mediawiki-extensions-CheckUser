@@ -36,28 +36,6 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 			$output->addModuleStyles( 'ext.checkUser.styles' );
 			$output->addModules( 'ext.checkUser.userInfoCard' );
 
-			if ( $this->config->has( 'GEUserImpactMaxEdits' ) ) {
-				$output->addJsConfigVars( [
-					'wgCheckUserGEUserImpactMaxEdits' => $this->config->get( 'GEUserImpactMaxEdits' ),
-				] );
-			}
-
-			if ( $this->config->has( 'GEUserImpactMaxThanks' ) ) {
-				$output->addJsConfigVars( [
-					'wgCheckUserGEUserImpactMaxThanks' => $this->config->get( 'GEUserImpactMaxThanks' ),
-				] );
-			}
-
-			$output->addJsConfigVars(
-				'wgCheckUserEnableUserInfoCardInstrumentation',
-				$this->config->get( 'CheckUserEnableUserInfoCardInstrumentation' )
-			);
-
-			$output->addJsConfigVars(
-				'wgCheckUserUserInfoCardShowXToolsLink',
-				$this->config->get( 'CheckUserUserInfoCardShowXToolsLink' )
-			);
-
 			$isBlocked = $this->blockStatusCache->isIndefinitelyBlockedOrLocked( $targetUser->getName() );
 
 			if ( $isBlocked ) {

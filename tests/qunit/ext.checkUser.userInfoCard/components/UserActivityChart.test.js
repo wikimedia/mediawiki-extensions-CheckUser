@@ -1,7 +1,7 @@
 'use strict';
 
 const { mount } = require( 'vue-test-utils' );
-const UserActivityChart = require( 'ext.checkUser.userInfoCard/modules/ext.checkUser.userInfoCard/components/UserActivityChart.vue' );
+const UserActivityChart = require( 'ext.checkUser.userInfoCard/components/UserActivityChart.vue' );
 
 QUnit.module( 'ext.checkUser.userInfoCard.UserActivityChart', QUnit.newMwEnvironment( {
 	beforeEach: function () {

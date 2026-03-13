@@ -27,6 +27,7 @@ require( './ext.checkUser.userInfoCard/components/InfoRow.test.js' );
 require( './ext.checkUser.userInfoCard/components/InfoRowWithLinks.test.js' );
 require( './ext.checkUser.userInfoCard/components/UserActivityChart.test.js' );
 require( './ext.checkUser.userInfoCard/components/UserCardBody.test.js' );
+require( './ext.checkUser.userInfoCard/components/UserCardButton.test.js' );
 require( './ext.checkUser.userInfoCard/components/UserCardHeader.test.js' );
 require( './ext.checkUser.userInfoCard/components/UserCardLoadingView.test.js' );
 require( './ext.checkUser.userInfoCard/components/UserCardMenu.test.js' );

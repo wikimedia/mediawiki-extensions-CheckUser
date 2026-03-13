@@ -2,7 +2,7 @@
 
 const { nextTick } = require( 'vue' );
 const { mount } = require( 'vue-test-utils' );
-const UserCardView = require( 'ext.checkUser.userInfoCard/modules/ext.checkUser.userInfoCard/components/UserCardView.vue' );
+const UserCardView = require( 'ext.checkUser.userInfoCard/components/UserCardView.vue' );
 
 // Using mocks since we don't need to fully load child components
 const mockComponents = {
