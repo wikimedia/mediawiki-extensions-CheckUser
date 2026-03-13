@@ -8,6 +8,8 @@ use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\SpecialCheckUserTestTrait;
 use MediaWiki\Html\FormOptions;
@@ -435,6 +437,75 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		];
 	}
 
+	public function testSINoticeNotShownWhenIPHasNoResults(): void {
+		$this->enableSuggestedInvestigations();
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+
+		$testCheckUser = $this->getTestCheckUser();
+		$cuRequest = new FauxRequest(
+			[ 'checktype' => SpecialCheckUser::SUBTYPE_GET_USERS, 'user' => '5.6.7.8' ],
+			true
+		);
+		[ $html ] = $this->executeSpecialPage( '', $cuRequest, null, $testCheckUser );
+
+		$this->assertStringNotContainsString(
+			'(checkuser-ip-results-suggestedinvestigations-notice-link',
+			$html
+		);
+	}
+
+	/** @dataProvider provideSubtypesForSINotice */
+	public function testSINoticeShownForIPCheckWithOpenCases( string $checktype, string $subPage ): void {
+		$this->enableSuggestedInvestigations();
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+
+		$testCheckUser = $this->getTestCheckUser();
+		$request = new FauxRequest(
+			[ 'checktype' => $checktype, 'reason' => 'Test SI notice' ],
+			true
+		);
+		[ $html ] = $this->executeSpecialPage( $subPage, $request, null, $testCheckUser );
+
+		$this->assertStringContainsString(
+			'(checkuser-ip-results-suggestedinvestigations-notice-link',
+			$html
+		);
+		$this->assertStringContainsString( 'Special:SuggestedInvestigations', $html );
+		$this->assertStringContainsString( self::$usernameTarget->getName(), $html );
+	}
+
+	public static function provideSubtypesForSINotice(): array {
+		return [
+			'Get users check on IP target' => [
+				'checktype' => SpecialCheckUser::SUBTYPE_GET_USERS,
+				'subPage' => '1.2.3.4',
+			],
+			'Get actions check on IP target' => [
+				'checktype' => SpecialCheckUser::SUBTYPE_GET_ACTIONS,
+				'subPage' => '1.2.3.4',
+			],
+		];
+	}
+
+	public function testSINoticeNotShownForGetActionsOnUsernameTarget(): void {
+		$this->enableSuggestedInvestigations();
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+
+		$testCheckUser = $this->getTestCheckUser();
+		$request = new FauxRequest(
+			[ 'checktype' => SpecialCheckUser::SUBTYPE_GET_ACTIONS, 'reason' => 'Test notice username' ],
+			true
+		);
+		[ $html ] = $this->executeSpecialPage(
+			self::$usernameTarget->getName(), $request, null, $testCheckUser
+		);
+
+		$this->assertStringNotContainsString(
+			'(checkuser-ip-results-suggestedinvestigations-notice-link',
+			$html
+		);
+	}
+
 	/**
 	 * Verifies that one row exists in cu_log which has the expected properties
 	 */
@@ -452,7 +523,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			] );
 	}
 
-	public function addDBDataOnce() {
+	public function addDBDataOnce(): void {
 		$this->disableAutoCreateTempUser();
 		$usernameTarget = $this->getTestUser();
 
@@ -476,5 +547,22 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 		self::$usernameTarget = $usernameTarget->getUserIdentity();
 		self::$tempAccountTarget = $tempUser;
+
+		// Create an open SI case for the username target
+		$this->enableSuggestedInvestigations();
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()
+			->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+		$caseManager->createCase(
+			[ UserIdentityValue::newRegistered(
+				self::$usernameTarget->getId(),
+				self::$usernameTarget->getName()
+			) ],
+			[
+				SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+					'TestSignal', 'test-value', false
+				),
+			]
+		);
 	}
 }

@@ -1191,7 +1191,8 @@
 				"LogFormatterFactory",
 				"UserOptionsLookup",
 				"DatabaseBlockStore",
-				"TempUserConfig"
+				"TempUserConfig",
+				"CheckUserSuggestedInvestigationsNoticeRenderer"
 			]
 		},
 		"CheckUserLog": {

@@ -18,6 +18,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\SuggestedInvestigationsNoticeRenderer;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
@@ -86,6 +87,7 @@ class SpecialCheckUser extends SpecialPage {
 		private readonly UserOptionsLookup $userOptionsLookup,
 		private readonly DatabaseBlockStore $blockStore,
 		private readonly TempUserConfig $tempUserConfig,
+		private readonly SuggestedInvestigationsNoticeRenderer $suggestedInvestigationsNoticeRenderer,
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -280,7 +282,12 @@ class SpecialCheckUser extends SpecialPage {
 
 						// Ordered in descent by timestamp. Can cause large filesorts on range scans.
 						$pager = $this->getPager( self::SUBTYPE_GET_ACTIONS, $userIdentity, $logType, $xfor );
-						$out->addHTML( $pager->getBody() );
+						$pagerBody = $pager->getBody();
+						$out->addHTML(
+							$this->suggestedInvestigationsNoticeRenderer->getNotice(
+								$pager, $this->getContext(), $this->getLinkRenderer()
+							) . $pagerBody
+						);
 					}
 				} else {
 					// Target is a username
@@ -306,7 +313,12 @@ class SpecialCheckUser extends SpecialPage {
 					$logType = $xfor ? 'ipusers-xff' : 'ipusers';
 
 					$pager = $this->getPager( self::SUBTYPE_GET_USERS, $userIdentity, $logType, $xfor );
-					$out->addHTML( $pager->getBody() );
+					$pagerBody = $pager->getBody();
+					$out->addHTML(
+						$this->suggestedInvestigationsNoticeRenderer->getNotice(
+							$pager, $this->getContext(), $this->getLinkRenderer()
+						) . $pagerBody
+					);
 				}
 			}
 		}

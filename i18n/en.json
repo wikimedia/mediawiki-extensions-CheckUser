@@ -83,6 +83,8 @@
 	"checkuser-investigate-this-user": "Investigate this user",
 	"checkuser-recent-checks": "Checks for this target",
 	"checkuser-show-suggestedinvestigations": "Suggested investigations",
+	"checkuser-ip-results-suggestedinvestigations-notice": "There are Suggested Investigations cases for some of the results in your search. $1",
+	"checkuser-ip-results-suggestedinvestigations-notice-link": "View cases",
 	"checkuser-log-checks-by": "checks by",
 	"checkuser-log-checks-on": "checks on",
 	"checkuser-log-link-text": "log",

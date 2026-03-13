@@ -57,6 +57,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\SuggestedInvestigationsNoticeRenderer;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
@@ -414,6 +415,13 @@ return [
 			$services->getCentralIdLookup(),
 			$services->getExtensionRegistry(),
 			$services->get( 'EventLogging.MetricsClientFactory' )
+		);
+	},
+	'CheckUserSuggestedInvestigationsNoticeRenderer' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsNoticeRenderer {
+		return new SuggestedInvestigationsNoticeRenderer(
+			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' )
 		);
 	},
 	'CheckUserSuggestedInvestigationsPagerFactory' => static function (
