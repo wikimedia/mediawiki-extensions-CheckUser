@@ -1526,12 +1526,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		// Mock fetching the recently active wikis
 		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
 		$queryBuilder
-			->method(
-				$this->logicalOr(
-					'select', 'from', 'distinct', 'where', 'andWhere',
-					'join', 'orderBy', 'limit', 'queryInfo', 'caller'
-				)
-			)->willReturnSelf();
+			->method( $this->logicalOr( ...array_map( $this->identicalTo( ... ), [
+				'select', 'from', 'distinct', 'where', 'andWhere',
+				'join', 'orderBy', 'limit', 'queryInfo', 'caller',
+			] ) ) )
+			->willReturnSelf();
 		$queryBuilder
 			->method( 'fetchFieldValues' )
 			->willReturn( [ $localWiki, $externalWiki ] );

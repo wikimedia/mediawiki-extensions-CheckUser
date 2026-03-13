@@ -59,9 +59,9 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 		// Mock fetching the recently active wikis
 		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
 		$queryBuilder
-			->method( $this->logicalOr(
-				'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy', 'groupBy'
-			) )
+			->method( $this->logicalOr( ...array_map( $this->identicalTo( ... ), [
+				'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy', 'groupBy',
+			] ) ) )
 			->willReturnSelf();
 		$queryBuilder->method( 'fetchResultSet' )
 			->willReturn( new FakeResultWrapper( array_map(
