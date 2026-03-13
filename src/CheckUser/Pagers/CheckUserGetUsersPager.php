@@ -42,7 +42,7 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 
-class CheckUserGetUsersPager extends AbstractCheckUserPager {
+class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUsernameResultInterface {
 	/** @var bool Whether the user performing this check has the block right. */
 	protected bool $canPerformBlocks;
 
@@ -59,7 +59,15 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	private ?bool $shouldShowMassGlobalBlockButtons = null;
 
 	/** @var array[] */
-	protected $userSets;
+	protected array $userSets = [
+		'first' => [],
+		'last' => [],
+		'edits' => [],
+		'ids' => [],
+		'infosets' => [],
+		'agentsets' => [],
+		'clienthints' => [],
+	];
 
 	/** @var string|false */
 	private $centralAuthToollink;
@@ -666,6 +674,18 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		}
 
 		return $this->shouldShowBlockFieldset;
+	}
+
+	/** @inheritDoc */
+	public function getResultUsernameMap(): array {
+		$result = [];
+		foreach ( $this->userSets['ids'] as $userName => $userId ) {
+			if ( $userId > 0 && !IPUtils::isIPAddress( $userName ) ) {
+				$result[$userId] = $userName;
+			}
+		}
+
+		return $result;
 	}
 
 	/** @inheritDoc */

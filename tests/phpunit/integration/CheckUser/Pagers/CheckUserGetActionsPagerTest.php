@@ -1,7 +1,10 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers;
 
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUsernameResultInterface;
 use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
@@ -404,15 +407,51 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		);
 	}
 
+	public function testGetResultUsernameMapAfterPreprocessResults(): void {
+		$object = $this->setUpObject();
+		$this->assertInstanceOf( CheckUsernameResultInterface::class, $object->object );
+		$object->preprocessResults( new FakeResultWrapper( [
+			// Registered user — should appear in the map
+			array_merge( $this->getDefaultRowFieldValues(), [
+				'user_text' => 'Alice',
+				'user' => 42,
+				'actor' => 1,
+				'type' => RC_LOG,
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			] ),
+			// Anon row (user=0) — should be excluded
+			array_merge( $this->getDefaultRowFieldValues(), [
+				'user_text' => 'SomeUser',
+				'user' => 0,
+				'actor' => 2,
+				'type' => RC_LOG,
+				'client_hints_reference_id' => 2,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			] ),
+			// Registered user with IP name — should be excluded
+			array_merge( $this->getDefaultRowFieldValues(), [
+				'user_text' => '1.2.3.4',
+				'user' => 43,
+				'actor' => 3,
+				'type' => RC_LOG,
+				'client_hints_reference_id' => 3,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			] ),
+		] ) );
+
+		$this->assertSame( [ 42 => 'Alice' ], $object->getResultUsernameMap() );
+	}
+
 	/** @dataProvider provideGetQueryInfo */
-	public function testGetQueryInfo( $target, $xfor, $table, $expectedQueryInfo ) {
+	public function testGetQueryInfo( UserIdentityValue $target, $xfor, $table, $expectedQueryInfo ) {
 		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 16, 'IPv6' => 19 ] );
 		if ( IPUtils::isIPAddress( $target->getName() ) ) {
 			// Add the IExpression for the IP target as a string to the expected query info for comparison.
 			// This is done for IP targets as we cannot add the SQL representation of the IExpression result
 			// in the static data provider because it does not have access to the service container.
 			$expectedQueryInfo['conds'][] = $this->getServiceContainer()->get( 'CheckUserLookupUtils' )
-				->getIPTargetExpr( $target, $xfor, $table )
+				->getIPTargetExpr( $target->getName(), $xfor, $table )
 				->toSql( $this->getDb() );
 		}
 		$this->commonTestGetQueryInfo( $target, $xfor, $table, $expectedQueryInfo );

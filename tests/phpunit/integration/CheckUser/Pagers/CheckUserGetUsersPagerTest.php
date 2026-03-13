@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers;
 use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUsernameResultInterface;
 use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
@@ -18,6 +19,7 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\ArrayUtils\ArrayUtils;
+use Wikimedia\IPUtils;
 use Wikimedia\Parsoid\Core\DOMCompat;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -409,6 +411,44 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 				],
 			],
 		];
+	}
+
+	public function testGetResultUsernameMapAfterPreprocessResults(): void {
+		$object = $this->setUpObject();
+
+		$this->assertInstanceOf( CheckUsernameResultInterface::class, $object->object );
+
+		$object->preprocessResults( new FakeResultWrapper( [
+			// Registered user — should appear in the map
+			array_merge( $this->getDefaultRowFieldValues(), [
+				'user_text' => 'Alice',
+				'user' => 1,
+				'actor' => 1,
+				'ip_hex' => IPUtils::toHex( '1.2.3.4' ),
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			] ),
+			// IP row (actor=null) — should be excluded
+			array_merge( $this->getDefaultRowFieldValues(), [
+				'user_text' => null,
+				'user' => null,
+				'actor' => null,
+				'ip_hex' => IPUtils::toHex( '1.2.3.5' ),
+				'client_hints_reference_id' => 2,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			] ),
+			// Registered user with IP name — should be excluded
+			array_merge( $this->getDefaultRowFieldValues(), [
+				'user_text' => '1.2.3.5',
+				'user' => 2,
+				'actor' => 3,
+				'ip_hex' => IPUtils::toHex( '1.2.3.5' ),
+				'client_hints_reference_id' => 3,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			] ),
+		] ) );
+
+		$this->assertSame( [ 1 => 'Alice' ], $object->getResultUsernameMap() );
 	}
 
 	/** @inheritDoc */

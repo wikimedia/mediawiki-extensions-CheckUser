@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUsernameResultInterface;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Language\Language;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -188,6 +189,11 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 				],
 			],
 		];
+	}
+
+	public function testImplementsCheckUsernameResultInterface(): void {
+		$pager = $this->createPartialMock( CheckUserGetActionsPager::class, [] );
+		$this->assertInstanceOf( CheckUsernameResultInterface::class, $pager );
 	}
 
 	public function testGetActionTextForNonLogEvent() {

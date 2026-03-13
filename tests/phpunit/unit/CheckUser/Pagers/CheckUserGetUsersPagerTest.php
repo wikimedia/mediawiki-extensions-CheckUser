@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use LogicException;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUsernameResultInterface;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
@@ -219,6 +220,11 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 				'to the expected array.'
 			);
 		}
+	}
+
+	public function testImplementsCheckUsernameResultInterface(): void {
+		$pager = $this->createPartialMock( CheckUserGetUsersPager::class, [] );
+		$this->assertInstanceOf( CheckUsernameResultInterface::class, $pager );
 	}
 
 	public static function providePreprocessResults() {

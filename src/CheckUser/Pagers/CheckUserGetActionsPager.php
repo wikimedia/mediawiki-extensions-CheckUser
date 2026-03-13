@@ -49,7 +49,7 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 
-class CheckUserGetActionsPager extends AbstractCheckUserPager {
+class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUsernameResultInterface {
 
 	/**
 	 * @var string[] Used to cache frequently used messages
@@ -72,6 +72,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 * @var ClientHintsBatchFormatterResults Formatted ClientHintsData objects that can be looked up by a reference ID.
 	 */
 	protected ClientHintsBatchFormatterResults $formattedClientHintsData;
+
+	/** @var array<int, string> User IDs to username for registered and temp users in results */
+	private array $resultUserIds = [];
 
 	private readonly LoggerInterface $logger;
 
@@ -686,6 +689,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				$flags = $this->userBlockFlags( $ip, $user );
 				$this->flagCache[$row->user_text] = $flags;
 			}
+
+			$this->addUsersFromRow( $row );
+
 			// Batch process comments
 			if (
 				( $row->type == RC_EDIT || $row->type == RC_NEW ) &&
@@ -723,6 +729,17 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$this->formattedClientHintsData = $this->clientHintsFormatter
 			->batchFormatClientHintsData( $clientHintsData );
 		$result->seek( 0 );
+	}
+
+	private function addUsersFromRow( stdClass $row ): void {
+		if ( ( $row->user ?? 0 ) > 0 && !IPUtils::isIPAddress( $row->user_text ) ) {
+			$this->resultUserIds[$row->user] = $row->user_text;
+		}
+	}
+
+	/** @inheritDoc */
+	public function getResultUsernameMap(): array {
+		return $this->resultUserIds;
 	}
 
 	/**
