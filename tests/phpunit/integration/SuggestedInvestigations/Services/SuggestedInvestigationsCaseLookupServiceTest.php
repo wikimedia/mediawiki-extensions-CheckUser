@@ -278,7 +278,54 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		$this->assertTrue( $service->isUserInAnyCase( new UserIdentityValue( 1, 'Test user 1' ) ) );
 	}
 
-	public function addDBDataOnce() {
+	/** @dataProvider provideGetUserIdsWithCases */
+	public function testGetUserIdsWithCases(
+		array $inputUserIds, array $statusesFilter, array $expectedUserIds
+	): void {
+		$service = $this->createService();
+
+		$this->assertEqualsCanonicalizing(
+			$expectedUserIds,
+			$service->getUserIdsWithCases( $inputUserIds, $statusesFilter )
+		);
+	}
+
+	public static function provideGetUserIdsWithCases(): array {
+		return [
+			'open cases filter returns users in open cases' => [
+				'inputUserIds' => [ 1, 2, 999 ],
+				'statusesFilter' => [ CaseStatus::Open ],
+				'expectedUserIds' => [ 1, 2 ],
+			],
+			'empty filter returns users in cases of any status' => [
+				'inputUserIds' => [ 1, 2, 999 ],
+				'statusesFilter' => [],
+				'expectedUserIds' => [ 1, 2 ],
+			],
+			'empty user IDs input returns empty array' => [
+				'inputUserIds' => [],
+				'statusesFilter' => [],
+				'expectedUserIds' => [],
+			],
+			'resolved filter returns only users in resolved cases' => [
+				'inputUserIds' => [ 1, 2, 999 ],
+				'statusesFilter' => [ CaseStatus::Resolved ],
+				'expectedUserIds' => [ 1 ],
+			],
+		];
+	}
+
+	public function testGetUserIdsWithCasesThrowsWhenSIDisabled(): void {
+		$this->disableSuggestedInvestigations();
+
+		$service = $this->createService();
+
+		$this->expectException( RuntimeException::class );
+		$this->expectExceptionMessage( 'Suggested Investigations is not enabled' );
+		$service->getUserIdsWithCases( [ 1 ] );
+	}
+
+	public function addDBDataOnce(): void {
 		$this->enableSuggestedInvestigations();
 
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */

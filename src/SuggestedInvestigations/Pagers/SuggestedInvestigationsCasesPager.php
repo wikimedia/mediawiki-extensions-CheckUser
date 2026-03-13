@@ -1062,7 +1062,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	protected function createNavigationBuilder(): CodexPagerNavigationBuilder {
 		$builder = new SuggestedInvestigationsPagerNavigationBuilder(
 			$this->getContext(),
-			$this->prepareQueryValuesForNavigationBuilder( $this->getRequest()->getQueryValues() ),
+			$this->prepareQueryValuesForNavigationBuilder( $this->getRequest()->getValues() ),
 			$this->numberOfFiltersApplied
 		);
 		$builder->setNavClass( $this->getNavClass() );

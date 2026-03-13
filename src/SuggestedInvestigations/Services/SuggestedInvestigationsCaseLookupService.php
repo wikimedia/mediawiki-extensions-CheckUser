@@ -30,6 +30,7 @@ use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\RawSQLExpression;
 
 class SuggestedInvestigationsCaseLookupService {
 
@@ -221,6 +222,9 @@ class SuggestedInvestigationsCaseLookupService {
 
 	/**
 	 * Returns a {@link CaseStatus} object describing the status of the provided case ID
+	 *
+	 * @throws RuntimeException if Suggested Investigations is not enabled
+	 * @throws InvalidArgumentException if no case with the given ID exists
 	 */
 	public function getCaseStatus( int $caseId ): CaseStatus {
 		$this->assertSuggestedInvestigationsEnabled();
@@ -264,6 +268,45 @@ class SuggestedInvestigationsCaseLookupService {
 		}
 
 		return $cases;
+	}
+
+	/**
+	 * @param int[] $userIds Local wiki user IDs to check
+	 * @param CaseStatus[] $statusesFilter If non-empty, only users in cases with these statuses are returned.
+	 * If empty, users in cases of any status are returned.
+	 * @return int[] The user IDs (from the input) that appear in at least one case
+	 * @throws RuntimeException if Suggested Investigations is not enabled
+	 */
+	public function getUserIdsWithCases( array $userIds, array $statusesFilter = [] ): array {
+		$this->assertSuggestedInvestigationsEnabled();
+
+		if ( !$userIds ) {
+			return [];
+		}
+
+		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+
+		$queryBuilder = $dbr->newSelectQueryBuilder()
+			->select( 'siu_user_id' )
+			->from( 'cusi_user' )
+			->where( [ 'siu_user_id' => $userIds ] )
+			->groupBy( 'siu_user_id' )
+			->caller( __METHOD__ );
+
+		if ( $statusesFilter !== [] ) {
+			$caseSubquery = $dbr->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'cusi_case' )
+				->where( [
+					'sic_id = siu_sic_id',
+					'sic_status' => array_map( static fn ( $s ) => $s->value, $statusesFilter ),
+				] )
+				->getSQL();
+
+			$queryBuilder->where( [ new RawSQLExpression( 'EXISTS(' . $caseSubquery . ')' ) ] );
+		}
+
+		return array_map( 'intval', $queryBuilder->fetchFieldValues() );
 	}
 
 	/**
