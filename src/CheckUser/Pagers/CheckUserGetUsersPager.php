@@ -18,6 +18,7 @@ use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\Html\ListToggle;
@@ -69,6 +70,9 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		'clienthints' => [],
 	];
 
+	/** @var int[] User IDs that appear in at least one SI case */
+	private array $usersInSiCases = [];
+
 	/** @var string|false */
 	private $centralAuthToollink;
 
@@ -105,6 +109,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		DatabaseBlockStore $blockStore,
 		private readonly LinkBatchFactory $linkBatchFactory,
 		TempUserConfig $tempUserConfig,
+		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
@@ -203,12 +208,25 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 				$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
 			}
 			$templateParams['userLink'] = Linker::userLink( $user->getId(), $user->getName(), $user->getName() );
-			$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
+			$userToolLinkItems = Linker::userToolLinkArray(
 				$user->getId(),
 				$user->getName(),
-				$this->userEditTracker->getUserEditCount( $user ),
-				// don't render parentheses in HTML markup (CSS will provide)
-				false
+				true,
+				0,
+				$this->userEditTracker->getUserEditCount( $user )
+			);
+			// Add SI cases link for registered users that appear in at least one case
+			if ( in_array( $user->getId(), $this->usersInSiCases, true ) ) {
+				$userToolLinkItems[] = $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
+					$this->msg( 'checkuser-si-cases-link' )->text(),
+					[ 'class' => 'mw-checkuser-si-cases-link' ],
+					[ 'username' => $user->getName(), 'hideCasesWithNoUserEdits' => '0' ]
+				);
+			}
+			// don't render parentheses in HTML markup (CSS will provide)
+			$templateParams['userToolLinks'] = Linker::renderUserToolLinksArray(
+				$userToolLinkItems, false
 			);
 			if ( $userIsIP ) {
 				$templateParams['userLinks'] = $this->msg( 'checkuser-userlinks-ip', $user->getName() )->parse();
@@ -363,6 +381,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			'agentsets' => [],
 			'clienthints' => [],
 		];
+		$this->usersInSiCases = [];
 		$referenceIdsForLookup = new ClientHintsReferenceIds();
 
 		$batch = $this->linkBatchFactory->newLinkBatch();
@@ -414,6 +433,21 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		}
 
 		$batch->execute();
+
+		// Batch lookup which registered users appear in at least one SI case
+		if (
+			$this->siCaseLookupService->areSuggestedInvestigationsEnabled() &&
+			$this->getAuthority()->isAllowed( 'checkuser-suggested-investigations' )
+		) {
+			$registeredUserIds = array_keys( $this->getResultUsernameMap() );
+			if ( $registeredUserIds ) {
+				$this->usersInSiCases = $this->siCaseLookupService
+					->getUserIdsWithCases( $registeredUserIds );
+				if ( $this->usersInSiCases ) {
+					$this->getOutput()->addModules( 'ext.checkUser.suggestedInvestigations' );
+				}
+			}
+		}
 
 		// Lookup the Client Hints data objects from the DB
 		// and then batch format the ClientHintsData objects

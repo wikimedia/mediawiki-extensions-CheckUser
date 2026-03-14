@@ -355,6 +355,77 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		);
 	}
 
+	public function testFormatUserRowWithSiCasesLink() {
+		$testUser = $this->getTestUser()->getUserIdentity();
+		$timestamp = ConvertibleTimestamp::now();
+		$objectUnderTest = $this->setUpObject();
+		$objectUnderTest->templateParser = new MockTemplateParser();
+		$objectUnderTest->userSets = [
+			'first' => [ $testUser->getName() => $timestamp ],
+			'last' => [ $testUser->getName() => $timestamp ],
+			'edits' => [ $testUser->getName() => 5 ],
+			'ids' => [ $testUser->getName() => $testUser->getId() ],
+			'infosets' => [ $testUser->getName() => [ [ '127.0.0.1', null ] ] ],
+			'agentsets' => [ $testUser->getName() => [ 'Testing user agent' ] ],
+			'clienthints' => [ $testUser->getName() => new ClientHintsReferenceIds( [] ) ],
+		];
+		$objectUnderTest->usersInSiCases = [ $testUser->getId() ];
+		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [] );
+		$this->setUserLang( 'qqx' );
+		$objectUnderTest->formatUserRow( $testUser->getName() );
+		$this->assertNotNull(
+			$objectUnderTest->templateParser->lastCalledWith,
+			'The template parser was not called by ::formatUserRow.'
+		);
+		$this->assertStringContainsString(
+			'Special:SuggestedInvestigations',
+			$objectUnderTest->templateParser->lastCalledWith[1]['userToolLinks'],
+			'The SI cases link does not point to Special:SuggestedInvestigations'
+		);
+		$this->assertStringContainsString(
+			'username=' . urlencode( $testUser->getName() ),
+			$objectUnderTest->templateParser->lastCalledWith[1]['userToolLinks'],
+			'The SI cases link does not contain the username'
+		);
+		$this->assertStringContainsString(
+			'mw-checkuser-si-cases-link',
+			$objectUnderTest->templateParser->lastCalledWith[1]['userToolLinks'],
+			'The SI cases link class is present in the user tool links'
+		);
+	}
+
+	public function testFormatUserRowWithoutSiCasesLinkWhenUserNotInCase() {
+		$testUser = $this->getTestUser()->getUserIdentity();
+		$timestamp = ConvertibleTimestamp::now();
+		$objectUnderTest = $this->setUpObject();
+		$objectUnderTest->templateParser = new MockTemplateParser();
+		$objectUnderTest->userSets = [
+			'first' => [ $testUser->getName() => $timestamp ],
+			'last' => [ $testUser->getName() => $timestamp ],
+			'edits' => [ $testUser->getName() => 5 ],
+			'ids' => [ $testUser->getName() => $testUser->getId() ],
+			'infosets' => [ $testUser->getName() => [ [ '127.0.0.1', null ] ] ],
+			'agentsets' => [ $testUser->getName() => [ 'Testing user agent' ] ],
+			'clienthints' => [ $testUser->getName() => new ClientHintsReferenceIds( [] ) ],
+		];
+		// usersInSiCases is empty — user not in any case
+		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [] );
+		$objectUnderTest->formatUserRow( $testUser->getName() );
+		$this->assertNotNull(
+			$objectUnderTest->templateParser->lastCalledWith,
+			'The template parser was not called by ::formatUserRow.'
+		);
+		$this->assertStringNotContainsString(
+			'mw-checkuser-si-cases-link',
+			$objectUnderTest->templateParser->lastCalledWith[1]['userToolLinks'],
+			'The SI cases link should not be added when user is not in any case.'
+		);
+	}
+
 	/** @dataProvider provideGetQueryInfo */
 	public function testGetQueryInfo( $xfor, $table, $expectedQueryInfo ) {
 		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 16, 'IPv6' => 19 ] );

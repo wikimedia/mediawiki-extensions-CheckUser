@@ -52,3 +52,30 @@ QUnit.test( 'Instruments clicks on "SI cases" contributions special page toollin
 		'Includes context in interaction data'
 	);
 } );
+
+QUnit.test( 'Instruments clicks on "SI cases" links in CheckUser Get Users results', ( assert ) => {
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	const $container = $( '<div>' ).addClass( 'mw-checkuser-get-users-results' );
+	const $link = $( '<a>' )
+		.attr( 'href', '#' )
+		.addClass( 'mw-checkuser-si-cases-link' )
+		.text( 'SI cases' );
+	$container.append( $link );
+	$qunitFixture.append( $container );
+
+	instrumentation();
+	$link.trigger( 'mousedown' );
+
+	assert.strictEqual( submitInteractionStub.callCount, 1, 'Calls submitInteraction' );
+	assert.strictEqual(
+		submitInteractionStub.firstCall.args[ 0 ],
+		'checkuser_si_cases_link_click',
+		'Passes correct action to submitInteraction'
+	);
+	assert.strictEqual(
+		submitInteractionStub.firstCall.args[ 1 ].action_context,
+		'special_checkuser_get_users',
+		'Includes get_users context in interaction data'
+	);
+} );

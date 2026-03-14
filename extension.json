@@ -1192,7 +1192,8 @@
 				"UserOptionsLookup",
 				"DatabaseBlockStore",
 				"TempUserConfig",
-				"CheckUserSuggestedInvestigationsMessageRenderer"
+				"CheckUserSuggestedInvestigationsMessageRenderer",
+				"CheckUserSuggestedInvestigationsCaseLookup"
 			]
 		},
 		"CheckUserLog": {

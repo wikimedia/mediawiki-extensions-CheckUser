@@ -18,6 +18,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
@@ -88,6 +89,7 @@ class SpecialCheckUser extends SpecialPage {
 		private readonly DatabaseBlockStore $blockStore,
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly SuggestedInvestigationsMessageRenderer $suggestedInvestigationsMessageRenderer,
+		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -501,7 +503,8 @@ class SpecialCheckUser extends SpecialPage {
 				$this->userOptionsLookup,
 				$this->blockStore,
 				$this->linkBatchFactory,
-				$this->tempUserConfig
+				$this->tempUserConfig,
+				$this->siCaseLookupService
 			),
 			self::SUBTYPE_GET_ACTIONS => new CheckUserGetActionsPager(
 				$this->opts,
