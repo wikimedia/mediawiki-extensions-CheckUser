@@ -44,7 +44,7 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 			// Don't use LogFormatter::makeUserLink, because that adds tools links.
 			$tempUserName = $this->entry->getTarget()->getText();
 			$params[2] = Message::rawParam(
-				Linker::userLink( 0, $this->userFactory->newUnsavedTempUser( $tempUserName ) )
+				Linker::userLink( 0, $this->userFactory->newUnsavedTempUser( $tempUserName )->getName() )
 			);
 		} elseif (
 			$this->entry->getSubtype() === TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP ||
@@ -64,7 +64,7 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 				// Don't use LogFormatter::makeUserLink, because that adds tools links.
 				$tempUserName = $this->entry->getTarget()->getText();
 				$params[2] = Message::rawParam(
-					Linker::userLink( 0, $this->userFactory->newUnsavedTempUser( $tempUserName ) )
+					Linker::userLink( 0, $this->userFactory->newUnsavedTempUser( $tempUserName )->getName() )
 				);
 
 				$entryParams = $this->entry->getParameters();

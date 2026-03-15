@@ -175,7 +175,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				$this->msg( 'rev-deleted-user' )->text()
 			);
 		} else {
-			if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
+			if ( !IPUtils::isIPAddress( $user->getName() ) && !$user->isRegistered() ) {
 				$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
 			}
 			$userLinks = self::buildUserLinks(

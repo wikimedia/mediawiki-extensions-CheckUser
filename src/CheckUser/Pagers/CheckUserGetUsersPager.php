@@ -190,20 +190,20 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		} else {
 			$templateParams['canPerformBlocksOrLocks'] = $this->shouldShowBlockFieldset();
 			$templateParams['userText'] = $user->getName();
-			$userNonExistent = !IPUtils::isIPAddress( $user ) && !$user->isRegistered();
+			$userNonExistent = !IPUtils::isIPAddress( $user->getName() ) && !$user->isRegistered();
 			if ( $userNonExistent ) {
 				$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
 			}
-			$templateParams['userLink'] = Linker::userLink( $user->getId(), $user, $user );
+			$templateParams['userLink'] = Linker::userLink( $user->getId(), $user->getName(), $user->getName() );
 			$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
 				$user->getId(),
-				$user,
+				$user->getName(),
 				$this->userEditTracker->getUserEditCount( $user ),
 				// don't render parentheses in HTML markup (CSS will provide)
 				false
 			);
 			if ( $userIsIP ) {
-				$templateParams['userLinks'] = $this->msg( 'checkuser-userlinks-ip', $user )->parse();
+				$templateParams['userLinks'] = $this->msg( 'checkuser-userlinks-ip', $user->getName() )->parse();
 			} elseif ( !$userNonExistent ) {
 				if ( $this->msg( 'checkuser-userlinks' )->exists() ) {
 					$templateParams['userLinks'] =
@@ -274,7 +274,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				}
 			}
 			// Check if this user or IP is blocked. If so, give a link to the block log...
-			$templateParams['flags'] = $this->userBlockFlags( $userIsIP ? $user : '', $user );
+			$templateParams['flags'] = $this->userBlockFlags( $userIsIP ? $user->getName() : '', $user );
 		}
 		// Show edit time range
 		$templateParams['timeRange'] = $this->getTimeRangeString(
