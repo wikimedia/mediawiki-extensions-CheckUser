@@ -473,7 +473,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		$out->addHtml( $blockedMessage );
 
 		if ( $this->noticesFailed ) {
-			$failedNoticesMessage = $this->msg( 'checkuser-investigateblock-notices-failed' );
+			$failedNoticesMessage = $this->msg( 'checkuser-investigateblock-notices-failed' )->parse();
 			$out->addHtml( $failedNoticesMessage );
 		}
 	}

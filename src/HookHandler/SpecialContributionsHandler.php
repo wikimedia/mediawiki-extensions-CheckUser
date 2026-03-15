@@ -139,7 +139,7 @@ class SpecialContributionsHandler implements
 			$link = Html::rawElement(
 				'a',
 				[ 'href' => $title->getFullUrl( $queryParams ) ],
-				$sp->msg( $linkMsgKey )
+				$sp->msg( $linkMsgKey )->parse()
 			);
 
 			// Generate list of all the related temporary accounts found
@@ -199,12 +199,12 @@ class SpecialContributionsHandler implements
 				$visibilityToggleLabel .= Html::rawElement(
 					'span',
 					[ 'class' => 'ext-checkuser-related-tas-list-visibility-showlabel' ],
-					$sp->msg( 'checkuser-contributions-temporary-accounts-related-list-toggle-show' )
+					$sp->msg( 'checkuser-contributions-temporary-accounts-related-list-toggle-show' )->parse()
 				);
 				$visibilityToggleLabel .= Html::rawElement(
 					'span',
 					[ 'class' => 'ext-checkuser-related-tas-list-visibility-hidelabel' ],
-					$sp->msg( 'checkuser-contributions-temporary-accounts-related-list-toggle-hide' )
+					$sp->msg( 'checkuser-contributions-temporary-accounts-related-list-toggle-hide' )->parse()
 				);
 				$visibilityToggleLabel .= Html::closeElement( 'label' );
 				$listOfTempAccounts .= $visibilityToggleLabel;

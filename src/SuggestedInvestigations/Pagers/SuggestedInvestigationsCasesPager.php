@@ -405,7 +405,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			// This can happen when a signal was once defined, but is no longer
 			// defined. This can also happen for the local dev signals when creating fake cases.
 			// In both cases, fallback to trying the i18n message constructed from the signal name.
-			return $this->msg( 'checkuser-suggestedinvestigations-signal-' . $signal );
+			return $this->msg( 'checkuser-suggestedinvestigations-signal-' . $signal )->parse();
 		}
 		return $this->signalsToDisplayNames[$signal];
 	}
