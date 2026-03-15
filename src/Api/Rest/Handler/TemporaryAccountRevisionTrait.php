@@ -115,13 +115,13 @@ trait TemporaryAccountRevisionTrait {
 	 * Actually perform the filtering of revisions where the performer is
 	 * hidden from the authority.
 	 *
-	 * @param RevisionRecord[] $revisions
+	 * @param (RevisionRecord|null)[] $revisions
 	 * @return int[] The revision IDs the authority is allowed to see.
 	 */
 	private function filterOutHiddenRevisionsInternal( array $revisions ): array {
 		$filteredIds = [];
 		foreach ( $revisions as $revisionRecord ) {
-			if ( $revisionRecord->userCan( RevisionRecord::DELETED_USER, $this->getAuthority() ) ) {
+			if ( $revisionRecord && $revisionRecord->userCan( RevisionRecord::DELETED_USER, $this->getAuthority() ) ) {
 				$filteredIds[] = $revisionRecord->getId();
 			}
 		}

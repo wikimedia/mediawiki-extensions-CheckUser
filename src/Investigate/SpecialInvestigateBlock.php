@@ -113,7 +113,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 					count( explode( "\n", $users ) ) > $maxBlocks
 				) {
 					// Show a warning message if the number of users provided exceeds the limit.
-					$htmlForm->addHeaderHtml( new FieldLayout(
+					$htmlForm->addHeaderHtml( (string)new FieldLayout(
 						new Widget( [] ),
 						[
 							'classes' => [ 'mw-htmlform-ooui-header-warnings' ],

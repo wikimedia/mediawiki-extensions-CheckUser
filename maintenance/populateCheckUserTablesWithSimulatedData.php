@@ -174,6 +174,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		}
 
 		$actionsPerActor = intval( floor( $count / array_sum( [ $numUsers, $numAnon, $numTemp ] ) ) );
+		// @phan-suppress-next-line PhanTypeInvalidModuloOperand
 		$remainderActions = $count % array_sum( [ $numUsers, $numAnon, $numTemp ] );
 
 		if ( $actionsPerActor < 5 ) {

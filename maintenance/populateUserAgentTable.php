@@ -112,6 +112,7 @@ class PopulateUserAgentTable extends LoggedUpdateMaintenance {
 				foreach ( $userAgentValueToRowIds as $agentValue => $rowIds ) {
 					$dbw->newUpdateQueryBuilder()
 						->update( $table )
+						// @phan-suppress-next-line PhanTypePossiblyInvalidDimOffset
 						->set( [ $userAgentIdColumn => $userAgentValueToUserAgentId[$agentValue] ] )
 						->where( [ $idColumn => $rowIds ] )
 						->caller( __METHOD__ )

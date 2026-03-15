@@ -138,6 +138,7 @@ class ToolLinksHandler implements
 			],
 		] );
 
+		// @phan-suppress-next-line PhanTypeMismatchArgumentProbablyReal
 		$sp->getOutput()->addSubtitle( $buttons );
 	}
 

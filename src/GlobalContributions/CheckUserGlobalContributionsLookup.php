@@ -360,6 +360,7 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 		$numWikisWithKnownPermissions = count( $wikiIds ) - $numWikisWithUnknownPermissions;
 		if ( $numWikisWithKnownPermissions > 0 ) {
 			$this->statsFactory->getCounter( self::EXTERNAL_PERMISSIONS_CACHE_HIT_METRIC_NAME )
+				// @phan-suppress-next-line PhanTypeMismatchArgument
 				->incrementBy( $numWikisWithKnownPermissions );
 		}
 

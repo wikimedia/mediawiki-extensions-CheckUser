@@ -184,7 +184,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		$target = $this->opts['target'] ?? null;
 		if ( $target && !IPUtils::isIPAddress( $target ) ) {
 			$this->getOutput()->setSubtitle(
-				new MessageWidget( [
+				(string)new MessageWidget( [
 					'type' => 'error',
 					'label' => new HtmlSnippet(
 						$this->msg( 'checkuser-ip-contributions-target-error-no-ip-banner', $target )->parse()

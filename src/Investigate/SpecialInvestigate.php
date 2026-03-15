@@ -125,7 +125,7 @@ class SpecialInvestigate extends FormSpecialPage {
 			$this->addIndicators( true );
 			$this->addBlockForm();
 			$this->addTabs( $par )->addTabContent( $par );
-			$this->getOutput()->addHTML( $this->getLayout() );
+			$this->getOutput()->addHTML( (string)$this->getLayout() );
 		}
 
 		// Add the links after any previous HTML has been cleared.
@@ -279,7 +279,7 @@ class SpecialInvestigate extends FormSpecialPage {
 						'token' => $this->getTokenWithoutPaginationData(),
 					] );
 					$message = $this->msg( 'checkuser-investigate-preliminary-notice-ip-targets', $link )->parse();
-					$this->addHTML( new MessageWidget( [
+					$this->addHTML( (string)new MessageWidget( [
 						'type' => 'notice',
 						'label' => new HtmlSnippet( $message ),
 					] ) );
@@ -317,7 +317,7 @@ class SpecialInvestigate extends FormSpecialPage {
 							'checkuser-investigate-compare-notice-exceeded-limit',
 							$this->getLanguage()->commaList( $targetsOverLimit )
 						)->parse();
-						$this->addHTML( new MessageWidget( [
+						$this->addHTML( (string)new MessageWidget( [
 							'type' => 'warning',
 							'label' => new HtmlSnippet( $message ),
 						] ) );
@@ -333,7 +333,7 @@ class SpecialInvestigate extends FormSpecialPage {
 							->numParams( $this->getMaxCheckUserDataAgeForMessage() )
 							->parse();
 					}
-					$this->addHTML( new MessageWidget( [
+					$this->addHTML( (string)new MessageWidget( [
 						'type' => 'warning',
 						'label' => new HtmlSnippet( $message ),
 					] ) );
@@ -365,7 +365,7 @@ class SpecialInvestigate extends FormSpecialPage {
 							->numParams( $this->getMaxCheckUserDataAgeForMessage() )
 							->parse();
 					}
-					$this->addHTML( new MessageWidget( [
+					$this->addHTML( (string)new MessageWidget( [
 						'type' => 'warning',
 						'label' => new HtmlSnippet( $message ),
 					] ) );
@@ -535,7 +535,7 @@ class SpecialInvestigate extends FormSpecialPage {
 			] );
 
 			$this->getOutput()->prependHTML(
-				$blockFieldset
+				(string)$blockFieldset
 			);
 		}
 	}
@@ -567,7 +567,7 @@ class SpecialInvestigate extends FormSpecialPage {
 
 		if ( count( $buttons ) > 0 ) {
 			$this->getOutput()->setIndicators( [
-				'ext-checkuser-investigation-btns' => new ButtonGroupWidget( [
+				'ext-checkuser-investigation-btns' => (string)new ButtonGroupWidget( [
 					'classes' => [ 'ext-checkuser-investigate-indicators' ],
 					'items' => $buttons,
 				] ),
