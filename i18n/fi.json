@@ -480,6 +480,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Sulje",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "Riskisignaalin $1 {{PLURAL:$2|liputtama muokkaus|liputtamat muokkaukset}} ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "Riskisignaalin $1 {{PLURAL:$2|liputtama lokitapahtuma|liputtamat lokitapahtumat}} ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "ET-tapaukset",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tilapäisiä tunnuksia kaikista liittyvistä IP-osoitteista: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Kaikkiin tähän tunnukseen liittyvistä IP-osoitteista tulevien tilapäisten tunnusten yhteenlaskettu määrä",
 	"checkuser-temporary-account-bucketcount-range": "$1–$2",
@@ -488,5 +489,7 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "Piilota liittyvien tilapäisten tunnusten muokkaukset",
 	"checkuser-contributions-temporary-account-bucketcount": "Tilapäisiä tunnuksia kaikista liittyvistä IP-osoitteista: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Tilapäisiä tunnuksia tällä IP:llä: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tilapäisiä tunnuksia tällä IP:llä: $1 (estettyjä: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tilapäisiä tunnuksia tällä IP:llä: $1 (estettyjä: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Näytä kaikki tunnukset",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Piilota"
 }

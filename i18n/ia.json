@@ -424,6 +424,8 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Signales de risco",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Stato",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Activitate del contos",
+	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "Monstrar casos ubi necun conto ha modificationes",
+	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally": "Monstrar casos ubi necun conto ha modificationes globalmente",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Celar casos ubi necun conto ha essite blocate",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Conto",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Insere nomine de conto…",
@@ -466,11 +468,14 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Leger plus sur le signales de risco in un quadro informative",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "Modification{{PLURAL:$2||es}} signalate a causa de un $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "Entrata{{PLURAL:$2||s}} de registro signalate a causa de un $1 ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "Casos de IS",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Numero aggregate de tote le contos temporari de tote le adresses IP associate a iste conto",
 	"checkuser-contributions-temporary-accounts-show-related": "Vider tote le contributiones de iste contos",
 	"checkuser-contributions-temporary-accounts-hide-related": "Celar contributiones de contos temporari associate",
 	"checkuser-contributions-temporary-account-bucketcount": "Contos temporari de tote le adresses IP associate: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Contos temporari sur iste adresse IP: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Contos temporari sur iste adresse IP: $1 (blocate: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Contos temporari sur iste adresse IP: $1 (blocate: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Monstrar tote le contos",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Celar"
 }

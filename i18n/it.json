@@ -444,5 +444,7 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "Nascondi i contributi dalle utenze temporanee correlate",
 	"checkuser-contributions-temporary-account-bucketcount": "Utenze temporanee da tutti gli IP associati: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Utenze temporanee su questo IP: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Utenze temporanee su questo IP: $1 (bloccate: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Utenze temporanee su questo IP: $1 (bloccate: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Mostra tutte le utenze",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Nascondi"
 }

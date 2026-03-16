@@ -485,11 +485,14 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Læs mere information om risikosignaler i en popover",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Rediger|Redigeringer}} markeret af $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "Log {{PLURAL:$2|indlæg}} markeret af $1 ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "SI-sager",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Midlertidige konti fra alle tilknyttede IP-adresser: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Et samlet antal af alle midlertidige konti fra alle IP-adresser, der er knyttet til denne konto",
 	"checkuser-contributions-temporary-accounts-show-related": "Se alle bidrag fra disse konti",
 	"checkuser-contributions-temporary-accounts-hide-related": "Skjul bidrag fra relaterede midlertidige konti",
 	"checkuser-contributions-temporary-account-bucketcount": "Midlertidige konti fra alle tilknyttede IP-adresser: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Midlertidige konti på denne IP: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Midlertidige konti på denne IP: $1 (blokeret: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Midlertidige konti på denne IP: $1 (blokeret: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Vis alle konti",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Skjul"
 }

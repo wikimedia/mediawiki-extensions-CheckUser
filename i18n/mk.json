@@ -427,6 +427,9 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Сигнали на ризик",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Статус",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Активност на сметката",
+	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "Прикажи случаи каде ниедна сметка нема уредувања",
+	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally": "Прикажи случај каде ниедна сметка нема уредувања глобално",
+	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Скриј случаи каде ниедна сметка не е блокирана",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Сметка",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Внесете име на сметка...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Назад на {{int:checkuser-suggestedinvestigations}}",
@@ -468,11 +471,14 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Прочитајте повеќе за сигналите на ризик во отскочник",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Уредување означено|Уредувања означени}} од $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Дневничка ставка означеа|Дневнички ставки означени}} од $1 ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "ПИ-случаи",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Привремени сметки за сите поврзани IP-адреси: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Збирна сметка на сите привремени сметки од сите IP-адреси поврзани со оваа сметка",
 	"checkuser-contributions-temporary-accounts-show-related": "Преглед на сите придонеси од овие сметки",
 	"checkuser-contributions-temporary-accounts-hide-related": "Скриј придонеси од поврзани привремени сметки",
 	"checkuser-contributions-temporary-account-bucketcount": "Привремени сметки за сите поврзани IP-адреси: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Привремени сметки на оваа IP-адреса: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Привремени сметки на оваа IP-адреса: $1 (блокирани: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Привремени сметки на оваа IP-адреса: $1 (блокирани: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Прикажи ги сите сметки",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Скриј"
 }

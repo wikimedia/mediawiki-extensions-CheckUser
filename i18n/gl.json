@@ -477,6 +477,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Ler máis información sobre os sinais de risco nunha xanela emerxente",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Edición marcada|Edicións marcadas}} por «$1» ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Entrada do rexistro marcada|Entradas do rexistro marcadas}} por «$1» ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "Casos de investigacións suxeridas",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Contas temporais de todos os enderezos IP asociados: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un reconto agregado de todas as contas temporais de todos os enderezos IP asociados a esta conta",
 	"checkuser-contributions-temporary-accounts-show-related": "Ver todas as contribucións destas contas",
