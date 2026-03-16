@@ -49,9 +49,10 @@ class SuggestedInvestigationsCaseLookupService {
 	 * Looks up cases where the provided signal could be merged into that case. Ignores the allowMerging flag on the
 	 * signal. Additionally, the value of sis_trigger_id and sis_trigger_type are ignored for the comparison check.
 	 *
-	 * @throws InvalidArgumentException if a negative signal match is provided
 	 * @param SuggestedInvestigationsSignalMatchResult $signal
 	 * @return SuggestedInvestigationsCase[]
+	 * @throws InvalidArgumentException if a negative signal match is provided
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function getMergeableCasesForSignal( SuggestedInvestigationsSignalMatchResult $signal ): array {
 		$this->assertSuggestedInvestigationsEnabled();
@@ -83,11 +84,12 @@ class SuggestedInvestigationsCaseLookupService {
 	 * Looks up cases that match a given signal exactly (though the value of sis_trigger_id and sis_trigger_type are
 	 * ignored for the comparison check). Ignores the allowMerging flag on the signal.
 	 *
-	 * @throws InvalidArgumentException if a negative signal match is provided
 	 * @param SuggestedInvestigationsSignalMatchResult $signal
 	 * @param CaseStatus[]|null $statuses If set, only cases with these statuses will be returned.
 	 * If null, all cases will be returned.
 	 * @return SuggestedInvestigationsCase[]
+	 * @throws InvalidArgumentException if a negative signal match is provided
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function getCasesForSignal(
 		SuggestedInvestigationsSignalMatchResult $signal,
@@ -157,6 +159,7 @@ class SuggestedInvestigationsCaseLookupService {
 	 * Fetches the list of local wiki user IDs of users listed in a given case
 	 *
 	 * @return int[]
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function getUserIdsInCase( int $caseId ): array {
 		$this->assertSuggestedInvestigationsEnabled();
@@ -177,6 +180,7 @@ class SuggestedInvestigationsCaseLookupService {
 	 * Fetches the list of open cases Ids referenced for a given local user ID
 	 *
 	 * @return int[]
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function getOpenCaseIdsForUser( int $userId ): array {
 		$this->assertSuggestedInvestigationsEnabled();
@@ -200,6 +204,8 @@ class SuggestedInvestigationsCaseLookupService {
 	/**
 	 * Gets whether the provided user is in any suggested investigations case,
 	 * regardless of the status of the case.
+	 *
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function isUserInAnyCase( UserIdentity $userIdentity ): bool {
 		$this->assertSuggestedInvestigationsEnabled();

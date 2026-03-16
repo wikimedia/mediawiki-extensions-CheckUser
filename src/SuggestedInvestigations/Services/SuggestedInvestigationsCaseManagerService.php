@@ -75,12 +75,14 @@ class SuggestedInvestigationsCaseManagerService {
 	 * Inserts a new Suggested Investigations case to the database with the provided users and signals.
 	 *
 	 * For now, only cases with one signal are supported, so the $signals array must contain exactly one element.
-	 * @throws InvalidArgumentException If $users is empty or more than one signal is provided, this throws.
+	 *
 	 * @param UserIdentity[]|SuggestedInvestigationsCaseUser[] $users
 	 * @phan-param non-empty-array $users
 	 * @param SuggestedInvestigationsSignalMatchResult[] $signals
 	 * @phan-param non-empty-array $signals
 	 * @return int The ID of the created case
+	 * @throws InvalidArgumentException If $users is empty or more than one signal is provided, this throws.
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function createCase( array $users, array $signals ): int {
 		$this->assertSuggestedInvestigationsEnabled();
@@ -156,10 +158,11 @@ class SuggestedInvestigationsCaseManagerService {
 	 * Any signal already in the case will not be added again (this equality check also
 	 * considers the associated revision or log ID that triggered the signal).
 	 *
-	 * @throws InvalidArgumentException When $caseId does not match an existing case
 	 * @param int $caseId
 	 * @param UserIdentity[]|SuggestedInvestigationsCaseUser[] $users
 	 * @param SuggestedInvestigationsSignalMatchResult[] $signals
+	 * @throws InvalidArgumentException When $caseId does not match an existing case
+	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function updateCase( int $caseId, array $users, array $signals ): void {
 		$this->assertSuggestedInvestigationsEnabled();
