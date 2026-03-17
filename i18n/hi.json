@@ -36,7 +36,7 @@
 	"action-checkuser-temporary-account": "अस्थायी खातों द्वारा उपयुक्त IP पते देखने",
 	"action-checkuser-temporary-account-no-preference": "अस्थायी खातों द्वारा उपयुक्त IP पते देखने",
 	"action-checkuser-temporary-account-log": "अस्थायी खातों के IP पतों तक पहुँच का लॉग देखने",
-	"grouppage-checkuser": "{{ns:project}}:सदस्य जाँचकर्ताएँ",
+	"grouppage-checkuser": "{{ns:project}}:सदस्य जाँचकर्ता",
 	"checkuser-clienthints-name-architecture": "संरचना",
 	"checkuser-clienthints-name-bitness": "बिट्स",
 	"checkuser-clienthints-name-form-factor": "डिवाइस कारक",
