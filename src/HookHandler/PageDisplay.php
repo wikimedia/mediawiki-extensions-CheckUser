@@ -52,20 +52,22 @@ class PageDisplay implements BeforePageDisplayHook {
 			return;
 		}
 
-		// Config needed for a js-added message on Special:Block
+		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$out->getAuthority()
+		);
+
+		// Config needed for a js features on Special:Block
 		$title = $out->getTitle();
 		if ( $title->isSpecial( 'Block' ) ) {
 			$out->addJsConfigVars( [
 				'wgCUDMaxAge' => $this->config->get( 'CUDMaxAge' ),
+				'wgTemporaryAccountIPRevealAllowed' => $permStatus->isGood(),
 			] );
 		}
 
 		$out->addModules( 'ext.checkUser.tempAccounts' );
 		$out->addModuleStyles( 'ext.checkUser.styles' );
 
-		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
-			$out->getAuthority()
-		);
 		$out->addJSConfigVars( [
 			'wgCheckUserAbuseFilterExtensionLoaded' =>
 				$this->extensionRegistry->isLoaded( 'Abuse Filter' ),

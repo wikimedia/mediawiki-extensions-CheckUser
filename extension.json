@@ -354,6 +354,25 @@
 			]
 		},
 		{
+			"path": "/checkuser/v0/connectedtemporaryaccounts/{name}",
+			"method": "POST",
+			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\ConnectedTemporaryAccountsHandler",
+			"services": [
+				"MainConfig",
+				"JobQueueGroup",
+				"PermissionManager",
+				"UserNameUtils",
+				"ConnectionProvider",
+				"ActorStore",
+				"BlockManager",
+				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountAutoRevealLookup",
+				"CheckUserTemporaryAccountLoggerFactory",
+				"ReadOnlyMode",
+				"CheckUserTemporaryAccountsByIPLookup"
+			]
+		},
+		{
 			"path": "/checkuser/v0/useragent-clienthints/{type}/{id}",
 			"method": "POST",
 			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler",
@@ -466,6 +485,15 @@
 		},
 		"SpecialPageBeforeExecute": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SpecialPageBeforeExecuteHandler"
+		},
+		"BlockConnectedAccounts": {
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\BlockConnectedAccounts",
+			"services": [
+				"TempUserConfig",
+				"BlockTargetFactory",
+				"UserIdentityLookup",
+				"CheckUserPermissionManager"
+			]
 		},
 		"ConditionalRegistration": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\ConditionalRegistrationHandler",
@@ -616,8 +644,12 @@
 			"clienthints",
 			"pageDisplay"
 		],
+		"ApiBlockSucceeded": "BlockConnectedAccounts",
 		"ApiQuery::moduleManager": "ConditionalRegistration",
-		"APIGetAllowedParams": "clienthints",
+		"APIGetAllowedParams": [
+			"BlockConnectedAccounts",
+			"clienthints"
+		],
 		"ChangesListInsertLogEntry": "LogDisplayHandler",
 		"ContributionsToolLinks": "ToolLinks",
 		"EmailUser": "CheckUserPrivateEvents",
@@ -830,6 +862,7 @@
 				"SpecialBlock.js",
 				"SpecialContributions.js",
 				"connectedAccounts/listToClipboard.js",
+				"components/blockConnectedTempAccountsField.vue",
 				{
 					"name": "durations.json",
 					"callback": "MediaWiki\\Extension\\CheckUser\\HookHandler\\DurationMessages::getTranslatedDurations",
@@ -889,7 +922,14 @@
 				"checkuser-ip-auto-reveal-off-dialog-off-action",
 				"pipe-separator",
 				"checkuser-contributions-temporary-accounts-related-list-copy-copied",
-				"checkuser-contributions-temporary-accounts-related-list-copy-error"
+				"checkuser-contributions-temporary-accounts-related-list-copy-error",
+				"checkuser-related-tas-specialblock-checkbox-label",
+				"checkuser-related-tas-specialblock-accounts-list",
+				"checkuser-related-tas-specialblock-contribs-link",
+				"checkuser-related-tas-specialblock-accounts-list-error",
+				"checkuser-related-tas-specialblock-confirm",
+				"checkuser-related-tas-target",
+				"checkuser-related-tas-specialblock-limit-exceeded-error"
 			],
 			"dependencies": [
 				"oojs-ui-core",

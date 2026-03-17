@@ -337,10 +337,11 @@ QUnit.test( 'Test onLoad when Codex Special:Block is enabled', ( assert ) => {
 	// Call the method under test
 	specialBlock.onLoad();
 	// Fire the 'codex.userlookup' hook with a mock Vue ref and then expect
-	// that the Show IP button and Show IP message components are added to this mock Vue ref.
+	// that the Show IP button and Show IP message components as well as the related
+	// temporary accounts block feature are added to this mock Vue ref.
 	const customComponents = { value: [] };
 	mw.hook( 'codex.userlookup' ).fire( customComponents );
-	assert.strictEqual( customComponents.value.length, 2, 'Components were added' );
+	assert.strictEqual( customComponents.value.length, 3, 'Components were added' );
 	assert.strictEqual(
 		customComponents.value[ 0 ].name,
 		'ShowIPButton',

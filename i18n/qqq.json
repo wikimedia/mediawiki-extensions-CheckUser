@@ -560,5 +560,12 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Message for a toggle in a warning box on Special:Contributions to collapse a list of other temporary accounts using the same IP.",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Message for a button in an info box on Special:Contributions that allows the user to copy a list of temporary accounts to their clipboard",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Message shown in a toast notification when the user has successfully copied a list of temporary accounts to their clipboard using the feature to do so",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Message shown in a toast notification when the user was unable to copy a list of temporary accounts to their clipboard using the feature to do so"
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Message shown in a toast notification when the user was unable to copy a list of temporary accounts to their clipboard using the feature to do so",
+	"checkuser-related-tas-specialblock-checkbox-label": "Label shown for a checkbox on Special:Block that allows users to block multiple temporary accounts",
+	"checkuser-related-tas-specialblock-accounts-list": "List of temporary accounts that are related to the main target, giving the option to investigate their individual contributions or see all of them in a unified view.\n\nParameters:\n* $1 - Number of temporary accounts found\n* $2 - Number of IPs found used by the main target\n* $3 - Main target, a temporary account\n* $4 - Number of days the data spans\n* $5 - List of related temporary accounts, each a link to their contributions page",
+	"checkuser-related-tas-specialblock-contribs-link": "Link that leads to a collected view of contributions by the target and related temporary accounts\n\nParameters:\n* $1 - Target temporary account",
+	"checkuser-related-tas-specialblock-accounts-list-error": "Error shown when the call to find related accounts fails.\n\nParameters:\n* $1 - Main target, a temporary account\n* $2 - Performer gender",
+	"checkuser-related-tas-specialblock-confirm": "Confirmation message that appears if the user wants to block all related temporary accounts.\n\nParameters:\n* $1 - Number of temporary accounts to be blocked",
+	"checkuser-related-tas-target": "Link to the user's contributions page.\n\nParameters:\n* $1 - Main target",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Error message shown when the feature is unavailable due to usage constraints.\n\nParameters:\n* $1 - Number of temporary accounts"
 }

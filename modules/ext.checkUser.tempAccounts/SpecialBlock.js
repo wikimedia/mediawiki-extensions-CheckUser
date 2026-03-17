@@ -24,8 +24,10 @@ function onLoad() {
 					// Codex and Vue are fully loaded at this point.
 					const ShowIPButton = require( './components/ShowIPButton.vue' );
 					const TempUsersMessage = require( './components/TempUsersMessage.vue' );
+					const blockConnectedTempAccountsField = require( './components/blockConnectedTempAccountsField.vue' );
 					components.value.push( ShowIPButton );
 					components.value.push( TempUsersMessage );
+					components.value.push( blockConnectedTempAccountsField );
 				} );
 			}
 			return;

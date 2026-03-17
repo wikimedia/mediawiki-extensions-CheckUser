@@ -453,6 +453,20 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		return $this->sortEntitiesByTimestamp( $limit, $distinctCuChangesIPs, $distinctCuLogEventIPs );
 	}
 
+	/**
+	 * Given a temporary account, return the count of IPs that the account has used.
+	 *
+	 * This doesn't do any permissions checks so it should be called from a handler that does.
+	 *
+	 * @param UserIdentity $user The temporary account to start lookup with
+	 * @param int|null $limit The maximum number of rows to fetch
+	 * @return int Final count, up to the limit if one is passed
+	 */
+	public function getIpsUsedCount( UserIdentity $user, ?int $limit = null ): int {
+		$ips = $this->getDistinctIPsFromTempAccount( $user );
+		return $limit ? min( $limit, count( $ips ) ) : count( $ips );
+	}
+
 	private function checkPermissions( Authority $authority ): StatusValue {
 		if ( !$authority->isNamed() ) {
 			// n.b. Here and for checkuser-rest-access-denied-blocked-user, the message

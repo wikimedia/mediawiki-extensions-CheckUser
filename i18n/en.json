@@ -525,5 +525,12 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Hide",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copy list of accounts",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "List of accounts copied to clipboard",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Failed to copy list of accounts"
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Failed to copy list of accounts",
+	"checkuser-related-tas-specialblock-checkbox-label": "Block all associated temporary accounts",
+	"checkuser-related-tas-specialblock-accounts-list": "$1 temporary {{PLURAL:$1|account|accounts}} {{PLURAL:$1|has been identified|have been identified}} that {{PLURAL:$2|used|used}} $2 {{PLURAL:$2|IP address|IP addresses}} {{PLURAL:$2|associated|associated}} with $3 in the last $4 days: $5.",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} View all contributions from these accounts]",
+	"checkuser-related-tas-specialblock-accounts-list-error": "There was an error when trying to identify temporary accounts that have used IP addresses associated with $1. {{GENDER:$2|You}} can continue with your block on $1, or try searching again to identify any associated accounts.",
+	"checkuser-related-tas-specialblock-confirm": "This will apply the block to $1 {{PLURAL:$1|account|accounts}}. Proceeding to block {{PLURAL:$1|this account|these accounts}} confirms you have investigated {{PLURAL:$1|it|them}}.",
+	"checkuser-related-tas-target": "[[Special:Contributions/$1|$1]]",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "There are too many associated temporary accounts to add to this block. We only allow up to $1 {{PLURAL:$1|account|accounts}} to be blocked at one time."
 }
