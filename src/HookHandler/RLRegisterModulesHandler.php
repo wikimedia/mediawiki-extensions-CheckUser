@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Config\Config;
@@ -140,6 +142,12 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 			'checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits',
 			'checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally',
 			'checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users',
+			'checkuser-suggestedinvestigations-filter-dialog-last-updated-header',
+			'checkuser-suggestedinvestigations-filter-dialog-last-updated-today',
+			'checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days',
+			'checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days',
+			'checkuser-suggestedinvestigations-filter-dialog-last-updated-last90days',
+			'checkuser-suggestedinvestigations-filter-dialog-last-updated-all-time',
 			'checkuser-suggestedinvestigations-filter-dialog-username-filter-header',
 			'checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder',
 			'checkuser-suggestedinvestigations-status-open',

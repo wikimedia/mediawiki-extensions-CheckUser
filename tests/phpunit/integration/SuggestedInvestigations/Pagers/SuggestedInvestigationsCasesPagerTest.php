@@ -45,6 +45,7 @@ use Wikimedia\Parsoid\Core\DOMCompat;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
+use Wikimedia\Timestamp\TimestampFormat;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsCasesPager
@@ -1315,6 +1316,143 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertNull( DOMCompat::querySelector( $pager, 'input[name="unknownArrayField[0]"]' ) );
 	}
 
+	/** @dataProvider provideLastUpdatedFilter */
+	public function testLastUpdatedFilter( ?string $filterParam, bool $expectRecentCase, bool $expectOldCase ): void {
+		ConvertibleTimestamp::setFakeTime( 1000000000 );
+		$recentTimestamp = ConvertibleTimestamp::convert( TimestampFormat::MW, 1000000000 - 3600 );
+		$oldTimestamp = ConvertibleTimestamp::convert( TimestampFormat::MW, 1000000000 - 100 * 86400 );
+
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL, 'Test value', false
+		);
+		$user = $this->getMutableTestUser()->getUserIdentity();
+		$this->setUserEditCount( $user, 1 );
+
+		$caseManager = $this->getCaseManager();
+		$oldCaseId = $caseManager->createCase( [ $user ], [ $signal ] );
+		$recentCaseId = $caseManager->createCase( [ $user ], [ $signal ] );
+
+		$this->setCaseUpdatedTimestamp( $oldCaseId, $oldTimestamp );
+		$this->setCaseUpdatedTimestamp( $recentCaseId, $recentTimestamp );
+
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 0 );
+		if ( $filterParam !== null ) {
+			$context->getRequest()->setVal( 'lastUpdated', $filterParam );
+		}
+
+		$html = $this->getPager( $context )->getBody();
+
+		if ( $expectRecentCase ) {
+			$this->assertStringContainsString(
+				'data-case-id="' . $recentCaseId, $html,
+				'Recent case should be visible'
+			);
+		} else {
+			$this->assertStringNotContainsString(
+				'data-case-id="' . $recentCaseId, $html,
+				'Recent case should not be visible'
+			);
+		}
+
+		if ( $expectOldCase ) {
+			$this->assertStringContainsString(
+				'data-case-id="' . $oldCaseId, $html,
+				'Old case should be visible'
+			);
+		} else {
+			$this->assertStringNotContainsString(
+				'data-case-id="' . $oldCaseId, $html,
+				'Old case should not be visible'
+			);
+		}
+	}
+
+	public static function provideLastUpdatedFilter(): array {
+		return [
+			'No filter — all cases returned' => [
+				'filterParam' => null,
+				'expectRecentCase' => true,
+				'expectOldCase' => true,
+			],
+			'1 — only recent case within 1 day' => [
+				'filterParam' => '1',
+				'expectRecentCase' => true,
+				'expectOldCase' => false,
+			],
+			'3 — only recent case within 3 days' => [
+				'filterParam' => '3',
+				'expectRecentCase' => true,
+				'expectOldCase' => false,
+			],
+			'7 — only recent case within 7 days' => [
+				'filterParam' => '7',
+				'expectRecentCase' => true,
+				'expectOldCase' => false,
+			],
+			'90 — only recent case within 90 days' => [
+				'filterParam' => '90',
+				'expectRecentCase' => true,
+				'expectOldCase' => false,
+			],
+			'Invalid value treated as all time — all cases returned' => [
+				'filterParam' => '5',
+				'expectRecentCase' => true,
+				'expectOldCase' => true,
+			],
+			'Zero treated as all time — all cases returned' => [
+				'filterParam' => '0',
+				'expectRecentCase' => true,
+				'expectOldCase' => true,
+			],
+			'Negative value treated as all time — all cases returned' => [
+				'filterParam' => '-7',
+				'expectRecentCase' => true,
+				'expectOldCase' => true,
+			],
+		];
+	}
+
+	public function testLastUpdatedFilterCountsTowardNumberOfFiltersApplied(): void {
+		$this->addCaseWithTwoUsers();
+
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'lastUpdated', '7' );
+
+		$pager = $this->getPager( $context );
+		$parserOutput = $pager->getFullOutput();
+		$html = $parserOutput->getRawText();
+
+		$this->assertStringContainsString(
+			'mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip',
+			$html,
+			'The info chip indicating filters were applied should be present'
+		);
+
+		$this->assertActiveFiltersJsConfigVar(
+			[ 'lastUpdated' => 7 ],
+			$parserOutput
+		);
+	}
+
+	public function testInvalidLastUpdatedFilterIsIgnored(): void {
+		$this->addCaseWithTwoUsers();
+
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'lastUpdated', '5' );
+
+		$pager = $this->getPager( $context );
+		$parserOutput = $pager->getFullOutput();
+		$html = $parserOutput->getRawText();
+
+		$this->assertStringNotContainsString(
+			'mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip',
+			$html,
+			'The info chip indicating filters were applied should not be present for an invalid filter'
+		);
+		$this->assertActiveFiltersJsConfigVar( [ 'lastUpdated' => null ], $parserOutput );
+	}
+
 	/**
 	 * Asserts that the {@link ParserOutput} has the wgCheckUserSuggestedInvestigationsActiveFilters JS
 	 * config var and that is matches the expected value
@@ -1330,6 +1468,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 				'hideCasesWithNoUserEdits' => true,
 				'hideCasesWithNoBlockedUsers' => false,
 				'signal' => [],
+				'lastUpdated' => null,
 			], $expected ),
 			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
 			false, true,
@@ -1432,6 +1571,16 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		return $this->getServiceContainer()->getService(
 			'CheckUserSuggestedInvestigationsCaseManager'
 		);
+	}
+
+	private function setCaseUpdatedTimestamp( int $caseId, string $timestamp ): void {
+		$db = $this->getDb();
+		$db->newUpdateQueryBuilder()
+			->update( 'cusi_case' )
+			->set( [ 'sic_updated_timestamp' => $db->timestamp( $timestamp ) ] )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->execute();
 	}
 
 	private function setUserEditCount( UserIdentity $user, int $count ): void {

@@ -413,6 +413,18 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					],
 				],
 			],
+			'Page load with user activity filter applied' => [
+				'subPage' => '',
+				'queryParameters' => [ 'lastUpdated' => 7 ],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
+						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
+						'last_updated' => 7,
+					],
+				],
+			],
 			'Page load for detail subpage with a known URL identifier' => [
 				'subPage' => 'detail/abcdef12',
 				'queryParameters' => [],

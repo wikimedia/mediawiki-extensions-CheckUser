@@ -205,6 +205,28 @@ const commonSignalFilterCheckboxTest = async (
 	}
 };
 
+/**
+ * Checks the case age filter radios exist and have the expected selected state
+ *
+ * @param {*} dialog The dialog component
+ * @param {string} expectedSelectedValue The expected selected radio value
+ */
+const commonLastUpdatedFilterRadioTest = async ( dialog, expectedSelectedValue ) => {
+	const lastUpdatedField = dialog.find(
+		'.ext-checkuser-suggestedinvestigations-filter-dialog-last-updated-filter'
+	);
+	expect( lastUpdatedField.exists() ).toEqual( true );
+	expect( lastUpdatedField.text() ).toContain(
+		'(checkuser-suggestedinvestigations-filter-dialog-last-updated-header)'
+	);
+
+	for ( const optionValue of [ '1', '3', '7', '90', '' ] ) {
+		const radio = lastUpdatedField.find( 'input[name=filter-last-updated][value="' + optionValue + '"]' );
+		expect( radio.exists() ).toEqual( true );
+		expect( radio.element.checked ).toEqual( optionValue === expectedSelectedValue );
+	}
+};
+
 describe( 'Suggested Investigations change status dialog', () => {
 	afterEach( () => {
 		jest.restoreAllMocks();
@@ -409,5 +431,61 @@ describe( 'Suggested Investigations change status dialog', () => {
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{ hideCasesWithNoBlockedUsers: 1, status: [], username: [], signal: [ 'signal-1a' ] }, window
 		);
+	} );
+
+	it.each( [
+		{
+			description: 'with "All time" selected when no lastUpdated set',
+			filters: {},
+			expectedSelectedValue: ''
+		},
+		{
+			description: 'with correct radio selected when lastUpdated is 7 (string, as set by the URL)',
+			filters: { lastUpdated: '7' },
+			expectedSelectedValue: '7'
+		},
+		{
+			description: 'with correct radio selected when lastUpdated is 7 (number, as sent by PHP config var)',
+			filters: { lastUpdated: 7 },
+			expectedSelectedValue: '7'
+		}
+	] )( 'Renders user activity filter $description', async ( { filters, expectedSelectedValue } ) => {
+		const { dialog } = await commonComponentTest( filters );
+
+		await commonLastUpdatedFilterRadioTest( dialog, expectedSelectedValue );
+	} );
+
+	it.each( [
+		{
+			description: 'includes lastUpdated when a non-default radio is selected',
+			radioValueToSelect: '7',
+			expectedFilters: { lastUpdated: '7', status: [], username: [], signal: [] }
+		},
+		{
+			description: 'does not include lastUpdated when no filter is set (default state)',
+			radioValueToSelect: null,
+			expectedFilters: { status: [], username: [], signal: [] }
+		},
+		{
+			description: 'does not include lastUpdated when "All time" radio is explicitly selected',
+			radioValueToSelect: '',
+			expectedFilters: { status: [], username: [], signal: [] }
+		}
+	] )( '`Show results` button press $description', async ( { radioValueToSelect, expectedFilters } ) => {
+		const { dialog, wrapper } = await commonComponentTest();
+
+		if ( radioValueToSelect !== null ) {
+			const radio = dialog.find( 'input[name=filter-last-updated][value="' + radioValueToSelect + '"]' );
+			await radio.setChecked();
+			await nextTick();
+		}
+
+		const showResultsButton = dialog.find(
+			'.cdx-dialog__footer__primary-action'
+		);
+		await showResultsButton.trigger( 'click' );
+
+		expect( wrapper.vm.open ).toEqual( true );
+		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith( expectedFilters, window );
 	} );
 } );

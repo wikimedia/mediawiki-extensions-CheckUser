@@ -49,6 +49,22 @@
 			</cdx-checkbox>
 		</cdx-field>
 		<cdx-field
+			class="ext-checkuser-suggestedinvestigations-filter-dialog-last-updated-filter"
+		>
+			<template #label>
+				{{ $i18n( 'checkuser-suggestedinvestigations-filter-dialog-last-updated-header' ).text() }}
+			</template>
+			<cdx-radio
+				v-for="option in lastUpdatedOptions"
+				:key="option.value"
+				v-model="lastUpdated"
+				:input-value="option.value"
+				name="filter-last-updated"
+			>
+				{{ option.label }}
+			</cdx-radio>
+		</cdx-field>
+		<cdx-field
 			class="ext-checkuser-suggestedinvestigations-filter-dialog-account-activity-filter"
 		>
 			<template #label>
@@ -78,7 +94,7 @@
 
 <script>
 const { ref } = require( 'vue' ),
-	{ CdxDialog, CdxField, CdxCheckbox, CdxInfoChip } = require( '@wikimedia/codex' ),
+	{ CdxDialog, CdxField, CdxCheckbox, CdxInfoChip, CdxRadio } = require( '@wikimedia/codex' ),
 	Constants = require( '../Constants.js' ),
 	{ caseStatusToChipStatus, updateFiltersOnPage } = require( '../utils.js' ),
 	FilterDialogUsernameFilter = require( './FilterDialogUsernameFilter.vue' );
@@ -91,6 +107,7 @@ module.exports = exports = {
 		CdxField,
 		CdxCheckbox,
 		CdxInfoChip,
+		CdxRadio,
 		FilterDialogUsernameFilter
 	},
 	props: {
@@ -108,6 +125,7 @@ module.exports = exports = {
 		 *  - hideCasesWithNoBlockedUsers: Boolean. If true, only show cases where at least one
 		 *      of the accounts has been blocked
 		 *  - signal: An array of signals that are being filtered for on the page
+		 *  - lastUpdated: number|null. A positive integer (number of days), or null/undefined for all time.
 		 */
 		initialFilters: {
 			type: Object,
@@ -186,6 +204,17 @@ module.exports = exports = {
 		const hideCasesWithNoBlockedUsersCheckboxValue = ref(
 			props.initialFilters.hideCasesWithNoBlockedUsers
 		);
+		const lastUpdated = ref( props.initialFilters.lastUpdated || '' );
+		// For grepping, the currently known i18n messages are:
+		// * checkuser-suggestedinvestigations-filter-dialog-last-updated-today
+		// * checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days
+		// * checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days
+		// * checkuser-suggestedinvestigations-filter-dialog-last-updated-last90days
+		// * checkuser-suggestedinvestigations-filter-dialog-last-updated-all-time
+		const lastUpdatedOptions = Constants.lastUpdatedOptions.map( ( option ) => ( {
+			value: option.value,
+			label: mw.msg( option.labelMsg )
+		} ) );
 
 		function onCloseButtonClick() {
 			open.value = false;
@@ -221,6 +250,10 @@ module.exports = exports = {
 				filters.hideCasesWithNoBlockedUsers = 1;
 			}
 
+			if ( lastUpdated.value !== '' ) {
+				filters.lastUpdated = lastUpdated.value;
+			}
+
 			updateFiltersOnPage( filters, window );
 		}
 
@@ -243,6 +276,8 @@ module.exports = exports = {
 			showCasesWithNoUserEditsCheckboxLabel,
 			showCasesWithNoUserEditsCheckboxValue,
 			hideCasesWithNoBlockedUsersCheckboxValue,
+			lastUpdated,
+			lastUpdatedOptions,
 			onCloseButtonClick,
 			onShowResultsButtonClick
 		};

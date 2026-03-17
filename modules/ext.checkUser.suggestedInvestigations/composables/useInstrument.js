@@ -28,7 +28,7 @@ module.exports = () => {
 
 	const instrument = mw.eventLog.newInstrument(
 		'mediawiki.product_metrics.suggested_investigations_interaction.v2',
-		'/analytics/mediawiki/suggested_investigations/interaction/1.1.3'
+		'/analytics/mediawiki/suggested_investigations/interaction/1.1.4'
 	);
 
 	return ( action, data = {} ) => {

@@ -88,13 +88,18 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		}
 
 		// Map camel case filter names to snake case, as event logging schema
-		// wants camel case
+		// wants snake case
 		$appliedFiltersForInstrumentation = [];
 		foreach ( $pager->appliedFilters as $filterName => $filterValue ) {
 			if ( $filterName === 'hideCasesWithNoUserEdits' ) {
 				$filterName = 'hide_cases_with_no_user_edits';
 			} elseif ( $filterName === 'hideCasesWithNoBlockedUsers' ) {
 				$filterName = 'hide_cases_with_no_blocked_users';
+			} elseif ( $filterName === 'lastUpdated' ) {
+				if ( $filterValue === null ) {
+					continue;
+				}
+				$filterName = 'last_updated';
 			}
 			$appliedFiltersForInstrumentation[$filterName] = $filterValue;
 		}

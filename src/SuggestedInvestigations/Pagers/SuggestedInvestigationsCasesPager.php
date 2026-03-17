@@ -51,6 +51,7 @@ use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
@@ -92,6 +93,9 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 */
 	private array $signalsFilter = [];
 
+	/** @var int|null Number of days to filter by case updated timestamp; null = all time */
+	private ?int $lastUpdatedDaysFilter = null;
+
 	/**
 	 * @var int The number of filters applied (counting all filters present in the filters dialog)
 	 */
@@ -118,6 +122,13 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 *   returned only partial results
 	 */
 	private bool $phpFiltersLimitReached = false;
+
+	/**
+	 * Allowed values for the lastUpdated URL param, in days.
+	 * Must match the numeric values in lastUpdatedOptions in Constants.js.
+	 * The empty-string "all time" option in Constants.js is intentionally not listed here.
+	 */
+	private const ALLOWED_LAST_UPDATED_DAYS = [ 1, 3, 7, 90 ];
 
 	/**
 	 * The unique sort fields for the sort options for unique paginate
@@ -244,6 +255,13 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied += count( $this->signalsFilter );
 		}
 
+		$lastUpdatedDays = $this->mRequest->getIntOrNull( 'lastUpdated' );
+		$this->lastUpdatedDaysFilter = in_array( $lastUpdatedDays, self::ALLOWED_LAST_UPDATED_DAYS, true )
+			? $lastUpdatedDays : null;
+		if ( $this->lastUpdatedDaysFilter !== null ) {
+			$this->numberOfFiltersApplied++;
+		}
+
 		$this->appliedFilters = [
 			'status' => array_map(
 				static fn ( CaseStatus $status ) => strtolower( $status->name ),
@@ -253,6 +271,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			'hideCasesWithNoUserEdits' => $this->hideCasesWithNoUserEdits,
 			'hideCasesWithNoBlockedUsers' => $this->hideCasesWithNoBlockedUsers,
 			'signal' => $this->signalsFilter,
+			'lastUpdated' => $this->lastUpdatedDaysFilter,
 		];
 	}
 
@@ -644,7 +663,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	}
 
 	/** @inheritDoc */
-	public function getQueryInfo() {
+	public function getQueryInfo(): array {
 		$queryInfo = [
 			'tables' => [
 				'cusi_case',
@@ -673,6 +692,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$queryInfo = $this->applyUsernameFilter( $queryInfo );
 		$queryInfo = $this->applySignalsFilter( $queryInfo );
+		$queryInfo = $this->applyLastUpdatedFilter( $queryInfo );
 
 		return $queryInfo;
 	}
@@ -723,6 +743,22 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			->getSQL();
 
 		$queryInfo['conds'][] = "EXISTS ($signalsFilterSubquerySql)";
+
+		return $queryInfo;
+	}
+
+	private function applyLastUpdatedFilter( array $queryInfo ): array {
+		if ( $this->lastUpdatedDaysFilter === null ) {
+			return $queryInfo;
+		}
+
+		$db = $this->getDatabase();
+		$cutoff = $db->timestamp(
+			ConvertibleTimestamp::time() - $this->lastUpdatedDaysFilter * 86400
+		);
+		$queryInfo['conds'][] = $db->expr(
+			'sic_updated_timestamp', '>=', $cutoff
+		);
 
 		return $queryInfo;
 	}

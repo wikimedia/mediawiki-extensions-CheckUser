@@ -32,7 +32,7 @@ QUnit.test( 'returned function logs events with correct data', ( assert ) => {
 	);
 	assert.strictEqual(
 		newInstrumentStub.firstCall.args[ 1 ],
-		'/analytics/mediawiki/suggested_investigations/interaction/1.1.3',
+		'/analytics/mediawiki/suggested_investigations/interaction/1.1.4',
 		'Uses expected schema when calling newInstrument'
 	);
 
