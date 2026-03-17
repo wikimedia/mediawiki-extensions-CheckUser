@@ -476,6 +476,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "אפשר לקרוא מידע נוסף על אותות סיכון בחלון קופץ",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|עריכה שסומנה|עריכות שסומנו}} על־ידי $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|רשומת יומן שסומנה|רשומות יומן שסומנו}} על־ידי $1 ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "אירועי SI",
 	"checkuser-userinfocard-temporary-account-bucketcount": "חשבונות חולפים מכל כתובות ה־IP המשויכות: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "ספירה מצטברת של כל החשבונות החולפים מכל כתובות ה־IP המשויכות לחשבון הזה",
 	"checkuser-temporary-account-bucketcount-range": "$1 עד $2",
@@ -484,5 +485,7 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "הסתרת תרומות מהחשבונות החולפים הקשורים",
 	"checkuser-contributions-temporary-account-bucketcount": "חשבונות חולפים מכל כתובות ה־IP המשויכות: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "מספר החשבונות החולפים מכתובת ה־IP הזאת: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "מספר החשבונות החולפים מכתובת ה־IP הזאת: $1 (חסומים: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "מספר החשבונות החולפים מכתובת ה־IP הזאת: $1 (חסומים: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "הצגת כל החשבונות",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "הסתרה"
 }

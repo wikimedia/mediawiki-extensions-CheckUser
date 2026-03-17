@@ -492,11 +492,14 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Otwórz okienko informacyjne, aby dowiedzieć się więcej o sygnałach ryzyka",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Edycja ujawniona|Edycje ujawnione}} przez „$1” ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "{{PLURAL:$2|Czynność ujawniona|Czynności ujawnione}} przez „$1” ($2)",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "sugerowane porównania kont",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Konta tymczasowe ze wszystkich powiązanych adresów IP: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Łączna liczba wszystkich kont tymczasowych ze wszystkich adresów IP powiązanych z tym kontem",
 	"checkuser-contributions-temporary-accounts-show-related": "Wyświetl wszystkie edycje z tych kont",
 	"checkuser-contributions-temporary-accounts-hide-related": "Ukryj wkład z powiązanych kont tymczasowych",
 	"checkuser-contributions-temporary-account-bucketcount": "Konta tymczasowe ze wszystkich powiązanych adresów IP: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Konta tymczasowe korzystające z tego adresu IP: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Konta tymczasowe korzystające z tego adresu IP: $1 (zablokowane: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Konta tymczasowe korzystające z tego adresu IP: $1 (zablokowane: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Pokaż wszystkie konta",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Ukryj"
 }

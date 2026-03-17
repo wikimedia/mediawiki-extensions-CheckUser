@@ -4,6 +4,7 @@
 			"Avjoska",
 			"Dreamy Jazz",
 			"Pikne",
+			"Rivoz",
 			"SaldırganSincap",
 			"WikedKentaur"
 		]
@@ -370,5 +371,7 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "Peida seotud ajutiste kontode kaastöö",
 	"checkuser-contributions-temporary-account-bucketcount": "Ajutisi kontosid kõigilt seotud IP-aadressidelt: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Ajutisi kontosid sellelt IP-aadressilt: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Ajutisi kontosid sellelt IP-aadressilt: $1 (blokeeritud: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Ajutisi kontosid sellelt IP-aadressilt: $1 (blokeeritud: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Näita kõiki kontosid",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Peida"
 }
