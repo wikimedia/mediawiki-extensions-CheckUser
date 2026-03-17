@@ -14,6 +14,16 @@
 		"browser": true
 	},
 	"rules": {
-		"compat/compat": "off"
+		"compat/compat": "off",
+		"max-len": [ "warn", {
+			"code": 120,
+			"tabWidth": 4,
+			"ignorePattern": "^[\\s]*(//|<!--) (es|style)lint-.+",
+			"ignoreUrls": true,
+			"ignoreComments": true,
+			"ignoreRegExpLiterals": true,
+			"ignoreStrings": true,
+			"ignoreTemplateLiterals": true
+		} ]
 	}
 }

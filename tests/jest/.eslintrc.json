@@ -7,7 +7,17 @@
 	],
 	"rules": {
 		"jest/valid-title": "off",
-		"jest/expect-expect": [ "warn", { "assertFunctionNames": [ "expect", "commonComponentTest" ] } ]
+		"jest/expect-expect": [ "warn", { "assertFunctionNames": [ "expect", "commonComponentTest" ] } ],
+		"max-len": [ "warn", {
+			"code": 120,
+			"tabWidth": 4,
+			"ignorePattern": "^[\\s]*(//|<!--) (es|style)lint-.+",
+			"ignoreUrls": true,
+			"ignoreComments": true,
+			"ignoreRegExpLiterals": true,
+			"ignoreStrings": true,
+			"ignoreTemplateLiterals": true
+		} ]
 	},
 	"env": {
 		"browser": true
