@@ -272,7 +272,7 @@ class CheckUserPrivateEventsHandler implements
 	 * @inheritDoc
 	 */
 	public function onAuthManagerLoginAuthenticateAudit( $ret, $user, $username, $extraData ) {
-		if ( !$this->config->get( 'CheckUserLogLogins' ) ) {
+		if ( !$this->config->get( 'CheckUserLogLogins' ) || $this->readOnlyMode->isReadOnly() ) {
 			return;
 		}
 

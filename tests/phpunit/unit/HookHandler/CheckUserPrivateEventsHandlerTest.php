@@ -57,6 +57,21 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiUnitTestCase {
 		);
 	}
 
+	public function testOnAuthManagerLoginAuthenticateAuditWhenDatabaseIsReadOnly() {
+		$mockReadOnlyMode = $this->createMock( ReadOnlyMode::class );
+		$mockReadOnlyMode->method( 'isReadOnly' )->willReturn( true );
+		$handler = $this->getObjectUnderTestForNoCheckUserInsertCalls( [
+			'config' => new HashConfig( [ 'CheckUserLogLogins' => true ] ),
+			'readOnlyMode' => $mockReadOnlyMode,
+		] );
+		$handler->onAuthManagerLoginAuthenticateAudit(
+			AuthenticationResponse::newPass( 'test' ),
+			$this->createMock( User::class ),
+			'test',
+			[]
+		);
+	}
+
 	public function testOnEmailUserNoSaveForSelfEmail() {
 		$handler = $this->getObjectUnderTestForNoCheckUserInsertCalls( [
 			'config' => new HashConfig( [ 'SecretKey' => 'secret' ] ),
