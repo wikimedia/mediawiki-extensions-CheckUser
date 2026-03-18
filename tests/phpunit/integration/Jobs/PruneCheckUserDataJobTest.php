@@ -18,6 +18,32 @@ use Wikimedia\Rdbms\IDatabase;
  * @see RecentChangeSaveHandlerTest::testPruneIPDataData for other tests that cover this job
  */
 class PruneCheckUserDataJobTest extends MediaWikiIntegrationTestCase {
+	public function testRunWhenDatabaseIsReadOnly() {
+		$mockDatabase = $this->createMock( IDatabase::class );
+		$mockDatabase->expects( $this->once() )
+			->method( 'isReadOnly' )
+			->willReturn( true );
+
+		$mockDatabase->expects( $this->never() )
+			->method( 'getScopedLockAndFlush' );
+
+		$mockConnectionProvider = $this->createMock( IConnectionProvider::class );
+		$mockConnectionProvider->method( 'getPrimaryDatabase' )
+			->with( 'enwiki' )
+			->willReturn( $mockDatabase );
+
+		$job = new PruneCheckUserDataJob(
+			'unused',
+			[ 'domainID' => 'enwiki' ],
+			$this->createNoOpMock( CheckUserCentralIndexManager::class ),
+			$this->createNoOpMock( CheckUserDataPurger::class ),
+			new HashConfig(),
+			$mockConnectionProvider,
+			$this->createNoOpMock( UserAgentClientHintsManager::class )
+		);
+		$job->run();
+	}
+
 	public function testRunWhenUnableToAcquireLock() {
 		$mockDatabase = $this->createMock( IDatabase::class );
 		$mockDatabase->expects( $this->once() )

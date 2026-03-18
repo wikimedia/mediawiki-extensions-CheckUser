@@ -36,6 +36,11 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 	public function run() {
 		$dbw = $this->dbProvider->getPrimaryDatabase( $this->params['domainID'] );
 
+		// Exit early if the database is in read-only mode to avoid log spam
+		if ( $dbw->isReadOnly() ) {
+			return true;
+		}
+
 		// Get an exclusive lock to purge data from the CheckUser tables. This is done to avoid multiple jobs and/or
 		// the purgeOldData.php maintenance script attempting to purge at the same time.
 		$key = CheckUserDataPurger::getPurgeLockKey( $this->params['domainID'] );
