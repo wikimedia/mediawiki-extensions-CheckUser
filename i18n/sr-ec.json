@@ -278,6 +278,7 @@
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Изаберите опцију",
 	"checkuser-ip-auto-reveal-off-dialog-title": "Приказивање IP адреса укључено",
 	"checkuser-ip-auto-reveal-off-dialog-text-expiry": "Преостало време: <strong>$2 {{PLURAL:$2|дан|дана}}, $1</strong>",
+	"checkuser-ip-auto-reveal-off-dialog-text-info": "Ради заштите приватности ова могућност ће се аутомтски искључити по истеку приказаног времена.[https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/Temporary_Accounts/Access_to_IP#Automatically_showing_IPs_for_temporary_accounts Сазнајте више]",
 	"checkuser-ip-auto-reveal-off-dialog-error-extend-limit": "Трајање не може бити дуже од $1.",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 мин.",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Искључи",
