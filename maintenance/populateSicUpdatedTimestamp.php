@@ -55,22 +55,25 @@ class PopulateSicUpdatedTimestamp extends LoggedUpdateMaintenance {
 		$dbw = $dbProvider->getPrimaryDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
 		$dbr = $dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
 
+		$rowsToUpdateExpr = $dbr->expr( 'sic_updated_timestamp', '=', null );
+		if ( $dbr->getType() !== 'postgres' ) {
+			// During a few non-release branches of 1.46, the default of sic_updated_timestamp
+			// was an empty string so we should check for that as well. Postgres DBs do not
+			// allow empty strings, so this was never an issue for postgres.
+			$rowsToUpdateExpr = $rowsToUpdateExpr->or(
+				'sic_updated_timestamp', '=',
+				// Because MySQL / MariaDB uses a BINARY field, we need to cast the
+				// string to BINARY so that it's padded to 14 bytes
+				$dbr->getType() === 'mysql' ? new RawSQLValue( "CAST('' AS BINARY(14))" ) : ''
+			);
+		}
+
 		$count = 0;
 		do {
 			$batchOfRows = $dbr->newSelectQueryBuilder()
 				->select( [ 'sic_id', 'sic_created_timestamp' ] )
 				->from( 'cusi_case' )
-				->where(
-					$dbr->expr( 'sic_updated_timestamp', '=', null )->or(
-						'sic_updated_timestamp', '=',
-						// During a few non-release branches of 1.46,
-						// the default of sic_updated_timestamp was an empty string
-						// so we should check for that as well.
-						// Because MySQL / MariaDB uses a BINARY field, we need to cast the
-						// string to BINARY so that it's padded to 14 bytes
-						$dbr->getType() === 'mysql' ? new RawSQLValue( "CAST('' AS BINARY(14))" ) : ''
-					)
-				)
+				->where( $rowsToUpdateExpr )
 				->limit( $this->getBatchSize() ?? 200 )
 				->caller( __METHOD__ )
 				->fetchResultSet();
