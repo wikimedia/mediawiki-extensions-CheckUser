@@ -94,7 +94,7 @@ QUnit.test.each( 'Test updateCaseStatusOnPage', {
 		'open', '', 'invalid', 'testing', 'testing'
 	],
 	'status goes from open to invalid with no reason provided': [
-		'open', '', 'invalid', '', ''
+		'open', '', 'invalid', '', '(checkuser-suggestedinvestigations-status-reason-default-invalid)'
 	],
 	'status goes from invalid to resolved': [
 		'invalid', 'false positive', 'resolved', 'case resolved', 'case resolved'
@@ -136,19 +136,11 @@ QUnit.test.each( 'Test updateCaseStatusOnPage', {
 		'New status reason in data attribute is correct'
 	);
 
-	if ( newStatus === 'invalid' && newStatusReason === '' ) {
-		assert.strictEqual(
-			statusReasonElement.textContent,
-			'(checkuser-suggestedinvestigations-status-reason-default-invalid)',
-			'New status reason should use the default for the invalid status'
-		);
-	} else {
-		assert.strictEqual(
-			statusReasonElement.innerHTML,
-			newFormattedStatusReason,
-			'New status reason is correct'
-		);
-	}
+	assert.strictEqual(
+		statusReasonElement.innerHTML,
+		newFormattedStatusReason,
+		'New status reason is correct'
+	);
 	assert.strictEqual(
 		statusElement.querySelector( '.cdx-info-chip--text' ).textContent,
 		'(checkuser-suggestedinvestigations-status-' + newStatus + ')',

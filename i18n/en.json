@@ -474,6 +474,7 @@
 	"checkuser-suggestedinvestigations-status-invalid": "Invalid",
 	"checkuser-suggestedinvestigations-status-description-invalid": "Select this to indicate false positives",
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "False positive",
+	"checkuser-suggestedinvestigations-status-reason-with-performer": "$1<br>$2",
 	"checkuser-suggestedinvestigations-action-investigate": "Investigate users",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Can only investigate up to $1 {{PLURAL:$1|accounts}}",
 	"checkuser-suggestedinvestigations-action-change-status": "Change status",

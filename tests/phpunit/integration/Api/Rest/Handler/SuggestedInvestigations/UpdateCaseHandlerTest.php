@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\SuggestedInvestigations\UpdateCaseHandler;
@@ -36,12 +38,12 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		return new UpdateCaseHandler(
 			$services->getMainConfig(),
 			$services->getContentLanguage(),
-			$services->getCommentFormatter(),
-			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' )
+			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' ),
+			$services->get( 'CheckUserStatusReasonFormatter' )
 		);
 	}
 
-	private static function getRequestData( mixed $caseId, array $postParams ): RequestData {
+	private function getRequestData( mixed $caseId, array $postParams ): RequestData {
 		return new RequestData( [
 			'method' => 'POST',
 			'pathParams' => [ 'caseId' => $caseId ],
@@ -125,8 +127,8 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideCaseStatusChanges */
 	public function testExecuteForSuccessfulUpdate(
 		CaseStatus $originalStatus, CaseStatus $newStatus, string $newStatusAsString, ?string $reason,
-		string $expectedReason
-	) {
+		string $expectedReason, bool $expectPerformerLink
+	): void {
 		// Generate a pre-existing suggested investigations case we can update
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
@@ -144,21 +146,32 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 		$actualResponseJson = $this->executeHandlerAndGetBodyData(
 			$this->getObjectUnderTest(),
-			$this->getRequestData( 1, $postParams ),
+			$this->getRequestData( $caseId, $postParams ),
 			[], [], [], [], $this->mockRegisteredUltimateAuthority()
 		);
+
+		$arrayKeys = array_keys( $actualResponseJson );
+		sort( $arrayKeys );
 		$this->assertArrayEquals(
-			[
-				'caseId' => $caseId,
-				'reason' => $expectedReason,
-				'status' => $newStatusAsString,
-				'formattedReason' => $this->getServiceContainer()->getCommentFormatter()
-					->format( $expectedReason ),
-			],
-			$actualResponseJson,
-			false,
-			true
+			[ 'caseId', 'formattedReason', 'reason', 'status' ],
+			$arrayKeys,
 		);
+
+		$this->assertSame( $caseId, $actualResponseJson['caseId'] );
+		$this->assertSame( $newStatusAsString, $actualResponseJson['status'] );
+		$this->assertSame( $expectedReason, $actualResponseJson['reason'] );
+
+		$formattedReason = $actualResponseJson['formattedReason'];
+		if ( $expectPerformerLink ) {
+			$this->assertStringContainsString( 'User_talk:', $formattedReason );
+		} else {
+			$this->assertStringNotContainsString( 'User_talk:', $formattedReason );
+		}
+		if ( $expectPerformerLink && ( $expectedReason !== '' || $newStatus === CaseStatus::Invalid ) ) {
+			$this->assertStringContainsString( '<br', $formattedReason );
+		} else {
+			$this->assertStringNotContainsString( '<br', $formattedReason );
+		}
 
 		// Assert that only one case exists and also that that the one case was successfully updated by the API call
 		$this->newSelectQueryBuilder()
@@ -173,33 +186,61 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 			'Setting status to resolved with no provided reason' => [
 				'originalStatus' => CaseStatus::Open, 'newStatus' => CaseStatus::Resolved,
 				'newStatusAsString' => 'resolved', 'reason' => null, 'expectedReason' => '',
+				'expectPerformerLink' => true,
 			],
 			'Setting status to resolved with an associated reason' => [
 				'originalStatus' => CaseStatus::Open, 'newStatus' => CaseStatus::Resolved,
 				'newStatusAsString' => 'resolved', 'reason' => ' test ', 'expectedReason' => 'test',
+				'expectPerformerLink' => true,
 			],
 			'Setting status to invalid' => [
 				'originalStatus' => CaseStatus::Open, 'newStatus' => CaseStatus::Invalid,
 				'newStatusAsString' => 'invalid', 'reason' => '', 'expectedReason' => '',
+				'expectPerformerLink' => true,
 			],
 			'Setting status to invalid with an associated reason' => [
 				'originalStatus' => CaseStatus::Open, 'newStatus' => CaseStatus::Invalid,
 				'newStatusAsString' => 'invalid', 'reason' => 'test', 'expectedReason' => 'test',
+				'expectPerformerLink' => true,
 			],
 			'Setting status to open from resolved' => [
 				'originalStatus' => CaseStatus::Resolved, 'newStatus' => CaseStatus::Open,
 				'newStatusAsString' => 'open', 'reason' => '', 'expectedReason' => '',
+				'expectPerformerLink' => false,
 			],
 			'Setting status to open from resolved when reason is truncated' => [
 				'originalStatus' => CaseStatus::Resolved, 'newStatus' => CaseStatus::Open,
 				'newStatusAsString' => 'open', 'reason' => str_repeat( 'a', 300 ),
 				'expectedReason' => str_repeat( 'a', 252 ) . '...',
+				'expectPerformerLink' => false,
 			],
 			'No status change with reason that has wikitext' => [
 				'originalStatus' => CaseStatus::Open, 'newStatus' => CaseStatus::Open,
 				'newStatusAsString' => 'open', 'reason' => '[[Test]]',
 				'expectedReason' => '[[Test]]',
+				'expectPerformerLink' => false,
 			],
 		];
+	}
+
+	public function testFormattedReasonIncludesDefaultInvalidMessage(): void {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
+		$caseId = $caseManager->createCase(
+			[ UserIdentityValue::newRegistered( 1, 'TestUser' ) ],
+			[ SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'foo', 'bar', false ) ]
+		);
+
+		$actualResponseJson = $this->executeHandlerAndGetBodyData(
+			$this->getObjectUnderTest(),
+			$this->getRequestData( $caseId, [ 'status' => 'invalid', 'reason' => '' ] ),
+			[], [], [], [], $this->mockRegisteredUltimateAuthority()
+		);
+
+		$this->assertStringContainsString(
+			'False positive',
+			$actualResponseJson['formattedReason'],
+			'formattedReason should include the default invalid message text'
+		);
 	}
 }

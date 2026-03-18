@@ -63,7 +63,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->enableSuggestedInvestigations();
 	}
 
-	public function testQuery() {
+	public function testQuery(): void {
 		$caseId = $this->addCaseWithTwoUsers();
 		$pager = $this->getPager( RequestContext::getMain() );
 
@@ -88,7 +88,77 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testOutput() {
+	/** @dataProvider provideFormatStatusReasonCellPerformerLink */
+	public function testFormatStatusReasonCellPerformerLink(
+		CaseStatus $status, bool $hasPerformer, bool $expectPerformerLink
+	): void {
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
+		] );
+
+		$user = $this->getMutableTestUser()->getUser();
+		$this->setUserEditCount( $user, 1 );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
+		$caseManager = $this->getCaseManager();
+		$caseId = $caseManager->createCase( [ $user ], [ $signal ] );
+
+		$performerUser = $hasPerformer ? $this->getMutableTestUser()->getUser() : null;
+		$caseManager->setCaseStatus(
+			$caseId, $status, 'test reason', $performerUser?->getId() ?? 0
+		);
+
+		$context = RequestContext::getMain();
+		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+		$pager = $this->getPager( $context );
+
+		$html = $pager->getBody();
+
+		if ( $expectPerformerLink ) {
+			$this->assertStringContainsString( '<br', $html );
+			$this->assertStringContainsString( 'User_talk:', $html );
+			$this->assertStringContainsString( $performerUser->getName(), $html );
+		} else {
+			$this->assertStringNotContainsString( 'User_talk:', $html );
+		}
+	}
+
+	public static function provideFormatStatusReasonCellPerformerLink(): array {
+		return [
+			'Resolved with performer shows link' => [
+				'status' => CaseStatus::Resolved,
+				'hasPerformer' => true,
+				'expectPerformerLink' => true,
+			],
+			'Invalid with performer shows link' => [
+				'status' => CaseStatus::Invalid,
+				'hasPerformer' => true,
+				'expectPerformerLink' => true,
+			],
+			'Open with no performer does not show link' => [
+				'status' => CaseStatus::Open,
+				'hasPerformer' => false,
+				'expectPerformerLink' => false,
+			],
+			'Open with performer does not show link' => [
+				'status' => CaseStatus::Open,
+				'hasPerformer' => true,
+				'expectPerformerLink' => false,
+			],
+			'Resolved with no performer does not show link' => [
+				'status' => CaseStatus::Resolved,
+				'hasPerformer' => false,
+				'expectPerformerLink' => false,
+			],
+			'Invalid with no performer does not show link' => [
+				'status' => CaseStatus::Invalid,
+				'hasPerformer' => false,
+				'expectPerformerLink' => false,
+			],
+		];
+	}
+
+	public function testOutput(): void {
 		$this->overrideConfigValues( [
 			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
 			MainConfigNames::LanguageCode => 'qqx',
@@ -203,7 +273,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [], $parserOutput );
 	}
 
-	public function testOutputShowsCaseUpdateTimestamp() {
+	public function testOutputShowsCaseUpdateTimestamp(): void {
 		$this->overrideConfigValues( [
 			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
 			MainConfigNames::LanguageCode => 'qqx',
@@ -351,7 +421,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		];
 	}
 
-	public function testOutputWhenGlobalContributionsUsedAsContribsLink() {
+	public function testOutputWhenGlobalContributionsUsedAsContribsLink(): void {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 
 		$isGlobalContributionsEnabled = $this->getServiceContainer()->getSpecialPageFactory()
@@ -388,7 +458,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->commonTestContribsToolLinks( 'GlobalContributions', $html );
 	}
 
-	public function testOutputWhenUserHasBeenCheckedBefore() {
+	public function testOutputWhenUserHasBeenCheckedBefore(): void {
 		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
 
 		$this->addCaseWithTwoUsers();
@@ -501,7 +571,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		];
 	}
 
-	public function testOutputWhenCaseIdFilterSet() {
+	public function testOutputWhenCaseIdFilterSet(): void {
 		ConvertibleTimestamp::setFakeTime( '20250403020100' );
 
 		$firstCaseId = $this->addCaseWithTwoUsers();
@@ -551,7 +621,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testOutputWhenUsersHidden() {
+	public function testOutputWhenUsersHidden(): void {
 		$this->overrideConfigValues( [
 			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
 			MainConfigNames::LanguageCode => 'qqx',
@@ -605,7 +675,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testInvestigateDisabledWhenAllUsersSuppressed() {
+	public function testInvestigateDisabledWhenAllUsersSuppressed(): void {
 		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
 
 		// Get a case with all users blocked with a 'hideuser' block
@@ -650,7 +720,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testInvestigateDisabledWhenTooManyUsers() {
+	public function testInvestigateDisabledWhenTooManyUsers(): void {
 		$caseId = $this->addCaseWithManyUsers();
 
 		$context = $this->makeQqxContext();
@@ -709,7 +779,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		];
 	}
 
-	public function testStatusReasonHasWikitext() {
+	public function testStatusReasonHasWikitext(): void {
 		$wikitextReason = '[[Test]]';
 		$this->testStatusReasonDisplayedInPager(
 			CaseStatus::Open,
@@ -718,7 +788,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testWhenStatusFilterIsSet() {
+	public function testWhenStatusFilterIsSet(): void {
 		$caseManager = $this->getCaseManager();
 
 		$this->setUserEditCount( $this->getTestUser()->getUserIdentity(), 1 );
@@ -757,7 +827,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [ 'status' => [ 'open' ] ], $parserOutput );
 	}
 
-	public function testWhenUsernameFilterIsSet() {
+	public function testWhenUsernameFilterIsSet(): void {
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -788,7 +858,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [ 'username' => [ $firstUser->getName() ] ], $parserOutput );
 	}
 
-	public function testWhenUsernameFilterUsesUnknownUsername() {
+	public function testWhenUsernameFilterUsesUnknownUsername(): void {
 		// Create a case for an existing user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			self::SIGNAL, 'Test value', false
@@ -917,7 +987,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testWhenNoFiltersSetHideCasesWithNoUserEditsDefaultsToTrue() {
+	public function testWhenNoFiltersSetHideCasesWithNoUserEditsDefaultsToTrue(): void {
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
@@ -1008,7 +1078,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testWhenHideCasesWithNoUserEditsFilterIsSetForMultipleMainQueries() {
+	public function testWhenHideCasesWithNoUserEditsFilterIsSetForMultipleMainQueries(): void {
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
 
 		// Create two cases each with a different user
@@ -1053,7 +1123,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoUserEdits' => true ], $parserOutput );
 	}
 
-	public function testWhenHideCasesWithNoBlockedUsersFilterIsSet() {
+	public function testWhenHideCasesWithNoBlockedUsersFilterIsSet(): void {
 		// Create three cases where:
 		// * The first case has a user that is not blocked
 		// * The second case has a user that is blocked with an indefinite block
@@ -1104,7 +1174,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoBlockedUsers' => true ], $parserOutput );
 	}
 
-	public function testWhenPHPFiltersLimitReached() {
+	public function testWhenPHPFiltersLimitReached(): void {
 		$context = $this->makeQqxContext();
 
 		$pager = $this->getPager( $context );
@@ -1210,7 +1280,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [ 'signal' => [ 'dev-signal-2' ] ], $parserOutput );
 	}
 
-	public function testFilterIsRelayedInLimitForm() {
+	public function testFilterIsRelayedInLimitForm(): void {
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
 

@@ -21,12 +21,12 @@
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
-use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
@@ -135,7 +135,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly UserEditTracker $userEditTracker,
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
-		private readonly CommentFormatter $commentFormatter,
+		private readonly StatusReasonFormatter $statusReasonFormatter,
 		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 		private readonly LinkBatchFactory $linkBatchFactory,
 		private readonly UserFactory $userFactory,
@@ -271,7 +271,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			'sic_status_reason' => $this->formatStatusReasonCell(
 				$value,
 				CaseStatus::from( (int)$this->mCurrentRow->sic_status ),
-				$this->mCurrentRow->sic_id
+				$this->mCurrentRow->sic_id,
+				$this->mCurrentRow->sic_status_changed_by_user_name ?? null
 			),
 			'actions' => $this->formatActionsCell(
 				$this->mCurrentRow->sic_id,
@@ -456,15 +457,23 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		);
 	}
 
-	private function formatStatusReasonCell( string $reason, CaseStatus $status, int $caseId ): string {
-		if ( $status === CaseStatus::Invalid && $reason === '' ) {
-			$reason = $this->msg( 'checkuser-suggestedinvestigations-status-reason-default-invalid' )->text();
-		}
+	private function formatStatusReasonCell(
+		string $reason,
+		CaseStatus $status,
+		int $caseId,
+		string|null $closedByUserName
+	): string {
+		$html = $this->statusReasonFormatter->format(
+			$reason,
+			$status,
+			$closedByUserName,
+			$this->getContext()
+		);
 
 		return Html::rawElement(
 			'span',
 			[ 'data-case-id' => $caseId, 'class' => 'mw-checkuser-suggestedinvestigations-status-reason' ],
-			$this->commentFormatter->format( $reason )
+			$html
 		);
 	}
 
@@ -619,6 +628,18 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$caseRow->signals = $signals[$caseRow->sic_id] ?? [];
 		}
 
+		$performerIds = [];
+		foreach ( $cases as $case ) {
+			if ( $case->sic_status_changed_by !== null && (int)$case->sic_status_changed_by > 0 ) {
+				$performerIds[] = (int)$case->sic_status_changed_by;
+			}
+		}
+		$performerUserNames = $this->queryPerformerUserNames( array_unique( $performerIds ) );
+		foreach ( $cases as $caseRow ) {
+			$changedBy = $caseRow->sic_status_changed_by !== null ? (int)$caseRow->sic_status_changed_by : 0;
+			$caseRow->sic_status_changed_by_user_name = $performerUserNames[$changedBy] ?? null;
+		}
+
 		return new FakeResultWrapper( $cases );
 	}
 
@@ -634,6 +655,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				'sic_updated_timestamp',
 				'sic_status_reason',
 				'sic_url_identifier',
+				'sic_status_changed_by',
 			],
 			'conds' => [],
 		];
@@ -767,6 +789,31 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		return $signalsForCases;
+	}
+
+	/**
+	 * Returns an array mapping user IDs to user names for the given set of user IDs,
+	 * queried from the local wiki database.
+	 *
+	 * @param int[] $userIds
+	 * @return string[]
+	 */
+	private function queryPerformerUserNames( array $userIds ): array {
+		if ( !$userIds ) {
+			return [];
+		}
+
+		$userIdentities = $this->userIdentityLookup->newSelectQueryBuilder()
+			->whereUserIds( $userIds )
+			->caller( __METHOD__ )
+			->fetchUserIdentities();
+
+		$names = [];
+		foreach ( $userIdentities as $user ) {
+			$names[$user->getId()] = $user->getName();
+		}
+
+		return $names;
 	}
 
 	/**

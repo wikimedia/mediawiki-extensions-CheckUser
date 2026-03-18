@@ -44,6 +44,7 @@ use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalBlockCheck;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 // phpcs:ignore Generic.Files.LineLength.TooLong
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
@@ -372,6 +373,15 @@ return [
 			WikiMap::getCurrentWikiDbDomain()->getId()
 		);
 	},
+	'CheckUserStatusReasonFormatter' => static function (
+		MediaWikiServices $services
+	): StatusReasonFormatter {
+		return new StatusReasonFormatter(
+			$services->getCommentFormatter(),
+			$services->getLinkRenderer(),
+			$services->getTitleFactory()
+		);
+	},
 	'CheckUserSuggestedInvestigationsCaseLookup' => static function (
 		MediaWikiServices $services
 	): SuggestedInvestigationsCaseLookupService {
@@ -439,6 +449,7 @@ return [
 			$services->getHookContainer(),
 			$services->getRevisionStore(),
 			$services->getNamespaceInfo(),
+			$services->get( 'CheckUserStatusReasonFormatter' ),
 			$services->getCommentFormatter(),
 			$services->getUserFactory(),
 			$services->getConnectionProvider(),

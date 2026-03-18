@@ -597,6 +597,47 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 			->assertFieldValue( '0' );
 	}
 
+	/**
+	 * @dataProvider provideSetCaseStatusPerformerUserId
+	 */
+	public function testSetCaseStatusWritesPerformerUserId(
+		int $performerUserId, string $expectedPerformerUserId
+	): void {
+		$user1 = $this->getMutableTestUser()->getUserIdentity();
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
+
+		$service = $this->createService();
+		$caseId = $service->createCase( [ $user1 ], [ $signal ] );
+
+		$service->setCaseStatus( $caseId, CaseStatus::Resolved, 'test reason', $performerUserId );
+
+		$actualPerformerUserId = $this->getDb()->newSelectQueryBuilder()
+			->select( 'sic_status_changed_by' )
+			->from( 'cusi_case' )
+			->where( [ 'sic_id' => $caseId ] )
+			->caller( __METHOD__ )
+			->fetchField();
+
+		$this->assertSame(
+			$expectedPerformerUserId,
+			$actualPerformerUserId,
+			'sic_status_changed_by should match expected value'
+		);
+	}
+
+	public static function provideSetCaseStatusPerformerUserId(): array {
+		return [
+			'Writes performer user ID' => [
+				'performerUserId' => 42,
+				'expectedPerformerUserId' => '42',
+			],
+			'Zero performer user ID writes 0' => [
+				'performerUserId' => 0,
+				'expectedPerformerUserId' => '0',
+			],
+		];
+	}
+
 	public static function setCaseStatusDataProvider(): array {
 		return [
 			'From Resolved to Open' => [
