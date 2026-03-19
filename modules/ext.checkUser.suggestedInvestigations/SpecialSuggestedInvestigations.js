@@ -112,12 +112,12 @@ module.exports = function () {
 	$( '.ext-checkuser-suggestedinvestigations-warning-dismiss' ).on( 'click', function () {
 		const $warningMessage = $( this ).parents( '.cdx-message--user-dismissable' );
 		$warningMessage.addClass(
-			'ext-checkuser-suggestedinvestigations-too-many-results-warning--fading'
+			'ext-checkuser-suggestedinvestigations-dismissable-warning--fading'
 		);
 
 		setTimeout( () => {
 			$warningMessage.addClass(
-				'ext-checkuser-suggestedinvestigations-too-many-results-warning--hidden'
+				'ext-checkuser-suggestedinvestigations-dismissable-warning--hidden'
 			);
 		}, 400 );
 	} );

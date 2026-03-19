@@ -30,6 +30,7 @@ use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Navigation\CodexPagerNavigationBuilder;
@@ -45,7 +46,6 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
-use Wikimedia\Codex\Component\HtmlSnippet;
 use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -141,6 +141,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly UserFactory $userFactory,
 		private readonly CompositeBlockChecker $compositeBlockChecker,
 		private readonly LoggerInterface $logger,
+		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals,
@@ -926,34 +927,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		// If the query has processed and filtered out too many rows in PHP, then display
 		// a warning message about this to the user
 		if ( $this->phpFiltersLimitReached ) {
-			$codex = new Codex();
-
-			// Make a message component that has the dismiss button, which we implement using our
-			// own JS because we cannot infuse CSS-only components into Vue components.
-			$messageHtml = $this->msg(
-				'checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php'
-			)->escaped();
-			$messageHtml .= $codex->button()
-				->setIconOnly( true )
-				->setIconClass( 'mw-checkuser-suggestedinvestigations-icon--close' )
-				->setWeight( 'quiet' )
-				->setAttributes( [
-					'class' => 'cdx-message__dismiss-button ' .
-						'ext-checkuser-suggestedinvestigations-warning-dismiss',
-				] )
-				->build()
-				->getHtml();
-
-			$message = $codex->message()
-				->setType( 'warning' )
-				->setContentHtml( new HtmlSnippet( $messageHtml, [] ) )
-				->setAttributes( [
-					'class' => 'ext-checkuser-suggestedinvestigations-too-many-results-warning ' .
-						'cdx-message--user-dismissable',
-				] )
-				->build()
-				->getHtml();
-			$this->getOutput()->addHTML( $message );
+			$this->getOutput()->addHTML( $this->messageRenderer->getUserDismissableWarning(
+				$this->msg(
+					'checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php'
+				)->escaped(),
+				'ext-checkuser-suggestedinvestigations-too-many-results-warning'
+			) );
 
 			$this->logger->warning(
 				'PHP filter limits reached, so SI did not show a full page of results',

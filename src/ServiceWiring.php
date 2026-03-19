@@ -63,6 +63,7 @@ use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\WikiMap\WikiMap;
 use Psr\Log\LoggerInterface;
+use Wikimedia\Codex\Utility\Codex;
 
 // PHP unit does not understand code coverage for this file
 // as the @covers annotation cannot cover a specific file
@@ -421,7 +422,8 @@ return [
 		MediaWikiServices $services
 	): SuggestedInvestigationsMessageRenderer {
 		return new SuggestedInvestigationsMessageRenderer(
-			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' )
+			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
+			new Codex()
 		);
 	},
 	'CheckUserSuggestedInvestigationsPagerFactory' => static function (
@@ -445,6 +447,7 @@ return [
 			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserCompositeBlockChecker' ),
 			$services->get( 'CheckUserLogger' ),
+			$services->get( 'CheckUserSuggestedInvestigationsMessageRenderer' ),
 			$centralAuthEditCounter
 		);
 	},

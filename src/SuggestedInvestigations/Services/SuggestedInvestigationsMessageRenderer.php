@@ -12,8 +12,10 @@ use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
-use OOUI\HtmlSnippet;
+use OOUI\HtmlSnippet as OOUIHtmlSnippet;
 use OOUI\MessageWidget;
+use Wikimedia\Codex\Component\HtmlSnippet as CodexHtmlSnippet;
+use Wikimedia\Codex\Utility\Codex;
 
 /**
  * Renders message components for Suggested Investigations
@@ -27,7 +29,10 @@ class SuggestedInvestigationsMessageRenderer {
 	 */
 	private const MAX_GET_URL_LENGTH = 8000;
 
-	public function __construct( private readonly SuggestedInvestigationsCaseLookupService $caseLookupService ) {
+	public function __construct(
+		private readonly SuggestedInvestigationsCaseLookupService $caseLookupService,
+		private readonly Codex $codex,
+	) {
 	}
 
 	public function getOpenCasesNotice(
@@ -51,7 +56,7 @@ class SuggestedInvestigationsMessageRenderer {
 
 		return ( new MessageWidget( [
 			'type' => 'notice',
-			'label' => new HtmlSnippet( $message ),
+			'label' => new OOUIHtmlSnippet( $message ),
 		] ) )->toString();
 	}
 
@@ -104,5 +109,39 @@ class SuggestedInvestigationsMessageRenderer {
 			],
 			$csrfToken . $hiddenInputs . $submitButton
 		);
+	}
+
+	/**
+	 * Returns the HTML for a Codex warning message with the provided content that can be
+	 * dismissed by the user.
+	 *
+	 * @return string HTML
+	 */
+	public function getUserDismissableWarning(
+		string $warningMessageHtml,
+		string $warningClass
+	): string {
+		// Make a message component that has the dismiss button, which we implement using our
+		// own JS because we cannot infuse CSS-only components into Vue components.
+		$warningMessageHtml .= $this->codex->button()
+			->setIconOnly( true )
+			->setIconClass( 'mw-checkuser-suggestedinvestigations-icon--close' )
+			->setWeight( 'quiet' )
+			->setAttributes( [
+				'class' => 'cdx-message__dismiss-button ' .
+					'ext-checkuser-suggestedinvestigations-warning-dismiss',
+			] )
+			->build()
+			->getHtml();
+
+		return $this->codex->message()
+			->setType( 'warning' )
+			->setContentHtml( new CodexHtmlSnippet( $warningMessageHtml, [] ) )
+			->setAttributes( [
+				'class' => "$warningClass cdx-message--user-dismissable "
+					. 'ext-checkuser-suggestedinvestigations-dismissable-warning',
+			] )
+			->build()
+			->getHtml();
 	}
 }
