@@ -2,13 +2,12 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations;
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
 
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUsernameResultInterface;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\SpecialPage\SpecialPage;

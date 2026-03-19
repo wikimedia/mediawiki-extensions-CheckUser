@@ -2,12 +2,13 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Services;
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\SuggestedInvestigationsNoticeRenderer;
+use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWikiIntegrationTestCase;
 use OOUI\BlankTheme;
 use OOUI\Theme;
@@ -15,7 +16,7 @@ use OOUI\Theme;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\SuggestedInvestigationsNoticeRenderer
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer
  */
 class SuggestedInvestigationsNoticeRendererTest extends MediaWikiIntegrationTestCase {
 	use SuggestedInvestigationsTestTrait;

@@ -2,20 +2,20 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations\Services;
 
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\SuggestedInvestigationsNoticeRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group CheckUser
- * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\SuggestedInvestigationsNoticeRenderer
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer
  */
 class SuggestedInvestigationsNoticeRendererTest extends MediaWikiUnitTestCase {
 
