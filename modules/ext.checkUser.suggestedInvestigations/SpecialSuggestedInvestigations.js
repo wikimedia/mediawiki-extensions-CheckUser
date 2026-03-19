@@ -2,8 +2,10 @@
 
 /**
  * Runs the JavaScript for the Special:SuggestedInvestigations page, called from the dispatcher.
+ *
+ * @param {Window} win
  */
-module.exports = function () {
+module.exports = function ( win ) {
 	const $userLists = $( '.mw-checkuser-suggestedinvestigations-users' );
 	$userLists.each( function () {
 		const $list = $( this );
@@ -115,10 +117,26 @@ module.exports = function () {
 			'ext-checkuser-suggestedinvestigations-dismissable-warning--fading'
 		);
 
-		setTimeout( () => {
+		win.setTimeout( () => {
 			$warningMessage.addClass(
 				'ext-checkuser-suggestedinvestigations-dismissable-warning--hidden'
 			);
 		}, 400 );
+
+		// Hide the "this tool has private data" warning message for future page loads if
+		// the user clicks the "x" button on the message
+		// eslint-disable-next-line no-jquery/no-class-state
+		if ( $warningMessage.hasClass(
+			'ext-checkuser-suggestedinvestigations-private-data-warning'
+		) ) {
+			const api = new mw.Api();
+			api.saveOption(
+				'checkuser-suggested-investigations-private-data-warning-seen',
+				1,
+				{
+					global: 'update'
+				}
+			);
+		}
 	} );
 };

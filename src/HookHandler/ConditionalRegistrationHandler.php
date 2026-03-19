@@ -92,6 +92,8 @@ class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQue
 					'CheckUserSuggestedInvestigationsCaseLookup',
 					'CheckUserSuggestedInvestigationsInstrumentationClient',
 					'CheckUserSuggestedInvestigationsPagerFactory',
+					'CheckUserSuggestedInvestigationsMessageRenderer',
+					'UserOptionsLookup',
 				],
 			];
 		}

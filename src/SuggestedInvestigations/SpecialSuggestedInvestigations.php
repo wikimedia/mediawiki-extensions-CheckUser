@@ -21,12 +21,15 @@
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations;
 
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Html\Html;
 use MediaWiki\Parser\ParserOptions;
 use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\User\UserOptionsLookup;
 use Wikimedia\Message\MessageValue;
 
 class SpecialSuggestedInvestigations extends SpecialPage {
@@ -51,6 +54,8 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		private readonly SuggestedInvestigationsCaseLookupService $suggestedInvestigationsCaseLookupService,
 		private readonly ISuggestedInvestigationsInstrumentationClient $instrumentationClient,
 		private readonly SuggestedInvestigationsPagerFactory $pagerFactory,
+		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
+		private readonly UserOptionsLookup $userOptionsLookup,
 	) {
 		parent::__construct( 'SuggestedInvestigations', 'checkuser-suggested-investigations' );
 	}
@@ -171,6 +176,17 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 	 * @inheritDoc
 	 */
 	protected function outputHeader( $summaryMessageKey = '' ): void {
+		if ( !$this->userOptionsLookup->getBoolOption(
+			$this->getUser(), Preferences::SUGGESTED_INVESTIGATIONS_PRIVATE_DATA_WARNING_SEEN
+		) ) {
+			$this->getOutput()->addHTML( $this->messageRenderer->getUserDismissableWarning(
+				$this->msg(
+					'checkuser-suggestedinvestigations-private-data-warning'
+				)->escaped(),
+				'ext-checkuser-suggestedinvestigations-private-data-warning'
+			) );
+		}
+
 		if ( $this->isInDetailedView ) {
 			$descriptionHtml = $this->msg( 'checkuser-suggestedinvestigations-summary-detail-view' )
 				->numParams( $this->detailedViewCaseId )

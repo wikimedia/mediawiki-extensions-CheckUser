@@ -22,6 +22,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigation
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
@@ -60,8 +61,17 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		$this->executeSpecialPage();
 	}
 
-	public function testLoadSpecialPageWithRequiredRight() {
+	/** @dataProvider provideLoadSpecialPageWithRequiredRight */
+	public function testLoadSpecialPageWithRequiredRight( bool $hasUserSeenPrivateDataWarning ): void {
 		$checkuser = $this->getTestUser( [ 'checkuser' ] )->getUser();
+
+		if ( $hasUserSeenPrivateDataWarning ) {
+			$userOptionsManager = $this->getServiceContainer()->getUserOptionsManager();
+			$userOptionsManager->setOption(
+				$checkuser, Preferences::SUGGESTED_INVESTIGATIONS_PRIVATE_DATA_WARNING_SEEN, true
+			);
+			$userOptionsManager->saveOptions( $checkuser );
+		}
 
 		$hookDefinedSignals = [
 			'dev-signal-1',
@@ -97,6 +107,27 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			'', new FauxRequest(), null, null, true, $context
 		);
 
+		if ( $hasUserSeenPrivateDataWarning ) {
+			$specialPageDocument = DOMUtils::parseHTML( $html );
+			$element = DOMCompat::querySelectorAll(
+				$specialPageDocument,
+				'.ext-checkuser-suggestedinvestigations-private-data-warning'
+			);
+			$this->assertCount(
+				0,
+				$element,
+				'Should not find any private data warning if the user has seen it'
+			);
+		} else {
+			$privateDataWarning = $this->assertAndGetByElementClass(
+				$html, 'ext-checkuser-suggestedinvestigations-private-data-warning'
+			);
+			$this->assertStringContainsString(
+				'(checkuser-suggestedinvestigations-private-data-warning)',
+				$privateDataWarning
+			);
+		}
+
 		$descriptionHtml = $this->assertAndGetByElementClass(
 			$html, 'ext-checkuser-suggestedinvestigations-description'
 		);
@@ -114,6 +145,13 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			$hookDefinedSignals,
 			$actualJsConfigVars['wgCheckUserSuggestedInvestigationsSignals']
 		);
+	}
+
+	public static function provideLoadSpecialPageWithRequiredRight(): array {
+		return [
+			'User has not dismissed the private data warning' => [ false ],
+			'User has dismissed the private data warning' => [ true ],
+		];
 	}
 
 	public function testLoadDetailView() {

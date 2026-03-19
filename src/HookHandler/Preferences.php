@@ -44,6 +44,13 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 
 	public const ENABLE_USER_INFO_CARD = 'checkuser-userinfocard-enable';
 
+	/**
+	 * @var string User option storing whether a user has seen the warning at the top of
+	 *   Special:SuggestedInvestigations to indicate the data it shows is private
+	 */
+	public const SUGGESTED_INVESTIGATIONS_PRIVATE_DATA_WARNING_SEEN =
+		'checkuser-suggested-investigations-private-data-warning-seen';
+
 	public function __construct(
 		private readonly PermissionManager $permissionManager,
 		private readonly TemporaryAccountLoggerFactory $loggerFactory,
@@ -59,6 +66,10 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 	 */
 	public function onGetPreferences( $user, &$preferences ) {
 		$preferences[self::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN] = [
+			'type' => 'api',
+		];
+
+		$preferences[self::SUGGESTED_INVESTIGATIONS_PRIVATE_DATA_WARNING_SEEN] = [
 			'type' => 'api',
 		];
 

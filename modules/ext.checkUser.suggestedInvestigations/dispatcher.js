@@ -3,7 +3,7 @@
 ( function () {
 	switch ( mw.config.get( 'wgCanonicalSpecialPageName' ) ) {
 		case 'SuggestedInvestigations':
-			require( './SpecialSuggestedInvestigations.js' )();
+			require( './SpecialSuggestedInvestigations.js' )( window );
 			break;
 	}
 
