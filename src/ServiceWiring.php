@@ -55,7 +55,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeInde
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
@@ -417,10 +417,10 @@ return [
 			$services->get( 'EventLogging.MetricsClientFactory' )
 		);
 	},
-	'CheckUserSuggestedInvestigationsNoticeRenderer' => static function (
+	'CheckUserSuggestedInvestigationsMessageRenderer' => static function (
 		MediaWikiServices $services
-	): SuggestedInvestigationsNoticeRenderer {
-		return new SuggestedInvestigationsNoticeRenderer(
+	): SuggestedInvestigationsMessageRenderer {
+		return new SuggestedInvestigationsMessageRenderer(
 			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' )
 		);
 	},

@@ -15,7 +15,12 @@ use MediaWiki\Title\Title;
 use OOUI\HtmlSnippet;
 use OOUI\MessageWidget;
 
-class SuggestedInvestigationsNoticeRenderer {
+/**
+ * Renders message components for Suggested Investigations
+ *
+ * @since 1.46
+ */
+class SuggestedInvestigationsMessageRenderer {
 
 	/**
 	 * Apache's maximum GET URL limit is circa 8k
@@ -25,7 +30,7 @@ class SuggestedInvestigationsNoticeRenderer {
 	public function __construct( private readonly SuggestedInvestigationsCaseLookupService $caseLookupService ) {
 	}
 
-	public function getNotice(
+	public function getOpenCasesNotice(
 		AbstractCheckUserPager $pager,
 		IContextSource $context,
 		LinkRenderer $linkRenderer,

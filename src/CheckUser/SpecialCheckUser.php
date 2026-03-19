@@ -18,7 +18,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
@@ -87,7 +87,7 @@ class SpecialCheckUser extends SpecialPage {
 		private readonly UserOptionsLookup $userOptionsLookup,
 		private readonly DatabaseBlockStore $blockStore,
 		private readonly TempUserConfig $tempUserConfig,
-		private readonly SuggestedInvestigationsNoticeRenderer $suggestedInvestigationsNoticeRenderer,
+		private readonly SuggestedInvestigationsMessageRenderer $suggestedInvestigationsMessageRenderer,
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -284,7 +284,7 @@ class SpecialCheckUser extends SpecialPage {
 						$pager = $this->getPager( self::SUBTYPE_GET_ACTIONS, $userIdentity, $logType, $xfor );
 						$pagerBody = $pager->getBody();
 						$out->addHTML(
-							$this->suggestedInvestigationsNoticeRenderer->getNotice(
+							$this->suggestedInvestigationsMessageRenderer->getOpenCasesNotice(
 								$pager, $this->getContext(), $this->getLinkRenderer()
 							) . $pagerBody
 						);
@@ -315,7 +315,7 @@ class SpecialCheckUser extends SpecialPage {
 					$pager = $this->getPager( self::SUBTYPE_GET_USERS, $userIdentity, $logType, $xfor );
 					$pagerBody = $pager->getBody();
 					$out->addHTML(
-						$this->suggestedInvestigationsNoticeRenderer->getNotice(
+						$this->suggestedInvestigationsMessageRenderer->getOpenCasesNotice(
 							$pager, $this->getContext(), $this->getLinkRenderer()
 						) . $pagerBody
 					);

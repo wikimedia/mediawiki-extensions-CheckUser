@@ -8,19 +8,19 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group CheckUser
- * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer
  */
-class SuggestedInvestigationsNoticeRendererTest extends MediaWikiUnitTestCase {
+class SuggestedInvestigationsMessageRendererTest extends MediaWikiUnitTestCase {
 
 	private SuggestedInvestigationsCaseLookupService $caseLookupService;
-	private SuggestedInvestigationsNoticeRenderer $renderer;
+	private SuggestedInvestigationsMessageRenderer $renderer;
 
 	private MockObject $checkUserGetUsersPager;
 
@@ -28,7 +28,7 @@ class SuggestedInvestigationsNoticeRendererTest extends MediaWikiUnitTestCase {
 		parent::setUp();
 
 		$this->caseLookupService = $this->createMock( SuggestedInvestigationsCaseLookupService::class );
-		$this->renderer = new SuggestedInvestigationsNoticeRenderer( $this->caseLookupService );
+		$this->renderer = new SuggestedInvestigationsMessageRenderer( $this->caseLookupService );
 		$this->checkUserGetUsersPager = $this->createMock( CheckUserGetUsersPager::class );
 	}
 
@@ -39,7 +39,7 @@ class SuggestedInvestigationsNoticeRendererTest extends MediaWikiUnitTestCase {
 
 		$this->assertSame(
 			'',
-			$this->renderer->getNotice(
+			$this->renderer->getOpenCasesNotice(
 				$pager,
 				$this->createMock( IContextSource::class ),
 				$this->createMock( LinkRenderer::class )
@@ -56,7 +56,7 @@ class SuggestedInvestigationsNoticeRendererTest extends MediaWikiUnitTestCase {
 
 		$this->assertSame(
 			'',
-			$this->renderer->getNotice(
+			$this->renderer->getOpenCasesNotice(
 				$this->checkUserGetUsersPager,
 				$this->createMock( IContextSource::class ),
 				$this->createMock( LinkRenderer::class )
@@ -76,7 +76,7 @@ class SuggestedInvestigationsNoticeRendererTest extends MediaWikiUnitTestCase {
 
 		$this->assertSame(
 			'',
-			$this->renderer->getNotice(
+			$this->renderer->getOpenCasesNotice(
 				$this->checkUserGetUsersPager,
 				$this->createMock( IContextSource::class ),
 				$this->createMock( LinkRenderer::class )
@@ -97,7 +97,7 @@ class SuggestedInvestigationsNoticeRendererTest extends MediaWikiUnitTestCase {
 
 		$this->assertSame(
 			'',
-			$this->renderer->getNotice(
+			$this->renderer->getOpenCasesNotice(
 				$this->checkUserGetUsersPager,
 				$this->createMock( IContextSource::class ),
 				$this->createMock( LinkRenderer::class )

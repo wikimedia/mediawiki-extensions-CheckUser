@@ -6,7 +6,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigation
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWikiIntegrationTestCase;
@@ -16,9 +16,9 @@ use OOUI\Theme;
 /**
  * @group CheckUser
  * @group Database
- * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsNoticeRenderer
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer
  */
-class SuggestedInvestigationsNoticeRendererTest extends MediaWikiIntegrationTestCase {
+class SuggestedInvestigationsMessageRendererTest extends MediaWikiIntegrationTestCase {
 	use SuggestedInvestigationsTestTrait;
 
 	protected function setUp(): void {
@@ -40,11 +40,11 @@ class SuggestedInvestigationsNoticeRendererTest extends MediaWikiIntegrationTest
 			->method( 'getResultUsernameMap' )
 			->willReturn( [ $user->getId() => $user->getName() ] );
 
-		$renderer = new SuggestedInvestigationsNoticeRenderer(
+		$renderer = new SuggestedInvestigationsMessageRenderer(
 			$this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseLookup' )
 		);
 
-		$result = $renderer->getNotice(
+		$result = $renderer->getOpenCasesNotice(
 			$pager,
 			RequestContext::getMain(),
 			$this->getServiceContainer()->getLinkRenderer()
