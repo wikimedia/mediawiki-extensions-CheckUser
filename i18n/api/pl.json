@@ -55,5 +55,5 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "Podany czas wygaśnięcia automatycznego ujawniania jest nieprawidłowy.",
 	"checkuser-ip-auto-reveal-missing-permission": "Nie masz uprawnień wymaganych do korzystania z automatycznego ujawniania adresów IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Podany identyfikator sprawy nie istnieje",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Funkcja sugerowanych dochodzeń nie jest włączona"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Funkcja sugerowanych sprawdzeń nie jest włączona"
 }
