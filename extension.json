@@ -1004,6 +1004,8 @@
 				"checkuser-investigate-compare-table-button-filter-label",
 				"checkuser-investigate-subtitle-cancel-button-label",
 				"checkuser-investigate-subtitle-continue-button-label",
+				"checkuser-investigateblock-expiry-default",
+				"checkuser-investigateblock-expiry-ip",
 				"tempuser-expired-link-tooltip"
 			]
 		},

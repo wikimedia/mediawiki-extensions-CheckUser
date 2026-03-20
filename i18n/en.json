@@ -5,7 +5,8 @@
 			"Aaron Schulz",
 			"John Du Hart",
 			"Dreamy Jazz",
-			"Msz2001"
+			"Msz2001",
+			"Pskyechology"
 		]
 	},
 	"checkuser-summary": "This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.\nUsers and edits by a client IP address can be retrieved via XFF headers by appending the IP address with \"/xff\". IPv4 (CIDR $1-32) and IPv6 (CIDR $2-128) are supported.\nNo more than $3 edits will be returned for performance reasons.\nUse this in accordance with policy.",
@@ -198,9 +199,14 @@
 	"checkuser-investigateblock": "Block users",
 	"checkuser-investigateblock-target": "Usernames and IP addresses",
 	"checkuser-investigateblock-actions": "Actions to block",
+	"checkuser-investigateblock-expiry": "Expiry",
+	"checkuser-investigateblock-expiry-default": "infinite",
+	"checkuser-investigateblock-expiry-ip": "1 week",
 	"checkuser-investigateblock-reason": "Reason",
 	"checkuser-investigateblock-options": "Additional options",
+	"checkuser-investigateblock-account-creation-label": "Prevent account creation",
 	"checkuser-investigateblock-email-label": "Prevent from sending email",
+	"checkuser-investigateblock-hardblock-label": "{{int:ipb-hardblock}}",
 	"checkuser-investigateblock-usertalk-label": "Prevent from editing their own talk page while blocked",
 	"checkuser-investigateblock-reblock-label": "Override existing blocks",
 	"checkuser-investigateblock-newblock-label": "Add to existing blocks",

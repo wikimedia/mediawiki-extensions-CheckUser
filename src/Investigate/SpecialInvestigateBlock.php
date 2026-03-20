@@ -128,6 +128,13 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			},
 		];
 
+		$fields['DisableAccountCreation'] = [
+			'type' => 'check',
+			'label-message' => 'checkuser-investigateblock-account-creation-label',
+			'default' => true,
+			'section' => 'actions',
+		];
+
 		if (
 			$this->blockPermissionCheckerFactory
 				->newChecker( $this->getUser() )
@@ -179,6 +186,24 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			// The following message key is generated:
 			// * checkuser-investigateblock-reason
 			'section' => 'reason',
+		];
+
+		$suggestedDurations = $this->getLanguage()->getBlockDurations();
+		$defaultExpiry = $this->msg( 'checkuser-investigateblock-expiry-default' );
+
+		$fields['Expiry'] = [
+			'type' => 'expiry',
+			'required' => true,
+			'options' => $suggestedDurations,
+			'default' => $defaultExpiry->text(),
+			'section' => 'expiry',
+		];
+
+		$fields['HardBlock'] = [
+			'type' => 'check',
+			'label-message' => 'checkuser-investigateblock-hardblock-label',
+			'default' => false,
+			'section' => 'options',
 		];
 
 		$pageNoticeClass = 'ext-checkuser-investigate-block-notice';
@@ -330,7 +355,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				}
 			}
 
-			$expiry = $isIP ? '1 week' : 'indefinite';
+			$expiry = $data['Expiry'];
 
 			if ( $enableMulti ) {
 				$conflictMode = $data['NewBlock']
@@ -346,8 +371,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				$expiry,
 				$reason,
 				[
-					'isHardBlock' => !$isIP,
-					'isCreateAccountBlocked' => true,
+					'isHardBlock' => $data['HardBlock'] ?? false,
+					'isCreateAccountBlocked' => $data['DisableAccountCreation'] ?? true,
 					'isAutoblocking' => true,
 					'isEmailBlocked' => $data['DisableEmail'] ?? false,
 					'isUserTalkEditBlocked' => $data['DisableUTEdit'] ?? false,

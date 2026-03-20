@@ -86,12 +86,17 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		$this->assertStringContainsString( '(checkuser-investigateblock-target', $html );
 		// Verify that the 'Actions to block' section is shown
 		$this->assertStringContainsString( '(checkuser-investigateblock-actions', $html );
+		$this->assertStringContainsString( '(checkuser-investigateblock-account-creation-label', $html );
 		$this->assertStringContainsString( '(checkuser-investigateblock-email-label', $html );
 		$this->assertStringContainsString( '(checkuser-investigateblock-usertalk-label', $html );
 		$reblock = $multiBlocks ? 'newblock' : 'reblock';
 		$this->assertStringContainsString( "(checkuser-investigateblock-$reblock-label", $html );
 		// Verify that the 'Reason' section is shown
 		$this->assertStringContainsString( '(checkuser-investigateblock-reason', $html );
+		// Expiry
+		$this->assertStringContainsString( '(checkuser-investigateblock-expiry', $html );
+		// HardBlock
+		$this->assertStringContainsString( '(checkuser-investigateblock-hardblock-label', $html );
 		// Verify that the 'Options' section is shown
 		$this->assertStringContainsString( '(checkuser-investigateblock-options', $html );
 		if ( $this->isSocialProfileExtensionInstalled() ) {
@@ -151,8 +156,10 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 			[
 				// Test with a single target user, with both notices being added.
 				'wpTargets' => $testTargetUser->getName(), 'wpUserPageNotice' => 1, 'wpTalkPageNotice' => 1,
+				'wpDisableAccountCreation' => 1,
 				'wpUserPageNoticeText' => 'Test user page text', 'wpTalkPageNoticeText' => 'Test talk page text',
 				'wpReason' => 'other', 'wpReason-other' => 'Test reason',
+				'wpExpiry' => 'infinite',
 				'wpEditToken' => $testPerformer->getEditToken(),
 			],
 			true,
@@ -216,9 +223,11 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 			[
 				// Test with with a single non-existent target user, with both notices being added.
 				// The notices should not be added if the block fails to be applied.
-				'wpTargets' => "127.0.0.2\n1.2.3.4/24", 'wpUserPageNotice' => 1, 'wpTalkPageNotice' => 1,
+				'wpTargets' => "127.0.0.2\n1.2.3.4/24", 'wpHardBlock' => 0,
+				'wpUserPageNotice' => 1, 'wpTalkPageNotice' => 1,
 				'wpUserPageNoticeText' => 'Test user page text', 'wpTalkPageNoticeText' => 'Test talk page text',
 				'wpReason' => 'other', 'wpReason-other' => 'Test reason',
+				'wpExpiry' => '1 week',
 				'wpEditToken' => $testPerformer->getEditToken(),
 			],
 			true,
@@ -242,13 +251,14 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		$block = $this->getServiceContainer()->getDatabaseBlockStore()->newFromTarget( '127.0.0.2' );
 		$this->assertNotNull( $block, 'The IP address target was not blocked by Special:InvestigateBlock' );
 		// Assert that the block parameters are as expected
-		$this->assertSame( '20210412060708', $block->getExpiry(), 'The block should be indefinite' );
+		$this->assertFalse( $block->isCreateAccountBlocked(), 'Account creation should not be disabled' );
+		$this->assertSame( '20210412060708', $block->getExpiry(), 'The block should be 1 week' );
 
 		// Secondly check the IP range target
 		$block = $this->getServiceContainer()->getDatabaseBlockStore()->newFromTarget( '1.2.3.0/24' );
 		$this->assertNotNull( $block, 'The IP range target was not blocked by Special:InvestigateBlock' );
 		// Assert that the block parameters are as expected
-		$this->assertSame( '20210412060708', $block->getExpiry(), 'The block should be indefinite' );
+		$this->assertSame( '20210412060708', $block->getExpiry(), 'The block should be 1 week' );
 
 		// Assert that the user page and talk page for the non-existent user are not created, because the user was
 		// prevented from creating the notices
@@ -347,7 +357,9 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 				// Test using two targets, one being a user and the other an IP. Also have the 'Confirm block' checkbox
 				// checked to ignore the warning.
 				'wpTargets' => $testTargetUser->getName() . "\n1.2.3.4", 'wpConfirm' => 1,
+				'wpDisableAccountCreation' => 1,
 				'wpReason' => 'other', 'wpReason-other' => 'Test reason',
+				'wpExpiry' => '1 week',
 				'wpEditToken' => $testPerformer->getEditToken(),
 				// Also test disabling the talk page and email as part of the blocks.
 				'wpDisableUTEdit' => 1, 'wpDisableEmail' => 1,
