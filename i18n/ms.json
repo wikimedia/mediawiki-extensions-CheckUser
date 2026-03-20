@@ -82,6 +82,8 @@
 	"checkuser-investigate-this-user": "Siasat pengguna ini",
 	"checkuser-recent-checks": "Pemeriksaan untuk sasaran ini",
 	"checkuser-show-suggestedinvestigations": "Siasatan cadangan",
+	"checkuser-ip-results-suggestedinvestigations-notice": "Terdapat kes Siasatan yang Dicadangkan untuk beberapa hasil carian anda. $1",
+	"checkuser-ip-results-suggestedinvestigations-notice-link": "Lihat kes",
 	"checkuser-log-checks-by": "diperiksa oleh",
 	"checkuser-log-checks-on": "memeriksa",
 	"checkuser-log-link-text": "log",

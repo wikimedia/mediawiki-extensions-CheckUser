@@ -85,6 +85,8 @@
 	"checkuser-investigate-this-user": "Investigar este usuario",
 	"checkuser-recent-checks": "Verificacións para este obxectivo",
 	"checkuser-show-suggestedinvestigations": "Investigacións suxeridas",
+	"checkuser-ip-results-suggestedinvestigations-notice": "Hai casos de investigacións suxeridas para algúns dos resultados da túa procura. $1",
+	"checkuser-ip-results-suggestedinvestigations-notice-link": "Ver os casos",
 	"checkuser-log-checks-by": "verificacións realizadas",
 	"checkuser-log-checks-on": "verificacións recibidas",
 	"checkuser-log-link-text": "rexistro",

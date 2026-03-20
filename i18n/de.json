@@ -101,6 +101,8 @@
 	"checkuser-investigate-this-user": "Diesen Benutzer untersuchen",
 	"checkuser-recent-checks": "Überprüfungen für diesen Benutzer",
 	"checkuser-show-suggestedinvestigations": "Vorgeschlagene Untersuchungen",
+	"checkuser-ip-results-suggestedinvestigations-notice": "Für einige Suchergebnisse gibt es vorgeschlagene Ermittlungsfälle. $1",
+	"checkuser-ip-results-suggestedinvestigations-notice-link": "Fälle ansehen",
 	"checkuser-log-checks-by": "Prüfungen durch",
 	"checkuser-log-checks-on": "Prüfungen von",
 	"checkuser-log-link-text": "Logbuch",
