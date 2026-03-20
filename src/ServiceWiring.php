@@ -639,6 +639,7 @@ return [
 			$services->get( 'CheckUserHookRunner' ),
 			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
 			$services->get( 'CheckUserSuggestedInvestigationsCaseManager' ),
+			$services->getJobQueueGroup(),
 			$services->get( 'CheckUserLogger' ),
 			$services->get( 'CheckUserSuggestedInvestigationsUserRevisionLookup' ),
 		);

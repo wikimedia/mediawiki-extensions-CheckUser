@@ -1,13 +1,17 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
 
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCase;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
 
@@ -32,6 +36,7 @@ class SuggestedInvestigationsSignalMatchService {
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsCaseLookupService $caseLookup,
 		private readonly SuggestedInvestigationsCaseManagerService $caseManager,
+		private readonly JobQueueGroup $jobQueueGroup,
 		private readonly LoggerInterface $logger,
 		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 	) {
@@ -139,7 +144,10 @@ class SuggestedInvestigationsSignalMatchService {
 		$this->hookRunner->onCheckUserSuggestedInvestigationsBeforeCaseCreated(
 			$signals, $users
 		);
-		$this->caseManager->createCase( $users, $signals );
+		$caseId = $this->caseManager->createCase( $users, $signals );
+		$this->jobQueueGroup->lazyPush(
+			SuggestedInvestigationsAutoCloseForCaseJob::newSpec( $caseId, false )
+		);
 	}
 
 	/**

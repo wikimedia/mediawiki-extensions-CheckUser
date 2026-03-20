@@ -1,7 +1,10 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Services;
 
+use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
@@ -410,6 +413,62 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 			->where( [ 'sic_id' => $caseId ] )
 			->caller( __METHOD__ )
 			->assertFieldValue( $this->getDb()->timestamp( '20111111111111' ) );
+	}
+
+	public static function provideAutoCloseJobIsQueuedOnlyOnCaseCreation(): array {
+		return [
+			'new case created (non-mergeable signal)' => [
+				'mergeable' => false,
+				'preCreateExistingCase' => false,
+				'expectedJobCount' => 1,
+			],
+			'new case created (mergeable signal, no existing case)' => [
+				'mergeable' => true,
+				'preCreateExistingCase' => false,
+				'expectedJobCount' => 1,
+			],
+			'merged into existing case' => [
+				'mergeable' => true,
+				'preCreateExistingCase' => true,
+				'expectedJobCount' => 0,
+			],
+		];
+	}
+
+	/** @dataProvider provideAutoCloseJobIsQueuedOnlyOnCaseCreation */
+	public function testAutoCloseJobIsQueuedOnlyOnCaseCreation(
+		bool $mergeable, bool $preCreateExistingCase, int $expectedJobCount
+	): void {
+		$user = $this->getTestUser()->getUser();
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'test-signal', 'test-value', $mergeable
+		);
+
+		if ( $preCreateExistingCase ) {
+			// Pre-create a case so the signal merges into it instead of creating a new one
+			$this->caseManager->createCase( [ $user ], [ $signal ] );
+		}
+
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsSignalMatch',
+			static function (
+				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults
+			) use ( $signal ) {
+				$hookProvidedSignalMatchResults[] = $signal;
+			}
+		);
+
+		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user, 'test-event', [] );
+
+		$jobQueue = $this->getServiceContainer()->getJobQueueGroup()
+			->get( SuggestedInvestigationsAutoCloseForCaseJob::TYPE );
+		$jobs = iterator_to_array( $jobQueue->getAllQueuedJobs() );
+
+		$this->assertCount( $expectedJobCount, $jobs );
+		if ( $expectedJobCount > 0 ) {
+			$this->assertArrayHasKey( 'caseId', $jobs[0]->getParams() );
+			$this->assertArrayNotHasKey( 'jobReleaseTimestamp', $jobs[0]->getParams() );
+		}
 	}
 
 	private function getObjectUnderTest(): SuggestedInvestigationsSignalMatchService {
