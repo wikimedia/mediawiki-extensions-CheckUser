@@ -10,7 +10,8 @@ use MediaWiki\User\UserIdentityValue;
 
 /**
  * @group CheckUser
- * @group Database For checking if temp accounts are expired and style them as such
+ * @group Database
+ * Uses database for checking if temp accounts are expired and style them as such
  *
  * @covers \MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogFormatter
  */
