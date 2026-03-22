@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\ClientHints;
 
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Request\FauxRequest;
 use MediaWikiUnitTestCase;
 use TypeError;
@@ -14,7 +14,7 @@ use TypeError;
  * @covers \MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData
  */
 class ClientHintsDataTest extends MediaWikiUnitTestCase {
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	/** @dataProvider provideNewFromJsApi */
 	public function testNewFromJsApiAndJsonSerialize( array $dataFromJsApi, array $expectedValues ) {

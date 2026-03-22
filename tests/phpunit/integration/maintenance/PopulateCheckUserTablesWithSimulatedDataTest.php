@@ -6,7 +6,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\User;
@@ -19,7 +19,7 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData
  */
 class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCase {
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {

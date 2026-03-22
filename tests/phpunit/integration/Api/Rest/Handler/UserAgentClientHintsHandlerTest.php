@@ -6,7 +6,7 @@ use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
@@ -24,7 +24,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 	use HandlerTestTrait;
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 	use MockServiceDependenciesTrait;
 	use TempUserTestTrait;
 

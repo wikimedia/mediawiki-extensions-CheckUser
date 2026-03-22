@@ -75,7 +75,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	 */
 	protected function setUpObject( $params = [] ) {
 		RequestContext::getMain()->setUser( $this->getTestUser( 'checkuser' )->getUser() );
-		$object = new DeAbstractedCheckUserPagerTest(
+		$object = new DeAbstractedCheckUserPager(
 			...$this->setUpObjectArguments( $params )
 		);
 		return TestingAccessWrapper::newFromObject( $object );

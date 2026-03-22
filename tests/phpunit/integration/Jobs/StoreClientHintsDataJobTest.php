@@ -7,7 +7,7 @@ use MediaWiki\Extension\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -17,7 +17,7 @@ use MediaWikiIntegrationTestCase;
  */
 class StoreClientHintsDataJobTest extends MediaWikiIntegrationTestCase {
 
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	public function testShouldCreateValidSpecification() {
 		// Get a cu_private_event row ID for use in the test.

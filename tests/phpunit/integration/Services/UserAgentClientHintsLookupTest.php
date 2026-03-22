@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -15,7 +15,7 @@ use MediaWikiIntegrationTestCase;
  * @covers \MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup
  */
 class UserAgentClientHintsLookupTest extends MediaWikiIntegrationTestCase {
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	/**
 	 * Tests that ::getClientHintsByReferenceIds finds

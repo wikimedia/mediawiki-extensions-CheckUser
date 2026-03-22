@@ -5,8 +5,8 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
@@ -21,8 +21,8 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 
-	use CheckUserCommonTraitTest;
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserCommonTestTrait;
+	use CheckUserClientHintsCommonTestTrait;
 
 	/**
 	 * Tests that the correct number of rows are inserted

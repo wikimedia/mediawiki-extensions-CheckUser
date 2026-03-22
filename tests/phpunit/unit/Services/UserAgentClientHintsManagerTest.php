@@ -6,7 +6,7 @@ use LogicException;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
@@ -27,7 +27,7 @@ use Wikimedia\TestingAccessWrapper;
  */
 class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	use MockServiceDependenciesTrait;
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	/** @dataProvider provideValidTypes */
 	public function testGetMapIdByType( string $type, int $expectedMapId ) {

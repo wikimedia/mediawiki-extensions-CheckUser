@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 
 /**
@@ -14,7 +14,7 @@ use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
  */
 class PopulateCulCommentWithoutUpdateAppliedTest extends MaintenanceBaseTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {

@@ -11,7 +11,7 @@ use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\Extension\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\MainConfigNames;
@@ -32,7 +32,7 @@ use Wikimedia\TestingAccessWrapper;
  */
 class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 	use CheckUserTempUserTestTrait;
 
 	private function getObjectUnderTest( $entrypoint = null ): CheckUserPrivateEventsHandler {

@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCulComment;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use Wikimedia\Rdbms\IMaintainableDatabase;
 use Wikimedia\Services\NoSuchServiceException;
@@ -16,7 +16,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {

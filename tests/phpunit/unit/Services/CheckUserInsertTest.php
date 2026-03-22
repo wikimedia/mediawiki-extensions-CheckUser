@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\Services;
 
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Language\Language;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
@@ -15,7 +15,7 @@ use Wikimedia\TestingAccessWrapper;
  */
 class CheckUserInsertTest extends MediaWikiUnitTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 	use MockServiceDependenciesTrait;
 
 	/** @dataProvider provideGetAgent */

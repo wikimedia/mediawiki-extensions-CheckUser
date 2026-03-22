@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Extension\CheckUser\HookHandler\GlobalBlockingHandler;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\MainConfigNames;
 use MediaWikiIntegrationTestCase;
@@ -15,7 +15,7 @@ use MediaWikiIntegrationTestCase;
  */
 class GlobalBlockingHandlerTest extends MediaWikiIntegrationTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	protected function setUp(): void {
 		parent::setUp();

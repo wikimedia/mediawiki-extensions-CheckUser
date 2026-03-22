@@ -8,7 +8,7 @@ use MediaWiki\Extension\CheckUser\Maintenance\PurgeOldData;
 use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance\Mocks\SemiMockedCheckUserDataPurger;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Maintenance\Maintenance;
@@ -25,7 +25,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @covers \MediaWiki\Extension\CheckUser\Maintenance\PurgeOldData
  */
 class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/** @var MockObject|Maintenance */
 	protected $maintenance;

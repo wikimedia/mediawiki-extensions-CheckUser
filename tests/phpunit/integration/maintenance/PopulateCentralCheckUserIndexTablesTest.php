@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
@@ -21,7 +21,7 @@ use Wikimedia\IPUtils;
 class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase implements CheckUserQueryInterface {
 
 	use CheckUserTempUserTestTrait;
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	protected function setUp(): void {
 		parent::setUp();

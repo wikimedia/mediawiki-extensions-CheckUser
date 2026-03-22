@@ -7,7 +7,7 @@ use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\GlobalBlockingHandler;
 use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
@@ -24,7 +24,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	private static User $user;
 

@@ -9,7 +9,7 @@ use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
  * an example JS API response, and/or assert that two ClientHintsData objects are
  * equal.
  */
-trait CheckUserClientHintsCommonTraitTest {
+trait CheckUserClientHintsCommonTestTrait {
 	/**
 	 * Generates example Client Hints data in a format
 	 * that would be sent as the request body to the

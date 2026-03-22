@@ -11,7 +11,7 @@ use MediaWiki\RecentChanges\RecentChange;
  * All methods except ::getDefaultRecentChangeAttribs require the test class to be a
  * database integration test class.
  */
-trait CheckUserCommonTraitTest {
+trait CheckUserCommonTestTrait {
 	/**
 	 * Converts any timestamp in the expected row values to the correct format for the current database type.
 	 *

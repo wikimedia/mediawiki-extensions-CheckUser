@@ -7,7 +7,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Message\Message;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
@@ -22,7 +22,7 @@ use Wikimedia\TestingAccessWrapper;
  */
 class UserAgentClientHintsFormatterTest extends MediaWikiUnitTestCase {
 	use MockServiceDependenciesTrait;
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	private function getObjectUnderTest(): UserAgentClientHintsFormatter {
 		$mockMessageLocalizer = $this->createMock( MessageLocalizer::class );

@@ -11,7 +11,7 @@ use MediaWiki\Extension\AbuseFilter\Filter\MutableFilter;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Extension\CheckUser\Services\CheckUserExpiredIdsLookupService;
 use MediaWiki\Extension\CheckUser\Tests\Integration\AbuseFilter\FilterFactoryProxyTrait;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Page\WikiPage;
@@ -32,7 +32,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 	use CheckUserTempUserTestTrait;
 	use FilterFactoryProxyTrait;
 

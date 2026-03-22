@@ -12,7 +12,7 @@ use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgains
 use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -37,7 +37,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 	use CheckUserTempUserTestTrait;
 
 	private function setUpObject(): CheckUserInsert {

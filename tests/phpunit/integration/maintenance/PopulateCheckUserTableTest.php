@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTable;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\RecentChanges\RecentChange;
@@ -21,7 +21,7 @@ use Wikimedia\TestingAccessWrapper;
  */
 class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {

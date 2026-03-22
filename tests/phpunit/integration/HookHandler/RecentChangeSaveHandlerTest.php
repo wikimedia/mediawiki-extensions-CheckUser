@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Extension\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWikiIntegrationTestCase;
@@ -18,7 +18,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 	use CheckUserTempUserTestTrait;
 
 	private function getObjectUnderTest(): RecentChangeSaveHandler {

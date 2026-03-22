@@ -6,7 +6,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateUserAgentTable;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -19,7 +19,7 @@ use Wikimedia\Services\ServiceContainer;
  * @covers \MediaWiki\Extension\CheckUser\Maintenance\PopulateUserAgentTable
  */
 class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {

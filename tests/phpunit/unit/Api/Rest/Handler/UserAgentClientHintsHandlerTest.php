@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\Api\Rest\Handler;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
@@ -29,7 +29,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 	use HandlerTestTrait;
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 	use MockServiceDependenciesTrait;
 
 	private function getObjectUnderTest( array $overrides ): UserAgentClientHintsHandler {

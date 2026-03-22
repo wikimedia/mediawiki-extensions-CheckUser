@@ -13,10 +13,8 @@ use MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
  * an empty response or a predefined response (as testing
  * these methods should be done for classes that extend
  * AbstractCheckUserPager).
- *
- * @coversNothing
  */
-class DeAbstractedCheckUserPagerTest extends AbstractCheckUserPager {
+class DeAbstractedCheckUserPager extends AbstractCheckUserPager {
 
 	public array $mockGetQueryInfoResponse = [
 		'tables' => [],
@@ -26,6 +24,7 @@ class DeAbstractedCheckUserPagerTest extends AbstractCheckUserPager {
 		'join_conds' => [],
 	];
 
+	/** @inheritDoc */
 	public function formatRow( $row ) {
 		return '';
 	}

@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers\DeAbstractedCheckUserPagerTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers\DeAbstractedCheckUserPager;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Message\Message;
 use MediaWiki\Pager\IndexPager;
@@ -26,7 +26,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 	public function testGetTimeRangeStringFirstAndLastEqual() {
-		$object = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+		$object = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'getFormattedTimestamp' ] )
 			->getMock();
@@ -42,7 +42,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testGetTimeRangeStringFirstAndLastNotEqual() {
-		$object = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+		$object = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'msg' ] )
 			->getMock();
@@ -69,7 +69,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideGetTimestampField */
 	public function testGetTimestampField( $table, $expectedTimestampField ) {
-		$objectUnderTest = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+		$objectUnderTest = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [] )
 			->getMock();
@@ -98,7 +98,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 	/** @dataProvider provideSetPeriodCondition */
 	public function testSetPeriodCondition( $period, $fakeTime, $expected ) {
 		ConvertibleTimestamp::setFakeTime( $fakeTime );
-		$object = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+		$object = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [] )
 			->getMock();
@@ -141,7 +141,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testGetCheckUserHelperFieldsetWhenNoResults() {
-		$object = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+		$object = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()
 			->getMock();
 		$object = TestingAccessWrapper::newFromObject( $object );
@@ -157,7 +157,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 	public function testBuildQueryInfo(
 		$offset, $limit, $order, $startOffset, $endOffset, $includeOffset, $mockedQueryInfo, $partialExpectedArray
 	) {
-		$object = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+		$object = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'getQueryInfo' ] )
 			->getMock();
@@ -260,7 +260,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideReallyDoQuery */
 	public function testReallyDoQuery( $limit, $order, $fakeResults, $expectedReturnResults ) {
-		$object = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+		$object = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'buildQueryInfo' ] )
 			->getMock();
@@ -362,7 +362,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideGroupResultsByIndexField */
 	public function testGroupResultsByIndexField( $indexField, $results, $expectedGroupedResults ) {
-		$objectUnderTest = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+		$objectUnderTest = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'getIndexField' ] )
 			->getMock();

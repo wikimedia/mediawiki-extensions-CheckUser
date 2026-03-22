@@ -7,7 +7,7 @@ use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWikiUnitTestCase;
 use TypeError;
 
@@ -17,7 +17,7 @@ use TypeError;
  * @covers \MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults
  */
 class ClientHintsLookupResultsTest extends MediaWikiUnitTestCase {
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	/** @dataProvider provideGetClientHintsByReferenceIds */
 	public function testGetClientHintsByReferenceIds(

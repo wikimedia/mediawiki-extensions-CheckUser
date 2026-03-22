@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWikiIntegrationTestCase;
@@ -19,7 +19,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCase implements CheckUserQueryInterface {
 
 	use CheckUserTempUserTestTrait;
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/**
 	 * @dataProvider provideOnPerformRetroactiveAutoblock

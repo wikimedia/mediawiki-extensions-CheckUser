@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Extension\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IMaintainableDatabase;
@@ -16,7 +16,7 @@ use Wikimedia\TestingAccessWrapper;
  */
 class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {

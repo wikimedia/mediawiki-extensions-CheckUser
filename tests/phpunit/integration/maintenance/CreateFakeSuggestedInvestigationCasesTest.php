@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Extension\CheckUser\Maintenance\CreateFakeSuggestedInvestigationCases;
-use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 
 /**
@@ -12,7 +12,7 @@ use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
  * @covers \MediaWiki\Extension\CheckUser\Maintenance\CreateFakeSuggestedInvestigationCases
  */
 class CreateFakeSuggestedInvestigationCasesTest extends MaintenanceBaseTestCase {
-	use CheckUserCommonTraitTest;
+	use CheckUserCommonTestTrait;
 
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {

@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\ClientHints;
 use LogicException;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWikiUnitTestCase;
 use TypeError;
 
@@ -15,7 +15,7 @@ use TypeError;
  * @covers \MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults
  */
 class ClientHintsBatchFormatterResultsTest extends MediaWikiUnitTestCase {
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	/** @dataProvider provideGetStringForReferenceId */
 	public function testGetStringForReferenceId(

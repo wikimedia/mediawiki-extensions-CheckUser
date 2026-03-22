@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Extension\CheckUser\Maintenance\GenerateStatsAboutClientHintsData;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\WikiMap\WikiMap;
 
@@ -15,7 +15,7 @@ use MediaWiki\WikiMap\WikiMap;
  * @covers \MediaWiki\Extension\CheckUser\Maintenance\GenerateStatsAboutClientHintsData
  */
 class GenerateStatsAboutClientHintsDataTest extends MaintenanceBaseTestCase {
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	protected function getMaintenanceClass() {
 		return GenerateStatsAboutClientHintsData::class;

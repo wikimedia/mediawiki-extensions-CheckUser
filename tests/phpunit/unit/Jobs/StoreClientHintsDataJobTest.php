@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\Jobs;
 
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\Jobs\StoreClientHintsDataJob;
-use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWikiUnitTestCase;
 
 /**
@@ -13,7 +13,7 @@ use MediaWikiUnitTestCase;
  */
 class StoreClientHintsDataJobTest extends MediaWikiUnitTestCase {
 
-	use CheckUserClientHintsCommonTraitTest;
+	use CheckUserClientHintsCommonTestTrait;
 
 	public function testShouldCreateValidSpecification() {
 		$clientHintsData = $this->getExampleClientHintsDataObjectFromJsApi();
