@@ -102,7 +102,7 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		}
 	}
 
-	public function provideLookupForClosedCaseWithFilter(): array {
+	public static function provideLookupForClosedCaseWithFilter(): array {
 		return [
 			'Looks up only for open cases' => [ 'onlyOpen' => true ],
 			'Looks up for all cases' => [ 'onlyOpen' => false ],

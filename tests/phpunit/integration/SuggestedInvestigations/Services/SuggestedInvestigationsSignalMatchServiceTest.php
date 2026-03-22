@@ -130,7 +130,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 			] );
 	}
 
-	public function provideMatchSignalsAgainstUserWhenFeatureEnabled() {
+	public static function provideMatchSignalsAgainstUserWhenFeatureEnabled() {
 		return [
 			'Signal allows merging' => [ 'mergeable' => true ],
 			'Signal does not allow merging' => [ 'mergeable' => false ],
@@ -215,7 +215,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 			->assertFieldValues( [ strval( $user1->getId() ), strval( $user2->getId() ) ] );
 	}
 
-	public function provideMatchSignalsWithBeforeCreateHook() {
+	public static function provideMatchSignalsWithBeforeCreateHook() {
 		return [
 			'Hook should run on create' => [ 'isUpdating' => false ],
 			'Hook should not run on update' => [ 'isUpdating' => true ],
@@ -291,7 +291,7 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 			->assertFieldValue( $expectedCaseCount );
 	}
 
-	public function provideIgnoreIfTheresInvalidCase(): array {
+	public static function provideIgnoreIfTheresInvalidCase(): array {
 		return [
 			'Signal allows merging' => [
 				'mergeable' => true,

@@ -515,7 +515,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $expected, $pager->formatComment( $row ) );
 	}
 
-	public function formatCommentDataProvider(): array {
+	public static function formatCommentDataProvider(): array {
 		$localWikIdProvider = static fn () => WikiMap::getCurrentWikiId();
 		$otherWikIdProvider = static fn () => 'otherwiki';
 		$summaryUnavailableMessage =

@@ -159,7 +159,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		$hookHandler->onSpecialContributionsBeforeMainOutput( $targetExists ? 1 : 0, $mockUser, $mockSpecialPage );
 	}
 
-	public function provideOnSpecialContributionsBeforeMainOutputSubtitle(): array {
+	public static function provideOnSpecialContributionsBeforeMainOutputSubtitle(): array {
 		return [
 			'Temporary user, exists' => [
 				'tempAccountsEnabled' => true,

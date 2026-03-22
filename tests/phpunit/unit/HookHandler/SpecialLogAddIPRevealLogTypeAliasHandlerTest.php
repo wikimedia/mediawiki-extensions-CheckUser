@@ -35,7 +35,7 @@ class SpecialLogAddIPRevealLogTypeAliasHandlerTest extends MediaWikiUnitTestCase
 		$this->assertSame( $expected, $source );
 	}
 
-	public function rewritesTypeForIPRevealDataProvider(): array {
+	public static function rewritesTypeForIPRevealDataProvider(): array {
 		return [
 			'ipreveal get rewritten as checkuser-temporary-account' => [
 				'expected' => TemporaryAccountLogger::LOG_TYPE,
