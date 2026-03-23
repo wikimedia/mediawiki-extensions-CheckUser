@@ -49,7 +49,7 @@ module.exports = function addCopyFeature() {
 			copyTextLayout.textInput.pushPending();
 			const restApi = new mw.Rest();
 			const html = getSanitizedHtml( $( '.ext-checkuser-investigate-table-compare' ) );
-			restApi.post( '/v1/transform/html/to/wikitext/', { html: html } ).then( ( data ) => {
+			restApi.post( '/v1/transform/html/to/wikitext', { html: html } ).then( ( data ) => {
 				copyTextLayout.textInput.popPending();
 				copyTextLayout.textInput.setValue( data );
 			} );
