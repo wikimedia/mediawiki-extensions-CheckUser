@@ -32,7 +32,24 @@ module.exports = () => {
 	);
 
 	return ( action, data = {} ) => {
-		const interactionData = {};
+		// Performer data is set here rather than via provide_values in the
+		// stream config, because the server-side instrumentation for this
+		// stream sets performer manually to a different user.
+		const interactionData = {
+			performer: {
+				id: mw.user.getId(),
+				name: mw.user.getName(),
+				// eslint-disable-next-line camelcase
+				edit_count: mw.config.get( 'wgUserEditCount' ),
+				// eslint-disable-next-line camelcase
+				edit_count_bucket: mw.config.get( 'wgUserEditCountBucket' ),
+				groups: mw.config.get( 'wgUserGroups' ),
+				// eslint-disable-next-line camelcase
+				registration_dt: new Date( mw.config.get( 'wgUserRegistration' ) ).toISOString(),
+				// eslint-disable-next-line camelcase
+				pageview_id: mw.user.getPageviewToken()
+			}
+		};
 
 		if ( data.context ) {
 			// eslint-disable-next-line camelcase
