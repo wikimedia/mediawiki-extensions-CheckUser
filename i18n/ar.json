@@ -359,6 +359,7 @@
 	"checkuser-tempaccount-reveal-blocked-description": "ليس لديك الإذن لاستخدام هذه الميزة، للسبب التالي:",
 	"checkuser-tempaccount-specialblock-ips": "هذا مستخدم مؤقت يستخدم ما يلي {{PLURAL:$1| IP | IPs}}: $2",
 	"checkuser-tempaccount-specialblock-ip-target": "راجع مساهمات الحساب المؤقتة على [[Special:IPContributions/$1]].",
+	"checkuser-tempaccount-specialblock-iprange-target": "طالع [[Special:IPContributions/$1|مساهمات الحساب المؤقت من نطاق عنوان بروتوكول الإنترنت هذا]].",
 	"checkuser-temporary-account-log-name": "سجل الكشف عن عنوان IP",
 	"checkuser-temporary-account-log-header": "هذا سجل:\n# عرض عناوين IP المستخدمة من قبل حساب مؤقت\n# عرض حسابات مؤقتة مرتبطة بعنوان IP أو مجموعة عناوينIP\n# تغيير مستويات وصول المستخدم لمشاهدة عناوين ip المستخدمة عن طريق حسابات مؤقتا",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|}} وصوله الخاص لعرض عناوين IP للحسابات المؤقتة",

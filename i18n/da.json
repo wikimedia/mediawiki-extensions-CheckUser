@@ -92,6 +92,8 @@
 	"checkuser-investigate-this-user": "Undersøg denne bruger",
 	"checkuser-recent-checks": "Tjek for dette mål",
 	"checkuser-show-suggestedinvestigations": "Foreslåede undersøgelser",
+	"checkuser-ip-results-suggestedinvestigations-notice": "Der er sager med foreslåede undersøgelser for nogle af resultaterne i din søgning. $1",
+	"checkuser-ip-results-suggestedinvestigations-notice-link": "Se sager",
 	"checkuser-log-checks-by": "tjekket af",
 	"checkuser-log-checks-on": "tjekker på",
 	"checkuser-log-link-text": "log",

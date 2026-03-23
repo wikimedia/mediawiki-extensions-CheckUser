@@ -97,6 +97,7 @@
 	"checkuser-investigate-this-user": "Tutki tätä käyttäjää",
 	"checkuser-recent-checks": "Tarkastukset tälle kohteelle",
 	"checkuser-show-suggestedinvestigations": "Ehdotetut tutkinnat",
+	"checkuser-ip-results-suggestedinvestigations-notice-link": "Näytä tapaukset",
 	"checkuser-log-checks-by": "tekemät tarkastukset",
 	"checkuser-log-checks-on": "tehdyt tarkastukset",
 	"checkuser-log-link-text": "loki",
