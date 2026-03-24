@@ -62,4 +62,38 @@ class SuggestedInvestigationsMatchSignalsAgainstUserJobTest extends MediaWikiUni
 
 		$this->assertTrue( $userIdentity->equals( $actualUserIdentity ) );
 	}
+
+	/**
+	 * Test that session import is skipped when an active session exists
+	 * (e.g. when the job runs synchronously via triggerSyncJobs).
+	 */
+	public function testExecutionWithSessionSkippedWhenActive() {
+		$userIdentity = new UserIdentityValue( 1, 'TestUser' );
+		$sessionData = [
+			'sessionId' => 'abc123',
+			'userId' => 1,
+			'ip' => '127.0.0.1',
+			'headers' => [],
+		];
+		$extraData = [ 'session' => $sessionData ];
+
+		$spec = SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec(
+			$userIdentity, 'test-event-type', $extraData
+		);
+
+		$mockService = $this->createMock( SuggestedInvestigationsSignalMatchService::class );
+		$mockService->expects( $this->once() )
+			->method( 'matchSignalsAgainstUser' );
+
+		// Create a partial mock that overrides shouldImportSession to simulate
+		// an active session (the sync job execution case).
+		$job = $this->getMockBuilder( SuggestedInvestigationsMatchSignalsAgainstUserJob::class )
+			->setConstructorArgs( [ $spec->getParams(), $mockService ] )
+			->onlyMethods( [ 'shouldImportSession' ] )
+			->getMock();
+		$job->method( 'shouldImportSession' )->willReturn( false );
+
+		// Should not throw BadMethodCallException
+		$this->assertTrue( $job->run() );
+	}
 }

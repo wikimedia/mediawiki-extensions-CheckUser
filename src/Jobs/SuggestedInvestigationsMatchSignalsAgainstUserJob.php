@@ -4,12 +4,14 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Jobs;
 
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\Job;
 use MediaWiki\JobQueue\JobSpecification;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\ScopedCallback;
 
 /**
  * Matches Suggested Investigations signals against a user.
@@ -49,8 +51,26 @@ class SuggestedInvestigationsMatchSignalsAgainstUserJob extends Job {
 		);
 	}
 
+	/**
+	 * Whether the session should be imported. When the job runs synchronously
+	 * during a web request (via triggerSyncJobs), there is already an active
+	 * session and importScopedSession would throw.
+	 */
+	protected function shouldImportSession(): bool {
+		return !RequestContext::getMain()->getRequest()->getSession()->isPersistent();
+	}
+
 	/** @inheritDoc */
 	public function run(): bool {
+		if ( isset( $this->params['extraData']['session'] ) &&
+			$this->shouldImportSession()
+		) {
+			$scope = RequestContext::importScopedSession( $this->params['extraData']['session'] );
+			$this->addTeardownCallback( static function () use ( &$scope ) {
+				ScopedCallback::consume( $scope );
+			} );
+		}
+
 		$this->suggestedInvestigationsSignalMatchService->matchSignalsAgainstUser(
 			new UserIdentityValue( $this->params['userIdentityId'], $this->params['userIdentityName'] ),
 			$this->params['eventType'],
