@@ -504,6 +504,7 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Edit|Edits}} flagged by $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "Log {{PLURAL:$2|entry|entries}} flagged by $1 ($2)",
 	"checkuser-suggestedinvestigations-contributions-tool-link": "SI cases",
+	"checkuser-suggestedinvestigations-invalid-status-warning-for-account-based-signal": "Marking this case as invalid will mean that no more cases will be created for this account.",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporary accounts from all associated IPs: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "An aggregate count of all temporary accounts from all IPs associated with this account",
 	"checkuser-temporary-account-bucketcount-min": "$1",
