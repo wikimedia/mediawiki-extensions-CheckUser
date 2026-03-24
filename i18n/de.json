@@ -103,6 +103,7 @@
 	"checkuser-show-suggestedinvestigations": "Vorgeschlagene Untersuchungen",
 	"checkuser-ip-results-suggestedinvestigations-notice": "Für einige Suchergebnisse gibt es vorgeschlagene Ermittlungsfälle. $1",
 	"checkuser-ip-results-suggestedinvestigations-notice-link": "Fälle ansehen",
+	"checkuser-si-cases-link": "SI-Fälle",
 	"checkuser-log-checks-by": "Prüfungen durch",
 	"checkuser-log-checks-on": "Prüfungen von",
 	"checkuser-log-link-text": "Logbuch",
@@ -207,8 +208,10 @@
 	"checkuser-investigateblock": "Benutzer sperren",
 	"checkuser-investigateblock-target": "Benutzernamen und IP-Adressen",
 	"checkuser-investigateblock-actions": "Zu sperrende Aktionen",
+	"checkuser-investigateblock-expiry": "Ablauf",
 	"checkuser-investigateblock-reason": "Grund",
 	"checkuser-investigateblock-options": "Zusätzliche Optionen",
+	"checkuser-investigateblock-account-creation-label": "Erstellung von Benutzerkonten verhindern",
 	"checkuser-investigateblock-email-label": "Vom Versenden von E-Mails abhalten",
 	"checkuser-investigateblock-usertalk-label": "Vom Bearbeiten der eigenen Diskussionsseite abhalten, während der Benutzer gesperrt ist.",
 	"checkuser-investigateblock-reblock-label": "Bestehende Sperren überschreiben",
@@ -440,6 +443,7 @@
 	"checkuser-suggestedinvestigations-subpage-not-found-page-text": "Die angegebene Unterseite existiert nicht.",
 	"checkuser-suggestedinvestigations-summary": "Diese Seite enthält automatisch als potentiell verdächtig markierte Konten, die von Check-Usern untersucht werden sollen.",
 	"checkuser-suggestedinvestigations-summary-detail-view": "Diese Seite enthält detaillierte Informationen nur für Checkuser zum Fall '''#$1'''.",
+	"checkuser-suggestedinvestigations-private-data-warning": "Diese Informationen sind nur für Benutzer mit Checkuser-Zugriff bestimmt. Gib Fallzahlen oder Informationen über Signalarten nicht an Benutzer ohne Checkuser-Zugriff weiter.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Die von {{#FORMAL:dir|Ihnen}} angewendeten Filter sind zu weit gefasst. Bitte {{#FORMAL:grenze deine|grenzen Sie Ihre}} Suche ein, um bessere Ergebnisse zu erzielen.",
 	"checkuser-suggestedinvestigations-filter-button": "Filter",
 	"checkuser-suggestedinvestigations-filter-dialog-title": "Filter",
@@ -501,5 +505,8 @@
 	"checkuser-contributions-temporary-accounts-on-ip": "Temporäre Konten auf dieser IP-Adresse: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Temporäre Konten auf dieser IP-Adresse: $1 (gesperrt: $2).",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Alle Konten anzeigen",
-	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Ausblenden"
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Ausblenden",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Kontenliste kopieren",
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Liste der in die Zwischenablage kopierten Konten",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Fehler beim Kopieren der Kontenliste"
 }

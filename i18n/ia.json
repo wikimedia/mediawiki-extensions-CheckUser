@@ -77,6 +77,8 @@
 	"checkuser-investigate-this-user": "Investigar iste usator",
 	"checkuser-recent-checks": "Verificationes pro iste objectivo",
 	"checkuser-show-suggestedinvestigations": "Investigationes suggerite",
+	"checkuser-ip-results-suggestedinvestigations-notice": "Il ha casos de Investigationes Suggerite pro alcunes del resultatos de tu recerca. $1",
+	"checkuser-ip-results-suggestedinvestigations-notice-link": "Vider casos",
 	"checkuser-log-checks-by": "verificationes facite per",
 	"checkuser-log-checks-on": "verificationes de",
 	"checkuser-log-link-text": "registro",
