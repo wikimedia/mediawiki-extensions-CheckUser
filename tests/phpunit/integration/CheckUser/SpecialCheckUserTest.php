@@ -77,17 +77,20 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$object->opts->add( 'reason', '' );
 		$object->opts->add( 'period', 0 );
 		if ( $checkType === SpecialCheckUser::SUBTYPE_GET_IPS ) {
-			$this->assertInstanceOf( CheckUserGetIPsPager::class,
+			$this->assertInstanceOf(
+				CheckUserGetIPsPager::class,
 				$object->getPager( $checkType, $userIdentity, 'untested', $xfor ),
 				'The Get IPs checktype should return the Get IPs pager.'
 			);
 		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_ACTIONS ) {
-			$this->assertInstanceOf( CheckUserGetActionsPager::class,
+			$this->assertInstanceOf(
+				CheckUserGetActionsPager::class,
 				$object->getPager( $checkType, $userIdentity, 'untested', $xfor ),
 				'The Get actions checktype should return the Get actions pager.'
 			);
 		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_USERS ) {
-			$this->assertInstanceOf( CheckUserGetUsersPager::class,
+			$this->assertInstanceOf(
+				CheckUserGetUsersPager::class,
 				$object->getPager( $checkType, $userIdentity, 'untested', $xfor ),
 				'The Get users checktype should return the Get users pager.'
 			);
@@ -268,7 +271,10 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 
 		$this->verifyCheckUserLogEntryCreated(
-			$testCheckUser, 'Test check', self::$usernameTarget->getName(), 'userips'
+			$testCheckUser,
+			'Test check',
+			self::$usernameTarget->getName(),
+			'userips'
 		);
 	}
 
@@ -340,13 +346,18 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( 'Testing user agent', $resultHtml );
 
 		$this->verifyCheckUserLogEntryCreated(
-			$testCheckUser, 'Test check', self::$usernameTarget->getName(), 'useredits'
+			$testCheckUser,
+			'Test check',
+			self::$usernameTarget->getName(),
+			'useredits'
 		);
 	}
 
 	/** @dataProvider provideLinkToSuggestedInvestigationsPresent */
 	public function testLinkToSuggestedInvestigationsPresent(
-		bool $enabled, bool $hidden, bool $linkExpected
+		bool $enabled,
+		bool $hidden,
+		bool $linkExpected
 	) {
 		if ( $enabled ) {
 			$this->enableSuggestedInvestigations();
@@ -497,7 +508,10 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			true
 		);
 		[ $html ] = $this->executeSpecialPage(
-			self::$usernameTarget->getName(), $request, null, $testCheckUser
+			self::$usernameTarget->getName(),
+			$request,
+			null,
+			$testCheckUser
 		);
 
 		$this->assertStringNotContainsString(
@@ -510,7 +524,10 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	 * Verifies that one row exists in cu_log which has the expected properties
 	 */
 	private function verifyCheckUserLogEntryCreated(
-		UserIdentity $expectedPerformer, string $expectedReason, string $expectedTarget, string $expectedLogType
+		UserIdentity $expectedPerformer,
+		string $expectedReason,
+		string $expectedTarget,
+		string $expectedLogType
 	): void {
 		$this->newSelectQueryBuilder()
 			->select( [ 'actor_name', 'comment_text', 'cul_target_text', 'cul_type' ] )
@@ -534,10 +551,17 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$request->setHeader( 'User-Agent', 'Testing user agent' );
 		$testPage = $this->getNonexistingTestPage();
 		$this->editPage(
-			$testPage, 'Test content', 'Test summary', NS_MAIN, $usernameTarget->getAuthority()
+			$testPage,
+			'Test content',
+			'Test summary',
+			NS_MAIN,
+			$usernameTarget->getAuthority()
 		);
 		$this->editPage(
-			$testPage, 'Test content2', 'Test summary', NS_MAIN,
+			$testPage,
+			'Test content2',
+			'Test summary',
+			NS_MAIN,
 			$this->getServiceContainer()->getUserFactory()->newAnonymous( '1.2.3.4' )
 		);
 		$this->enableAutoCreateTempUser();
@@ -560,7 +584,9 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			) ],
 			[
 				SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-					'TestSignal', 'test-value', false
+					'TestSignal',
+					'test-value',
+					false
 				),
 			]
 		);

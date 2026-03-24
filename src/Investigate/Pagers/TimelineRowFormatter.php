@@ -315,7 +315,8 @@ class TimelineRowFormatter {
 	 */
 	private function getNewPageFlag( int $type ): string {
 		if ( $type == RC_NEW ) {
-			return Html::rawElement( 'span',
+			return Html::rawElement(
+				'span',
 				[ 'class' => 'newpage' ],
 				$this->message['newpageletter']
 			);
@@ -407,7 +408,9 @@ class TimelineRowFormatter {
 			}
 
 			$links = Html::rawElement(
-				'span', [], Linker::userLink( $userId, $user->getName() )
+				'span',
+				[],
+				Linker::userLink( $userId, $user->getName() )
 			);
 
 			$links .= Linker::userToolLinksRedContribs(

@@ -49,7 +49,11 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 	}
 
 	private function getTestingRowForTable(
-		string $table, UserIdentity $performer, string $ip, string $timestamp, int $oldId = 0
+		string $table,
+		UserIdentity $performer,
+		string $ip,
+		string $timestamp,
+		int $oldId = 0
 	): array {
 		if ( $table !== self::CHANGES_TABLE && $oldId !== 0 ) {
 			$this->fail( 'No table other than cu_changes can contain an revision ID' );
@@ -97,14 +101,21 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 			$this->getTestingRowForTable( self::CHANGES_TABLE, $testUser2, '1.2.3.3', '20200101000002', 103 ),
 			$this->getTestingRowForTable( self::CHANGES_TABLE, $testUser2, '1.2.3.3', '20200101001000' ),
 			$this->getTestingRowForTable(
-				self::CHANGES_TABLE, $testUser2, '2001:0db8:85a3:0000:0000:8a2e:0370:7334', '20200101001000'
+				self::CHANGES_TABLE,
+				$testUser2,
+				'2001:0db8:85a3:0000:0000:8a2e:0370:7334',
+				'20200101001000'
 			),
 			$this->getTestingRowForTable( self::CHANGES_TABLE, $temporaryUser, '1.2.3.5', '20200101001100' ),
 			// Add rows which should be imported to both central indexes
 			$this->getTestingRowForTable( self::CHANGES_TABLE, $temporaryUser, '1.2.3.4', '20200101001100', 123 ),
 			$this->getTestingRowForTable( self::CHANGES_TABLE, $temporaryUser, '1.2.3.5', '20200101001200', 124 ),
 			$this->getTestingRowForTable(
-				self::CHANGES_TABLE, $temporaryUser, '2001:0db8:85a3:0000:0000:8a2e:0370:7334', '20200101001300', 187
+				self::CHANGES_TABLE,
+				$temporaryUser,
+				'2001:0db8:85a3:0000:0000:8a2e:0370:7334',
+				'20200101001300',
+				187
 			),
 			// Add rows which should not be imported to the central index (because they are anon users or bots)
 			$this->getTestingRowForTable( self::CHANGES_TABLE, $botUser, '2.3.4.5', '20240506070809', 106 ),
@@ -139,7 +150,10 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 			$this->getTestingRowForTable( self::LOG_EVENT_TABLE, $testUser1, '1.2.3.5', '20220101000000' ),
 			$this->getTestingRowForTable( self::LOG_EVENT_TABLE, $testUser2, '1.2.3.6', '20220109000000' ),
 			$this->getTestingRowForTable(
-				self::LOG_EVENT_TABLE, $testUser2, '2001:0db8:85a3:0000:0000:8a2e:0370:7334', '20200101001000'
+				self::LOG_EVENT_TABLE,
+				$testUser2,
+				'2001:0db8:85a3:0000:0000:8a2e:0370:7334',
+				'20200101001000'
 			),
 			$this->getTestingRowForTable( self::LOG_EVENT_TABLE, $temporaryUser, '1.2.3.7', '20240109000000' ),
 			// Add rows which should not be imported to the central index (because they are anon users or bots)
@@ -166,14 +180,20 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 			$this->getTestingRowForTable( self::PRIVATE_LOG_EVENT_TABLE, $testUser1, '1.2.3.4', '20200104000000' ),
 			$this->getTestingRowForTable( self::PRIVATE_LOG_EVENT_TABLE, $testUser1, '1.2.3.5', '20220101000000' ),
 			$this->getTestingRowForTable(
-				self::PRIVATE_LOG_EVENT_TABLE, $testUser1, '2001:0db8:85a3:0000:0000:8a2e:0370:7334', '20200101001000'
+				self::PRIVATE_LOG_EVENT_TABLE,
+				$testUser1,
+				'2001:0db8:85a3:0000:0000:8a2e:0370:7334',
+				'20200101001000'
 			),
 			$this->getTestingRowForTable( self::PRIVATE_LOG_EVENT_TABLE, $testUser2, '1.2.3.6', '20220109000000' ),
 			$this->getTestingRowForTable( self::PRIVATE_LOG_EVENT_TABLE, $temporaryUser, '1.2.3.7', '20230109000002' ),
 			// Add rows which should not be imported to the central index (because they are anon users or bots)
 			$this->getTestingRowForTable( self::PRIVATE_LOG_EVENT_TABLE, $botUser, '2.3.4.5', '20230506070809' ),
 			$this->getTestingRowForTable(
-				self::PRIVATE_LOG_EVENT_TABLE, $anonUser, $anonUser->getName(), '20250506070810'
+				self::PRIVATE_LOG_EVENT_TABLE,
+				$anonUser,
+				$anonUser->getName(),
+				'20250506070810'
 			),
 		];
 

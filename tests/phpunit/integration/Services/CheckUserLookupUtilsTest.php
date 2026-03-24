@@ -31,7 +31,8 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 			);
 		} else {
 			$this->assertEquals(
-				$expectedSql, $actualExpr->toSql( $this->getDb() ),
+				$expectedSql,
+				$actualExpr->toSql( $this->getDb() ),
 				'The SQL representation of the conditions for an IP or IP range target is not as expected.'
 			);
 		}
@@ -89,7 +90,8 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 		/** @var CheckUserLookupUtils $checkUserLookupUtils */
 		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
 		$this->assertSame(
-			$expected, $checkUserLookupUtils->isValidIPOrRange( $target ),
+			$expected,
+			$checkUserLookupUtils->isValidIPOrRange( $target ),
 			'The return value of ::isValidIPOrRange is not as expected.'
 		);
 	}
@@ -118,7 +120,8 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 		/** @var CheckUserLookupUtils $checkUserLookupUtils */
 		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
 		$this->assertSame(
-			$expectedIndexValue, $checkUserLookupUtils->getIndexName( $xfor, $table ),
+			$expectedIndexValue,
+			$checkUserLookupUtils->getIndexName( $xfor, $table ),
 			'Index name is not as expected.'
 		);
 	}
@@ -142,7 +145,8 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
 		);
 		$this->assertSame(
-			$expectedReturnValue, $objectUnderTest->getIpHexColumn( $xfor, $table ),
+			$expectedReturnValue,
+			$objectUnderTest->getIpHexColumn( $xfor, $table ),
 			'Call to ::getIpHexColumn did not return the correct value.'
 		);
 	}

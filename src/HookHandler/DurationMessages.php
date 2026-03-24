@@ -67,7 +67,7 @@ class DurationMessages {
 		Context $context,
 		Config $config
 	): string {
-		// phpcs:ignore Generic.Files.LineLength.TooLong
+		// phpcs:ignore Generic.Files.LineLength
 		$msgKey = 'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text-with-global-preferences-with-autoreveal';
 		$maxExpiry = $config->get( 'CheckUserAutoRevealMaximumExpiry' );
 		return $context->msg( $msgKey )

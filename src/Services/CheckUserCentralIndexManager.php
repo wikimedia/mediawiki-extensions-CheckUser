@@ -59,7 +59,11 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	 * @return void
 	 */
 	public function recordActionInCentralIndexes(
-		UserIdentity $performer, ?string $ip, string $domainID, string $timestamp, bool $hasRevisionId
+		UserIdentity $performer,
+		?string $ip,
+		string $domainID,
+		string $timestamp,
+		bool $hasRevisionId
 	) {
 		// Convert the timestamp to TS_MW format in case we are running on a postgres DB. This is a no-op on other
 		// DB types.
@@ -88,7 +92,11 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	}
 
 	private function recordActionInTempEditCentralIndex(
-		UserIdentity $performer, ?string $ip, int $wikiMapId, string $timestamp, bool $hasRevisionId
+		UserIdentity $performer,
+		?string $ip,
+		int $wikiMapId,
+		string $timestamp,
+		bool $hasRevisionId
 	) {
 		// We only record edits performed by temporary accounts in this index, so return early if the performer
 		// is not a temporary account or if the action does not have a revision ID (i.e. not an edit). We also
@@ -142,7 +150,10 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	 * @return void
 	 */
 	private function recordActionInUserCentralIndex(
-		UserIdentity $performer, ?string $ip, int $wikiMapId, string $timestamp
+		UserIdentity $performer,
+		?string $ip,
+		int $wikiMapId,
+		string $timestamp
 	) {
 		// Don't record actions by users in any of the configured groups that are marked as excluded.
 		if ( count( array_intersect(
@@ -172,7 +183,9 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 
 		if ( !$centralId ) {
 			$centralId = $this->centralIdLookup->centralIdFromLocalUser(
-				$performer, CentralIdLookup::AUDIENCE_RAW, IDBAccessObject::READ_LATEST
+				$performer,
+				CentralIdLookup::AUDIENCE_RAW,
+				IDBAccessObject::READ_LATEST
 			);
 		}
 

@@ -82,7 +82,7 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-autoreveal-preference-checkbox-text',
-				// phpcs:ignore Generic.Files.LineLength.TooLong
+				// phpcs:ignore Generic.Files.LineLength
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text-with-global-preferences',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-globally-enabled',
@@ -90,7 +90,7 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 				'checkuser-tempaccount-enable-preference-description',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text',
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text-with-global-preferences',
-				// phpcs:ignore Generic.Files.LineLength.TooLong
+				// phpcs:ignore Generic.Files.LineLength
 				'checkuser-temporary-accounts-onboarding-dialog-ip-reveal-postscript-text-with-global-preferences-with-autoreveal',
 				'checkuser-ip-auto-reveal-link-sidebar',
 			],

@@ -52,7 +52,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// Set the TransactionProfiler expectations for 'writes' to zero
 		// so we can check it is silenced when configured to be
 		Profiler::instance()->getTransactionProfiler()->setExpectation(
-			'writes', 0, __METHOD__
+			'writes',
+			0,
+			__METHOD__
 		);
 	}
 
@@ -67,7 +69,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$mockCheckUserCentralIndexManager->expects( $this->once() )
 			->method( 'recordActionInCentralIndexes' )
 			->willReturnCallback( function ( $performer, $ip, $domainID, $timestamp, $hasRevisionId ) use (
-				$expectedUserIdentity, $expectedTimestamp, $expectedHasRevisionId,
+				$expectedUserIdentity,
+				$expectedTimestamp,
+				$expectedHasRevisionId,
 				$shouldTransactionProfilerBeSilenced
 			) {
 				// Check that the parameters are as expected for the call to this method
@@ -88,7 +92,11 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideInsertIntoCuChangesTable */
 	public function testInsertIntoCuChangesTable(
-		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
+		array $row,
+		array $fields,
+		array $expectedRow,
+		bool $silenceReplicaWarnings,
+		$checkUserInsert = null
 	) {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$performer = $this->getTestUser()->getUserIdentity();
@@ -97,7 +105,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		if ( $checkUserInsert === null ) {
 			$expectedHasRevisionId = ( $row['cuc_this_oldid'] ?? 0 ) !== 0;
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$performer, $row['cuc_timestamp'] ?? '20240506070809', $expectedHasRevisionId,
+				$performer,
+				$row['cuc_timestamp'] ?? '20240506070809',
+				$expectedHasRevisionId,
 				$silenceReplicaWarnings
 			);
 		}
@@ -120,7 +130,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 		$checkUserInsert ??= $this->setUpObject();
 		$checkUserInsert->insertIntoCuChangesTable(
-			$row, __METHOD__, $performer, silenceReplicaWarnings: $silenceReplicaWarnings
+			$row,
+			__METHOD__,
+			$performer,
+			silenceReplicaWarnings: $silenceReplicaWarnings
 		);
 
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
@@ -150,7 +163,11 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideInsertIntoCuPrivateEventTable */
 	public function testInsertIntoCuPrivateEventTable(
-		array $row, array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
+		array $row,
+		array $fields,
+		array $expectedRow,
+		bool $silenceReplicaWarnings,
+		$checkUserInsert = null
 	) {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$performer = $this->getTestUser()->getUserIdentity();
@@ -158,7 +175,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// will not do anything for the test if an instance already exists.
 		if ( $checkUserInsert === null ) {
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$performer, $row['cupe_timestamp'] ?? '20240506070809', false,
+				$performer,
+				$row['cupe_timestamp'] ?? '20240506070809',
+				false,
 				$silenceReplicaWarnings
 			);
 		}
@@ -181,7 +200,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 		$checkUserInsert ??= $this->setUpObject();
 		$returnedId = $checkUserInsert->insertIntoCuPrivateEventTable(
-			$row, __METHOD__, $performer, silenceReplicaWarnings: $silenceReplicaWarnings
+			$row,
+			__METHOD__,
+			$performer,
+			silenceReplicaWarnings: $silenceReplicaWarnings
 		);
 
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
@@ -216,7 +238,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideInsertIntoCuLogEventTable */
 	public function testInsertIntoCuLogEventTable(
-		array $fields, array $expectedRow, bool $silenceReplicaWarnings, $checkUserInsert = null
+		array $fields,
+		array $expectedRow,
+		bool $silenceReplicaWarnings,
+		$checkUserInsert = null
 	) {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$logId = $this->newLogEntry();
@@ -229,7 +254,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// will not do anything for the test if an instance already exists.
 		if ( $checkUserInsert === null ) {
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$logEntry->getPerformerIdentity(), $logEntry->getTimestamp(), false,
+				$logEntry->getPerformerIdentity(),
+				$logEntry->getTimestamp(),
+				false,
 				$silenceReplicaWarnings
 			);
 		}
@@ -252,7 +279,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 		$checkUserInsert ??= $this->setUpObject();
 		$checkUserInsert->insertIntoCuLogEventTable(
-			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity(),
+			$logEntry,
+			__METHOD__,
+			$this->getTestUser()->getUserIdentity(),
 			silenceReplicaWarnings: $silenceReplicaWarnings
 		);
 
@@ -537,11 +566,15 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 		if ( $table === 'cu_changes' ) {
 			$this->setUpObject()->insertIntoCuChangesTable(
-				[], __METHOD__, $this->getTestUser()->getUserIdentity()
+				[],
+				__METHOD__,
+				$this->getTestUser()->getUserIdentity()
 			);
 		} elseif ( $table === 'cu_private_event' ) {
 			$this->setUpObject()->insertIntoCuPrivateEventTable(
-				[], __METHOD__, $this->getTestUser()->getUserIdentity()
+				[],
+				__METHOD__,
+				$this->getTestUser()->getUserIdentity()
 			);
 		} elseif ( $table === 'cu_log_event' ) {
 			$logId = $this->newLogEntry();
@@ -551,7 +584,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			] );
 			$logEntry = DatabaseLogEntry::newFromId( $logId, $this->getDb() );
 			$this->setUpObject()->insertIntoCuLogEventTable(
-				$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
+				$logEntry,
+				__METHOD__,
+				$this->getTestUser()->getUserIdentity()
 			);
 		} else {
 			$this->fail( 'Unexpected table.' );
@@ -607,7 +642,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$this->setService( 'JobQueueGroup', $mockJobQueueGroup );
 
 		$rowIdFromInsertionMethod = $this->setUpObject()->insertIntoCuPrivateEventTable(
-			[ 'cupe_log_action' => 'test-action' ], __METHOD__, $performer
+			[ 'cupe_log_action' => 'test-action' ],
+			__METHOD__,
+			$performer
 		);
 
 		$this->assertInstanceOf( IJobSpecification::class, $actualJob );
@@ -639,7 +676,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$logEntry = DatabaseLogEntry::newFromId( $logId, $this->getDb() );
 
 		$this->setUpObject()->insertIntoCuLogEventTable(
-			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
+			$logEntry,
+			__METHOD__,
+			$this->getTestUser()->getUserIdentity()
 		);
 		$this->newSelectQueryBuilder()
 			->select( 'cule_log_id' )
@@ -659,12 +698,24 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function testUpdateCheckUserDataNoSave( array $rcAttribs ) {
 		$expectedRow = [];
 		$this->commonTestsUpdateCheckUserData( $rcAttribs, [], $expectedRow );
-		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
-			'A row was inserted to cu_changes when it should not have been.' );
-		$this->assertRowCount( 0, 'cu_private_event', 'cupe_id',
-			'A row was inserted to cu_private_event when it should not have been.' );
-		$this->assertRowCount( 0, 'cu_log_event', 'cule_id',
-			'A row was inserted to cu_log_event when it should not have been.' );
+		$this->assertRowCount(
+			0,
+			'cu_changes',
+			'cuc_id',
+			'A row was inserted to cu_changes when it should not have been.'
+		);
+		$this->assertRowCount(
+			0,
+			'cu_private_event',
+			'cupe_id',
+			'A row was inserted to cu_private_event when it should not have been.'
+		);
+		$this->assertRowCount(
+			0,
+			'cu_log_event',
+			'cule_id',
+			'A row was inserted to cu_log_event when it should not have been.'
+		);
 	}
 
 	public function testProvideUpdateCheckUserData() {
@@ -729,7 +780,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideUpdateCheckUserDataLogEvent */
 	public function testUpdateCheckUserDataLogEvent(
-		array $rcAttribs, string $table, array $fields, array $expectedRow
+		array $rcAttribs,
+		string $table,
+		array $fields,
+		array $expectedRow
 	) {
 		ConvertibleTimestamp::setFakeTime( $rcAttribs['rc_timestamp'] );
 		$logId = $this->newLogEntry();
@@ -751,7 +805,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideLogEntriesForClientHintsSavedWithAccountCreationLogEvent
 	 */
 	public function testClientHintsSavedWithAccountCreationLogEvent(
-		ManualLogEntry $logEntry, bool $requestWasPosted, bool $expectedToHaveResults
+		ManualLogEntry $logEntry,
+		bool $requestWasPosted,
+		bool $expectedToHaveResults
 	) {
 		// Simulate the TransactionProfiler expectations for either a GET or POST request
 		$trxLimits = $this->getServiceContainer()->getMainConfig()->get( MainConfigNames::TrxProfilerLimits );

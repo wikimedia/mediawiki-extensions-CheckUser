@@ -68,7 +68,9 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		if ( $hasUserSeenPrivateDataWarning ) {
 			$userOptionsManager = $this->getServiceContainer()->getUserOptionsManager();
 			$userOptionsManager->setOption(
-				$checkuser, Preferences::SUGGESTED_INVESTIGATIONS_PRIVATE_DATA_WARNING_SEEN, true
+				$checkuser,
+				Preferences::SUGGESTED_INVESTIGATIONS_PRIVATE_DATA_WARNING_SEEN,
+				true
 			);
 			$userOptionsManager->saveOptions( $checkuser );
 		}
@@ -104,7 +106,12 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		$context->setLanguage( 'qqx' );
 
 		[ $html ] = $this->executeSpecialPage(
-			'', new FauxRequest(), null, null, true, $context
+			'',
+			new FauxRequest(),
+			null,
+			null,
+			true,
+			$context
 		);
 
 		if ( $hasUserSeenPrivateDataWarning ) {
@@ -120,7 +127,8 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			);
 		} else {
 			$privateDataWarning = $this->assertAndGetByElementClass(
-				$html, 'ext-checkuser-suggestedinvestigations-private-data-warning'
+				$html,
+				'ext-checkuser-suggestedinvestigations-private-data-warning'
 			);
 			$this->assertStringContainsString(
 				'(checkuser-suggestedinvestigations-private-data-warning)',
@@ -129,14 +137,16 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		}
 
 		$descriptionHtml = $this->assertAndGetByElementClass(
-			$html, 'ext-checkuser-suggestedinvestigations-description'
+			$html,
+			'ext-checkuser-suggestedinvestigations-description'
 		);
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-summary',
 			$descriptionHtml
 		);
 		$this->assertAndGetByElementClass(
-			$descriptionHtml, 'ext-checkuser-suggestedinvestigations-signals-popover-icon'
+			$descriptionHtml,
+			'ext-checkuser-suggestedinvestigations-signals-popover-icon'
 		);
 
 		$actualJsConfigVars = $context->getOutput()->getJsConfigVars();
@@ -171,7 +181,12 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		);
 
 		[ $html ] = $this->executeSpecialPage(
-			'detail/abcdef12', new FauxRequest(), null, null, true, $context
+			'detail/abcdef12',
+			new FauxRequest(),
+			null,
+			null,
+			true,
+			$context
 		);
 		$this->assertTrue(
 			$hookRun,
@@ -187,7 +202,8 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		);
 
 		$descriptionHtml = $this->assertAndGetByElementClass(
-			$html, 'ext-checkuser-suggestedinvestigations-description'
+			$html,
+			'ext-checkuser-suggestedinvestigations-description'
 		);
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-summary-detail-view: 1',
@@ -202,7 +218,12 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 
 		/** @var $webResponse WebResponse */
 		[ $html, $webResponse ] = $this->executeSpecialPage(
-			'detail/abcxyz', new FauxRequest(), null, null, true, $context
+			'detail/abcxyz',
+			new FauxRequest(),
+			null,
+			null,
+			true,
+			$context
 		);
 
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-detail-view-not-found)', $html );
@@ -221,7 +242,12 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 
 		/** @var $webResponse WebResponse */
 		[ $html, $webResponse ] = $this->executeSpecialPage(
-			'unknown', new FauxRequest(), null, null, true, $context
+			'unknown',
+			new FauxRequest(),
+			null,
+			null,
+			true,
+			$context
 		);
 
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-subpage-not-found)', $html );
@@ -285,7 +311,9 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 
 	/** @dataProvider providePageLoadInstrumentation */
 	public function testPageLoadInstrumentation(
-		string $subPage, array $queryParameters, array $expectedInstrumentationData
+		string $subPage,
+		array $queryParameters,
+		array $expectedInstrumentationData
 	) {
 		$this->setTemporaryHook(
 			'CheckUserSuggestedInvestigationsGetSignals',

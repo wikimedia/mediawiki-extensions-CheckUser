@@ -107,7 +107,9 @@ class QueueAutoCloseSICasesTest extends MaintenanceBaseTestCase {
 		return $this->caseManager->createCase(
 			[ UserIdentityValue::newRegistered( $this->userId, 'TestUser' . $this->userId ) ],
 			[ SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-				'test-signal', 'value', false
+				'test-signal',
+				'value',
+				false
 			) ]
 		);
 	}

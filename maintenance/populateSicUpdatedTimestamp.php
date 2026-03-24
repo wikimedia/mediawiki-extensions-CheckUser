@@ -61,7 +61,8 @@ class PopulateSicUpdatedTimestamp extends LoggedUpdateMaintenance {
 			// was an empty string so we should check for that as well. Postgres DBs do not
 			// allow empty strings, so this was never an issue for postgres.
 			$rowsToUpdateExpr = $rowsToUpdateExpr->or(
-				'sic_updated_timestamp', '=',
+				'sic_updated_timestamp',
+				'=',
 				// Because MySQL / MariaDB uses a BINARY field, we need to cast the
 				// string to BINARY so that it's padded to 14 bytes
 				$dbr->getType() === 'mysql' ? new RawSQLValue( "CAST('' AS BINARY(14))" ) : ''

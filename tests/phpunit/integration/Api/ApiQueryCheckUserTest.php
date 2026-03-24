@@ -67,8 +67,11 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	 * @inheritDoc
 	 */
 	public function doApiRequestWithToken(
-		array $params, ?array $session = null,
-		?Authority $performer = null, $tokenType = 'csrf', $paramPrefix = null
+		array $params,
+		?array $session = null,
+		?Authority $performer = null,
+		$tokenType = 'csrf',
+		$paramPrefix = null
 	) {
 		// From ApiTestCase::doApiRequest() but modified
 		$session = RequestContext::getMain()->getRequest()->getSessionArray();
@@ -113,7 +116,9 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		/** @var ApiQuery $query */
 		$query = $main->getModuleManager()->getModule( 'query' );
 		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUser(
-			$query, $moduleName, $services->get( 'ApiQueryCheckUserResponseFactory' )
+			$query,
+			$moduleName,
+			$services->get( 'ApiQueryCheckUserResponseFactory' )
 		) );
 	}
 
@@ -223,8 +228,12 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 
 	/** @dataProvider provideExpectedApiResponses */
 	public function testResponseFromApi(
-		string $requestType, string $expectedRequestTypeInResponse, string $target,
-		string $timeCond, ?bool $xff, array $expectedData
+		string $requestType,
+		string $expectedRequestTypeInResponse,
+		string $target,
+		string $timeCond,
+		?bool $xff,
+		array $expectedData
 	) {
 		ConvertibleTimestamp::setFakeTime( '20230406060708' );
 		$result = $this->doCheckUserApiRequest(
@@ -406,7 +415,11 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->assertStatusGood( $blockStatus );
 		// Perform an 'actions' request and verify that the hidden user is not shown in the response.
 		$this->testResponseFromApi(
-			'actions', 'edits', '127.2.3.4', '-3 months', true,
+			'actions',
+			'edits',
+			'127.2.3.4',
+			'-3 months',
+			true,
 			[
 				[
 					'timestamp' => '2023-04-05T06:07:12Z',
@@ -445,7 +458,11 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->assertStatusGood( $blockStatus );
 		// Perform an 'ipusers' request and verify that the hidden user is not shown in the response.
 		$this->testResponseFromApi(
-			'ipusers', 'ipusers', '127.2.3.4', '-3 months', true,
+			'ipusers',
+			'ipusers',
+			'127.2.3.4',
+			'-3 months',
+			true,
 			[
 				[
 					'name' => wfMessage( 'rev-deleted-user' )->text(),

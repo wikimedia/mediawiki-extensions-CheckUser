@@ -24,8 +24,12 @@ class SemiMockedCheckUserDataPurger extends CheckUserDataPurger {
 	private array $seenTables = [];
 
 	public function purgeDataFromLocalTable(
-		IDatabase $dbw, string $table, string $cutoff, ClientHintsReferenceIds $deletedReferenceIds,
-		string $fname, int $totalRowsToPurge = 500
+		IDatabase $dbw,
+		string $table,
+		string $cutoff,
+		ClientHintsReferenceIds $deletedReferenceIds,
+		string $fname,
+		int $totalRowsToPurge = 500
 	): int {
 		// Keep a track of how many times a call to this method has been made, grouped by the $table argument value.
 		// Mock the return value by returning a unique integer on the first call, and then 0 on all subsequent calls

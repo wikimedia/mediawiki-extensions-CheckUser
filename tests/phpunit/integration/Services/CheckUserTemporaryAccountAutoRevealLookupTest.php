@@ -73,7 +73,9 @@ class CheckUserTemporaryAccountAutoRevealLookupTest extends MediaWikiIntegration
 
 	/** @dataProvider provideIsAutoRevealOn */
 	public function testIsAutoRevealOn(
-		bool $usesGlobalPreferencesFactory, bool $userHasAutoRevealRight, int|null $globalPreferenceValue,
+		bool $usesGlobalPreferencesFactory,
+		bool $userHasAutoRevealRight,
+		int|null $globalPreferenceValue,
 		bool $expectedReturnValue
 	) {
 		ConvertibleTimestamp::setFakeTime( 1234567 );

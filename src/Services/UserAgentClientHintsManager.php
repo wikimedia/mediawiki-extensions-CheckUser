@@ -79,7 +79,10 @@ class UserAgentClientHintsManager {
 	 * @return StatusValue
 	 */
 	public function insertClientHintValues(
-		ClientHintsData $clientHintsData, int $referenceId, string $type, bool $usePrimary = false
+		ClientHintsData $clientHintsData,
+		int $referenceId,
+		string $type,
+		bool $usePrimary = false
 	): StatusValue {
 		// Check if there are rows to insert to the map table.
 		$rows = $clientHintsData->toDatabaseRows();
@@ -143,7 +146,9 @@ class UserAgentClientHintsManager {
 	 * @see insertClientHintValues, which invokes this method.
 	 */
 	private function insertMappingRows(
-		array $clientHintMapping, int $foreignId, string $type
+		array $clientHintMapping,
+		int $foreignId,
+		string $type
 	): StatusValue {
 		// TINYINT reference to cu_changes, cu_log_event or cu_private_event.
 		$idType = $this->getMapIdByType( $type );

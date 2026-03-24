@@ -45,7 +45,8 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['timelineService'] ?? $this->getServiceContainer()->get( 'CheckUserTimelineService' ),
 			$overrides['timelineRowFormatterFactory'] ?? $this->getServiceContainer()
 				->get( 'CheckUserTimelineRowFormatterFactory' )->createRowFormatter(
-					RequestContext::getMain()->getUser(), RequestContext::getMain()->getLanguage()
+					RequestContext::getMain()->getUser(),
+					RequestContext::getMain()->getLanguage()
 				),
 			$overrides['linkBatchFactory'] ?? $this->getServiceContainer()->getLinkBatchFactory(),
 			$overrides['logger'] ?? LoggerFactory::getInstance( 'CheckUser' )
@@ -150,7 +151,11 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideReallyDoQuery */
 	public function testReallyDoQuery(
-		?array $offsetParts, int $limit, bool $order, array $filteredTargets, array $expectedRows
+		?array $offsetParts,
+		int $limit,
+		bool $order,
+		array $filteredTargets,
+		array $expectedRows
 	) {
 		if ( is_array( $offsetParts ) ) {
 			// Convert the timestamp value to the appropriate format in $offsetParts and then combine to make $offset

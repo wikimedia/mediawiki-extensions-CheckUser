@@ -42,18 +42,30 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 			->getTempUserCreator()
 			->create( '~check-user-test-01', $this->getFauxRequest( '127.0.0.1' ) )->getUser();
 		$this->editPage(
-			'Test page', 'Test Content 1A', 'test', NS_MAIN, $tempUser1
+			'Test page',
+			'Test Content 1A',
+			'test',
+			NS_MAIN,
+			$tempUser1
 		);
 		ConvertibleTimestamp::setFakeTime( '20230405060707' );
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 		$this->editPage(
-			'Test page', 'Test Content 1B', 'test', NS_MAIN, $tempUser1
+			'Test page',
+			'Test Content 1B',
+			'test',
+			NS_MAIN,
+			$tempUser1
 		);
 		// Add another action at the same timestamp, from a different IP, to
 		// test ordering by two fields
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.3' );
 		$this->editPage(
-			'Test page', 'Test Content 1C', 'test', NS_MAIN, $tempUser1
+			'Test page',
+			'Test Content 1C',
+			'test',
+			NS_MAIN,
+			$tempUser1
 		);
 
 		// This temp account is created from $tempUser1's second edit IP and edits
@@ -65,12 +77,20 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 			->create( '~check-user-test-02', $this->getFauxRequest( '127.0.0.2' ) )
 			->getUser();
 		$this->editPage(
-			'Test page', 'Test Content 2A', 'test', NS_MAIN, $tempUser2
+			'Test page',
+			'Test Content 2A',
+			'test',
+			NS_MAIN,
+			$tempUser2
 		);
 		ConvertibleTimestamp::setFakeTime( '20230405060709' );
 		RequestContext::getMain()->getRequest()->setIP( '1:1:1:1:1:1:1:1' );
 		$this->editPage(
-			'Test page', 'Test Content 2B', 'test', NS_MAIN, $tempUser2
+			'Test page',
+			'Test Content 2B',
+			'test',
+			NS_MAIN,
+			$tempUser2
 		);
 
 		// This temp account edits from a different IPv6 IP
@@ -82,14 +102,26 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 			->getTempUserCreator()
 			->create( '~check-user-test-03', $this->getFauxRequest( '1:1:1:1:1:1:1:2' ) )->getUser();
 		$this->editPage(
-			'Test page', 'Test Content 3A', 'test', NS_MAIN, $tempUser3
+			'Test page',
+			'Test Content 3A',
+			'test',
+			NS_MAIN,
+			$tempUser3
 		);
 		RequestContext::getMain()->getRequest()->setIP( '2:2:2:2:2:2:2:2' );
 		$this->editPage(
-			'Test page', 'Test Content 3B', 'test', NS_MAIN, $tempUser3
+			'Test page',
+			'Test Content 3B',
+			'test',
+			NS_MAIN,
+			$tempUser3
 		);
 		$this->editPage(
-			'Test page', 'Test Content 3C', 'test', NS_MAIN, $tempUser3
+			'Test page',
+			'Test Content 3C',
+			'test',
+			NS_MAIN,
+			$tempUser3
 		);
 
 		// Hide the user so we can test hideuser permissions
@@ -110,7 +142,11 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 			->getTempUserCreator()
 			->create( '~check-user-test-04', $this->getFauxRequest( '1.2.3.4' ) )->getUser();
 		$this->editPage(
-			'Test page', 'Test Content 4A', 'test', NS_MAIN, $tempUser4
+			'Test page',
+			'Test Content 4A',
+			'test',
+			NS_MAIN,
+			$tempUser4
 		);
 
 		ConvertibleTimestamp::setFakeTime( false );

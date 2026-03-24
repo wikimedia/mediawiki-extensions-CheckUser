@@ -52,7 +52,12 @@ class CheckUserLogService {
 	 * @return void
 	 */
 	public function addLogEntry(
-		UserIdentity $user, string $logType, string $targetType, string $target, string $reason, int $targetID = 0
+		UserIdentity $user,
+		string $logType,
+		string $targetType,
+		string $target,
+		string $reason,
+		int $targetID = 0
 	) {
 		if ( $targetType == 'ip' ) {
 			[ $rangeStart, $rangeEnd ] = IPUtils::parseRange( $target );
@@ -88,7 +93,14 @@ class CheckUserLogService {
 
 		DeferredUpdates::addCallableUpdate(
 			static function () use (
-				$data, $timestamp, $reason, $plaintextReason, $fname, $dbw, $commentStore, $logger
+				$data,
+				$timestamp,
+				$reason,
+				$plaintextReason,
+				$fname,
+				$dbw,
+				$commentStore,
+				$logger
 			) {
 				try {
 					$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
@@ -122,8 +134,11 @@ class CheckUserLogService {
 	public function getPlaintextReason( $reason ) {
 		return Sanitizer::stripAllTags(
 			$this->commentFormatter->formatBlock(
-				$reason, Title::newFromText( 'Special:CheckUserLog' ),
-				false, false, false
+				$reason,
+				Title::newFromText( 'Special:CheckUserLog' ),
+				false,
+				false,
+				false
 			)
 		);
 	}

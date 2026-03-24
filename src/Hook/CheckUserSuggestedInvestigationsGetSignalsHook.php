@@ -40,5 +40,6 @@ interface CheckUserSuggestedInvestigationsGetSignalsHook {
  */
 class_alias(
 	CheckUserSuggestedInvestigationsGetSignalsHook::class,
-	'MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsGetSignalsHook' );
+	'MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsGetSignalsHook'
+);
 // @codeCoverageIgnoreEnd

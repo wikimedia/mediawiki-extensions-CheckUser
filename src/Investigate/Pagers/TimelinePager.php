@@ -156,7 +156,8 @@ class TimelinePager extends ReverseChronologicalPager {
 
 		$formattedLinks = implode( ' ', array_filter( $rowItems['links'], 'strlen' ) );
 
-		$formatted = implode( ' . . ',
+		$formatted = implode(
+			' . . ',
 			array_filter( [ $formattedLinks, ...$rowItems['info'] ], 'strlen' )
 		);
 
@@ -176,7 +177,8 @@ class TimelinePager extends ReverseChronologicalPager {
 	 */
 	public function getPagingQueries() {
 		return $this->tokenQueryManager->getPagingQueries(
-			$this->getRequest(), parent::getPagingQueries()
+			$this->getRequest(),
+			parent::getPagingQueries()
 		);
 	}
 

@@ -297,15 +297,21 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 		$this->expectExceptionMessage( "Script will have exited." );
 		$objectUnderTest->execute();
 		$this->assertRowCount(
-			0, 'cu_changes', 'cuc_id',
+			0,
+			'cu_changes',
+			'cuc_id',
 			'No actions should be inserted to cu_changes.'
 		);
 		$this->assertRowCount(
-			0, 'cu_log_event', 'cule_id',
+			0,
+			'cu_log_event',
+			'cule_id',
 			'No actions should be inserted to cu_log_event.'
 		);
 		$this->assertRowCount(
-			0, 'cu_private_event', 'cupe_id',
+			0,
+			'cu_private_event',
+			'cupe_id',
 			'No actions should be inserted to cu_private_event.'
 		);
 	}

@@ -128,7 +128,8 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		if ( $this->isInDetailedView ) {
 			// Add additional content to the detail view after the single case row shown in the table
 			$this->hookRunner->onCheckUserSuggestedInvestigationsOnDetailViewRender(
-				$this->detailedViewCaseId, $output
+				$this->detailedViewCaseId,
+				$output
 			);
 		}
 	}
@@ -165,7 +166,10 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$output = $this->getOutput();
 			$output->setStatusCode( 404 );
 			$output->showErrorPage(
-				$errorPageTitle, $errorPageText, [], SpecialPage::getTitleFor( 'SuggestedInvestigations' )
+				$errorPageTitle,
+				$errorPageText,
+				[],
+				SpecialPage::getTitleFor( 'SuggestedInvestigations' )
 			);
 
 			return false;
@@ -182,7 +186,8 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 	 */
 	protected function outputHeader( $summaryMessageKey = '' ): void {
 		if ( !$this->userOptionsLookup->getBoolOption(
-			$this->getUser(), Preferences::SUGGESTED_INVESTIGATIONS_PRIVATE_DATA_WARNING_SEEN
+			$this->getUser(),
+			Preferences::SUGGESTED_INVESTIGATIONS_PRIVATE_DATA_WARNING_SEEN
 		) ) {
 			$this->getOutput()->addHTML( $this->messageRenderer->getUserDismissableWarning(
 				$this->msg(
@@ -200,7 +205,9 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$descriptionHtml = $this->msg( 'checkuser-suggestedinvestigations-summary' )->parse();
 		}
 		$descriptionHtml = Html::rawElement(
-			'span', [], $descriptionHtml
+			'span',
+			[],
+			$descriptionHtml
 		);
 
 		$popoverIcon = Html::element(
@@ -223,7 +230,9 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML( Html::rawElement(
-			'div', [ 'class' => 'ext-checkuser-suggestedinvestigations-description' ], $descriptionHtml
+			'div',
+			[ 'class' => 'ext-checkuser-suggestedinvestigations-description' ],
+			$descriptionHtml
 		) );
 
 		$this->getOutput()->addJsConfigVars( 'wgCheckUserSuggestedInvestigationsSignals', $this->signals );

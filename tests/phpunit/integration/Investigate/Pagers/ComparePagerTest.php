@@ -118,7 +118,8 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				'user' => self::$hiddenUser->getId(),
 				'actor' => self::$hiddenUser->getActorId(),
 			],
-			'user_text', '(rev-deleted-user)'
+			'user_text',
+			'(rev-deleted-user)'
 		);
 	}
 
@@ -142,7 +143,12 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideGetCellAttrs */
 	public function testGetCellAttrs(
-		array $row, array $filteredTargets, array $ipTotalActions, $name, $expectedClasses, $otherExpectedAttributes
+		array $row,
+		array $filteredTargets,
+		array $ipTotalActions,
+		$name,
+		$expectedClasses,
+		$otherExpectedAttributes
 	) {
 		// Set the user language to qqx so that we can compare against the message keys and not the english version of
 		// the message key (which may change and then break the tests).
@@ -260,7 +266,10 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		RequestContext::getMain()->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] ) );
 		$this->testGetCellAttrs(
 			[ 'user_text' => self::$hiddenUser->getName(), 'actor' => self::$hiddenUser->getActorId() ],
-			[], [], 'user_text', [ 'ext-checkuser-investigate-table-cell-interactive' ],
+			[],
+			[],
+			'user_text',
+			[ 'ext-checkuser-investigate-table-cell-interactive' ],
 			[
 				'data-field' => 'user_text',
 				'data-value' => '(rev-deleted-user)', 'data-sort-value' => '(rev-deleted-user)',
@@ -387,8 +396,11 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		// Place a 'hideuser' block on the test user to hide the user
 		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
 			->newBlockUser(
-				$hiddenUser, $this->getTestUser( [ 'sysop', 'suppress' ] )->getUser(),
-				'infinity', 'block to hide the test user', [ 'isHideUser' => true ]
+				$hiddenUser,
+				$this->getTestUser( [ 'sysop', 'suppress' ] )->getUser(),
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
 			)->placeBlock();
 		$this->assertStatusGood( $blockStatus );
 		self::$hiddenUser = $hiddenUser;

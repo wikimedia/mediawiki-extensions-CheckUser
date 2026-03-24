@@ -49,9 +49,26 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
 	) {
-		parent::__construct( $opts, $target, $logType, $tokenQueryManager, $userGroupManager, $centralIdLookup,
-			$dbProvider, $specialPageFactory, $userIdentityLookup, $checkUserLogService, $userFactory,
-			$checkUserLookupUtils, $userOptionsLookup, $blockStore, $tempUserConfig, $context, $linkRenderer, $limit );
+		parent::__construct(
+			$opts,
+			$target,
+			$logType,
+			$tokenQueryManager,
+			$userGroupManager,
+			$centralIdLookup,
+			$dbProvider,
+			$specialPageFactory,
+			$userIdentityLookup,
+			$checkUserLogService,
+			$userFactory,
+			$checkUserLookupUtils,
+			$userOptionsLookup,
+			$blockStore,
+			$tempUserConfig,
+			$context,
+			$linkRenderer,
+			$limit
+		);
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_IPS;
 	}
 
@@ -60,7 +77,8 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		$lang = $this->getLanguage();
 		$ip = IPUtils::prettifyIP( IPUtils::formatHex( $row->ip_hex ) );
 		$templateParams = [];
-		$templateParams['ipLink'] = $this->getSelfLink( $ip,
+		$templateParams['ipLink'] = $this->getSelfLink(
+			$ip,
 			[
 				'user' => $ip,
 				'reason' => $this->opts->getValue( 'reason' ),
@@ -77,7 +95,8 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		}
 
 		if ( IPUtils::isValidIPv6( $ip ) ) {
-			$templateParams['ip64Link'] = $this->getSelfLink( '/64',
+			$templateParams['ip64Link'] = $this->getSelfLink(
+				'/64',
 				[
 					'user' => $ip . '/64',
 					'reason' => $this->opts->getValue( 'reason' ),

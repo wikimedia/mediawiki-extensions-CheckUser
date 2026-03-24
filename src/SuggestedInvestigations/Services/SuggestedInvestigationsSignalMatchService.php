@@ -76,7 +76,10 @@ class SuggestedInvestigationsSignalMatchService {
 
 		$signalMatchResults = [];
 		$this->hookRunner->onCheckUserSuggestedInvestigationsSignalMatch(
-			$userIdentity, $eventType, $signalMatchResults, $extraData
+			$userIdentity,
+			$eventType,
+			$signalMatchResults,
+			$extraData
 		);
 
 		foreach ( $signalMatchResults as $signalMatchResult ) {
@@ -142,7 +145,8 @@ class SuggestedInvestigationsSignalMatchService {
 		$signals = [ $signal ];
 		$users = [ $user ];
 		$this->hookRunner->onCheckUserSuggestedInvestigationsBeforeCaseCreated(
-			$signals, $users
+			$signals,
+			$users
 		);
 		$caseId = $this->caseManager->createCase( $users, $signals );
 		$this->jobQueueGroup->lazyPush(
@@ -158,7 +162,9 @@ class SuggestedInvestigationsSignalMatchService {
 	 * @param SuggestedInvestigationsCase[] $cases
 	 */
 	private function updateCases(
-		SuggestedInvestigationsCaseUser $user, SuggestedInvestigationsSignalMatchResult $signal, array $cases
+		SuggestedInvestigationsCaseUser $user,
+		SuggestedInvestigationsSignalMatchResult $signal,
+		array $cases
 	): void {
 		foreach ( $cases as $case ) {
 			$this->caseManager->updateCase( $case->getId(), [ $user ], [ $signal ] );
@@ -166,7 +172,9 @@ class SuggestedInvestigationsSignalMatchService {
 	}
 
 	private function bumpCaseTimestampForUserIfFirstEdit(
-		string $eventType, UserIdentity $userIdentity, array $extraData
+		string $eventType,
+		UserIdentity $userIdentity,
+		array $extraData
 	): void {
 		$revId = $extraData['revId'] ?? null;
 

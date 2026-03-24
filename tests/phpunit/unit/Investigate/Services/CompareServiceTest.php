@@ -35,7 +35,8 @@ class CompareServiceTest extends MediaWikiUnitTestCase {
 		);
 		$targets = $compareService->getTargetsOverLimit( [ '1.2.3.4' ], [], '' );
 		$this->assertCount(
-			0, $targets,
+			0,
+			$targets,
 			'The return value of ::getTargetsOverLimit() should be an empty array when the ' .
 			'database does not support ORDER BY and LIMIT in UNION queries.'
 		);

@@ -406,7 +406,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			}
 
 			$formattedUsers .= Html::rawElement(
-				'li', [
+				'li',
+				[
 					'class' => $i >= $userHideThreshold ?
 						'mw-checkuser-suggestedinvestigations-user-defaulthide'
 						: '',
@@ -554,7 +555,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		$actionsHtml .= Html::openElement(
-			'a', [
+			'a',
+			[
 				'role' => 'button',
 				'class' => $investigateButtonClasses,
 				'title' => $investigateButtonTitle,
@@ -763,7 +765,9 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			ConvertibleTimestamp::time() - $this->lastUpdatedDaysFilter * 86400
 		);
 		$queryInfo['conds'][] = $db->expr(
-			'sic_updated_timestamp', '>=', $cutoff
+			'sic_updated_timestamp',
+			'>=',
+			$cutoff
 		);
 
 		return $queryInfo;
@@ -929,7 +933,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 			foreach ( $resultUsers as $row ) {
 				$userIdToUserIdentity[$row->user_id] = UserIdentityValue::newRegistered(
-					$row->user_id, $row->user_name
+					$row->user_id,
+					$row->user_name
 				);
 			}
 		}

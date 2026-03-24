@@ -40,12 +40,14 @@ class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTest
 		$this->assertStringNotContainsString( 'Test page3', $html );
 
 		$firstRevisionRowHtml = $this->assertAndGetByElementSelector(
-			$html, 'li[data-mw-revid="' . static::$firstRevisionId . '"]'
+			$html,
+			'li[data-mw-revid="' . static::$firstRevisionId . '"]'
 		);
 		$this->assertUserCorrectlyAddedToRowHtml( $passUserToPager, $firstRevisionRowHtml );
 
 		$secondRevisionRowHtml = $this->assertAndGetByElementSelector(
-			$html, 'li[data-mw-revid="' . static::$secondRevisionId . '"]'
+			$html,
+			'li[data-mw-revid="' . static::$secondRevisionId . '"]'
 		);
 		$this->assertUserCorrectlyAddedToRowHtml( $passUserToPager, $secondRevisionRowHtml );
 	}
@@ -75,7 +77,8 @@ class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTest
 		$this->assertStringContainsString( 'Test page3', $html );
 
 		$deletedRevisionRowHtml = $this->assertAndGetByElementSelector(
-			$html, 'li[data-mw-revid="' . static::$deletedRevisionId . '"]'
+			$html,
+			'li[data-mw-revid="' . static::$deletedRevisionId . '"]'
 		);
 		$this->assertUserCorrectlyAddedToRowHtml( $passUserToPager, $deletedRevisionRowHtml );
 	}

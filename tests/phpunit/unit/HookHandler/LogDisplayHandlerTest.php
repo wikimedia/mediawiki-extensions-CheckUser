@@ -25,7 +25,11 @@ class LogDisplayHandlerTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideOnLogEventsListLineEnding */
 	public function testOnLogEventsListLineEnding(
-		$performerIsTempAccount, $titleText, $titleNamespace, $canAccessTempAccountIPs, $expectedClasses
+		$performerIsTempAccount,
+		$titleText,
+		$titleNamespace,
+		$canAccessTempAccountIPs,
+		$expectedClasses
 	) {
 		// Mock that a given performer is or is not a temporary account.
 		$testPerformer = new UserIdentityValue( 123, 'Testing' );
@@ -66,7 +70,11 @@ class LogDisplayHandlerTest extends MediaWikiUnitTestCase {
 		$classes = [];
 		$attribs = [];
 		$hookHandler->onLogEventsListLineEnding(
-			$mockLogEventsList, $ret, $mockEntry, $classes, $attribs
+			$mockLogEventsList,
+			$ret,
+			$mockEntry,
+			$classes,
+			$attribs
 		);
 
 		// Expect that only the CSS classes are modified, and that they are as expected.
@@ -128,14 +136,20 @@ class LogDisplayHandlerTest extends MediaWikiUnitTestCase {
 		$classes = [];
 		$attribs = [];
 		$hookHandler->onChangesListInsertLogEntry(
-			$mockEntry, $context, $html, $classes, $attribs
+			$mockEntry,
+			$context,
+			$html,
+			$classes,
+			$attribs
 		);
 
 		// Expect that only the CSS classes are modified, and that they are as expected.
 		$this->assertSame( '', $html );
 		$this->assertArrayEquals( [], $attribs );
 		$this->assertArrayEquals(
-			[ 'ext-checkuser-log-line-supports-ip-reveal' ], $classes, 'CSS classes were not as expected'
+			[ 'ext-checkuser-log-line-supports-ip-reveal' ],
+			$classes,
+			'CSS classes were not as expected'
 		);
 	}
 }

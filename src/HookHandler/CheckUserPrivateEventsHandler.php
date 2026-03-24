@@ -158,7 +158,9 @@ class CheckUserPrivateEventsHandler implements
 
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			$this->storeClientHintsDataFromHeaders(
-				$insertedId, 'privatelog', RequestContext::getMain()->getRequest()
+				$insertedId,
+				'privatelog',
+				RequestContext::getMain()->getRequest()
 			);
 		}
 	}
@@ -181,7 +183,9 @@ class CheckUserPrivateEventsHandler implements
 
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			$this->storeClientHintsDataFromHeaders(
-				$logEntry->getId(), 'log', RequestContext::getMain()->getRequest()
+				$logEntry->getId(),
+				'log',
+				RequestContext::getMain()->getRequest()
 			);
 		}
 	}
@@ -209,7 +213,8 @@ class CheckUserPrivateEventsHandler implements
 
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			RequestContext::getMain()->getOutput()->addJsConfigVars(
-				'wgCheckUserClientHintsPrivateEventId', $insertedId
+				'wgCheckUserClientHintsPrivateEventId',
+				$insertedId
 			);
 		}
 	}
@@ -258,7 +263,8 @@ class CheckUserPrivateEventsHandler implements
 
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			RequestContext::getMain()->getOutput()->addJsConfigVars(
-				'wgCheckUserClientHintsPrivateEventId', $insertedId
+				'wgCheckUserClientHintsPrivateEventId',
+				$insertedId
 			);
 		}
 	}
@@ -367,7 +373,8 @@ class CheckUserPrivateEventsHandler implements
 			// If the login attempt was not successful, then ask for client hints data via the API on the next
 			// page load as we can collect it easily as the Special:UserLogin page is loaded to show the error.
 			$context->getOutput()->addJsConfigVars(
-				'wgCheckUserClientHintsPrivateEventId', $insertedId
+				'wgCheckUserClientHintsPrivateEventId',
+				$insertedId
 			);
 		} else {
 			// If the login attempt was a success, then we cannot use the API to collect the data due to redirects

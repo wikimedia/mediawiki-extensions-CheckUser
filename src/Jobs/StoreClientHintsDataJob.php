@@ -58,7 +58,9 @@ class StoreClientHintsDataJob extends Job {
 	public function run(): bool {
 		$clientHintsData = ClientHintsData::newFromSerialisedJsonArray( $this->params['clientHintsData'] );
 		$this->userAgentClientHintsManager->insertClientHintValues(
-			$clientHintsData, $this->params['referenceId'], $this->params['referenceType']
+			$clientHintsData,
+			$this->params['referenceId'],
+			$this->params['referenceType']
 		);
 
 		return true;

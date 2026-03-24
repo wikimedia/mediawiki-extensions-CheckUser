@@ -7,7 +7,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 use MediaWiki\Extension\CentralAuth\Hooks\CentralAuthGlobalUserLockStatusChangedHook;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnGlobalLockHandler;
-// phpcs:ignore Generic.Files.LineLength.TooLong
+// phpcs:ignore Generic.Files.LineLength
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -97,7 +97,10 @@ class SuggestedInvestigationsAutoCloseOnGlobalLockHandlerTest extends MediaWikiU
 	 * @dataProvider provideEarlyReturnCases
 	 */
 	public function testEarlyReturn(
-		bool $isLocked, bool $isExtensionEnabled, bool $localUserExists, bool $localUserRegistered,
+		bool $isLocked,
+		bool $isExtensionEnabled,
+		bool $localUserExists,
+		bool $localUserRegistered,
 		bool $expectsDispatch
 	): void {
 		$this->caseLookup->expects( $this->never() )

@@ -161,7 +161,8 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 		$actualOptions = $prefs['checkuser-helper-table-collapse-by-default']['options'];
 		// Check that the site config option looks correct.
 		$actualSiteConfigLabel = array_search(
-			Preferences::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT, $actualOptions
+			Preferences::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT,
+			$actualOptions
 		);
 		$this->assertSame(
 			"(checkuser-helper-table-collapse-by-default-preference-default: $expectedSiteConfigValue)",
@@ -214,7 +215,9 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideOnGetPreferencesValidatesAutoRevealPreference */
 	public function testOnGetPreferencesValidatesAutoRevealPreference(
-		bool $canUserUseAutoReveal, bool $isAutoRevealExpiryValid, mixed $autoRevealPreferenceValue,
+		bool $canUserUseAutoReveal,
+		bool $isAutoRevealExpiryValid,
+		mixed $autoRevealPreferenceValue,
 		string|null $expectedErrorMessageKey
 	) {
 		$this->autoRevealLookup->method( 'isAutoRevealAvailable' )
@@ -238,7 +241,9 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $this->user );
 
 		$actualValidationStatus = $prefs['checkuser-temporary-account-enable-auto-reveal']['validation-callback'](
-			$autoRevealPreferenceValue, [], $mockHtmlForm
+			$autoRevealPreferenceValue,
+			[],
+			$mockHtmlForm
 		);
 		if ( $expectedErrorMessageKey === null ) {
 			$this->assertStatusGood( $actualValidationStatus );

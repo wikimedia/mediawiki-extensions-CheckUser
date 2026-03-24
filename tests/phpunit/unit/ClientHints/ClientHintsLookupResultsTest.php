@@ -21,7 +21,11 @@ class ClientHintsLookupResultsTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideGetClientHintsByReferenceIds */
 	public function testGetClientHintsByReferenceIds(
-		$referenceIdsToIndexMap, $clientHintsDataArray, $referenceId, $referenceType, $expectedReturnValue
+		$referenceIdsToIndexMap,
+		$clientHintsDataArray,
+		$referenceId,
+		$referenceType,
+		$expectedReturnValue
 	) {
 		$objectUnderTest = new ClientHintsLookupResults( $referenceIdsToIndexMap, $clientHintsDataArray );
 		$result = $objectUnderTest->getClientHintsDataForReferenceId( $referenceId, $referenceType );
@@ -114,7 +118,10 @@ class ClientHintsLookupResultsTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideGetGroupedClientHintsDataForReferenceIds */
 	public function testGetGroupedClientHintsDataForReferenceIds(
-		$referenceIdsToIndexMap, $clientHintsDataArray, $referenceIds, $expectedReturnArray
+		$referenceIdsToIndexMap,
+		$clientHintsDataArray,
+		$referenceIds,
+		$expectedReturnArray
 	) {
 		$objectUnderTest = new ClientHintsLookupResults( $referenceIdsToIndexMap, $clientHintsDataArray );
 		$this->assertArrayEquals(
@@ -137,7 +144,8 @@ class ClientHintsLookupResultsTest extends MediaWikiUnitTestCase {
 
 		$referenceIdsForOneCuChangesReference = new ClientHintsReferenceIds();
 		$referenceIdsForOneCuChangesReference->addReferenceIds(
-			2, UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+			2,
+			UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
 		);
 		yield 'Empty lookup results list and is provided cu_changes reference ID' => [
 			[], [],

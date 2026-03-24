@@ -284,7 +284,9 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			$startOffset = $checkUserDataCutoff;
 		}
 		$timestampConds[] = $this->mDb->expr(
-			$this->getTimestampField(), '>=', $this->mDb->timestamp( $startOffset )
+			$this->getTimestampField(),
+			'>=',
+			$this->mDb->timestamp( $startOffset )
 		);
 
 		// Compute a synthetic sequence number for each wiki 0 ... -N,
@@ -303,7 +305,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				// these will not be shown to anyone for a registered user target, until T389187.
 				if ( !$this->permissions->hasPermission( 'deletedhistory', $wikiId ) ) {
 					$wikiConds[] = $dbr->bitAnd(
-						$this->revisionDeletedField, RevisionRecord::DELETED_USER
+						$this->revisionDeletedField,
+						RevisionRecord::DELETED_USER
 					) . ' = 0';
 				}
 				if (
@@ -311,7 +314,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 					!$this->permissions->hasPermission( 'viewsuppressed', $wikiId )
 				) {
 					$wikiConds[] = $dbr->bitAnd(
-						$this->revisionDeletedField, RevisionRecord::SUPPRESSED_USER
+						$this->revisionDeletedField,
+						RevisionRecord::SUPPRESSED_USER
 					) . ' != ' . RevisionRecord::SUPPRESSED_USER;
 				}
 			}
@@ -429,7 +433,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		foreach ( $parentIdsByWiki as $wikiId => $parentIds ) {
 			$this->parentRevisionSizes[$wikiId] ??= [];
 			$this->parentRevisionSizes[$wikiId] += $this->globalContributionsLookup->getRevisionSizes(
-				$wikiId, array_keys( $parentIds )
+				$wikiId,
+				array_keys( $parentIds )
 			);
 		}
 	}
@@ -727,7 +732,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			[ 'class' => 'mw-changeslist-history' ]
 		);
 
-		return Html::rawElement( 'span',
+		return Html::rawElement(
+			'span',
 			[ 'class' => 'mw-changeslist-links' ],
 			// The spans are needed to ensure the dividing '|' elements are not
 			// themselves styled as links.

@@ -36,7 +36,10 @@ class SuggestedInvestigationsSignalMatchResultTest extends MediaWikiUnitTestCase
 
 	/** @dataProvider provideNewPositiveResult */
 	public function testNewPositiveResult(
-		bool $valueMatchAllowsMerging, array $equivalentNamesForMerging, ?int $triggerId, ?string $triggerIdTable,
+		bool $valueMatchAllowsMerging,
+		array $equivalentNamesForMerging,
+		?int $triggerId,
+		?string $triggerIdTable,
 		int $userInfoBitFlags
 	): void {
 		// null for $triggerId means to use the default value

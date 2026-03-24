@@ -43,12 +43,16 @@ trait UserAgentClientHintsManagerHelperTrait {
 			) {
 				if ( count( $clientHintsData->toDatabaseRows() ) ) {
 					$this->jobQueueGroup->push( StoreClientHintsDataJob::newSpec(
-						$clientHintsData, $eventId, $eventType
+						$clientHintsData,
+						$eventId,
+						$eventType
 					) );
 				}
 			} else {
 				$this->userAgentClientHintsManager->insertClientHintValues(
-					$clientHintsData, $eventId, $eventType
+					$clientHintsData,
+					$eventId,
+					$eventType
 				);
 			}
 		} catch ( TypeError ) {

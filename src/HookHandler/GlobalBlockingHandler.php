@@ -122,7 +122,12 @@ class GlobalBlockingHandler implements GlobalBlockingGetRetroactiveAutoblockIPsH
 	 * @return void
 	 */
 	private function fetchIPAddressesFromLocalWiki(
-		string $wikiID, string $target, int $limit, ?string $upperBound, ?string $lowerBound, array &$foundIps
+		string $wikiID,
+		string $target,
+		int $limit,
+		?string $upperBound,
+		?string $lowerBound,
+		array &$foundIps
 	) {
 		$localDbr = $this->dbProvider->getReplicaDatabase( $wikiID );
 

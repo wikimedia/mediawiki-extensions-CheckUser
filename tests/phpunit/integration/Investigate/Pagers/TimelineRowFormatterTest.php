@@ -178,7 +178,9 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 			->newBlockUser(
 				$hiddenUser,
 				$this->getTestUser( [ 'suppress', 'sysop' ] )->getAuthority(),
-				'infinity', 'block to hide the test user', [ 'isHideUser' => true ]
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
 			)->placeBlock();
 		$this->assertStatusGood( $blockStatus );
 		// ::testGetFormattedRowItems uses a test user which cannot see users which are hidden.
@@ -203,7 +205,9 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 			->newBlockUser(
 				$hiddenUser,
 				$this->getTestUser( [ 'suppress', 'sysop' ] )->getAuthority(),
-				'infinity', 'block to hide the test user', [ 'isHideUser' => true ]
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
 			)->placeBlock();
 		$this->assertStatusGood( $blockStatus );
 		// Get the object under test and the row.
@@ -318,7 +322,8 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		);
 		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
 		$this->assertStringContainsString(
-			'1.2.3.4', $actualTimelineFormattedRowItems['info']['userLinks'],
+			'1.2.3.4',
+			$actualTimelineFormattedRowItems['info']['userLinks'],
 			'The userLinks should display the IP as the performer in the userLinks if the actor ID was null.'
 		);
 	}
@@ -334,7 +339,9 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$actualLogLink = $actualTimelineFormattedRowItems['links']['logLink'];
 		$this->assertStringContainsString( '123', $actualLogLink, 'The log ID link should include the log ID' );
 		$this->assertStringContainsString(
-			'(checkuser-log-link-text', $actualLogLink, 'The link text was not as expected'
+			'(checkuser-log-link-text',
+			$actualLogLink,
+			'The link text was not as expected'
 		);
 	}
 
@@ -397,7 +404,9 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$actualLogLink = $actualTimelineFormattedRowItems['links']['logLink'];
 		$this->assertStringContainsString( '123', $actualLogLink );
 		$this->assertStringContainsString(
-			'(checkuser-log-link-text', $actualLogLink, 'The link text was not as expected'
+			'(checkuser-log-link-text',
+			$actualLogLink,
+			'The link text was not as expected'
 		);
 	}
 

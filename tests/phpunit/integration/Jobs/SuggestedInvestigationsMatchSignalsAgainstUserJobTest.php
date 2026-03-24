@@ -28,7 +28,9 @@ class SuggestedInvestigationsMatchSignalsAgainstUserJobTest extends MediaWikiInt
 		$extraData = [ 'session' => $sessionData ];
 
 		$spec = SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec(
-			$userIdentity, 'test-event-type', $extraData
+			$userIdentity,
+			'test-event-type',
+			$extraData
 		);
 
 		$mockService = $this->createMock( SuggestedInvestigationsSignalMatchService::class );

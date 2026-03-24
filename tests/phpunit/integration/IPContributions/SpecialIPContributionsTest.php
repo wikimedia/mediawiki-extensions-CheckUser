@@ -70,17 +70,33 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		// Named user and 2 temp users edit from the first IP
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
 		$this->editPage(
-			'Test page', 'Test Content 1', 'test', NS_MAIN, self::$sysop
+			'Test page',
+			'Test Content 1',
+			'test',
+			NS_MAIN,
+			self::$sysop
 		);
 		$this->editPage(
-			'Test page', 'Test Content 2', 'test', NS_MAIN, $temp1
+			'Test page',
+			'Test Content 2',
+			'test',
+			NS_MAIN,
+			$temp1
 		);
 		$this->editPage(
-			'Test page', 'Test Content 3', 'test', NS_MAIN, $temp2
+			'Test page',
+			'Test Content 3',
+			'test',
+			NS_MAIN,
+			$temp2
 		);
 
 		$this->editPage(
-			'Test page for deletion', 'Test Content', 'test', NS_MAIN, $temp1
+			'Test page for deletion',
+			'Test Content',
+			'test',
+			NS_MAIN,
+			$temp1
 		);
 		$title = Title::newFromText( 'Test page for deletion' );
 		$page = $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $title );
@@ -89,7 +105,11 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		// Temp user edits again from a different IP
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 		$this->editPage(
-			'Test page', 'Test Content 4', 'test', NS_MAIN, $temp1
+			'Test page',
+			'Test Content 4',
+			'test',
+			NS_MAIN,
+			$temp1
 		);
 	}
 
@@ -176,7 +196,9 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		$this->assertSame( 0, substr_count( $html, 'data-mw-revid' ) );
 		$this->assertStringContainsString( 'checkuser-ip-contributions-target-error-no-ip-banner', $html );
 		$this->assertStringNotContainsString(
-			'sp-contributions-blocked', $html, 'No block log extract should be shown on an error page'
+			'sp-contributions-blocked',
+			$html,
+			'No block log extract should be shown on an error page'
 		);
 	}
 

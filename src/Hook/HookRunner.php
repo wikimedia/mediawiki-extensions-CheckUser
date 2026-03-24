@@ -52,7 +52,11 @@ class HookRunner implements
 
 	/** @inheritDoc */
 	public function onCheckUserInsertChangesRow(
-		string &$ip, &$xff, array &$row, UserIdentity $user, ?RecentChange $rc
+		string &$ip,
+		&$xff,
+		array &$row,
+		UserIdentity $user,
+		?RecentChange $rc
 	) {
 		$this->container->run(
 			'CheckUserInsertChangesRow',
@@ -62,7 +66,12 @@ class HookRunner implements
 
 	/** @inheritDoc */
 	public function onCheckUserInsertLogEventRow(
-		string &$ip, &$xff, array &$row, UserIdentity $user, int $id, ?RecentChange $rc
+		string &$ip,
+		&$xff,
+		array &$row,
+		UserIdentity $user,
+		int $id,
+		?RecentChange $rc
 	) {
 		$this->container->run(
 			'CheckUserInsertLogEventRow',
@@ -72,7 +81,11 @@ class HookRunner implements
 
 	/** @inheritDoc */
 	public function onCheckUserInsertPrivateEventRow(
-		string &$ip, &$xff, array &$row, UserIdentity $user, ?RecentChange $rc
+		string &$ip,
+		&$xff,
+		array &$row,
+		UserIdentity $user,
+		?RecentChange $rc
 	) {
 		$this->container->run(
 			'CheckUserInsertPrivateEventRow',
@@ -109,7 +122,10 @@ class HookRunner implements
 
 	/** @inheritDoc */
 	public function onCheckUserSuggestedInvestigationsSignalMatch(
-		$userIdentity, string $eventType, array &$signalMatchResults, array $extraData
+		$userIdentity,
+		string $eventType,
+		array &$signalMatchResults,
+		array $extraData
 	): void {
 		$this->container->run(
 			'CheckUserSuggestedInvestigationsSignalMatch',
@@ -120,7 +136,9 @@ class HookRunner implements
 
 	/** @inheritDoc */
 	public function onSpecialCheckUserGetLinksFromRow(
-		AbstractCheckUserPager $specialCheckUser, stdClass $row, array &$links
+		AbstractCheckUserPager $specialCheckUser,
+		stdClass $row,
+		array &$links
 	) {
 		$this->container->run(
 			'SpecialCheckUserGetLinksFromRow',

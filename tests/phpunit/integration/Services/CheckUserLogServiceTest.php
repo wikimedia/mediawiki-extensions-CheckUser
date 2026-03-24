@@ -29,11 +29,22 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function commonTestAddLogEntry(
-		$logType, $targetType, $target, $reason, $targetID, $assertSelectFieldNames, $assertSelectFieldValues
+		$logType,
+		$targetType,
+		$target,
+		$reason,
+		$targetID,
+		$assertSelectFieldNames,
+		$assertSelectFieldValues
 	): void {
 		$object = $this->setUpObject();
 		$object->addLogEntry(
-			$this->getTestUser( 'checkuser' )->getUser(), $logType, $targetType, $target, $reason, $targetID
+			$this->getTestUser( 'checkuser' )->getUser(),
+			$logType,
+			$targetType,
+			$target,
+			$reason,
+			$targetID
 		);
 		DeferredUpdates::doUpdates();
 		$this->newSelectQueryBuilder()
@@ -65,9 +76,17 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideAddLogEntryIPs */
 	public function testAddLogEntryIPs(
-		$logType, $target, $reason, $assertSelectFieldValues
+		$logType,
+		$target,
+		$reason,
+		$assertSelectFieldValues
 	) {
-		$this->commonTestAddLogEntry( $logType, 'ip', $target, $reason, 0,
+		$this->commonTestAddLogEntry(
+			$logType,
+			'ip',
+			$target,
+			$reason,
+			0,
 			[ 'cul_target_id', 'cul_type', 'cul_target_text', 'cul_target_hex', 'cul_range_start', 'cul_range_end' ],
 			array_merge( [ 0 ], $assertSelectFieldValues )
 		);
@@ -92,9 +111,17 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideAddLogEntryUsers */
 	public function testAddLogEntryUser(
-		$logType, UserIdentity $target, $reason, $assertSelectFieldValues
+		$logType,
+		UserIdentity $target,
+		$reason,
+		$assertSelectFieldValues
 	) {
-		$this->commonTestAddLogEntry( $logType, 'user', $target->getName(), $reason, $target->getId(),
+		$this->commonTestAddLogEntry(
+			$logType,
+			'user',
+			$target->getName(),
+			$reason,
+			$target->getId(),
 			[ 'cul_target_hex', 'cul_range_start', 'cul_range_end', 'cul_type', 'cul_target_text', 'cul_target_id' ],
 			array_merge( [ '', '', '' ], $assertSelectFieldValues )
 		);
@@ -122,8 +149,13 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		ConvertibleTimestamp::setFakeTime( $timestamp );
 		$testUser = $this->getTestUser()->getUserIdentity();
 		$this->commonTestAddLogEntry(
-			'ipusers', 'user', $testUser->getName(), 'testing', $testUser->getId(),
-			[ 'cul_timestamp' ], [ $this->getDb()->timestamp( $timestamp ) ]
+			'ipusers',
+			'user',
+			$testUser->getName(),
+			'testing',
+			$testUser->getId(),
+			[ 'cul_timestamp' ],
+			[ $this->getDb()->timestamp( $timestamp ) ]
 		);
 	}
 
@@ -261,8 +293,13 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideGetTargetSearchCondsIPWhenMaxRangeConfigSet */
 	public function testGetTargetSearchCondsIPWhenMaxRangeConfigSet(
-		array $maxRangeToShowInLogConfig, string $target, string $type, string $expectedStart, string $expectedEnd,
-		?string $expectedMinRangeStart, ?string $expectedMaxRangeEnd
+		array $maxRangeToShowInLogConfig,
+		string $target,
+		string $type,
+		string $expectedStart,
+		string $expectedEnd,
+		?string $expectedMinRangeStart,
+		?string $expectedMaxRangeEnd
 	) {
 		$this->overrideConfigValue( 'CheckUserLogMaxRangeToShowInLog', $maxRangeToShowInLogConfig );
 
@@ -275,8 +312,12 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		}
 		$this->assertArrayEquals(
 			$this->getExpectedGetTargetSearchConds(
-				$type, null, $expectedStart, $expectedEnd,
-				$expectedMinRangeStart, $expectedMaxRangeEnd
+				$type,
+				null,
+				$expectedStart,
+				$expectedEnd,
+				$expectedMinRangeStart,
+				$expectedMaxRangeEnd
 			),
 			$actualResult,
 			false,
@@ -349,8 +390,12 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	 * {@link CheckUserLogService::getTargetSearchConds}.
 	 */
 	private function getExpectedGetTargetSearchConds(
-		string $type, ?int $id, ?string $start = null, ?string $end = null,
-		?string $minRangeStart = null, ?string $maxRangeEnd = null
+		string $type,
+		?int $id,
+		?string $start = null,
+		?string $end = null,
+		?string $minRangeStart = null,
+		?string $maxRangeEnd = null
 	): ?array {
 		switch ( $type ) {
 			case 'ip':

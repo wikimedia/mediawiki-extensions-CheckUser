@@ -25,7 +25,8 @@ interface CheckUserSuggestedInvestigationsBeforeCaseCreatedHook {
 	 *   Handlers of this hook can add additional users to this array if desired
 	 */
 	public function onCheckUserSuggestedInvestigationsBeforeCaseCreated(
-		array $signals, array &$users
+		array $signals,
+		array &$users
 	): void;
 }
 

@@ -55,7 +55,9 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 			'::execute should have returned true as the script should have run successfully.'
 		);
 		$this->assertRowCount(
-			0, 'cu_changes', 'cuc_id',
+			0,
+			'cu_changes',
+			'cuc_id',
 			'The row count in an empty cu_changes should not have changed after calling ::execute.'
 		);
 		$this->expectOutputString( "cu_changes is empty; nothing to delete.\n" );
@@ -77,7 +79,9 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 		);
 		// Test entries were moved
 		$this->assertRowCount(
-			$numberOfNormalRows, 'cu_changes', 'cuc_id',
+			$numberOfNormalRows,
+			'cu_changes',
+			'cuc_id',
 			'The row count in an empty cu_changes was not as expected after calling ::execute.'
 		);
 	}

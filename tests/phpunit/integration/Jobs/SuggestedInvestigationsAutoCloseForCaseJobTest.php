@@ -49,8 +49,11 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiIntegratio
 		$job = $this->getJob( $caseId );
 		$this->assertTrue( $job->run() );
 
-		$this->assertEquals( (string)CaseStatus::Open->value, $this->getCaseStatus( $caseId ),
-			'Case should remain open when it has no users' );
+		$this->assertEquals(
+			(string)CaseStatus::Open->value,
+			$this->getCaseStatus( $caseId ),
+			'Case should remain open when it has no users'
+		);
 	}
 
 	public function testRunDoesNotCloseWhenNotAllUsersBlocked(): void {
@@ -68,8 +71,11 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiIntegratio
 		$job = $this->getJob( $caseId );
 		$this->assertTrue( $job->run() );
 
-		$this->assertEquals( (string)CaseStatus::Open->value, $this->getCaseStatus( $caseId ),
-			'Case should remain open when not all users are blocked' );
+		$this->assertEquals(
+			(string)CaseStatus::Open->value,
+			$this->getCaseStatus( $caseId ),
+			'Case should remain open when not all users are blocked'
+		);
 	}
 
 	public function testRunClosesCaseWhenAllUsersBlocked(): void {
@@ -87,8 +93,11 @@ class SuggestedInvestigationsAutoCloseForCaseJobTest extends MediaWikiIntegratio
 		$job = $this->getJob( $caseId );
 		$this->assertTrue( $job->run() );
 
-		$this->assertEquals( (string)CaseStatus::Resolved->value, $this->getCaseStatus( $caseId ),
-			'Case should be resolved when all users are blocked' );
+		$this->assertEquals(
+			(string)CaseStatus::Resolved->value,
+			$this->getCaseStatus( $caseId ),
+			'Case should be resolved when all users are blocked'
+		);
 	}
 
 	public function testNewFromGlobalState(): void {

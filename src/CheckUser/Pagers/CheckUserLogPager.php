@@ -94,7 +94,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 					// offset is used by IndexPager, it does not know this is a timestamp,
 					// so provide in database format to make it working as string there.
 					'offset' => $this->getDatabase()->timestamp(
-						(int)wfTimestamp( TS_UNIX, $row->cul_timestamp ) + 3600 ),
+						(int)wfTimestamp( TS_UNIX, $row->cul_timestamp ) + 3600
+					),
 					'highlight' => $row->cul_timestamp,
 				]
 			);
@@ -143,7 +144,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				);
 			}
 			$user .= $this->msg( 'word-separator' )->escaped()
-				. Html::rawElement( 'span', [ 'class' => 'mw-usertoollinks' ],
+				. Html::rawElement(
+					'span',
+					[ 'class' => 'mw-usertoollinks' ],
 					$this->msg( 'parentheses' )->rawParams( $this->getLinkRenderer()->makeLink(
 						SpecialPage::getTitleFor( 'CheckUserLog' ),
 						$this->msg( 'checkuser-log-checks-by' )->text(),
@@ -211,7 +214,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				$target,
 				$this->generateTimestampLink(
 					$lang->userTimeAndDate(
-						wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser
+						wfTimestamp( TS_MW, $row->cul_timestamp ),
+						$contextUser
 					),
 					$row
 				),

@@ -46,13 +46,13 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBloc
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalBlockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
-// phpcs:ignore Generic.Files.LineLength.TooLong
+// phpcs:ignore Generic.Files.LineLength
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\SuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeIndefiniteBlockChecker;
-// phpcs:ignore Generic.Files.LineLength.TooLong
+// phpcs:ignore Generic.Files.LineLength
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;

@@ -105,14 +105,16 @@ class UserAgentClientHintsFormatter {
 							$brandAsString = $this->getBrandAsString( $brand, false );
 							if ( $brandAsString ) {
 								$dataAsStringArray[$clientHintName . '-' . $key] = $this->generateClientHintsListItem(
-									$clientHintName, $brandAsString
+									$clientHintName,
+									$brandAsString
 								);
 							}
 						}
 					}
 				} else {
 					$dataAsStringArray[$clientHintName] = $this->generateClientHintsListItem(
-						$clientHintName, $dataAsArray[$clientHintName]
+						$clientHintName,
+						$dataAsArray[$clientHintName]
 					);
 				}
 			}

@@ -148,7 +148,9 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 
 	/** @dataProvider providePreprocessResults */
 	public function testPreprocessResults(
-		$results, $expectedReferenceIdsForLookup, $expectedUserSets
+		$results,
+		$expectedReferenceIdsForLookup,
+		$expectedUserSets
 	) {
 		// Get the object to test with
 		$objectUnderTest = $this->getMockBuilder( CheckUserGetUsersPager::class )
@@ -432,7 +434,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 		] );
 
 		$objectUnderTest = $this->createMockPagerForPreprocessResults(
-			new UserIdentityValue( 100, 'CheckUserAdmin' ), true
+			new UserIdentityValue( 100, 'CheckUserAdmin' ),
+			true
 		);
 
 		$mockSiCaseLookup = $this->createMock( SuggestedInvestigationsCaseLookupService::class );
@@ -466,7 +469,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 		] );
 
 		$objectUnderTest = $this->createMockPagerForPreprocessResults(
-			new UserIdentityValue( 100, 'RegularUser' ), false
+			new UserIdentityValue( 100, 'RegularUser' ),
+			false
 		);
 
 		$mockSiCaseLookup = $this->createMock( SuggestedInvestigationsCaseLookupService::class );
@@ -492,7 +496,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 		bool $hasSiRight
 	): TestingAccessWrapper {
 		$objectUnderTest = $this->createPartialMock(
-			CheckUserGetUsersPager::class, [ 'getUser', 'getAuthority', 'getOutput' ]
+			CheckUserGetUsersPager::class,
+			[ 'getUser', 'getAuthority', 'getOutput' ]
 		);
 		$objectUnderTest->method( 'getUser' )->willReturn( $mockUser );
 

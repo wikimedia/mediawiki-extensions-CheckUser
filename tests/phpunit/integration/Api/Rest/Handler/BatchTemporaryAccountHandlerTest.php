@@ -111,7 +111,9 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 					[]
 				);
 			$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
-				$serviceOptions, $preferencesFactory, $checkUserPermissionManager
+				$serviceOptions,
+				$preferencesFactory,
+				$checkUserPermissionManager
 			);
 		} else {
 			$autoRevealLookup = $this->createMock(
@@ -268,7 +270,11 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$userName = self::$tempUser->getName();
 		$data = $this->executeHandlerAndGetBodyData(
-			$handler, new RequestData(), [], [], [],
+			$handler,
+			new RequestData(),
+			[],
+			[],
+			[],
 			[
 				'users' => [
 					$userName => [
@@ -768,7 +774,11 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		// which don't have CU data but have an associated revision which does.
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.20' );
 		$this->editPage(
-			$this->getNonexistingTestPage(), 'testingabc', 'test create', NS_MAIN, $tempUser
+			$this->getNonexistingTestPage(),
+			'testingabc',
+			'test create',
+			NS_MAIN,
+			$tempUser
 		);
 
 		// Assert that no cu_log_event row exists for the page creation (as then we won't be testing
@@ -803,7 +813,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$filterStore = AbuseFilterServices::getFilterStore();
 
 		$status = $filterStore->saveFilter(
-			$performer, null,
+			$performer,
+			null,
 			$this->getFilterFactoryProxy()->getFilter( [
 				'id' => '1',
 				'name' => 'Test filter',

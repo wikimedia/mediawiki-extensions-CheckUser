@@ -46,7 +46,9 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		);
 
 		$this->getObjectUnderTest()->matchSignalsAgainstUser(
-			$this->createMock( UserIdentity::class ), 'test-event', []
+			$this->createMock( UserIdentity::class ),
+			'test-event',
+			[]
 		);
 	}
 
@@ -56,7 +58,10 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$user1 = $this->getTestUser()->getUser();
 		$user2 = $this->getTestSysop()->getUser();
 		$initialSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'test-signal', 'test-value', $mergeable );
+			'test-signal',
+			'test-value',
+			$mergeable
+		);
 		$signalThatMatchesViaHook = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
 			name: 'test-signal',
 			value: 'test-value',
@@ -83,7 +88,10 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$this->setTemporaryHook(
 			'CheckUserSuggestedInvestigationsSignalMatch',
 			function (
-				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults, array $extraData
+				UserIdentity $userIdentity,
+				string $eventType,
+				array &$hookProvidedSignalMatchResults,
+				array $extraData
 			) use ( &$hookCalled, $signalThatMatchesViaHook ) {
 				$this->assertArrayEquals( [ 'extra-data' => 'test' ], $extraData, false, true );
 				$hookProvidedSignalMatchResults[] = $signalThatMatchesViaHook;
@@ -152,7 +160,9 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$this->setTemporaryHook(
 			'CheckUserSuggestedInvestigationsSignalMatch',
 			static function (
-				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults
+				UserIdentity $userIdentity,
+				string $eventType,
+				array &$hookProvidedSignalMatchResults
 			) use ( &$hookCalled ) {
 				$negativeResult = SuggestedInvestigationsSignalMatchResult::newNegativeResult( 'test-signal' );
 				$hookProvidedSignalMatchResults[] = $negativeResult;
@@ -189,7 +199,9 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$this->setTemporaryHook(
 			'CheckUserSuggestedInvestigationsSignalMatch',
 			static function (
-				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults
+				UserIdentity $userIdentity,
+				string $eventType,
+				array &$hookProvidedSignalMatchResults
 			) use ( $signal ) {
 				$hookProvidedSignalMatchResults[] = $signal;
 			}
@@ -246,7 +258,10 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$user1 = $this->getTestUser()->getUser();
 		$user2 = $this->getTestSysop()->getUser();
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'test-signal', 'test-value', $mergeable );
+			'test-signal',
+			'test-value',
+			$mergeable
+		);
 
 		// Create an invalid case with user1
 		$invalidCaseId = $this->caseManager->createCase( [ $user1 ], [ $signal ] );
@@ -255,7 +270,9 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$this->setTemporaryHook(
 			'CheckUserSuggestedInvestigationsSignalMatch',
 			static function (
-				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults
+				UserIdentity $userIdentity,
+				string $eventType,
+				array &$hookProvidedSignalMatchResults
 			) use ( $signal ) {
 				$hookProvidedSignalMatchResults[] = $signal;
 			}
@@ -313,7 +330,9 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		return [
 			'signal matches' => [
 				'hookResult' => SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-					'test-signal', 'test-value', false
+					'test-signal',
+					'test-value',
+					false
 				),
 			],
 			'no signal match' => [
@@ -331,14 +350,18 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$user = $this->getTestUser()->getUser();
 
 		$initialSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'test-signal', 'test-value', false
+			'test-signal',
+			'test-value',
+			false
 		);
 		$caseId1 = $this->caseManager->createCase( [ $user ], [ $initialSignal ] );
 		$caseId2 = $this->caseManager->createCase( [ $user ], [ $initialSignal ] );
 
 		$this->setTemporaryHook( 'CheckUserSuggestedInvestigationsSignalMatch', static function (
-				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults
-			) use ( $hookResult ) {
+			UserIdentity $userIdentity,
+			string $eventType,
+			array &$hookProvidedSignalMatchResults
+		) use ( $hookResult ) {
 				$hookProvidedSignalMatchResults[] = $hookResult;
 		}
 		);
@@ -349,7 +372,8 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$revId = $status->getNewRevision()->getId();
 
 		$this->getObjectUnderTest()->matchSignalsAgainstUser(
-			$user, SuggestedInvestigationsSignalMatchService::EVENT_SUCCESSFUL_EDIT,
+			$user,
+			SuggestedInvestigationsSignalMatchService::EVENT_SUCCESSFUL_EDIT,
 			[ 'revId' => $revId ]
 		);
 
@@ -387,14 +411,18 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 
 	/** @dataProvider provideCasesWhenNotToUpdateTheTimestamp */
 	public function testTimestampIsNotChangedEditCountIsNotOne(
-		int $revisionCountToCreate, bool $useRevId, string $eventType
+		int $revisionCountToCreate,
+		bool $useRevId,
+		string $eventType
 	): void {
 		ConvertibleTimestamp::setFakeTime( '20111111111111' );
 
 		$user = $this->getTestUser()->getUser();
 
 		$initialSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'test-signal', 'test-value', false
+			'test-signal',
+			'test-value',
+			false
 		);
 		$caseId = $this->caseManager->createCase( [ $user ], [ $initialSignal ] );
 
@@ -437,11 +465,15 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 
 	/** @dataProvider provideAutoCloseJobIsQueuedOnlyOnCaseCreation */
 	public function testAutoCloseJobIsQueuedOnlyOnCaseCreation(
-		bool $mergeable, bool $preCreateExistingCase, int $expectedJobCount
+		bool $mergeable,
+		bool $preCreateExistingCase,
+		int $expectedJobCount
 	): void {
 		$user = $this->getTestUser()->getUser();
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'test-signal', 'test-value', $mergeable
+			'test-signal',
+			'test-value',
+			$mergeable
 		);
 
 		if ( $preCreateExistingCase ) {
@@ -452,7 +484,9 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$this->setTemporaryHook(
 			'CheckUserSuggestedInvestigationsSignalMatch',
 			static function (
-				UserIdentity $userIdentity, string $eventType, array &$hookProvidedSignalMatchResults
+				UserIdentity $userIdentity,
+				string $eventType,
+				array &$hookProvidedSignalMatchResults
 			) use ( $signal ) {
 				$hookProvidedSignalMatchResults[] = $signal;
 			}

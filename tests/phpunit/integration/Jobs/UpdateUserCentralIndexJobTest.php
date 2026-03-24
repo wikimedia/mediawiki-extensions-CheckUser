@@ -16,7 +16,9 @@ class UpdateUserCentralIndexJobTest extends MediaWikiIntegrationTestCase {
 
 	private function getObjectUnderTest( $params ): UpdateUserCentralIndexJob {
 		return new UpdateUserCentralIndexJob(
-			null, $params, $this->getServiceContainer()->getConnectionProvider()
+			null,
+			$params,
+			$this->getServiceContainer()->getConnectionProvider()
 		);
 	}
 

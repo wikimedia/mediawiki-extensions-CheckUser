@@ -38,7 +38,9 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 	 * @throws ApiUsageException
 	 */
 	public function doCheckUserLogApiRequest(
-		array $params = [], ?array $session = null, ?Authority $performer = null
+		array $params = [],
+		?array $session = null,
+		?Authority $performer = null
 	) {
 		$performer ??= $this->getTestUser( 'checkuser' )->getAuthority();
 		return $this->doApiRequest( self::INITIAL_API_PARAMS + $params, $session, false, $performer );
@@ -54,7 +56,10 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		/** @var ApiQuery $query */
 		$query = $main->getModuleManager()->getModule( 'query' );
 		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUserLog(
-			$query, $moduleName, $services->getCommentStore(), $services->get( 'CheckUserLogService' ),
+			$query,
+			$moduleName,
+			$services->getCommentStore(),
+			$services->get( 'CheckUserLogService' ),
 			$services->getUserFactory()
 		) );
 	}
@@ -126,13 +131,25 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 
 	/** @dataProvider provideExampleLogEntryDataForReasonFilterTest */
 	public function testReasonFilter(
-		$logType, $targetType, $target, $reason, $targetID, $timestamp, $reasonToSearchFor, $shouldSeeEntry
+		$logType,
+		$targetType,
+		$target,
+		$reason,
+		$targetID,
+		$timestamp,
+		$reasonToSearchFor,
+		$shouldSeeEntry
 	) {
 		ConvertibleTimestamp::setFakeTime( $timestamp );
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
 		$checkUserLogService->addLogEntry(
-			$this->getTestSysop()->getUser(), $logType, $targetType, $target, $reason, $targetID
+			$this->getTestSysop()->getUser(),
+			$logType,
+			$targetType,
+			$target,
+			$reason,
+			$targetID
 		);
 		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest( [
@@ -148,11 +165,15 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		] )[0]['query']['checkuserlog']['entries'];
 		if ( $shouldSeeEntry ) {
 			$this->assertCount(
-				1, $result, 'A search for the plaintext version of the reason should show one entry.'
+				1,
+				$result,
+				'A search for the plaintext version of the reason should show one entry.'
 			);
 		} else {
 			$this->assertCount(
-				0, $result, 'A search for the plaintext version of the reason should show no entries.'
+				0,
+				$result,
+				'A search for the plaintext version of the reason should show no entries.'
 			);
 		}
 	}
@@ -173,7 +194,12 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
 		$checkUserLogService->addLogEntry(
-			$this->getTestSysop()->getUser(), $logType, $targetType, $target, $reason, $targetID
+			$this->getTestSysop()->getUser(),
+			$logType,
+			$targetType,
+			$target,
+			$reason,
+			$targetID
 		);
 		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest()[0]['query']['checkuserlog']['entries'];
@@ -205,7 +231,12 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
 		$checkUserLogService->addLogEntry(
-			$this->getTestSysop()->getUser(), 'userips', 'user', $target, 'test', $targetID
+			$this->getTestSysop()->getUser(),
+			'userips',
+			'user',
+			$target,
+			'test',
+			$targetID
 		);
 		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest( [
@@ -224,7 +255,11 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
 		$checkUserLogService->addLogEntry(
-			$this->getTestSysop()->getUser(), 'ipusers', 'ip', $target, 'test'
+			$this->getTestSysop()->getUser(),
+			'ipusers',
+			'ip',
+			$target,
+			'test'
 		);
 		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest( [

@@ -63,7 +63,10 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 	/** @dataProvider provideLookupForOpenCaseWithNoFilter */
 	public function testLookupForOpenCaseWithNoFilter( array $equivalentNamesForMerging ) {
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'Lorem', 'ipsum', false, equivalentNamesForMerging: $equivalentNamesForMerging
+			'Lorem',
+			'ipsum',
+			false,
+			equivalentNamesForMerging: $equivalentNamesForMerging
 		);
 
 		$service = $this->createService();
@@ -159,10 +162,14 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 
 	/** @dataProvider provideGetMergeableCasesForSignal */
 	public function testGetMergeableCasesForSignal(
-		array $equivalentNamesForMerging, callable $expectedCaseIdsCallback
+		array $equivalentNamesForMerging,
+		callable $expectedCaseIdsCallback
 	) {
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'Lorem', 'ipsum', false, equivalentNamesForMerging: $equivalentNamesForMerging
+			'Lorem',
+			'ipsum',
+			false,
+			equivalentNamesForMerging: $equivalentNamesForMerging
 		);
 
 		$service = $this->createService();
@@ -281,7 +288,9 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 
 	/** @dataProvider provideGetUserIdsWithCases */
 	public function testGetUserIdsWithCases(
-		array $inputUserIds, array $statusesFilter, array $expectedUserIds
+		array $inputUserIds,
+		array $statusesFilter,
+		array $expectedUserIds
 	): void {
 		$service = $this->createService();
 
@@ -348,7 +357,11 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 			[],
 			[
 				SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-					'Lorem', 'ipsum', false, 123, 'revision'
+					'Lorem',
+					'ipsum',
+					false,
+					123,
+					'revision'
 				),
 			]
 		);

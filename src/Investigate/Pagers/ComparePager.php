@@ -371,7 +371,8 @@ class ComparePager extends TablePager {
 	 */
 	public function getPagingQueries() {
 		return $this->tokenQueryManager->getPagingQueries(
-			$this->getRequest(), parent::getPagingQueries()
+			$this->getRequest(),
+			parent::getPagingQueries()
 		);
 	}
 }

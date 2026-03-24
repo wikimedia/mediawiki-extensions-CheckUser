@@ -45,7 +45,9 @@ trait CheckUserCommonTestTrait {
 	 * @return RecentChange
 	 */
 	public function commonTestsUpdateCheckUserData(
-		array $rcAttribs, array $fields, array &$expectedRow
+		array $rcAttribs,
+		array $fields,
+		array &$expectedRow
 	): RecentChange {
 		if ( !$this->needsDB() ) {
 			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
@@ -92,7 +94,11 @@ trait CheckUserCommonTestTrait {
 	 * @param array $where Any conditions to apply (default no conditions; optional)
 	 */
 	public function assertRowCount(
-		int $expectedRowCount, string $table, string $idField, string $message, array $where = []
+		int $expectedRowCount,
+		string $table,
+		string $idField,
+		string $message,
+		array $where = []
 	): void {
 		if ( !$this->needsDB() ) {
 			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .

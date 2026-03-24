@@ -54,7 +54,10 @@ class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideAddReferenceIds */
 	public function testAddReferenceIds(
-		$initialInternalArrayValue, $referenceIds, $mapId, $expectedInternalArrayValue
+		$initialInternalArrayValue,
+		$referenceIds,
+		$mapId,
+		$expectedInternalArrayValue
 	) {
 		$objectUnderTest = new ClientHintsReferenceIds( $initialInternalArrayValue );
 		$objectUnderTest->addReferenceIds( $referenceIds, $mapId );

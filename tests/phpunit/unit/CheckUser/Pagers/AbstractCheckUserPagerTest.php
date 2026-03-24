@@ -155,7 +155,14 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideBuildQueryInfo */
 	public function testBuildQueryInfo(
-		$offset, $limit, $order, $startOffset, $endOffset, $includeOffset, $mockedQueryInfo, $partialExpectedArray
+		$offset,
+		$limit,
+		$order,
+		$startOffset,
+		$endOffset,
+		$includeOffset,
+		$mockedQueryInfo,
+		$partialExpectedArray
 	) {
 		$object = $this->getMockBuilder( DeAbstractedCheckUserPager::class )
 			->disableOriginalConstructor()

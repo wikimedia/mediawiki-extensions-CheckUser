@@ -94,7 +94,9 @@ class CreateFakeSuggestedInvestigationCases extends Maintenance {
 			};
 
 			$matchedSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-				$signalData['name'], $signalValue, false
+				$signalData['name'],
+				$signalValue,
+				false
 			);
 
 			// Generate the users for the suggested investigations case
@@ -147,7 +149,8 @@ class CreateFakeSuggestedInvestigationCases extends Maintenance {
 		$attemptsMade = 0;
 		do {
 			$user = $services->getUserFactory()->newFromName(
-				'CheckUserSimulated-' . wfRandomString(), UserRigorOptions::RIGOR_CREATABLE
+				'CheckUserSimulated-' . wfRandomString(),
+				UserRigorOptions::RIGOR_CREATABLE
 			);
 			if ( $attemptsMade > 100 ) {
 				return null;

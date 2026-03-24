@@ -73,7 +73,11 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	 * @dataProvider provideFormatRow
 	 */
 	public function testFormatRow(
-		$row, $flagCache, $usernameVisibility, $formattedRevisionComments, $formattedClientHintsData,
+		$row,
+		$flagCache,
+		$usernameVisibility,
+		$formattedRevisionComments,
+		$formattedClientHintsData,
 		$expectedTemplateParams
 	) {
 		$object = $this->setUpObject();
@@ -184,7 +188,8 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[
 				'userLink' => Linker::userLink( 0, $normalisedIP, $normalisedIP ),
 				'ipIsSet' => true,
-				'ipLink' => $wrapper->getSelfLink( $normalisedIP,
+				'ipLink' => $wrapper->getSelfLink(
+					$normalisedIP,
 					[
 						'user' => $normalisedIP,
 						'reason' => '',
@@ -196,7 +201,8 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 
 	/** @dataProvider provideFormatRowForLogWithLogParameters */
 	public function testFormatRowForLogWithLogParameters(
-		$logParametersAsArray, $logParametersAsBlob
+		$logParametersAsArray,
+		$logParametersAsBlob
 	) {
 		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
 		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );

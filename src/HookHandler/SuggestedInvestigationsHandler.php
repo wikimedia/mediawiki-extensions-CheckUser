@@ -55,14 +55,16 @@ class SuggestedInvestigationsHandler implements
 	/** @inheritDoc */
 	public function onUserSetEmail( $user, &$email ): void {
 		$this->matchSignalsAgainstUserInJob(
-			$user, SuggestedInvestigationsSignalMatchService::EVENT_SET_EMAIL
+			$user,
+			SuggestedInvestigationsSignalMatchService::EVENT_SET_EMAIL
 		);
 	}
 
 	/** @inheritDoc */
 	public function onUserSetEmailAuthenticationTimestamp( $user, &$timestamp ): void {
 		$this->matchSignalsAgainstUserInJob(
-			$user, SuggestedInvestigationsSignalMatchService::EVENT_CONFIRM_EMAIL
+			$user,
+			SuggestedInvestigationsSignalMatchService::EVENT_CONFIRM_EMAIL
 		);
 	}
 
@@ -74,7 +76,9 @@ class SuggestedInvestigationsHandler implements
 	 * @param array $extraData
 	 */
 	private function matchSignalsAgainstUserInJob(
-		UserIdentity $userIdentity, string $eventType, array $extraData = []
+		UserIdentity $userIdentity,
+		string $eventType,
+		array $extraData = []
 	): void {
 		$extraData['session'] = RequestContext::getMain()->exportSession();
 		$this->jobQueueGroup->lazyPush(

@@ -116,19 +116,23 @@ class PopulateSicUpdatedTimestampTest extends MaintenanceBaseTestCase {
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
 		ConvertibleTimestamp::setFakeTime( '20260504030201' );
 		$firstCaseId = $caseManager->createCase(
-			[ UserIdentityValue::newRegistered( 1, 'Test user 1' ) ], [ $signal ]
+			[ UserIdentityValue::newRegistered( 1, 'Test user 1' ) ],
+			[ $signal ]
 		);
 		ConvertibleTimestamp::setFakeTime( '20260504030202' );
 		$secondCaseId = $caseManager->createCase(
-			[ UserIdentityValue::newRegistered( 2, 'Test user 2' ) ], [ $signal ]
+			[ UserIdentityValue::newRegistered( 2, 'Test user 2' ) ],
+			[ $signal ]
 		);
 		ConvertibleTimestamp::setFakeTime( '20260504030203' );
 		$thirdCaseId = $caseManager->createCase(
-			[ UserIdentityValue::newRegistered( 3, 'Test user 3' ) ], [ $signal ]
+			[ UserIdentityValue::newRegistered( 3, 'Test user 3' ) ],
+			[ $signal ]
 		);
 		ConvertibleTimestamp::setFakeTime( '20260504030204' );
 		$fourthCaseId = $caseManager->createCase(
-			[ UserIdentityValue::newRegistered( 4, 'Test user 4' ) ], [ $signal ]
+			[ UserIdentityValue::newRegistered( 4, 'Test user 4' ) ],
+			[ $signal ]
 		);
 
 		// Set two rows to use a value of null as sic_updated_timestamp

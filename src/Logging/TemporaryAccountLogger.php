@@ -105,7 +105,10 @@ class TemporaryAccountLogger {
 		$action = $global ?
 			self::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL : self::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP;
 		$this->debouncedLog(
-			$performer, IPUtils::prettifyIP( $ip ), $action, $timestamp
+			$performer,
+			IPUtils::prettifyIP( $ip ),
+			$action,
+			$timestamp
 		);
 	}
 
@@ -338,11 +341,19 @@ class TemporaryAccountLogger {
 
 		if ( $debounce ) {
 			$this->debouncedLog(
-				$performer, $target, $action, $timestamp, $params
+				$performer,
+				$target,
+				$action,
+				$timestamp,
+				$params
 			);
 		} else {
 			$this->log(
-				$performer, $target, $action, $params, $timestamp
+				$performer,
+				$target,
+				$action,
+				$params,
+				$timestamp
 			);
 		}
 	}

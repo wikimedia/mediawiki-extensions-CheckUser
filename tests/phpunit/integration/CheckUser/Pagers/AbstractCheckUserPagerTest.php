@@ -140,7 +140,10 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		$user = UserIdentityValue::newAnonymous( $ip );
 		// Globally block the IP
 		GlobalBlockingServices::wrap( $this->getServiceContainer() )->getGlobalBlockManager()->block(
-			$ip, 'test', '1 week', $this->getTestUser( [ 'steward' ] )->getUserIdentity()
+			$ip,
+			'test',
+			'1 week',
+			$this->getTestUser( [ 'steward' ] )->getUserIdentity()
 		);
 		$this->assertSame(
 			[ '<strong>(' . wfMessage( 'checkuser-gblocked' )->escaped() . ')</strong>' ],
@@ -159,7 +162,10 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		$user = $this->getMutableTestUser()->getUserIdentity();
 		// Globally block the test user
 		GlobalBlockingServices::wrap( $this->getServiceContainer() )->getGlobalBlockManager()->block(
-			$user->getName(), 'test', '1 week', $this->getTestUser( [ 'steward' ] )->getUserIdentity()
+			$user->getName(),
+			'test',
+			'1 week',
+			$this->getTestUser( [ 'steward' ] )->getUserIdentity()
 		);
 		$this->assertContains(
 			'<strong>(' . wfMessage( 'checkuser-gblocked' )->escaped() . ')</strong>',
@@ -202,7 +208,10 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideGetCheckUserHelperFieldset */
 	public function testGetCheckUserHelperFieldset(
-		$collapseByDefaultConfigValue, $userPreferenceValue, $shouldBeByDefaultCollapsed, $resultRowCount
+		$collapseByDefaultConfigValue,
+		$userPreferenceValue,
+		$shouldBeByDefaultCollapsed,
+		$resultRowCount
 	) {
 		$this->overrideConfigValue( 'CheckUserCollapseCheckUserHelperByDefault', $collapseByDefaultConfigValue );
 		$object = $this->setUpObject();
@@ -311,7 +320,8 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 				'dir' => 'prev', 'user' => $target,
 			],
 			$tokenManager->decode( RequestContext::getMain()->getRequest()->getSession(), $actualToken ),
-			false, true,
+			false,
+			true,
 			'CheckUser JWT token for paging returned unexpected data'
 		);
 

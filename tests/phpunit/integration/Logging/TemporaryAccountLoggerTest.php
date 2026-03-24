@@ -32,7 +32,9 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 		$performer = $this->getTestSysop()->getUser();
 		$tempUser = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
 		$logger->logViewIPs(
-			$performer, $tempUser->getName(), ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
+			$performer,
+			$tempUser->getName(),
+			ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
 		);
 
 		// Check that the call to the method under test caused one log entry with the correct parameters
@@ -51,7 +53,9 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 
 		// Call the method under test again to check that the code properly debounces the log entry.
 		$logger->logViewIPs(
-			$performer, $tempUser->getName(), ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
+			$performer,
+			$tempUser->getName(),
+			ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
 		);
 		$this->newSelectQueryBuilder()
 			->select( '1' )
@@ -70,7 +74,9 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 		$performer = $this->getTestSysop()->getUser();
 		$tempUser = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
 		$logger->logViewRelatedTemporaryAccounts(
-			$performer, $tempUser->getName(), ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
+			$performer,
+			$tempUser->getName(),
+			ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
 		);
 
 		// Check that the call to the method under test caused one log entry with the correct parameters
@@ -91,7 +97,9 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 
 		// Call the method under test again to check that the code properly debounces the log entry.
 		$logger->logViewRelatedTemporaryAccounts(
-			$performer, $tempUser->getName(), ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
+			$performer,
+			$tempUser->getName(),
+			ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
 		);
 		$this->newSelectQueryBuilder()
 			->select( '1' )
@@ -179,7 +187,8 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			[ '4::changeType' => $expectedAction ],
 			LogEntryBase::extractParams( $result->fetchRow()['log_params'] ),
-			false, true
+			false,
+			true
 		);
 	}
 

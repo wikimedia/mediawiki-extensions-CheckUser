@@ -35,15 +35,21 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 		);
 		$this->expectOutputString( 'recentchanges is empty; nothing to add.' );
 		$this->assertRowCount(
-			0, 'cu_private_event', 'cupe_id',
+			0,
+			'cu_private_event',
+			'cupe_id',
 			'No entries in recentchanges table, so no population should have occurred.'
 		);
 		$this->assertRowCount(
-			0, 'cu_changes', 'cuc_id',
+			0,
+			'cu_changes',
+			'cuc_id',
 			'No entries in recentchanges table, so no population should have occurred.'
 		);
 		$this->assertRowCount(
-			0, 'cu_log_event', 'cule_id',
+			0,
+			'cu_log_event',
+			'cule_id',
 			'No entries in recentchanges table, so no population should have occurred.'
 		);
 	}
@@ -52,7 +58,9 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 	 * @dataProvider provideTestPopulation
 	 */
 	public function testPopulation(
-		bool $putIPinRCConfigValue, int $numberOfRows, int $expectedCuChangesCount,
+		bool $putIPinRCConfigValue,
+		int $numberOfRows,
+		int $expectedCuChangesCount,
 		int $expectedCuLogEventCount
 	) {
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.68' );
@@ -79,7 +87,9 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 		// Check that the recentchanges table has entries.
 		$this->assertRowCount(
 			// Plus one is for the row with rc_logid as an invalid ID.
-			$numberOfRows + 1, 'recentchanges', '*',
+			$numberOfRows + 1,
+			'recentchanges',
+			'*',
 			'recentchanges table not set up correctly for the test.'
 		);
 		// Clear cu_changes, cu_private_event and cu_log_event for the test
@@ -95,15 +105,21 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 			'execute() should have returned true as moving entries should have completed successfully.'
 		);
 		$this->assertRowCount(
-			$expectedCuLogEventCount, 'cu_log_event', 'cule_id',
+			$expectedCuLogEventCount,
+			'cu_log_event',
+			'cule_id',
 			'Incorrect number of entries in cu_log_event after population.'
 		);
 		$this->assertRowCount(
-			$expectedCuChangesCount, 'cu_changes', 'cuc_id',
+			$expectedCuChangesCount,
+			'cu_changes',
+			'cuc_id',
 			'Incorrect number of entries in cu_changes after population.'
 		);
 		$this->assertRowCount(
-			1, 'cu_private_event', 'cupe_id',
+			1,
+			'cu_private_event',
+			'cupe_id',
 			'Population script should add one entry to cu_private_event which occurs when the rc_logid ' .
 			'is invalid.'
 		);

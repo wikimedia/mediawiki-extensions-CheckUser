@@ -33,7 +33,9 @@ class ToolLinksHandlerTest extends MediaWikiUnitTestCase {
 		] );
 		$hookHandler->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
-			0, $items, 'A tool link should not have been added for a null request title.'
+			0,
+			$items,
+			'A tool link should not have been added for a null request title.'
 		);
 	}
 
@@ -50,7 +52,9 @@ class ToolLinksHandlerTest extends MediaWikiUnitTestCase {
 		] );
 		$hookHandler->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
-			0, $items, 'A tool link should not have been added for a non-Special page'
+			0,
+			$items,
+			'A tool link should not have been added for a non-Special page'
 		);
 	}
 
@@ -76,7 +80,9 @@ class ToolLinksHandlerTest extends MediaWikiUnitTestCase {
 		] );
 		$hookHandler->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
-			0, $items, 'A tool link should not have been added for special pages other than ' .
+			0,
+			$items,
+			'A tool link should not have been added for special pages other than ' .
 			'Special:CheckUser and Special:CheckUserLog'
 		);
 	}

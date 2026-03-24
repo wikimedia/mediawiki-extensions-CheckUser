@@ -32,13 +32,20 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 
 		$context = RequestContext::getMain();
 		$objectUnderTest = TestingAccessWrapper::newFromObject( new CheckUserPagerNavigationBuilder(
-			$context, $this->getServiceContainer()->get( 'CheckUserTokenQueryManager' ), $context->getCsrfTokenSet(),
-			$context->getRequest(), $opts, UserIdentityValue::newAnonymous( '1.2.3.4' )
+			$context,
+			$this->getServiceContainer()->get( 'CheckUserTokenQueryManager' ),
+			$context->getCsrfTokenSet(),
+			$context->getRequest(),
+			$opts,
+			UserIdentityValue::newAnonymous( '1.2.3.4' )
 		) );
 
 		$actualLinkHtml = $objectUnderTest->makeLink(
 			[ 'dir' => 'prev', 'offset' => '20250504050405|1', 'limit' => 123 ],
-			'mw-prevlink', 'prev text', 'tooltip', 'prev'
+			'mw-prevlink',
+			'prev text',
+			'tooltip',
+			'prev'
 		);
 
 		$form = $this->assertAndGetByElementClass( $actualLinkHtml, 'mw-checkuser-paging-links-form' );
@@ -64,7 +71,8 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 				'dir' => 'prev', 'user' => '1.2.3.4',
 			],
 			$tokenManager->decode( $context->getRequest()->getSession(), $actualToken ),
-			false, true,
+			false,
+			true,
 			'CheckUser JWT token for paging returned unexpected data'
 		);
 
@@ -80,19 +88,25 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 
 		$context = RequestContext::getMain();
 		$objectUnderTest = TestingAccessWrapper::newFromObject( new CheckUserPagerNavigationBuilder(
-			$context, $this->getServiceContainer()->get( 'CheckUserTokenQueryManager' ), $context->getCsrfTokenSet(),
-			$context->getRequest(), $opts, UserIdentityValue::newAnonymous( '1.2.3.4' )
+			$context,
+			$this->getServiceContainer()->get( 'CheckUserTokenQueryManager' ),
+			$context->getCsrfTokenSet(),
+			$context->getRequest(),
+			$opts,
+			UserIdentityValue::newAnonymous( '1.2.3.4' )
 		) );
 
 		$actualLinkHtml = $objectUnderTest->makeLink( null, 'mw-prevlink', 'prev text', 'tooltip', 'prev' );
 
 		$pagingForm = DOMCompat::querySelector(
-			DOMUtils::parseHTML( $actualLinkHtml ), '.mw-checkuser-paging-links-form'
+			DOMUtils::parseHTML( $actualLinkHtml ),
+			'.mw-checkuser-paging-links-form'
 		);
 		$this->assertNull( $pagingForm, 'No paging form should be added if there $query param was null' );
 
 		$pagingLink = DOMCompat::querySelector(
-			DOMUtils::parseHTML( $actualLinkHtml ), 'span.mw-prevlink'
+			DOMUtils::parseHTML( $actualLinkHtml ),
+			'span.mw-prevlink'
 		);
 		$this->assertNotNull( $pagingLink, 'The paging link should be rendered as text instead of a link' );
 	}

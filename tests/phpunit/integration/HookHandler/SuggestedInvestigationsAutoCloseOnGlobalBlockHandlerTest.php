@@ -5,7 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
-// phpcs:ignore Generic.Files.LineLength.TooLong
+// phpcs:ignore Generic.Files.LineLength
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
@@ -92,7 +92,8 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 			'blockEmail' => false,
 		] );
 		$this->getServiceContainer()->getHookContainer()->run(
-			'GlobalBlockingGlobalBlockAudit', [ $nonLocalUserBlock ]
+			'GlobalBlockingGlobalBlockAudit',
+			[ $nonLocalUserBlock ]
 		);
 
 		$this->assertSame(

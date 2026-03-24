@@ -178,7 +178,8 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 	public function testGenerateNewIpv6( $ipv6Ranges, $mtRandValue ) {
 		if ( $mtRandValue !== null ) {
 			$objectUnderTest = $this->createPartialMock(
-				PopulateCheckUserTablesWithSimulatedData::class, [ 'mtRand' ]
+				PopulateCheckUserTablesWithSimulatedData::class,
+				[ 'mtRand' ]
 			);
 			$objectUnderTest->method( 'mtRand' )
 				->willReturnCallback( static fn ( $min, $max ) => match ( $mtRandValue ) {
@@ -232,7 +233,10 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 
 	/** @dataProvider provideApplyRemainderAction */
 	public function testApplyRemainderAction(
-		$actionsLeft, $remainderActions, $expectedActionsLeftAfterCall, $expectedRemainderActionsAfterCall
+		$actionsLeft,
+		$remainderActions,
+		$expectedActionsLeftAfterCall,
+		$expectedRemainderActionsAfterCall
 	) {
 		$objectUnderTest = $this->setUpObjectUnderTest();
 		// T287318 - TestingAccessWrapper::__call does not support pass-by-reference

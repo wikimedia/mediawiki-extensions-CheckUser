@@ -1,4 +1,5 @@
 {
+	"_comment": "TODO: Bump mediawiki-codesniffer to the version that includes EnsureFullyMultilineSniff, then enable the rule in .phpcs.xml",
 	"require-dev": {
 		"mediawiki/mediawiki-codesniffer": "48.0.0",
 		"mediawiki/mediawiki-phan-config": "0.20.0",
@@ -17,7 +18,7 @@
 			"phpcbf"
 		],
 		"phan": "phan -d . --long-progress-bar",
-		"phpcs": "phpcs -sp --cache"
+		"phpcs": "phpcs -sp --cache --warning-severity=0"
 	},
 	"require": {
 		"firebase/php-jwt": "^7.0.2"

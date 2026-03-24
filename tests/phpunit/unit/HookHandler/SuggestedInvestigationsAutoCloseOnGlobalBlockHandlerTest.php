@@ -7,7 +7,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 use MediaWiki\Block\Block;
 use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsAutoCloseOnGlobalBlockHandler;
 use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsAutoCloseForCaseJob;
-// phpcs:ignore Generic.Files.LineLength.TooLong
+// phpcs:ignore Generic.Files.LineLength
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
@@ -73,7 +73,10 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 	 * @dataProvider provideEarlyReturnCases
 	 */
 	public function testEarlyReturn(
-		bool $isExtensionEnabled, int|null $targetUserId, bool $isIndefinite, int $blockType
+		bool $isExtensionEnabled,
+		int|null $targetUserId,
+		bool $isIndefinite,
+		int $blockType
 	): void {
 		$this->caseLookup
 			->expects( $this->once() )
@@ -105,7 +108,8 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 	 * @dataProvider provideHappyPathCases
 	 */
 	public function testCrossWikiAlwaysDispatchedAndLocalJobOnlyForLocalAccount(
-		int $targetUserId, bool $hasLocalAccount
+		int $targetUserId,
+		bool $hasLocalAccount
 	): void {
 		$this->caseLookup
 			->expects( $this->once() )
@@ -150,7 +154,9 @@ class SuggestedInvestigationsAutoCloseOnGlobalBlockHandlerTest extends MediaWiki
 	}
 
 	private function getGlobalBlockMock(
-		int|null $targetUserId, bool $isIndefinite, int $blockType = Block::TYPE_USER
+		int|null $targetUserId,
+		bool $isIndefinite,
+		int $blockType = Block::TYPE_USER
 	): GlobalBlock {
 		$block = $this->createMock( GlobalBlock::class );
 		$block->expects( $this->atMost( 1 ) )

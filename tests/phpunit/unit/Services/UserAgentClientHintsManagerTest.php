@@ -110,7 +110,9 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$dbwMock->expects( $this->never() )->method( 'selectRowCount' );
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );
 		$status = $objectToTest->insertClientHintValues(
-			self::getExampleClientHintsDataObjectFromJsApi(), 1, 'revision'
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			1,
+			'revision'
 		);
 		$this->assertStatusNotOK(
 			$status,
@@ -142,7 +144,9 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$dbwMock = $this->createMock( IDatabase::class );
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );
 		$status = $objectToTest->insertClientHintValues(
-			ClientHintsData::newFromJsApi( [] ), 1, 'revision'
+			ClientHintsData::newFromJsApi( [] ),
+			1,
+			'revision'
 		);
 		$this->assertStatusGood(
 			$status,
@@ -181,10 +185,14 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock, $logger );
 		$objectToTest = TestingAccessWrapper::newFromObject( $objectToTest );
 		$clientHintMappings = $objectToTest->selectClientHintMappings(
-			ClientHintsData::newFromJsApi( [ 'mobile' => false ] )->toDatabaseRows(), false, false
+			ClientHintsData::newFromJsApi( [ 'mobile' => false ] )->toDatabaseRows(),
+			false,
+			false
 		);
 		$status = $objectToTest->insertMappingRows(
-			$clientHintMappings, 1, 'revision'
+			$clientHintMappings,
+			1,
+			'revision'
 		);
 		$this->assertStatusGood( $status );
 	}
@@ -226,10 +234,14 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );
 		$objectToTest = TestingAccessWrapper::newFromObject( $objectToTest );
 		$clientHintMappings = $objectToTest->selectClientHintMappings(
-			ClientHintsData::newFromJsApi( [ 'mobile' => false ] )->toDatabaseRows(), false, false
+			ClientHintsData::newFromJsApi( [ 'mobile' => false ] )->toDatabaseRows(),
+			false,
+			false
 		);
 		$status = $objectToTest->insertMappingRows(
-			$clientHintMappings, 1, 'revision'
+			$clientHintMappings,
+			1,
+			'revision'
 		);
 		$this->assertStatusGood( $status );
 	}

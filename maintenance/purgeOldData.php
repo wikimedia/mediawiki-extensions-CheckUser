@@ -56,7 +56,9 @@ class PurgeOldData extends Maintenance {
 				$centralRowsPurged = 0;
 				do {
 					$rowsPurgedInThisBatch = $checkUserCentralIndexManager->purgeExpiredRows(
-						$cutoff, $domainId, $this->mBatchSize
+						$cutoff,
+						$domainId,
+						$this->mBatchSize
 					);
 					$centralRowsPurged += $rowsPurgedInThisBatch;
 					$this->waitForReplication();
@@ -100,7 +102,12 @@ class PurgeOldData extends Maintenance {
 		$deletedCount = 0;
 		do {
 			$rowsPurgedInThisBatch = $checkUserDataPurger->purgeDataFromLocalTable(
-				$this->getPrimaryDB(), $table, $cutoff, $clientHintReferenceIds, __METHOD__, $this->mBatchSize
+				$this->getPrimaryDB(),
+				$table,
+				$cutoff,
+				$clientHintReferenceIds,
+				__METHOD__,
+				$this->mBatchSize
 			);
 			$deletedCount += $rowsPurgedInThisBatch;
 			$this->waitForReplication();

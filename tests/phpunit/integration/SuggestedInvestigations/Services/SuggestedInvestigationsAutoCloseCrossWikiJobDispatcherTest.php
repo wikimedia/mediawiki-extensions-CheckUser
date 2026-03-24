@@ -6,7 +6,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigation
 
 use CentralAuthTestUser;
 use LogicException;
-// phpcs:ignore Generic.Files.LineLength.TooLong
+// phpcs:ignore Generic.Files.LineLength
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\JobQueueGroup;

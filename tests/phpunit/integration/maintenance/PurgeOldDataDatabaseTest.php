@@ -115,7 +115,8 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 
 		// Verify the output of the maintenance script is as expected
 		$this->expectOutputRegex( $this->generateExpectedOutputRegex(
-			$shouldPurgeRecentChanges, true
+			$shouldPurgeRecentChanges,
+			true
 		) );
 		$mockCheckUserDataPurger->checkThatExpectedCallsHaveBeenMade();
 	}
@@ -155,7 +156,8 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 
 		// Verify the output of the maintenance script is as expected
 		$this->expectOutputRegex( $this->generateExpectedOutputRegex(
-			false, false
+			false,
+			false
 		) );
 
 		// Check that all but the second, third, fifth, sixth and eighth user agent are deleted:

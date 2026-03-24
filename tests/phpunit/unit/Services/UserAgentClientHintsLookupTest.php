@@ -69,7 +69,9 @@ class UserAgentClientHintsLookupTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideGenerateUniqueClientHintsIdCombinations */
 	public function testGenerateUniqueClientHintsIdCombinations(
-		$referenceIdsToClientHintIds, $expectedReferenceIdsToClientHintIdsAfterCall, $expectedReturnArray
+		$referenceIdsToClientHintIds,
+		$expectedReferenceIdsToClientHintIdsAfterCall,
+		$expectedReturnArray
 	) {
 		/** @var UserAgentClientHintsLookup $objectUnderTest */
 		$objectUnderTest = $this->newServiceInstance( UserAgentClientHintsLookup::class, [] );

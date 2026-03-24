@@ -37,8 +37,15 @@ abstract class AbstractTemporaryAccountIPHandler extends AbstractTemporaryAccoun
 		ReadOnlyMode $readOnlyMode,
 	) {
 		parent::__construct(
-			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager, $checkUserPermissionsManager, $readOnlyMode
+			$config,
+			$jobQueueGroup,
+			$permissionManager,
+			$userNameUtils,
+			$dbProvider,
+			$actorStore,
+			$blockManager,
+			$checkUserPermissionsManager,
+			$readOnlyMode
 		);
 	}
 

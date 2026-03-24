@@ -185,7 +185,8 @@ class SpecialContributionsHandler implements
 						true
 					);
 					$listOfTempAccounts .= Html::rawElement(
-						'li', [ 'class' => 'ext-checkuser-related-ta' ],
+						'li',
+						[ 'class' => 'ext-checkuser-related-ta' ],
 						Html::rawElement( 'bdi', [], $userLink . $userToolLinks )
 					);
 				}

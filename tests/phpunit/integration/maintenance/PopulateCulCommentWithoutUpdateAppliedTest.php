@@ -25,7 +25,11 @@ class PopulateCulCommentWithoutUpdateAppliedTest extends MaintenanceBaseTestCase
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
 		$checkUserLogService->addLogEntry(
-			$this->getTestSysop()->getUser(), 'ipusers', 'ip', '127.0.0.1', 'test'
+			$this->getTestSysop()->getUser(),
+			'ipusers',
+			'ip',
+			'127.0.0.1',
+			'test'
 		);
 
 		$this->assertTrue( $this->maintenance->doDBUpdates() );

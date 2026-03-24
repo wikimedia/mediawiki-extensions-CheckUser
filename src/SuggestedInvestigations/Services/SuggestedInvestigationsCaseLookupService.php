@@ -266,7 +266,10 @@ class SuggestedInvestigationsCaseLookupService {
 
 			$statusChangedBy = $row->sic_status_changed_by !== null ? (int)$row->sic_status_changed_by : null;
 			$cases[] = new SuggestedInvestigationsCase(
-				(int)$row->sic_id, $caseStatus, $row->sic_status_reason, $statusChangedBy
+				(int)$row->sic_id,
+				$caseStatus,
+				$row->sic_status_reason,
+				$statusChangedBy
 			);
 		}
 

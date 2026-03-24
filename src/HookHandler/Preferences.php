@@ -96,7 +96,9 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 		];
 
 		if ( $this->permissionManager->userHasAnyRight(
-			$user, 'checkuser-temporary-account', 'checkuser-temporary-account-no-preference'
+			$user,
+			'checkuser-temporary-account',
+			'checkuser-temporary-account-no-preference'
 		) ) {
 			$needsToCheckIPRevealPreferenceToUseFeature =
 				$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' ) &&
@@ -230,7 +232,8 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 	 * is the case.
 	 */
 	private function validateAutoRevealPreferenceValue(
-		mixed $preferenceValue, Authority $authority
+		mixed $preferenceValue,
+		Authority $authority
 	): StatusValue {
 		// Always allow users to unset the IP auto-reveal preference.
 		if ( $preferenceValue === null ) {

@@ -46,7 +46,10 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 
 	/** @dataProvider provideFormatUserRow */
 	public function testFormatUserRow(
-		$userSets, $userText, $clientHintsLookupResults, $expectedTemplateParams
+		$userSets,
+		$userText,
+		$clientHintsLookupResults,
+		$expectedTemplateParams
 	) {
 		$objectUnderTest = $this->setUpObject();
 		$objectUnderTest->templateParser = new MockTemplateParser();
@@ -168,8 +171,11 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$blockingUser = $this->getTestUser( [ 'sysop', 'suppress' ] )->getUser();
 		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
 			->newBlockUser(
-				$hiddenUser, $blockingUser, 'infinity',
-				'block to hide the test user', [ 'isHideUser' => true ]
+				$hiddenUser,
+				$blockingUser,
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
 			)->placeBlock();
 		$this->assertStatusGood( $blockStatus );
 
@@ -566,18 +572,22 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 
 	/** @dataProvider provideGetEndBodyForBlockFieldset */
 	public function testGetEndBodyForBlockFieldset(
-		bool $hasLocalBlockRights, bool $hasGlobalLockRights, bool $hasGlobalBlockRights
+		bool $hasLocalBlockRights,
+		bool $hasGlobalLockRights,
+		bool $hasGlobalBlockRights
 	) {
 		// Set the centralDB as a non-existent but valid format wiki ID. This will cause the URLs to fallback to
 		// the local URLs which are easier to test.
 		$centralAuthLoaded = $this->getServiceContainer()->getExtensionRegistry()->isLoaded( 'CentralAuth' );
 		if ( $centralAuthLoaded ) {
 			$this->overrideConfigValue(
-				'CheckUserCAMultiLock', [ 'centralDB' => 'otherwiki', 'groups' => [ 'globallock' ] ]
+				'CheckUserCAMultiLock',
+				[ 'centralDB' => 'otherwiki', 'groups' => [ 'globallock' ] ]
 			);
 		}
 		$this->overrideConfigValue(
-			'CheckUserGBtoollink', [ 'centralDB' => 'otherwiki', 'groups' => [ 'globalblock' ] ]
+			'CheckUserGBtoollink',
+			[ 'centralDB' => 'otherwiki', 'groups' => [ 'globalblock' ] ]
 		);
 
 		// Make the test user have the necessary groups based on the configured rights they should have.
@@ -653,7 +663,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 
 			if ( $hasGlobalBlockRights || $hasGlobalLockRights ) {
 				$this->assertStringContainsString(
-					'(checkuser-massblock-text-without-local-block-buttons', $fieldsetHtml
+					'(checkuser-massblock-text-without-local-block-buttons',
+					$fieldsetHtml
 				);
 			}
 		}

@@ -25,7 +25,9 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 	 * @dataProvider provideOnPerformRetroactiveAutoblock
 	 */
 	public function testOnPerformRetroactiveAutoblock(
-		array $tablesWithData, int $maximumIPsToAutoblockConfigValue, array $expectedAutoBlockTargets
+		array $tablesWithData,
+		int $maximumIPsToAutoblockConfigValue,
+		array $expectedAutoBlockTargets
 	) {
 		$this->overrideConfigValue( 'CheckUserMaximumIPsToAutoblock', $maximumIPsToAutoblockConfigValue );
 		$target = $this->getMutableTestUser()->getUserIdentity();
@@ -96,16 +98,20 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 		$blockManager = $this->getServiceContainer()->getBlockManager();
 		if ( count( $expectedAutoBlockTargets ) ) {
 			$this->assertSameSize(
-				$expectedAutoBlockTargets, $blockResult['autoIds'],
+				$expectedAutoBlockTargets,
+				$blockResult['autoIds'],
 				'The number of autoblocks placed was not as expected'
 			);
 			foreach ( $expectedAutoBlockTargets as $expectedAutoBlockTarget ) {
 				$ipBlock = $blockManager->getIpBlock( $expectedAutoBlockTarget, false );
 				$this->assertNotNull(
-					$ipBlock, "An autoblock should have been placed on the IP $expectedAutoBlockTarget."
+					$ipBlock,
+					"An autoblock should have been placed on the IP $expectedAutoBlockTarget."
 				);
 				$this->assertContains(
-					$ipBlock->getId(), $blockResult['autoIds'], 'The autoblock ID was not as expected'
+					$ipBlock->getId(),
+					$blockResult['autoIds'],
+					'The autoblock ID was not as expected'
 				);
 			}
 		} else {

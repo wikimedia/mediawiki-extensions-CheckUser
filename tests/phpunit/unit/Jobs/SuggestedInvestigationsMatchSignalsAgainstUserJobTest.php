@@ -20,7 +20,9 @@ class SuggestedInvestigationsMatchSignalsAgainstUserJobTest extends MediaWikiUni
 		$extraData = [ 'test' => [ 'testing-abc' ] ];
 
 		$spec = SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec(
-			$userIdentity, 'test-event-type', $extraData
+			$userIdentity,
+			'test-event-type',
+			$extraData
 		);
 
 		$this->assertSame( SuggestedInvestigationsMatchSignalsAgainstUserJob::TYPE, $spec->getType() );
@@ -35,7 +37,9 @@ class SuggestedInvestigationsMatchSignalsAgainstUserJobTest extends MediaWikiUni
 		$extraData = [ 'test' => [ 'testing-abc' ] ];
 
 		$spec = SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec(
-			$userIdentity, 'test-event-type', $extraData
+			$userIdentity,
+			'test-event-type',
+			$extraData
 		);
 
 		$actualUserIdentity = null;
@@ -78,7 +82,9 @@ class SuggestedInvestigationsMatchSignalsAgainstUserJobTest extends MediaWikiUni
 		$extraData = [ 'session' => $sessionData ];
 
 		$spec = SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec(
-			$userIdentity, 'test-event-type', $extraData
+			$userIdentity,
+			'test-event-type',
+			$extraData
 		);
 
 		$mockService = $this->createMock( SuggestedInvestigationsSignalMatchService::class );

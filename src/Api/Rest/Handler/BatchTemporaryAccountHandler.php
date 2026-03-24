@@ -237,7 +237,8 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 
 		$abuseFilterPrivateLogDetailsLookup = AbuseFilterServices::getLogDetailsLookup();
 		$abuseLogIps = $abuseFilterPrivateLogDetailsLookup->getIPsForAbuseFilterLogs(
-			$this->getAuthority(), $abuseFilterLogIds
+			$this->getAuthority(),
+			$abuseFilterLogIds
 		);
 
 		// Remove any IPs which are false (meaning the user could not see the abuse_filter_log row) and then

@@ -32,7 +32,9 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		$this->expectException( PermissionsError::class );
 		// Execute the special page.
 		$this->executeSpecialPage(
-			'', new FauxRequest(), null,
+			'',
+			new FauxRequest(),
+			null,
 			$this->mockRegisteredAuthorityWithPermissions( $rights )
 		);
 	}

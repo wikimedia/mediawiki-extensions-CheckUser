@@ -37,7 +37,8 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$services = $this->getServiceContainer();
-		$pager = new PreliminaryCheckPager( RequestContext::getMain(),
+		$pager = new PreliminaryCheckPager(
+			RequestContext::getMain(),
 			$services->getLinkRenderer(),
 			$services->getNamespaceInfo(),
 			$tokenQueryManager,

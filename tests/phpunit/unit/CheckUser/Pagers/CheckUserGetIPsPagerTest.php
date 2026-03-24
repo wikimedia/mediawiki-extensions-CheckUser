@@ -35,7 +35,10 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerUnitTestBase {
 
 	/** @dataProvider provideGetCountForIPActions */
 	public function testGetCountForIPActions(
-		$cuChangesCount, $cuLogEventCount, $cuPrivateEventCount, $expectedReturnValue
+		$cuChangesCount,
+		$cuLogEventCount,
+		$cuPrivateEventCount,
+		$expectedReturnValue
 	) {
 		$object = $this->getMockBuilder( CheckUserGetIPsPager::class )
 			->disableOriginalConstructor()

@@ -405,7 +405,9 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideApiGetAllowedParams */
 	public function testApiGetAllowedParamsForApiLogout(
-		$apiModuleClass, $clientHintsEnabled, $shouldAddClientHintsParam
+		$apiModuleClass,
+		$clientHintsEnabled,
+		$shouldAddClientHintsParam
 	) {
 		$special = $this->createMock( SpecialPage::class );
 		$specialPageFactoryMock = $this->createMock( SpecialPageFactory::class );

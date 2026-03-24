@@ -48,7 +48,9 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		foreach ( $clientHintDataItems as $key => $clientHintData ) {
 			$userAgentClientHintsManager->insertClientHintValues(
-				$clientHintData, $referenceIdsToInsert[$key], 'revision'
+				$clientHintData,
+				$referenceIdsToInsert[$key],
+				'revision'
 			);
 		}
 		$this->assertRowCount(
@@ -185,10 +187,14 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		$userAgentClientHintsManager->insertClientHintValues(
-			self::getExampleClientHintsDataObjectFromJsApi(), 70, 'revision'
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			70,
+			'revision'
 		);
 		$userAgentClientHintsManager->insertClientHintValues(
-			self::getExampleClientHintsDataObjectFromJsApi(), 75, 'revision'
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			75,
+			'revision'
 		);
 		$this->assertRowCount(
 			22,
@@ -242,10 +248,14 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		$userAgentClientHintsManager->insertClientHintValues(
-			self::getExampleClientHintsDataObjectFromJsApi(), $firstLogId, 'log'
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			$firstLogId,
+			'log'
 		);
 		$userAgentClientHintsManager->insertClientHintValues(
-			self::getExampleClientHintsDataObjectFromJsApi(), $secondLogId, 'log'
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			$secondLogId,
+			'log'
 		);
 		$this->assertRowCount(
 			22,
@@ -286,10 +296,14 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getConnectionProvider()
 		);
 		$hooks->onUser__mailPasswordInternal(
-			$this->getTestUser()->getUser(), '1.2.3.4', $this->getTestSysop()->getUser()
+			$this->getTestUser()->getUser(),
+			'1.2.3.4',
+			$this->getTestSysop()->getUser()
 		);
 		$hooks->onUser__mailPasswordInternal(
-			$this->getTestUser()->getUser(), '1.2.3.4', $this->getTestSysop()->getUser()
+			$this->getTestUser()->getUser(),
+			'1.2.3.4',
+			$this->getTestSysop()->getUser()
 		);
 		// Delete the entry with ID 1 to simulate it being purged
 		$this->getDb()->newDeleteQueryBuilder()
@@ -300,10 +314,14 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		$userAgentClientHintsManager->insertClientHintValues(
-			self::getExampleClientHintsDataObjectFromJsApi(), 1, 'privatelog'
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			1,
+			'privatelog'
 		);
 		$userAgentClientHintsManager->insertClientHintValues(
-			self::getExampleClientHintsDataObjectFromJsApi(), 2, 'privatelog'
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			2,
+			'privatelog'
 		);
 		$this->assertRowCount(
 			22,

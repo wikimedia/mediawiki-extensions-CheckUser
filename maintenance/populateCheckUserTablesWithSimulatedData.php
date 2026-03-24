@@ -107,7 +107,10 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			'ranges-for-ips',
 			'What ranges should the IPs be selected from. Default is one IPv4 and IPv6 range inside ' .
 			'ranges defined as internal.',
-			false, true, false, true
+			false,
+			true,
+			false,
+			true
 		);
 		$this->addArg(
 			'count',
@@ -270,7 +273,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$this->setNewRandomFakeTime();
 			$lowerLimit = time() - ConvertibleTimestamp::time();
 			$user = $services->getTempUserCreator()->create(
-				null, $this->mainRequest
+				null,
+				$this->mainRequest
 			)->getUser();
 			// Creating a temporary user creates a log event.
 			$actionsLeft--;
@@ -359,7 +363,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		$attemptsMade = 0;
 		do {
 			$user = $services->getUserFactory()->newFromName(
-				$this->getPrefix() . wfRandomString(), UserRigorOptions::RIGOR_CREATABLE
+				$this->getPrefix() . wfRandomString(),
+				UserRigorOptions::RIGOR_CREATABLE
 			);
 			if ( $attemptsMade > 100 ) {
 				return null;
@@ -590,7 +595,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			foreach ( $clientHintHeadersToSet as $clientHintHeader ) {
 				$propertyName = ClientHintsData::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME[$clientHintHeader];
 				$this->mainRequest->setHeader(
-					$clientHintHeader, $clientHintsData->jsonSerialize()[$propertyName]
+					$clientHintHeader,
+					$clientHintsData->jsonSerialize()[$propertyName]
 				);
 			}
 		}

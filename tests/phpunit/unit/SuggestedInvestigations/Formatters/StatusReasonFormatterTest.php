@@ -65,7 +65,10 @@ class StatusReasonFormatterTest extends MediaWikiUnitTestCase {
 		}
 
 		$result = $this->formatter->format(
-			$reason, $status, $performerName, $this->messageLocalizer
+			$reason,
+			$status,
+			$performerName,
+			$this->messageLocalizer
 		);
 
 		foreach ( $expectContains as $text ) {

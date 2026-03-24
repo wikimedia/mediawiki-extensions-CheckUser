@@ -51,12 +51,19 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$objectUnderTest = new SuggestedInvestigationsHandler(
 			$this->setUpMockJobQueue(
-				$mockUser, 'successfuledit', [ 'revId' => $revId ], $expectsSignalMatch
+				$mockUser,
+				'successfuledit',
+				[ 'revId' => $revId ],
+				$expectsSignalMatch
 			)
 		);
 
 		$objectUnderTest->onPageSaveComplete(
-			$this->createMock( WikiPage::class ), $mockUser, '', 0, $revisionRecord,
+			$this->createMock( WikiPage::class ),
+			$mockUser,
+			'',
+			0,
+			$revisionRecord,
 			$mockEditResult
 		);
 	}
@@ -91,14 +98,18 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function setUpMockJobQueue(
-		UserIdentity $expectedUserIdentity, string $expectedEventType, array $expectedExtraData,
+		UserIdentity $expectedUserIdentity,
+		string $expectedEventType,
+		array $expectedExtraData,
 		bool $expectsCall = true
 	): JobQueueGroup {
 		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
 		$mockJobQueueGroup->expects( $expectsCall ? $this->once() : $this->never() )
 			->method( 'lazyPush' )
 			->willReturnCallback( function ( $job ) use (
-				$expectedUserIdentity, $expectedEventType, $expectedExtraData
+				$expectedUserIdentity,
+				$expectedEventType,
+				$expectedExtraData
 			) {
 				$this->assertInstanceOf( IJobSpecification::class, $job );
 				$this->assertSame(

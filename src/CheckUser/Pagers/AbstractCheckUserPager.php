@@ -297,7 +297,8 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 */
 	protected function getFormattedTimestamp( string $timestamp ): string {
 		return $this->getLanguage()->userTimeAndDate(
-			wfTimestamp( TS_MW, $timestamp ), $this->getUser()
+			wfTimestamp( TS_MW, $timestamp ),
+			$this->getUser()
 		);
 	}
 
@@ -338,7 +339,8 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 				$lang = $this->getLanguage();
 				$contextUser = $this->getUser();
 				// FIXME: don't pass around parsed messages
-				return $this->msg( 'checkuser-nomatch-edits',
+				return $this->msg(
+					'checkuser-nomatch-edits',
 					$lang->userDate( $lastEditTime, $contextUser ),
 					$lang->userTime( $lastEditTime, $contextUser )
 				)->parseAsBlock() . "\n";
@@ -365,7 +367,8 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 			$globalBlockLookup = GlobalBlockingServices::wrap( MediaWikiServices::getInstance() )
 				->getGlobalBlockLookup();
 			$globalBlock = $globalBlockLookup->getGlobalBlockingBlock(
-				$ip ?: null, $this->centralIdLookup->centralIdFromLocalUser( $user )
+				$ip ?: null,
+				$this->centralIdLookup->centralIdFromLocalUser( $user )
 			);
 			if ( $globalBlock !== null ) {
 				// Globally blocked IP or user
@@ -814,14 +817,16 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 			// Copied from ReverseChronologicalPager::buildQueryInfo
 			if ( $this->endOffset ) {
 				$conds[] = $this->mDb->buildComparison(
-					'<', [ $this->getTimestampField( $table ) => $this->endOffset ]
+					'<',
+					[ $this->getTimestampField( $table ) => $this->endOffset ]
 				);
 			}
 
 			// Copied from RangeChronologicalPager::buildQueryInfo
 			if ( $this->startOffset ) {
 				$conds[] = $this->mDb->buildComparison(
-					'>=', [ $this->getTimestampField( $table ) => $this->startOffset ]
+					'>=',
+					[ $this->getTimestampField( $table ) => $this->startOffset ]
 				);
 			}
 			// Add the data that would normally be returned by this method to an array

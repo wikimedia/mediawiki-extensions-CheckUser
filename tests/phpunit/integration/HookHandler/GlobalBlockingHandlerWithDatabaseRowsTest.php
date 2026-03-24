@@ -69,7 +69,9 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 	private function commonTestRetroactiveAutoblockWhenNoIpsFound( GlobalBlock $globalBlock ): void {
 		$ips = [];
 		$returnValue = $this->getObjectUnderTest()->onGlobalBlockingGetRetroactiveAutoblockIPs(
-			$globalBlock, 100, $ips
+			$globalBlock,
+			100,
+			$ips
 		);
 		$this->assertCount( 0, $ips );
 		$this->assertTrue( $returnValue );
@@ -98,7 +100,9 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 		$ips = [];
 		$globalBlock = $this->getMockGlobalBlockInstance();
 		$returnValue = $this->getObjectUnderTest()->onGlobalBlockingGetRetroactiveAutoblockIPs(
-			$globalBlock, $limit, $ips
+			$globalBlock,
+			$limit,
+			$ips
 		);
 		$this->assertArrayEquals( $expectedIps, $ips );
 		$this->assertFalse( $returnValue );
@@ -145,13 +149,16 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.9' );
 		$inject_html = '';
 		$privateEventHandler->onUserLogoutComplete(
-			$this->getServiceContainer()->getUserFactory()->newAnonymous( '1.2.3.9' ), $inject_html, $user->getName()
+			$this->getServiceContainer()->getUserFactory()->newAnonymous( '1.2.3.9' ),
+			$inject_html,
+			$user->getName()
 		);
 		// Create a private event which is not related to the $user
 		ConvertibleTimestamp::setFakeTime( '20230407060708' );
 		RequestContext::getMain()->getRequest()->setIP( '8.7.6.5' );
 		$privateEventHandler->onUserLogoutComplete(
-			$this->getServiceContainer()->getUserFactory()->newAnonymous( '8.7.6.5' ), $inject_html,
+			$this->getServiceContainer()->getUserFactory()->newAnonymous( '8.7.6.5' ),
+			$inject_html,
 			$this->getMutableTestUser()->getUserIdentity()->getName()
 		);
 		ConvertibleTimestamp::setFakeTime( '20230506070809' );

@@ -139,7 +139,8 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			foreach ( $res as $row ) {
 				$culReasonId = $commentStore->createComment( $dbw, $row->cul_reason )->id;
 				$culReasonPlaintextId = $commentStore->createComment(
-					$dbw, $checkUserLogService->getPlaintextReason( $row->cul_reason )
+					$dbw,
+					$checkUserLogService->getPlaintextReason( $row->cul_reason )
 				)->id;
 
 				if ( !$culReasonId || !$culReasonPlaintextId ) {

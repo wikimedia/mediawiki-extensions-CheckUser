@@ -119,7 +119,8 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 					$this->assertStringNotContainsString( $columnPrefix . 'timestamp >=', $queryInfo['tables']['a'] );
 				} else {
 					$this->assertStringContainsString(
-						$columnPrefix . "timestamp >= '$start'", $queryInfo['tables']['a']
+						$columnPrefix . "timestamp >= '$start'",
+						$queryInfo['tables']['a']
 					);
 				}
 			}

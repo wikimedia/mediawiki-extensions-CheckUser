@@ -94,7 +94,9 @@ class SuggestedInvestigationsPagerFactory {
 	 * @internal Only for use by {@link SpecialSuggestedInvestigations}
 	 */
 	public function createCasesPager(
-		IContextSource $context, array $signals, int|null $caseIdFilter
+		IContextSource $context,
+		array $signals,
+		int|null $caseIdFilter
 	): SuggestedInvestigationsCasesPager {
 		return new SuggestedInvestigationsCasesPager(
 			$this->dbProvider,
@@ -122,5 +124,6 @@ class SuggestedInvestigationsPagerFactory {
  */
 class_alias(
 	SuggestedInvestigationsPagerFactory::class,
-	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Pagers\\SuggestedInvestigationsPagerFactory' );
+	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Pagers\\SuggestedInvestigationsPagerFactory'
+);
 // @codeCoverageIgnoreEnd

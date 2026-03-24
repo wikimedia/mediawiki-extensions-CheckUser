@@ -19,7 +19,11 @@ class ClientHintsBatchFormatterResultsTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideGetStringForReferenceId */
 	public function testGetStringForReferenceId(
-		$referenceIdsToIndexMap, $formattedStringsArray, $referenceId, $referenceType, $expectedReturnValue
+		$referenceIdsToIndexMap,
+		$formattedStringsArray,
+		$referenceId,
+		$referenceType,
+		$expectedReturnValue
 	) {
 		$objectUnderTest = new ClientHintsBatchFormatterResults( $referenceIdsToIndexMap, $formattedStringsArray );
 		$this->assertSame(

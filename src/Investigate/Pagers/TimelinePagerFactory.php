@@ -29,7 +29,8 @@ class TimelinePagerFactory implements PagerFactory {
 	 */
 	public function createPager( IContextSource $context ): TimelinePager {
 		$rowFormatter = $this->rowFormatterFactory->createRowFormatter(
-			$context->getUser(), $context->getLanguage()
+			$context->getUser(),
+			$context->getLanguage()
 		);
 
 		return new TimelinePager(
@@ -42,6 +43,6 @@ class TimelinePagerFactory implements PagerFactory {
 			$rowFormatter,
 			$this->linkBatchFactory,
 			$this->logger
-		 );
+		);
 	}
 }

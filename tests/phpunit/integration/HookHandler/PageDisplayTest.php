@@ -162,7 +162,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
+			$output,
+			$this->createMock( Skin::class )
 		);
 
 		$expectedModules = [];
@@ -373,7 +374,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory()
 		);
 		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
+			$output,
+			$this->createMock( Skin::class )
 		);
 
 		$this->assertArrayEquals(
@@ -437,7 +439,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory()
 		);
 		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
+			$output,
+			$this->createMock( Skin::class )
 		);
 
 		$configVars = $output->getJsConfigVars();
@@ -504,7 +507,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $skin
+			$output,
+			$skin
 		);
 
 		// Assert that the module is loaded as necessary

@@ -39,7 +39,8 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 		$actualOutputString = $this->getActualOutputForAssertion();
 		$this->assertStringContainsString( 'Populating sic_url_identifier in cusi_case...', $actualOutputString );
 		$this->assertStringContainsString(
-			'Nothing to do as CheckUser Suggested Investigations is not enabled', $actualOutputString
+			'Nothing to do as CheckUser Suggested Investigations is not enabled',
+			$actualOutputString
 		);
 	}
 
@@ -49,7 +50,8 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 		$actualOutputString = $this->getActualOutputForAssertion();
 		$this->assertStringContainsString( 'Populating sic_url_identifier in cusi_case...', $actualOutputString );
 		$this->assertStringContainsString(
-			'Done. Populated 0 rows', $actualOutputString
+			'Done. Populated 0 rows',
+			$actualOutputString
 		);
 	}
 
@@ -73,7 +75,8 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 		$actualOutputString = $this->getActualOutputForAssertion();
 		$this->assertStringContainsString( 'Populating sic_url_identifier in cusi_case...', $actualOutputString );
 		$this->assertStringContainsString(
-			'Done. Populated 0 rows', $actualOutputString
+			'Done. Populated 0 rows',
+			$actualOutputString
 		);
 
 		// Check that the URL identifier has not changed through the script being run
@@ -96,16 +99,20 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
 		$firstCaseId = $caseManager->createCase(
-			[ UserIdentityValue::newRegistered( 1, 'Test user 1' ) ], [ $signal ]
+			[ UserIdentityValue::newRegistered( 1, 'Test user 1' ) ],
+			[ $signal ]
 		);
 		$secondCaseId = $caseManager->createCase(
-			[ UserIdentityValue::newRegistered( 2, 'Test user 2' ) ], [ $signal ]
+			[ UserIdentityValue::newRegistered( 2, 'Test user 2' ) ],
+			[ $signal ]
 		);
 		$thirdCaseId = $caseManager->createCase(
-			[ UserIdentityValue::newRegistered( 3, 'Test user 3' ) ], [ $signal ]
+			[ UserIdentityValue::newRegistered( 3, 'Test user 3' ) ],
+			[ $signal ]
 		);
 		$fourthCaseId = $caseManager->createCase(
-			[ UserIdentityValue::newRegistered( 4, 'Test user 4' ) ], [ $signal ]
+			[ UserIdentityValue::newRegistered( 4, 'Test user 4' ) ],
+			[ $signal ]
 		);
 
 		$fourthCaseUrlIdentifier = $this->newSelectQueryBuilder()
@@ -129,7 +136,8 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 		$actualOutputString = $this->getActualOutputForAssertion();
 		$this->assertStringContainsString( 'Populating sic_url_identifier in cusi_case...', $actualOutputString );
 		$this->assertStringContainsString(
-			'Done. Populated 3 rows', $actualOutputString
+			'Done. Populated 3 rows',
+			$actualOutputString
 		);
 
 		// Check that the fourth case URL identifier has not changed through the script being run
@@ -176,7 +184,8 @@ class PopulateSicUrlIdentifierTest extends MaintenanceBaseTestCase {
 		$actualOutputString = $this->getActualOutputForAssertion();
 		$this->assertStringContainsString( 'Populating sic_url_identifier in cusi_case...', $actualOutputString );
 		$this->assertStringContainsString(
-			'Done. Populated 1 rows', $actualOutputString
+			'Done. Populated 1 rows',
+			$actualOutputString
 		);
 
 		// No cases should exist that are missing a URL identifier after the script has run

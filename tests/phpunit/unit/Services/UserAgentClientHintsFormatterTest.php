@@ -160,7 +160,10 @@ class UserAgentClientHintsFormatterTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideGenerateClientHintsListItem */
 	public function testGenerateClientHintsListItem(
-		$clientHintName, $clientHintValue, $expectedClientHintValueUsed, $msgCache
+		$clientHintName,
+		$clientHintValue,
+		$expectedClientHintValueUsed,
+		$msgCache
 	) {
 		// Use mock method under test with disabled constructor to avoid
 		// having to mock the MessageLocalizer twice.
@@ -226,7 +229,10 @@ class UserAgentClientHintsFormatterTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideCombineClientHintsData */
 	public function testCombineClientHintsData(
-		$dataAsArray, $clientHintsForDisplay, $expectedReturnValue, $expectedClientHintsForDisplayAfterCall
+		$dataAsArray,
+		$clientHintsForDisplay,
+		$expectedReturnValue,
+		$expectedClientHintsForDisplayAfterCall
 	) {
 		$objectUnderTest = $this->getObjectUnderTest();
 		// T287318 - TestingAccessWrapper::__call does not support pass-by-reference

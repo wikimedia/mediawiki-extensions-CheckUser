@@ -29,5 +29,6 @@ interface CheckUserSuggestedInvestigationsOnDetailViewRenderHook {
  */
 class_alias(
 	CheckUserSuggestedInvestigationsOnDetailViewRenderHook::class,
-	'MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsOnDetailViewRenderHook' );
+	'MediaWiki\\CheckUser\\Hook\\CheckUserSuggestedInvestigationsOnDetailViewRenderHook'
+);
 // @codeCoverageIgnoreEnd

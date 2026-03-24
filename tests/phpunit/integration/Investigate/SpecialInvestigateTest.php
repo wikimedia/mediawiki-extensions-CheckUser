@@ -237,7 +237,9 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
 			->newBlockUser(
 				$this->getServiceContainer()->getUserIdentityLookup()->getUserIdentityByName( 'InvestigateTestUser1' ),
-				self::$testSuppressor, 'infinity', 'block to hide the test user',
+				self::$testSuppressor,
+				'infinity',
+				'block to hide the test user',
 				[ 'isHideUser' => true ]
 			)->placeBlock();
 		$this->assertStatusGood( $blockStatus );
@@ -376,7 +378,11 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 		// Create the test user in the central user DB.
 		$targetUser = new CentralAuthTestUser(
-			self::$firstTestUser->getName(), 'GUP@ssword', [], [ [ WikiMap::getCurrentWikiId(), 'primary' ] ], false
+			self::$firstTestUser->getName(),
+			'GUP@ssword',
+			[],
+			[ [ WikiMap::getCurrentWikiId(), 'primary' ] ],
+			false
 		);
 		$targetUser->save( $this->getDb() );
 		// Load the special page for the compare tab with a target that has rows in the CheckUser result tables.
@@ -416,7 +422,8 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		// Execute the special page and get the HTML output.
 		[ $html, $response ] = $this->executeSpecialPage( $subPage, $fauxRequest, null, $testCheckUser );
 		$this->assertSame(
-			'', $html,
+			'',
+			$html,
 			'The form should not be displayed after submitting the form using POST, as it causes a redirect.'
 		);
 		/** @var $response FauxResponse */
@@ -446,7 +453,8 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		// Execute the special page and get the HTML output.
 		[ $html, $response ] = $this->executeSpecialPage( '', $fauxRequest, null, $testCheckUser );
 		$this->assertSame(
-			'', $html,
+			'',
+			$html,
 			'The form should not be displayed after submitting the form using POST, as it causes a redirect.'
 		);
 		/** @var $response FauxResponse */
@@ -458,7 +466,9 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 
 	/** @dataProvider provideLinkToSuggestedInvestigationsPresent */
 	public function testLinkToSuggestedInvestigationsPresent(
-		bool $enabled, bool $hidden, bool $linkExpected
+		bool $enabled,
+		bool $hidden,
+		bool $linkExpected
 	) {
 		if ( $enabled ) {
 			$this->enableSuggestedInvestigations();

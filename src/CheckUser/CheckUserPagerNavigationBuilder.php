@@ -27,7 +27,11 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 
 	/** @inheritDoc */
 	protected function makeLink(
-		?array $query, ?string $class, string $text, ?string $tooltip, ?string $rel = null
+		?array $query,
+		?string $class,
+		string $text,
+		?string $tooltip,
+		?string $rel = null
 	): string {
 		if ( $query === null ) {
 			return Html::element(

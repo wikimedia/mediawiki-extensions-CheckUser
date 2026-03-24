@@ -441,7 +441,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		$targetUser = $this->getTestUser()->getUser();
 		$userInfo = $infoCardService->getUserInfo(
-			$this->getTestUser()->getAuthority(), $targetUser
+			$this->getTestUser()->getAuthority(),
+			$targetUser
 		);
 		$this->assertArrayContains( [
 			'name' => $targetUser->getName(),
@@ -488,7 +489,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame(
 			0,
 			$this->getObjectUnderTest()->getUserInfo(
-				$cuUserAuthority, $user
+				$cuUserAuthority,
+				$user
 			)['checkUserChecks']
 		);
 		$timestamp = (int)wfTimestamp( TS_UNIX, '20250611000000' );
@@ -519,7 +521,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			->execute();
 
 		$result = $this->getObjectUnderTest()->getUserInfo(
-			$cuUserAuthority, $user
+			$cuUserAuthority,
+			$user
 		);
 		$this->assertSame(
 			2,
@@ -534,7 +537,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 		// User without checkuser-log permission should not see any checkUser related output.
 		$result = $this->getObjectUnderTest()->getUserInfo(
-			$user, $user
+			$user,
+			$user
 		);
 		$this->assertArrayNotHasKey(
 			'checkuserChecks',
@@ -632,7 +636,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			->caller( __METHOD__ )
 			->execute();
 
-		$this->assertSame( $canSee ? 1 : 0,
+		$this->assertSame(
+			$canSee ? 1 : 0,
 			$this->getObjectUnderTest()->getUserInfo( $user, $user )['pastBlocksOnLocalWiki']
 		);
 	}
@@ -679,7 +684,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame(
 			0,
 			$this->getObjectUnderTest()->getUserInfo(
-				$user, $user
+				$user,
+				$user
 			)['pastBlocksOnLocalWiki']
 		);
 		$this->getDb()->newInsertQueryBuilder()
@@ -700,7 +706,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame(
 			$canSee ? 1 : 0,
 			$this->getObjectUnderTest()->getUserInfo(
-				$user, $user
+				$user,
+				$user
 			)['pastBlocksOnLocalWiki'],
 			'Testing block in suppress log'
 		);
@@ -723,7 +730,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame(
 			$canSee ? 2 : 1,
 			$this->getObjectUnderTest()->getUserInfo(
-				$user, $user
+				$user,
+				$user
 			)['pastBlocksOnLocalWiki'],
 			'Testing block in both logs'
 		);
@@ -775,7 +783,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$result = $this->getObjectUnderTest( [
 			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
 		] )->getUserInfo(
-			$authority, $user
+			$authority,
+			$user
 		);
 		$this->assertSame( true, $result['canAccessTemporaryAccountIpAddresses'] );
 
@@ -783,7 +792,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$result = $this->getObjectUnderTest( [
 			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
 		] )->getUserInfo(
-			$newUser, $user
+			$newUser,
+			$user
 		);
 		$this->assertSame( false, $result['canAccessTemporaryAccountIpAddresses'] );
 	}
@@ -895,7 +905,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		] );
 
 		$userInfo1 = $sut->getUserInfo( $performer, self::$tempUser1 );
-		$this->assertArrayContains( [
+		$this->assertArrayContains(
+			[
 				'name' => self::$tempUser1->getUser()->getName(),
 				'groups' => '',
 				'numberOfIpReveals' => 2,
@@ -905,7 +916,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$userInfo2 = $sut->getUserInfo( $performer, self::$tempUser2 );
-		$this->assertArrayContains( [
+		$this->assertArrayContains(
+			[
 				'name' => self::$tempUser2->getUser()->getName(),
 				'groups' => '',
 				'numberOfIpReveals' => 3,

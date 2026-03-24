@@ -104,7 +104,9 @@ abstract class ChangeService implements CheckUserQueryInterface {
 		$expressions = [];
 		if ( $ipTargets ) {
 			$expressions[] = $dbr->expr(
-				self::RESULT_TABLE_TO_PREFIX[$table] . 'ip_hex', '!=', $ipTargets
+				self::RESULT_TABLE_TO_PREFIX[$table] . 'ip_hex',
+				'!=',
+				$ipTargets
 			);
 		}
 		if ( $userTargets ) {

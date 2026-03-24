@@ -273,7 +273,11 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 				[ UserIdentityValue::newRegistered( 1, 'Test user 1' ) ],
 				[
 					SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-						'Lorem', 'ipsum', false, 123, 'unknown'
+						'Lorem',
+						'ipsum',
+						false,
+						123,
+						'unknown'
 					),
 				],
 			],
@@ -357,7 +361,11 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$user2 = UserIdentityValue::newRegistered( 2, 'Test user 2' );
 		$signal1 = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
 		$signal2 = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'Lorem2', 'ipsum', false, 123, 'revision'
+			'Lorem2',
+			'ipsum',
+			false,
+			123,
+			'revision'
 		);
 
 		$service = $this->createService();
@@ -510,7 +518,8 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 		$service->updateCase(
 			$caseId,
 			[ new SuggestedInvestigationsCaseUser(
-				UserIdentityValue::newRegistered( 2, 'Test user 1' ), 2
+				UserIdentityValue::newRegistered( 2, 'Test user 1' ),
+				2
 			) ],
 			[]
 		);
@@ -529,8 +538,11 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	 * @dataProvider setCaseStatusDataProvider
 	 */
 	public function testSetCaseStatus(
-		CaseStatus $oldStatus, CaseStatus $newStatus, string $reason,
-		bool $shouldCreateInstrumentationEvent, string $expectedActionSubtype
+		CaseStatus $oldStatus,
+		CaseStatus $newStatus,
+		string $reason,
+		bool $shouldCreateInstrumentationEvent,
+		string $expectedActionSubtype
 	): void {
 		// Use a real test user as we fetch them from the real UserIdentityLookup service
 		$user1 = $this->getMutableTestUser()->getUserIdentity();
@@ -601,7 +613,8 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	 * @dataProvider provideSetCaseStatusPerformerUserId
 	 */
 	public function testSetCaseStatusWritesPerformerUserId(
-		int $performerUserId, string $expectedPerformerUserId
+		int $performerUserId,
+		string $expectedPerformerUserId
 	): void {
 		$user1 = $this->getMutableTestUser()->getUserIdentity();
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );

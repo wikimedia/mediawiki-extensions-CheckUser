@@ -287,7 +287,10 @@ class CheckUserUserInfoCardService {
 
 			try {
 				$activeWikiIds = $this->globalContributionsLookup->getActiveWikisVisibleToUser(
-					$user->getName(), $authority, $this->context->getRequest(), $checkUserDataCutoff
+					$user->getName(),
+					$authority,
+					$this->context->getRequest(),
+					$checkUserDataCutoff
 				);
 			} catch ( InvalidArgumentException ) {
 				// No central user found or viewable, assume that the user is not active on any wiki
@@ -351,7 +354,8 @@ class CheckUserUserInfoCardService {
 				$blocks = $centralAuthUser->getBlocks();
 			} catch ( LocalUserNotFoundException ) {
 				LoggerFactory::getInstance( 'CheckUser' )->info(
-					'Unable to get CentralAuthUser for user {user}', [
+					'Unable to get CentralAuthUser for user {user}',
+					[
 						'user' => $user->getName(),
 					]
 				);
@@ -416,7 +420,8 @@ class CheckUserUserInfoCardService {
 			}
 
 			$userInfo['specialCentralAuthUrl'] ??= SpecialPage::getTitleFor(
-				'CentralAuth', $this->getUserTitleKey( $user )
+				'CentralAuth',
+				$this->getUserTitleKey( $user )
 			)->getLinkURL();
 		}
 

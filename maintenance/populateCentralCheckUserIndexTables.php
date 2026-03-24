@@ -146,7 +146,11 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance {
 
 						// Record an entry in the central index tables with the last found timestamp
 						$checkUserCentralIndexManager->recordActionInCentralIndexes(
-							$performer, IPUtils::formatHex( $ipHex ), $dbr->getDomainID(), $lastTimestamp, false
+							$performer,
+							IPUtils::formatHex( $ipHex ),
+							$dbr->getDomainID(),
+							$lastTimestamp,
+							false
 						);
 
 						// If the $table is cu_changes, then we should also call the method again while filtering
@@ -167,8 +171,11 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance {
 
 							if ( $lastEditTimestamp ) {
 								$checkUserCentralIndexManager->recordActionInCentralIndexes(
-									$performer, IPUtils::formatHex( $ipHex ), $dbr->getDomainID(),
-									$lastEditTimestamp, true
+									$performer,
+									IPUtils::formatHex( $ipHex ),
+									$dbr->getDomainID(),
+									$lastEditTimestamp,
+									true
 								);
 							}
 						}

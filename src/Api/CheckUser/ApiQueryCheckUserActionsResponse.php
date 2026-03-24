@@ -45,8 +45,13 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 		private readonly LogFormatterFactory $logFormatterFactory,
 	) {
 		parent::__construct(
-			$module, $dbProvider, $config, $messageLocalizer,
-			$checkUserLogService, $userNameUtils, $checkUserLookupUtils
+			$module,
+			$dbProvider,
+			$config,
+			$messageLocalizer,
+			$checkUserLogService,
+			$userNameUtils,
+			$checkUserLookupUtils
 		);
 	}
 
@@ -148,7 +153,12 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			$userId = $this->userIdentityLookup->getUserIdentityByName( $this->target )->getId();
 		}
 		$this->checkUserLogService->addLogEntry(
-			$this->module->getUser(), $logType, $targetType, $this->target, $this->reason, $userId
+			$this->module->getUser(),
+			$logType,
+			$targetType,
+			$this->target,
+			$this->reason,
+			$userId
 		);
 		return $actions;
 	}

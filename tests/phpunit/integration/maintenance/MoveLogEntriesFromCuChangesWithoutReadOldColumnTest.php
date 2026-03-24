@@ -40,11 +40,15 @@ class MoveLogEntriesFromCuChangesWithoutReadOldColumnTest extends MaintenanceBas
 		);
 		// Test no moving happened in the database
 		$this->assertRowCount(
-			0, 'cu_private_event', 'cupe_id',
+			0,
+			'cu_private_event',
+			'cupe_id',
 			'Rows were moved to cu_private_event when they should not have been moved.'
 		);
 		$this->assertRowCount(
-			1, 'cu_changes', 'cuc_id',
+			1,
+			'cu_changes',
+			'cuc_id',
 			'Rows were removed from cu_changes even though there was no move.'
 		);
 	}

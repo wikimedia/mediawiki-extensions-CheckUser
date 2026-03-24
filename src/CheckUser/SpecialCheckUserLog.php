@@ -179,7 +179,8 @@ class SpecialCheckUserLog extends SpecialPage {
 			foreach ( $links as $link ) {
 				$html .= Html::rawElement( 'span', [], $link );
 			}
-			$this->getOutput()->addSubtitle( Html::rawElement( 'span',
+			$this->getOutput()->addSubtitle( Html::rawElement(
+				'span',
 				[ 'class' => 'mw-checkuser-links-no-parentheses' ],
 				$html
 			) );

@@ -31,8 +31,13 @@ class ApiQueryCheckUserUserIpsResponse extends ApiQueryCheckUserAbstractResponse
 		private readonly UserIdentityLookup $userIdentityLookup,
 	) {
 		parent::__construct(
-			$module, $dbProvider, $config, $messageLocalizer,
-			$checkUserLogService, $userNameUtils, $checkUserLookupUtils
+			$module,
+			$dbProvider,
+			$config,
+			$messageLocalizer,
+			$checkUserLogService,
+			$userNameUtils,
+			$checkUserLookupUtils
 		);
 	}
 
@@ -65,7 +70,11 @@ class ApiQueryCheckUserUserIpsResponse extends ApiQueryCheckUserAbstractResponse
 		}
 
 		$this->checkUserLogService->addLogEntry(
-			$this->module->getUser(), 'userips', 'user', $this->target, $this->reason,
+			$this->module->getUser(),
+			'userips',
+			'user',
+			$this->target,
+			$this->reason,
 			$this->userIdentityLookup->getUserIdentityByName( $this->target )->getId()
 		);
 		return $resultIPs;

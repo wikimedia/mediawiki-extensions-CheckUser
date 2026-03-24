@@ -120,7 +120,10 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 	/** @dataProvider provideGetQueryInfo */
 	public function testGetQueryInfo( $table, $expectedQueryInfo ) {
 		$this->commonTestGetQueryInfo(
-			UserIdentityValue::newRegistered( 1, 'Testing' ), null, $table, $expectedQueryInfo
+			UserIdentityValue::newRegistered( 1, 'Testing' ),
+			null,
+			$table,
+			$expectedQueryInfo
 		);
 	}
 
@@ -229,7 +232,10 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
 		ConvertibleTimestamp::setFakeTime( '20230405060708' );
 		$this->editPage(
-			$testPage, 'Test content', 'Test summary', NS_MAIN,
+			$testPage,
+			'Test content',
+			'Test summary',
+			NS_MAIN,
 			$this->getServiceContainer()->getUserFactory()
 				->newFromUserIdentity( UserIdentityValue::newAnonymous( '127.0.0.1' ) )
 		);
@@ -240,14 +246,20 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 		RequestContext::getMain()->getRequest()->setIP( '2001:db8::1' );
 		ConvertibleTimestamp::setFakeTime( '20230405060710' );
 		$this->editPage(
-			$testPage, 'Test content3', 'Test summary', NS_MAIN,
+			$testPage,
+			'Test content3',
+			'Test summary',
+			NS_MAIN,
 			$this->getServiceContainer()->getUserFactory()
 				->newFromUserIdentity( UserIdentityValue::newAnonymous( '2001:db8::1' ) )
 		);
 		RequestContext::getMain()->getRequest()->setIP( '2001:db8::2' );
 		ConvertibleTimestamp::setFakeTime( '20230405060711' );
 		$this->editPage(
-			$testPage, 'Test content4', 'Test summary', NS_MAIN,
+			$testPage,
+			'Test content4',
+			'Test summary',
+			NS_MAIN,
 			$this->getServiceContainer()->getUserFactory()
 				->newFromUserIdentity( UserIdentityValue::newAnonymous( '2001:db8::2' ) )
 		);

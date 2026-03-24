@@ -29,8 +29,13 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 		private readonly UserFactory $userFactory,
 	) {
 		parent::__construct(
-			$module, $dbProvider, $config, $messageLocalizer, $checkUserLogService,
-			$userNameUtils, $checkUserLookupUtils
+			$module,
+			$dbProvider,
+			$config,
+			$messageLocalizer,
+			$checkUserLogService,
+			$userNameUtils,
+			$checkUserLookupUtils
 		);
 	}
 
@@ -95,7 +100,11 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 			$logType .= '-xff';
 		}
 		$this->checkUserLogService->addLogEntry(
-			$this->module->getUser(), $logType, 'ip', $this->target, $this->reason
+			$this->module->getUser(),
+			$logType,
+			'ip',
+			$this->target,
+			$this->reason
 		);
 		return $resultUsers;
 	}

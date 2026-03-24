@@ -78,7 +78,10 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 	 * @return list<string>
 	 */
 	public function getActiveWikisVisibleToUser(
-		string $target, Authority $viewingAuthority, WebRequest $request, ?string $timeCutoff = null
+		string $target,
+		Authority $viewingAuthority,
+		WebRequest $request,
+		?string $timeCutoff = null
 	): array {
 		$allActiveWikis = $this->getActiveWikis( $target, $viewingAuthority, $timeCutoff );
 
@@ -121,12 +124,14 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 
 			if ( !$canSeeDeleted ) {
 				$dbConditions[] = $dbr->bitAnd(
-						'rev_deleted', RevisionRecord::DELETED_USER
-					) . ' = 0';
+					'rev_deleted',
+					RevisionRecord::DELETED_USER
+				) . ' = 0';
 			} elseif ( !$canSeeSuppressed ) {
 				$dbConditions[] = $dbr->bitAnd(
-						'rev_deleted', RevisionRecord::SUPPRESSED_USER
-					) . ' != ' . RevisionRecord::SUPPRESSED_USER;
+					'rev_deleted',
+					RevisionRecord::SUPPRESSED_USER
+				) . ' != ' . RevisionRecord::SUPPRESSED_USER;
 			}
 
 			$hasVisibleActions = (bool)$dbr->newSelectQueryBuilder()

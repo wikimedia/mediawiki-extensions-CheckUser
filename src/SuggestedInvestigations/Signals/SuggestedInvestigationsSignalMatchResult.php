@@ -44,11 +44,22 @@ class SuggestedInvestigationsSignalMatchResult {
 	 *   operator (`|`).
 	 */
 	public static function newPositiveResult(
-		string $name, string $value, bool $allowsMerging, int $triggerId = 0, string $triggerIdTable = '',
-		array $equivalentNamesForMerging = [], int $userInfoBitFlags = 0
+		string $name,
+		string $value,
+		bool $allowsMerging,
+		int $triggerId = 0,
+		string $triggerIdTable = '',
+		array $equivalentNamesForMerging = [],
+		int $userInfoBitFlags = 0
 	): self {
 		return new self(
-			true, $name, $value, $allowsMerging, $equivalentNamesForMerging, $triggerId, $triggerIdTable,
+			true,
+			$name,
+			$value,
+			$allowsMerging,
+			$equivalentNamesForMerging,
+			$triggerId,
+			$triggerIdTable,
 			$userInfoBitFlags
 		);
 	}
@@ -178,5 +189,6 @@ class SuggestedInvestigationsSignalMatchResult {
  */
 class_alias(
 	SuggestedInvestigationsSignalMatchResult::class,
-	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Signals\\SuggestedInvestigationsSignalMatchResult' );
+	'MediaWiki\\CheckUser\\SuggestedInvestigations\\Signals\\SuggestedInvestigationsSignalMatchResult'
+);
 // @codeCoverageIgnoreEnd

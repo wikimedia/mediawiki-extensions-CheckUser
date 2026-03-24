@@ -230,7 +230,8 @@ class SpecialCheckUser extends SpecialPage {
 		foreach ( $links as $link ) {
 			$html .= Html::rawElement( 'span', [], $link );
 		}
-		$out->addSubtitle( Html::rawElement( 'span',
+		$out->addSubtitle( Html::rawElement(
+			'span',
 			[ 'class' => 'mw-checkuser-links-no-parentheses' ],
 			$html
 		) );
@@ -287,7 +288,9 @@ class SpecialCheckUser extends SpecialPage {
 						$pagerBody = $pager->getBody();
 						$out->addHTML(
 							$this->suggestedInvestigationsMessageRenderer->getOpenCasesNotice(
-								$pager, $this->getContext(), $this->getLinkRenderer()
+								$pager,
+								$this->getContext(),
+								$this->getLinkRenderer()
 							) . $pagerBody
 						);
 					}
@@ -318,7 +321,9 @@ class SpecialCheckUser extends SpecialPage {
 					$pagerBody = $pager->getBody();
 					$out->addHTML(
 						$this->suggestedInvestigationsMessageRenderer->getOpenCasesNotice(
-							$pager, $this->getContext(), $this->getLinkRenderer()
+							$pager,
+							$this->getContext(),
+							$this->getLinkRenderer()
 						) . $pagerBody
 					);
 				}

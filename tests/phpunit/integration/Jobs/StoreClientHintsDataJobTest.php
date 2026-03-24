@@ -24,7 +24,9 @@ class StoreClientHintsDataJobTest extends MediaWikiIntegrationTestCase {
 		/** @var CheckUserInsert $checkUserInsert */
 		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
 		$insertedId = $checkUserInsert->insertIntoCuPrivateEventTable(
-			[], __METHOD__, $this->getTestUser()->getUser()
+			[],
+			__METHOD__,
+			$this->getTestUser()->getUser()
 		);
 		// Use the job to insert some testing Client Hints data for the event
 		$clientHintsData = $this->getExampleClientHintsDataObjectFromJsApi();
@@ -39,7 +41,8 @@ class StoreClientHintsDataJobTest extends MediaWikiIntegrationTestCase {
 		$referenceIds->addReferenceIds( $insertedId, UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT );
 		$clientHintsLookupResults = $clientHintsLookup->getClientHintsByReferenceIds( $referenceIds );
 		$clientHintsDataFromDb = $clientHintsLookupResults->getClientHintsDataForReferenceId(
-			$insertedId, UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+			$insertedId,
+			UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
 		);
 		$this->assertClientHintsDataObjectsEqual( $clientHintsData, $clientHintsDataFromDb, true );
 	}

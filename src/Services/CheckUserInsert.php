@@ -215,21 +215,34 @@ class CheckUserInsert {
 	 * @see CheckUserCentralIndexManager::recordActionInCentralIndexes for documentation on the parameters
 	 */
 	private function recordActionInCentralTablesOnDeferredUpdate(
-		UserIdentity $performer, string $ip, string $timestamp, bool $hasRevisionId, bool $silenceReplicaWarnings
+		UserIdentity $performer,
+		string $ip,
+		string $timestamp,
+		bool $hasRevisionId,
+		bool $silenceReplicaWarnings
 	): void {
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
 		$domainID = $dbw->getDomainID();
 
 		DeferredUpdates::addCallableUpdate(
 			function () use (
-				$performer, $ip, $domainID, $timestamp, $hasRevisionId, $silenceReplicaWarnings
+				$performer,
+				$ip,
+				$domainID,
+				$timestamp,
+				$hasRevisionId,
+				$silenceReplicaWarnings
 			) {
 				if ( $silenceReplicaWarnings ) {
 					$transactionProfilerScope = Profiler::instance()->getTransactionProfiler()
 						->silenceForScope( TransactionProfiler::EXPECTATION_REPLICAS_ONLY );
 				}
 				$this->checkUserCentralIndexManager->recordActionInCentralIndexes(
-					$performer, $ip, $domainID, $timestamp, $hasRevisionId
+					$performer,
+					$ip,
+					$domainID,
+					$timestamp,
+					$hasRevisionId
 				);
 				ScopedCallback::consume( $transactionProfilerScope );
 			},
@@ -308,7 +321,11 @@ class CheckUserInsert {
 
 		// Update the central index for this newly inserted row.
 		$this->recordActionInCentralTablesOnDeferredUpdate(
-			$user, $ip, $row['cule_timestamp'], false, $silenceReplicaWarnings
+			$user,
+			$ip,
+			$row['cule_timestamp'],
+			false,
+			$silenceReplicaWarnings
 		);
 
 		ScopedCallback::consume( $transactionProfilerScope );
@@ -418,7 +435,11 @@ class CheckUserInsert {
 
 		// Update the central index for this newly inserted row.
 		$this->recordActionInCentralTablesOnDeferredUpdate(
-			$user, $ip, $row['cupe_timestamp'], false, $silenceReplicaWarnings
+			$user,
+			$ip,
+			$row['cupe_timestamp'],
+			false,
+			$silenceReplicaWarnings
 		);
 
 		ScopedCallback::consume( $transactionProfilerScope );
@@ -509,7 +530,10 @@ class CheckUserInsert {
 
 		// Update the central index for this newly inserted row.
 		$this->recordActionInCentralTablesOnDeferredUpdate(
-			$user, $ip, $row['cuc_timestamp'], $row['cuc_this_oldid'] !== 0,
+			$user,
+			$ip,
+			$row['cuc_timestamp'],
+			$row['cuc_this_oldid'] !== 0,
 			$silenceReplicaWarnings
 		);
 

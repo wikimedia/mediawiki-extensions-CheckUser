@@ -114,7 +114,8 @@ class CompareService extends ChangeService {
 					}
 					$queryBuilder->useIndex( [
 						$table => $this->checkUserLookupUtils->getIndexName(
-							IPUtils::isIPAddress( $target ) ? false : null, $table
+							IPUtils::isIPAddress( $target ) ? false : null,
+							$table
 						),
 					] );
 					$unionQueryBuilder->add( $queryBuilder );
@@ -158,7 +159,9 @@ class CompareService extends ChangeService {
 	 *   be generated.
 	 */
 	private function getPartialQueryBuilderForCuChanges(
-		string $target, array $excludeTargets, string $start
+		string $target,
+		array $excludeTargets,
+		string $start
 	): ?SelectQueryBuilder {
 		$targetExpr = $this->buildExprForSingleTarget( $target, $excludeTargets, $start, self::CHANGES_TABLE );
 		if ( $targetExpr === null ) {
@@ -193,7 +196,9 @@ class CompareService extends ChangeService {
 	 *    be generated.
 	 */
 	private function getPartialQueryBuilderForCuLogEvent(
-		string $target, array $excludeTargets, string $start
+		string $target,
+		array $excludeTargets,
+		string $start
 	): ?SelectQueryBuilder {
 		$targetExpr = $this->buildExprForSingleTarget( $target, $excludeTargets, $start, self::LOG_EVENT_TABLE );
 		if ( $targetExpr === null ) {
@@ -228,10 +233,15 @@ class CompareService extends ChangeService {
 	 *     could be generated.
 	 */
 	private function getPartialQueryBuilderForCuPrivateEvent(
-		string $target, array $excludeTargets, string $start
+		string $target,
+		array $excludeTargets,
+		string $start
 	): ?SelectQueryBuilder {
 		$targetExpr = $this->buildExprForSingleTarget(
-			$target, $excludeTargets, $start, self::PRIVATE_LOG_EVENT_TABLE
+			$target,
+			$excludeTargets,
+			$start,
+			self::PRIVATE_LOG_EVENT_TABLE
 		);
 		if ( $targetExpr === null ) {
 			return null;

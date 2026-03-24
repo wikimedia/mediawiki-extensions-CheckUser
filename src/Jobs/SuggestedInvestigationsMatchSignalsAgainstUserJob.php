@@ -38,7 +38,9 @@ class SuggestedInvestigationsMatchSignalsAgainstUserJob extends Job {
 	 * The arguments to this method are passed through as arguments to that method.
 	 */
 	public static function newSpec(
-		UserIdentity $userIdentity, string $eventType, array $extraData
+		UserIdentity $userIdentity,
+		string $eventType,
+		array $extraData
 	): IJobSpecification {
 		return new JobSpecification(
 			self::TYPE,

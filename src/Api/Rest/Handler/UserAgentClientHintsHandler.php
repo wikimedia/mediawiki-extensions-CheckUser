@@ -56,7 +56,8 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			// Pretend the route doesn't exist if the feature flag is off.
 			throw new LocalizedHttpException(
-				new MessageValue( 'rest-no-match' ), 404
+				new MessageValue( 'rest-no-match' ),
+				404
 			);
 		}
 		$data = $this->getValidatedBody();
@@ -95,7 +96,8 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		} else {
 			// If the type is not supported, pretend the route doesn't exist.
 			throw new LocalizedHttpException(
-				new MessageValue( 'rest-no-match' ), 404
+				new MessageValue( 'rest-no-match' ),
+				404
 			);
 		}
 		$status = $this->userAgentClientHintsManager->insertClientHintValues( $clientHints, $identifier, $type );
@@ -130,7 +132,9 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		$revision = $this->revisionStore->getRevisionById( $revisionId );
 		if ( !$revision ) {
 			throw new LocalizedHttpException(
-				new MessageValue( 'rest-nonexistent-revision', [ $revisionId ] ), 404 );
+				new MessageValue( 'rest-nonexistent-revision', [ $revisionId ] ),
+				404
+			);
 		}
 		$this->performTimestampValidation( $revision->getTimestamp(), 'revision', $revisionId );
 		// Check the performer of the action is the same as the user submitting this REST API request
@@ -171,7 +175,8 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		if ( $privateEventRow === false ) {
 			throw new LocalizedHttpException(
 				new MessageValue(
-					'checkuser-api-useragent-clienthints-nonexistent-id', [ 'privatelog', $privateLogId ]
+					'checkuser-api-useragent-clienthints-nonexistent-id',
+					[ 'privatelog', $privateLogId ]
 				),
 				404
 			);
@@ -211,7 +216,9 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 	 * @throws LocalizedHttpException If the validation fails, this exception will be raised.
 	 */
 	private function performTimestampValidation(
-		?string $associatedEntryTimestamp, string $type, int $identifier
+		?string $associatedEntryTimestamp,
+		string $type,
+		int $identifier
 	): void {
 		// Check that the API was not called too long after the edit
 		$cutoff = ConvertibleTimestamp::time() - $this->config->get( 'CheckUserClientHintsRestApiMaxTimeLag' );
@@ -302,5 +309,6 @@ class UserAgentClientHintsHandler extends SimpleHandler {
  */
 class_alias(
 	UserAgentClientHintsHandler::class,
-	'MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler' );
+	'MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler'
+);
 // @codeCoverageIgnoreEnd

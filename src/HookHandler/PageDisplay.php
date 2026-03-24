@@ -169,13 +169,15 @@ class PageDisplay implements BeforePageDisplayHook {
 		}
 
 		if ( !$out->getAuthority()->isAllowedAny(
-			'checkuser-temporary-account-no-preference', 'checkuser-temporary-account'
+			'checkuser-temporary-account-no-preference',
+			'checkuser-temporary-account'
 		) ) {
 			return;
 		}
 
 		$userHasSeenDialog = $this->userOptionsLookup->getBoolOption(
-			$out->getUser(), Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN
+			$out->getUser(),
+			Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN
 		);
 		if ( !$userHasSeenDialog ) {
 			$out->addHtml( '<div id="ext-checkuser-tempaccountsonboarding-app"></div>' );
@@ -192,10 +194,12 @@ class PageDisplay implements BeforePageDisplayHook {
 					$out->getAuthority()->isAllowed( 'ipinfo' ),
 				'wgCheckUserIPInfoPreferenceChecked' => $ipInfoLoaded &&
 					$this->getGlobalPreferenceValue(
-						$out->getUser(), AbstractPreferencesHandler::IPINFO_USE_AGREEMENT
+						$out->getUser(),
+						AbstractPreferencesHandler::IPINFO_USE_AGREEMENT
 					),
 				'wgCheckUserIPRevealPreferenceGloballyChecked' => $this->getGlobalPreferenceValue(
-					$out->getUser(), Preferences::ENABLE_IP_REVEAL
+					$out->getUser(),
+					Preferences::ENABLE_IP_REVEAL
 				),
 				'wgCheckUserIPRevealPreferenceLocallyChecked' =>
 					$this->userOptionsLookup->getBoolOption( $out->getUser(), Preferences::ENABLE_IP_REVEAL ),

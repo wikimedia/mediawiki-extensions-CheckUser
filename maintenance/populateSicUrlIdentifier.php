@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Maintenance;
 
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
-// phpcs:ignore Generic.Files.LineLength.TooLong
+// phpcs:ignore Generic.Files.LineLength
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;

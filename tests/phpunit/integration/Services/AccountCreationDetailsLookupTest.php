@@ -57,9 +57,11 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			[ 'ip' => '127.0.0.1', 'agent' => 'Fake User Agent' ],
 			$this->getObjectUnderTest()->getAccountCreationIPAndUserAgent(
-				$user->getName(), $this->getDb()
+				$user->getName(),
+				$this->getDb()
 			),
-			false, true,
+			false,
+			true,
 			'IP and User Agent returned is not as expected'
 		);
 	}
@@ -76,9 +78,11 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			[ 'ip' => '127.0.0.1', 'agent' => 'Fake User Agent' ],
 			$this->getObjectUnderTest()->getAccountCreationIPAndUserAgent(
-				$user->getName(), $this->getDb()
+				$user->getName(),
+				$this->getDb()
 			),
-			false, true,
+			false,
+			true,
 			'IP and User Agent returned is not as expected'
 		);
 	}
@@ -102,9 +106,11 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			[ 'ip' => '127.0.0.1', 'agent' => 'Fake User Agent' ],
 			$this->getObjectUnderTest()->getAccountCreationIPAndUserAgent(
-				$user->getName(), $this->getDb()
+				$user->getName(),
+				$this->getDb()
 			),
-			false, true,
+			false,
+			true,
 			'IP and User Agent returned is not as expected'
 		);
 	}
@@ -112,7 +118,8 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 	public function testGetAccountCreationIPAndUserAgentWhenNoLogFound() {
 		$this->assertNull(
 			$this->getObjectUnderTest()->getAccountCreationIPAndUserAgent(
-				$this->getTestUser()->getUserIdentity()->getName(), $this->getDb()
+				$this->getTestUser()->getUserIdentity()->getName(),
+				$this->getDb()
 			),
 			'If no CheckUser result table has an entry for the account creation' .
 				', then null should be returned'
@@ -138,9 +145,11 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			[ 'ip' => '127.0.0.1', 'agent' => 'Fake User Agent' ],
 			$this->getObjectUnderTest()->getAccountCreationIPAndUserAgent(
-				$user->getName(), $this->getDb()
+				$user->getName(),
+				$this->getDb()
 			),
-			false, true,
+			false,
+			true,
 			'IP and User Agent returned is not as expected for autocreate log action'
 		);
 	}
@@ -167,9 +176,12 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			[ 'ip' => '127.0.0.1', 'agent' => 'Fake User Agent' ],
 			$this->getObjectUnderTest()->getAccountCreationIPAndUserAgent(
-				$performer->getName(), $this->getDb(), $logid
+				$performer->getName(),
+				$this->getDb(),
+				$logid
 			),
-			false, true,
+			false,
+			true,
 			'IP and User Agent returned is not as expected'
 		);
 	}

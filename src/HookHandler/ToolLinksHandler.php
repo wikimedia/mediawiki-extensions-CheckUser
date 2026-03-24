@@ -52,9 +52,9 @@ class ToolLinksHandler implements
 	 */
 	private function userCanRevealIP( UserIdentity $user ) {
 		return $this->permissionManager->userHasRight(
-				$user,
-				'checkuser-temporary-account-no-preference'
-			) ||
+			$user,
+			'checkuser-temporary-account-no-preference'
+		) ||
 			(
 				$this->permissionManager->userHasRight(
 					$user,
@@ -149,7 +149,10 @@ class ToolLinksHandler implements
 	 * @inheritDoc
 	 */
 	public function onContributionsToolLinks(
-		$id, Title $title, array &$tools, SpecialPage $specialPage
+		$id,
+		Title $title,
+		array &$tools,
+		SpecialPage $specialPage
 	) {
 		$targetUserIdentity = $id ? $this->userIdentityLookup->getUserIdentityByUserId( $id ) : null;
 		$user = $specialPage->getUser();

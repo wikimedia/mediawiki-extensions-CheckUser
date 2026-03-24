@@ -38,7 +38,9 @@ class UserAgentClientHintsLookup {
 			->table( 'cu_useragent_clienthints_map' )
 			// The results list can be used to generate the WHERE condition.
 			->where( $this->dbr->makeWhereFrom2d(
-				$referenceIdsToClientHintIds, 'uachm_reference_type', 'uachm_reference_id'
+				$referenceIdsToClientHintIds,
+				'uachm_reference_type',
+				'uachm_reference_id'
 			) )
 			->caller( __METHOD__ )
 			->fetchResultSet();

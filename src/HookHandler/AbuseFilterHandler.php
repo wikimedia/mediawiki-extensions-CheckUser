@@ -99,7 +99,9 @@ class AbuseFilterHandler implements
 	 * @inheritDoc
 	 */
 	public function onAbuseFilterCanViewProtectedVariables(
-		Authority $performer, array $variables, AbuseFilterPermissionStatus $status
+		Authority $performer,
+		array $variables,
+		AbuseFilterPermissionStatus $status
 	): void {
 		if ( !in_array( 'user_unnamed_ip', $variables ) || !$this->tempUserConfig->isKnown() ) {
 			return;

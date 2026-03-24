@@ -57,7 +57,9 @@ abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
 	 * @return TestingAccessWrapper
 	 */
 	protected function setUpObject(
-		?UserIdentity $userIdentity = null, ?string $checkType = null, array $groups = [ 'checkuser' ]
+		?UserIdentity $userIdentity = null,
+		?string $checkType = null,
+		array $groups = [ 'checkuser' ]
 	) {
 		RequestContext::getMain()->setUser( $this->getTestUser( $groups )->getUser() );
 		$opts = new FormOptions();

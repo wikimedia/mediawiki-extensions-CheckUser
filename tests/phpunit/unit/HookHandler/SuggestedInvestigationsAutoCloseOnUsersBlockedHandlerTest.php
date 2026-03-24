@@ -51,7 +51,10 @@ class SuggestedInvestigationsAutoCloseOnUsersBlockedHandlerTest extends MediaWik
 	 * @dataProvider provideEarlyReturnCases
 	 */
 	public function testEarlyReturn(
-		bool $isExtensionEnabled, int|null $targetUserId, bool $isSitewide, bool $isIndefinite
+		bool $isExtensionEnabled,
+		int|null $targetUserId,
+		bool $isSitewide,
+		bool $isIndefinite
 	): void {
 		$this->caseLookup->expects( $this->once() )->method( 'areSuggestedInvestigationsEnabled' )
 			->willReturn( $isExtensionEnabled );
@@ -73,7 +76,9 @@ class SuggestedInvestigationsAutoCloseOnUsersBlockedHandlerTest extends MediaWik
 		$this->jobQueueGroup->expects( $this->never() )->method( 'lazyPush' );
 
 		$this->handler->onBlockIpComplete(
-			$this->getDbBlockMock( 1, true, true ), $this->createMock( User::class ), null
+			$this->getDbBlockMock( 1, true, true ),
+			$this->createMock( User::class ),
+			null
 		);
 	}
 
@@ -95,7 +100,9 @@ class SuggestedInvestigationsAutoCloseOnUsersBlockedHandlerTest extends MediaWik
 			} ) );
 
 		$this->handler->onBlockIpComplete(
-			$this->getDbBlockMock( 1, true, true ), $this->createMock( User::class ), null
+			$this->getDbBlockMock( 1, true, true ),
+			$this->createMock( User::class ),
+			null
 		);
 	}
 

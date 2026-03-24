@@ -199,7 +199,13 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			new LocalizedHttpException( new MessageValue( 'readonlytext', [ 'Maintenance' ] ), 503 )
 		);
 		$this->executeHandler(
-			$handler, $this->getRequestData(), [], [], [], [], $this->mockRegisteredUltimateAuthority()
+			$handler,
+			$this->getRequestData(),
+			[],
+			[],
+			[],
+			[],
+			$this->mockRegisteredUltimateAuthority()
 		);
 	}
 
@@ -495,7 +501,9 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $preferences );
 
 		$autoRevealLookup = new CheckUserTemporaryAccountAutoRevealLookup(
-			$serviceOptions, $preferencesFactory, $checkUserPermissionManager
+			$serviceOptions,
+			$preferencesFactory,
+			$checkUserPermissionManager
 		);
 
 		$jobQueueGroup = $this->createMock( JobQueueGroup::class );

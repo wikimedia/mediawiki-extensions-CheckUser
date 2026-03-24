@@ -145,7 +145,9 @@ class ConditionalRegistrationHandlerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideSuggestedInvestigationsRegistered */
 	public function testSuggestedInvestigationsRegistered(
-		bool $enabled, bool $hidden, bool $siExpected
+		bool $enabled,
+		bool $hidden,
+		bool $siExpected
 	) {
 		// Normally we could switch these using methods from SuggestedInvestigationsTestTrait, but
 		// these tests create own config object, so we need to set the values this way.

@@ -231,7 +231,10 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 	 * with the value of the User-Agent header.
 	 */
 	private function insertCheckUserDataRow(
-		string $userAgent, array $rcAttribs, string $table, array $tableUniqueCond
+		string $userAgent,
+		array $rcAttribs,
+		string $table,
+		array $tableUniqueCond
 	): void {
 		// Create the testing event using the provided RecentChanges attribs
 		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', $userAgent );

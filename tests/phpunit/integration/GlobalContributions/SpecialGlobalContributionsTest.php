@@ -127,13 +127,25 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		ConvertibleTimestamp::setFakeTime( $oneDayAgoTimestamp );
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
 		$this->editPage(
-			'Test page', 'Test Content 1', 'test', NS_MAIN, self::$sysop
+			'Test page',
+			'Test Content 1',
+			'test',
+			NS_MAIN,
+			self::$sysop
 		);
 		$this->editPage(
-			'Test page', 'Test Content 2', 'test', NS_MAIN, self::$tempUser1
+			'Test page',
+			'Test Content 2',
+			'test',
+			NS_MAIN,
+			self::$tempUser1
 		);
 		$this->editPage(
-			'Test page for deletion', 'Test Content', 'test', NS_MAIN, self::$tempUser1
+			'Test page for deletion',
+			'Test Content',
+			'test',
+			NS_MAIN,
+			self::$tempUser1
 		);
 		$title = Title::newFromText( 'Test page for deletion' );
 		$page = $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $title );
@@ -142,13 +154,21 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// Do one edit at a different time, to test the pagination
 		ConvertibleTimestamp::setFakeTime( $oneWeekAgoTimestamp );
 		$this->editPage(
-			'Test page', 'Test Content 3', 'test', NS_MAIN, self::$tempUser2
+			'Test page',
+			'Test Content 3',
+			'test',
+			NS_MAIN,
+			self::$tempUser2
 		);
 
 		// Temp user edits again from a different IP
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 		$this->editPage(
-			'Test page', 'Test Content 4', 'test', NS_MAIN, self::$tempUser1
+			'Test page',
+			'Test Content 4',
+			'test',
+			NS_MAIN,
+			self::$tempUser1
 		);
 
 		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
@@ -156,7 +176,11 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// Do an edit by a named user which is should have been purged from CheckUser tables.
 		ConvertibleTimestamp::setFakeTime( $oneYearAgoTimestamp );
 		$this->editPage(
-			'Test page', 'Test Content 5', 'test', NS_MAIN, self::$sysop
+			'Test page',
+			'Test Content 5',
+			'test',
+			NS_MAIN,
+			self::$sysop
 		);
 
 		// Assert that the test data was inserted correctly to the cuci_user table, which is read by
@@ -287,7 +311,8 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// Use occurrences of data attribute to determine how many rows, which should be one
 		// as all but one row is excluded by the start timestamp filter.
 		$this->assertSame(
-			1, substr_count( $html, 'data-mw-revid' ),
+			1,
+			substr_count( $html, 'data-mw-revid' ),
 			"Unexpected number of result rows in $html"
 		);
 
@@ -313,7 +338,8 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// Use occurrences of data attribute to determine how many rows, which should be one
 		// as all but one row is excluded by the end timestamp filter.
 		$this->assertSame(
-			1, substr_count( $html, 'data-mw-revid' ),
+			1,
+			substr_count( $html, 'data-mw-revid' ),
 			"Unexpected number of result rows in $html"
 		);
 
@@ -337,7 +363,8 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// the limit of 90 days when searching for temporary account contributions on an IP address.
 		$this->assertStringContainsString( 'mw-pager-body', $html );
 		$this->assertSame(
-			0, substr_count( $html, 'data-mw-revid' ),
+			0,
+			substr_count( $html, 'data-mw-revid' ),
 			"Unexpected number of result rows in $html"
 		);
 	}
@@ -417,7 +444,11 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// User to be suppressed edits from a unique IP to avoid conflicts with IP searches in other tests
 		RequestContext::getMain()->getRequest()->setIP( '128.0.0.1' );
 		$this->editPage(
-			'Test page 2', 'Test content from user to be suppressed', 'test', NS_MAIN, self::$suppressedUser
+			'Test page 2',
+			'Test content from user to be suppressed',
+			'test',
+			NS_MAIN,
+			self::$suppressedUser
 		);
 		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 

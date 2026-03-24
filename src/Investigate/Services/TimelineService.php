@@ -41,7 +41,12 @@ class TimelineService extends ChangeService {
 			// query will not be run.
 			if ( count( $ipTargets ) ) {
 				$ipTargetsQuery = $this->getQueryBuilderForTable(
-					$table, $ipTargets, true, $excludeTargets, $start, $limit
+					$table,
+					$ipTargets,
+					true,
+					$excludeTargets,
+					$start,
+					$limit
 				);
 				if ( $ipTargetsQuery !== null ) {
 					if ( $excludeTempAccounts ) {
@@ -62,7 +67,12 @@ class TimelineService extends ChangeService {
 					$userTargets;
 
 				$userTargetsQuery = $this->getQueryBuilderForTable(
-					$table, $newUserTargets, false, $excludeTargets, $start, $limit
+					$table,
+					$newUserTargets,
+					false,
+					$excludeTargets,
+					$start,
+					$limit
 				);
 				if ( $userTargetsQuery !== null ) {
 					$unionQueryBuilder->add( $userTargetsQuery );
@@ -158,7 +168,12 @@ class TimelineService extends ChangeService {
 	 *    be generated.
 	 */
 	private function getQueryBuilderForTable(
-		string $table, array $targets, bool $targetsAreIPs, array $excludeTargets, string $start, int $limit
+		string $table,
+		array $targets,
+		bool $targetsAreIPs,
+		array $excludeTargets,
+		string $start,
+		int $limit
 	): ?SelectQueryBuilder {
 		// Get the query builder for the table which has all table-specific information added but needs the
 		// table non-specific information added.
@@ -302,7 +317,8 @@ class TimelineService extends ChangeService {
 	 *   could be generated.
 	 */
 	private function getPartialQueryBuilderForCuPrivateEvent(
-		array $targets, bool $targetsAreIPs
+		array $targets,
+		bool $targetsAreIPs
 	): ?SelectQueryBuilder {
 		$targetsExpr = $this->buildTargetExprMultiple( $targets, self::PRIVATE_LOG_EVENT_TABLE );
 		// Don't run the query if no targets are valid.

@@ -69,7 +69,9 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			null
 		) )->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
 		$this->assertCount(
-			1, $items, 'A tool link should have been added'
+			1,
+			$items,
+			'A tool link should have been added'
 		);
 		$this->assertArrayEquals(
 			$expectedItems,
@@ -604,7 +606,10 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function commonTestOnContributionsToolLinks(
-		string $userName, $linkRenderer, array $userRights, array $expectedLinksArray,
+		string $userName,
+		$linkRenderer,
+		array $userRights,
+		array $expectedLinksArray,
 		array $serviceOverrides = []
 	): void {
 		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
@@ -671,7 +676,10 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'user' => $userPageTitle ]
 			)->willReturn( 'CheckUser mocked link' );
 		$this->commonTestOnContributionsToolLinks(
-			$userPageTitle, $mockLinkRenderer, [ 'checkuser' ], [ 'checkuser' => 'CheckUser mocked link' ]
+			$userPageTitle,
+			$mockLinkRenderer,
+			[ 'checkuser' ],
+			[ 'checkuser' => 'CheckUser mocked link' ]
 		);
 	}
 
@@ -707,7 +715,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			} );
 
 		$this->commonTestOnContributionsToolLinks(
-			$userPageTitle, $mockLinkRenderer,
+			$userPageTitle,
+			$mockLinkRenderer,
 			[ 'checkuser-log' ],
 			[
 				'checkuser-log' => 'CheckUserLog mocked link',
@@ -733,15 +742,20 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			->with( $userPageTitle )
 			->willReturn( false );
 		$this->commonTestOnContributionsToolLinks(
-			$userPageTitle, $mockLinkRenderer,
-			[ 'checkuser-log' ], [ 'checkuser-log' => 'CheckUserLog mocked link' ],
+			$userPageTitle,
+			$mockLinkRenderer,
+			[ 'checkuser-log' ],
+			[ 'checkuser-log' => 'CheckUserLog mocked link' ],
 			[ 'userIdentityUtils' => $mockUserIdentityUtils ]
 		);
 	}
 
 	/** @dataProvider provideOnContributionsToolLinksForSILink */
 	public function testOnContributionsToolLinksForSILink(
-		bool $suggestedInvestigationsEnabled, array $userRights, bool $isUserInAnyCase, bool $linkShouldBeAdded
+		bool $suggestedInvestigationsEnabled,
+		array $userRights,
+		bool $isUserInAnyCase,
+		bool $linkShouldBeAdded
 	) {
 		$mockSuggestedInvestigationsCaseLookup = $this->createMock(
 			SuggestedInvestigationsCaseLookupService::class
@@ -772,7 +786,10 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 
 		$this->commonTestOnContributionsToolLinks(
-			$userPageTitle, $mockLinkRenderer, $userRights, $expectedLinksArray,
+			$userPageTitle,
+			$mockLinkRenderer,
+			$userRights,
+			$expectedLinksArray,
 			[ 'suggestedInvestigationsCaseLookup' => $mockSuggestedInvestigationsCaseLookup ]
 		);
 	}

@@ -30,29 +30,41 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		int $expectedCuPrivateRowCount = 0
 	): void {
 		$this->assertRowCount(
-			$expectedCuPrivateRowCount, 'cu_private_event', 'cupe_id',
+			$expectedCuPrivateRowCount,
+			'cu_private_event',
+			'cupe_id',
 			'Rows were moved to cu_private_event when they should not have been moved.'
 		);
 		$this->assertRowCount(
-			$expectedCuChangesCount, 'cu_changes', 'cuc_id',
+			$expectedCuChangesCount,
+			'cu_changes',
+			'cuc_id',
 			'Rows were removed from cu_changes even though there was no move.'
 		);
 	}
 
 	protected function commonTestMoved(
-		$expectedCuChangesRowCount, $expectedCuChangesRowCountWithOnlyReadOld, $expectedCuPrivateRowCount
+		$expectedCuChangesRowCount,
+		$expectedCuChangesRowCountWithOnlyReadOld,
+		$expectedCuPrivateRowCount
 	): void {
 		$this->assertRowCount(
-			$expectedCuPrivateRowCount, 'cu_private_event', 'cupe_id',
+			$expectedCuPrivateRowCount,
+			'cu_private_event',
+			'cupe_id',
 			'Rows were moved to cu_private_event when they should not have been moved.'
 		);
 		$this->assertRowCount(
-			$expectedCuChangesRowCountWithOnlyReadOld, 'cu_changes', 'cuc_id',
+			$expectedCuChangesRowCountWithOnlyReadOld,
+			'cu_changes',
+			'cuc_id',
 			'Rows were not successfully marked as being only for READ_OLD in cu_changes.',
 			[ 'cuc_only_for_read_old' => 1 ]
 		);
 		$this->assertRowCount(
-			$expectedCuChangesRowCount, 'cu_changes', 'cuc_id',
+			$expectedCuChangesRowCount,
+			'cu_changes',
+			'cuc_id',
 			'Rows were removed from cu_changes when they should not have been.'
 		);
 	}
@@ -104,11 +116,15 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 			/** @var CheckUserInsert $checkUserInsert */
 			$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
 			$checkUserInsert->insertIntoCuChangesTable(
-				$rcRow, __METHOD__, new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] )
+				$rcRow,
+				__METHOD__,
+				new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] )
 			);
 		}
 		$this->assertRowCount(
-			$numberOfRows, 'cu_changes', 'cuc_id',
+			$numberOfRows,
+			'cu_changes',
+			'cuc_id',
 			'Database not set up correctly for the test'
 		);
 		// Run the script

@@ -91,7 +91,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 	/** @dataProvider provideFormatStatusReasonCellPerformerLink */
 	public function testFormatStatusReasonCellPerformerLink(
-		CaseStatus $status, bool $hasPerformer, bool $expectPerformerLink
+		CaseStatus $status,
+		bool $hasPerformer,
+		bool $expectPerformerLink
 	): void {
 		$this->overrideConfigValues( [
 			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
@@ -105,7 +107,10 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$performerUser = $hasPerformer ? $this->getMutableTestUser()->getUser() : null;
 		$caseManager->setCaseStatus(
-			$caseId, $status, 'test reason', $performerUser?->getId() ?? 0
+			$caseId,
+			$status,
+			'test reason',
+			$performerUser?->getId() ?? 0
 		);
 
 		$context = RequestContext::getMain();
@@ -233,7 +238,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'title="(checkuser-suggestedinvestigations-action-investigate)"', $html );
 
 		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
-			$html, 'mw-checkuser-suggestedinvestigations-change-status-button'
+			$html,
+			'mw-checkuser-suggestedinvestigations-change-status-button'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status="open"', $changeStatusButtonHtml );
@@ -258,12 +264,14 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// Validate that both the status reason and status cells have the associated suggested investigations case
 		// ID as data attributes.
 		$statusReasonCell = $this->assertAndGetByElementClass(
-			$html, 'mw-checkuser-suggestedinvestigations-status-reason'
+			$html,
+			'mw-checkuser-suggestedinvestigations-status-reason'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusReasonCell );
 
 		$statusCell = $this->assertAndGetByElementClass(
-			$html, 'mw-checkuser-suggestedinvestigations-status'
+			$html,
+			'mw-checkuser-suggestedinvestigations-status'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusCell );
 
@@ -495,7 +503,11 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
 		$checkUserLogService->addLogEntry(
-			self::$testUser2, 'userips', 'user', self::$testUser1->getName(), 'test',
+			self::$testUser2,
+			'userips',
+			'user',
+			self::$testUser1->getName(),
+			'test',
 			self::$testUser1->getId()
 		);
 		DeferredUpdates::doUpdates();
@@ -703,7 +715,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 
 		$investigateButtonHtml = $this->assertAndGetByElementClass(
-			$html, 'mw-checkuser-suggestedinvestigations-investigate-action'
+			$html,
+			'mw-checkuser-suggestedinvestigations-investigate-action'
 		);
 		$this->assertStringContainsString(
 			'title="(checkuser-suggestedinvestigations-action-investigate)"',
@@ -742,10 +755,12 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$usersLimit = SpecialInvestigate::MAX_TARGETS;
 		$this->assertStringContainsString(
 			'title="(checkuser-suggestedinvestigations-action-investigate-disabled: ' . $usersLimit . ')"',
-			$html );
+			$html
+		);
 
 		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
-			$html, 'mw-checkuser-suggestedinvestigations-change-status-button'
+			$html,
+			'mw-checkuser-suggestedinvestigations-change-status-button'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 	}
@@ -768,7 +783,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Validate that the status reason contains the default for the invalid status
 		$statusReasonCell = $this->assertAndGetByElementClass(
-			$html, 'mw-checkuser-suggestedinvestigations-status-reason'
+			$html,
+			'mw-checkuser-suggestedinvestigations-status-reason'
 		);
 		$this->assertStringContainsString( $reasonDisplayedInPager, $statusReasonCell );
 	}
@@ -800,7 +816,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Create two cases, where one is then closed
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
 		$secondCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
@@ -835,7 +853,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	public function testWhenUsernameFilterIsSet(): void {
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
@@ -866,7 +886,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	public function testWhenUsernameFilterUsesUnknownUsername(): void {
 		// Create a case for an existing user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$this->getCaseManager()->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
 
@@ -884,13 +906,16 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 	/** @dataProvider provideWhenUsernameFilterUsesHiddenUsername */
 	public function testWhenUsernameFilterUsesHiddenUsername(
-		array $performerPermissions, bool $expectVisible
+		array $performerPermissions,
+		bool $expectVisible
 	): void {
 		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
 
 		// Create a case with one user, then hide that user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$user = $this->getMutableTestUser()->getUser();
 
@@ -927,7 +952,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstUser = $this->getMutableTestUser()->getUser();
 		$secondUser = $this->getMutableTestUser()->getUser();
@@ -959,7 +986,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
@@ -996,7 +1025,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
@@ -1045,7 +1076,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
@@ -1088,7 +1121,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Create two cases each with a different user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
@@ -1134,7 +1169,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// * The second case has a user that is blocked with an indefinite block
 		// * The third case has a user that is blocked temporarily and an unblocked user
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstUser = $this->getMutableTestUser()->getUserIdentity();
 		$secondUser = $this->getMutableTestUser()->getUserIdentity();
@@ -1212,10 +1249,14 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Create two cases, with different signals
 		$firstSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$secondSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'dev-signal-2', 'Test value', false
+			'dev-signal-2',
+			'Test value',
+			false
 		);
 		$caseManager = $this->getCaseManager();
 		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $firstSignal ] );
@@ -1254,13 +1295,19 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Create two cases, with different signals
 		$firstSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$secondSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'dev-signal-2', 'Test value', true
+			'dev-signal-2',
+			'Test value',
+			true
 		);
 		$thirdSignal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			'dev-signal-2', 'Test value2', true
+			'dev-signal-2',
+			'Test value2',
+			true
 		);
 
 		$caseManager = $this->getCaseManager();
@@ -1273,7 +1320,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$context->getRequest()->setVal( 'signal', 'dev-signal-2' );
 
 		$parserOutput = $this->getPager(
-			$context, [ [ 'name' => 'dev-signal-2', 'urlName' => 'signal-e3' ] ]
+			$context,
+			[ [ 'name' => 'dev-signal-2', 'urlName' => 'signal-e3' ] ]
 		)->getFullOutput();
 		$html = $parserOutput->getContentHolder()->getAsHtmlString();
 
@@ -1293,7 +1341,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Create two cases, where one is then closed
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
 		$caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
@@ -1327,7 +1377,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$oldTimestamp = ConvertibleTimestamp::convert( TimestampFormat::MW, 1000000000 - 100 * 86400 );
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL, 'Test value', false
+			self::SIGNAL,
+			'Test value',
+			false
 		);
 		$user = $this->getMutableTestUser()->getUserIdentity();
 		$this->setUserEditCount( $user, 1 );
@@ -1349,24 +1401,28 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		if ( $expectRecentCase ) {
 			$this->assertStringContainsString(
-				'data-case-id="' . $recentCaseId, $html,
+				'data-case-id="' . $recentCaseId,
+				$html,
 				'Recent case should be visible'
 			);
 		} else {
 			$this->assertStringNotContainsString(
-				'data-case-id="' . $recentCaseId, $html,
+				'data-case-id="' . $recentCaseId,
+				$html,
 				'Recent case should not be visible'
 			);
 		}
 
 		if ( $expectOldCase ) {
 			$this->assertStringContainsString(
-				'data-case-id="' . $oldCaseId, $html,
+				'data-case-id="' . $oldCaseId,
+				$html,
 				'Old case should be visible'
 			);
 		} else {
 			$this->assertStringNotContainsString(
-				'data-case-id="' . $oldCaseId, $html,
+				'data-case-id="' . $oldCaseId,
+				$html,
 				'Old case should not be visible'
 			);
 		}
@@ -1475,7 +1531,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 				'lastUpdated' => null,
 			], $expected ),
 			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
-			false, true,
+			false,
+			true,
 			'Active filters on the page is not as expected'
 		);
 	}

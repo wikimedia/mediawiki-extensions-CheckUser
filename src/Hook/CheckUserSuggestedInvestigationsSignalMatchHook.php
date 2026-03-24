@@ -31,7 +31,10 @@ interface CheckUserSuggestedInvestigationsSignalMatchHook {
 	 *   {@link SuggestedInvestigationsSignalMatchService::matchSignalsAgainstUser} for more detail.
 	 */
 	public function onCheckUserSuggestedInvestigationsSignalMatch(
-		$userIdentity, string $eventType, array &$signalMatchResults, array $extraData
+		$userIdentity,
+		string $eventType,
+		array &$signalMatchResults,
+		array $extraData
 	): void;
 }
 

@@ -114,10 +114,26 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
 	) {
-		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
-			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
-			$userIdentityLookup, $checkUserLogService, $userFactory, $checkUserLookupUtils,
-			$userOptionsLookup, $blockStore, $tempUserConfig, $context, $linkRenderer, $limit );
+		parent::__construct(
+			$opts,
+			$target,
+			$logType,
+			$tokenQueryManager,
+			$userGroupManager,
+			$centralIdLookup,
+			$dbProvider,
+			$specialPageFactory,
+			$userIdentityLookup,
+			$checkUserLogService,
+			$userFactory,
+			$checkUserLookupUtils,
+			$userOptionsLookup,
+			$blockStore,
+			$tempUserConfig,
+			$context,
+			$linkRenderer,
+			$limit
+		);
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )
@@ -226,7 +242,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			}
 			// don't render parentheses in HTML markup (CSS will provide)
 			$templateParams['userToolLinks'] = Linker::renderUserToolLinksArray(
-				$userToolLinkItems, false
+				$userToolLinkItems,
+				false
 			);
 			if ( $userIsIP ) {
 				$templateParams['userLinks'] = $this->msg( 'checkuser-userlinks-ip', $user->getName() )->parse();
@@ -254,7 +271,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 						"Could not retrieve URL for CentralAuth: $this->centralAuthToollink"
 					);
 				}
-				$linkCA = Html::element( 'a',
+				$linkCA = Html::element(
+					'a',
 					[
 						'href' => $centralCAUrl . "/" . $user,
 						'title' => $this->msg( 'centralauth' )->text(),
@@ -279,7 +297,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 					$gblinkAlias = str_replace( '_', ' ', $spgb );
 
 					if ( $centralGBUrl !== false ) {
-						$linkGB = Html::element( 'a',
+						$linkGB = Html::element(
+							'a',
 							[
 								'href' => $centralGBUrl . "/" . $user,
 								'title' => $this->msg( 'globalblocking-block-submit-new' )->text(),
@@ -489,7 +508,9 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			$this->opts->getValue( 'wpHideTemporaryAccounts' )
 		) {
 			$temporaryAccountsFilterExpr = $this->tempUserConfig->getMatchCondition(
-				$this->getDatabase(), 'actor_name', IExpression::NOT_LIKE
+				$this->getDatabase(),
+				'actor_name',
+				IExpression::NOT_LIKE
 			);
 			if ( $table === self::PRIVATE_LOG_EVENT_TABLE ) {
 				$temporaryAccountsFilterExpr = $this->getDatabase()->expr( 'cupe_actor', '=', null )

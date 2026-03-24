@@ -32,7 +32,9 @@ class CentralAuthLockCheckTest extends MediaWikiIntegrationTestCase {
 		$userTypes = [ 'locked', 'unlocked', 'unlocked2' ];
 		foreach ( $userTypes as $userType ) {
 			self::$testUsers[$userType] = $this->createCentralAuthUser(
-				$db, $wiki, $userType === 'locked'
+				$db,
+				$wiki,
+				$userType === 'locked'
 			);
 		}
 	}

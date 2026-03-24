@@ -163,7 +163,9 @@ class AccountCreationDetailsLookup {
 	 * @return array{ip: string, agent: string}|null
 	 */
 	public function getAccountCreationIPAndUserAgent(
-		string $username, IReadableDatabase $dbr, ?int $logId = null
+		string $username,
+		IReadableDatabase $dbr,
+		?int $logId = null
 	): ?array {
 		if ( $logId ) {
 			$result = $this->getIPAndUserAgentForCreationByOtherUser( $username, $dbr, $logId );

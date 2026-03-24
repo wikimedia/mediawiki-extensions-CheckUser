@@ -29,7 +29,9 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiUnitTestCase {
 		$blockIds = [];
 		$this->assertTrue( $objectUnderTest->onPerformRetroactiveAutoblock( $block, $blockIds ) );
 		$this->assertCount(
-			0, $blockIds, 'No autoblocks should be performed if the existing block target is a non-existent user'
+			0,
+			$blockIds,
+			'No autoblocks should be performed if the existing block target is a non-existent user'
 		);
 	}
 
@@ -42,10 +44,14 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiUnitTestCase {
 		);
 		$blockIds = [];
 		$this->assertTrue( $objectUnderTest->onPerformRetroactiveAutoblock(
-			$this->createMock( DatabaseBlock::class ), $blockIds )
+			$this->createMock( DatabaseBlock::class ),
+			$blockIds
+		)
 		);
 		$this->assertCount(
-			0, $blockIds, 'No autoblocks should be performed if the maximum number of autoblocks is set to 0.'
+			0,
+			$blockIds,
+			'No autoblocks should be performed if the maximum number of autoblocks is set to 0.'
 		);
 	}
 }

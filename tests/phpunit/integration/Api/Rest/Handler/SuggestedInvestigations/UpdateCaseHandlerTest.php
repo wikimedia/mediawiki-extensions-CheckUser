@@ -55,7 +55,8 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testWhenFeatureIsNotEnabled() {
 		$this->disableSuggestedInvestigations();
 		$this->expectExceptionObject( new LocalizedHttpException(
-			new MessageValue( 'checkuser-suggestedinvestigations-case-update-feature-not-enabled' ), 404
+			new MessageValue( 'checkuser-suggestedinvestigations-case-update-feature-not-enabled' ),
+			404
 		) );
 		$this->executeHandler(
 			$this->getObjectUnderTest(),
@@ -68,7 +69,11 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->executeHandler(
 			$this->getObjectUnderTest(),
 			$this->getRequestData( 1, [ 'status' => 'open', 'reason' => 'test' ] ),
-			[], [], [], [], $this->mockRegisteredNullAuthority()
+			[],
+			[],
+			[],
+			[],
+			$this->mockRegisteredNullAuthority()
 		);
 	}
 
@@ -77,21 +82,33 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->executeHandler(
 			$this->getObjectUnderTest(),
 			$this->getRequestData( 1, [ 'status' => 'open', 'reason' => 'test', 'token' => 'invalid' ] ),
-			[], [], [], [], $this->mockRegisteredUltimateAuthority(), $this->getSession( false )
+			[],
+			[],
+			[],
+			[],
+			$this->mockRegisteredUltimateAuthority(),
+			$this->getSession( false )
 		);
 	}
 
 	/** @dataProvider provideInvalidRequestData */
 	public function testExecuteWhenRequestDataIsInvalid(
-		mixed $caseId, array $postParams, string $expectedErrorMessageKey
+		mixed $caseId,
+		array $postParams,
+		string $expectedErrorMessageKey
 	) {
 		$this->expectExceptionObject( new LocalizedHttpException(
-			new MessageValue( $expectedErrorMessageKey ), 400
+			new MessageValue( $expectedErrorMessageKey ),
+			400
 		) );
 		$this->executeHandler(
 			$this->getObjectUnderTest(),
 			$this->getRequestData( $caseId, $postParams ),
-			[], [], [], [], $this->mockRegisteredUltimateAuthority()
+			[],
+			[],
+			[],
+			[],
+			$this->mockRegisteredUltimateAuthority()
 		);
 	}
 
@@ -116,7 +133,10 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testWhenCaseStatusIsUnhandled() {
 		$this->expectException( RuntimeException::class );
 		$this->executeHandler(
-			$this->getObjectUnderTest(), new RequestData( [] ), [], [],
+			$this->getObjectUnderTest(),
+			new RequestData( [] ),
+			[],
+			[],
 			[ 'caseId' => 1 ],
 			// Simulate a status type that is supported but unhandled
 			[ 'status' => 'unhandled-status-abc', 'reason' => 'test' ],
@@ -126,8 +146,12 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideCaseStatusChanges */
 	public function testExecuteForSuccessfulUpdate(
-		CaseStatus $originalStatus, CaseStatus $newStatus, string $newStatusAsString, ?string $reason,
-		string $expectedReason, bool $expectPerformerLink
+		CaseStatus $originalStatus,
+		CaseStatus $newStatus,
+		string $newStatusAsString,
+		?string $reason,
+		string $expectedReason,
+		bool $expectPerformerLink
 	): void {
 		// Generate a pre-existing suggested investigations case we can update
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
@@ -147,7 +171,11 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		$actualResponseJson = $this->executeHandlerAndGetBodyData(
 			$this->getObjectUnderTest(),
 			$this->getRequestData( $caseId, $postParams ),
-			[], [], [], [], $this->mockRegisteredUltimateAuthority()
+			[],
+			[],
+			[],
+			[],
+			$this->mockRegisteredUltimateAuthority()
 		);
 
 		$arrayKeys = array_keys( $actualResponseJson );
@@ -234,7 +262,11 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		$actualResponseJson = $this->executeHandlerAndGetBodyData(
 			$this->getObjectUnderTest(),
 			$this->getRequestData( $caseId, [ 'status' => 'invalid', 'reason' => '' ] ),
-			[], [], [], [], $this->mockRegisteredUltimateAuthority()
+			[],
+			[],
+			[],
+			[],
+			$this->mockRegisteredUltimateAuthority()
 		);
 
 		$this->assertStringContainsString(

@@ -32,7 +32,9 @@ class UserAgentClientHintsLookupTest extends MediaWikiIntegrationTestCase {
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		foreach ( $clientHintDataItems as $key => $clientHintData ) {
 			$userAgentClientHintsManager->insertClientHintValues(
-				$clientHintData, $referenceIdsToInsert[$key], 'revision'
+				$clientHintData,
+				$referenceIdsToInsert[$key],
+				'revision'
 			);
 		}
 		$referenceIds = new ClientHintsReferenceIds( [
@@ -43,7 +45,8 @@ class UserAgentClientHintsLookupTest extends MediaWikiIntegrationTestCase {
 		$lookupResult = $userAgentClientHintsLookup->getClientHintsByReferenceIds( $referenceIds );
 		foreach ( $referenceIdsToLookup as $key => $referenceId ) {
 			$lookupResultForReferenceId = $lookupResult->getClientHintsDataForReferenceId(
-				$referenceId, UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+				$referenceId,
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
 			);
 			$this->assertNotNull(
 				$lookupResultForReferenceId,

@@ -108,10 +108,26 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
 	) {
-		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
-			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
-			$userIdentityLookup, $checkUserLogService, $userFactory, $checkUserLookupUtils,
-			$userOptionsLookup, $blockStore, $tempUserConfig, $context, $linkRenderer, $limit );
+		parent::__construct(
+			$opts,
+			$target,
+			$logType,
+			$tokenQueryManager,
+			$userGroupManager,
+			$centralIdLookup,
+			$dbProvider,
+			$specialPageFactory,
+			$userIdentityLookup,
+			$checkUserLogService,
+			$userFactory,
+			$checkUserLookupUtils,
+			$userOptionsLookup,
+			$blockStore,
+			$tempUserConfig,
+			$context,
+			$linkRenderer,
+			$limit
+		);
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
@@ -215,7 +231,8 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 		$ip = null;
 		if ( $row->ip_hex !== null ) {
 			$ip = IPUtils::prettifyIP( IPUtils::formatHex( $row->ip_hex ) );
-			$templateParams['ipLink'] = $this->getSelfLink( $ip,
+			$templateParams['ipLink'] = $this->getSelfLink(
+				$ip,
 				[
 					'user' => $ip,
 					'reason' => $this->opts->getValue( 'reason' ),
@@ -231,7 +248,8 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 			// XFF was trusted if client came from it
 			$trusted = $ip !== null && $client === IPUtils::canonicalize( $ip );
 			$templateParams['xffTrusted'] = $trusted;
-			$templateParams['xff'] = $this->getSelfLink( $row->xff,
+			$templateParams['xff'] = $this->getSelfLink(
+				$row->xff,
 				[
 					'user' => $client . '/xff',
 					'reason' => $this->opts->getValue( 'reason' ),
@@ -285,7 +303,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 			$title = Title::makeTitle( $row->namespace, $row->title );
 			$links['log'] = '';
 			if ( isset( $row->log_id ) && $row->log_id ) {
-				$links['log'] = Html::rawElement( 'span', [],
+				$links['log'] = Html::rawElement(
+					'span',
+					[],
 					$this->getLinkRenderer()->makeKnownLink(
 						SpecialPage::getTitleFor( 'Log' ),
 						new HtmlArmor( $this->message['checkuser-log-link-text'] ),
@@ -317,7 +337,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 				}
 			}
 			if ( !$hidden ) {
-				$links['log'] .= Html::rawElement( 'span', [],
+				$links['log'] .= Html::rawElement(
+					'span',
+					[],
 					$this->getLinkRenderer()->makeKnownLink(
 						SpecialPage::getTitleFor( 'Log' ),
 						new HtmlArmor( $this->message['checkuser-logs-link-text'] ),
@@ -342,7 +364,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 				$links['diffHistLinks'] = Html::rawElement( 'span', [], $this->message['diff'] );
 			} else {
 				// Diff link
-				$links['diffHistLinks'] = Html::rawElement( 'span', [],
+				$links['diffHistLinks'] = Html::rawElement(
+					'span',
+					[],
 					$this->getLinkRenderer()->makeKnownLink(
 						$title,
 						new HtmlArmor( $this->message['diff'] ),
@@ -356,7 +380,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 				);
 			}
 			// History link
-			$links['diffHistLinks'] .= ' ' . Html::rawElement( 'span', [],
+			$links['diffHistLinks'] .= ' ' . Html::rawElement(
+				'span',
+				[],
 				$this->getLinkRenderer()->makeKnownLink(
 					$title,
 					new HtmlArmor( $this->message['hist'] ),
@@ -490,7 +516,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 			$this->opts->getValue( 'wpHideTemporaryAccounts' )
 		) {
 			$temporaryAccountsFilterExpr = $this->tempUserConfig->getMatchCondition(
-				$this->getDatabase(), 'actor_name', IExpression::NOT_LIKE
+				$this->getDatabase(),
+				'actor_name',
+				IExpression::NOT_LIKE
 			);
 			if ( $table === self::PRIVATE_LOG_EVENT_TABLE ) {
 				$temporaryAccountsFilterExpr = $this->getDatabase()->expr( 'cupe_actor', '=', null )

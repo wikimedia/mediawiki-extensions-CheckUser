@@ -151,7 +151,8 @@ class GlobalBlockCheckTest extends MediaWikiIntegrationTestCase {
 				$locallyWhitelistedUser->getId(),
 				$temporarilyBlockedUser->getId(),
 			] ),
-			false, false,
+			false,
+			false,
 			'The return value from ::getBlockedUserIds was not as expected'
 		);
 	}

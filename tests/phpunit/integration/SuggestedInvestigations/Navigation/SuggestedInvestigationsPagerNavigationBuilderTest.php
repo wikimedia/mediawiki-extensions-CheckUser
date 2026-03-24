@@ -74,7 +74,9 @@ class SuggestedInvestigationsPagerNavigationBuilderTest extends MediaWikiIntegra
 		int $numberOfFiltersApplied
 	): SuggestedInvestigationsPagerNavigationBuilder {
 		return new SuggestedInvestigationsPagerNavigationBuilder(
-			RequestContext::getMain(), [], $numberOfFiltersApplied
+			RequestContext::getMain(),
+			[],
+			$numberOfFiltersApplied
 		);
 	}
 }

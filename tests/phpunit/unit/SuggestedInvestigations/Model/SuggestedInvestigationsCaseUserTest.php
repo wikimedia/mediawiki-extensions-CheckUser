@@ -13,7 +13,9 @@ use MediaWikiUnitTestCase;
 class SuggestedInvestigationsCaseUserTest extends MediaWikiUnitTestCase {
 	/** @dataProvider provideUserIdentityProperties */
 	public function testUserIdentityProperties(
-		string $methodName, mixed $mockReturnValue, array $mockArguments = []
+		string $methodName,
+		mixed $mockReturnValue,
+		array $mockArguments = []
 	): void {
 		// Create a mock UserIdentity which expects a call to the method with the same name as the
 		// method we are testing (testing that the method just passes through)

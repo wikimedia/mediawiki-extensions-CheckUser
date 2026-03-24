@@ -41,8 +41,12 @@ class CheckUserDataPurger implements CheckUserQueryInterface {
 	 * @return int The number of rows that were purged
 	 */
 	public function purgeDataFromLocalTable(
-		IDatabase $dbw, string $table, string $cutoff, ClientHintsReferenceIds $deletedReferenceIds,
-		string $fname, int $totalRowsToPurge = 500
+		IDatabase $dbw,
+		string $table,
+		string $cutoff,
+		ClientHintsReferenceIds $deletedReferenceIds,
+		string $fname,
+		int $totalRowsToPurge = 500
 	): int {
 		// Get the Client Hints reference field for the given table
 		$clientHintMapTypeIdentifier = array_flip( UserAgentClientHintsManager::IDENTIFIER_TO_TABLE_NAME_MAP )[$table];

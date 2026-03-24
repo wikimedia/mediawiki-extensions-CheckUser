@@ -218,7 +218,9 @@ class SpecialCheckUserLogTest extends SpecialPageTestBase {
 
 	/** @dataProvider provideLinkToSuggestedInvestigationsPresent */
 	public function testLinkToSuggestedInvestigationsPresent(
-		bool $enabled, bool $hidden, bool $linkExpected
+		bool $enabled,
+		bool $hidden,
+		bool $linkExpected
 	) {
 		if ( $enabled ) {
 			$this->enableSuggestedInvestigations();
@@ -339,7 +341,12 @@ class SpecialCheckUserLogTest extends SpecialPageTestBase {
 			$target = $data['target'];
 			$targetType = IPUtils::isIPAddress( $target->getName() ) ? 'ip' : 'user';
 			$checkUserLogService->addLogEntry(
-				$data['initiator'], $data['logType'], $targetType, $target->getName(), "Check $i", $target->getId()
+				$data['initiator'],
+				$data['logType'],
+				$targetType,
+				$target->getName(),
+				"Check $i",
+				$target->getId()
 			);
 		}
 		ConvertibleTimestamp::setFakeTime( false );
