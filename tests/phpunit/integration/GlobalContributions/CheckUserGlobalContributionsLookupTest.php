@@ -123,13 +123,13 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 	}
 
 	/** @dataProvider provideTestGetGlobalContributionCount */
-	public function testGetGlobalContributionCount( $targetProvider, $expectedCount ) {
+	public function testGetGlobalContributionCount( $target, $expectedCount ) {
 		$lookup = $this->getObjectUnderTest();
 		$authority = RequestContext::getMain()->getAuthority();
 
 		$this->assertSame(
 			$expectedCount,
-			$lookup->getGlobalContributionsCount( $targetProvider(), $authority )
+			$lookup->getGlobalContributionsCount( $target(), $authority )
 		);
 	}
 

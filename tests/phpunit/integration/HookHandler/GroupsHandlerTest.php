@@ -44,7 +44,7 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testOnUserGroupsChanged(
 		bool $globalContributionsExists,
 		array $addedGroups,
-		int $centralId,
+		int $centralUserId,
 		int $expected
 	) {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
@@ -54,11 +54,11 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$centralIdLookup = $this->createMock( CentralIdLookup::class );
 		$centralIdLookup->method( 'centralIdFromLocalUser' )
-			->willReturn( $centralId );
+			->willReturn( $centralUserId );
 
 		$wanCache = $this->createMock( WANObjectCache::class );
 		$wanCache->method( 'makeGlobalKey' )
-			->with( 'globalcontributions-ext-permissions', $centralId )
+			->with( 'globalcontributions-ext-permissions', $centralUserId )
 			->willReturn( 'checkKey' );
 		$wanCache->expects( $this->exactly( $expected ) )
 			->method( 'touchCheckKey' )
@@ -92,25 +92,25 @@ class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 	public static function provideOnUserGroupsChanged() {
 		return [
 			'Early return when GlobalContributions does not exist' => [
-				'globalContributionsexists' => false,
+				'globalContributionsExists' => false,
 				'addedGroups' => [ 'testGroup' ],
 				'centralUserId' => 1,
 				'expected' => 0,
 			],
 			'Early return when groups not changed' => [
-				'globalContributionsexists' => true,
+				'globalContributionsExists' => true,
 				'addedGroups' => [],
 				'centralUserId' => 1,
 				'expected' => 0,
 			],
 			'Early return when central user does not exist' => [
-				'globalContributionsexists' => true,
+				'globalContributionsExists' => true,
 				'addedGroups' => [ 'testGroup' ],
 				'centralUserId' => 0,
 				'expected' => 0,
 			],
 			'Cache invalidated when GlobalContributions exists' => [
-				'globalContributionsexists' => true,
+				'globalContributionsExists' => true,
 				'addedGroups' => [ 'testGroup' ],
 				'centralUserId' => 1,
 				'expected' => 1,

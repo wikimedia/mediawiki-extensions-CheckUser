@@ -141,7 +141,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 			'Base case - Single IP, single account' => [
 				'ip' => '127.0.0.1',
 				'limit' => null,
-				'expectedRowCount' => 1,
+				'expectedCount' => 1,
 				'expectedAccounts' => [ '~check-user-test-01' ],
 			],
 			'Mutiple accounts found - Single IP, multiple accounts' => [
@@ -177,7 +177,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 			'Limit parameter is respected' => [
 				'ip' => '127.0.0.1',
 				'limit' => 0,
-				'expectedRowCount' => 1,
+				'expectedCount' => 1,
 				'expectedAccounts' => [ '~check-user-test-01' ],
 			],
 		];

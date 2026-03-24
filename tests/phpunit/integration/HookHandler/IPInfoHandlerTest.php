@@ -187,17 +187,15 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideTestOnIPInfoHandlerRun */
-	public function testOnIPInfoHandlerRun( $targetProvider, $authorityProvider, string $context, array $expected ) {
+	public function testOnIPInfoHandlerRun( $target, $authority, string $context, array $expected ) {
 		// Test that the isolated hook operates as expected when the handler is run
 		$ipInfoData = [];
-		$target = $targetProvider();
-		$authority = $authorityProvider();
 		$handler = new IPInfoHandler(
 			$this->getServiceContainer()->get( 'CheckUserGlobalContributionsLookup' )
 		);
 		$handler->onIPInfoHandlerRun(
-			$target,
-			$authority,
+			$target(),
+			$authority(),
 			$context,
 			$ipInfoData
 		);
@@ -210,7 +208,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 				'target' => static fn () => self::$tempUserNoEdits->getName(),
 				'authority' => static fn () => self::$tempUserNoEdits,
 				'context' => 'infobox',
-				'expectedOutput' => [
+				'expected' => [
 					'ipinfo-source-checkuser' => [
 						'globalContributionsCount' => 0,
 					],
@@ -220,7 +218,7 @@ class IPInfoHandlerTest extends MediaWikiIntegrationTestCase {
 				'target' => static fn () => self::$tempUserNoEdits->getName(),
 				'authority' => static fn () => self::$tempUserNoEdits,
 				'context' => 'popup',
-				'expectedOutput' => [],
+				'expected' => [],
 			],
 		];
 	}

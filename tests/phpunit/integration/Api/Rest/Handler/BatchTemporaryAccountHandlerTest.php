@@ -573,7 +573,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	public static function executeForRevisionsDataProvider(): array {
 		return [
 			'No revision IDs' => [
-				'expected' => static fn () => [
+				'expectedCallback' => static fn () => [
 					self::$tempUser->getName() => [
 						'logIps' => null,
 						'revIps' => null,
@@ -591,7 +591,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			'One revision ID' => [
-				'expected' => static fn () => [
+				'expectedCallback' => static fn () => [
 					self::$tempUser->getName() => [
 						'logIps' => null,
 						'revIps' => [
@@ -611,7 +611,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			'Multiple existing revision IDs' => [
-				'expected' => static fn () => [
+				'expectedCallback' => static fn () => [
 					self::$tempUser->getName() => [
 						'logIps' => null,
 						'revIps' => [
@@ -633,7 +633,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			'Multiple revision IDs, both existing and nonexistent' => [
-				'expected' => static fn () => [
+				'expectedCallback' => static fn () => [
 					self::$tempUser->getName() => [
 						'logIps' => null,
 						'revIps' => [

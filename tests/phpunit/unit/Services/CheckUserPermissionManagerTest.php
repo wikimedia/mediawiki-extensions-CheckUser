@@ -98,13 +98,13 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 	 */
 	public function testCanAutoRevealIPAddresses(
 		array $rights,
-		CheckUserPermissionStatus $expectedStatus
+		CheckUserPermissionStatus $expected
 	): void {
 		$actor = new UserIdentityValue( 1, 'TestUser' );
 		$authority = new SimpleAuthority( $actor, $rights );
 		$autoRevealStatus = $this->checkUserPermissionsManager->canAutoRevealIPAddresses( $authority );
 
-		$this->assertEquals( $expectedStatus, $autoRevealStatus );
+		$this->assertEquals( $expected, $autoRevealStatus );
 	}
 
 	public static function provideCanAutoRevealIPAddresses(): iterable {

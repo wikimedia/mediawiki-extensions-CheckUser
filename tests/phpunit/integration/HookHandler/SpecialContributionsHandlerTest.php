@@ -239,7 +239,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideOnSpecialContributionsBeforeMainOutputWarningBox */
 	public function testOnSpecialContributionsBeforeMainOutputWarningBox(
 		bool $showingRelated,
-		string $expectedLinkMsg,
+		string $expectedLink,
 		string $pageName,
 		array $instrumentationCounts
 	) {
@@ -256,8 +256,8 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		$mockOutputPage = $this->createMock( OutputPage::class );
 		$mockOutputPage->expects( $this->never() )->method( 'addSubtitle' );
 		$mockOutputPage->expects( $this->once() )->method( 'addHTML' )
-			->willReturnCallback( function ( $html ) use ( $expectedLinkMsg ) {
-				$this->assertStringContainsString( $expectedLinkMsg, $html );
+			->willReturnCallback( function ( $html ) use ( $expectedLink ) {
+				$this->assertStringContainsString( $expectedLink, $html );
 			} );
 
 		$hookHandler = $this->createHookHandlerForBeforeMainOutput(
@@ -346,7 +346,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		bool $hasRights,
 		bool $isTemp,
 		string $pageName,
-		int $expectedFiltersCount
+		int $expected
 	) {
 		$this->enableAutoCreateTempUser();
 
@@ -374,7 +374,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$handler->onSpecialContributions__getForm__filters( $specialPage, $filters );
 
-		$this->assertCount( $expectedFiltersCount, $filters );
+		$this->assertCount( $expected, $filters );
 	}
 
 	public static function provideOnSpecialContributions__getForm__filters() {
