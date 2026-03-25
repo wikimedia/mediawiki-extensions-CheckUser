@@ -87,6 +87,7 @@
 	"checkuser-show-suggestedinvestigations": "Investigacións suxeridas",
 	"checkuser-ip-results-suggestedinvestigations-notice": "Hai casos de investigacións suxeridas para algúns dos resultados da túa procura. $1",
 	"checkuser-ip-results-suggestedinvestigations-notice-link": "Ver os casos",
+	"checkuser-si-cases-link": "Casos de investigacións suxeridas",
 	"checkuser-log-checks-by": "verificacións realizadas",
 	"checkuser-log-checks-on": "verificacións recibidas",
 	"checkuser-log-link-text": "rexistro",
@@ -193,8 +194,10 @@
 	"checkuser-investigateblock": "Bloquear usuarios",
 	"checkuser-investigateblock-target": "Nomes de usuario e enderezos IP",
 	"checkuser-investigateblock-actions": "Accións a bloquear",
+	"checkuser-investigateblock-expiry": "Caducidade",
 	"checkuser-investigateblock-reason": "Motivo",
 	"checkuser-investigateblock-options": "Opcións adicionais",
+	"checkuser-investigateblock-account-creation-label": "Impedir a creación de contas",
 	"checkuser-investigateblock-email-label": "Impedir o envío de correos electrónicos",
 	"checkuser-investigateblock-usertalk-label": "Impedir a edición da súa propia páxina de conversa mentres dure o bloqueo",
 	"checkuser-investigateblock-reblock-label": "Anular os bloqueos existentes",
@@ -427,6 +430,7 @@
 	"checkuser-suggestedinvestigations-subpage-not-found-page-text": "A subpáxina indicada non existe.",
 	"checkuser-suggestedinvestigations-summary": "Esta páxina contén as contas marcadas automaticamente como potencialmente sospeitosas para que as investiguen os verificadores de usuarios.",
 	"checkuser-suggestedinvestigations-summary-detail-view": "Esta páxina contén información detallada, destinada unicamente a verificadores de usuarios, sobre o '''caso n.º $1'''.",
+	"checkuser-suggestedinvestigations-private-data-warning": "Esta información é só para usuarios con acceso de verificador de usuarios. Non compartas o número de casos nin información sobre os tipos de sinais con usuarios que non sexan verificadores de usuarios.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Os filtros que aplicaches son demasiado amplos. Reduce a túa busca para obter mellores resultados.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtro",
 	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtros",
@@ -488,5 +492,8 @@
 	"checkuser-contributions-temporary-accounts-on-ip": "Contas temporais neste enderezo IP: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Contas temporais neste enderezo IP: $1 (bloqueadas: $2).",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Mostrar todas as contas",
-	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Agochar"
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Agochar",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copiar a lista de contas",
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "A lista de contas copiouse no portapapeis",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Non se puido copiar a lista de contas"
 }

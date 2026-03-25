@@ -98,6 +98,7 @@
 	"checkuser-recent-checks": "Tarkastukset tälle kohteelle",
 	"checkuser-show-suggestedinvestigations": "Ehdotetut tutkinnat",
 	"checkuser-ip-results-suggestedinvestigations-notice-link": "Näytä tapaukset",
+	"checkuser-si-cases-link": "ET-tapaukset",
 	"checkuser-log-checks-by": "tekemät tarkastukset",
 	"checkuser-log-checks-on": "tehdyt tarkastukset",
 	"checkuser-log-link-text": "loki",
@@ -197,8 +198,10 @@
 	"checkuser-investigateblock": "Estä käyttäjät",
 	"checkuser-investigateblock-target": "Käyttäjätunnukset ja IP-osoitteet",
 	"checkuser-investigateblock-actions": "Estettävät toiminnot",
+	"checkuser-investigateblock-expiry": "Vanhentuu",
 	"checkuser-investigateblock-reason": "Syy",
 	"checkuser-investigateblock-options": "Lisävalinnat",
+	"checkuser-investigateblock-account-creation-label": "Estä tunnusten luonti",
 	"checkuser-investigateblock-email-label": "Estä sähköpostin lähettäminen",
 	"checkuser-investigateblock-usertalk-label": "Estä käyttäjää muokkaamasta omaa keskustelusivuaan eston aikana",
 	"checkuser-investigateblock-reblock-label": "Ohita olemassaolevat estot",
@@ -257,6 +260,7 @@
 	"checkuser-investigate-timeline-notice-no-results-filters": "Ei tuloksia näillä suodatusehdoilla. Kokeile poistaa joitakin suodattimia laajentaaksesi hakua.",
 	"checkuser-investigate-compare-copy-button-label": "Näytä wikiteksti",
 	"checkuser-investigate-compare-copy-button-label-hide": "Piilota wikiteksti",
+	"checkuser-investigate-compare-toollinks-ipcheck": "Proxy-tarkistus",
 	"checkuser-investigate-compare-copy-message-label": "Haluatko kopioida nämä tiedot wikitekstitaulukkona?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Teknisistä rajoituksista johtuen olemme saavuttaneet esitettävien tietueiden ylärajan. Seuraavien kohteiden haetut tiedot ovat puuttellisia: $1. Yritä käyttää vähemmän kohteita, pienempää aikarajausta tai kapeampia IP-alueita.",
 	"checkuser-investigate-compare-notice-no-results": "Ei tuloksia: nämä käyttäjät tai IP-osoitteet eivät ole tehneet muokkauksia viimeisen $1 päivän aikana",
@@ -492,5 +496,8 @@
 	"checkuser-contributions-temporary-accounts-on-ip": "Tilapäisiä tunnuksia tällä IP:llä: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tilapäisiä tunnuksia tällä IP:llä: $1 (estettyjä: $2).",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Näytä kaikki tunnukset",
-	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Piilota"
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Piilota",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Kopioi tunnuslista",
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Tunnuslista kopioitu leikepöydälle",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Tunnuslistan kopiointi epäonnistui"
 }

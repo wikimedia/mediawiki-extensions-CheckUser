@@ -33,6 +33,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "ਆਰਜ਼ੀ ਖਾਤਾ ਕੀ ਏ?",
 	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "ਤਰਜੀਹਾਂ ਸੰਭਾਲੋ",
 	"checkuser-investigateblock": "ਵਰਤੋਂਕਾਰਾਂ 'ਤੇ ਪਾਬੰਦੀ ਲਾਓ",
+	"checkuser-investigateblock-expiry": "ਮਿਆਦ ਪੁੱਗਣੀ",
 	"checkuser-investigateblock-reason": "ਕਾਰਨ",
 	"checkuser-investigateblock-options": "ਵਾਧੂ ਚੋਣਾਂ",
 	"checkuser-investigateblock-email-label": "ਈਮੇਲ ਭੇਜਣ ਤੋਂ ਰੋਕੋ",
@@ -120,5 +121,6 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "ਬੰਦ ਕਰੋ",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "ਰੱਦ ਕਰੋ",
 	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "ਹਵਾਲੇ ਕਰੋ",
-	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "ਬੰਦ ਕਰੋ"
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "ਬੰਦ ਕਰੋ",
+	"checkuser-suggestedinvestigations-invalid-status-warning-for-account-based-signal": "ਇਸ ਮਾਮਲੇ ਨੂੰ ਗ਼ਲਤ ਮਿੱਥਣ ਦਾ ਮਤਲਬ ਇਹ ਹੋਵੇਗਾ ਕਿ ਇਸ ਖਾਤੇ ਲਈ ਹੋਰ ਕੋਈ ਮਾਮਲਾ ਨਹੀਂ ਬਣਾਇਆ ਜਾਵੇਗਾ।"
 }

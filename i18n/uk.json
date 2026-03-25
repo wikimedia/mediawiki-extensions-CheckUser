@@ -16,6 +16,7 @@
 			"NickK",
 			"Piramidion",
 			"Prima klasy4na",
+			"Repakr",
 			"Sodmy",
 			"Vlad5250",
 			"Ата",
@@ -492,5 +493,9 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "Приховати внесок пов'язаних тимчасових облікових записів",
 	"checkuser-contributions-temporary-account-bucketcount": "Тимчасові облікові записи з усіх пов'язаних IP-адрес: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Тимчасові облікові записи з цієї IP: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Тимчасові облікові записи на цій IP-адресі: $1 (заблоковано: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Тимчасові облікові записи на цій IP-адресі: $1 (заблоковано: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Показати всі облікові записи",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Приховати",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Копіювати список облікових записів",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Не вдалося скопіювати список облікових записів"
 }

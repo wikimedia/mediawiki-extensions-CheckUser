@@ -208,8 +208,10 @@
 	"checkuser-investigateblock": "Zablokuj użytkowników",
 	"checkuser-investigateblock-target": "Nazwy użytkownika i adresy IP",
 	"checkuser-investigateblock-actions": "Czynności, które zablokować",
+	"checkuser-investigateblock-expiry": "Czas trwania",
 	"checkuser-investigateblock-reason": "Powód",
 	"checkuser-investigateblock-options": "Dodatkowe opcje",
+	"checkuser-investigateblock-account-creation-label": "Zapobiegaj tworzeniu kont",
 	"checkuser-investigateblock-email-label": "Zablokuj możliwość wysyłania e‐maili",
 	"checkuser-investigateblock-usertalk-label": "Zablokuj możliwość edytowania przez tego użytkownika własnej strony dyskusji w czasie trwania blokady",
 	"checkuser-investigateblock-reblock-label": "Nadpisz istniejące blokady",
@@ -441,6 +443,7 @@
 	"checkuser-suggestedinvestigations-subpage-not-found-page-text": "Wskazana podstrona nie istnieje.",
 	"checkuser-suggestedinvestigations-summary": "Ta strona zawiera listę kont, które zostały automatycznie oznaczone jako podejrzane, i być może powinny zostać sprawdzone przez checkuserów.",
 	"checkuser-suggestedinvestigations-summary-detail-view": "Ta strona zawiera szczegółowe informacje o '''przypadku nr $1''', które są przeznaczone wyłącznie dla checkuserów.",
+	"checkuser-suggestedinvestigations-private-data-warning": "Te informacje są przeznaczone wyłącznie dla użytkowników z uprawnieniami Checkuser. Nie udostępniaj liczby zgłoszeń ani informacji o typach sygnałów użytkownikom bez uprawnień Checkuser.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Zastosowane filtry są zbyt szerokie. Aby uzyskać lepsze wyniki, zawęź zakres wyszukiwania.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtruj",
 	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtry",
@@ -501,5 +504,8 @@
 	"checkuser-contributions-temporary-accounts-on-ip": "Konta tymczasowe korzystające z tego adresu IP: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Konta tymczasowe korzystające z tego adresu IP: $1 (zablokowane: $2).",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Pokaż wszystkie konta",
-	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Ukryj"
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Ukryj",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Skopiuj listę kont",
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Lista kont skopiowana do schowka",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Nie udało się skopiować listy kont"
 }

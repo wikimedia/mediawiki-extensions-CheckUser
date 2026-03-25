@@ -171,8 +171,10 @@
 	"checkuser-investigateblock": "Блокирај корисника",
 	"checkuser-investigateblock-target": "Корисничка имена или IP адресе",
 	"checkuser-investigateblock-actions": "Радње за блокирање",
+	"checkuser-investigateblock-expiry": "Истиче",
 	"checkuser-investigateblock-reason": "Разлог",
 	"checkuser-investigateblock-options": "Додатне могућности",
+	"checkuser-investigateblock-account-creation-label": "Онемогући прављење налога",
 	"checkuser-investigateblock-email-label": "Онемогући слање имејлова",
 	"checkuser-investigateblock-usertalk-label": "Онемогући уређивање сопствене странице за разговор за време блокаде",
 	"checkuser-investigateblock-reblock-label": "Преиначи постојећа блокирања",
@@ -360,6 +362,7 @@
 	"checkuser-suggestedinvestigations": "Предложене истраге",
 	"checkuser-suggestedinvestigations-subpage-not-found-page-text": "Наведена подстраница не постоји.",
 	"checkuser-suggestedinvestigations-summary": "Ова страница садржи налоге аутоматски означене сумњивим и за чекјузере да испитају.",
+	"checkuser-suggestedinvestigations-private-data-warning": "Ове информације су искључиво за чекјузере. Немојте делити информације као што су број случајева и врстама ризика са другима.",
 	"checkuser-suggestedinvestigations-filter-button": "Филтер",
 	"checkuser-suggestedinvestigations-filter-dialog-title": "Филтери",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Затвори",
@@ -397,5 +400,7 @@
 	"checkuser-contributions-temporary-accounts-on-ip": "Привремених налога на овој IP: $1",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Привремених налога на овој IP: $1 (блокирано: $2)",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Прикажи све налоге",
-	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Сакриј"
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Сакриј",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Копирај списак налога",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Копирање списак није успело"
 }
