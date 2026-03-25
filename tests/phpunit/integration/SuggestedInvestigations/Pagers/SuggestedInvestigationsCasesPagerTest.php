@@ -238,6 +238,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status="open"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status-reason=""', $changeStatusButtonHtml );
+		$this->assertStringContainsString( 'data-case-signals="' . self::SIGNAL . '"', $changeStatusButtonHtml );
 
 		// Validate the timestamp cell contains the correct data and also links to the detail view
 		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );

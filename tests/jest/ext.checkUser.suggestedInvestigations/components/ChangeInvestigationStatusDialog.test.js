@@ -2,7 +2,7 @@
 
 const utils = require( '@vue/test-utils' ),
 	{ nextTick } = require( 'vue' ),
-	{ mockByteLength } = require( '../../utils.js' );
+	{ mockByteLength, mockJSConfig } = require( '../../utils.js' );
 
 // Need to run this here as the import of ChangeInvestigationStatusDialog.vue
 // without mediawiki.String defined causes errors in running these tests.
@@ -23,7 +23,11 @@ jest.mock(
 const ChangeInvestigationStatusDialog = require( '../../../../modules/ext.checkUser.suggestedInvestigations/components/ChangeInvestigationStatusDialog.vue' );
 
 const renderComponent = ( props ) => utils.mount( ChangeInvestigationStatusDialog, {
-	props: Object.assign( {}, { caseId: 1, initialStatus: 'open', initialStatusReason: '' }, props )
+	props: Object.assign(
+		{},
+		{ caseId: 1, initialStatus: 'open', initialStatusReason: '', caseSignals: [ 'dev-signal-1' ] },
+		props
+	)
 } );
 
 /**
@@ -33,11 +37,19 @@ const renderComponent = ( props ) => utils.mount( ChangeInvestigationStatusDialo
  * @param {{
  *          caseId: number,
  *          initialStatus: 'open'|'resolved'|'invalid',
- *          initialStatusReason: string
+ *          initialStatusReason: string,
+ *          caseSignals: string[]
  *        }} props Passed through to {@link renderComponent}
  * @return {{ wrapper, dialog }} The dialog component and wrapper
  */
 const commonComponentTest = async ( props ) => {
+	mockJSConfig( {
+		wgCheckUserSuggestedInvestigationsSignals: [
+			{ name: 'dev-signal-1', invalidStatusWarningMessage: 'Dev signal 1 warning' },
+			{ name: 'dev-signal-2' }
+		]
+	} );
+
 	// Render the component and wait for CdxDialog to run some code
 	const wrapper = renderComponent( props );
 	await nextTick();
@@ -146,6 +158,26 @@ const commonValidateStatusReasonField = ( dialog, status, expectedStatusReason )
 	return statusReasonField;
 };
 
+/**
+ * Validates that the invalid status warning appears with the expected text or
+ * does not appear
+ *
+ * @param {*} dialog The component for the dialog
+ * @param {string} expectedText The expected text in the warning message, or empty string
+ *   if the warning message should not be shown
+ */
+const commonValidateInvalidStatusWarningMessage = ( dialog, expectedText ) => {
+	const invalidStatusWarningMessage = dialog.find(
+		'.ext-checkuser-suggestedinvestigations-change-status-dialog-invalid-status-warning'
+	);
+	if ( expectedText ) {
+		expect( invalidStatusWarningMessage.exists() ).toEqual( true );
+		expect( invalidStatusWarningMessage.text() ).toContain( expectedText );
+	} else {
+		expect( invalidStatusWarningMessage.exists() ).toEqual( false );
+	}
+};
+
 describe( 'Suggested Investigations change status dialog', () => {
 	beforeEach( () => {
 		jest.spyOn( mw.language, 'convertNumber' ).mockImplementation( ( number ) => number );
@@ -174,16 +206,33 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// The status reason field should always exist when the status is not "open"
 		commonValidateStatusReasonField( dialog, 'resolved', '' );
+
+		commonValidateInvalidStatusWarningMessage( dialog, '' );
 	} );
 
 	it( 'Renders correctly for initial invalid status', async () => {
 		const { dialog } = await commonComponentTest( {
 			initialStatus: 'invalid',
-			initialStatusReason: 'test'
+			initialStatusReason: 'test',
+			caseSignals: [ 'dev-signal-2', 'dev-signal-1' ]
 		} );
 
 		// The status reason field should always exist when the status is not "open"
 		commonValidateStatusReasonField( dialog, 'invalid', 'test' );
+
+		commonValidateInvalidStatusWarningMessage( dialog, 'Dev signal 1 warning' );
+	} );
+
+	it( 'Renders no invalid status warning message if case signals have no warning message defined', async () => {
+		const { dialog } = await commonComponentTest( {
+			initialStatus: 'invalid',
+			initialStatusReason: 'test123',
+			caseSignals: [ 'dev-signal-2' ]
+		} );
+
+		commonValidateStatusReasonField( dialog, 'invalid', 'test123' );
+
+		commonValidateInvalidStatusWarningMessage( dialog, '' );
 	} );
 
 	it( 'Renders correctly for initial open status with prefilled reason', async () => {
@@ -194,6 +243,8 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// The status reason field should always exist when the status is not "open"
 		commonValidateStatusReasonField( dialog, 'open', 'testing' );
+
+		commonValidateInvalidStatusWarningMessage( dialog, '' );
 	} );
 
 	it( 'Keeps status reason field when text present and switching to "open" status', async () => {
@@ -221,6 +272,9 @@ describe( 'Suggested Investigations change status dialog', () => {
 		// Validate that the reason field did not disappear with the change in status
 		const statusReasonField = dialog.find( '.ext-checkuser-suggestedinvestigations-change-status-dialog-status-reason' );
 		expect( statusReasonField.exists() ).toEqual( true );
+
+		// Validate the invalid status warning did not appear, because the new status is not invalid
+		commonValidateInvalidStatusWarningMessage( dialog, '' );
 	} );
 
 	it( 'Closes dialog if "Cancel" button pressed', async () => {

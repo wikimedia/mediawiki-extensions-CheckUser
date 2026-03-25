@@ -575,6 +575,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				'data-case-id' => $caseId,
 				'data-case-status' => strtolower( $status->name ),
 				'data-case-status-reason' => $reason,
+				'data-case-signals' => implode( ' ', $this->mCurrentRow->signals ),
 				'class' => 'mw-checkuser-suggestedinvestigations-change-status-button',
 			] )
 			->setWeight( 'quiet' )

@@ -57,7 +57,8 @@ module.exports = function ( win ) {
 		const args = {
 			caseId: Number( $( this ).attr( 'data-case-id' ) ),
 			initialStatus: $( this ).attr( 'data-case-status' ),
-			initialStatusReason: $( this ).attr( 'data-case-status-reason' )
+			initialStatusReason: $( this ).attr( 'data-case-status-reason' ),
+			caseSignals: $( this ).attr( 'data-case-signals' ).split( ' ' )
 		};
 
 		suggestedInvestigationsChangeStatusApp = Vue.createMwApp(
