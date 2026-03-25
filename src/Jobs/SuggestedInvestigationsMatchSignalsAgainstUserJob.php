@@ -62,9 +62,7 @@ class SuggestedInvestigationsMatchSignalsAgainstUserJob extends Job {
 
 	/** @inheritDoc */
 	public function run(): bool {
-		if ( isset( $this->params['extraData']['session'] ) &&
-			$this->shouldImportSession()
-		) {
+		if ( isset( $this->params['extraData']['session'] ) && $this->shouldImportSession() ) {
 			$scope = RequestContext::importScopedSession( $this->params['extraData']['session'] );
 			$this->addTeardownCallback( static function () use ( &$scope ) {
 				ScopedCallback::consume( $scope );
