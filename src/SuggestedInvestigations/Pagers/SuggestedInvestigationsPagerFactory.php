@@ -94,7 +94,7 @@ class SuggestedInvestigationsPagerFactory {
 	 * @internal Only for use by {@link SpecialSuggestedInvestigations}
 	 */
 	public function createCasesPager(
-		IContextSource $context, array $signals
+		IContextSource $context, array $signals, int|null $caseIdFilter
 	): SuggestedInvestigationsCasesPager {
 		return new SuggestedInvestigationsCasesPager(
 			$this->dbProvider,
@@ -110,7 +110,8 @@ class SuggestedInvestigationsPagerFactory {
 			$this->messageRenderer,
 			$this->linkRenderer,
 			$context,
-			$signals
+			$signals,
+			$caseIdFilter
 		);
 	}
 }

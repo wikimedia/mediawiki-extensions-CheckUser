@@ -432,7 +432,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => true,
 					'case_id' => 1,
 					'applied_filters' => [
-						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
 					],
 				],

@@ -585,8 +585,11 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$context = $this->makeQqxContext();
 
-		$pager = $this->getPager( $context );
-		$pager->caseIdFilter = $firstCaseId;
+		// Test that only the case ID filter is applied when using the case ID filter (T421312)
+		$context->getRequest()->setVal( 'status', 'invalid' );
+		$context->getRequest()->setVal( 'hideCasesWithNoBlockedUsers', 1 );
+
+		$pager = $this->getPager( $context, [], $firstCaseId );
 
 		$html = $pager->getFullOutput()->getContentHolder()->getAsHtmlString();
 
@@ -1542,9 +1545,13 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			->fetchRow();
 	}
 
-	private function getPager( IContextSource $context, array $signals = [] ): SuggestedInvestigationsCasesPager {
+	private function getPager(
+		IContextSource $context,
+		array $signals = [],
+		?int $caseIdFilter = null
+	): SuggestedInvestigationsCasesPager {
 		return $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsPagerFactory' )
-			->createCasesPager( $context, $signals );
+			->createCasesPager( $context, $signals, $caseIdFilter );
 	}
 
 	private function makeQqxContext(): RequestContext {

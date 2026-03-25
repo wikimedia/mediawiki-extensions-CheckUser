@@ -81,11 +81,11 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		$output->addModules( 'ext.checkUser.suggestedInvestigations' );
 		$output->addModuleStyles( 'ext.checkUser.styles' );
 
-		$pager = $this->pagerFactory->createCasesPager( $this->getContext(), $this->signals );
-
-		if ( $this->isInDetailedView ) {
-			$pager->caseIdFilter = $this->detailedViewCaseId;
-		}
+		$pager = $this->pagerFactory->createCasesPager(
+			$this->getContext(),
+			$this->signals,
+			$this->detailedViewCaseId
+		);
 
 		// Map camel case filter names to snake case, as event logging schema
 		// wants snake case

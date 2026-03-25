@@ -56,12 +56,6 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 	/**
-	 * @var int|null When not null, only display the case with this ID. This is currently only
-	 *   used for the detail view, where one case is row is displayed.
-	 */
-	public int|null $caseIdFilter = null;
-
-	/**
 	 * @var array An array describing what filters are currently applied, passed to the
 	 *   client using a JS config var and used for instrumentation.
 	 * @internal Only public for use by {@link SpecialSuggestedInvestigations}
@@ -71,22 +65,22 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	/**
 	 * @var CaseStatus[] The list of case statuses to be shown in the table. Empty array means all statuses.
 	 */
-	private array $statusFilter;
+	private array $statusFilter = [];
 
 	/**
 	 * @var string[] If not an empty array, then only show cases with these users in
 	 */
-	private array $userNamesFilter;
+	private array $userNamesFilter = [];
 
 	/**
 	 * @var bool If true, hide cases where all of the accounts in the case have no edits
 	 */
-	private bool $hideCasesWithNoUserEdits;
+	private bool $hideCasesWithNoUserEdits = false;
 
 	/**
 	 * @var bool If true, hide cases where all of the accounts in the case are unblocked
 	 */
-	private bool $hideCasesWithNoBlockedUsers;
+	private bool $hideCasesWithNoBlockedUsers = false;
 
 	/**
 	 * @var string[] If not an empty array, then filter for these signal database names
@@ -156,6 +150,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals,
+		private readonly ?int $caseIdFilter,
 	) {
 		// If we didn't set mDb here, the parent constructor would set it to the database replica
 		// for the default database domain
@@ -214,6 +209,28 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * Intended for calling during execution of {@link self::__construct}
 	 */
 	private function parseFilters( array $urlNamesToSignals ): void {
+		if ( $this->caseIdFilter === null ) {
+			$this->parseFiltersForMainView( $urlNamesToSignals );
+		}
+
+		$this->appliedFilters = [
+			'status' => array_map(
+				static fn ( CaseStatus $status ) => strtolower( $status->name ),
+				$this->statusFilter
+			),
+			'username' => $this->userNamesFilter,
+			'hideCasesWithNoUserEdits' => $this->hideCasesWithNoUserEdits,
+			'hideCasesWithNoBlockedUsers' => $this->hideCasesWithNoBlockedUsers,
+			'signal' => $this->signalsFilter,
+			'lastUpdated' => $this->lastUpdatedDaysFilter,
+		];
+	}
+
+	/**
+	 * Parses the filters in the request when the request is for the main
+	 * table view of the special page (i.e. not the detail view).
+	 */
+	private function parseFiltersForMainView( array $urlNamesToSignals ): void {
 		$this->statusFilter = array_filter( array_map(
 			CaseStatus::newFromStringName( ... ),
 			$this->mRequest->getArray( 'status', [] )
@@ -261,18 +278,6 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		if ( $this->lastUpdatedDaysFilter !== null ) {
 			$this->numberOfFiltersApplied++;
 		}
-
-		$this->appliedFilters = [
-			'status' => array_map(
-				static fn ( CaseStatus $status ) => strtolower( $status->name ),
-				$this->statusFilter
-			),
-			'username' => $this->userNamesFilter,
-			'hideCasesWithNoUserEdits' => $this->hideCasesWithNoUserEdits,
-			'hideCasesWithNoBlockedUsers' => $this->hideCasesWithNoBlockedUsers,
-			'signal' => $this->signalsFilter,
-			'lastUpdated' => $this->lastUpdatedDaysFilter,
-		];
 	}
 
 	/**
