@@ -406,7 +406,7 @@
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "अस्थायी खातों के IP देखने के लिए ऑप्ट-इन किया",
 	"checkuser-userinfocard-ip-revealed-count": "IP खुलासे: $1 (आखिरी बार $2 को जाँचा गया)",
 	"checkuser-userinfocard-ip-revealed-never": "IP खुलासे: $1",
-	"checkuser-suggestedinvestigations": "सुझावित जाँच-पड़ताल",
+	"checkuser-suggestedinvestigations": "सुझावित जाँचें",
 	"checkuser-suggestedinvestigations-summary": "इस पृष्ठ पर स्वचालित रूप से संदिग्ध चिह्नित खाते शामिल हैं ताकि सदस्य जाँचकर्ता उनकी जाँच-पड़ताल कर सकें।",
 	"checkuser-suggestedinvestigations-table-caption": "सुझावित जाँच-पड़तालों का टेबल",
 	"checkuser-suggestedinvestigations-header-users": "खाते",
