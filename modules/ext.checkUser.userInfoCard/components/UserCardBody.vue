@@ -411,7 +411,7 @@ module.exports = exports = {
 			if ( canViewSuggestedInvestigations && props.suggestedInvestigationsCaseCount > 0 ) {
 				const suggestedInvestigationsLink = mw.Title.makeTitle(
 					-1, 'SuggestedInvestigations'
-				).getUrl( { username: props.username } );
+				).getUrl( { username: props.username, hideCasesWithNoUserEdits: 0 } );
 				rows.push( {
 					icon: cdxIconArticlesSearch,
 					iconClass: 'ext-checkuser-userinfocard-icon',
