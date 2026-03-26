@@ -414,6 +414,7 @@ $specialPageAliases['pl'] = [
 	'Investigate' => [ 'Zbadaj_konta' ],
 	'InvestigateBlock' => [ 'Zablokuj_po_zbadaniu' ],
 	'IPContributions' => [ 'Wkład_IP' ],
+	'SuggestedInvestigations' => [ 'Sugestie_sprawdzeń' ],
 ];
 
 /** Portuguese (português) */
