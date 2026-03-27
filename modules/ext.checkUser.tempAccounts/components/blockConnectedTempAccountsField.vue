@@ -76,7 +76,8 @@ module.exports = exports = defineComponent( {
 		blockId: { type: [ Number, null ], required: true }
 	},
 	setup( props ) {
-		// Limit bulk blocking to 15 accounts, covering 90% of cases. See T419526#11731721.
+		// Limit bulk blocking to 15 accounts, covering the vast majority of cases.
+		// See T419526#11731721.
 		const maxAllowed = 15;
 
 		const visible = computed( () => mw.config.get( 'blockEnableMultiblocks' ) &&
