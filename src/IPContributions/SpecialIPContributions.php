@@ -172,6 +172,9 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		// in the correct mode.
 		$this->opts['isArchive'] = $this->isArchive();
 
+		// IP reveal needs to be logged, so if in read only mode the special page cannot be used
+		$this->checkReadOnly();
+
 		parent::execute( $par );
 
 		// Setting $overrideBaseUrl=true is needed to prevent addHelpLink()

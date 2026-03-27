@@ -18,6 +18,7 @@ use StatusValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
+use Wikimedia\Rdbms\ReadOnlyMode;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
@@ -42,6 +43,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		private readonly CheckUserPermissionManager $checkUserPermissionManager,
 		private readonly UserOptionsLookup $userOptionsLookup,
 		private readonly CheckUserLookupUtils $checkUserLookupUtils,
+		private readonly ReadOnlyMode $readOnlyMode,
 	) {
 		$serviceOptions->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -67,6 +69,10 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		}
 
 		if ( $shouldLog ) {
+			if ( $this->readOnlyMode->isReadOnly() ) {
+				return StatusValue::newFatal( 'readonlytext', $this->readOnlyMode->getReason() );
+			}
+
 			$this->jobQueueGroup->push(
 				LogTemporaryAccountAccessJob::newSpec(
 					$authority->getUser(),
@@ -214,6 +220,10 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 
 		if ( !$status->isGood() ) {
 			return $status;
+		}
+
+		if ( $this->readOnlyMode->isReadOnly() ) {
+			return StatusValue::newFatal( 'readonlytext', $this->readOnlyMode->getReason() );
 		}
 
 		$this->jobQueueGroup->push(

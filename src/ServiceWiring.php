@@ -249,6 +249,7 @@ return [
 			$services->getRevisionStoreFactory(),
 			$services->getChangeTagsStoreFactory(),
 			$services->getSiteLookup(),
+			$services->getReadOnlyMode()
 		);
 	},
 	'CheckUserHookRunner' => static function (
@@ -507,7 +508,8 @@ return [
 			$services->getPermissionManager(),
 			$services->get( 'CheckUserPermissionManager' ),
 			$services->getUserOptionsLookup(),
-			$services->get( 'CheckUserLookupUtils' )
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getReadOnlyMode()
 		);
 	},
 	'CheckUserTimelinePagerFactory' => static function (

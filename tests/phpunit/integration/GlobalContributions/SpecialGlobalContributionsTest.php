@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\GlobalContributions;
 use GlobalPreferences\GlobalPreferencesFactory;
 use LogicException;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Exception\ReadOnlyError;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\Extension\CheckUser\GlobalContributions\SpecialGlobalContributions;
 use MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob;
@@ -271,6 +272,18 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			'Nonexistent user' => [ static fn () =>'Nonexistent', 0 ],
 			'Sysop account' => [ static fn () => self::$sysop->getName(), 1 ],
 		];
+	}
+
+	public function testExecuteForIPTargetWhenInReadOnlyMode(): void {
+		$this->getServiceContainer()->getReadOnlyMode()->setReason( 'test' );
+
+		$this->expectException( ReadOnlyError::class );
+		$this->executeSpecialPage(
+			'127.0.0.1/24',
+			new FauxRequest( [ 'dir' => 'prev' ] ),
+			null,
+			self::$checkuser
+		);
 	}
 
 	public function testExecuteTargetReverse() {

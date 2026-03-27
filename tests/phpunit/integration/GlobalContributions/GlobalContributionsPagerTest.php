@@ -128,6 +128,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['RevisionStoreFactory'] ?? $this->revisionStoreFactory,
 			$overrides['ChangeTagsStoreFactory'] ?? $services->getChangeTagsStoreFactory(),
 			$overrides['SiteLookup'] ?? $services->getSiteLookup(),
+			$overrides['ReadOnlyMode'] ?? $services->getReadOnlyMode(),
 			$overrides['Context'] ?? RequestContext::getMain(),
 			$overrides['options'] ?? [ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, $overrides['UserName'] ?? '127.0.0.1' )
@@ -729,6 +730,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$this->revisionStoreFactory,
 				$services->getChangeTagsStoreFactory(),
 				$services->getSiteLookup(),
+				$services->getReadOnlyMode(),
 				$context,
 				[ 'revisionsOnly' => true ],
 				new UserIdentityValue( 0, '127.0.0.1' ),

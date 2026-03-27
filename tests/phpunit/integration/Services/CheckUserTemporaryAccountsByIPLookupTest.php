@@ -302,6 +302,31 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		);
 	}
 
+	public function testGetWhenReadOnly(): void {
+		// Get the authority before setting site read only, as otherwise
+		// the user would not be saved to the DB
+		$authority = $this->getTestUser( [ 'checkuser' ] )->getAuthority();
+
+		$this->getServiceContainer()->getReadOnlyMode()->setReason( 'test' );
+		$actualStatus = $this->getObjectUnderTest()->get(
+			'1.2.3.4',
+			$authority,
+			true,
+			123
+		);
+		$this->assertStatusError( 'readonlytext', $actualStatus );
+	}
+
+	public function testGetActiveTempAccountNamesWhenReadOnly(): void {
+		$this->getServiceContainer()->getReadOnlyMode()->setReason( 'test' );
+		$actualStatus = $this->getObjectUnderTest()->getActiveTempAccountNames(
+			$this->mockRegisteredUltimateAuthority(),
+			$this->getServiceContainer()->getUserFactory()->newFromName( '~check-user-test-01' ),
+			123
+		);
+		$this->assertStatusError( 'readonlytext', $actualStatus );
+	}
+
 	/**
 	 * @dataProvider provideTestExecuteGetActiveTempAccountNames
 	 */

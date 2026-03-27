@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\IPContributions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\ErrorPageError;
 use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Exception\ReadOnlyError;
 use MediaWiki\Exception\UserBlockedError;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
@@ -160,6 +161,18 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			'Temp user' => [ '~check-user-test-2024-1', 0 ],
 			'Nonexistent user' => [ 'Nonexistent', 0 ],
 		];
+	}
+
+	public function testExecuteWhenInReadOnlyMode(): void {
+		$this->getServiceContainer()->getReadOnlyMode()->setReason( 'test' );
+
+		$this->expectException( ReadOnlyError::class );
+		$this->executeSpecialPage(
+			'127.0.0.1',
+			null,
+			null,
+			self::$checkuser
+		);
 	}
 
 	public function testExecuteWideRange() {

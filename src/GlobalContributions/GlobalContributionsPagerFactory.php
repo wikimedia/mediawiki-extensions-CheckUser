@@ -24,6 +24,7 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\ReadOnlyMode;
 
 class GlobalContributionsPagerFactory {
 
@@ -50,6 +51,7 @@ class GlobalContributionsPagerFactory {
 		private readonly RevisionStoreFactory $revisionStoreFactory,
 		private readonly ChangeTagsStoreFactory $changeTagsStoreFactory,
 		private readonly SiteLookup $siteLookup,
+		private readonly ReadOnlyMode $readOnlyMode,
 	) {
 	}
 
@@ -84,6 +86,7 @@ class GlobalContributionsPagerFactory {
 			$this->revisionStoreFactory,
 			$this->changeTagsStoreFactory,
 			$this->siteLookup,
+			$this->readOnlyMode,
 			$context,
 			$options,
 			$target

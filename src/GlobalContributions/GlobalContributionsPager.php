@@ -9,6 +9,7 @@ use LogicException;
 use MediaWiki\ChangeTags\ChangeTagsStoreFactory;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Exception\ReadOnlyError;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
@@ -43,6 +44,7 @@ use OOUI\MessageWidget;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
+use Wikimedia\Rdbms\ReadOnlyMode;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -94,6 +96,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		private readonly RevisionStoreFactory $revisionStoreFactory,
 		private readonly ChangeTagsStoreFactory $changeTagsStoreFactory,
 		private readonly SiteLookup $siteLookup,
+		private readonly ReadOnlyMode $readOnlyMode,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null,
@@ -238,6 +241,10 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		// Check if the target is an IP or range and only if so, log that the user has globally
 		// viewed the temporary accounts editing on the target IP/range.
 		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
+			if ( $this->readOnlyMode->isReadOnly() ) {
+				throw new ReadOnlyError;
+			}
+
 			$this->jobQueueGroup->push(
 				LogTemporaryAccountAccessJob::newSpec(
 					$this->getAuthority()->getUser(),
