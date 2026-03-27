@@ -109,6 +109,11 @@ module.exports = exports = defineComponent( {
 				return;
 			}
 
+			// Instrument that user has access to the feature and is viewing a temporary account
+			mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
+				action: 'viewed-tempaccount'
+			} );
+
 			// Get all connected accounts
 			try {
 				const { connectedAccounts, ipsUsedCount } = await new mw.Rest().post(
@@ -117,6 +122,26 @@ module.exports = exports = defineComponent( {
 				);
 				connectedTempAccounts.value = connectedAccounts
 					.filter( ( user ) => props.targetUser !== user );
+
+				// Instrument that the user has viewed a temp account with found connected accounts
+				mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
+					action: 'found-connected-tempaccounts'
+				} );
+
+				// Instrument number of connected accounts found per-instance
+				mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
+					action: 'found-connected-tempaccounts-count',
+					count: connectedTempAccounts.value.length
+				} );
+
+				// Instrument the total number of connected accounts found
+				mw.track(
+					'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
+					connectedTempAccounts.value.length,
+					{
+						action: 'found-connected-tempaccounts-sum'
+					}
+				);
 
 				if ( connectedTempAccounts.value.length > maxAllowed ) {
 					tooManyAccountsToBlock.value = true;
@@ -143,6 +168,14 @@ module.exports = exports = defineComponent( {
 		}, { immediate: true } );
 
 		mw.hook( 'mw.special.block.doBlockParamsReady' ).add( ( params ) => {
+			// Instrument that the user is making a block that can also bulk block and
+			// whether or not the user has opted to do so
+			if ( connectedTempAccounts.value.length && !tooManyAccountsToBlock.value ) {
+				mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
+					action: shouldBlockConnectedTempAccounts.value ?
+						'is-bulk-blocking' : 'not-bulk-blocking'
+				} );
+			}
 			if ( shouldBlockConnectedTempAccounts.value ) {
 				params.blockConnectedTempAccounts = connectedTempAccounts.value;
 			}
@@ -150,6 +183,43 @@ module.exports = exports = defineComponent( {
 
 		mw.hook( 'mw.special.block.formReset' ).add( () => {
 			resetForm();
+		} );
+
+		mw.hook( 'SpecialBlock.block' ).add( ( block ) => {
+			const additionalBlocks = Object.entries( block.additionalBlocksStatuses )
+				.filter( ( obj ) => !obj[ 1 ].length );
+			const blocksAdditionalErrors = [].concat(
+				...Object.values( block.additionalBlocksStatuses )
+			);
+
+			// Instrument proportion of successful additional blocks
+			mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
+				totalblocksattempted: Object.keys( block.additionalBlocksStatuses ).length,
+				totalblockssucceeded: additionalBlocks.length,
+				totalalreadyblocked: blocksAdditionalErrors.length
+			} );
+
+			// Instrument total sum of successful additional blocks
+			if ( additionalBlocks.length ) {
+				mw.track(
+					'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
+					additionalBlocks.length,
+					{
+						action: 'successfully-blocked-connected-tempaccount-sum'
+					}
+				);
+			}
+
+			// // Instrument total sum of already blocked accounts
+			if ( blocksAdditionalErrors.length ) {
+				mw.track(
+					'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
+					blocksAdditionalErrors.length,
+					{
+						action: 'already-blocked-connected-tempaccount-sum'
+					}
+				);
+			}
 		} );
 
 		return {
