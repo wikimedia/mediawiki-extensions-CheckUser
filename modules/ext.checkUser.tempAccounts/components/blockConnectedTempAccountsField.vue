@@ -104,6 +104,11 @@ module.exports = exports = defineComponent( {
 			connectedTempAccountsText.value = '';
 			resetForm();
 
+			// Do nothing if the input won't be visible
+			if ( !visible.value ) {
+				return;
+			}
+
 			// Get all connected accounts
 			try {
 				const { connectedAccounts, ipsUsedCount } = await new mw.Rest().post(
