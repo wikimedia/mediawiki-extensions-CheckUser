@@ -81,8 +81,8 @@ module.exports = exports = defineComponent( {
 		const maxAllowed = 15;
 
 		const visible = computed( () => mw.config.get( 'blockEnableMultiblocks' ) &&
-		mw.config.get( 'wgTemporaryAccountIPRevealAllowed' ) &&
-		mw.util.isTemporaryUser( props.targetUser ) );
+			mw.config.get( 'wgTemporaryAccountIPRevealAllowed' ) &&
+			mw.util.isTemporaryUser( props.targetUser ) );
 		const connectedTempAccounts = ref( [] );
 		const blockConnectedTempAccountsApiCallError = ref( '' );
 		const connectedTempAccountsText = ref( '' );
