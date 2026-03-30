@@ -15,6 +15,7 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use StatusValue;
+use stdClass;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
@@ -32,6 +33,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserMaximumRowCount',
 	];
+	private const int MAX_BATCH_SIZE = 250;
 
 	public function __construct(
 		private readonly ServiceOptions $serviceOptions,
@@ -114,70 +116,247 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 			throw new InvalidArgumentException( "Invalid IP $ip passed" );
 		}
 
-		$dbr = $this->connectionProvider->getReplicaDatabase();
-
-		// If no limit is supplied, set the default to CheckUserMaximumRowCount.
 		$limit = $this->getQueryLimit( $limit );
 
-		// Get accounts from cu_changes and cu_log_event, sorted by timestamp descending.
-		// They'll be combined so that in case of duplicate entries, the more recent
-		// timestamp can be prioritized. Save the account name as the key for de-duping.
-		$ipConds = $this->checkUserLookupUtils->getIPTargetExpr(
-			$ip,
-			false,
-			self::CHANGES_TABLE
-		);
+		$cuChangesAccounts = $this->getTempAccountsFromCuChanges( $ip, $limit );
+		$cuLogEventAccounts = $this->getTempAccountsFromCuLogEvent( $ip, $limit );
+
+		return $this->mergeAndSortByLatestTimeStamp( $limit, $cuChangesAccounts, $cuLogEventAccounts );
+	}
+
+	/**
+	 * Find temporary accounts that have edited from the given IP or IP range,
+	 * using the cu_changes table (which logs edits and similar actions).
+	 *
+	 * @param string $ip
+	 * @param int $limit Maximum number of rows to scan
+	 * @return array Map of username => most recent timestamp
+	 */
+	private function getTempAccountsFromCuChanges( string $ip, int $limit ): array {
+		$ipConds = $this->checkUserLookupUtils->getIPTargetExpr( $ip, false, self::CHANGES_TABLE );
 		if ( $ipConds === null ) {
 			throw new InvalidArgumentException( "Unable to acquire subquery for $ip" );
 		}
-		$distinctCuChangesAccountRows = $dbr->newSelectQueryBuilder()
-			->fields( [ 'actor_name', 'timestamp' => 'MAX(cuc_timestamp)' ] )
-			->table( self::CHANGES_TABLE )
-			->join( 'actor', null, 'actor_id=cuc_actor' )
-			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
-			->where( $ipConds )
-			->groupBy( 'actor_name' )
-			->orderBy( [
-				'timestamp ' . SelectQueryBuilder::SORT_DESC,
-				'actor_name ' . SelectQueryBuilder::SORT_ASC,
-			] )
-			->limit( $limit )
-			->caller( __METHOD__ )
-			->fetchResultSet();
-		$distinctCuChangesAccounts = [];
-		foreach ( $distinctCuChangesAccountRows as $accountRow ) {
-			$distinctCuChangesAccounts[$accountRow->actor_name] = $accountRow->timestamp;
 
+		$actorIdToNameMap = $this->collectTempAccountActorIdsBatched(
+			$ipConds,
+			'cu_changes',
+			$limit
+		);
+		if ( !$actorIdToNameMap ) {
+			return [];
 		}
 
-		$ipConds = $this->checkUserLookupUtils->getIPTargetExpr(
-			$ip,
-			false,
-			self::LOG_EVENT_TABLE
+		$actorIdToTimestampMap = $this->getActorsMostRecentActionTimestamps(
+			$actorIdToNameMap,
+			$ipConds,
+			'cu_changes'
 		);
+
+		$result = [];
+		foreach ( $actorIdToTimestampMap as $actorId => $timestamp ) {
+			$result[$actorIdToNameMap[$actorId]] = $timestamp;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Find temporary accounts that have performed logged actions (e.g. blocks, deletions)
+	 * from the given IP or IP range
+	 *
+	 * @param string $ip
+	 * @param int $limit Maximum number of rows to scan
+	 * @return array Map of username => most recent timestamp
+	 */
+	private function getTempAccountsFromCuLogEvent( string $ip, int $limit ): array {
+		$ipConds = $this->checkUserLookupUtils->getIPTargetExpr( $ip, false, self::LOG_EVENT_TABLE );
 		if ( $ipConds === null ) {
 			throw new InvalidArgumentException( "Unable to acquire subquery for $ip" );
 		}
-		$distinctCuLogEventAccountRows = $dbr->newSelectQueryBuilder()
-			->fields( [ 'actor_name', 'timestamp' => 'MAX(cule_timestamp)' ] )
-			->table( 'cu_log_event' )
-			->join( 'actor', null, 'actor_id=cule_actor' )
-			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
-			->where( $ipConds )
-			->groupBy( 'actor_name' )
-			->orderBy( [
-				'timestamp ' . SelectQueryBuilder::SORT_DESC,
-				'actor_name ' . SelectQueryBuilder::SORT_ASC,
-			] )
-			->limit( $limit )
-			->caller( __METHOD__ )
-			->fetchResultSet();
-		$distinctCuLogEventAccounts = [];
-		foreach ( $distinctCuLogEventAccountRows as $accountRow ) {
-			$distinctCuLogEventAccounts[$accountRow->actor_name] = $accountRow->timestamp;
+
+		$actorIdToNameMap = $this->collectTempAccountActorIdsBatched(
+			$ipConds,
+			'cu_log_event',
+			$limit
+		);
+		if ( !$actorIdToNameMap ) {
+			return [];
 		}
 
-		return $this->sortEntitiesByTimestamp( $limit, $distinctCuChangesAccounts, $distinctCuLogEventAccounts );
+		$actorIdToTimestampMap = $this->getActorsMostRecentActionTimestamps(
+			$actorIdToNameMap,
+			$ipConds,
+			'cu_log_event'
+		);
+
+		$result = [];
+		foreach ( $actorIdToTimestampMap as $actorId => $timestamp ) {
+			$result[$actorIdToNameMap[$actorId]] = $timestamp;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Walk a CheckUser table (cu_changes or cu_log_event) in small batches,
+	 * collecting the actor IDs of temporary accounts that match the given IP range.
+	 *
+	 * @param IExpression $ipConds WHERE conditions for the IP range
+	 * @param string $tableName 'cu_changes' or 'cu_log_event'
+	 * @param int $limit Maximum number of rows to scan
+	 * @return array<int,string> Map of actor ID (int) => actor name (string)
+	 */
+	private function collectTempAccountActorIdsBatched(
+		IExpression $ipConds,
+		string $tableName,
+		int $limit
+	): array {
+		$dbr = $this->connectionProvider->getReplicaDatabase();
+		$prefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$tableName];
+		$actorField = $prefix . 'actor';
+		$ipHexField = $prefix . 'ip_hex';
+		$timestampField = $prefix . 'timestamp';
+
+		$actorIds = [];
+		$remainingRowsToScan = $limit;
+		$cursorIpHex = null;
+		$cursorTimestamp = null;
+
+		while ( $remainingRowsToScan > 0 ) {
+			$requestedRowCount = min( self::MAX_BATCH_SIZE, $remainingRowsToScan );
+			$queryBuilder = $dbr->newSelectQueryBuilder()
+				->fields( [
+					'actor_id' => $actorField,
+					'actor_name' => 'actor_name',
+					'ip_hex' => $ipHexField,
+					'timestamp' => $timestampField,
+				] )
+				->table( $tableName )
+				->join( 'actor', null, "actor_id=$actorField" )
+				->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
+				->where( $ipConds )
+				// Exclude already-found actors so we don't waste scan budget on their rows at
+				// other ip_hex values further down the index.
+				->andWhere( $actorIds ? $dbr->expr( $actorField, '!=', array_keys( $actorIds ) ) : [] )
+				// DESC matches a reverse index scan on (ip_hex, timestamp) — no filesort, newest rows first.
+				->orderBy( [ $ipHexField, $timestampField ], SelectQueryBuilder::SORT_DESC )
+				->limit( $requestedRowCount )
+				->caller( __METHOD__ );
+
+			// Skip past the last row seen in the previous batch.
+			if ( $cursorIpHex !== null && $cursorTimestamp !== null ) {
+				$queryBuilder->where(
+					$dbr->buildComparison( '<', [ $ipHexField => $cursorIpHex, $timestampField => $cursorTimestamp ] )
+				);
+			}
+
+			$rows = $queryBuilder->fetchResultSet();
+			$rowsFetched = $rows->numRows();
+			foreach ( $rows as $row ) {
+				/** @var stdClass $row */
+				$actorIds[(int)$row->actor_id] = $row->actor_name;
+				$cursorIpHex = $row->ip_hex;
+				$cursorTimestamp = $row->timestamp;
+			}
+
+			if ( $rowsFetched === $requestedRowCount && $cursorIpHex !== null && $cursorTimestamp !== null ) {
+				$actorIds += $this->fetchPossibleMissingActorIds(
+					$ipConds,
+					$tableName,
+					$cursorIpHex,
+					$cursorTimestamp
+				);
+			}
+
+			$remainingRowsToScan -= $rowsFetched;
+			if ( !$rowsFetched || $rowsFetched < $requestedRowCount ) {
+				break;
+			}
+
+		}
+
+		return $actorIds;
+	}
+
+	/**
+	 * Fetch actor IDs that share the exact same (ip_hex, timestamp) as the last row of the current batch.
+	 *
+	 * If a batch boundary falls in the middle of a tie group, the next iteration's
+	 * strict cursor would skip the remaining tied rows. This point-lookup captures them.
+	 *
+	 * @param IExpression $ipConds WHERE conditions for the IP range
+	 * @param string $tableName 'cu_changes' or 'cu_log_event'
+	 * @param string $cursorIpHex Hex IP of the last row fetched in the current batch
+	 * @param string $cursorTimestamp Timestamp of the last row fetched in the current batch
+	 * @return array<int,string> Map of actor ID (int) => actor name (string)
+	 */
+	private function fetchPossibleMissingActorIds(
+		IExpression $ipConds,
+		string $tableName,
+		string $cursorIpHex,
+		string $cursorTimestamp
+	): array {
+		$dbr = $this->connectionProvider->getReplicaDatabase();
+		$prefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$tableName];
+		$actorField = $prefix . 'actor';
+		$ipHexField = $prefix . 'ip_hex';
+		$timestampField = $prefix . 'timestamp';
+
+		$tieRows = $dbr->newSelectQueryBuilder()
+			->select( [ 'actor_id' => $actorField, 'actor_name' => 'actor_name' ] )
+			->table( $tableName )
+			->join( 'actor', null, "actor_id=$actorField" )
+			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
+			->where( $ipConds )
+			->where( [ $ipHexField => $cursorIpHex, $timestampField => $cursorTimestamp ] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+		$actorIdToNameMap = [];
+		foreach ( $tieRows as $row ) {
+			/** @var stdClass $row */
+			$actorIdToNameMap[(int)$row->actor_id] = $row->actor_name;
+		}
+		return $actorIdToNameMap;
+	}
+
+	/**
+	 * For each user ID, find when that user last acted from the given IP range.
+	 *
+	 * @param array $actorIds User IDs as keys (from collectTempAccountActorIdsBatched)
+	 * @param IExpression $ipConds WHERE conditions for the IP range
+	 * @param string $tableName 'cu_changes' or 'cu_log_event'
+	 * @return array Map of user ID (int) => latest timestamp (string)
+	 */
+	private function getActorsMostRecentActionTimestamps(
+		array $actorIds,
+		IExpression $ipConds,
+		string $tableName
+	): array {
+		$prefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$tableName];
+		$actorField = $prefix . 'actor';
+		$timestampField = $prefix . 'timestamp';
+
+		$dbr = $this->connectionProvider->getReplicaDatabase();
+		$timestampRows = $dbr->newSelectQueryBuilder()
+			->fields( [
+				'actor_id' => $actorField,
+				'timestamp' => "MAX($timestampField)",
+			] )
+			->table( $tableName )
+			->where( [ $actorField => array_keys( $actorIds ) ] )
+			->where( $ipConds )
+			->groupBy( $actorField )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+
+		$actorIdToTimestampMap = [];
+		foreach ( $timestampRows as $row ) {
+			/** @var stdClass $row */
+			$actorIdToTimestampMap[(int)$row->actor_id] = (string)$row->timestamp;
+		}
+
+		return $actorIdToTimestampMap;
 	}
 
 	/**
@@ -274,11 +453,9 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 
 		$ipsFromTempAccount = $this->getDistinctIPsFromTempAccount( $user );
 
-		// Store accounts found because each lookup isn't guaranteed to be a unique set
-		// when compared against other lookups being performed
-		$accounts = [];
+		$uniqueAccountNames = [];
 		foreach ( $ipsFromTempAccount as $ip ) {
-			if ( $limit && count( $accounts ) >= $limit ) {
+			if ( $limit && count( $uniqueAccountNames ) >= $limit ) {
 				break;
 			}
 
@@ -289,14 +466,13 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 				[ $ipHex ] = IPUtils::parseRange( $ip );
 				$ip = IPUtils::formatHex( $ipHex ) . '/64';
 			}
-			$tempAccountsOnIPCount = $this->getTempAccountsFromIPAddress( $ip, $limit );
-			foreach ( $tempAccountsOnIPCount as $account ) {
-				// Store name as a key so that the set at the end is unique
-				$accounts[ $account ] = true;
+			$accountsOnIp = $this->getTempAccountsFromIPAddress( $ip, $limit );
+			foreach ( $accountsOnIp as $account ) {
+				$uniqueAccountNames[ $account ] = true;
 			}
 		}
 
-		return $accounts;
+		return $uniqueAccountNames;
 	}
 
 	/**
@@ -364,12 +540,12 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	 * @param string[] ...$entities [ ip/account => timestamp ]
 	 * @return string[] [ ip/account ]
 	 */
-	private function sortEntitiesByTimestamp( $limit, ...$entities ) {
+	private function mergeAndSortByLatestTimeStamp( int $limit, array ...$entities ): array {
 		$sorted = [];
 		foreach ( $entities as $entitySet ) {
-			foreach ( $entitySet as $entity => $timestamp ) {
-				if ( !isset( $sorted[$entity] ) || $sorted[$entity] < $timestamp ) {
-					$sorted[$entity] = $timestamp;
+			foreach ( $entitySet as $ipOrUsername => $timestamp ) {
+				if ( !isset( $sorted[$ipOrUsername] ) || $sorted[$ipOrUsername] < $timestamp ) {
+					$sorted[$ipOrUsername] = $timestamp;
 				}
 			}
 		}
@@ -390,17 +566,16 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	 * be run if necessary. Functions like `getAggregateActiveTempAccountCount()`
 	 * don't need to because they return an aggregate number, which is less restricted.
 	 *
-	 * @param UserIdentity $user The temporay account to look up
+	 * @param UserIdentity $user The temporary account to look up
 	 * @param int|null $limit The maximum number of rows to fetch
 	 * @return string[] An array of all matching IPs, up to the limit
 	 */
-	private function getDistinctIPsFromTempAccount( UserIdentity $user, ?int $limit = null ) {
+	private function getDistinctIPsFromTempAccount( UserIdentity $user, ?int $limit = null ): array {
 		if ( !$this->tempUserConfig->isTempName( $user->getName() ) ) {
 			throw new InvalidArgumentException( 'Invalid user passed; only temporary accounts are supported' );
 		}
 
 		$dbr = $this->connectionProvider->getReplicaDatabase();
-		$ips = [];
 
 		// If no limit is supplied, set the default to CheckUserMaximumRowCount.
 		$limit = $this->getQueryLimit( $limit );
@@ -408,55 +583,45 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 		// Get IPs from cu_changes and cu_log_event, sorted by timestamp descending.
 		// They'll be combined so that in case of duplicate entries, the more recent
 		// timestamp can be prioritized. Save the IP as the key for de-duping.
-		$distinctCuChangesIPRows = $dbr->newSelectQueryBuilder()
-			->select( [ 'cuc_ip_hex', 'timestamp' => 'MAX(cuc_timestamp)' ] )
-			->groupBy( 'cuc_ip_hex' )
-			->from( 'cu_changes' )
-			// T338276
-			->useIndex( 'cuc_actor_ip_hex_time' )
-			->join( 'actor', null, 'cuc_actor=actor_id' )
-			->where( [
-				'actor_name' => $user->getName(),
-			] )
-			->orderBy( [
-				'timestamp ' . SelectQueryBuilder::SORT_DESC,
-				'cuc_ip_hex ' . SelectQueryBuilder::SORT_ASC,
-			] )
-			->limit( $limit )
-			->caller( __METHOD__ )
-			->fetchResultSet();
+		$ipsByTable = [];
+		foreach ( [ self::CHANGES_TABLE, self::LOG_EVENT_TABLE ] as $table ) {
+			$prefix = self::RESULT_TABLE_TO_PREFIX[$table];
+			$ipHexField = $prefix . 'ip_hex';
+			$timestampField = $prefix . 'timestamp';
+			$actorField = $prefix . 'actor';
+			$indexName = $prefix . 'actor_ip_hex_time';
 
-		$distinctCuChangesIPs = [];
-		foreach ( $distinctCuChangesIPRows as $ipRow ) {
-			$ip = IPUtils::formatHex( $ipRow->cuc_ip_hex );
-			$distinctCuChangesIPs[$ip] = $ipRow->timestamp;
+			$ipRows = $dbr->newSelectQueryBuilder()
+				->select( [ 'ip_hex' => $ipHexField, 'timestamp' => "MAX($timestampField)" ] )
+				->groupBy( $ipHexField )
+				->from( $table )
+				// T338276
+				->useIndex( $indexName )
+				->join( 'actor', null, "$actorField=actor_id" )
+				->where( [
+					'actor_name' => $user->getName(),
+				] )
+				->orderBy( [
+					'timestamp ' . SelectQueryBuilder::SORT_DESC,
+					$ipHexField . ' ' . SelectQueryBuilder::SORT_ASC,
+				] )
+				->limit( $limit )
+				->caller( __METHOD__ )
+				->fetchResultSet();
+
+			$ipsByTable[$table] = [];
+			foreach ( $ipRows as $ipRow ) {
+				/** @var stdClass $ipRow */
+				$ip = IPUtils::formatHex( $ipRow->ip_hex );
+				$ipsByTable[$table][$ip] = $ipRow->timestamp;
+			}
 		}
 
-		$distinctCuLogEventIPRows = $dbr->newSelectQueryBuilder()
-			->select( [ 'cule_ip_hex', 'timestamp' => 'MAX(cule_timestamp)' ] )
-			->groupBy( 'cule_ip_hex' )
-			->from( 'cu_log_event' )
-			// T338276
-			->useIndex( 'cule_actor_ip_hex_time' )
-			->join( 'actor', null, 'cule_actor=actor_id' )
-			->where( [
-				'actor_name' => $user->getName(),
-			] )
-			->orderBy( [
-				'timestamp ' . SelectQueryBuilder::SORT_DESC,
-				'cule_ip_hex ' . SelectQueryBuilder::SORT_ASC,
-			] )
-			->limit( $limit )
-			->caller( __METHOD__ )
-			->fetchResultSet();
-
-		$distinctCuLogEventIPs = [];
-		foreach ( $distinctCuLogEventIPRows as $ipRow ) {
-			$ip = IPUtils::formatHex( $ipRow->cule_ip_hex );
-			$distinctCuLogEventIPs[$ip] = $ipRow->timestamp;
-		}
-
-		return $this->sortEntitiesByTimestamp( $limit, $distinctCuChangesIPs, $distinctCuLogEventIPs );
+		return $this->mergeAndSortByLatestTimeStamp(
+			$limit,
+			$ipsByTable[self::CHANGES_TABLE],
+			$ipsByTable[self::LOG_EVENT_TABLE]
+		);
 	}
 
 	/**

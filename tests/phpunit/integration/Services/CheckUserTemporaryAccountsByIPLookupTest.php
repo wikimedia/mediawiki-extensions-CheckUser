@@ -1,16 +1,26 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
 use InvalidArgumentException;
+use ManualLogEntry;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\Title\Title;
+use MediaWiki\User\User;
+use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\RawSQLExpression;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -246,6 +256,12 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'expectedCount' => 1,
 				'expectedAccounts' => [ '~check-user-test-01' ],
 			],
+			'Small limit returns most recently active account on shared IP' => [
+				'ip' => '127.0.0.2',
+				'limit' => 1,
+				'expectedCount' => 1,
+				'expectedAccounts' => [ '~check-user-test-02' ],
+			],
 		];
 	}
 
@@ -255,6 +271,102 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 
 		// Assert usernames are not allowed, existing or not
 		$checkUserTemporaryAccountsByIPLookup->getTempAccountsFromIPAddress( 'User 1' );
+	}
+
+	public function testGetCollectsAllActorsWithIdenticalIpHexAndTimestamp(): void {
+		$sharedIp = '10.99.99.99';
+
+		RequestContext::getMain()->getRequest()->setIP( $sharedIp );
+		ConvertibleTimestamp::setFakeTime( '20240101120000' );
+
+		$userA = User::createNew( '~check-user-test-tie-a' );
+		$userB = User::createNew( '~check-user-test-tie-b' );
+
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+		/** @var CheckUserInsert $checkUserInsert */
+
+		$checkUserInsert->insertIntoCuChangesTable( [ 'cuc_type' => RC_EDIT ], __METHOD__, $userA );
+		$checkUserInsert->insertIntoCuChangesTable( [ 'cuc_type' => RC_EDIT ], __METHOD__, $userA );
+		$checkUserInsert->insertIntoCuChangesTable( [ 'cuc_type' => RC_EDIT ], __METHOD__, $userB );
+
+		$performer = $this->getTestUser( [ 'checkuser' ] )->getAuthority();
+		$status = $this->getObjectUnderTest()->get( $sharedIp, $performer, false, 2 );
+
+		$this->assertStatusGood( $status );
+		$this->assertEqualsCanonicalizing(
+			[ $userA->getName(), $userB->getName() ],
+			$status->getValue()
+		);
+	}
+
+	public function testGetOrdersCuChangesAccountsByMaxTimestamp(): void {
+		$freshIp = '10.55.55.55';
+
+		RequestContext::getMain()->getRequest()->setIP( $freshIp );
+
+		$userA = User::createNew( '~check-user-test-order-a' );
+		$userB = User::createNew( '~check-user-test-order-b' );
+
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+		/** @var CheckUserInsert $checkUserInsert */
+
+		ConvertibleTimestamp::setFakeTime( '20240601000000' );
+		$checkUserInsert->insertIntoCuChangesTable( [ 'cuc_type' => RC_EDIT ], __METHOD__, $userA );
+
+		ConvertibleTimestamp::setFakeTime( '20240601000100' );
+		$checkUserInsert->insertIntoCuChangesTable( [ 'cuc_type' => RC_EDIT ], __METHOD__, $userB );
+
+		ConvertibleTimestamp::setFakeTime( '20240601000200' );
+		$checkUserInsert->insertIntoCuChangesTable( [ 'cuc_type' => RC_EDIT ], __METHOD__, $userA );
+
+		$performer = $this->getTestUser( [ 'checkuser' ] )->getAuthority();
+		$status = $this->getObjectUnderTest()->get( $freshIp, $performer, false );
+
+		$this->assertStatusGood( $status );
+		// MAX(T1, T3) = T3 > T2, so userA sorts first.
+		$this->assertSame(
+			[ $userA->getName(), $userB->getName() ],
+			$status->getValue()
+		);
+	}
+
+	private function insertCuLogEvent( CheckUserInsert $checkUserInsert, UserIdentity $user, Title $target ): void {
+		$logEntry = new ManualLogEntry( 'block', 'block' );
+		$logEntry->setPerformer( $user );
+		$logEntry->setTarget( $target );
+		$dbLogEntry = DatabaseLogEntry::newFromId( $logEntry->insert( $this->getDb() ), $this->getDb() );
+		$checkUserInsert->insertIntoCuLogEventTable( $dbLogEntry, __METHOD__, $user );
+	}
+
+	public function testGetReachesQueriesForCuLogEventPath(): void {
+		$freshIp = '10.44.44.44';
+
+		RequestContext::getMain()->getRequest()->setIP( $freshIp );
+		$target = Title::makeTitle( NS_USER, 'TestTarget' );
+
+		$userA = User::createNew( '~check-user-test-log-a' );
+		$userB = User::createNew( '~check-user-test-log-b' );
+
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+
+		ConvertibleTimestamp::setFakeTime( '20240701000000' );
+		$this->insertCuLogEvent( $checkUserInsert, $userA, $target );
+
+		ConvertibleTimestamp::setFakeTime( '20240701000100' );
+		$this->insertCuLogEvent( $checkUserInsert, $userB, $target );
+
+		ConvertibleTimestamp::setFakeTime( '20240701000200' );
+		$this->insertCuLogEvent( $checkUserInsert, $userA, $target );
+
+		$performer = $this->getTestUser( [ 'checkuser' ] )->getAuthority();
+		$status = $this->getObjectUnderTest()->get( $freshIp, $performer, false );
+
+		$this->assertStatusGood( $status );
+		// MAX(T1, T3) = T3 > T2, so userA sorts first.
+		$this->assertSame(
+			[ $userA->getName(), $userB->getName() ],
+			$status->getValue()
+		);
 	}
 
 	/**
@@ -518,12 +630,38 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 	}
 
 	/**
-	 * @return CheckUserTemporaryAccountsByIPLookup
+	 * @dataProvider providerForExceptionCheck
 	 */
-	public function getObjectUnderTest() {
+	public function testGetThrowsExceptionOnNullIpConds( string $tableName ): void {
+		$mockCheckUserLookupUtils = $this->createMock( CheckUserLookupUtils::class );
+		$mockCheckUserLookupUtils->expects( $this->atLeastOnce() )
+			->method( 'getIPTargetExpr' )
+			->willReturnCallback(
+				static function ( $ip, $flag, $table ) use ( $tableName ) {
+					if ( $table === $tableName ) {
+						return null;
+					}
+					return new RawSQLExpression( '1' );
+				}
+			);
+
+		$this->setService( 'CheckUserLookupUtils', $mockCheckUserLookupUtils );
+
+		$this->expectException( InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'Unable to acquire subquery for 1.2.3.4' );
+
+		$service = $this->getObjectUnderTest();
+		$service->get( '1.2.3.4', $this->getTestUser( [ 'checkuser' ] )->getAuthority() );
+	}
+
+	public static function providerForExceptionCheck(): iterable {
+		yield 'cu_log_event' => [ 'cu_log_event' ];
+		yield 'cu_changes' => [ 'cu_changes' ];
+	}
+
+	public function getObjectUnderTest(): CheckUserTemporaryAccountsByIPLookup|TestingAccessWrapper {
 		/** @var CheckUserTemporaryAccountsByIPLookup $objectUnderTest */
 		$objectUnderTest = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountsByIPLookup' );
-		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
-		return $objectUnderTest;
+		return TestingAccessWrapper::newFromObject( $objectUnderTest );
 	}
 }
