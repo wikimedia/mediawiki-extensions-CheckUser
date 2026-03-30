@@ -161,7 +161,51 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 					'agentsList' => [ 'Testing useragent2', 'Testing user agent' ],
 				],
 			],
+			'Row for IP address with invalid UTF-8 in user agent' => [
+				[
+					'first' => [ '127.0.0.1' => $smallestFakeTimestamp ],
+					'last' => [ '127.0.0.1' => $largestFakeTimestamp ],
+					'edits' => [ '127.0.0.1' => 123 ],
+					'ids' => [ '127.0.0.1' => 0 ],
+					'infosets' => [ '127.0.0.1' => [ [ '127.0.0.1', null ] ] ],
+					'agentsets' => [ '127.0.0.1' => [ "Testing \u{FFFD} user agent" ] ],
+					'clienthints' => [ '127.0.0.1' => new ClientHintsReferenceIds( [
+						UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 1 ],
+					] ) ],
+				],
+				'127.0.0.1',
+				new ClientHintsLookupResults( [], [] ),
+				[
+					'userText' => '127.0.0.1',
+					'editCount' => 123,
+					'agentsList' => [ "Testing \u{FFFD} user agent" ],
+				],
+			],
 		];
+	}
+
+	public function testPreprocessResultsCleansInvalidUtf8UserAgents(): void {
+		$objectUnderTest = $this->setUpObject();
+		$result = new FakeResultWrapper( [
+			(object)[
+				'actor' => null,
+				'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
+				'user_text' => '127.0.0.1',
+				'user' => 0,
+				'timestamp' => ConvertibleTimestamp::now(),
+				'xff' => null,
+				'agent' => "Testing \xE4 user agent",
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			],
+		] );
+
+		$objectUnderTest->preprocessResults( $result );
+
+		$this->assertSame(
+			[ "Testing \u{FFFD} user agent" ],
+			$objectUnderTest->userSets['agentsets']['127.0.0.1']
+		);
 	}
 
 	/** @dataProvider provideFormatUserRowWithUsernameHidden */

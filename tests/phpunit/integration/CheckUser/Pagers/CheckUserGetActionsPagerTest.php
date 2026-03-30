@@ -141,6 +141,34 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		);
 	}
 
+	public function testFormatRowForLogCleansInvalidUtf8Agent() {
+		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
+		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
+		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$this->testFormatRow(
+			[
+				'log_type' => $deleteLogEntry->getType(),
+				'log_action' => $deleteLogEntry->getSubtype(),
+				'title' => $deleteLogEntry->getTarget()->getText(),
+				'log_deleted' => 0,
+				'type' => RC_LOG,
+				'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
+				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+				'agent' => "Testing \xE4 user agent",
+			],
+			[ $deleteLogEntry->getPerformerIdentity()->getName() => '' ],
+			[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
+			[],
+			new ClientHintsBatchFormatterResults( [ 0 => [ 1 => 0 ] ], [ 0 => 'Test Client Hints data' ] ),
+			[
+				'clientHints' => 'Test Client Hints data',
+				'userAgent' => "Testing \u{FFFD} user agent",
+			]
+		);
+	}
+
 	public function testFormatRowForLogWithDeletedActionText() {
 		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );

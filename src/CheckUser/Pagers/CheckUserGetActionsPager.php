@@ -257,7 +257,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 			);
 		}
 		// User agent
-		$templateParams['userAgent'] = $row->agent;
+		$templateParams['userAgent'] = $this->getDisplayableUserAgent( $row->agent );
 
 		// Display Client Hints data
 		// If ::getStringForReferenceId returns null, the mustache template will

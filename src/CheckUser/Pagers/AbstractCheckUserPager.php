@@ -40,6 +40,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\Utils\MWTimestamp;
 use stdClass;
+use UtfNormal\Validator as UtfNormalValidator;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -300,6 +301,15 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 			wfTimestamp( TS_MW, $timestamp ),
 			$this->getUser()
 		);
+	}
+
+	/**
+	 * Cleans up a user agent string for display by replacing
+	 * invalid UTF-8 byte sequences with the Unicode replacement
+	 * character (U+FFFD).
+	 */
+	protected function getDisplayableUserAgent( ?string $userAgent ): string {
+		return UtfNormalValidator::cleanUp( $userAgent ?? '' );
 	}
 
 	/**

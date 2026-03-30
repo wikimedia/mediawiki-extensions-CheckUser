@@ -444,9 +444,10 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 				$this->userSets['infosets'][$row->user_text][] = $xff_ip_combo;
 			}
 			// Add this agent string if it's not already there; 10 max.
+			$displayableAgent = $this->getDisplayableUserAgent( $row->agent );
 			if ( count( $this->userSets['agentsets'][$row->user_text] ) < 10 ) {
-				if ( !in_array( $row->agent, $this->userSets['agentsets'][$row->user_text] ) ) {
-					$this->userSets['agentsets'][$row->user_text][] = $row->agent;
+				if ( !in_array( $displayableAgent, $this->userSets['agentsets'][$row->user_text] ) ) {
+					$this->userSets['agentsets'][$row->user_text][] = $displayableAgent;
 				}
 			}
 		}
