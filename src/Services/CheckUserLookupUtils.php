@@ -176,15 +176,23 @@ class CheckUserLookupUtils {
 			$logEntry->setParameters( $parsedLogParams );
 		}
 		$logEntry->setPerformer( $user );
+		$target = null;
 		if ( isset( $row->title ) && $row->title ) {
-			$logEntry->setTarget( Title::makeTitle( $row->namespace, $row->title ) );
-		} elseif (
-			// page_id is the column name for Special:CheckUser. page is the column name for the CheckUser API.
-			( isset( $row->page ) && $row->page ) ||
-			( isset( $row->page_id ) && $row->page_id )
-		) {
-			$logEntry->setTarget( Title::newFromID( $row->page ?? $row->page_id ) );
+			$target = Title::makeTitle( $row->namespace, $row->title );
 		}
+		if ( !$target ) {
+			if (
+				// page_id is the column name for Special:CheckUser. page is the column name for the CheckUser API.
+				( isset( $row->page ) && $row->page ) ||
+				( isset( $row->page_id ) && $row->page_id )
+			) {
+				$target = Title::newFromID( $row->page ?? $row->page_id );
+			}
+		}
+		// T333573: Always set a target to avoid accessing the uninitialized
+		// ManualLogEntry::$targetPage property when the title and page ID are
+		// missing or invalid (e.g. some cu_private_event rows).
+		$logEntry->setTarget( $target ?? Title::makeTitle( NS_SPECIAL, 'Badtitle' ) );
 		$logEntry->setTimestamp( $row->timestamp );
 		$logEntry->setDeleted( $row->log_deleted );
 		return $logEntry;

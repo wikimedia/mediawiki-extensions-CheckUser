@@ -271,6 +271,60 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	/**
+	 * @dataProvider provideGetManualLogEntryFromRowWithMissingTarget
+	 */
+	public function testGetManualLogEntryFromRowWithMissingTarget( \stdClass $row ) {
+		/** @var CheckUserLookupUtils $checkUserLookupUtils */
+		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
+		$actualLogEntry = $checkUserLookupUtils->getManualLogEntryFromRow(
+			$row,
+			UserIdentityValue::newRegistered( 1, 'User' )
+		);
+		// T333573: When no valid title or page ID is available, the target should
+		// fall back to Special:Badtitle instead of leaving $targetPage uninitialized.
+		$actualTarget = $actualLogEntry->getTarget();
+		$this->assertSame( NS_SPECIAL, $actualTarget->getNamespace() );
+		$this->assertSame( 'Badtitle', $actualTarget->getDBkey() );
+	}
+
+	public static function provideGetManualLogEntryFromRowWithMissingTarget() {
+		return [
+			'Row with empty title and no page ID' => [
+				(object)[
+					'log_type' => 'checkuser-private-event',
+					'log_action' => 'login-success',
+					'log_params' => LogEntryBase::makeParamBlob( [ '4::target' => 'User' ] ),
+					'log_deleted' => 0,
+					'timestamp' => '20220101000000',
+					'title' => '',
+					'namespace' => 0,
+				],
+			],
+			'Row with empty title and page ID of 0' => [
+				(object)[
+					'log_type' => 'checkuser-private-event',
+					'log_action' => 'login-success',
+					'log_params' => LogEntryBase::makeParamBlob( [ '4::target' => 'User' ] ),
+					'log_deleted' => 0,
+					'timestamp' => '20220101000000',
+					'title' => '',
+					'namespace' => 0,
+					'page_id' => 0,
+				],
+			],
+			'Row with no title or page fields' => [
+				(object)[
+					'log_type' => 'checkuser-private-event',
+					'log_action' => 'login-success',
+					'log_params' => LogEntryBase::makeParamBlob( [ '4::target' => 'User' ] ),
+					'log_deleted' => 0,
+					'timestamp' => '20220101000000',
+				],
+			],
+		];
+	}
+
 	public function testGetRevisionRecordFromRowOnMissingRevisionId() {
 		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
 		// Install a mock LoggerInterface that expects a call to ::warning
