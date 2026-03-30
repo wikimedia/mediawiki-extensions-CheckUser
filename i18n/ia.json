@@ -433,6 +433,12 @@
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "Monstrar casos ubi necun conto ha modificationes",
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally": "Monstrar casos ubi necun conto ha modificationes globalmente",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Celar casos ubi necun conto ha essite blocate",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-header": "Monstrar casos actualisate le plus recentemente",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Hodie",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "Ultime 3 dies",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days": "Ultime 7 dies",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last90days": "Ultime 90 dies",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-all-time": "Tote le tempore",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Conto",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Insere nomine de conto…",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Retornar a {{int:checkuser-suggestedinvestigations}}",
@@ -487,5 +493,11 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Celar",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copiar lista de contos",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Lista de contos copiate al area de transferentia",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Fallimento de copiar le lista de contos"
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Fallimento de copiar le lista de contos",
+	"checkuser-related-tas-specialblock-checkbox-label": "Blocar tote le contos temporari associate",
+	"checkuser-related-tas-specialblock-accounts-list": "Ha essite identificate $1 conto{{PLURAL:$1||s}} temporari que ha usate $2 adresse{{PLURAL:$2||s}} IP associate con $3 in le ultime $4 dies: $5.",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Vider tote le contributiones de iste contos]",
+	"checkuser-related-tas-specialblock-accounts-list-error": "Un error ha occurrite durante le tentativa de identificar contos temporari que ha usate adresses IP associate a $1. Tu pote continuar con tu blocada de $1, o tentar cercar de novo pro identificar contos associate.{{GENDER:$2|}}",
+	"checkuser-related-tas-specialblock-confirm": "Isto applicara le blocada a $1 conto{{PLURAL:$1||s}}. Continuar a blocar iste conto{{PLURAL:$1||s}} confirma que tu lo{{PLURAL:$1||s}} ha investigate.",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Il ha troppo de contos temporari associate pro adder a iste blocada. Solmente $1 conto{{PLURAL:$1||s}} pote esser blocate al mesme tempore."
 }

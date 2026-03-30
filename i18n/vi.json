@@ -437,5 +437,11 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "Ẩn đóng góp từ các tài khoản tạm thời liên quan",
 	"checkuser-contributions-temporary-account-bucketcount": "Tài khoản tạm thời từ tất cả các IP liên quan: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Tài khoản tạm thời của IP này: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tài khoản tạm thời của IP này: $1 (bị cấm: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tài khoản tạm thời của IP này: $1 (bị cấm: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Hiển thị tất cả tài khoản",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Ẩn",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Sao chép danh sách tài khoản",
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Danh sách tài khoản đã được sao chép vào khay nhớ tạm",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Không thể sao chép danh sách tài khoản",
+	"checkuser-related-tas-specialblock-checkbox-label": "Cấm tất cả các tài khoản tạm thời liên quan"
 }

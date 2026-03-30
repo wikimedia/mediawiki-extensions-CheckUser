@@ -504,5 +504,11 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "छिपाएँ",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "खातों की सूची कॉपी करें",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "खातों की सूची क्लिपबोर्ड पर कॉपी कर दी गई है",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "खातों की सूची कॉपी नहीं की जा सकी"
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "खातों की सूची कॉपी नहीं की जा सकी",
+	"checkuser-related-tas-specialblock-checkbox-label": "सभी संबद्ध अस्थायी खातों को अवरोधित करें",
+	"checkuser-related-tas-specialblock-accounts-list": "$1 अस्थायी {{PLURAL:$1|खाता पहचाना गया जिसने|खाते पहचाने गए जिन्होंने}} पिछले $4 दिनों में $3 से संबद्ध $2 {{PLURAL:$1|IP पते|IP पतों}} का उपयोग किया है: $5।",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} इन खातों से सभी योगदान देखें]",
+	"checkuser-related-tas-specialblock-accounts-list-error": "$1 से संबद्ध IP पतों का उपयोग करने वाले अस्थायी खातों की पहचान करते समय त्रुटि हुई। {{GENDER:$2|आप}} $1 को अवरोधित करना जारी रख सकते हैं, या फिर संबद्ध खातों की पहचान करने के लिए पुनः खोजने का प्रयास कर सकते हैं।",
+	"checkuser-related-tas-specialblock-confirm": "इससे अवरोध $1 {{PLURAL:$1|खाते|खातों}} पर लागू होगा। {{PLURAL:$1|इस खाते|इन खातों}} को अवरोधित करना जारी रखके आप पुष्ट करते हैं कि आपने {{PLURAL:$1|इसकी|इनकी}} जाँच कर ली है।",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "इस अवरोध में जोड़ने के लिए कुछ ज़्यादा ही संबद्ध अस्थायी खाते हैं। हम एक साथ केवल $1 {{PLURAL:$1|खाते|खातों}} को अवरोधित करने की अनुमति देते हैं।"
 }

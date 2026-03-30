@@ -491,6 +491,7 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "Riskisignaalin $1 {{PLURAL:$2|liputtama muokkaus|liputtamat muokkaukset}} ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "Riskisignaalin $1 {{PLURAL:$2|liputtama lokitapahtuma|liputtamat lokitapahtumat}} ($2)",
 	"checkuser-suggestedinvestigations-contributions-tool-link": "ET-tapaukset",
+	"checkuser-suggestedinvestigations-invalid-status-warning-for-account-based-signal": "Tämän tapauksen merkitseminen virheelliseksi tarkoittaa, ettei tälle tunnukselle luoda enää uusia tapauksia.",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tilapäisiä tunnuksia kaikista liittyvistä IP-osoitteista: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Kaikkiin tähän tunnukseen liittyvistä IP-osoitteista tulevien tilapäisten tunnusten yhteenlaskettu määrä",
 	"checkuser-temporary-account-bucketcount-range": "$1–$2",
@@ -504,5 +505,8 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Piilota",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Kopioi tunnuslista",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Tunnuslista kopioitu leikepöydälle",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Tunnuslistan kopiointi epäonnistui"
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Tunnuslistan kopiointi epäonnistui",
+	"checkuser-related-tas-specialblock-checkbox-label": "Estä kaikki liittyvät tilapäiset tunnukset",
+	"checkuser-related-tas-specialblock-accounts-list": "Tunnistettu $1 {{PLURAL:$1|tilapäinen tunnus, joka käytti|tilapäistä tunnusta, jotka käyttivät}} $2 tunnukseen $3 liittyvää IP-osoitetta viimeisen $4 päivän aikana: $5",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Katso näiden kaikkien tunnusten muokkaukset]"
 }

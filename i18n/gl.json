@@ -502,5 +502,11 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Agochar",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copiar a lista de contas",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "A lista de contas copiouse no portapapeis",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Non se puido copiar a lista de contas"
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Non se puido copiar a lista de contas",
+	"checkuser-related-tas-specialblock-checkbox-label": "Bloquear todas as contas temporais asociadas",
+	"checkuser-related-tas-specialblock-accounts-list": "{{PLURAL:$1|Identificouse unha conta temporal|Identificáronse $1 contas temporais}} que {{PLURAL:$2|usou un enderezo IP asociado|usaron $2 enderezos IP asociados}} a $3 nos últimos $4 días: $5.",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Ver todas as contribucións destas contas]",
+	"checkuser-related-tas-specialblock-accounts-list-error": "Houbo un erro ao intentar identificar as contas temporais que usaron enderezos IP asociados a $1. {{GENDER:$2|Podes}} continuar co teu bloqueo sobre $1 ou intentar buscar de novo para identificar calquera conta asociada.",
+	"checkuser-related-tas-specialblock-confirm": "Isto aplicará o bloqueo a {{PLURAL:$1|unha conta|$1 contas}}. Ao continuar co bloqueo {{PLURAL:$1|desta conta|destas contas}}, confirmas que {{PLURAL:$1|a|as}} investigaches.",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Hai demasiadas contas temporais asociadas para engadir a este bloqueo. Só permitimos bloquear {{PLURAL:$1|unha conta|ata $1 contas}} de cada vez."
 }

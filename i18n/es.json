@@ -505,5 +505,9 @@
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Cuentas temporales en esta IP: $1 (bloqueadas: $2)",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copiar lista de cuentas",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Lista de cuentas copiadas al portapapeles",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "No se pudo copiar la lista de cuentas."
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "No se pudo copiar la lista de cuentas.",
+	"checkuser-related-tas-specialblock-checkbox-label": "Bloquear todas las cuentas temporales asociadas",
+	"checkuser-related-tas-specialblock-accounts-list-error": "Se produjo un error al intentar identificar cuentas temporales que han utilizado direcciones IP asociadas con $1 . {{GENDER:$2| Usted}} puede continuar con su bloqueo en $1 o intentar buscar de nuevo para identificar cualquier cuenta asociada.",
+	"checkuser-related-tas-specialblock-confirm": "Esto aplicará el bloqueo a $1 {{PLURAL:$1| cuenta|cuentas}}. El bloqueo de {{PLURAL:$1| esta cuenta|estas cuentas}} confirma que usted {{PLURAL:$1| la|las}} ha investigado.",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Hay demasiadas cuentas temporales asociadas para agregarlas a este bloqueo. Solo permitimos bloquear hasta $1 {{PLURAL:$1| cuenta|cuentas}} a la vez."
 }

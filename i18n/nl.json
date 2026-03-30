@@ -202,6 +202,7 @@
 	"checkuser-investigateblock-actions": "Te blokkeren handelingen",
 	"checkuser-investigateblock-reason": "Reden",
 	"checkuser-investigateblock-options": "Verdere opties",
+	"checkuser-investigateblock-account-creation-label": "Aanmaken van accounts verhinderen",
 	"checkuser-investigateblock-email-label": "Weerhouden van het versturen van e-mail",
 	"checkuser-investigateblock-usertalk-label": "Voorkomen dat de eigen overlegpagina tijdens de blokkade bewerkt kan worden",
 	"checkuser-investigateblock-reblock-label": "Bestaande blokkeringen overschrijven",
@@ -441,6 +442,10 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risicosignalen",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Accountactiviteit",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Vandaag",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "Laatste 3 dagen",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days": "Laatste 7 dagen",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last90days": "Laatste 90 dagen",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Account",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Accountnaam invoeren...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Terug naar {{int:checkuser-suggestedinvestigations}}",
@@ -490,5 +495,10 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "Bijdragen verbergen van gerelateerde tijdelijke accounts",
 	"checkuser-contributions-temporary-account-bucketcount": "Tijdelijke accounts van alle bijbehorende IP-adressen: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Tijdelijke accounts op dit IP-adres: $1.",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tijdelijke accounts op dit IP-adres: $1 (geblokkeerd: $2)."
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Tijdelijke accounts op dit IP-adres: $1 (geblokkeerd: $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Alle accounts weergeven",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Verbergen",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Lijst met accounts kopiëren",
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Lijst met accounts is naar het klembord gekopieerd",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Het kopiëren van de lijst met accounts is mislukt"
 }

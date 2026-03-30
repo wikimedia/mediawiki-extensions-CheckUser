@@ -514,6 +514,12 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Alle Konten anzeigen",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Ausblenden",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Kontenliste kopieren",
-	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Liste der in die Zwischenablage kopierten Konten",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Fehler beim Kopieren der Kontenliste"
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Kontenliste in die Zwischenablage kopiert",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Fehler beim Kopieren der Kontenliste",
+	"checkuser-related-tas-specialblock-checkbox-label": "Alle zugehörigen temporären Konten sperren",
+	"checkuser-related-tas-specialblock-accounts-list": "$1 {{PLURAL:$1|temporäres Konto wurde|temporäre Konten wurden}} identifiziert, {{PLURAL:$1|das|die}} {{PLURAL:$2|eine IP-Adresse|$2 IP-Adressen}} {{PLURAL:$1|verwendet, das $3 zugeordnet ist|verwenden, die $3 zugeordnet sind}} in den letzten $4 Tagen: $5.",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Alle Beiträge dieser Konten anzeigen]",
+	"checkuser-related-tas-specialblock-accounts-list-error": "Beim Versuch, temporäre Konten zu identifizieren, die IP-Adressen im Zusammenhang mit $1 verwendet haben, ist ein Fehler aufgetreten. {{GENDER:$2|Du}} kannst die Sperrung von $1 fortsetzen oder die Suche nach zugehörigen Konten erneut versuchen.",
+	"checkuser-related-tas-specialblock-confirm": "Dadurch wird die Sperre auf $1 {{PLURAL:$1|Konto|Konten}} angewendet. Mit der Sperrung von {{PLURAL:$1|diesem Konto|diesen Konten}} bestätigst du, dass du {{PLURAL:$1|es|sie}} überprüft hast.",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Es gibt zu viele verknüpfte temporäre Konten, um sie dieser Sperre hinzuzufügen. Wir erlauben maximal $1 {{PLURAL:$1|Konto|Konten}} gleichzeitig zu sperren."
 }

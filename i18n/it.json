@@ -458,5 +458,8 @@
 	"checkuser-contributions-temporary-accounts-on-ip": "Utenze temporanee su questo IP: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Utenze temporanee su questo IP: $1 (bloccate: $2).",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Mostra tutte le utenze",
-	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Nascondi"
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Nascondi",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copia elenco utenze",
+	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Elenco utenze copiato negli appunti",
+	"checkuser-related-tas-specialblock-checkbox-label": "Blocca tutte le utenze temporanee associate"
 }
