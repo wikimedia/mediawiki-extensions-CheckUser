@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsHandler;
 use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
@@ -11,12 +11,12 @@ use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Storage\EditResult;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
-use MediaWikiIntegrationTestCase;
+use MediaWikiUnitTestCase;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsHandler
  */
-class SuggestedInvestigationsHandlerTest extends MediaWikiIntegrationTestCase {
+class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideOnLocalUserCreated */
 	public function testOnLocalUserCreated( bool $autocreated, string $expectedEventType ) {
@@ -109,12 +109,6 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiIntegrationTestCase {
 
 				$jobParams = $job->getParams();
 				unset( $jobParams['requestId'] );
-
-				// The session data is added by the handler and varies per request,
-				// so verify it exists and then remove before comparing the rest.
-				$this->assertArrayHasKey( 'session', $jobParams['extraData'] );
-				$expectedExtraData['session'] = $jobParams['extraData']['session'];
-
 				$this->assertArrayEquals(
 					[
 						'userIdentityId' => $expectedUserIdentity->getId(),
