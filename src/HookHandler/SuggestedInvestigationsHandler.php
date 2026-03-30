@@ -3,7 +3,6 @@
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
-use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -80,7 +79,6 @@ class SuggestedInvestigationsHandler implements
 		string $eventType,
 		array $extraData = []
 	): void {
-		$extraData['session'] = RequestContext::getMain()->exportSession();
 		$this->jobQueueGroup->lazyPush(
 			SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec( $userIdentity, $eventType, $extraData )
 		);
