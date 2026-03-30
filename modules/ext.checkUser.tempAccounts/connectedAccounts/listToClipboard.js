@@ -1,15 +1,8 @@
 /**
  * Run code when the page loads.
- *
- * @param {string|*} documentRoot A Document or selector to use as the root of the
- *   search for elements
  */
-module.exports = function ( documentRoot ) {
-	if ( !documentRoot ) {
-		documentRoot = document;
-	}
-
-	$( documentRoot ).on( 'click', '.ext-checkuser-related-tas-list-copy-button', () => {
+module.exports = function () {
+	$( document ).on( 'click', '.ext-checkuser-related-tas-list-copy-button', () => {
 		const content = $( 'li.ext-checkuser-related-ta .mw-tempuserlink bdi' )
 			.map( function () {
 				return $( this ).text().trim();
