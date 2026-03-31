@@ -320,6 +320,7 @@
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
 	"checkuser-tempaccount-reveal-blocked-header": "Раскрытие IP-адресов временных учётных записей отключено",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2",
+	"checkuser-tempaccount-specialblock-ip-target": "Посмотреть [[Special:IPContributions/$1|временные аккаунты с этого IP-адреса]].",
 	"checkuser-temporary-account-change-access-level-disable-globally": "глобально {{GENDER:$1|отключен}}",
 	"log-action-filter-checkuser-temporary-account": "Тип действия:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Изменить доступ",
