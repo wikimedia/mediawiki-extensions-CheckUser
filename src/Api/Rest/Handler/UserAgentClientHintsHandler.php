@@ -102,12 +102,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		}
 		$status = $this->userAgentClientHintsManager->insertClientHintValues( $clientHints, $identifier, $type );
 		if ( !$status->isGood() ) {
-			$error = $status->getErrors()[0];
-			// A client hints mapping entry already exists.
-			throw new LocalizedHttpException(
-				new MessageValue( $error['message'], $error['params'][0] ),
-				400
-			);
+			throw new LocalizedHttpException( MessageValue::newFromSpecifier( $status->getMessages()[0] ), 400 );
 		}
 
 		return $this->getResponseFactory()->createJson( [

@@ -106,7 +106,8 @@ class UserAgentClientHintsManager {
 		if ( $existingRecord ) {
 			return StatusValue::newFatal(
 				'checkuser-api-useragent-clienthints-mappings-exist',
-				[ $type, $referenceId ]
+				$type,
+				$referenceId
 			);
 		}
 

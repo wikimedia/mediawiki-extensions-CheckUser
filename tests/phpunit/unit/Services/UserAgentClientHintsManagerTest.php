@@ -12,6 +12,7 @@ use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
 use Psr\Log\LoggerInterface;
+use Wikimedia\Message\ScalarParam;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
@@ -114,25 +115,17 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			1,
 			'revision'
 		);
-		$this->assertStatusNotOK(
-			$status,
-			'Status should be fatal if mapping already exists.'
-		);
+
 		$this->assertStatusError(
 			'checkuser-api-useragent-clienthints-mappings-exist',
 			$status,
 			'Status not using correct message key when mapping already exists.'
 		);
-		$errors = $status->getErrors();
+		$errors = $status->getMessages();
 		$this->assertCount( 1, $errors );
-		$this->assertArrayHasKey( 'params', $errors[0] );
-		$this->assertCount( 1, $errors[0]['params'] );
 		$this->assertArrayEquals(
-			[
-				'revision',
-				1,
-			],
-			$errors[0]['params'][0],
+			[ 'revision', 1 ],
+			array_map( static fn ( ScalarParam $param ) => $param->getValue(), $errors[0]->getParams() ),
 			'Fatal error message parameters not as expected.'
 		);
 	}

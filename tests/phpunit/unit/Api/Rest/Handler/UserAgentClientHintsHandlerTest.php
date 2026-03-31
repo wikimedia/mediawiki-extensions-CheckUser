@@ -359,7 +359,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 			->willReturn( $user );
 		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
 		$userAgentClientHintsManager->method( 'insertClientHintValues' )
-			->willReturn( StatusValue::newFatal( 'error', [ 1 ] ) );
+			->willReturn( StatusValue::newFatal( 'error', 1 ) );
 		$handler = $this->getObjectUnderTest( [
 			'config' => $config, 'revisionStore' => $revisionStore,
 			'userAgentClientHintsManager' => $userAgentClientHintsManager,
