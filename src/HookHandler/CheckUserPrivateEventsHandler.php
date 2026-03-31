@@ -216,6 +216,11 @@ class CheckUserPrivateEventsHandler implements
 				'wgCheckUserClientHintsPrivateEventId',
 				$insertedId
 			);
+			$this->storeHeaderOnlyClientHintsData(
+				$insertedId,
+				'privatelog',
+				RequestContext::getMain()->getRequest()
+			);
 		}
 	}
 
@@ -265,6 +270,11 @@ class CheckUserPrivateEventsHandler implements
 			RequestContext::getMain()->getOutput()->addJsConfigVars(
 				'wgCheckUserClientHintsPrivateEventId',
 				$insertedId
+			);
+			$this->storeHeaderOnlyClientHintsData(
+				$insertedId,
+				'privatelog',
+				RequestContext::getMain()->getRequest()
 			);
 		}
 	}
@@ -376,6 +386,7 @@ class CheckUserPrivateEventsHandler implements
 				'wgCheckUserClientHintsPrivateEventId',
 				$insertedId
 			);
+			$this->storeHeaderOnlyClientHintsData( $insertedId, 'privatelog', $context->getRequest() );
 		} else {
 			// If the login attempt was a success, then we cannot use the API to collect the data due to redirects
 			// that are performed as part of the login process. Instead, we should settle with the data sent to us
@@ -424,6 +435,12 @@ class CheckUserPrivateEventsHandler implements
 				// Otherwise, we are here via a call to ApiLogout, most
 				// likely from a user click to a logout link in the personal tools menu
 				try {
+					$this->storeHeaderOnlyClientHintsData(
+						$insertedId,
+						'privatelog',
+						RequestContext::getMain()->getRequest()
+					);
+
 					$values = RequestContext::getMain()->getRequest()->getValues();
 					$data = json_decode( $values['checkuserclienthints'] ?? '', true );
 					if ( !is_array( $data ) ) {

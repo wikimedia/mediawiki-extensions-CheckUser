@@ -5,20 +5,35 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 use MediaWiki\Api\ApiLogout;
 use MediaWiki\Api\Hook\APIGetAllowedParamsHook;
 use MediaWiki\Config\Config;
+use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\Storage\Hook\PageSaveCompleteHook;
+use Psr\Log\LoggerInterface;
 use Wikimedia\ParamValidator\ParamValidator;
 
 /**
  * HookHandler for entry points related to requesting User-Agent Client Hints data.
  */
-class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook, APIGetAllowedParamsHook {
+class ClientHints implements
+	SpecialPageBeforeExecuteHook,
+	BeforePageDisplayHook,
+	APIGetAllowedParamsHook,
+	PageSaveCompleteHook
+{
+	use UserAgentClientHintsManagerHelperTrait;
 
 	public function __construct(
 		private readonly Config $config,
 		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
+		private readonly JobQueueGroup $jobQueueGroup,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -124,6 +139,15 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 				ParamValidator::PARAM_SENSITIVE => true,
 			];
 		}
+	}
+
+	/** @inheritDoc */
+	public function onPageSaveComplete( $wikiPage, $user, $summary, $flags, $revisionRecord, $editResult ): void {
+		$this->storeHeaderOnlyClientHintsData(
+			$revisionRecord->getId(),
+			'revision',
+			RequestContext::getMain()->getRequest()
+		);
 	}
 
 	/**

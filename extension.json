@@ -151,7 +151,10 @@
 				"architecture",
 				"mobile",
 				"bitness",
-				"woW64"
+				"woW64",
+				"isBrowser",
+				"ja3n",
+				"ja4h"
 			],
 			"description": "An array of the Client Hints data that should be displayed in CheckUser interfaces in the order that they should be displayed. If 'platform' and 'platformVersion' are both included, then these will be combined as one when displaying as a string. If 'brands' and 'fullVersionList' are both selected, then only the fullVersionList value will be displayed if for a given brand name an entry exists in 'brand' and 'fullVersionList'. The 'userAgent' client hint name is currently not included in this list as it may be combined with the 'brands' item, but would be removed if HTTP headers are not going to be used to collect data."
 		},
@@ -390,7 +393,10 @@
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\ClientHints",
 			"services": [
 				"MainConfig",
-				"SpecialPageFactory"
+				"SpecialPageFactory",
+				"UserAgentClientHintsManager",
+				"JobQueueGroup",
+				"CheckUserLogger"
 			]
 		},
 		"preferences": {
@@ -662,7 +668,10 @@
 			"CheckUserPrivateEvents"
 		],
 		"LogEventsListLineEnding": "LogDisplayHandler",
-		"PageSaveComplete": "SuggestedInvestigationsHandler",
+		"PageSaveComplete": [
+			"clienthints",
+			"SuggestedInvestigationsHandler"
+		],
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
 		"RecentChange_save": "RecentChangeSaveHandler",
 		"RenameUserSQL": "RenameUserSQLHandler",

@@ -321,13 +321,17 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 					->select( 'cupe_id' )
 					->from( 'cu_private_event' )
 					->fetchField();
-				$this->assertArrayEquals(
+				$this->assertArrayContains(
 					[
-						$actualEventId,
-						[ 'Sec-CH-UA-Full-Version-List' => '?0', 'Sec-CH-UA-Bitness' => '"32"' ],
-						'privatelog',
+						'eventId' => $actualEventId,
+						'clientHintsHeaders' => [
+							'Sec-CH-UA-Full-Version-List' => '?0',
+							'Sec-CH-UA-Bitness' => '"32"',
+						],
+						'eventType' => 'privatelog',
 					],
-					$context
+					$context,
+					'Warning context was not as expected'
 				);
 			} );
 		$this->setLogger( 'CheckUser', $mockLogger );

@@ -53,6 +53,13 @@ class UserAgentClientHintsManager {
 		self::IDENTIFIER_CU_PRIVATE_EVENT => 'cupe_id',
 	];
 
+	/** @var string[] Client Hints data which can only be set via the HTTP headers */
+	public const HEADER_ONLY_CLIENT_HINTS_DATA = [
+		'isBrowser',
+		'ja3n',
+		'ja4h',
+	];
+
 	public function __construct(
 		private readonly IConnectionProvider $dbProvider,
 		private readonly RevisionLookup $revisionLookup,
@@ -90,12 +97,17 @@ class UserAgentClientHintsManager {
 			return StatusValue::newGood();
 		}
 
-		// Check for existing entry.
-		$existingRecord = $this->dbProvider->getReplicaDatabase()->newSelectQueryBuilder()
+		// Check for existing entry of specifically HTTP Client Hints, returning early if so.
+		// Other browser headers (such as x-is-browser) are ignored by this check, as they cannot
+		// be stored by an API request and we need to allow API requests to still set other data
+		$dbr = $this->dbProvider->getReplicaDatabase();
+		$existingRecord = $dbr->newSelectQueryBuilder()
 			->table( 'cu_useragent_clienthints_map' )
+			->join( 'cu_useragent_clienthints', null, 'uachm_uach_id = uach_id' )
 			->where( [
 				'uachm_reference_type' => $this->getMapIdByType( $type ),
 				'uachm_reference_id' => $referenceId,
+				$dbr->expr( 'uach_name', '!=', self::HEADER_ONLY_CLIENT_HINTS_DATA ),
 			] )
 			->caller( __METHOD__ )
 			->fetchRowCount();

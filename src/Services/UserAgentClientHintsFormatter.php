@@ -31,6 +31,9 @@ class UserAgentClientHintsFormatter {
 		"platform" => "checkuser-clienthints-name-platform",
 		"platformVersion" => "checkuser-clienthints-name-platform-version",
 		"woW64" => "checkuser-clienthints-name-wow64",
+		"isBrowser" => "checkuser-clienthints-name-is-browser",
+		"ja3n" => "checkuser-clienthints-name-ja3n",
+		"ja4h" => "checkuser-clienthints-name-ja4h",
 	];
 
 	private array $msgCache;
@@ -112,9 +115,25 @@ class UserAgentClientHintsFormatter {
 						}
 					}
 				} else {
+					$clientHintValue = $dataAsArray[$clientHintName];
+
+					if ( $clientHintName === 'isBrowser' && $dataAsArray[$clientHintName] !== null ) {
+						// If the Client Hint is the x-is-browser header, convert it to a human readable
+						// representation of the score
+						$score = intval( $dataAsArray[$clientHintName] );
+						if ( $score <= 20 ) {
+							$valueMsgKey = 'checkuser-clienthints-value-is-browser-likely-bot';
+						} elseif ( $score >= 80 ) {
+							$valueMsgKey = 'checkuser-clienthints-value-is-browser-likely-browser';
+						} else {
+							$valueMsgKey = 'checkuser-clienthints-value-is-browser-indeterminate';
+						}
+						$clientHintValue = $this->messageLocalizer->msg( $valueMsgKey )->escaped();
+					}
+
 					$dataAsStringArray[$clientHintName] = $this->generateClientHintsListItem(
 						$clientHintName,
-						$dataAsArray[$clientHintName]
+						$clientHintValue
 					);
 				}
 			}

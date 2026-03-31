@@ -23,6 +23,9 @@ class ClientHintsData implements JsonSerializable {
 		"Sec-CH-UA-Platform" => "platform",
 		"Sec-CH-UA-Platform-Version" => "platformVersion",
 		"Sec-CH-UA-WoW64" => "woW64",
+		"x-is-browser" => "isBrowser",
+		"x-ja3n" => "ja3n",
+		"x-ja4h" => "ja4h",
 	];
 
 	/**
@@ -36,6 +39,9 @@ class ClientHintsData implements JsonSerializable {
 	 * @param string|null $platform
 	 * @param string|null $platformVersion
 	 * @param bool|null $woW64
+	 * @param int|null $isBrowser
+	 * @param string|null $ja3n
+	 * @param string|null $ja4h
 	 */
 	public function __construct(
 		private readonly ?string $architecture,
@@ -48,6 +54,9 @@ class ClientHintsData implements JsonSerializable {
 		private readonly ?string $platform,
 		private readonly ?string $platformVersion,
 		private readonly ?bool $woW64,
+		private readonly ?int $isBrowser,
+		private readonly ?string $ja3n,
+		private readonly ?string $ja4h,
 	) {
 	}
 
@@ -69,7 +78,10 @@ class ClientHintsData implements JsonSerializable {
 			$data['model'],
 			$data['platform'],
 			$data['platformVersion'],
-			$data['woW64']
+			$data['woW64'],
+			$data['isBrowser'] ?? null,
+			$data['ja3n'] ?? null,
+			$data['ja4h'] ?? null
 		);
 	}
 
@@ -110,6 +122,9 @@ class ClientHintsData implements JsonSerializable {
 			$data['model'] ?? null,
 			$data['platform'] ?? null,
 			$data['platformVersion'] ?? null,
+			null,
+			null,
+			null,
 			null
 		);
 	}
@@ -119,12 +134,22 @@ class ClientHintsData implements JsonSerializable {
 	 * in the provided $request.
 	 *
 	 * @param WebRequest $request
+	 * @param string[] $collectOnly If not an empty array, only collect data for these Client Hints data attributes
 	 * @return ClientHintsData
 	 * @throws TypeError on invalid data in the Client Hints headers
 	 */
-	public static function newFromRequestHeaders( WebRequest $request ): self {
+	public static function newFromRequestHeaders( WebRequest $request, array $collectOnly = [] ): self {
 		$data = [];
-		foreach ( self::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME as $header => $propertyName ) {
+
+		$headers = self::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME;
+		if ( $collectOnly ) {
+			$headers = array_filter(
+				$headers,
+				static fn ( $propertyName ) => in_array( $propertyName, $collectOnly, true )
+			);
+		}
+
+		foreach ( $headers as $header => $propertyName ) {
 			$headerValue = $request->getHeader( $header );
 			if ( !$headerValue ) {
 				$headerValue = null;
@@ -161,19 +186,27 @@ class ClientHintsData implements JsonSerializable {
 				// The header value needs to be trimmed, along with removing the quotation marks that wrap the value.
 				$headerValue = trim( $headerValue, " \n\r\t\v\0\"" );
 			}
+
+			if ( $propertyName === 'isBrowser' && $headerValue !== null ) {
+				$headerValue = intval( $headerValue );
+			}
+
 			$data[$propertyName] = $headerValue;
 		}
 		return new self(
-			$data['architecture'],
-			$data['bitness'],
-			$data['brands'],
-			$data['formFactor'],
-			$data['fullVersionList'],
-			$data['mobile'],
-			$data['model'],
-			$data['platform'],
-			$data['platformVersion'],
-			$data['woW64']
+			$data['architecture'] ?? null,
+			$data['bitness'] ?? null,
+			$data['brands'] ?? null,
+			$data['formFactor'] ?? null,
+			$data['fullVersionList'] ?? null,
+			$data['mobile'] ?? null,
+			$data['model'] ?? null,
+			$data['platform'] ?? null,
+			$data['platformVersion'] ?? null,
+			$data['woW64'] ?? null,
+			$data['isBrowser'] ?? null,
+			$data['ja3n'] ?? null,
+			$data['ja4h'] ?? null
 		);
 	}
 
@@ -228,7 +261,10 @@ class ClientHintsData implements JsonSerializable {
 			$data['model'] ?? null,
 			$data['platform'] ?? null,
 			$data['platformVersion'] ?? null,
-			$data['woW64'] ?? null
+			$data['woW64'] ?? null,
+			$data['isBrowser'] ?? null,
+			$data['ja3n'] ?? null,
+			$data['ja4h'] ?? null
 		);
 	}
 
@@ -247,7 +283,7 @@ class ClientHintsData implements JsonSerializable {
 				if ( is_bool( $value ) ) {
 					$value = $value ? "1" : "0";
 				}
-				$value = trim( $value );
+				$value = trim( (string)$value );
 				$rows[] = [ 'uach_name' => $key, 'uach_value' => $value ];
 			} else {
 				// Some values are arrays, for example:
@@ -316,6 +352,9 @@ class ClientHintsData implements JsonSerializable {
 			'platform' => $this->platform,
 			'platformVersion' => $this->platformVersion,
 			'woW64' => $this->woW64,
+			'isBrowser' => $this->isBrowser,
+			'ja3n' => $this->ja3n,
+			'ja4h' => $this->ja4h,
 		];
 	}
 }

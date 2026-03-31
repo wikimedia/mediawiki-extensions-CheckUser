@@ -217,7 +217,10 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 						"SM-G965U",
 						"Android",
 						"10.0.0",
-						false
+						false,
+						null,
+						null,
+						null
 					),
 			] ],
 		];

@@ -900,7 +900,10 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"SM-G965U",
 			"Android",
 			"10.0.0",
-			false
+			false,
+			null,
+			null,
+			null
 		);
 		$this->userAgentsToClientHintsMap[
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' .
@@ -923,7 +926,10 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"",
 			"Windows",
 			"15.0.0",
-			false
+			false,
+			null,
+			null,
+			null
 		);
 		$this->userAgentsToClientHintsMap[
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' .
@@ -946,7 +952,10 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"",
 			"Windows",
 			"15.0.0",
-			false
+			false,
+			null,
+			null,
+			null
 		);
 		$this->userAgentsToClientHintsMap[
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' .
@@ -965,7 +974,10 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"",
 			"Windows",
 			null,
-			null
+			null,
+			30,
+			'abc',
+			'def'
 		);
 	}
 
