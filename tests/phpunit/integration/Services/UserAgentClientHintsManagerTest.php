@@ -2,6 +2,7 @@
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
@@ -11,6 +12,15 @@ use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
+use Wikimedia\Message\ScalarParam;
+use Wikimedia\Rdbms\FakeResultWrapper;
+use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\InsertQueryBuilder;
+use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\SelectQueryBuilder;
+use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -350,5 +360,114 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			'The wrong map rows were marked as orphans and deleted.',
 			[ 'uachm_reference_id' => 2 ],
 		);
+	}
+
+	public function testInsertClientHintValuesReturnsFatalOnExistingMapping(): void {
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
+
+		// Insert Client Hints for the revision ID 1
+		$this->assertStatusGood( $userAgentClientHintsManager->insertClientHintValues(
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			1,
+			'revision'
+		) );
+
+		// Insert again for the same revision ID, which should fail
+		$status = $userAgentClientHintsManager->insertClientHintValues(
+			self::getExampleClientHintsDataObjectFromJsApi(),
+			1,
+			'revision'
+		);
+		$this->assertStatusError(
+			'checkuser-api-useragent-clienthints-mappings-exist',
+			$status,
+			'Status not using correct message key when mapping already exists.'
+		);
+
+		$errors = $status->getMessages( 'error' );
+		$this->assertCount( 1, $errors );
+		$this->assertArrayEquals(
+			[ 'revision', 1 ],
+			array_map( static fn ( ScalarParam $param ) => $param->getValue(), $errors[0]->getParams() ),
+			'Fatal error message parameters not as expected.'
+		);
+	}
+
+	public function testNoInsertOfMapRowsOnMissingClientHintsDataRow(): void {
+		// Assert that no writes to the primary DB occur
+		$dbw = $this->createNoOpMock( IDatabase::class );
+		$dbr = $this->getServiceContainer()->getConnectionProvider()->getReplicaDatabase();
+
+		$dbProviderMock = $this->createMock( IConnectionProvider::class );
+		$dbProviderMock->method( 'getReplicaDatabase' )
+			->willReturn( $dbr );
+		$dbProviderMock->method( 'getPrimaryDatabase' )
+			->willReturn( $dbw );
+		$this->setService( 'ConnectionProvider', $dbProviderMock );
+
+		// Expect that a warning is created to indicate lookup failed for the DB row
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $this->once() )
+			->method( 'warning' )
+			->with(
+				"Lookup failed for cu_useragent_clienthints row with name {name} and value {value}.",
+				[ 'mobile', false ]
+			);
+		$this->setService( 'CheckUserLogger', $logger );
+
+		// Call ::selectClientHintMappings with the arguments such that missing rows should not be inserted,
+		// so we can test this only creates rows unless asked to
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
+		$userAgentClientHintsManager = TestingAccessWrapper::newFromObject( $userAgentClientHintsManager );
+		$clientHintMappings = $userAgentClientHintsManager->selectClientHintMappings(
+			ClientHintsData::newFromJsApi( [ 'mobile' => false ] )->toDatabaseRows(),
+			false,
+			false
+		);
+		$status = $userAgentClientHintsManager->insertMappingRows(
+			$clientHintMappings,
+			1,
+			'revision'
+		);
+		$this->assertStatusGood( $status );
+	}
+
+	public function testSuccessfulInsertOfMapRowsOnPreExistingDataRows(): void {
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_useragent_clienthints' )
+			->row( [ 'uach_id' => 2, 'uach_name' => 'mobile', 'uach_value' => false ] )
+			->caller( __METHOD__ )
+			->execute();
+		$preExistingEntryId = $this->getDb()->insertId();
+
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
+		$userAgentClientHintsManager = TestingAccessWrapper::newFromObject( $userAgentClientHintsManager );
+		$clientHintMappings = $userAgentClientHintsManager->selectClientHintMappings(
+			ClientHintsData::newFromJsApi( [ 'mobile' => false ] )->toDatabaseRows(),
+			false,
+			false
+		);
+		$status = $userAgentClientHintsManager->insertMappingRows(
+			$clientHintMappings,
+			1,
+			'revision'
+		);
+		$this->assertStatusGood( $status );
+
+		// Check that the map row was created and the existing cu_useragent_clienthints row was used
+		// (instead of creating a new one)
+		$this->newSelectQueryBuilder()
+			->select( [ 'uachm_uach_id', 'uachm_reference_id', 'uachm_reference_type' ] )
+			->table( 'cu_useragent_clienthints_map' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $preExistingEntryId, 1, UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES ] );
+		$this->newSelectQueryBuilder()
+			->select( 'uach_id' )
+			->table( 'cu_useragent_clienthints' )
+			->caller( __METHOD__ )
+			->assertFieldValue( $preExistingEntryId );
 	}
 }
