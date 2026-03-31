@@ -531,7 +531,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( CheckUserPermissionStatus::newGood() );
 
 		$services = $this->getServiceContainer();
-		$handler = new BatchTemporaryAccountHandler( ...array_values( [
+		$handler = new BatchTemporaryAccountHandler(
+			...array_values( [
 				'config' => $services->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,

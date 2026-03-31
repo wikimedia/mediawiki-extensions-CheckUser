@@ -43,10 +43,11 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiUnitTestCase {
 			new HashConfig( [ 'CheckUserMaximumIPsToAutoblock' => 0 ] )
 		);
 		$blockIds = [];
-		$this->assertTrue( $objectUnderTest->onPerformRetroactiveAutoblock(
-			$this->createMock( DatabaseBlock::class ),
-			$blockIds
-		)
+		$this->assertTrue(
+			$objectUnderTest->onPerformRetroactiveAutoblock(
+				$this->createMock( DatabaseBlock::class ),
+				$blockIds
+			)
 		);
 		$this->assertCount(
 			0,

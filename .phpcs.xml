@@ -14,10 +14,6 @@
 			<property name="multiLine" value="true" />
 		</properties>
 	</rule>
-	<!-- TODO: Uncomment once mediawiki/mediawiki-codesniffer is bumped to a version that includes EnsureFullyMultilineSniff -->
-	<!-- <rule ref="MediaWiki.WhiteSpace.EnsureFullyMultiline">
-		<severity>5</severity>
-	</rule> -->
 	<file>.</file>
 	<arg name="extensions" value="php" />
 	<arg name="encoding" value="UTF-8" />

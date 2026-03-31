@@ -777,7 +777,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$userOptionsManager->setOption(
 			$user,
 			'checkuser-temporary-account-enable',
-		'1'
+			'1'
 		);
 		$userOptionsManager->saveOptions( $user );
 		$result = $this->getObjectUnderTest( [

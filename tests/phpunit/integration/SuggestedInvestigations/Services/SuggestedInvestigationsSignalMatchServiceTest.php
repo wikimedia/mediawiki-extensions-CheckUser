@@ -357,13 +357,15 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 		$caseId1 = $this->caseManager->createCase( [ $user ], [ $initialSignal ] );
 		$caseId2 = $this->caseManager->createCase( [ $user ], [ $initialSignal ] );
 
-		$this->setTemporaryHook( 'CheckUserSuggestedInvestigationsSignalMatch', static function (
-			UserIdentity $userIdentity,
-			string $eventType,
-			array &$hookProvidedSignalMatchResults
-		) use ( $hookResult ) {
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsSignalMatch',
+			static function (
+				UserIdentity $userIdentity,
+				string $eventType,
+				array &$hookProvidedSignalMatchResults
+			) use ( $hookResult ) {
 				$hookProvidedSignalMatchResults[] = $hookResult;
-		}
+			}
 		);
 
 		ConvertibleTimestamp::setFakeTime( '20211111111111' );

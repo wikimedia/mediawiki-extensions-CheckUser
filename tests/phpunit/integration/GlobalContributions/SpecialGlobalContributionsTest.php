@@ -222,7 +222,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			if ( $this->isValidIPOrQueryableRange( $target, $this->getServiceContainer()->getMainConfig() ) ) {
 				// Test that a log entry was inserted for the viewing of this target if it was an IP.
 				$this->assertSame(
-					 1,
+					1,
 					$this->getDb()->newSelectQueryBuilder()
 						->from( 'logging' )
 						->where( [

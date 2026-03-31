@@ -383,7 +383,9 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		// Sort the entire results set by timestamp, wiki sequence number
 		// and finally revision ID as a tie-breaker, then apply the limit.
-		usort( $results, $order === self::QUERY_DESCENDING ?
+		usort(
+			$results,
+			$order === self::QUERY_DESCENDING ?
 			static fn ( $a, $b ) =>
 				( $b->rev_timestamp <=> $a->rev_timestamp ?:
 				$b->wiki_seq_no <=> $a->wiki_seq_no ?:

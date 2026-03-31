@@ -185,7 +185,8 @@ class PreliminaryCheckPager extends TablePager {
 				break;
 			case 'blocked':
 				if ( !$userIsHidden ) {
-					$formatted = $this->msg( $value ?
+					$formatted = $this->msg(
+						$value ?
 						'checkuser-investigate-preliminary-table-cell-blocked' :
 						'checkuser-investigate-preliminary-table-cell-unblocked'
 					)->parse();

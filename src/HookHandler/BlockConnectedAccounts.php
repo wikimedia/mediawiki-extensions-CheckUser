@@ -62,7 +62,9 @@ class BlockConnectedAccounts implements ApiBlockSucceededHook, APIGetAllowedPara
 		$checkUserTemporaryAccountsByIPLookup = MediaWikiServices::getInstance()
 			->getService( 'CheckUserTemporaryAccountsByIPLookup' );
 		$connectedAccounts = $checkUserTemporaryAccountsByIPLookup->getActiveTempAccountNames(
-			$performer, $mainTarget, 101
+			$performer,
+			$mainTarget,
+			101
 		)->value ?? [];
 		$connectedAccounts = array_diff( $connectedAccounts, [ $mainTarget->getName() ] );
 

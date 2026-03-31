@@ -362,7 +362,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->revisionRecord
 			->method( 'getComment' )
 			->with( RevisionRecord::RAW, $context->getAuthority() )
-			->willReturn( $row->rev_comment_text ?
+			->willReturn(
+				$row->rev_comment_text ?
 				new CommentStoreComment( null, $row->rev_comment_text ) :
 				null
 			);
@@ -1248,9 +1249,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$storeProxy
 					->expects( $this->atLeastOnce() )
 					->method( 'newSelectQueryBuilder' )
-					->willReturnCallback( static fn ( IReadableDatabase $db ) =>
+					->willReturnCallback(
+						static fn ( IReadableDatabase $db ) =>
 						$revisionStore->newSelectQueryBuilder( $db )
-				);
+					);
 			} else {
 				$storeProxy
 					->expects( $this->never() )
@@ -1259,7 +1261,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 			$storeProxy
 				->method( 'getRevisionSizes' )
-				->willReturnCallback( static fn ( array $revIds ) =>
+				->willReturnCallback(
+					static fn ( array $revIds ) =>
 					$revisionStore->getRevisionSizes( $revIds )
 				);
 

@@ -68,7 +68,9 @@ class ConnectedTemporaryAccountsHandler extends AbstractTemporaryAccountNameHand
 		$target = $this->actorStore->getActorById( $actorId, $dbr );
 		if ( $target ) {
 			$connectedAccounts = $this->checkUserTemporaryAccountsByIPLookup->getActiveTempAccountNames(
-				$this->getAuthority(), $target, 101
+				$this->getAuthority(),
+				$target,
+				101
 			)->value ?? [];
 			$ipsUsedCount = $this->checkUserTemporaryAccountsByIPLookup->getIpsUsedCount( $target );
 		}
