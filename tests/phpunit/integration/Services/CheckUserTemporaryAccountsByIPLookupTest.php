@@ -159,6 +159,36 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 	}
 
 	/**
+	 * @dataProvider provideTestExecuteGetIpsUsedCount
+	 */
+	public function testExecuteGetIpsUsedCount( $name, $limit, $expectedIpsUsedCount ) {
+		$checkUserTemporaryAccountsByIPLookup = $this->getObjectUnderTest();
+		$tempUserIdentity = $this->getServiceContainer()->getUserFactory()->newFromName( $name );
+		$ipsUsedCount = $checkUserTemporaryAccountsByIPLookup->getIpsUsedCount( $tempUserIdentity, $limit );
+		$this->assertEquals( $expectedIpsUsedCount, $ipsUsedCount );
+	}
+
+	public static function provideTestExecuteGetIpsUsedCount() {
+		return [
+			'Multiple IPs used' => [
+				'name' => '~check-user-test-01',
+				'limit' => null,
+				'expectedCount' => 3,
+			],
+			'Single IP used' => [
+				'name' => '~check-user-test-04',
+				'limit' => null,
+				'expectedCount' => 1,
+			],
+			'Limit respected' => [
+				'name' => '~check-user-test-01',
+				'limit' => 1,
+				'expectedCount' => 1,
+			]
+		];
+	}
+
+	/**
 	 * @dataProvider provideTestExecutegetTempAccountsFromIPAddress
 	 */
 	public function testExecutegetTempAccountsFromIPAddress( $ip, $limit, $expectedCount, $expectedAccounts ) {
