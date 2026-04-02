@@ -446,7 +446,7 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-intro": "Questi segnali sono indicatori di una possibile attività vandalica.",
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Chiudi",
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Vedi maggiori informazioni sui segnali di rischio in un popover",
-	"checkuser-suggestedinvestigations-contributions-tool-link": "Casi SI",
+	"checkuser-suggestedinvestigations-contributions-tool-link": "casi IS",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Utenze temporanee da tutti gli IP associati: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un computo totale di tutte le utenze temporanee da tutti gli IP associati a questo account",
 	"checkuser-temporary-account-bucketcount-min": "$1",

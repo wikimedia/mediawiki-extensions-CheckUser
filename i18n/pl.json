@@ -518,5 +518,7 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Ukryj",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Skopiuj listę kont",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Lista kont skopiowana do schowka",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Nie udało się skopiować listy kont"
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Nie udało się skopiować listy kont",
+	"checkuser-related-tas-specialblock-checkbox-label": "Zablokuj wszystkie powiązane konta tymczasowe",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/ $1 |showRelatedTemporaryAccounts=1}} Wyświetl wszystkie edycje z tych kont]"
 }
