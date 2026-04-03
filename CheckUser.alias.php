@@ -219,6 +219,11 @@ $specialPageAliases['he'] = [
 $specialPageAliases['hi'] = [
 	'CheckUser' => [ 'सदस्य_जाँच' ],
 	'CheckUserLog' => [ 'सदस्य_जाँच_लॉग' ],
+	'GlobalContributions' => [ 'वैश्विक_योगदान' ],
+	'Investigate' => [ 'जाँच' ],
+	'InvestigateBlock' => [ 'जाँच_अवरोधन' ],
+	'IPContributions' => [ 'IP_योगदान' ],
+	'SuggestedInvestigations' => [ 'सुझावित_जाँचें' ],
 ];
 
 /** Croatian (hrvatski) */
