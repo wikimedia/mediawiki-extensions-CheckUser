@@ -953,11 +953,11 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		// row since the RevisionRecord is not available for external rows.
 		$flags = [];
 		if ( $row->{$this->revisionParentIdField} == 0 ) {
-			$flags[] = ChangesList::flag( 'newpage' );
+			$flags[] = ChangesList::flag( 'newpage', $this->getContext() );
 		}
 
 		if ( $row->{$this->revisionMinorField} ) {
-			$flags[] = ChangesList::flag( 'minor' );
+			$flags[] = ChangesList::flag( 'minor', $this->getContext() );
 		}
 		return $flags;
 	}
