@@ -504,5 +504,8 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "隱藏來自相關臨時帳號的貢獻",
 	"checkuser-contributions-temporary-account-bucketcount": "來自所有關聯 IP 的臨時帳號：$1。",
 	"checkuser-contributions-temporary-accounts-on-ip": "此IP上的臨時帳號：$1個。",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "此IP上的臨時帳號：$1個（已封鎖：$2個）"
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "此IP上的臨時帳號：$1個（已封鎖：$2個）",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "顯示所有帳號",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "隱藏",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "複製帳號列表"
 }

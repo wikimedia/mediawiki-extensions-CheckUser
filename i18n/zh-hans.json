@@ -36,6 +36,7 @@
 			"SaoMikoto",
 			"Shirayuki",
 			"Shizhao",
+			"ShuQizhe",
 			"Shuiwater",
 			"SomeyaMako",
 			"Ssc",
@@ -533,5 +534,8 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "隐藏相关临时帐户的贡献",
 	"checkuser-contributions-temporary-account-bucketcount": "来自所有关联IP的临时账号：$1。",
 	"checkuser-contributions-temporary-accounts-on-ip": "此IP地址上的临时账号：$1。",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "此IP上的临时账号：$1（已封禁：$2）。"
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "此IP上的临时账号：$1（已封禁：$2）。",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "显示所有账号",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "隐藏",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "复制账号列表"
 }
