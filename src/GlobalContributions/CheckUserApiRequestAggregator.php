@@ -106,7 +106,7 @@ class CheckUserApiRequestAggregator {
 	 * @return string
 	 */
 	private function getCentralAuthToken() {
-		return CentralAuthServices::getApiTokenGenerator()->getToken(
+		return CentralAuthServices::getApiTokenManager()->getToken(
 			$this->userIdentity,
 			SessionManager::getGlobalSession()->getId(),
 			WikiMap::getCurrentWikiId()
