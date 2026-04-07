@@ -50,6 +50,7 @@ class BlockConnectedAccounts implements ApiBlockSucceededHook, APIGetAllowedPara
 	public function onApiBlockSucceeded( $module, $performer, $mainTarget, $params, &$additionalBlocksStatuses ) {
 		$mainTargetName = $mainTarget->getName();
 		if (
+			!isset( $params['blockConnectedTempAccounts'] ) ||
 			!$params['blockConnectedTempAccounts'] ||
 			!$this->tempUserConfig->isTempName( $mainTargetName ) ||
 			!$this->checkUserPermissionManager
