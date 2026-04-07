@@ -20,6 +20,7 @@
 			"McDutchie",
 			"Melos",
 			"Nemo bis",
+			"Neonsn0w",
 			"Nivit",
 			"Pietrodn",
 			"Ruthven",
@@ -461,5 +462,6 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Nascondi",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copia elenco utenze",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Elenco utenze copiato negli appunti",
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Impossibile copiare l'elenco degli account",
 	"checkuser-related-tas-specialblock-checkbox-label": "Blocca tutte le utenze temporanee associate"
 }

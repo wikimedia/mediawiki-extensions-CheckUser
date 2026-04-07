@@ -370,11 +370,20 @@
 	"checkuser-suggestedinvestigations-status-open": "Открыть",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Закрыть",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Количество временных учётных записей со всех связанных IP-адресов: $1",
+	"checkuser-contributions-temporary-accounts-show-related": "Посмотреть весь вклад из этих аккаунтов",
+	"checkuser-contributions-temporary-accounts-hide-related": "Скрыть вклад из связанных временных учетных записей",
+	"checkuser-contributions-temporary-account-bucketcount": "Количество временных учётных записей со всех связанных IP-адресов: $1",
 	"checkuser-contributions-temporary-accounts-on-ip": "Временные учетные записи на этом IP-адресе: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Временные учетные записи на этом IP-адресе: $1 (заблокировано: $2).",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Показать все аккаунты",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Скрыть",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Скопировать список аккаунтов",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Список учётных записей скопирован в буфер обмена",
-	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Не удалось скопировать список учетных записей"
+	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Не удалось скопировать список учетных записей",
+	"checkuser-related-tas-specialblock-checkbox-label": "Заблокировать все связанные временные учетные записи",
+	"checkuser-related-tas-specialblock-accounts-list": "Обнаружена $1 {{PLURAL:$1|временная|временных}} {{PLURAL:$1|учётная запись|учётные записи}}, {{PLURAL:$1|которая|которые}} {{PLURAL:$1|использовала|использовали}} $2 {{PLURAL:$2|IP-адрес|IP-адреса}}, связанные с $3, за последние $4 дней: $5.",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/ $1 |showRelatedTemporaryAccounts=1}} Просмотреть весь вклад с этих аккаунтов]",
+	"checkuser-related-tas-specialblock-accounts-list-error": "Произошла ошибка при попытке определить временные учётные записи, которые использовали IP-адреса, связанные с $1. {{GENDER:$2|Вы}} можете продолжить блокировку $1 или попробовать выполнить поиск заново, чтобы выявить связанные учётные записи.",
+	"checkuser-related-tas-specialblock-confirm": "Это действие применит блокировку к $1 {{PLURAL:$1|учётной записи|учётным записям}}. Устанавливая блокировку {{PLURAL:$1|этой учётной записи|этих учётных записей}}, вы подтверждаете, что проверили {{PLURAL:$1|её|их}} проверку.",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Слишком много связанных временных учетных записей, чтобы добавить их в эту блокировку. Мы разрешаем блокировать одновременно не более $1 {{PLURAL:$1|аккаунтов}}."
 }
