@@ -460,6 +460,10 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$revisionRecord->method( 'getId' )
 			->willReturn( 123 );
 
+		$editResult = $this->createMock( EditResult::class );
+		$editResult->method( 'isNullEdit' )
+			->willReturn( false );
+
 		RequestContext::getMain()->getRequest()->setHeaders( [
 			'x-is-browser' => '30',
 			'x-ja3n' => 'testingabc',
@@ -477,7 +481,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			'test',
 			0,
 			$revisionRecord,
-			$this->createMock( EditResult::class )
+			$editResult
 		);
 
 		$this->assertInstanceOf( ClientHintsData::class, $actualClientHintsData );
@@ -517,6 +521,10 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$revisionRecord->method( 'getId' )
 			->willReturn( 123 );
 
+		$editResult = $this->createMock( EditResult::class );
+		$editResult->method( 'isNullEdit' )
+			->willReturn( false );
+
 		$mockLogger = $this->createMock( LoggerInterface::class );
 		$mockLogger->expects( $this->once() )
 			->method( 'warning' )
@@ -552,7 +560,26 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			'test',
 			0,
 			$revisionRecord,
-			$this->createMock( EditResult::class )
+			$editResult
+		);
+	}
+
+	public function testPageSaveCompleteForNullEdit(): void {
+		$editResult = $this->createMock( EditResult::class );
+		$editResult->method( 'isNullEdit' )
+			->willReturn( true );
+
+		$objectUnderTest = $this->getObjectUnderTest( [
+			'userAgentClientHintsManager' => $this->createNoOpMock( UserAgentClientHintsManager::class ),
+			'logger' => $this->createNoOpMock( LoggerInterface::class ),
+		] );
+		$objectUnderTest->onPageSaveComplete(
+			$this->createMock( WikiPage::class ),
+			$this->createMock( User::class ),
+			'test',
+			0,
+			$this->createMock( RevisionRecord::class ),
+			$editResult
 		);
 	}
 

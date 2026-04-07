@@ -143,6 +143,12 @@ class ClientHints implements
 
 	/** @inheritDoc */
 	public function onPageSaveComplete( $wikiPage, $user, $summary, $flags, $revisionRecord, $editResult ): void {
+		// Don't process null edits, as the revision ID will not be performed by the user
+		// who just attempted to edit
+		if ( $editResult->isNullEdit() ) {
+			return;
+		}
+
 		$this->storeHeaderOnlyClientHintsData(
 			$revisionRecord->getId(),
 			'revision',
