@@ -240,6 +240,100 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	public function testExecuteSkipsNonExistentUsers() {
+		$this->enableAutoCreateTempUser();
+
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
+		// ActorStore returns a valid actor for ~12345 but null for ~99999
+		$actorStore = $this->createMock( ActorStore::class );
+		$actorStore->method( 'findActorIdByName' )
+			->willReturnCallback( static function ( $name ) {
+				return $name === '~12345' ? 12345 : null;
+			} );
+		$actorStore->method( 'getUserIdentityByName' )
+			->willReturnCallback( static function ( $name ) {
+				return $name === '~12345'
+					? new UserIdentityValue( 12345, '~12345' )
+					: null;
+			} );
+
+		$autoRevealLookup = $this->createMock(
+			CheckUserTemporaryAccountAutoRevealLookup::class
+		);
+
+		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$extensionRegistry->method( 'isLoaded' )
+			->willReturn( false );
+
+		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
+
+		$this->setLogger( 'CheckUser', $this->createNoOpMock( LoggerInterface::class ) );
+		$this->resetServices();
+
+		$services = $this->getServiceContainer();
+		$handler = $this->getMockBuilder( BatchTemporaryAccountHandler::class )
+			->onlyMethods( [ 'getRevisionsIps', 'getLogIps', 'getActorIps' ] )
+			->setConstructorArgs( [
+				$services->getMainConfig(),
+				$jobQueueGroup,
+				$services->getPermissionManager(),
+				$services->getUserNameUtils(),
+				$services->getConnectionProvider(),
+				$actorStore,
+				$services->getBlockManager(),
+				$services->getRevisionStore(),
+				$checkUserPermissionManager,
+				$autoRevealLookup,
+				$services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
+				$services->getReadOnlyMode(),
+				$extensionRegistry,
+				$services->get( 'CheckUserExpiredIdsLookupService' ),
+			] )
+			->getMock();
+		$handler->method( 'getRevisionsIps' )
+			->with( 12345, [ 1 ] )
+			->willReturn( [ 1 => '1.2.3.4' ] );
+		$handler->method( 'getLogIps' )
+			->with( 12345, [ 1 ] )
+			->willReturn( [ 1 => '5.6.7.8' ] );
+		$handler->method( 'getActorIps' )
+			->with( 12345, 1 )
+			->willReturn( [ '9.8.7.6' ] );
+
+		$data = $this->executeHandlerAndGetBodyData(
+			$handler,
+			new RequestData(),
+			[],
+			[],
+			[],
+			[
+				'users' => [
+					'~12345' => [
+						'revIds' => [ 1 ],
+						'logIds' => [ 1 ],
+						'lastUsedIp' => true,
+					],
+					'~99999' => [
+						'revIds' => [ 2 ],
+						'logIds' => [ 2 ],
+						'lastUsedIp' => true,
+					],
+				],
+			],
+			$this->getTestUser()->getAuthority()
+		);
+
+		// ~99999 should be silently skipped, only ~12345 should be in the result
+		$this->assertArrayHasKey( '~12345', $data );
+		$this->assertArrayNotHasKey( '~99999', $data );
+		$this->assertSame( [ 1 => '1.2.3.4' ], $data['~12345']['revIps'] );
+		$this->assertSame( [ 1 => '5.6.7.8' ], $data['~12345']['logIps'] );
+		$this->assertSame( '9.8.7.6', $data['~12345']['lastUsedIp'] );
+	}
+
 	/** @dataProvider provideExecuteForSpecificTypeOfIds */
 	public function testExecuteForSpecificTypeOfIds(
 		callable $revIdsCallback,

@@ -15,6 +15,7 @@ use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\ParamValidator\TypeDef\ArrayDef;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\Response;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
@@ -110,8 +111,15 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		}
 
 		foreach ( $body['users'] ?? [] as $username => $params ) {
+			try {
+				$actorId = $this->getTemporaryAccountActorId( $username );
+			} catch ( LocalizedHttpException ) {
+				// Skip users that don't exist on this wiki, so that
+				// partial results can be returned for the valid ones.
+				continue;
+			}
 			$identifier = [
-				'actorId' => $this->getTemporaryAccountActorId( $username ),
+				'actorId' => $actorId,
 				'revIds' => $params['revIds'] ?? [],
 				'logIds' => $params['logIds'] ?? [],
 				'lastUsedIp' => $params['lastUsedIp'] ?? false,
