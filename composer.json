@@ -20,7 +20,7 @@
 			"php-cs-fixer fix"
 		],
 		"phan": "phan -d . --long-progress-bar",
-		"phpcs": "phpcs -sp --cache --warning-severity=0"
+		"phpcs": "phpcs -sp --cache"
 	},
 	"require": {
 		"firebase/php-jwt": "^7.0.2"

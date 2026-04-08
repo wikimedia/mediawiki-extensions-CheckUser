@@ -3,10 +3,12 @@
 	<rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki" />
 	<rule ref="Generic.Files.LineLength">
 		<properties>
-			<property name="lineLimit" value="100" />
 			<property name="absoluteLineLimit" value="120" />
 		</properties>
 		<exclude-pattern>CheckUser\.alias\.php</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Files.LineLength.TooLong">
+		<severity>0</severity>
 	</rule>
 	<rule ref="MediaWiki.Arrays.TrailingComma">
 		<properties>

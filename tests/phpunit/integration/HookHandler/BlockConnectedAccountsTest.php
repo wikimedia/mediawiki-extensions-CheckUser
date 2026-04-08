@@ -53,7 +53,7 @@ class BlockConnectedAccountsTest extends ApiTestCase {
 	}
 
 	public function testExecuteOnApiBlockSucceeded() {
-		$this->setTemporaryHook( 'APIGetAllowedParams', function ( $module, &$params, $flags ) {
+		$this->setTemporaryHook( 'APIGetAllowedParams', static function ( $module, &$params, $flags ) {
 			$params['blockConnectedTempAccounts'] = false;
 		} );
 		$params = [
@@ -82,7 +82,7 @@ class BlockConnectedAccountsTest extends ApiTestCase {
 	) {
 		$this->overrideConfigValue( 'EnableMultiBlocks', $multiBlocksEnabled );
 
-		$this->setTemporaryHook( 'APIGetAllowedParams', function ( $module, &$params, $flags ) {
+		$this->setTemporaryHook( 'APIGetAllowedParams', static function ( $module, &$params, $flags ) {
 			$params['blockConnectedTempAccounts'] = true;
 		} );
 
@@ -129,7 +129,7 @@ class BlockConnectedAccountsTest extends ApiTestCase {
 				'multiBlocksEnabled' => true,
 				'hasPermission' => true,
 				'targetName' => '1.2.3.4',
-			]
+			],
 		];
 	}
 

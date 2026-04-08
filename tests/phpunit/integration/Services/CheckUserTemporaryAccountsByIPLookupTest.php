@@ -184,7 +184,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'name' => '~check-user-test-01',
 				'limit' => 1,
 				'expectedCount' => 1,
-			]
+			],
 		];
 	}
 

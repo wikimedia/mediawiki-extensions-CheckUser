@@ -12,8 +12,6 @@ use MediaWiki\Revision\RevisionLookup;
 use Psr\Log\LoggerInterface;
 use StatusValue;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**

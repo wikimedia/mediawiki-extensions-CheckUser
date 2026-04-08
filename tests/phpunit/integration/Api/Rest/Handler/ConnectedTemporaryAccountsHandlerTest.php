@@ -6,16 +6,13 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\ConnectedTemporaryAccountsHandler;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
-use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\JobQueue\JobQueueGroup;
-use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
-use Wikimedia\Timestamp\ConvertibleTimestamp;
-use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -58,7 +55,7 @@ class ConnectedTemporaryAccountsHandlerTest extends MediaWikiIntegrationTestCase
 				),
 				'LoggerFactory' => $services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				'readOnlyMode' => $services->getReadOnlyMode(),
-				'checkUserTemporaryAccountsByIPLookup' => $services->get ( 'CheckUserTemporaryAccountsByIPLookup' ),
+				'checkUserTemporaryAccountsByIPLookup' => $services->get( 'CheckUserTemporaryAccountsByIPLookup' ),
 			],
 			$options
 		) ) );
@@ -72,7 +69,7 @@ class ConnectedTemporaryAccountsHandlerTest extends MediaWikiIntegrationTestCase
 			$this->getConnectedTemporaryAccountsHandler(),
 			new RequestData( [
 				'pathParams' => [
-					'name' => $name
+					'name' => $name,
 				],
 				'queryParams' => [],
 			] ),
@@ -83,8 +80,8 @@ class ConnectedTemporaryAccountsHandlerTest extends MediaWikiIntegrationTestCase
 			$this->getTestSysop()->getAuthority()
 		);
 
-		$this->assertEquals( $data['ipsUsedCount'], $expectedIpsUsedCount );
-		$this->assertEquals( $data['connectedAccounts'], $expectedAccounts );
+		$this->assertEquals( $expectedIpsUsedCount, $data['ipsUsedCount'] );
+		$this->assertEquals( $expectedAccounts, $data['connectedAccounts'] );
 	}
 
 	public static function provideTestExecute() {

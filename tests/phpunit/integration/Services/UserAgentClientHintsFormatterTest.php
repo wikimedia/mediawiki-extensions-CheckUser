@@ -34,7 +34,7 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 				"woW64",
 				"isBrowser",
 				"ja3n",
-				"ja4h"
+				"ja4h",
 			],
 			'CheckUserClientHintsValuesToHide' => [
 				"architecture" => [ "x86" ],

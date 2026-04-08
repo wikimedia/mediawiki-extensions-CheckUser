@@ -12,13 +12,9 @@ use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
 use Psr\Log\LoggerInterface;
-use Wikimedia\Message\ScalarParam;
-use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\InsertQueryBuilder;
 use Wikimedia\Rdbms\IReadableDatabase;
-use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
 
 /**
