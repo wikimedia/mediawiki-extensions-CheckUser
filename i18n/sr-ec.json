@@ -55,6 +55,7 @@
 	"checkuser-clienthints-name-platform-version": "Верзија платформе",
 	"checkuser-clienthints-value-yes": "Да",
 	"checkuser-clienthints-value-no": "Не",
+	"checkuser-clienthints-value-is-browser-likely-bot": "Вероватно бот",
 	"checkuser-reason": "Разлог:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Скорашње провере",
