@@ -123,6 +123,10 @@ module.exports = exports = defineComponent( {
 				connectedTempAccounts.value = connectedAccounts
 					.filter( ( user ) => props.targetUser !== user );
 
+				if ( !connectedTempAccounts.value.length ) {
+					return;
+				}
+
 				// Instrument that the user has viewed a temp account with found connected accounts
 				mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
 					action: 'found-connected-tempaccounts'

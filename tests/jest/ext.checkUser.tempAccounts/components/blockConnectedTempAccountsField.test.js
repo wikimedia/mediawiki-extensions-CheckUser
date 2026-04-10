@@ -79,6 +79,30 @@ describe( 'blockConnectedTempAccountsField', () => {
 	} );
 	it( 'Tracks if the temp account has connected accounts', async () => {
 		const restResult = {
+			connectedAccounts: [],
+			ipsUsedCount: 1
+		};
+
+		setupAndMount( { targetUser: '~2026-1' }, {}, restResult );
+
+		await new Promise( ( resolve ) => {
+			setTimeout( () => {
+				resolve();
+			}, 0 );
+		} );
+
+		// Viewed temp account, nothing else to track
+		expect( mw.track ).toHaveBeenCalledTimes( 1 );
+		expect( mw.track.mock.calls ).toEqual( [
+			[
+				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
+				1,
+				{ action: 'viewed-tempaccount' }
+			]
+		] );
+	} );
+	it( 'Skips tracking if no connected accounts are found', async () => {
+		const restResult = {
 			connectedAccounts: [ '~2026-2', '~2026-3' ],
 			ipsUsedCount: 1
 		};
