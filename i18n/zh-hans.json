@@ -488,6 +488,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "显示账号未做出编辑的情况",
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally": "显示全域账号未做出编辑的情况",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "隐藏账号未被封禁的情况",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "今天",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "账号",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "输入账号名称...",
 	"checkuser-suggestedinvestigations-back-to-main-page": "返回{{int:checkuser-suggestedinvestigations}}",
