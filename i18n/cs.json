@@ -10,6 +10,7 @@
 			"Martin Urbanec (WMF)",
 			"Matěj Suchánek",
 			"Mormegil",
+			"MrJaroslavik",
 			"Nesuprachy"
 		]
 	},
@@ -120,6 +121,10 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 zjišťuje uživatele s XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-investigate": "$3, $1 zjišťuje informace o $2",
 	"checkuser-token-fail": "Chyba relace. Zkuste to prosím znovu.",
+	"checkuser-helper-table-collapse-by-default-preference": "Minimální počet řádků pro sbalení souhrnné tabulky při načtení {{#special:CheckUser}}:",
+	"checkuser-helper-table-collapse-by-default-preference-default": "Použít výchozí hodnotu pro tuto wiki ($1)",
+	"checkuser-helper-table-collapse-by-default-preference-always": "Vždy sbalit souhrnnou tabulku při načtení",
+	"checkuser-helper-table-collapse-by-default-preference-never": "Nikdy nesbalovat souhrnnou tabulku při načtení",
 	"checkuser-helper-label": "Zobrazit výsledky v tabulce",
 	"checkuser-helper-copy-success": "Zkopírováno",
 	"checkuser-helper-copy-failed": "Nepodařilo se zkopírovat",
