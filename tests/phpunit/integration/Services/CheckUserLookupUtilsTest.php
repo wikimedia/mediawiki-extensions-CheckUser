@@ -11,6 +11,7 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -275,6 +276,18 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideGetManualLogEntryFromRowWithMissingTarget
 	 */
 	public function testGetManualLogEntryFromRowWithMissingTarget( \stdClass $row ) {
+		$mockLogger = $this->createMock( LoggerInterface::class );
+		$mockLogger->method( 'error' )
+			->with(
+				'Missing target for log entry being displayed in CheckUser result interface',
+				$this->anything()
+			)
+			->willReturn( function ( $message, array $context ) use ( $row )  {
+				$this->assertSame( $row, $context['row'] );
+				$this->assertInstanceOf( RuntimeException::class, $context['exception'] );
+			} );
+		$this->setLogger( 'CheckUser', $mockLogger );
+
 		/** @var CheckUserLookupUtils $checkUserLookupUtils */
 		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
 		$actualLogEntry = $checkUserLookupUtils->getManualLogEntryFromRow(
