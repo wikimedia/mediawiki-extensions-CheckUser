@@ -187,7 +187,10 @@
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Uključeno odavanje IP adresa privremenih računa",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Broj privremenih računa sa svih povezanih IP adresa: $1",
 	"checkuser-contributions-temporary-accounts-show-related": "Pokaži sve doprinose s tih računa",
+	"checkuser-contributions-temporary-accounts-hide-related": "Sakrij doprinose s povezanih privremenih računa",
 	"checkuser-contributions-temporary-account-bucketcount": "Broj privremenih računa sa svih pripadajućih adresa: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Broj privremenih računa na ovoj IP adresi: $1",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Privremeni računi na ovoj IP adresi: $1 (blokirani: $2)"
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Privremeni računi na ovoj IP adresi: $1 (blokirani: $2)",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Kopiraj popis računa",
+	"checkuser-related-tas-specialblock-confirm": "Ovim će se blokirati $1 {{PLURAL:$1|račun|računa}}. Blokiranjem računa potvrđujete da ste {PLURAL:$1|1=ga|ih}} provjerili."
 }

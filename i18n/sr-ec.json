@@ -56,6 +56,7 @@
 	"checkuser-clienthints-value-yes": "Да",
 	"checkuser-clienthints-value-no": "Не",
 	"checkuser-clienthints-value-is-browser-likely-bot": "Вероватно бот",
+	"checkuser-clienthints-value-is-browser-likely-browser": "Веб-прегледач",
 	"checkuser-reason": "Разлог:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Скорашње провере",
@@ -296,7 +297,7 @@
 	"checkuser-tempaccount-reveal-blocked-loading": "Учитавање детаља блокаде",
 	"checkuser-tempaccount-reveal-blocked-title": "Детаљи блокаде",
 	"checkuser-tempaccount-reveal-blocked-description": "Немате дозволу да користите ову могућност из следећег разлога:",
-	"checkuser-tempaccount-specialblock-ips": "Ово је привремени корисник који користи следеће {{PLURAL:$1|IP адресе}}: $2",
+	"checkuser-tempaccount-specialblock-ips": "Пивремени корисник користи следеће {{PLURAL:$1|IP адресе}}: $2",
 	"checkuser-tempaccount-specialblock-ip-target": "Видети [[Special:IPContributions/$1|доприносе привременог налога са ове IP адресе]].",
 	"checkuser-tempaccount-specialblock-iprange-target": "Видети [[Special:IPContributions/$1|доприносе привременог налога са овог IP опсега]].",
 	"checkuser-temporary-account-log-name": "Дневник откривања IP адреса",
@@ -409,5 +410,7 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Копирај списак налога",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Копирање списак није успело",
 	"checkuser-related-tas-specialblock-checkbox-label": "Блокирај све повезане привремене налоге",
-	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Сви доприноси са ових налога]"
+	"checkuser-related-tas-specialblock-accounts-list": "$1 {{PLURAL:$1|привремени налог|привремених налога}} је {{PLURAL:$1|индентификован|индентификовано}} да {{PLURAL:$2|користи}} $2 {{PLURAL:$2|IP адресу|IP адресе}} {{PLURAL:$2|повезану|повезаних}} са $3 у последњих $4 дана: $5.",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Сви доприноси са ових налога]",
+	"checkuser-related-tas-specialblock-confirm": "Биће {{PLURAL:$1|блокиран|блокирано}} $1 {{PLURAL:$1|налог|налога}}. Блокирањем потврђујете да сте предходно обавили истрагу."
 }
