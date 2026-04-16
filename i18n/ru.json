@@ -299,6 +299,7 @@
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Удаленный вклад",
 	"checkuser-ip-contributions-search-form-wrapper": "Поиск вклада с IP",
 	"checkuser-ip-contributions-results-title": "Вклад с временных учётных записей, связанных с $1",
+	"checkuser-ip-contributions-deleted-contributions-link": "удалённый вклад",
 	"checkuser-ip-contributions-contributions-link": "вклад",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Вклад с временных учётных записей",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Вклад с IP",
