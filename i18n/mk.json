@@ -47,6 +47,8 @@
 	"checkuser-clienthints-name-platform-version": "Верзија на подлогата",
 	"checkuser-clienthints-value-yes": "Да",
 	"checkuser-clienthints-value-no": "Не",
+	"checkuser-clienthints-value-is-browser-likely-bot": "Веројатно бот",
+	"checkuser-clienthints-value-is-browser-likely-browser": "Веројатно прелистувач",
 	"checkuser-reason": "Причина:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Дневник на проверки",
