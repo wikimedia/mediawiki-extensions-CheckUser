@@ -12,8 +12,8 @@ use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
 use MediaWiki\User\Hook\UserGetDefaultOptionsHook;
+use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentity;
-use MediaWiki\User\UserOptionsLookup;
 use StatusValue;
 
 class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {

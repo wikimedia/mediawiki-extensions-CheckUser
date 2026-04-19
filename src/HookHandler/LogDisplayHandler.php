@@ -4,10 +4,10 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
-use MediaWiki\Hook\ChangesListInsertLogEntryHook;
-use MediaWiki\Hook\LogEventsListLineEndingHook;
+use MediaWiki\Logging\Hook\LogEventsListLineEndingHook;
 use MediaWiki\Logging\LogEntry;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\RecentChanges\Hook\ChangesListInsertLogEntryHook;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserNameUtils;
 

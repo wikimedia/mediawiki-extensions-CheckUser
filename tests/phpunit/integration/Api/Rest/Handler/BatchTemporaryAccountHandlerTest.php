@@ -3,7 +3,6 @@
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use GlobalPreferences\GlobalPreferencesFactory;
-use JobQueueGroup;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
@@ -16,6 +15,7 @@ use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Extension\CheckUser\Tests\Integration\AbuseFilter\FilterFactoryProxyTrait;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Permissions\PermissionManager;

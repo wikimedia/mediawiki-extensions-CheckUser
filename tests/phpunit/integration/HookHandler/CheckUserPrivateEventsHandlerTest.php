@@ -2,7 +2,6 @@
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use MailAddress;
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Context\RequestContext;
@@ -14,12 +13,13 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logging\LogEntryBase;
+use MediaWiki\Mail\MailAddress;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Message\Message;
+use MediaWiki\Profiler\Profiler;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
-use Profiler;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;

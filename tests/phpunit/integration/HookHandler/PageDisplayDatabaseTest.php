@@ -2,7 +2,6 @@
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use ArrayUtils;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
@@ -13,8 +12,9 @@ use MediaWiki\Skin\Skin;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
-use MediaWiki\User\UserOptionsManager;
+use MediaWiki\User\Options\UserOptionsManager;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\ArrayUtils\ArrayUtils;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\HookHandler\PageDisplay

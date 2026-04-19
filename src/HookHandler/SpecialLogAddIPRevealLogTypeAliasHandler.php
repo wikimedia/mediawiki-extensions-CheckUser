@@ -5,8 +5,8 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Hook\SpecialLogGetSubpagesForPrefixSearchHook;
-use MediaWiki\Hook\SpecialLogResolveLogTypeHook;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Specials\Hook\SpecialLogResolveLogTypeHook;
 
 /**
  * 'ipreveal' is an alias for the checkuser-temporary-account log type used

@@ -3,9 +3,9 @@
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
-use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\JobQueue\JobSpecification;
+use MediaWiki\RecentChanges\Hook\RecentChange_saveHook;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 class RecentChangeSaveHandler implements RecentChange_saveHook {

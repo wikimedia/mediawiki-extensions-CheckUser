@@ -2,7 +2,6 @@
 
 namespace MediaWiki\Extension\CheckUser\Maintenance;
 
-use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\AuthManager;
 use MediaWiki\Content\ContentHandler;
@@ -12,6 +11,7 @@ use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Logging\ManualLogEntry;
+use MediaWiki\Mail\MailAddress;
 use MediaWiki\Maintenance\Maintenance;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;

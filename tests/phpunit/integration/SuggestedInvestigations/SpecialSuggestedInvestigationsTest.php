@@ -30,9 +30,9 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\SpecialSuggestedInvest
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\WebResponse;
+use MediaWiki\Tests\Specials\SpecialPageTestBase;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use PHPUnit\Framework\ExpectationFailedException;
-use SpecialPageTestBase;
 use Wikimedia\Parsoid\Core\DOMCompat;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 

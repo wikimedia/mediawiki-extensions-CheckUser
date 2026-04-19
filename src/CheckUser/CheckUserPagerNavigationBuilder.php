@@ -6,11 +6,11 @@ use MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
+use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Navigation\PagerNavigationBuilder;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\Session\CsrfTokenSet;
 use MediaWiki\User\UserIdentity;
-use MessageLocalizer;
 
 class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 

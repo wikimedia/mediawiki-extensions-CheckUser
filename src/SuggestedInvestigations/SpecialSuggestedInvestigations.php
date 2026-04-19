@@ -29,7 +29,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Html\Html;
 use MediaWiki\Parser\ParserOptions;
 use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\User\UserOptionsLookup;
+use MediaWiki\User\Options\UserOptionsLookup;
 use Wikimedia\Message\MessageValue;
 
 class SpecialSuggestedInvestigations extends SpecialPage {

@@ -22,11 +22,11 @@ use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Profiler\Profiler;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
-use Profiler;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 

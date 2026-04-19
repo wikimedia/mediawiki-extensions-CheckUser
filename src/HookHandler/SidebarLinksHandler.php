@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
-use MediaWiki\Hook\SidebarBeforeOutputHook;
+use MediaWiki\Skin\Hook\SidebarBeforeOutputHook;
 use MediaWiki\Skin\Skin;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\SpecialPage;

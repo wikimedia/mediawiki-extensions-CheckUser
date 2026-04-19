@@ -2,7 +2,6 @@
 
 namespace MediaWiki\Extension\CheckUser\CheckUser\Pagers;
 
-use HtmlArmor;
 use LogicException;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Block\DatabaseBlockStore;
@@ -41,6 +40,7 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\Utils\MWTimestamp;
 use stdClass;
 use UtfNormal\Validator as UtfNormalValidator;
+use Wikimedia\HtmlArmor\HtmlArmor;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;

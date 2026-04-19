@@ -2,9 +2,9 @@
 
 namespace MediaWiki\Extension\CheckUser\Test\Integration\Logging;
 
-use LogFormatterTestCase;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Tests\Logging\LogFormatterTestCase;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 
 /**

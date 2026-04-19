@@ -9,13 +9,13 @@ use MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractRespons
 use MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserActionsResponse;
 use MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserIpUsersResponse;
 use MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserUserIpsResponse;
+use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Logging\LogFormatterFactory;
 use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNameUtils;
-use MessageLocalizer;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 class ApiQueryCheckUserResponseFactory {

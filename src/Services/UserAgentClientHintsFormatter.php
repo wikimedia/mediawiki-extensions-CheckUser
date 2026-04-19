@@ -6,7 +6,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
-use MessageLocalizer;
+use MediaWiki\Language\MessageLocalizer;
 
 /**
  * A service that formats ClientHintsData objects into a human-readable

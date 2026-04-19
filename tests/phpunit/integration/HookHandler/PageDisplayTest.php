@@ -2,7 +2,6 @@
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
-use ArrayUtils;
 use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Block\Block;
 use MediaWiki\Config\HashConfig;
@@ -22,6 +21,7 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\Options\StaticUserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\ArrayUtils\ArrayUtils;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\HookHandler\PageDisplay

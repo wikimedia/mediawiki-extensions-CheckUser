@@ -8,10 +8,10 @@ use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
+use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Message\Message;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
-use MessageLocalizer;
 use ReflectionClass;
 use Wikimedia\TestingAccessWrapper;
 

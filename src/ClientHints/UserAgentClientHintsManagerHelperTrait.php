@@ -5,8 +5,8 @@ namespace MediaWiki\Extension\CheckUser\ClientHints;
 use MediaWiki\Extension\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\Profiler\Profiler;
 use MediaWiki\Request\WebRequest;
-use Profiler;
 use Psr\Log\LoggerInterface;
 use TypeError;
 

@@ -3,7 +3,6 @@
 namespace MediaWiki\Extension\CheckUser\GlobalContributions;
 
 use GlobalPreferences\GlobalPreferencesFactory;
-use HtmlArmor;
 use InvalidArgumentException;
 use LogicException;
 use MediaWiki\ChangeTags\ChangeTagsStoreFactory;
@@ -41,6 +40,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use OOUI\HtmlSnippet;
 use OOUI\MessageWidget;
+use Wikimedia\HtmlArmor\HtmlArmor;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;

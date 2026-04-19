@@ -2,7 +2,6 @@
 
 namespace MediaWiki\Extension\CheckUser\CheckUser\Pagers;
 
-use HtmlArmor;
 use LogicException;
 use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -45,6 +44,7 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
 use stdClass;
+use Wikimedia\HtmlArmor\HtmlArmor;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;

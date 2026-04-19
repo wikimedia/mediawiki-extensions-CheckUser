@@ -2,14 +2,14 @@
 
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
-use IContextSource;
 use MediaWiki\Config\Config;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
+use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserNameUtils;
-use MediaWiki\User\UserOptionsLookup;
 
 class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserLinkPostRenderHook {
 

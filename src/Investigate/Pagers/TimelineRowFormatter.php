@@ -2,7 +2,6 @@
 
 namespace MediaWiki\Extension\CheckUser\Investigate\Pagers;
 
-use HtmlArmor;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
@@ -24,6 +23,7 @@ use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
+use Wikimedia\HtmlArmor\HtmlArmor;
 use Wikimedia\IPUtils;
 
 class TimelineRowFormatter {
