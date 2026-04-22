@@ -10,7 +10,8 @@
 			"Matěj Suchánek",
 			"Mormegil",
 			"Nesuprachy",
-			"Martin Urbanec (WMF)"
+			"Martin Urbanec (WMF)",
+			"MrJaroslavik"
 		]
 	},
 	"checkuser-summary": "Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.\nUživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno IPv4 (CIDR $1–32) a IPv6 (CIDR $2-128).\nZ výkonnostních důvodů lze zobrazit maximálně $3 editací. Používejte tento nástroj v souladu s pravidly.",
@@ -113,6 +114,10 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 zjišťuje uživatele s XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-investigate": "$3, $1 zjišťuje informace o $2",
 	"checkuser-token-fail": "Chyba relace. Zkuste to prosím znovu.",
+	"checkuser-helper-table-collapse-by-default-preference": "Minimální počet řádků pro sbalení souhrnné tabulky při načtení {{#special:CheckUser}}:",
+	"checkuser-helper-table-collapse-by-default-preference-default": "Použít výchozí hodnotu pro tuto wiki ($1)",
+	"checkuser-helper-table-collapse-by-default-preference-always": "Vždy sbalit souhrnnou tabulku při načtení",
+	"checkuser-helper-table-collapse-by-default-preference-never": "Nikdy nesbalovat souhrnnou tabulku při načtení",
 	"checkuser-helper-label": "Zobrazit výsledky v tabulce",
 	"checkuser-helper-copy-success": "Zkopírováno",
 	"checkuser-helper-copy-failed": "Nepodařilo se zkopírovat",
