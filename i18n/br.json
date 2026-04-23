@@ -267,5 +267,7 @@
 	"checkuser-userinfocard-ip-revealed-never": "IPoù diskuliet ː $1",
 	"checkuser-suggestedinvestigations": "Enklaskoù kinniget",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Kontoù berrbad eus an holl IPoù a glot : $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un niver hollek eus an holl gontoù berrbad eus an holl IPoù stag ouzh ar gont-mañ"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Un niver hollek eus an holl gontoù berrbad eus an holl IPoù stag ouzh ar gont-mañ",
+	"checkuser-contributions-temporary-accounts-on-ip": "Kontoù berrbad gant an IP-mañ: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Kontoù berrbad gant an IP-mañ: $1 (stanketː $2)."
 }
