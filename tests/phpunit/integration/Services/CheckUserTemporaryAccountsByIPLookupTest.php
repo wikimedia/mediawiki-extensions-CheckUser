@@ -161,11 +161,11 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 	/**
 	 * @dataProvider provideTestExecuteGetIpsUsedCount
 	 */
-	public function testExecuteGetIpsUsedCount( $name, $limit, $expectedIpsUsedCount ) {
+	public function testExecuteGetIpsUsedCount( $name, $limit, $expectedCount ) {
 		$checkUserTemporaryAccountsByIPLookup = $this->getObjectUnderTest();
 		$tempUserIdentity = $this->getServiceContainer()->getUserFactory()->newFromName( $name );
 		$ipsUsedCount = $checkUserTemporaryAccountsByIPLookup->getIpsUsedCount( $tempUserIdentity, $limit );
-		$this->assertEquals( $expectedIpsUsedCount, $ipsUsedCount );
+		$this->assertEquals( $expectedCount, $ipsUsedCount );
 	}
 
 	public static function provideTestExecuteGetIpsUsedCount() {
