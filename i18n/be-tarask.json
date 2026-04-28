@@ -49,6 +49,7 @@
 	"checkuser-nomatch": "Супадзеньні ня знойдзеныя.",
 	"checkuser-nomatch-edits": "Супадзеньняў ня знойдзена.\nАпошняе рэдагаваньне зроблена $1 у $2.",
 	"checkuser-check": "Праверыць",
+	"checkuser-toollink-check": "спраўдзіць",
 	"checkuser-check-this-user": "Праверыць гэтага ўдзельніка",
 	"checkuser-investigate-this-user": "Даследаваць гэтага ўдзельніка",
 	"checkuser-recent-checks": "Праверкі гэтай мэты",
