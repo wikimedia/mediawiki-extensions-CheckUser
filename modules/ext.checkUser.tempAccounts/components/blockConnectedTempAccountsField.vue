@@ -111,7 +111,7 @@ module.exports = exports = defineComponent( {
 
 			// Instrument that user has access to the feature and is viewing a temporary account
 			mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
-				action: 'viewed-tempaccount'
+				action: 'viewedtempaccount'
 			} );
 
 			// Get all connected accounts
@@ -129,12 +129,12 @@ module.exports = exports = defineComponent( {
 
 				// Instrument that the user has viewed a temp account with found connected accounts
 				mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
-					action: 'found-connected-tempaccounts'
+					action: 'foundconnectedtempaccounts'
 				} );
 
 				// Instrument number of connected accounts found per-instance
 				mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
-					action: 'found-connected-tempaccounts-count',
+					action: 'foundconnectedtempaccountscount',
 					count: connectedTempAccounts.value.length
 				} );
 
@@ -143,7 +143,7 @@ module.exports = exports = defineComponent( {
 					'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 					connectedTempAccounts.value.length,
 					{
-						action: 'found-connected-tempaccounts-sum'
+						action: 'foundconnectedtempaccountssum'
 					}
 				);
 
@@ -177,7 +177,7 @@ module.exports = exports = defineComponent( {
 			if ( connectedTempAccounts.value.length && !tooManyAccountsToBlock.value ) {
 				mw.track( 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total', 1, {
 					action: shouldBlockConnectedTempAccounts.value ?
-						'is-bulk-blocking' : 'not-bulk-blocking'
+						'isbulkblocking' : 'notbulkblocking'
 				} );
 			}
 			if ( shouldBlockConnectedTempAccounts.value ) {
@@ -209,7 +209,7 @@ module.exports = exports = defineComponent( {
 					'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 					additionalBlocks.length,
 					{
-						action: 'successfully-blocked-connected-tempaccount-sum'
+						action: 'successfullyblockedconnectedtempaccountsum'
 					}
 				);
 			}
@@ -220,7 +220,7 @@ module.exports = exports = defineComponent( {
 					'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 					blocksAdditionalErrors.length,
 					{
-						action: 'already-blocked-connected-tempaccount-sum'
+						action: 'alreadyblockedconnectedtempaccountsum'
 					}
 				);
 			}
