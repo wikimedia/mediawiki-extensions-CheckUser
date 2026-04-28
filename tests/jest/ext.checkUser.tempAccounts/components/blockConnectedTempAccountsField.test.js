@@ -74,7 +74,7 @@ describe( 'blockConnectedTempAccountsField', () => {
 		expect( mw.track ).toHaveBeenCalledWith(
 			expect.any( String ),
 			1,
-			expect.objectContaining( { action: 'viewed-tempaccount' } )
+			expect.objectContaining( { action: 'viewedtempaccount' } )
 		);
 	} );
 	it( 'Tracks if the temp account has connected accounts', async () => {
@@ -97,7 +97,7 @@ describe( 'blockConnectedTempAccountsField', () => {
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'viewed-tempaccount' }
+				{ action: 'viewedtempaccount' }
 			]
 		] );
 	} );
@@ -121,21 +121,21 @@ describe( 'blockConnectedTempAccountsField', () => {
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'viewed-tempaccount' }
+				{ action: 'viewedtempaccount' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'found-connected-tempaccounts' }
+				{ action: 'foundconnectedtempaccounts' }
 			],
 			[ 'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'found-connected-tempaccounts-count', count: 2 }
+				{ action: 'foundconnectedtempaccountscount', count: 2 }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				2,
-				{ action: 'found-connected-tempaccounts-sum' }
+				{ action: 'foundconnectedtempaccountssum' }
 			]
 		] );
 	} );
@@ -143,11 +143,11 @@ describe( 'blockConnectedTempAccountsField', () => {
 	it.each( [
 		{
 			shouldBlock: true,
-			expectedAction: 'is-bulk-blocking'
+			expectedAction: 'isbulkblocking'
 		},
 		{
 			shouldBlock: false,
-			expectedAction: 'not-bulk-blocking'
+			expectedAction: 'notbulkblocking'
 		}
 	] )( 'Tracks when a block is submitted', async ( { shouldBlock, expectedAction } ) => {
 		const wrapper = setupAndMount(
@@ -170,22 +170,22 @@ describe( 'blockConnectedTempAccountsField', () => {
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'viewed-tempaccount' }
+				{ action: 'viewedtempaccount' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'found-connected-tempaccounts' }
+				{ action: 'foundconnectedtempaccounts' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'found-connected-tempaccounts-count', count: 2 }
+				{ action: 'foundconnectedtempaccountscount', count: 2 }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				2,
-				{ action: 'found-connected-tempaccounts-sum' }
+				{ action: 'foundconnectedtempaccountssum' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
@@ -219,22 +219,22 @@ describe( 'blockConnectedTempAccountsField', () => {
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'viewed-tempaccount' }
+				{ action: 'viewedtempaccount' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'found-connected-tempaccounts' }
+				{ action: 'foundconnectedtempaccounts' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'found-connected-tempaccounts-count', count: 2 }
+				{ action: 'foundconnectedtempaccountscount', count: 2 }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				2,
-				{ action: 'found-connected-tempaccounts-sum' }
+				{ action: 'foundconnectedtempaccountssum' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
@@ -248,12 +248,12 @@ describe( 'blockConnectedTempAccountsField', () => {
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'successfully-blocked-connected-tempaccount-sum' }
+				{ action: 'successfullyblockedconnectedtempaccountsum' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'already-blocked-connected-tempaccount-sum' }
+				{ action: 'alreadyblockedconnectedtempaccountsum' }
 			]
 		] );
 	} );
@@ -280,22 +280,22 @@ describe( 'blockConnectedTempAccountsField', () => {
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'viewed-tempaccount' }
+				{ action: 'viewedtempaccount' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'found-connected-tempaccounts' }
+				{ action: 'foundconnectedtempaccounts' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				1,
-				{ action: 'found-connected-tempaccounts-count', count: 2 }
+				{ action: 'foundconnectedtempaccountscount', count: 2 }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
 				2,
-				{ action: 'found-connected-tempaccounts-sum' }
+				{ action: 'foundconnectedtempaccountssum' }
 			],
 			[
 				'stats.mediawiki_checkuser_connected_tempaccounts_bulkblock_total',
