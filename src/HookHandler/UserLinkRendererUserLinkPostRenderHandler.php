@@ -71,7 +71,11 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 				],
 				$icon
 			);
-			$prefix .= $markup;
+			$html = Html::rawElement(
+				'span',
+				[ 'class' => 'ext-checkuser-userinfocard-button-wrapper' ],
+				$markup . $html
+			);
 		}
 	}
 }
