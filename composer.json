@@ -16,8 +16,8 @@
 		],
 		"fix": [
 			"minus-x fix .",
-			"phpcbf",
-			"php-cs-fixer fix"
+			"php-cs-fixer fix",
+			"phpcbf"
 		],
 		"phan": "phan -d . --long-progress-bar",
 		"phpcs": "phpcs -sp --cache"
