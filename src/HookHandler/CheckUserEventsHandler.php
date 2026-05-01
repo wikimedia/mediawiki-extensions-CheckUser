@@ -34,9 +34,9 @@ use Wikimedia\Rdbms\ReadOnlyMode;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
- * Hooks into several hook handlers to create private checkuser events when certain actions occur.
+ * Hooks into several hook handlers to create checkuser events when certain actions occur.
  */
-class CheckUserPrivateEventsHandler implements
+class CheckUserEventsHandler implements
 	EmailUserHook,
 	AuthManagerLoginAuthenticateAuditHook,
 	LocalUserCreatedHook,
@@ -465,3 +465,9 @@ class CheckUserPrivateEventsHandler implements
 		}
 	}
 }
+
+/** @deprecated class alias since 1.47 */
+class_alias(
+	CheckUserEventsHandler::class,
+	'MediaWiki\\Extension\\CheckUser\\HookHandler\\CheckUserPrivateEventsHandler'
+);

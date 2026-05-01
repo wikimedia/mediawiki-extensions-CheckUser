@@ -7,7 +7,7 @@ use MediaWiki\Auth\AuthManager;
 use MediaWiki\Content\ContentHandler;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
-use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Logging\ManualLogEntry;
@@ -52,7 +52,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	private array $userAgentsToClientHintsMap;
 
 	private RecentChangeSaveHandler $recentChangeSaveHandler;
-	private CheckUserPrivateEventsHandler $privateEventsHandler;
+	private CheckUserEventsHandler $eventsHandler;
 
 	private User $userToEmailAndSendPasswordResetsFor;
 
@@ -188,7 +188,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		}
 
 		// Start code that can assume it is safe to perform un-reversible testing actions.
-		$this->privateEventsHandler = new CheckUserPrivateEventsHandler(
+		$this->eventsHandler = new CheckUserEventsHandler(
 			$services->get( 'CheckUserInsert' ),
 			$this->getConfig(),
 			$services->getUserIdentityLookup(),
@@ -637,7 +637,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			} else {
 				$failReasons[] = "bad password";
 			}
-			$this->privateEventsHandler->onAuthManagerLoginAuthenticateAudit(
+			$this->eventsHandler->onAuthManagerLoginAuthenticateAudit(
 				AuthenticationResponse::newFail( wfMessage( 'test' ), $failReasons ),
 				$actorAsUserObject,
 				$actor->getName(),
@@ -649,7 +649,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		}
 		if ( $actor->isRegistered() ) {
 			// Simulate a login.
-			$this->privateEventsHandler->onAuthManagerLoginAuthenticateAudit(
+			$this->eventsHandler->onAuthManagerLoginAuthenticateAudit(
 				AuthenticationResponse::newPass( $actor->getName() ),
 				$actorAsUserObject,
 				$actor->getName(),
@@ -704,14 +704,14 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$subject = 'Test';
 			$text = wfRandomString();
 			$error = [];
-			$this->privateEventsHandler->onEmailUser( $to, $from, $subject, $text, $error );
+			$this->eventsHandler->onEmailUser( $to, $from, $subject, $text, $error );
 			if ( !$this->incrementAndCheck( $actionsPerformed, $actionsLeft ) ) {
 				return $actionsPerformed;
 			}
 		}
 		// Send password reset 10% of the time.
 		if ( $this->getRandomFloat() < 0.1 ) {
-			$this->privateEventsHandler->onUser__mailPasswordInternal(
+			$this->eventsHandler->onUser__mailPasswordInternal(
 				$actorAsUserObject,
 				RequestContext::getMain()->getRequest()->getIP(),
 				$this->userToEmailAndSendPasswordResetsFor
@@ -728,7 +728,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 				UserRigorOptions::RIGOR_NONE
 			);
 			if ( $anonUser ) {
-				$this->privateEventsHandler->onUserLogoutComplete( $anonUser, $html, $actor->getName() );
+				$this->eventsHandler->onUserLogoutComplete( $anonUser, $html, $actor->getName() );
 			}
 			$this->incrementAndCheck( $actionsPerformed, $actionsLeft );
 		}

@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
-use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
 use MediaWiki\Extension\CheckUser\Services\AccountCreationDetailsLookup;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logging\ManualLogEntry;
@@ -20,8 +20,8 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserTempUserTestTrait;
 
-	private function getCheckUserPrivateEventsHandler(): CheckUserPrivateEventsHandler {
-		return new CheckUserPrivateEventsHandler(
+	private function getCheckUserEventsHandler(): CheckUserEventsHandler {
+		return new CheckUserEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
@@ -51,8 +51,8 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		$user = $this->getTestUser()->getUser();
 
 		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'Fake User Agent' );
-		$privateEventHandler = $this->getCheckUserPrivateEventsHandler();
-		$privateEventHandler->onLocalUserCreated( $user, false );
+		$eventHandler = $this->getCheckUserEventsHandler();
+		$eventHandler->onLocalUserCreated( $user, false );
 
 		$this->assertArrayEquals(
 			[ 'ip' => '127.0.0.1', 'agent' => 'Fake User Agent' ],

@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
-use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\GlobalBlockingHandler;
 use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
@@ -46,8 +46,8 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 		);
 	}
 
-	private function getCheckUserPrivateEventsHandler(): CheckUserPrivateEventsHandler {
-		return new CheckUserPrivateEventsHandler(
+	private function getCheckUserEventsHandler(): CheckUserEventsHandler {
+		return new CheckUserEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
@@ -127,8 +127,8 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 		// Add an autocreate action to the DB
 		ConvertibleTimestamp::setFakeTime( '20230405060708' );
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.4' );
-		$privateEventHandler = $this->getCheckUserPrivateEventsHandler();
-		$privateEventHandler->onLocalUserCreated( $user, true );
+		$eventHandler = $this->getCheckUserEventsHandler();
+		$eventHandler->onLocalUserCreated( $user, true );
 		// Add an edit to the DB by the $user
 		ConvertibleTimestamp::setFakeTime( '20230405060709' );
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.5' );
@@ -143,12 +143,12 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 		$logEntry->publish( $logEntry->insert() );
 		// Add another private event to the DB for the $user using the same IP as the log event
 		ConvertibleTimestamp::setFakeTime( '20230405060711' );
-		$privateEventHandler->onUser__mailPasswordInternal( $user, '1.2.3.2', $user );
+		$eventHandler->onUser__mailPasswordInternal( $user, '1.2.3.2', $user );
 		// Add another private event to the DB for the $user with a different IP
 		ConvertibleTimestamp::setFakeTime( '20230405060712' );
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.9' );
 		$inject_html = '';
-		$privateEventHandler->onUserLogoutComplete(
+		$eventHandler->onUserLogoutComplete(
 			$this->getServiceContainer()->getUserFactory()->newAnonymous( '1.2.3.9' ),
 			$inject_html,
 			$user->getName()
@@ -156,7 +156,7 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 		// Create a private event which is not related to the $user
 		ConvertibleTimestamp::setFakeTime( '20230407060708' );
 		RequestContext::getMain()->getRequest()->setIP( '8.7.6.5' );
-		$privateEventHandler->onUserLogoutComplete(
+		$eventHandler->onUserLogoutComplete(
 			$this->getServiceContainer()->getUserFactory()->newAnonymous( '8.7.6.5' ),
 			$inject_html,
 			$this->getMutableTestUser()->getUserIdentity()->getName()

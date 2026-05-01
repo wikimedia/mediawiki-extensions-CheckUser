@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
-use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
 use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -152,7 +152,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->enableAutoCreateTempUser();
 		$this->overrideConfigValue( 'CheckUserLogLogins', true );
 		// Add a password reset event so that we have something to use for testing.
-		$hooks = new CheckUserPrivateEventsHandler(
+		$hooks = new CheckUserEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),

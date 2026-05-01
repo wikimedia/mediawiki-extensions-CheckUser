@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Deferred\DeferredUpdates;
-use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -19,13 +19,13 @@ use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
- * @covers \MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler
  * @group CheckUser
  */
-class CheckUserPrivateEventsHandlerTest extends MediaWikiUnitTestCase {
-	public function getObjectUnderTestForNoCheckUserInsertCalls( $overrides = [] ): CheckUserPrivateEventsHandler {
+class CheckUserEventsHandlerTest extends MediaWikiUnitTestCase {
+	public function getObjectUnderTestForNoCheckUserInsertCalls( $overrides = [] ): CheckUserEventsHandler {
 		$noOpMockCheckUserInsert = $this->createNoOpMock( CheckUserInsert::class );
-		return new CheckUserPrivateEventsHandler(
+		return new CheckUserEventsHandler(
 			$noOpMockCheckUserInsert,
 			$overrides['config'] ?? new HashConfig(),
 			$overrides['userIdentityLookup'] ?? $this->createMock( UserIdentityLookup::class ),

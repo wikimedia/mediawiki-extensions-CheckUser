@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
-use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
@@ -291,7 +291,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 		// Record login events and set a fake expiry age.
 		$this->overrideConfigValue( 'CUDMaxAge', 100 );
 		// Add a password reset event twice
-		$hooks = new CheckUserPrivateEventsHandler(
+		$hooks = new CheckUserEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),

@@ -6,7 +6,7 @@ use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
-use MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
 use MediaWiki\Extension\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
@@ -26,17 +26,17 @@ use Wikimedia\Rdbms\LikeValue;
 use Wikimedia\TestingAccessWrapper;
 
 /**
- * @covers \MediaWiki\Extension\CheckUser\HookHandler\CheckUserPrivateEventsHandler
+ * @covers \MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler
  * @group Database
  * @group CheckUser
  */
-class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
+class CheckUserEventsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserCommonTestTrait;
 	use CheckUserTempUserTestTrait;
 
-	private function getObjectUnderTest( $entrypoint = null ): CheckUserPrivateEventsHandler {
-		return new CheckUserPrivateEventsHandler(
+	private function getObjectUnderTest( $entrypoint = null ): CheckUserEventsHandler {
+		return new CheckUserEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),

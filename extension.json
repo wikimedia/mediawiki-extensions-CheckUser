@@ -446,8 +446,8 @@
 				"PreferencesFactory"
 			]
 		},
-		"CheckUserPrivateEvents": {
-			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\CheckUserPrivateEventsHandler",
+		"CheckUserEvents": {
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\CheckUserEventsHandler",
 			"services": [
 				"CheckUserInsert",
 				"MainConfig",
@@ -661,7 +661,7 @@
 		"AbuseFilterCustomProtectedVariables": "AbuseFilterHandler",
 		"AbuseFilterLogProtectedVariableValueAccess": "AbuseFilterHandler",
 		"AbuseFilterCanViewProtectedVariables": "AbuseFilterHandler",
-		"AuthManagerLoginAuthenticateAudit": "CheckUserPrivateEvents",
+		"AuthManagerLoginAuthenticateAudit": "CheckUserEvents",
 		"BeforePageDisplay": [
 			"clienthints",
 			"pageDisplay"
@@ -674,14 +674,14 @@
 		],
 		"ChangesListInsertLogEntry": "LogDisplayHandler",
 		"ContributionsToolLinks": "ToolLinks",
-		"EmailUser": "CheckUserPrivateEvents",
+		"EmailUser": "CheckUserEvents",
 		"GetPreferences": "preferences",
 		"GlobalBlockingGetRetroactiveAutoblockIPs": "GlobalBlockingHandler",
 		"GlobalPreferencesSetGlobalPreferences": "GlobalPreferencesHandler",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"LocalUserCreated": [
 			"SuggestedInvestigationsHandler",
-			"CheckUserPrivateEvents"
+			"CheckUserEvents"
 		],
 		"LogEventsListLineEnding": "LogDisplayHandler",
 		"MakeGlobalVariablesScript": "UserInfoCardVariablesHandler",
@@ -724,9 +724,9 @@
 			"UserInfoCardCacheInvalidationOnGlobalLockHandler"
 		],
 		"UserGetDefaultOptions": "preferences",
-		"User::mailPasswordInternal": "CheckUserPrivateEvents",
+		"User::mailPasswordInternal": "CheckUserEvents",
 		"UserLinkRendererUserLinkPostRender": "UserLinkRendererUserLinkPostRenderHandler",
-		"UserLogoutComplete": "CheckUserPrivateEvents",
+		"UserLogoutComplete": "CheckUserEvents",
 		"UserMergeAccountFields": "UserMerge",
 		"UserSetEmail": "SuggestedInvestigationsHandler",
 		"UserSetEmailAuthenticationTimestamp": "SuggestedInvestigationsHandler",
