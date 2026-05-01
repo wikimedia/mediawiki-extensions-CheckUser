@@ -685,6 +685,7 @@
 		],
 		"LogEventsListLineEnding": "LogDisplayHandler",
 		"MakeGlobalVariablesScript": "UserInfoCardVariablesHandler",
+		"MarkPatrolledAudit": "CheckUserEvents",
 		"PageSaveComplete": [
 			"clienthints",
 			"SuggestedInvestigationsHandler"

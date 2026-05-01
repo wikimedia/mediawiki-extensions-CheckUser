@@ -17,12 +17,15 @@ use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\MainConfigNames;
+use MediaWiki\RecentChanges\Hook\MarkPatrolledAuditHook;
+use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Specials\Hook\EmailUserHook;
 use MediaWiki\Specials\Hook\UserLogoutCompleteHook;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
@@ -41,7 +44,8 @@ class CheckUserEventsHandler implements
 	AuthManagerLoginAuthenticateAuditHook,
 	LocalUserCreatedHook,
 	UserLogoutCompleteHook,
-	User__mailPasswordInternalHook
+	User__mailPasswordInternalHook,
+	MarkPatrolledAuditHook
 {
 
 	use UserAgentClientHintsManagerHelperTrait;
@@ -462,6 +466,24 @@ class CheckUserEventsHandler implements
 					);
 				}
 			}
+		}
+	}
+
+	/** @inheritDoc */
+	public function onMarkPatrolledAudit( RecentChange $recentChange, UserIdentity $userIdentity, int $logId ): void {
+		$this->checkUserInsert->insertIntoCuLogEventTable(
+			DatabaseLogEntry::newFromId( $logId, $this->dbProvider->getPrimaryDatabase() ),
+			__METHOD__,
+			$userIdentity,
+			$recentChange
+		);
+
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			$this->storeClientHintsDataFromHeaders(
+				$logId,
+				'log',
+				RequestContext::getMain()->getRequest()
+			);
 		}
 	}
 }

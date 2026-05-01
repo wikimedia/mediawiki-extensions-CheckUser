@@ -21,6 +21,7 @@ use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;
 use Wikimedia\TestingAccessWrapper;
@@ -900,5 +901,51 @@ class CheckUserEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->where( [ 'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT ] )
 			->caller( __METHOD__ )
 			->assertFieldValue( $insertedId );
+	}
+
+	public function testRecordsEntriesForPatrolLogs(): void {
+		$this->overrideConfigValue( MainConfigNames::UseRCPatrol, true );
+		$request = RequestContext::getMain()->getRequest();
+		$request->setIP( '1.2.3.4' );
+		$request->setHeader( 'Sec-CH-UA-Bitness', '"32"' );
+
+		$editor = $this->getTestUser()->getAuthority();
+		$title = $this->getExistingTestPage()->getTitle();
+		$pageUpdateStatus = $this->editPage( $title, 'TestingContentAbc', '', NS_MAIN, $editor );
+		$this->assertStatusGood( $pageUpdateStatus );
+
+		$recentChange = $this->getServiceContainer()->getRecentChangeLookup()->getRecentChangeByConds( [
+			'rc_this_oldid' => $pageUpdateStatus->getNewRevision()->getId(),
+		] );
+
+		$sysop = $this->getTestSysop()->getAuthority();
+		$this->getServiceContainer()->getPatrolManager()->markPatrolled( $recentChange, $sysop );
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'actor_name', 'log_page', 'cule_ip_hex' ] )
+			->from( 'cu_log_event' )
+			->join( 'logging', null, 'log_id = cule_log_id' )
+			->join( 'actor', null, 'actor_id = cule_actor' )
+			->where( [
+				'log_type' => 'patrol',
+				'log_action' => 'patrol',
+			] )
+			->caller( __METHOD__ )
+			->assertRowValue( [ $sysop->getUser()->getName(), $title->getId(), IPUtils::toHex( '1.2.3.4' ) ] );
+
+		$actualLogId = $this->newSelectQueryBuilder()
+			->select( 'log_id' )
+			->from( 'logging' )
+			->where( [ 'log_type' => 'patrol', 'log_action' => 'patrol' ] )
+			->caller( __METHOD__ )
+			->fetchField();
+
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => StoreClientHintsDataJob::TYPE ] );
+		$this->newSelectQueryBuilder()
+			->select( 'uachm_reference_id' )
+			->from( 'cu_useragent_clienthints_map' )
+			->where( [ 'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT ] )
+			->caller( __METHOD__ )
+			->assertFieldValue( $actualLogId );
 	}
 }
