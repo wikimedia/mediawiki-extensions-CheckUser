@@ -63,6 +63,7 @@
 	"checkuser-ip-contributions-target-label": "IP-adresa ili opseg:",
 	"checkuser-ip-contributions-search-form-wrapper": "Pretraži doprinose s IP-a",
 	"checkuser-ip-contributions-results-title": "Doprinosi privremenog korisnika s IP-a $1",
+	"checkuser-ip-contributions-deleted-contributions-link": "izbrisani doprinosi korisnika",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Doprinosi privremenog korisnika s IP-a",
 	"checkuser-ip-contributions-special-contributions-button": "Prijašnje izmjene s IP-a",
 	"checkuser-global-contributions-link": "globalni doprinosi",
@@ -108,5 +109,7 @@
 	"checkuser-userinfocard-last-edit-timestamp-label": "Posljednja izmjena: $1",
 	"checkuser-ipinfo-global-contributions-label": "Globalni doprinosi",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globalna izmjena|$1 globalne izmjene|$1 globalnih izmjena|0=Nema globalnih izmjena}}",
-	"tooltip-t-global-contributions": "Spisak doprinosa sa svih wikija {{GENDER:$1|ovog korisnika|ove korisnice}}"
+	"tooltip-t-global-contributions": "Spisak doprinosa sa svih wikija {{GENDER:$1|ovog korisnika|ove korisnice}}",
+	"checkuser-contributions-temporary-account-bucketcount": "Ukupno privremenih računa sa svih povezanih IP-adresa: $1.",
+	"checkuser-contributions-temporary-accounts-on-ip": "Ukupno privremenih računa na ovoj IP-adresi: $1."
 }

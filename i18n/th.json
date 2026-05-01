@@ -165,6 +165,7 @@
 	"checkuser-ip-contributions-search-form-wrapper": "ค้นหาสำหรับส่วนร่วมไอพี",
 	"checkuser-global-contributions-no-results-no-central-user": "<strong>ไม่พบผลลัพธ์ที่ตรงกับการค้นหา</strong> ผู้ใช้ \"$1\" ยังไม่ได้ลงทะเบียน",
 	"checkuser-global-contributions-link": "ส่วนร่วมข้ามโครงการ",
+	"checkuser-global-contributions-link-sidebar": "การมีส่วนร่วมข้ามโครงการ",
 	"checkuser-global-contributions": "ค้นหาสำหรับส่วนร่วมข้ามโครงการ",
 	"checkuser-global-contributions-subtitle": "แสดงผลลัพธ์จาก $1 {{PLURAL:$1|วัน}}ล่าสุด สำหรับทุกวิกิที่คุณมีสิทธิดูการมีส่วนร่วม จำกัดที่ $2 {{PLURAL:$2|ผลลัพธ์}}ต่อวิกิ",
 	"checkuser-global-contributions-target-label": "ชื่อผู้ใช้ ที่อยู่ไอพี หรือช่วงไอพี:",
