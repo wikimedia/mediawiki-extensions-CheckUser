@@ -13,6 +13,7 @@ use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\Skin\Skin;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -40,6 +41,9 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/** (CheckUserTemporaryAccountAutoRevealLookup&MockObject) */
 	private CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup;
 
+	/** (TempUserConfig&MockObject) */
+	private TempUserConfig $tempUserConfig;
+
 	/** @var (UserIdentity&MockObject) */
 	private UserIdentity $relevantUser;
 
@@ -65,11 +69,15 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->relevantUser = $this->createMock(
 			UserIdentity::class
 		);
+		$this->tempUserConfig = $this->createMock(
+			TempUserConfig::class
+		);
 
 		$this->sut = new SidebarLinksHandler(
 			$this->config,
 			$this->permissionManager,
-			$this->autoRevealLookup
+			$this->autoRevealLookup,
+			$this->tempUserConfig,
 		);
 	}
 
@@ -395,6 +403,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideIpAutoRevealLink */
 	public function testIpAutoRevealLink(
 		array $sidebar,
+		bool $hasTempUsers,
 		bool $canAutoReveal,
 		bool $globalPreferencesIsLoaded,
 		bool $autoRevealIsOn,
@@ -419,6 +428,10 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			->method( 'isAutoRevealAvailable' )
 			->willReturn( $globalPreferencesIsLoaded );
 
+		$this->tempUserConfig
+			->method( 'isKnown' )
+			->willReturn( $hasTempUsers );
+
 		$this->skin
 			->method( 'getAuthority' )
 			->willReturn( $this->authority );
@@ -440,6 +453,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Not added if user cannot auto-reveal' => [
 				'sidebar' => [],
+				'hasTempUsers' => true,
 				'canAutoReveal' => false,
 				'globalPreferencesIsLoaded' => true,
 				'autoRevealIsOn' => false,
@@ -447,8 +461,17 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'Not added if GlobalPreferences is not loaded' => [
 				'sidebar' => [],
+				'hasTempUsers' => true,
 				'canAutoReveal' => true,
 				'globalPreferencesIsLoaded' => false,
+				'autoRevealIsOn' => false,
+				'expected' => [],
+			],
+			'Not added if temp user is unknown' => [
+				'sidebar' => [],
+				'hasTempUsers' => false,
+				'canAutoReveal' => true,
+				'globalPreferencesIsLoaded' => true,
 				'autoRevealIsOn' => false,
 				'expected' => [],
 			],
@@ -461,6 +484,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 						],
 					],
 				],
+				'hasTempUsers' => true,
 				'canAutoReveal' => true,
 				'globalPreferencesIsLoaded' => true,
 				'autoRevealIsOn' => false,
@@ -489,6 +513,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 						],
 					],
 				],
+				'hasTempUsers' => true,
 				'canAutoReveal' => true,
 				'globalPreferencesIsLoaded' => true,
 				'autoRevealIsOn' => true,
@@ -510,6 +535,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'Added to sidebar without existing toolbox, auto-reveal is off' => [
 				'sidebar' => [],
+				'hasTempUsers' => true,
 				'canAutoReveal' => true,
 				'globalPreferencesIsLoaded' => true,
 				'autoRevealIsOn' => false,

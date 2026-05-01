@@ -9,6 +9,7 @@ use MediaWiki\Skin\Hook\SidebarBeforeOutputHook;
 use MediaWiki\Skin\Skin;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\User\TempUser\TempUserConfig;
 use Wikimedia\IPUtils;
 
 /**
@@ -27,6 +28,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 		private readonly Config $config,
 		private readonly CheckUserPermissionManager $permissionManager,
 		private readonly CheckUserTemporaryAccountAutoRevealLookup $autoRevealLookup,
+		private readonly TempUserConfig $tempUserConfig,
 	) {
 	}
 
@@ -149,7 +151,8 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	 * @return bool
 	 */
 	private function shouldAddIPAutoReveal( Skin $skin ) {
-		if ( !$this->autoRevealLookup->isAutoRevealAvailable() ) {
+		if ( !$this->tempUserConfig->isKnown() ||
+			!$this->autoRevealLookup->isAutoRevealAvailable() ) {
 			return false;
 		}
 
