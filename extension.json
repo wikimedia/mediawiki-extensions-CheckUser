@@ -542,7 +542,8 @@
 			"services": [
 				"MainConfig",
 				"CheckUserPermissionManager",
-				"CheckUserTemporaryAccountAutoRevealLookup"
+				"CheckUserTemporaryAccountAutoRevealLookup",
+				"TempUserConfig"
 			]
 		},
 		"LogDisplayHandler": {

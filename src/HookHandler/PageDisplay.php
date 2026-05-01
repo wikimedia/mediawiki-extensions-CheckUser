@@ -211,9 +211,8 @@ class PageDisplay implements BeforePageDisplayHook {
 					// a prereq for auto-reveal
 					$this->extensionRegistry->isLoaded( 'GlobalPreferences' ) &&
 					$out->getAuthority()->isAllowed( 'checkuser-temporary-account-auto-reveal' ),
-					'wgCheckUserAutoRevealMaximumExpiry' => $this->config->get(
-						'CheckUserAutoRevealMaximumExpiry'
-					),
+				'wgCheckUserAutoRevealMaximumExpiry' =>
+					$this->config->get( 'CheckUserAutoRevealMaximumExpiry' ),
 			] );
 		}
 	}
