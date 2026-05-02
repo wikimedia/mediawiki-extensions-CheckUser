@@ -1481,7 +1481,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$pager = $this->getPager( $context );
 		$parserOutput = $pager->getFullOutput();
-		$html = $parserOutput->getRawText();
+		$html = $parserOutput->getContentHolderText();
 
 		$this->assertStringContainsString(
 			'mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip',
@@ -1503,7 +1503,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$pager = $this->getPager( $context );
 		$parserOutput = $pager->getFullOutput();
-		$html = $parserOutput->getRawText();
+		$html = $parserOutput->getContentHolderText();
 
 		$this->assertStringNotContainsString(
 			'mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip',
