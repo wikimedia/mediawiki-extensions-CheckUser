@@ -59,6 +59,7 @@
 	"checkuser-ip-contributions-target-label": "IP-adresa ili opseg:",
 	"checkuser-ip-contributions-search-form-wrapper": "Pretraži doprinose s IP-a",
 	"checkuser-ip-contributions-results-title": "Doprinosi privremenog korisnika s IP-a $1",
+	"checkuser-ip-contributions-deleted-contributions-link": "izbrisani doprinosi korisnika",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Doprinosi privremenog korisnika s IP-a",
 	"checkuser-ip-contributions-special-contributions-button": "Prijašnje izmjene s IP-a",
 	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
