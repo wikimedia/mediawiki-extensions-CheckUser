@@ -438,7 +438,7 @@
 	"checkuser-userinfocard-last-edit-timestamp-label": "最終編集: $1",
 	"checkuser-ipinfo-global-contributions-label": "グローバル投稿記録",
 	"checkuser-ipinfo-global-contributions-tooltip": "このIPアドレスから行われたクロスウィキの編集数。",
-	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1グローバル編集|0=グローバル編集なし}}",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|グローバル編集 $1 件|0=グローバル編集なし}}",
 	"tooltip-t-global-contributions": "{{GENDER:$1|この利用者}}の全ウィキでの投稿記録",
 	"checkuser-userinfocard-groups": "<strong>グループ</strong>: $1",
 	"checkuser-userinfocard-global-groups": "<strong>グローバルグループ</strong>: $1",
