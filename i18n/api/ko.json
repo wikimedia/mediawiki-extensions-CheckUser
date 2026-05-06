@@ -34,7 +34,7 @@
 	"apihelp-query+globalcontributions-summary": "주어진 등록된 사용자의 모든 위키에 걸친 가장 최근 편집 내용을 표시합니다.",
 	"apihelp-query+globalcontributions-param-target": "조회할 사용자 이름 (IP가 아니어야 함).",
 	"apihelp-query+globalcontributions-param-limit": "검사 한도",
-	"apihelp-query+globalcontributions-param-offset": "열거를 재개할 계속되는 오프셋입니다.",
+	"apihelp-query+globalcontributions-param-offset": "나열을 재개할 계속되는 오프셋입니다.",
 	"apihelp-query+globalcontributions-example-1": "주어진 사용자의 모든 위키에 걸친 가장 최근 편집 내용을 표시합니다.",
 	"apihelp-query+globalcontributions-example-2": "주어진 사용자의 모든 위키에 걸친 가장 최근 편집 내용을 주어진 계속되는 오프셋으로부터 사용자 지정 제한과 함께 표시합니다.",
 	"apierror-checkuser-missingsummary": "검사 이유를 지정해야 합니다.",
