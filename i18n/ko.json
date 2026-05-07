@@ -392,7 +392,7 @@
 	"checkuser-userinfocard-menu-view-contributions": "{{GENDER:$1|사용자}} 기여 보기",
 	"checkuser-userinfocard-menu-view-global-account": "{{GENDER:$1|전역 계정}} 정보 보기",
 	"checkuser-userinfocard-menu-add-to-watchlist": "{{GENDER:$1|사용자 문서}}를 주시문서에 추가",
-	"checkuser-userinfocard-menu-remove-from-watchlist": "{{GENDER:$1|사용자 문서}}를 주시문서에서 삭제",
+	"checkuser-userinfocard-menu-remove-from-watchlist": "{{GENDER:$1|사용자 문서}}를 주시문서 목록에서 삭제",
 	"checkuser-userinfocard-menu-check-ip": "{{GENDER:$1|사용자}} IP 주소 검사",
 	"checkuser-userinfocard-menu-block-user": "{{GENDER:$1|사용자}} 차단",
 	"checkuser-userinfocard-menu-provide-feedback": "이 기능에 대한 피드백 남기기",
