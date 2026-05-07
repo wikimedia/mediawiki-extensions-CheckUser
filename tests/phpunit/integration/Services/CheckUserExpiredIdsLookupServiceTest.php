@@ -19,7 +19,6 @@ use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Revision\MutableRevisionRecord;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStoreFactory;
-use MediaWiki\Revision\SlotRecord;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -382,12 +381,11 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 	private function getNewRevisionForTestPage(
 		string $content
 	): MutableRevisionRecord {
-		$revision = new MutableRevisionRecord( $this->wikiPage->getTitle() );
-		$revision->setPageId( $this->wikiPage->getId() );
-		$revision->setContent(
-			SlotRecord::MAIN,
+		$revision = MutableRevisionRecord::newFromContent(
+			$this->wikiPage->getTitle(),
 			new WikitextContent( $content )
 		);
+		$revision->setPageId( $this->wikiPage->getId() );
 
 		return $revision;
 	}
