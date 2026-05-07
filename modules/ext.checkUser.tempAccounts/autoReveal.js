@@ -24,7 +24,8 @@ module.exports = function ( documentRoot ) {
 
 	$( '.checkuser-ip-auto-reveal', documentRoot ).on(
 		'click',
-		() => {
+		( event ) => {
+			event.preventDefault();
 			mw.loader.using( [ 'vue', '@wikimedia/codex' ] ).then( () => {
 				getAutoRevealStatus().then( ( expiry ) => {
 					$( 'body' ).append(
