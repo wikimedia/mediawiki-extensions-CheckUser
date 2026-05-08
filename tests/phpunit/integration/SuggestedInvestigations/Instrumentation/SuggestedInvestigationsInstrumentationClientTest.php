@@ -8,10 +8,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
-use MediaWiki\Extension\EventBus\Serializers\MediaWiki\UserEntitySerializer;
 use MediaWiki\Extension\EventLogging\MetricsPlatform\MetricsClientFactory;
-use MediaWiki\Registration\ExtensionRegistry;
-use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\MetricsPlatform\MetricsClient;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -51,11 +48,7 @@ class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrat
 		$providedInteractionData['case_id'] = $caseId;
 
 		// Generate the expected interaction data array
-		$userEntitySerializer = new UserEntitySerializer(
-			$this->getServiceContainer()->getUserFactory(),
-			$this->getServiceContainer()->getUserGroupManager(),
-			$this->getServiceContainer()->getCentralIdLookup()
-		);
+		$userEntitySerializer = $this->getServiceContainer()->get( 'EventBus.UserEntitySerializer' );
 
 		if ( !array_key_exists( 'case_url_identifier', $providedInteractionData ) ) {
 			$expectedUrlIdentifier = (int)$this->getDb()->newSelectQueryBuilder()
@@ -225,25 +218,5 @@ class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrat
 			'CheckUserSuggestedInvestigationsInstrumentationClient'
 		);
 		$objectUnderTest->submitInteraction( RequestContext::getMain(), 'test', $providedInteractionData );
-	}
-
-	public function testGetUserFragmentsArrayWhenEventBusNotInstalled() {
-		$mockExtensionRegistry = $this->createMock( ExtensionRegistry::class );
-		$mockExtensionRegistry->method( 'isLoaded' )
-			->with( 'EventBus' )
-			->willReturn( false );
-		$this->setService( 'ExtensionRegistry', $mockExtensionRegistry );
-
-		/** @var SuggestedInvestigationsInstrumentationClient $objectUnderTest */
-		$objectUnderTest = $this->getServiceContainer()->get(
-			'CheckUserSuggestedInvestigationsInstrumentationClient'
-		);
-		$this->assertSame(
-			[],
-			$objectUnderTest->getUserFragmentsArray( [
-				UserIdentityValue::newRegistered( 1, 'Test' ),
-				UserIdentityValue::newRegistered( 2, 'Testing' ),
-			] )
-		);
 	}
 }

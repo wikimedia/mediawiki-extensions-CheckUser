@@ -6,11 +6,8 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\EventBus\Serializers\MediaWiki\UserEntitySerializer;
 use MediaWiki\Extension\EventLogging\MetricsPlatform\MetricsClientFactory;
-use MediaWiki\Registration\ExtensionRegistry;
-use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Registration\UserRegistrationLookup;
 use MediaWiki\User\UserEditTracker;
-use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -25,13 +22,11 @@ class SuggestedInvestigationsInstrumentationClient implements ISuggestedInvestig
 	public function __construct(
 		private readonly IConnectionProvider $dbProvider,
 		private readonly UserIdentityLookup $userIdentityLookup,
-		private readonly UserFactory $userFactory,
 		private readonly UserRegistrationLookup $userRegistrationLookup,
 		private readonly UserEditTracker $userEditTracker,
 		private readonly UserGroupManager $userGroupManager,
-		private readonly CentralIdLookup $centralIdLookup,
-		private readonly ExtensionRegistry $extensionRegistry,
 		private readonly MetricsClientFactory $metricsClientFactory,
+		private readonly UserEntitySerializer $userEntitySerializer,
 	) {
 	}
 
@@ -77,20 +72,8 @@ class SuggestedInvestigationsInstrumentationClient implements ISuggestedInvestig
 
 	/** @inheritDoc */
 	public function getUserFragmentsArray( array $userIdentities ): array {
-		// If EventBus is not installed, then we cannot generate the array,
-		// so gracefully return (T412722)
-		if ( !$this->extensionRegistry->isLoaded( 'EventBus' ) ) {
-			return [];
-		}
-
-		$userEntitySerializer = new UserEntitySerializer(
-			$this->userFactory,
-			$this->userGroupManager,
-			$this->centralIdLookup
-		);
-
-		return array_map( static function ( $userIdentity ) use ( $userEntitySerializer ) {
-			return $userEntitySerializer->toArray( $userIdentity );
+		return array_map( function ( $userIdentity ) {
+			return $this->userEntitySerializer->toArray( $userIdentity );
 		}, $userIdentities );
 	}
 

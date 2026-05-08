@@ -412,22 +412,23 @@ return [
 	'CheckUserSuggestedInvestigationsInstrumentationClient' => static function (
 		MediaWikiServices $services
 	): ISuggestedInvestigationsInstrumentationClient {
-		// If the EventLogging extension is not installed, then return the
-		// no-op instrumentation client to allow callers to call it safely
-		if ( !$services->has( 'EventLogging.MetricsClientFactory' ) ) {
+		// If the neither EventLogging or EventBus is installed,
+		// then return the no-op instrumentation client to allow callers to call it safely.
+		if (
+			!$services->has( 'EventLogging.MetricsClientFactory' ) ||
+			!$services->has( 'EventBus.UserEntitySerializer' )
+		) {
 			return new NoOpSuggestedInvestigationsInstrumentationClient();
 		}
 
 		return new SuggestedInvestigationsInstrumentationClient(
 			$services->getConnectionProvider(),
 			$services->getUserIdentityLookup(),
-			$services->getUserFactory(),
 			$services->getUserRegistrationLookup(),
 			$services->getUserEditTracker(),
 			$services->getUserGroupManager(),
-			$services->getCentralIdLookup(),
-			$services->getExtensionRegistry(),
-			$services->get( 'EventLogging.MetricsClientFactory' )
+			$services->get( 'EventLogging.MetricsClientFactory' ),
+			$services->get( 'EventBus.UserEntitySerializer' ),
 		);
 	},
 	'CheckUserSuggestedInvestigationsMessageRenderer' => static function (
