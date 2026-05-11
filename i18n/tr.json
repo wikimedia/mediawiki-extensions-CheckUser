@@ -503,5 +503,6 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Hesap listesini kopyala",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Hesap listesi kopyalandı",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Hesap listesi kopyalama başarısız oldu",
-	"checkuser-related-tas-specialblock-checkbox-label": "Tüm alakalı geçici hesapları engelle"
+	"checkuser-related-tas-specialblock-checkbox-label": "Tüm alakalı geçici hesapları engelle",
+	"checkuser-related-tas-specialblock-confirm": "Bu, engeli $1 hesaba uygulayacaktır. Bu hesapları engellemeye devam etmeniz, onları incelediğinizi onaylar."
 }

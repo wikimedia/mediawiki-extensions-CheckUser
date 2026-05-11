@@ -118,5 +118,8 @@
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "Скасаваць",
 	"checkuser-userinfocard-enable-preference-description": "Уключыць [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|картку з інфармацыяй пра карыстальніка]]",
 	"checkuser-userinfocard-enable-preference-help": "Паказваць побач зь імёнамі карыстальнікаў кнопку, якая адкрые выплыўнае вакенца з інфармацыяй пра рахунак.",
-	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Рахунак"
+	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Статус",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Рахунак",
+	"checkuser-suggestedinvestigations-header-status": "Статус",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Статус"
 }
