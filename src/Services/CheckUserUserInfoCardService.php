@@ -397,14 +397,37 @@ class CheckUserUserInfoCardService {
 		// In case the user doesn't have suppressionlog rights, ensure that the value displayed here is at least 0.
 		$userInfo['pastBlocksOnLocalWiki'] = max( 0, $blockLogEntriesCount - count( $blocks[0] ?? [] ) );
 
-		$authorityPermissionStatus =
-			$this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses( $authority );
-		$userPermissionStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
-			$this->userFactory->newFromUserIdentity( $user )
-		);
+		$userInfo['tempAccountsOnIPCount'] = [];
+		$userInfo['canAccessTemporaryAccountIpAddresses'] = false;
+		if ( $this->tempUserConfig->isKnown() ) {
+			$authorityPermissionStatus =
+				$this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses( $authority );
+			$userPermissionStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+				$this->userFactory->newFromUserIdentity( $user )
+			);
 
-		$userInfo['canAccessTemporaryAccountIpAddresses'] = $authorityPermissionStatus->isGood() &&
-			$userPermissionStatus->isGood();
+			$userInfo['canAccessTemporaryAccountIpAddresses'] = $authorityPermissionStatus->isGood() &&
+				$userPermissionStatus->isGood();
+
+			// If the user is a temporary account, get the number of accounts active on the same IPs/ranges
+			if ( $this->tempUserConfig->isTempName( $user->getName() ) ) {
+				// 101 is the maximum number of accounts we care about as defined by T412212
+				if ( $authorityPermissionStatus->isGood() ) {
+					// If performer has TAIV rights, show exact number of accounts
+					$exactCount = $this->checkUserTemporaryAccountsByIPLookup
+						->getAggregateActiveTempAccountCount( $user, 101 );
+					// Send this number to the front-end in the range format it expects
+					$userInfo['tempAccountsOnIPCount'] = [ $exactCount, $exactCount ];
+				} else {
+					// Otherwise, show the bucketed range
+					$bucketCount = $this->checkUserTemporaryAccountsByIPLookup->getBucketedCount(
+						$this->checkUserTemporaryAccountsByIPLookup
+							->getAggregateActiveTempAccountCount( $user, 101 )
+					);
+					$userInfo['tempAccountsOnIPCount'] = $bucketCount;
+				}
+			}
+		}
 
 		// Generate a URL to the Special:CentralAuth page for the user being viewed, preferring to have the
 		// URL be on a central wiki if one is defined.
@@ -423,26 +446,6 @@ class CheckUserUserInfoCardService {
 				'CentralAuth',
 				$this->getUserTitleKey( $user )
 			)->getLinkURL();
-		}
-
-		// If the user is a temporary account, get the number of accounts active on the same IPs/ranges
-		$userInfo['tempAccountsOnIPCount'] = [];
-		if ( $this->tempUserConfig->isTempName( $user->getName() ) ) {
-				// 101 is the maximum number of accounts we care about as defined by T412212
-			if ( $authorityPermissionStatus->isGood() ) {
-				// If performer has TAIV rights, show exact number of accounts
-				$exactCount = $this->checkUserTemporaryAccountsByIPLookup
-					->getAggregateActiveTempAccountCount( $user, 101 );
-				// Send this number to the front-end in the range format it expects
-				$userInfo['tempAccountsOnIPCount'] = [ $exactCount, $exactCount ];
-			} else {
-				// Otherwise, show the bucketed range
-				$bucketCount = $this->checkUserTemporaryAccountsByIPLookup->getBucketedCount(
-					$this->checkUserTemporaryAccountsByIPLookup
-						->getAggregateActiveTempAccountCount( $user, 101 )
-				);
-				$userInfo['tempAccountsOnIPCount'] = $bucketCount;
-			}
 		}
 
 		$this->statsFactory->withComponent( 'CheckUser' )
