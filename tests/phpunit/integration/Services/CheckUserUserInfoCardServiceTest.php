@@ -798,6 +798,19 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( false, $result['canAccessTemporaryAccountIpAddresses'] );
 	}
 
+	public function testCanAccessTemporaryAccountIPAddressesWhenTempAccountsNotKnown(): void {
+		$this->setGroupPermissions( 'sysop', 'checkuser-temporary-account-no-preference', true );
+		$user = $this->getTestSysop()->getUser();
+
+		$this->disableAutoCreateTempUser( [ 'known' => false ] );
+
+		$objectUnderTest = $this->getObjectUnderTest( [
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
+		] );
+		$result = $objectUnderTest->getUserInfo( $user, $user );
+		$this->assertSame( false, $result['canAccessTemporaryAccountIpAddresses'] );
+	}
+
 	public function testAuthorityGetsExactAccountsOnIPCount() {
 		$ipLookup = $this->createNoOpMock( CheckUserTemporaryAccountsByIPLookup::class );
 		$userInfoCardService = $this->getObjectUnderTest( [
