@@ -114,6 +114,7 @@
 	"checkuser-investigateblock-notice-position-label": "ځای",
 	"checkuser-investigateblock-notice-text-label": "ويکي‌ليک",
 	"checkuser-investigateblock-notice-append": "مخ سره تړل",
+	"checkuser-investigateblock-notice-prepend": "مخ کې مخکې‌تړنه",
 	"checkuser-investigateblock-notice-replace": "مخ ځايناستول",
 	"checkuser-investigateblock-confirm-blocks-label": "بنديزونه تاييدول",
 	"checkuser-investigate": "څېړل",

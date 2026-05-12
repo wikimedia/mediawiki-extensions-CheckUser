@@ -61,7 +61,7 @@
 	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|臨時アカウントIP閲覧者}}",
 	"right-checkuser": "利用者のIPアドレスやその他の情報をチェック",
 	"right-checkuser-log": "チェックユーザー記録を閲覧",
-	"right-checkuser-temporary-account": "仮アカウントのIPアドレスを閲覧",
+	"right-checkuser-temporary-account": "仮アカウントの IP アドレスを閲覧",
 	"right-checkuser-temporary-account-no-preference": "個人設定を確認せずに、臨時アカウントで使用されているIPアドレスを閲覧",
 	"right-checkuser-temporary-account-log": "仮アカウントIPアドレスのアクセス記録を閲覧",
 	"grant-checkuser": "チェックユーザー情報にアクセス",
