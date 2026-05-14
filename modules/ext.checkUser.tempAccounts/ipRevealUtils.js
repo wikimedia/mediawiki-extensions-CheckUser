@@ -24,7 +24,7 @@ function getRevealedStatus( user ) {
  * @param {string} user The username of the temporary account that has had its IPs revealed.
  */
 function setRevealedStatus( user ) {
-	if ( !getRevealedStatus( getRevealedStatusKey( user ) ) ) {
+	if ( !getRevealedStatus( user ) ) {
 		mw.storage.set(
 			getRevealedStatusKey( user ),
 			true,
