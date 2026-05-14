@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
+			"AhmedG612",
 			"Maax"
 		]
 	},
 	"checkuser-search": "Raadi",
-	"checkuser-search-submit": "Raadi"
+	"checkuser-search-submit": "Raadi",
+	"checkuser-investigateblock-confirm-blocks-label": "Xaqiiji xanibaadaha"
 }
