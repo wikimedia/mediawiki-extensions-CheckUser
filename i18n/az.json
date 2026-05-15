@@ -511,5 +511,6 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Hesabların siyahısını kopiyalamaq alınmadı",
 	"checkuser-related-tas-specialblock-checkbox-label": "Bütün əlaqəli müvəqqəti hesabları blokla",
 	"checkuser-related-tas-specialblock-accounts-list": "Son $4 gün ərzində $3 ilə əlaqəli $2 IP ünvanından istifadə edən $1 müvəqqəti hesab müəyyən edilib: $5.",
-	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Bu hesabların bütün töhfələrinə bax]"
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Bu hesabların bütün töhfələrinə bax]",
+	"checkuser-related-tas-specialblock-confirm": "Bu, bloku $1 hesaba tətbiq edəcək. Bu {{PLURAL:$1|hesabı|hesabları}} bloklamağa davam etməyiniz {{PLURAL:$1|onu|onları}} araşdırdığınızı təsdiqləyir."
 }

@@ -83,6 +83,7 @@
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 minuta",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Isključi",
 	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
+	"checkuser-tempaccount-reveal-ip-expired": "više nije dostupno",
 	"checkuser-tempaccount-specialblock-ips": "Ovo je privremeni korisnik koji koristi {{PLURAL:$1|sljedeću IP-adresu|sljedeće IP-adrese}}: $2",
 	"checkuser-ipinfo-global-contributions-url-text": "Prikaži globalne doprinose",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Datum registracije}}: $1 ($2)",
