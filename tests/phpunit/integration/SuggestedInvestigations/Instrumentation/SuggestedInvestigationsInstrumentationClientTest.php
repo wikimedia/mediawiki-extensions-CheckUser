@@ -20,8 +20,14 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrationTestCase {
 	use SuggestedInvestigationsTestTrait;
 
-	public function testSubmitInteractionWithNoAutoPopulationOfInteractionData() {
+	protected function setUp(): void {
+		parent::setUp();
+
 		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
+		$this->markTestSkippedIfExtensionNotLoaded( 'EventBus' );
+	}
+
+	public function testSubmitInteractionWithNoAutoPopulationOfInteractionData() {
 		$this->commonSubmitInteractionTest(
 			[ 'is_paging_results' => true, 'pager_limit' => 123 ],
 			[ 'is_paging_results' => true, 'pager_limit' => 123 ]
@@ -30,9 +36,6 @@ class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrat
 
 	/** @dataProvider provideSubmitInteractionWithCaseId */
 	public function testSubmitInteractionWithCaseId( array $providedInteractionData ) {
-		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
-		$this->markTestSkippedIfExtensionNotLoaded( 'EventBus' );
-
 		$this->enableSuggestedInvestigations();
 
 		// Create a case and then update it to include a specified note
@@ -109,9 +112,6 @@ class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrat
 	}
 
 	public function testSubmitInteractionWithCaseIdNotOnReplicaDb() {
-		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
-		$this->markTestSkippedIfExtensionNotLoaded( 'EventBus' );
-
 		$this->enableSuggestedInvestigations();
 
 		// Use a case ID that does not exist in the DB to simulate it not being defined on a replica DB
@@ -127,8 +127,6 @@ class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrat
 
 	/** @dataProvider provideSubmitInteractionWithPerformerId */
 	public function testSubmitInteractionWithPerformerId( array $providedPerformerData ) {
-		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
-
 		$userIdentity = $this->getTestUser()->getUserIdentity();
 		$providedInteractionData = [
 			'performer' => array_merge( [ 'id' => $userIdentity->getId() ], $providedPerformerData ),
@@ -183,8 +181,6 @@ class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrat
 	}
 
 	public function testSubmitInteractionWithInvalidPerformerId() {
-		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
-
 		// The performer fields should just not be prefilled if the user ID in
 		// 'performer_id' does not exist
 		$this->commonSubmitInteractionTest( [ 'performer_id' => 1233445 ], [ 'performer_id' => 1233445 ] );
