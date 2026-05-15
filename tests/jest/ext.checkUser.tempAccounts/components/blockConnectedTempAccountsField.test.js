@@ -258,6 +258,32 @@ describe( 'blockConnectedTempAccountsField', () => {
 		] );
 	} );
 
+	it( 'Keeps the checkbox disabled after formReset (T422785)', async () => {
+		const connectedAccounts = [];
+		for ( let i = 2; i <= 18; i++ ) {
+			connectedAccounts.push( `~2026-${ i }` );
+		}
+		const wrapper = setupAndMount(
+			{ targetUser: '~2026-1' },
+			{},
+			{ connectedAccounts, ipsUsedCount: 1 }
+		);
+
+		await new Promise( ( resolve ) => {
+			setTimeout( () => {
+				resolve();
+			}, 0 );
+		} );
+
+		const checkbox = wrapper.find( 'input[name="block-connected-accounts"]' );
+		expect( checkbox.attributes( 'disabled' ) ).toBeDefined();
+
+		hooks[ 'mw.special.block.formReset' ]();
+		await wrapper.vm.$nextTick();
+
+		expect( checkbox.attributes( 'disabled' ) ).toBeDefined();
+	} );
+
 	it( 'Skips tracking block stats if no addtiional blocks were made', async () => {
 		const restResult = {
 			connectedAccounts: [ '~2026-2', '~2026-3' ],

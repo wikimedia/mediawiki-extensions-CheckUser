@@ -87,11 +87,14 @@ module.exports = exports = defineComponent( {
 		const blockConnectedTempAccountsApiCallError = ref( '' );
 		const connectedTempAccountsText = ref( '' );
 		const shouldBlockConnectedTempAccounts = ref( false );
-		const tooManyAccountsToBlock = ref( false );
+		// Derived from connectedTempAccounts so it stays in sync when the form
+		// is reset (e.g. after a block is created) without re-fetching.
+		const tooManyAccountsToBlock = computed(
+			() => connectedTempAccounts.value.length > maxAllowed
+		);
 		function resetForm() {
 			blockConnectedTempAccountsApiCallError.value = '';
 			shouldBlockConnectedTempAccounts.value = false;
-			tooManyAccountsToBlock.value = false;
 		}
 
 		watch( () => props.targetUser, async ( newTarget, currentTarget ) => {
@@ -146,10 +149,6 @@ module.exports = exports = defineComponent( {
 						action: 'foundconnectedtempaccountssum'
 					}
 				);
-
-				if ( connectedTempAccounts.value.length > maxAllowed ) {
-					tooManyAccountsToBlock.value = true;
-				}
 
 				const userLinks = connectedTempAccounts.value.map(
 					( target ) => mw.message( 'checkuser-related-tas-target', target ).parse()
