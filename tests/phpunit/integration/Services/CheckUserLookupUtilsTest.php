@@ -282,7 +282,7 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 				'Missing target for log entry being displayed in CheckUser result interface',
 				$this->anything()
 			)
-			->willReturn( function ( $message, array $context ) use ( $row )  {
+			->willReturnCallback( function ( $message, array $context ) use ( $row ): void {
 				$this->assertSame( $row, $context['row'] );
 				$this->assertInstanceOf( RuntimeException::class, $context['exception'] );
 			} );
