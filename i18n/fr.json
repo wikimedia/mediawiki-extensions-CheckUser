@@ -26,6 +26,7 @@
 			"IAlex",
 			"JLTRY",
 			"Jules*",
+			"Jérémy-Günther-Heinz Jähnick",
 			"Lbayle",
 			"Lenchanteur",
 			"MacOS Weed",
@@ -478,6 +479,10 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Signaux de risque",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "État",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Activité du compte",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Aujourd’hui",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "Les 3 derniers jours",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days": "Les 7 derniers jours",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last90days": "Les 90 derniers jours",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Compte",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "Saisissez un nom de compte…",
 	"checkuser-suggestedinvestigations-back-to-main-page": "Retour à {{int:checkuser-suggestedinvestigations}}",
@@ -526,5 +531,7 @@
 	"checkuser-contributions-temporary-account-bucketcount": "Comptes temporaires avec une IP en commun : $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Comptes temporaires sur cette IP : $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Comptes temporaires sur cette IP : $1 (bloqués : $2).",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Afficher tous les comptes",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Masquer",
 	"checkuser-related-tas-specialblock-checkbox-label": "Bloquer tous les comptes temporaires associés"
 }
