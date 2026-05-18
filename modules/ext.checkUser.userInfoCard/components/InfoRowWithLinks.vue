@@ -85,6 +85,7 @@ module.exports = exports = {
 				// * checkuser-userinfocard-thanks
 				// * checkuser-userinfocard-checks
 				// * checkuser-userinfocard-active-blocks-from-all-wikis
+				// * checkuser-userinfocard-active-blocks-from-all-wikis-with-local
 				// * checkuser-userinfocard-checks-empty
 				// * checkuser-userinfocard-past-blocks
 				return mw.message( props.messageKey, mainAnchor, suffixAnchor ).parse();

@@ -400,6 +400,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Joined}}: in or before 2005",
 	"checkuser-userinfocard-active-wikis-label": "Active wikis",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Active blocks from all wikis: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Active blocks from all wikis: $1 ($2 on this wiki)",
 	"checkuser-userinfocard-past-blocks": "Past blocks: $1",
 	"checkuser-userinfocard-global-edits": "Global edits: $1",
 	"checkuser-userinfocard-local-edits": "Local edits: $1 (reverted: $2)",

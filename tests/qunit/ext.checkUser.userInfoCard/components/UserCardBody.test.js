@@ -240,6 +240,48 @@ QUnit.test( 'passes correct props to active blocks row', ( assert ) => {
 	);
 } );
 
+QUnit.test( 'active blocks row reflects local blocks when activeBlocksOnLocalWiki > 0', ( assert ) => {
+	const wrapper = mountComponent( { activeBlocks: 2, activeBlocksOnLocalWiki: 1 } );
+
+	const activeBlocksRow = findRowByLabel(
+		wrapper,
+		'checkuser-userinfocard-active-blocks-from-all-wikis-with-local'
+	);
+
+	assert.true( activeBlocksRow !== undefined, 'Active blocks row uses the with-local message key' );
+
+	assert.strictEqual( activeBlocksRow.props( 'mainValue' ), '2', 'Main value is total active blocks' );
+	assert.strictEqual( activeBlocksRow.props( 'suffixValue' ), '1', 'Suffix value is local block count' );
+	assert.strictEqual(
+		activeBlocksRow.props( 'suffixLink' ),
+		'/-1/BlockList/TestUser',
+		'Suffix link points to Special:BlockList filtered to the user'
+	);
+	assert.strictEqual(
+		activeBlocksRow.props( 'suffixLinkLogId' ),
+		'active_blocks_local',
+		'Suffix link has the local-blocks log id'
+	);
+} );
+
+QUnit.test( 'active blocks row uses the all-wikis message when no local blocks', ( assert ) => {
+	const wrapper = mountComponent( { activeBlocks: 2, activeBlocksOnLocalWiki: 0 } );
+
+	const withLocalRow = findRowByLabel(
+		wrapper,
+		'checkuser-userinfocard-active-blocks-from-all-wikis-with-local'
+	);
+	assert.strictEqual( withLocalRow, undefined, 'With-local row is not rendered' );
+
+	const allWikisRow = findRowByLabel(
+		wrapper,
+		'checkuser-userinfocard-active-blocks-from-all-wikis'
+	);
+	assert.true( allWikisRow !== undefined, 'All-wikis row is rendered' );
+	assert.strictEqual( allWikisRow.props( 'suffixValue' ), '', 'No suffix value' );
+	assert.strictEqual( allWikisRow.props( 'suffixLink' ), '', 'No suffix link' );
+} );
+
 QUnit.test( 'passes correct props to past blocks row', ( assert ) => {
 	const wrapper = mountComponent();
 

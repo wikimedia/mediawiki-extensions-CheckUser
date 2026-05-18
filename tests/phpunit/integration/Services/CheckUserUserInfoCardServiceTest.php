@@ -28,6 +28,7 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
+use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -307,6 +308,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 
 	public static function userImpactDataPointsAreIncludedDataProvider(): array {
 		$defaultExpectedKeys = [
+			'activeBlocksOnLocalWiki',
 			'activeLocalBlocksAllWikis',
 			'activeWikis',
 			'canAccessTemporaryAccountIpAddresses',
@@ -452,6 +454,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			'pastBlocksOnLocalWiki' => 0,
 		], $userInfo );
 		$this->assertArrayContains( [ 'activeLocalBlocksAllWikis' => 0 ], $userInfo );
+		$this->assertArrayContains( [ 'activeBlocksOnLocalWiki' => 0 ], $userInfo );
 		$this->assertArrayNotHasKey( 'thanksGiven', $userInfo );
 	}
 
@@ -479,6 +482,44 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		] )->getUserInfo( $this->mockRegisteredUltimateAuthority(), $targetUser );
 
 		$this->assertFalse( $userInfo['hasLocalBlockGlobalBlockOrLock'] );
+	}
+
+	public function testGetActiveBlocksOnLocalWikiWhenBlocked(): void {
+		// activeBlocksOnLocalWiki reads $blocks[0], relying on CentralAuthUser keying the
+		// local wiki under WikiAwareEntity::LOCAL (false, cast to 0). Exercise the non-zero
+		// path so the count drops to 0 — and the test fails — if that keying ever changes.
+		$localWikiId = WikiMap::getCurrentWikiId();
+		$conf = new SiteConfiguration();
+		$conf->suffixes = [ $localWikiId ];
+		$conf->settings = [
+			'wgServer' => [ $localWikiId => 'https://test.example.org' ],
+			'wgCanonicalServer' => [ $localWikiId => 'https://test.example.org' ],
+			'wgArticlePath' => [ $localWikiId => '/wiki/$1' ],
+		];
+		$this->setMwGlobals( 'wgConf', $conf );
+
+		$testUser = $this->getMutableTestUser();
+		$user = $testUser->getUser();
+		CentralAuthTestUser::newFromTestUser( $testUser )->save( $this->getDb() );
+
+		$this->assertStatusGood(
+			$this->getServiceContainer()->getBlockUserFactory()
+				->newBlockUser(
+					$user,
+					$this->getTestSysop()->getUser(),
+					'infinity',
+					'test block'
+				)->placeBlock()
+		);
+
+		$userInfo = $this->getObjectUnderTest( [
+			'CheckUserGlobalContributionsLookup' => $this->mockContributionsLookup(),
+		] )->getUserInfo(
+			$this->mockRegisteredUltimateAuthority(),
+			$user
+		);
+		$this->assertSame( 1, $userInfo['activeBlocksOnLocalWiki'] );
+		$this->assertSame( 1, $userInfo['activeLocalBlocksAllWikis'] );
 	}
 
 	public function testCheckUserChecksDataPoint() {

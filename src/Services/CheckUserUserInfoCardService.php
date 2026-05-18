@@ -362,6 +362,8 @@ class CheckUserUserInfoCardService {
 			}
 		}
 		$userInfo['activeLocalBlocksAllWikis'] = array_sum( array_map( 'count', $blocks ) );
+		// CentralAuthUser keys the local wiki's blocks under WikiAwareEntity::LOCAL (false, cast to 0).
+		$userInfo['activeBlocksOnLocalWiki'] = count( $blocks[0] ?? [] );
 
 		$logActionRestrictions = $this->getLogActionRestrictions( $authority, $dbr );
 		$blockLogEntriesCount = $dbr->newSelectQueryBuilder()

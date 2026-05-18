@@ -32,6 +32,7 @@
 				:joined-relative="userCard.joinedRelativeTime"
 				:is-registered-with-unknown-time="userCard.isRegisteredWithUnknownTime"
 				:active-blocks="userCard.activeBlocksCount"
+				:active-blocks-on-local-wiki="userCard.activeBlocksOnLocalWiki"
 				:past-blocks="userCard.pastBlocksCount"
 				:global-edits="userCard.globalEditCount"
 				:groups="userCard.groups"
@@ -114,6 +115,7 @@ module.exports = exports = {
 			thanksReceivedCount: null,
 			thanksGivenCount: null,
 			activeBlocksCount: 0,
+			activeBlocksOnLocalWiki: 0,
 			pastBlocksCount: 0,
 			localEditCount: 0,
 			localEditRevertedCount: null,
@@ -165,6 +167,7 @@ module.exports = exports = {
 						newArticlesCount,
 						totalEditCount,
 						activeLocalBlocksAllWikis,
+						activeBlocksOnLocalWiki,
 						pastBlocksOnLocalWiki,
 						revertedEditCount,
 						userPageWatched,
@@ -226,6 +229,7 @@ module.exports = exports = {
 					userCard.localEditRevertedCount = revertedEditCount;
 					userCard.userPageWatched = !!userPageWatched;
 					userCard.activeBlocksCount = activeLocalBlocksAllWikis;
+					userCard.activeBlocksOnLocalWiki = activeBlocksOnLocalWiki;
 					userCard.pastBlocksCount = pastBlocksOnLocalWiki;
 					userCard.checkUserChecks = checkUserChecks;
 					userCard.specialCentralAuthUrl = specialCentralAuthUrl;

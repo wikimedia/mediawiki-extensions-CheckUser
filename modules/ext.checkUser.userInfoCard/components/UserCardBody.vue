@@ -118,6 +118,10 @@ module.exports = exports = {
 			type: Number,
 			default: 0
 		},
+		activeBlocksOnLocalWiki: {
+			type: Number,
+			default: 0
+		},
 		pastBlocks: {
 			type: Number,
 			default: 0
@@ -311,14 +315,25 @@ module.exports = exports = {
 
 			// Active blocks: display this only when the number of active blocks is greater than 0
 			if ( props.activeBlocks > 0 ) {
-				rows.push( {
+				const activeBlocksRow = {
 					icon: cdxIconAlert,
 					iconClass: 'ext-checkuser-userinfocard-icon ext-checkuser-userinfocard-icon-blocks',
 					messageKey: 'checkuser-userinfocard-active-blocks-from-all-wikis',
 					mainValue: mw.language.convertNumber( props.activeBlocks ),
 					mainLink: props.specialCentralAuthUrl,
 					mainLinkLogId: 'active_blocks'
-				} );
+				};
+				if ( props.activeBlocksOnLocalWiki > 0 ) {
+					activeBlocksRow.messageKey =
+						'checkuser-userinfocard-active-blocks-from-all-wikis-with-local';
+					activeBlocksRow.suffixValue =
+						mw.language.convertNumber( props.activeBlocksOnLocalWiki );
+					activeBlocksRow.suffixLink = mw.Title.makeTitle(
+						-1, `BlockList/${ props.username }`
+					).getUrl();
+					activeBlocksRow.suffixLinkLogId = 'active_blocks_local';
+				}
+				rows.push( activeBlocksRow );
 			}
 
 			// Past blocks: display this only when the number of past blocks is greater than 0

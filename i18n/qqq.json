@@ -436,6 +436,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "Message shown instead of {{msg-mw|checkuser-userinfocard-joined}} when the user's registration date is unknown because their account was created before those timestamps were recorded\n\nParameters:\n* $1 - The gender of the user with this registration date (for use in GENDER)",
 	"checkuser-userinfocard-active-wikis-label": "Label for the active wikis list",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Consolidated message for the active blocks in the user info card.\n\nParameters:\n* $1 - Number of active blocks",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Variant of {{msg-mw|checkuser-userinfocard-active-blocks-from-all-wikis}} shown when at least one of the user's active blocks is on the current wiki.\n\nParameters:\n* $1 - Number of active blocks across all wikis\n* $2 - Number of active blocks on the current wiki",
 	"checkuser-userinfocard-past-blocks": "Consolidated message for the past blocks in the user info card.\n\nParameters:\n* $1 - Number of past blocks",
 	"checkuser-userinfocard-global-edits": "Consolidated message for global edits row in the user info card.\n\nParameters:\n* $1 - Number of global edits",
 	"checkuser-userinfocard-local-edits": "Consolidated message for local edits row in the user info card.\n\nParameters:\n* $1 - Number of local edits\n* $2 - Number of reverted edits",

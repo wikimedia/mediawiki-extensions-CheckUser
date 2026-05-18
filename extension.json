@@ -814,6 +814,7 @@
 				"checkuser-userinfocard-joined",
 				"checkuser-userinfocard-joined-unknowndate",
 				"checkuser-userinfocard-active-blocks-from-all-wikis",
+				"checkuser-userinfocard-active-blocks-from-all-wikis-with-local",
 				"checkuser-userinfocard-past-blocks",
 				"checkuser-userinfocard-global-edits",
 				"checkuser-userinfocard-local-edits",
