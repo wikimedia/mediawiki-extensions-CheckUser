@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Unit;
 
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\CheckUser\Pagers;
 
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -116,7 +118,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	public function formatRow( $row ) {
 		if ( $row->actor_user ) {
 			$performerHidden = $this->userFactory->newFromUserIdentity(
-				UserIdentityValue::newRegistered( $row->actor_user, $row->actor_name )
+				UserIdentityValue::newRegistered( (int)$row->actor_user, $row->actor_name )
 			)->isHidden();
 		} else {
 			$performerHidden = $this->userFactory->newFromActorId( $row->actor_id )->isHidden();
@@ -162,7 +164,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		}
 
 		$targetHidden = $this->userFactory->newFromUserIdentity(
-			new UserIdentityValue( $row->cul_target_id, $row->cul_target_text )
+			new UserIdentityValue( (int)$row->cul_target_id, $row->cul_target_text )
 		)->isHidden();
 		if ( $targetHidden && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
 			// Target of the check is hidden and the logged in user does not have
@@ -351,7 +353,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			$lb->add( NS_USER, $row->actor_name );
 
 			if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
-				$targetUser = new UserIdentityValue( $row->cul_target_id, $row->cul_target_text );
+				$targetUser = new UserIdentityValue( (int)$row->cul_target_id, $row->cul_target_text );
 				$lb->addUser( $targetUser );
 			}
 		}

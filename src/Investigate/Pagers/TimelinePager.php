@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Investigate\Pagers;
 
 use MediaWiki\Context\IContextSource;
@@ -110,7 +112,7 @@ class TimelinePager extends ReverseChronologicalPager {
 			if ( $username === null && $row->ip_hex !== null ) {
 				$username = IPUtils::formatHex( $row->ip_hex );
 			}
-			$lb->addUser( new UserIdentityValue( $row->user ?? 0, $username ?? '' ) );
+			$lb->addUser( new UserIdentityValue( (int)( $row->user ?? 0 ), $username ?? '' ) );
 		}
 
 		$lb->execute();

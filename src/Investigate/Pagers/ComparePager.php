@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 /**
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -319,7 +321,7 @@ class ComparePager extends TablePager {
 			if ( $username === null && $row->ip_hex !== null ) {
 				$username = IPUtils::formatHex( $row->ip_hex );
 			}
-			$lb->addUser( new UserIdentityValue( $row->user ?? 0, $username ?? '' ) );
+			$lb->addUser( new UserIdentityValue( (int)( $row->user ?? 0 ), $username ?? '' ) );
 		}
 
 		$lb->execute();

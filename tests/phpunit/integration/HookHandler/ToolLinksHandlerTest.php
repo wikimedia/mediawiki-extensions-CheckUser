@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Context\RequestContext;
@@ -563,7 +565,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturnCallback( function ( $text ) {
 				$this->assertStringContainsString(
 					'checkuser-ip-contributions-special-ip-contributions-button-mobile',
-					$text,
+					(string)$text,
 					'The mobile view subtitle was not added'
 				);
 			} );

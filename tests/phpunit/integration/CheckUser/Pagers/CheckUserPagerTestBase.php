@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\Context\RequestContext;
@@ -73,9 +75,11 @@ abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' )
 		);
 		$specialCheckUser->opts = $opts;
+		$resolvedUserIdentity = $userIdentity ?? $this->defaultUserIdentity
+			?? throw new \LogicException( 'defaultUserIdentity must be set in the test class' );
 		$object = $specialCheckUser->getPager(
 			$this->checkSubtype,
-			$userIdentity ?? $this->defaultUserIdentity,
+			$resolvedUserIdentity,
 			$checkType ?? $this->defaultCheckType
 		);
 		return TestingAccessWrapper::newFromObject( $object );

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Api\CheckUser;
 
 use MediaWiki\CommentStore\CommentStore;
@@ -80,7 +82,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			];
 
 			$user = $this->userFactory->newFromUserIdentity(
-				new UserIdentityValue( $row->user ?? 0, $row->user_text )
+				new UserIdentityValue( (int)( $row->user ?? 0 ), $row->user_text )
 			);
 
 			// Get either the RevisionRecord or DatabaseLogEntry associated with this row.

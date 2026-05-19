@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\CheckUser\Pagers;
 
 use LogicException;
@@ -201,7 +203,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 
 		// Load user object
 		$user = new UserIdentityValue(
-			$this->userSets['ids'][$user_text],
+			(int)$this->userSets['ids'][$user_text],
 			$userIsIP ? IPUtils::prettifyIP( $user_text ) ?? $user_text : $user_text
 		);
 		$hidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
@@ -250,7 +252,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			} elseif ( !$userNonExistent ) {
 				if ( $this->msg( 'checkuser-userlinks' )->exists() ) {
 					$templateParams['userLinks'] =
-						$this->msg( 'checkuser-userlinks', htmlspecialchars( $user ) )->parse();
+						$this->msg( 'checkuser-userlinks', htmlspecialchars( $user->getName() ) )->parse();
 				}
 			}
 			// Add global user tools links
@@ -413,7 +415,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			}
 
 			if ( !array_key_exists( $row->user_text, $this->userSets['edits'] ) ) {
-				$user = new UserIdentityValue( $row->user ?? 0, $row->user_text );
+				$user = new UserIdentityValue( (int)( $row->user ?? 0 ), $row->user_text );
 				$batch->addUser( $user );
 
 				$this->userSets['last'][$row->user_text] = $row->timestamp;
@@ -425,11 +427,11 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			}
 			$referenceIdsForLookup->addReferenceIds(
 				$row->client_hints_reference_id,
-				$row->client_hints_reference_type
+				(int)$row->client_hints_reference_type
 			);
 			$this->userSets['clienthints'][$row->user_text]->addReferenceIds(
 				$row->client_hints_reference_id,
-				$row->client_hints_reference_type
+				(int)$row->client_hints_reference_type
 			);
 			$this->userSets['edits'][$row->user_text]++;
 			$this->userSets['first'][$row->user_text] = $row->timestamp;

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Maintenance;
 
 use MediaWiki\Json\FormatJson;
@@ -32,7 +34,7 @@ class GenerateStatsAboutClientHintsData extends Maintenance {
 
 	/** @inheritDoc */
 	public function execute() {
-		$wiki = $this->getOption( 'wiki', WikiMap::getCurrentWikiDbDomain() );
+		$wiki = $this->getOption( 'wiki', WikiMap::getCurrentWikiDbDomain()->getId() );
 		$averagesAccuracy = $this->getOption( 'averages-accuracy', 25000 );
 		$this->output( FormatJson::encode( $this->generateCounts( $wiki, $averagesAccuracy ) ) . "\n" );
 	}

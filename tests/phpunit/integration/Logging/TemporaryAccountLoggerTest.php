@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Logging;
 
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
@@ -34,7 +36,7 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 		$logger->logViewIPs(
 			$performer,
 			$tempUser->getName(),
-			ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
+			(int)ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
 		);
 
 		// Check that the call to the method under test caused one log entry with the correct parameters
@@ -55,7 +57,7 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 		$logger->logViewIPs(
 			$performer,
 			$tempUser->getName(),
-			ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
+			(int)ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
 		);
 		$this->newSelectQueryBuilder()
 			->select( '1' )
@@ -76,7 +78,7 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 		$logger->logViewRelatedTemporaryAccounts(
 			$performer,
 			$tempUser->getName(),
-			ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
+			(int)ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
 		);
 
 		// Check that the call to the method under test caused one log entry with the correct parameters
@@ -99,7 +101,7 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 		$logger->logViewRelatedTemporaryAccounts(
 			$performer,
 			$tempUser->getName(),
-			ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
+			(int)ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
 		);
 		$this->newSelectQueryBuilder()
 			->select( '1' )
@@ -227,7 +229,7 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 			->fetchRow();
 
 		$this->assertStringContainsString( TemporaryAccountLogger::ACTION_AUTO_REVEAL_ENABLED, $row->log_params );
-		$this->assertStringContainsString( $expiry, $row->log_params );
+		$this->assertStringContainsString( (string)$expiry, $row->log_params );
 	}
 
 	public function testLogAutoRevealDisabled() {

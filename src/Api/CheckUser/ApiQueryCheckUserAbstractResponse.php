@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Api\CheckUser;
 
 use InvalidArgumentException;
@@ -95,7 +97,7 @@ abstract class ApiQueryCheckUserAbstractResponse implements CheckUserQueryInterf
 		$this->target = $target;
 		$this->reason = $reason;
 		$this->timeCutoff = $this->dbr->timestamp( $timeCutoff );
-		$this->limit = $requestParams['limit'];
+		$this->limit = (int)$requestParams['limit'];
 	}
 
 	/**

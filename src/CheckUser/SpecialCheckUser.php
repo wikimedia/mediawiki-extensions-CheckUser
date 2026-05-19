@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\CheckUser;
 
 use MediaWiki\Block\DatabaseBlockStore;
@@ -456,7 +458,8 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	protected function checkReason(): bool {
-		return ( !$this->getConfig()->get( 'CheckUserForceSummary' ) || strlen( $this->opts->getValue( 'reason' ) ) );
+		return ( !$this->getConfig()->get( 'CheckUserForceSummary' ) ||
+			strlen( (string)$this->opts->getValue( 'reason' ) ) );
 	}
 
 	/**

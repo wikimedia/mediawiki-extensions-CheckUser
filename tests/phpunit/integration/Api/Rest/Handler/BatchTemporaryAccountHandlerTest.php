@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use GlobalPreferences\GlobalPreferencesFactory;
@@ -878,7 +880,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 		// Assert that no cu_log_event row exists for the page creation (as then we won't be testing
 		// that the CU data comes from cu_changes)
-		self::$pageCreationLogId = $this->newSelectQueryBuilder()
+		self::$pageCreationLogId = (int)$this->newSelectQueryBuilder()
 			->select( 'log_id' )
 			->from( 'logging' )
 			->where( [ 'log_type' => 'create', 'log_actor' => $actorId ] )

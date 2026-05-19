@@ -1,4 +1,7 @@
 <?php
+
+declare( strict_types=1 );
+
 /**
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -291,15 +294,15 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			'users' => $this->formatUsersCell( $value ),
 			'signals' => $this->formatSignalsCell( $value ),
 			'sic_updated_timestamp' => $this->formatTimestampCell( $value ),
-			'sic_status' => $this->formatStatusCell( CaseStatus::from( (int)$value ), $this->mCurrentRow->sic_id ),
+			'sic_status' => $this->formatStatusCell( CaseStatus::from( (int)$value ), (int)$this->mCurrentRow->sic_id ),
 			'sic_status_reason' => $this->formatStatusReasonCell(
 				$value,
 				CaseStatus::from( (int)$this->mCurrentRow->sic_status ),
-				$this->mCurrentRow->sic_id,
+				(int)$this->mCurrentRow->sic_id,
 				$this->mCurrentRow->sic_status_changed_by_user_name ?? null
 			),
 			'actions' => $this->formatActionsCell(
-				$this->mCurrentRow->sic_id,
+				(int)$this->mCurrentRow->sic_id,
 				CaseStatus::from( (int)$this->mCurrentRow->sic_status ),
 				$this->mCurrentRow->sic_status_reason
 			),
@@ -320,7 +323,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$userHideThreshold++;
 		}
 
-		$detailViewLink = $this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier )->getFullText();
+		$detailViewLink = $this->getDetailViewTitle( (int)$this->mCurrentRow->sic_url_identifier )->getFullText();
 
 		$contributionsSpecialPage = $this->useGlobalContribs ? 'GlobalContributions' : 'Contributions';
 
@@ -448,7 +451,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		return $this->getLinkRenderer()->makeKnownLink(
-			$this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier ),
+			$this->getDetailViewTitle( (int)$this->mCurrentRow->sic_url_identifier ),
 			$lang->userTimeAndDate( $timestamp, $user )
 		);
 	}
@@ -523,7 +526,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$investigateEnabled = true;
 
 			$prefilledReason = $this->msg( 'checkuser-suggestedinvestigations-user-investigate-reason-prefill' )
-				->params( $this->getDetailViewTitle( $this->mCurrentRow->sic_url_identifier )->getFullText() )
+				->params( $this->getDetailViewTitle( (int)$this->mCurrentRow->sic_url_identifier )->getFullText() )
 				->numParams( $this->mCurrentRow->sic_id )
 				->inContentLanguage()
 				->text();
@@ -933,7 +936,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 			foreach ( $resultUsers as $row ) {
 				$userIdToUserIdentity[$row->user_id] = UserIdentityValue::newRegistered(
-					$row->user_id,
+					(int)$row->user_id,
 					$row->user_name
 				);
 			}

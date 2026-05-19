@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Investigate\Services;
 
 use MediaWiki\Block\DatabaseBlockStoreFactory;
@@ -145,7 +147,7 @@ class PreliminaryCheckService {
 			'name' => $row->user_name,
 			'registration' => $row->user_registration,
 			'editcount' => $row->user_editcount,
-			'blocked' => $this->isUserBlocked( $row->user_id, $wikiId ),
+			'blocked' => $this->isUserBlocked( (int)$row->user_id, $wikiId ),
 			'groups' => $this->userGroupManagerFactory
 				->getUserGroupManager( $wikiId )
 				->getUserGroups( $userIdentity ),

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Api\Rest\Handler;
 
 use MediaWiki\Config\Config;
@@ -185,7 +187,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 				IPUtils::formatHex( $privateEventRow->cupe_ip_hex )
 			);
 		} else {
-			$performingUser = $this->actorStore->getActorById( $privateEventRow->cupe_actor, $dbr );
+			$performingUser = $this->actorStore->getActorById( (int)$privateEventRow->cupe_actor, $dbr );
 		}
 		$user = $this->getAuthority()->getUser();
 		if ( !$performingUser->equals( $user ) ) {

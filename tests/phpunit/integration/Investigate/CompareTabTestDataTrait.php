@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate;
 
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;

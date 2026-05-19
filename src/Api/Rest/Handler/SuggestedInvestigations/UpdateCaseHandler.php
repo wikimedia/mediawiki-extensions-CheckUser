@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Api\Rest\Handler\SuggestedInvestigations;
 
 use MediaWiki\Config\Config;

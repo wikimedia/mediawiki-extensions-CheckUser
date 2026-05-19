@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\Config\ConfigException;
@@ -482,7 +484,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$target = UserIdentityValue::newAnonymous( '127.0.0.1' );
 		// Add the IExpression for the IP target as a string to the expected query info for comparison.
 		$expectedQueryInfo['conds'][] = $this->getServiceContainer()->get( 'CheckUserLookupUtils' )
-			->getIPTargetExpr( $target, $xfor, $table )
+			->getIPTargetExpr( $target->getName(), $xfor, $table )
 			->toSql( $this->getDb() );
 		$this->commonTestGetQueryInfo( $target, $xfor, $table, $expectedQueryInfo );
 	}

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\Pagers;
 
 use MediaWiki\Context\RequestContext;
@@ -138,12 +140,12 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		// Assertions that are specific to RC_EDIT types.
 		if ( $rowType === RC_EDIT ) {
 			$this->assertStringContainsString(
-				$testPage->getLatestRevID(),
+				(string)$testPage->getLatestRevID(),
 				$actualTimelineFormattedRowItems['links']['diffLink'],
 				'The diffLink is not as expected in the links array.'
 			);
 			$this->assertStringContainsString(
-				$testPage->getArticleID(),
+				(string)$testPage->getArticleID(),
 				$actualTimelineFormattedRowItems['links']['historyLink'],
 				'The historyLink is not as expected in the links array.'
 			);

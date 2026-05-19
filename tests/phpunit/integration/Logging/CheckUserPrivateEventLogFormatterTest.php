@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Test\Integration\Logging;
 
 use MediaWiki\Context\RequestContext;

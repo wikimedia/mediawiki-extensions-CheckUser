@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\ClientHints;
 
 use MediaWiki\Extension\CheckUser\Jobs\StoreClientHintsDataJob;

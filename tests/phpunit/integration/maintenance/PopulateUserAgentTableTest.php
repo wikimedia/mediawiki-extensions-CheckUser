@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Context\RequestContext;
@@ -223,7 +225,7 @@ class PopulateUserAgentTableTest extends MaintenanceBaseTestCase {
 			->caller( __METHOD__ )
 			->execute();
 
-		return $existingUserAgentTableId;
+		return (int)$existingUserAgentTableId;
 	}
 
 	/**

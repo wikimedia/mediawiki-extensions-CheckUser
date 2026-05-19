@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers;
 
 use MediaWiki\CommentFormatter\CommentFormatter;

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Services;
 
 use GrowthExperiments\UserImpact\UserImpactLookup;
@@ -266,7 +268,7 @@ class CheckUserUserInfoCardService {
 
 			if ( $globalBlockRow && $canSee ) {
 				$localBlockStatus = $globalBlockingServices->getGlobalBlockLocalStatusLookup()
-					->getLocalStatusInfo( $globalBlockRow->gb_id );
+					->getLocalStatusInfo( (int)$globalBlockRow->gb_id );
 				$isLocallyDisabled = $localBlockStatus !== false;
 
 				$userInfo['globalRestrictions'] = $isLocallyDisabled ?

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Services;
 
 use MediaWiki\Config\ServiceOptions;
@@ -261,7 +263,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 			->caller( __METHOD__ )
 			->fetchField();
 		if ( $wikiMapId !== false ) {
-			return $wikiMapId;
+			return (int)$wikiMapId;
 		}
 
 		// We could not find the wiki ID on the replica, so now try to insert the domain ID on the primary to get
@@ -279,7 +281,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 			->execute();
 
 		// Now that we definitely have an ID for this domain ID, grab it from the primary DB.
-		return $dbw->newSelectQueryBuilder()
+		return (int)$dbw->newSelectQueryBuilder()
 			->select( 'ciwm_id' )
 			->from( 'cuci_wiki_map' )
 			->where( [ 'ciwm_wiki' => $domainID ] )

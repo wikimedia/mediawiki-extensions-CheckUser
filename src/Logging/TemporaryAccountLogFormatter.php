@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Logging;
 
 use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
@@ -34,7 +36,7 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 			$params[3] = $this->msg( 'checkuser-temporary-account-change-access-level-' . $params[3], $params[1] );
 		} elseif ( $this->entry->getSubtype() === TemporaryAccountLogger::ACTION_CHANGE_AUTO_REVEAL ) {
 			if ( $params[3] === TemporaryAccountLogger::ACTION_AUTO_REVEAL_ENABLED ) {
-				$params[4] = Message::dateTimeParam( $params[4] );
+				$params[4] = Message::dateTimeParam( (string)$params[4] );
 			}
 		} elseif (
 			$this->entry->getSubtype() === TemporaryAccountLogger::ACTION_VIEW_IPS ||

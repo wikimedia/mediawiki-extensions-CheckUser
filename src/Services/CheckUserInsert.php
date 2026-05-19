@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Services;
 
 use MediaWiki\CommentStore\CommentStore;
@@ -583,7 +585,7 @@ class CheckUserInsert {
 			$id = $dbw->insertId();
 		}
 
-		return $id;
+		return (int)$id;
 	}
 
 	/**

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\CheckUser\Pagers;
 
 use LogicException;
@@ -155,7 +157,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 		if ( IPUtils::isIPAddress( $user_text ) ) {
 			$user_text = IPUtils::prettifyIP( $user_text ) ?? $user_text;
 		}
-		$user = new UserIdentityValue( $row->user ?? 0, $user_text );
+		$user = new UserIdentityValue( (int)( $row->user ?? 0 ), $user_text );
 		// Get a ManualLogEntry instance if the row is a log entry
 		$logEntry = null;
 		if ( $row->type == RC_LOG && $row->log_type ) {
@@ -263,8 +265,8 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 		// If ::getStringForReferenceId returns null, the mustache template will
 		// interpret this as false and then not display the Client Hints data.
 		$templateParams['clientHints'] = $this->formattedClientHintsData->getStringForReferenceId(
-			$row->client_hints_reference_id,
-			$row->client_hints_reference_type
+			(int)$row->client_hints_reference_id,
+			(int)$row->client_hints_reference_type
 		);
 
 		return $this->templateParser->processTemplate( 'GetActionsLine', $templateParams );
@@ -700,12 +702,12 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 			if ( $row->actor === null && $row->ip_hex !== null ) {
 				$row->user_text = IPUtils::formatHex( $row->ip_hex );
 			}
-			$referenceIds->addReferenceIds( $row->client_hints_reference_id, $row->client_hints_reference_type );
+			$referenceIds->addReferenceIds( $row->client_hints_reference_id, (int)$row->client_hints_reference_type );
 			if ( $row->title !== '' ) {
 				$lb->add( $row->namespace, $row->title );
 			}
 
-			$user = new UserIdentityValue( $row->user ?? 0, $row->user_text );
+			$user = new UserIdentityValue( (int)( $row->user ?? 0 ), $row->user_text );
 
 			if ( $this->xfor === null ) {
 				$lb->addUser( $user );

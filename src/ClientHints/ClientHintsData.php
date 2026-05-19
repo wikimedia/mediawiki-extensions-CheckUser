@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\ClientHints;
 
 use JsonSerializable;
@@ -240,6 +242,8 @@ class ClientHintsData implements JsonSerializable {
 				// for "mobile" and "woW64"
 				if ( in_array( $row['uach_name'], [ 'mobile', 'woW64' ] ) ) {
 					$value = boolval( $value );
+				} elseif ( $row['uach_name'] === 'isBrowser' ) {
+					$value = intval( $value );
 				}
 				$data[$row['uach_name']] = $value;
 			}

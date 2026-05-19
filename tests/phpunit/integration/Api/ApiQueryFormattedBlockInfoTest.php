@@ -1,4 +1,7 @@
 <?php
+
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api;
 
 use MediaWiki\Block\Restriction\PageRestriction;

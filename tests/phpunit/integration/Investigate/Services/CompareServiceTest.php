@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\Services;
 
 use LogicException;
@@ -133,17 +135,17 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		);
 
 		foreach ( $expected['targets'] as $target ) {
-			$this->assertStringContainsString( $target, $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( $target, (string)$queryInfo['tables']['a'] );
 		}
 
 		foreach ( $expected['excludeTargets'] as $excludeTarget ) {
-			$this->assertStringContainsString( $excludeTarget, $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( $excludeTarget, (string)$queryInfo['tables']['a'] );
 		}
 
 		if ( $this->getDb()->unionSupportsOrderAndLimit() ) {
-			$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], (string)$queryInfo['tables']['a'] );
 		} else {
-			$this->assertStringNotContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
+			$this->assertStringNotContainsString( 'LIMIT ' . $expected['limit'], (string)$queryInfo['tables']['a'] );
 		}
 
 		$start = $expected['start'];
@@ -152,14 +154,17 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		}
 
 		foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
-			$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( $table, (string)$queryInfo['tables']['a'] );
 			$columnPrefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
 			if ( $start === '' ) {
-				$this->assertStringNotContainsString( $columnPrefix . 'timestamp >=', $queryInfo['tables']['a'] );
+				$this->assertStringNotContainsString(
+					$columnPrefix . 'timestamp >=',
+					(string)$queryInfo['tables']['a']
+				);
 			} else {
 				$this->assertStringContainsString(
 					$columnPrefix . "timestamp >= '$start'",
-					$queryInfo['tables']['a']
+					(string)$queryInfo['tables']['a']
 				);
 			}
 		}
@@ -171,7 +176,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'actor_name',
 					IExpression::NOT_LIKE
 				)->toSql( $this->getDb() ),
-				$queryInfo['tables']['a']
+				(string)$queryInfo['tables']['a']
 			);
 		} else {
 			$this->assertStringNotContainsString(
@@ -180,7 +185,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'actor_name',
 					IExpression::NOT_LIKE
 				)->toSql( $this->getDb() ),
-				$queryInfo['tables']['a']
+				(string)$queryInfo['tables']['a']
 			);
 		}
 	}

@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 /**
  * Copy of CentralAuth's CentralAuthServiceWiringTest.php
  * as it could not be included as it's in another extension.

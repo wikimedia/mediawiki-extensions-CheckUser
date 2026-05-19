@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\Services;
 
 use LogicException;
@@ -76,15 +78,15 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		);
 
 		foreach ( $expected['targets'] as $target ) {
-			$this->assertStringContainsString( $target, $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( $target, (string)$queryInfo['tables']['a'] );
 		}
 
 		foreach ( $expected['excludedTargets'] ?? [] as $excludedTarget ) {
-			$this->assertStringContainsString( $excludedTarget, $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( $excludedTarget, (string)$queryInfo['tables']['a'] );
 		}
 
 		foreach ( $expected['conds'] as $cond ) {
-			$this->assertStringContainsString( $cond, $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( $cond, (string)$queryInfo['tables']['a'] );
 		}
 
 		if ( count( $expected['targets'] ) > 0 && $expected['constraintOnActorName'] ) {
@@ -97,12 +99,12 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			if ( $excludeTempAccounts ) {
 				$this->assertStringContainsString(
 					$matchCondition,
-					$queryInfo['tables']['a']
+					(string)$queryInfo['tables']['a']
 				);
 			} else {
 				$this->assertStringNotContainsString(
 					$matchCondition,
-					$queryInfo['tables']['a']
+					(string)$queryInfo['tables']['a']
 				);
 			}
 		}
@@ -113,14 +115,17 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			}
 
 			foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
-				$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );
+				$this->assertStringContainsString( $table, (string)$queryInfo['tables']['a'] );
 				$columnPrefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
 				if ( $start === '' ) {
-					$this->assertStringNotContainsString( $columnPrefix . 'timestamp >=', $queryInfo['tables']['a'] );
+					$this->assertStringNotContainsString(
+						$columnPrefix . 'timestamp >=',
+						(string)$queryInfo['tables']['a']
+					);
 				} else {
 					$this->assertStringContainsString(
 						$columnPrefix . "timestamp >= '$start'",
-						$queryInfo['tables']['a']
+						(string)$queryInfo['tables']['a']
 					);
 				}
 			}
@@ -129,7 +134,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			// so only run the assertion if the DB supports this.
 			if ( $this->getDb()->unionSupportsOrderAndLimit() ) {
 				$actualLimit = $limit + 1;
-				$this->assertStringContainsString( "LIMIT $actualLimit", $queryInfo['tables']['a'] );
+				$this->assertStringContainsString( "LIMIT $actualLimit", (string)$queryInfo['tables']['a'] );
 			}
 		}
 	}

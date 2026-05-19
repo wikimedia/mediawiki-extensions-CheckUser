@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Investigate\Pagers;
 
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -58,7 +60,7 @@ class TimelineRowFormatter {
 		}
 
 		$user = $this->userFactory->newFromUserIdentity(
-			new UserIdentityValue( $row->user ?? 0, $row->user_text )
+			new UserIdentityValue( (int)( $row->user ?? 0 ), $row->user_text )
 		);
 
 		// Get either the RevisionRecord or ManualLogEntry associated with this row.
@@ -375,7 +377,7 @@ class TimelineRowFormatter {
 				$this->msg( 'rev-deleted-user' )->text()
 			);
 		} else {
-			$userId = $row->user ?? 0;
+			$userId = (int)( $row->user ?? 0 );
 			if ( $userId > 0 ) {
 				$user = $this->userFactory->newFromId( $userId );
 			} else {

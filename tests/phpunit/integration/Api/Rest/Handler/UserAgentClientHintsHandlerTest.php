@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use MediaWiki\Auth\AuthenticationResponse;
@@ -172,7 +174,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 		$hooks->onAuthManagerLoginAuthenticateAudit(
 			AuthenticationResponse::newFail( wfMessage( 'test' ) ),
 			null,
-			$performer,
+			$performer->getName(),
 			[]
 		);
 		$this->assertSame(

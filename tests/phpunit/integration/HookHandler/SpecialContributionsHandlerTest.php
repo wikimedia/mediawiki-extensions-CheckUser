@@ -1,4 +1,7 @@
 <?php
+
+declare( strict_types=1 );
+
 /*
  * @license GPL-2.0-or-later
  * @file
@@ -139,7 +142,7 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$mockOutputPage->expects( $this->once() )->method( 'addSubtitle' )
 				->willReturnCallback( function ( $sub ) use ( $expectedSubtitle ) {
-					$this->assertStringContainsString( $expectedSubtitle, $sub );
+					$this->assertStringContainsString( $expectedSubtitle, (string)$sub );
 				} );
 		}
 		$mockOutputPage->expects( $this->never() )->method( 'addHtml' );

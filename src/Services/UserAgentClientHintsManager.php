@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Services;
 
 use LogicException;
@@ -269,7 +271,7 @@ class UserAgentClientHintsManager {
 				// For each row, check if the ::isMapRowOrphaned method
 				// indicates that the row is orphaned.
 				$referenceId = $row->uachm_reference_id;
-				$mapRowIsOrphaned = $this->isMapRowOrphaned( $referenceId, $mappingId );
+				$mapRowIsOrphaned = $this->isMapRowOrphaned( (int)$referenceId, $mappingId );
 				if ( $mapRowIsOrphaned ) {
 					// If the map row is orphaned, then perform the deletion
 					// and add the affected rows count to the return count.

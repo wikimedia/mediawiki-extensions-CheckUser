@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\DerivativeContext;

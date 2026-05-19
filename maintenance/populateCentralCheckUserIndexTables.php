@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Maintenance;
 
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
@@ -93,7 +95,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance {
 			}
 
 			foreach ( $batchOfActorIds as $actorId ) {
-				$performer = $actorStore->getActorById( $actorId, $dbr );
+				$performer = $actorStore->getActorById( (int)$actorId, $dbr );
 
 				// Skip anonymous users or users which do not exist, as the tables do not support these users
 				// and therefore will always never result in any inserts.

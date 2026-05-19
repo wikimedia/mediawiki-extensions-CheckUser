@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\IPContributions;
 
 use MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob;

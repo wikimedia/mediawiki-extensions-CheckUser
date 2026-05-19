@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Extension\CheckUser\Maintenance\RevokeTemporaryAccountViewerGroup;

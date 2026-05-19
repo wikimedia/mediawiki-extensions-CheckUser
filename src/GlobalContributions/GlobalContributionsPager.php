@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\GlobalContributions;
 
 use GlobalPreferences\GlobalPreferencesFactory;
@@ -677,7 +679,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		$dir = $this->getLanguage()->getDir();
 		$link = $this->getLinkRenderer()->makeExternalLink(
-			$this->getForeignURL(
+			(string)$this->getForeignURL(
 				$row->sourcewiki,
 				'Special:Redirect/page/' . $row->rev_page
 			),
@@ -707,7 +709,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		) {
 			$difftext = $this->getLinkRenderer()->makeExternalLink(
 				wfAppendQuery(
-					$this->getForeignURL(
+					(string)$this->getForeignURL(
 						$row->sourcewiki,
 						$row->{$this->pageTitleField}
 					),
@@ -729,7 +731,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		$histlink = $this->getLinkRenderer()->makeExternalLink(
 			wfAppendQuery(
-				$this->getForeignURL(
+				(string)$this->getForeignURL(
 					$row->sourcewiki,
 					'',
 				),
@@ -778,7 +780,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		if ( $this->userCanSeeExternalRevision( $row ) ) {
 			$dateLink = $this->getLinkRenderer()->makeExternalLink(
 				wfAppendQuery(
-					$this->getForeignURL(
+					(string)$this->getForeignURL(
 						$row->sourcewiki,
 						$row->{$this->pageTitleField}
 					),
@@ -882,7 +884,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	protected function formatUserLink( $row ) {
 		if ( $this->isFromExternalWiki( $row ) ) {
-			$revUser = new UserIdentityValue( $row->rev_user, $row->{$this->userNameField}, $row->sourcewiki );
+			$revUser = new UserIdentityValue( (int)$row->rev_user, $row->{$this->userNameField}, $row->sourcewiki );
 		} else {
 			if ( !$this->currentRevRecord ) {
 				$revUser = null;
@@ -933,7 +935,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		$userToolLinks = [];
 		$userToolLinks[] = $this->getLinkRenderer()->makeExternalLink(
-			$this->getForeignURL(
+			(string)$this->getForeignURL(
 				$row->sourcewiki,
 				$userTalkTitle->getPrefixedText()
 			),
@@ -944,7 +946,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		);
 
 		$userToolLinks[] = $this->getLinkRenderer()->makeExternalLink(
-			$this->getForeignURL(
+			(string)$this->getForeignURL(
 				$row->sourcewiki,
 				Title::makeName( NS_SPECIAL, 'Contributions/' . $row->{$this->userNameField}, '', '', true )
 			),
@@ -1018,7 +1020,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	protected function formatSourceWiki( $row ) {
 		$link = $this->getLinkRenderer()->makeExternalLink(
-			$this->getForeignURL(
+			(string)$this->getForeignURL(
 				$row->sourcewiki,
 				''
 			),

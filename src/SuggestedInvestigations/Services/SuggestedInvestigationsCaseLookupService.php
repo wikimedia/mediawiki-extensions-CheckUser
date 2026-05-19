@@ -1,4 +1,7 @@
 <?php
+
+declare( strict_types=1 );
+
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -242,7 +245,7 @@ class SuggestedInvestigationsCaseLookupService {
 			throw new InvalidArgumentException( "No case found with id $caseId" );
 		}
 
-		return CaseStatus::from( $rawStatus );
+		return CaseStatus::from( (int)$rawStatus );
 	}
 
 	/**

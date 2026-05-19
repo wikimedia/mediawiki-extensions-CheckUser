@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;

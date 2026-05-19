@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <ruleset>
 	<rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki" />
+	<rule ref="Generic.PHP.RequireStrictTypes" />
 	<rule ref="Generic.Files.LineLength">
 		<properties>
 			<property name="absoluteLineLimit" value="120" />

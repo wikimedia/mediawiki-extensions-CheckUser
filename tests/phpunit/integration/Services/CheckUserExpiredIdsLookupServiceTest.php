@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CommentStore\CommentStoreComment;
@@ -268,7 +270,7 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 		self::$revisionIDs = [];
 
 		foreach ( $data as $content => $timestamp ) {
-			$record = $this->insertRevisionToTestPage( $content, $timestamp );
+			$record = $this->insertRevisionToTestPage( $content, (string)$timestamp );
 
 			self::$revisions[ $content ] = $record;
 			self::$revisionIDs[] = $record->getId();

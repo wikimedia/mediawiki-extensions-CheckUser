@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\Config\ServiceOptions;
@@ -66,13 +68,13 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			->rows( [ [ 'ciwm_wiki' => 'enwiki' ], [ 'ciwm_wiki' => 'dewiki' ] ] )
 			->caller( __METHOD__ )
 			->execute();
-		self::$enwikiMapId = $this->newSelectQueryBuilder()
+		self::$enwikiMapId = (int)$this->newSelectQueryBuilder()
 			->select( 'ciwm_id' )
 			->from( 'cuci_wiki_map' )
 			->where( [ 'ciwm_wiki' => 'enwiki' ] )
 			->caller( __METHOD__ )
 			->fetchField();
-		self::$dewikiMapId = $this->newSelectQueryBuilder()
+		self::$dewikiMapId = (int)$this->newSelectQueryBuilder()
 			->select( 'ciwm_id' )
 			->from( 'cuci_wiki_map' )
 			->where( [ 'ciwm_wiki' => 'dewiki' ] )
@@ -146,7 +148,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function getRowCountForTable( string $table ): int {
-		return $this->newSelectQueryBuilder()
+		return (int)$this->newSelectQueryBuilder()
 			->select( 'COUNT(*)' )
 			->table( $table )
 			->caller( __METHOD__ )
@@ -284,10 +286,10 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 	public static function provideRecordActionInCentralIndexes() {
 		return [
 			'IP address performer' => [
-				UserIdentityValue::newAnonymous( '1.2.3.4' ), '1.2.3.4', true, '20230405060708', 0, 0,
+				UserIdentityValue::newAnonymous( '1.2.3.4' ), '1.2.3.4', '20230405060708', true, 0, 0,
 			],
 			'Non-existing username' => [
-				UserIdentityValue::newAnonymous( 'NonExistentUser1234' ), false, '5.6.7.8', '20240506070809', 0, 0,
+				UserIdentityValue::newAnonymous( 'NonExistentUser1234' ), '5.6.7.8', '20240506070809', false, 0, 0,
 			],
 		];
 	}
