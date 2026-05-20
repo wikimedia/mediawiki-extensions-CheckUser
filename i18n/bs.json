@@ -78,6 +78,9 @@
 	"checkuser-ip-auto-reveal-off-dialog-title": "Uključeno je automatsko otkrivanje IP-adresa",
 	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 minuta",
 	"checkuser-ip-auto-reveal-off-dialog-off-action": "Isključi",
+	"prefs-checkuser-tempaccount": "Otkrivanje IP-adresa privremenih računa",
 	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
-	"checkuser-tempaccount-specialblock-ips": "Ovo je privremeni korisnik koji koristi {{PLURAL:$1|sljedeću IP-adresu|sljedeće IP-adrese}}: $2"
+	"checkuser-tempaccount-reveal-blocked-header": "Otkrivanje IP-adresa privremenih računa isključeno",
+	"checkuser-tempaccount-specialblock-ips": "Ovo je privremeni korisnik koji koristi {{PLURAL:$1|sljedeću IP-adresu|sljedeće IP-adrese}}: $2",
+	"checkuser-userinfocard-enable-preference-help": "Prikazuje dugme pored korisničkih imena koje otvara prozorčić s informacijama o računu."
 }

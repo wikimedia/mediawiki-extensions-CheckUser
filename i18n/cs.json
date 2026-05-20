@@ -253,5 +253,6 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|svůj}} vlastní přístup k prohlížení IP adres dočasných účtů",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|zakázal|zakázala|zakázali}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|povolil|povolila|povolili}}",
-	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|zobrazil|zobrazila}} IP adresy pro $3"
+	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|zobrazil|zobrazila}} IP adresy pro $3",
+	"checkuser-userinfocard-enable-preference-help": "U uživatelských jmen zobrazit tlačítko pro otevření vyskakovacího okna s informacemi o uživatelském účtu."
 }

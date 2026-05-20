@@ -1,9 +1,32 @@
 {
 	"@metadata": {
 		"authors": [
-			"Maax"
+			"Maax",
+			"AhmedG612"
 		]
 	},
-	"checkuser-search": "Raadi",
-	"checkuser-search-submit": "Raadi"
+	"right-checkuser-temporary-account-auto-reveal": "Si otomaatig ah u muuji cinwaannada IP-ga ee ay isticmaalaan akoonnada ku meelgaarka ah",
+	"action-checkuser-temporary-account-auto-reveal": "Si otomaatig ah u muuji cinwaannada IP-ga ee ay isticmaalaan akoonnada ku meelgaarka ah",
+	"checkuser-toollink-check": "hubi",
+	"checkuser-check-this-user": "Hubi isticmaalahan",
+	"checkuser-investigate-this-user": "Baadh isticmaalahan",
+	"checkuser-recent-checks": "Hubinta bartilmaameedkan",
+	"checkuser-log-checks-by": "Hubinta uu sameeyey",
+	"checkuser-log-checks-on": "Hubinta lagu sameeyey",
+	"checkuser-log-link-text": "Diiwaanka",
+	"checkuser-logs-link-text": "Diiwaanada",
+	"checkuser-blocked": "La xannibay",
+	"checkuser-gblocked": "Si caalami ah loo xannibay",
+	"checkuser-locked": "Waa la qufulay",
+	"checkuser-massblock-text": "Isticmaal sanduuqyada calaamadaynta ee natiijooyinka kore si aad u doorato akoonnada iyo IP-yada aad rabto inaad xanibto. Kadib waxaad isticmaali kartaa badhamada hoose, kuwaas oo furi doona foomka {{#special:InvestigateBlock}} iyadoo bartilmaameedyada si hore loo buuxiyay.",
+	"checkuser-search": "Raadi waxyaabaha ku qoran diiwaanka hubinta isticmaalaha",
+	"checkuser-search-submit": "Raadi",
+	"checkuser-log-search-target": "Bartilmaameed:",
+	"checkuser-log-search-initiator": "Bilaabe:",
+	"checkuser-log-search-reason": "Sababta:",
+	"checkuser-helper-xff-untrusted": "XFF (aan la aamini karin):",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content": "Qalabka [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/IP_Info Macluumaadka IP-ga] (Macluumaadka IP-ga) waxa uu u fududeeyaa maamulayaasha, la-dagaallamayaasha burburinta iyo isticmaaleyaasha khibradda leh inay helaan xogta cinwaannada IP-ga iyaga oo aan si toos ah u arkin cinwaannada IP-ga.\n\nIsticmaaleyaasha buuxiya shuruudaha gelitaanka waxay IP Info ka hawlgelin karaan dookhyadooda. Marka la hawlgeliyo, IP Info pop-up ayaa ka soo muuqan doona agagaarka akoonnada ku-meelgaarka ah iyo cinwaannada IP-ga ee hore. Xogta IP-ga sidoo kale waxa lagu soo bandhigi doonaa bogga wax ku biirinta.",
+	"checkuser-investigateblock-confirm-blocks-label": "Xaqiiji xanibaadaha",
+	"checkuser-tempaccount-reveal-ip-button-label": "Muuji IP",
+	"checkuser-userinfocard-enable-preference-help": "Ku muuji badhan agta magaca isticmaalaha si loo furo popover leh macluumaad ku saabsan akoonka."
 }
