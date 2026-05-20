@@ -380,6 +380,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Tempoh penyertaan}}: pada atau sebelum tahun 2005",
 	"checkuser-userinfocard-active-wikis-label": "Wiki aktif",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Sekatan aktif daripada semua wiki: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Sekatan aktif daripada semua wiki: $1 ($2 pada wiki ini)",
 	"checkuser-userinfocard-past-blocks": "Sekatan lalu: $1",
 	"checkuser-userinfocard-global-edits": "Suntingan sejagat: $1",
 	"checkuser-userinfocard-local-edits": "Suntingan tempatan: $1 (dibalikkan: $2)",

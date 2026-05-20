@@ -397,6 +397,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Beigetreten}}: im Jahr 2005 oder früher",
 	"checkuser-userinfocard-active-wikis-label": "Aktive Wikis",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktive Sperren aus allen Wikis: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Aktive Sperren von allen Wikis: $1 ($2 auf diesem Wiki)",
 	"checkuser-userinfocard-past-blocks": "Vergangene Sperren: $1",
 	"checkuser-userinfocard-global-edits": "Globale Bearbeitungen: $1",
 	"checkuser-userinfocard-local-edits": "Lokale Bearbeitungen: $1 (zurückgesetzt: $2)",

@@ -387,6 +387,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Qoşulub}}: 2005-ci ildə və ya əvvəl",
 	"checkuser-userinfocard-active-wikis-label": "Aktiv vikilər",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Bütün vikilərdəki aktiv bloklar: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Bütün vikilərdəki aktiv bloklar: $1 (bu vikidə $2)",
 	"checkuser-userinfocard-past-blocks": "Keçmiş bloklar: $1",
 	"checkuser-userinfocard-global-edits": "Qlobal redaktə sayı: $1",
 	"checkuser-userinfocard-local-edits": "Lokal redaktə sayı: $1 ($2 geri qaytarılan)",

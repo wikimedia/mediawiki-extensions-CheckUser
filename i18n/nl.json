@@ -392,6 +392,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Ingeschreven}}: in of vóór 2005",
 	"checkuser-userinfocard-active-wikis-label": "Actieve wiki’s",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Actieve blokkades van alle wiki’s: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Actieve blokkades van alle wiki's: $1 ($2 op deze wiki)",
 	"checkuser-userinfocard-past-blocks": "Verstreken blokkades: $1",
 	"checkuser-userinfocard-global-edits": "Globaal aantal bewerkingen: $1",
 	"checkuser-userinfocard-local-edits": "Lokaal aantal bewerkingen: $1 (teruggedraaid: $2)",
