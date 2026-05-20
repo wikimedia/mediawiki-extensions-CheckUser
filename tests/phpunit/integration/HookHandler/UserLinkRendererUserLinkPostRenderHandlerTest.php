@@ -59,6 +59,18 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 		$this->assertStringContainsString( $expected, $html, 'Output does not contain Codex button' );
 		$expected = "class=\"ext-checkuser-userinfocard-button";
 		$this->assertStringContainsString( $expected, $html, 'Output does not contain expected CSS classes' );
+		// T426830: pin the trigger element to <button> so gadgets like
+		// Twinkle that do $('#mw-diff-ntitle2 a').first() don't match it.
+		$this->assertStringContainsString(
+			'<button type="button"',
+			$html,
+			'Trigger must be a <button>, not <a> (T426830)'
+		);
+		$this->assertStringNotContainsString(
+			'cdx-button--fake-button',
+			$html,
+			'fake-button modifiers are for <a>; must not appear on a native <button>'
+		);
 	}
 
 	public function testDontRenderForAnonUser() {

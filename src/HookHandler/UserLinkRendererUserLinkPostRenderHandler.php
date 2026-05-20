@@ -56,19 +56,19 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 						"ext-checkuser-userinfocard-button__icon--$iconClass",
 				]
 			);
+			// <button>, not <a>: avoids matching gadgets that do
+			// $('#mw-diff-ntitle2 a').first() to find the editor (T426830).
 			$markup = Html::rawElement(
-				'a',
+				'button',
 				[
-					'href' => 'javascript:void(0)',
-					'role' => 'button',
+					'type' => 'button',
 					'aria-label' => $context->msg(
 						'checkuser-userinfocard-toggle-button-aria-label',
 						$targetUser->getName()
 					)->text(),
 					'aria-haspopover' => 'dialog',
-					'class' => "ext-checkuser-userinfocard-button cdx-button " .
-						'cdx-button--action-default cdx-button--weight-quiet cdx-button--fake-button ' .
-						'cdx-button--fake-button--enabled cdx-button--icon-only',
+					'class' => 'ext-checkuser-userinfocard-button cdx-button ' .
+						'cdx-button--action-default cdx-button--weight-quiet cdx-button--icon-only',
 					'data-username' => $targetUser->getName(),
 				],
 				$icon
