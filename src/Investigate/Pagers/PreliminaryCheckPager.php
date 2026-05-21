@@ -35,7 +35,6 @@ use MediaWiki\Pager\TablePager;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\NamespaceInfo;
-use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -242,7 +241,7 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function getQueryInfo() {
 		$targets = $this->tokenData['targets'] ?? [];
-		$users = array_filter( array_map( User::newFromName( ... ), $targets ) );
+		$users = array_filter( array_map( $this->userFactory->newFromName( ... ), $targets ) );
 
 		return $this->preliminaryCheckService->getQueryInfo( $users );
 	}
