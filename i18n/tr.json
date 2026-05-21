@@ -498,6 +498,8 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-intro": "Bu sinyaller olası kötü etkinlikleri belirtir",
 	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Kapat",
 	"checkuser-suggestedinvestigations-contributions-tool-link": "Önerilen araştırma vakaları",
+	"checkuser-userinfocard-temporary-account-bucketcount": "İlgili tüm IP adreslerinden gelen geçici hesaplar: $1",
+	"checkuser-contributions-temporary-account-bucketcount": "İlgili tüm IP adreslerinden gelen geçici hesaplar: $1.",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Tüm hesapları görüntüle",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Gizle",
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Hesap listesini kopyala",

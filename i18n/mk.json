@@ -378,6 +378,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Се зачленил|Се зачленила}}: во или пред 2005 г.",
 	"checkuser-userinfocard-active-wikis-label": "Активни викија",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Активни блокови на сите викија: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Активни блокови од сите викија: $1 ($2 на ова вики)",
 	"checkuser-userinfocard-past-blocks": "Минати блокови: $1",
 	"checkuser-userinfocard-global-edits": "Глобални уредувања: $1",
 	"checkuser-userinfocard-local-edits": "Месни уредувања: $1 (вратени: $2)",

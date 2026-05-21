@@ -375,6 +375,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Inscribite}}: in o ante 2005",
 	"checkuser-userinfocard-active-wikis-label": "Wikis active",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Blocadas active de tote le wikis: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Blocadas active de tote le wikis: $1 ($2 sur iste wiki)",
 	"checkuser-userinfocard-past-blocks": "Blocadas passate: $1",
 	"checkuser-userinfocard-global-edits": "Modificationes global: $1",
 	"checkuser-userinfocard-local-edits": "Modificationes local: $1 (revertite: $2)",

@@ -383,6 +383,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Uniuse}} no ano 2005 ou antes",
 	"checkuser-userinfocard-active-wikis-label": "Wikis activos",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Bloqueos activos de todos os wikis: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Bloqueos activos de todos os wikis: $1 ($2 neste wiki)",
 	"checkuser-userinfocard-past-blocks": "Bloqueos pasados: $1",
 	"checkuser-userinfocard-global-edits": "Edicións globais: $1",
 	"checkuser-userinfocard-local-edits": "Edicións locais: $1 (revertidas: $2)",

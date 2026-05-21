@@ -39,6 +39,7 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Muuji IP",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|wuxuu arkay}} {{PLURAL:$4|doorsoome|doorsoomayaal}} la ilaaliyay oo ku xiran $3: $5",
 	"checkuser-ipinfo-global-contributions-url-text": "Eeg wax ku darka caalamiga ah",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Xannibaadaha firfircoon ee dhammaan wiki-yada: $1 ($2 ee wiki-kan)",
 	"checkuser-userinfocard-menu-turn-off": "Demi astaantan",
 	"checkuser-userinfocard-loading-label": "Soo shubista macluumaadka isticmaalaha",
 	"checkuser-userinfocard-error-title": "Khalad ayaa dhacay",

@@ -391,6 +391,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Medlem siden}}: i eller før 2005",
 	"checkuser-userinfocard-active-wikis-label": "Aktive wikier",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktive blokeringer fra alle wikier: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Aktive blokeringer fra alle wikier: $1 ($2 på denne wiki)",
 	"checkuser-userinfocard-past-blocks": "Tidligere blokeringer: $1",
 	"checkuser-userinfocard-global-edits": "Globale redigeringer: $1",
 	"checkuser-userinfocard-local-edits": "Lokale redigeringer: $1 (tilbageført: $2)",
