@@ -502,7 +502,7 @@
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "Vanwege $1 gesignaleerde bewerking{{PLURAL:$2||en}} ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "Vanwege $1 gesignaleerde logboekvermelding{{PLURAL:$2||en}} ($2)",
 	"checkuser-suggestedinvestigations-contributions-tool-link": "SI-gevallen",
-	"checkuser-suggestedinvestigations-invalid-status-warning-for-account-based-signal": "Als u dit geval als ongeldig markeert, worden er geen nieuwe gevallen meer aangemaakt voor dit account.",
+	"checkuser-suggestedinvestigations-invalid-status-warning-for-account-based-signal": "Als u dit geval als incorrect markeert, worden er geen nieuwe gevallen meer aangemaakt voor dit account.",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Tijdelijke accounts van alle bijbehorende IP-adressen: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Een totaal aantal van alle tijdelijke accounts van alle IP-adressen die aan dit account zijn gekoppeld",
 	"checkuser-temporary-account-bucketcount-range": "$1–$2",
