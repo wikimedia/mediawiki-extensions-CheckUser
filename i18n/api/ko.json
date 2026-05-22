@@ -21,7 +21,7 @@
 	"apihelp-query+checkuser-param-timecond": "사용자 데이터의 시간 제약 (예: \"-2 weeks\" 또는 \"2 weeks ago\").",
 	"apihelp-query+checkuser-param-xff": "IP 주소 대신 XFF 데이터를 이용.",
 	"apihelp-query+checkuser-example-1": "[[User:Example]]에 대해 IP 주소 가져오기",
-	"apihelp-query+checkuser-example-2": "192.0.2.0/24가 수행한 동작을 가져오기",
+	"apihelp-query+checkuser-example-2": "192.0.2.0/24가 수행한 작업을 가져오기",
 	"apihelp-query+checkuserlog-summary": "검사관 기록에서 항목을 가져옵니다.",
 	"apihelp-query+checkuserlog-param-user": "검사관의 사용자 이름",
 	"apihelp-query+checkuserlog-param-target": "검사된 사용자, IP 주소, CIDR 범위",
