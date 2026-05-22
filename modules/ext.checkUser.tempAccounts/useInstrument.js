@@ -21,14 +21,13 @@
  * @return {LogEvent}
  */
 const useInstrument = () => {
-	if ( !mw.eventLog ) {
-		// EventLogging is not installed
+	if ( !mw.testKitchen ) {
+		// TestKitchen is not installed
 		return () => {};
 	}
 
-	const instrument = mw.eventLog.newInstrument(
-		'mediawiki.product_metrics.checkuser_ip_auto_reveal_interaction',
-		'/analytics/product_metrics/web/base/1.4.2'
+	const instrument = mw.testKitchen.getInstrument(
+		'checkuser-ip-auto-reveal-interaction'
 	);
 
 	return ( action, data = {} ) => {
@@ -42,7 +41,7 @@ const useInstrument = () => {
 			} );
 		}
 
-		instrument.submitInteraction( action, interactionData );
+		instrument.send( action, interactionData );
 	};
 };
 

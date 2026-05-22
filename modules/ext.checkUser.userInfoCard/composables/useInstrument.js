@@ -28,8 +28,8 @@ let instrument;
  * @return {LogEvent}
  */
 const useInstrument = () => {
-	if ( !mw.eventLog ) {
-		// EventLogging is not installed
+	if ( !mw.testKitchen ) {
+		// TestKitchen is not installed
 		return () => {};
 	}
 
@@ -38,9 +38,8 @@ const useInstrument = () => {
 	}
 
 	if ( !instrument ) {
-		instrument = mw.eventLog.newInstrument(
-			'mediawiki.product_metrics.user_info_card_interaction',
-			'/analytics/product_metrics/web/base/2.0.0'
+		instrument = mw.testKitchen.getInstrument(
+			'user-info-card-interaction'
 		);
 	}
 
@@ -67,7 +66,7 @@ const useInstrument = () => {
 			interactionData.action_context = data.context;
 		}
 
-		instrument.submitInteraction( action, interactionData );
+		instrument.send( action, interactionData );
 	};
 };
 

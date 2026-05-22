@@ -130,10 +130,10 @@ QUnit.test.skip( 'open & close method logs an event with correct parameters', fu
 	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
 	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
 	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
-	const submitInteractionStub = this.sandbox.stub().resolves();
-	submitInteractionStub.respondImmediately = true;
-	const instrumentStub = { submitInteraction: submitInteractionStub };
-	this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+	const sendStub = this.sandbox.stub().resolves();
+	sendStub.respondImmediately = true;
+	const instrumentStub = { send: sendStub };
+	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
 
 	const wrapper = mountComponent();
 	const triggerElement = document.createElement( 'button' );
@@ -141,14 +141,14 @@ QUnit.test.skip( 'open & close method logs an event with correct parameters', fu
 	wrapper.vm.setUserInfo( 'testuser' );
 	wrapper.vm.open( triggerElement );
 
-	assert.strictEqual( submitInteractionStub.callCount, 1, 'submitInteraction is called once' );
+	assert.strictEqual( sendStub.callCount, 1, 'send is called once' );
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 0 ],
+		sendStub.firstCall.args[ 0 ],
 		'open',
 		'First argument is "open"'
 	);
 
-	const interactionData = submitInteractionStub.firstCall.args[ 1 ];
+	const interactionData = sendStub.firstCall.args[ 1 ];
 	assert.strictEqual(
 		interactionData.funnel_entry_token,
 		'test-session-id',
@@ -166,9 +166,9 @@ QUnit.test.skip( 'open & close method logs an event with correct parameters', fu
 	);
 
 	wrapper.vm.close();
-	assert.strictEqual( submitInteractionStub.callCount, 2, 'submitInteraction is called again' );
+	assert.strictEqual( sendStub.callCount, 2, 'send is called again' );
 	assert.strictEqual(
-		submitInteractionStub.secondCall.args[ 0 ],
+		sendStub.secondCall.args[ 0 ],
 		'close',
 		'First argument to logEvent is "close" when closing'
 	);

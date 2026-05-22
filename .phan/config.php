@@ -16,6 +16,7 @@ $cfg['directory_list'] = array_merge(
 		'../../extensions/GrowthExperiments',
 		'../../extensions/IPInfo',
 		'../../extensions/MobileFrontend',
+		'../../extensions/TestKitchen',
 		'../../extensions/TorBlock',
 		'../../extensions/UserMerge',
 	]
@@ -33,6 +34,7 @@ $cfg['exclude_analysis_directory_list'] = array_merge(
 		'../../extensions/GrowthExperiments',
 		'../../extensions/IPInfo',
 		'../../extensions/MobileFrontend',
+		'../../extensions/TestKitchen',
 		'../../extensions/TorBlock',
 		'../../extensions/UserMerge',
 	]

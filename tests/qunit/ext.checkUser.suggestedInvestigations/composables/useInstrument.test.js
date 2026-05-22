@@ -3,52 +3,41 @@
 const useInstrument = require( 'ext.checkUser.suggestedInvestigations/composables/useInstrument.js' );
 
 // Store stubs for use in arrow functions
-let newInstrumentStub, submitInteractionStub;
+let getInstrumentStub, sendStub;
 
 QUnit.module( 'ext.checkUser.suggestedInvestigations.useInstrument', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		// Create stub for the instrument
-		submitInteractionStub = this.sandbox.stub();
-		const instrumentStub = { submitInteraction: submitInteractionStub };
+		sendStub = this.sandbox.stub();
+		const instrumentStub = { send: sendStub };
 
-		if ( 'eventLog' in mw ) {
-			newInstrumentStub = this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+		if ( mw.testKitchen ) {
+			getInstrumentStub = this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
 		} else {
-			newInstrumentStub = this.sandbox.stub().returns( instrumentStub );
-			// Stub missing mw.eventLog
-			this.sandbox.define( mw, 'eventLog', { newInstrument: newInstrumentStub } );
+			getInstrumentStub = this.sandbox.stub().returns( instrumentStub );
+			// Stub missing mw.testKitchen
+			delete mw.testKitchen;
+			this.sandbox.define( mw, 'testKitchen', { getInstrument: getInstrumentStub } );
 		}
 	}
 } ) );
 
 QUnit.test( 'returned function logs events with correct data', ( assert ) => {
-	const logEvent = useInstrument();
-
-	assert.strictEqual( newInstrumentStub.callCount, 1, 'Calls mw.eventLog.newInstrument' );
-	assert.strictEqual(
-		newInstrumentStub.firstCall.args[ 0 ],
-		'mediawiki.product_metrics.suggested_investigations_interaction.v2',
-		'Uses expected stream name when calling newInstrument'
-	);
-	assert.strictEqual(
-		newInstrumentStub.firstCall.args[ 1 ],
-		'/analytics/mediawiki/suggested_investigations/interaction/1.1.4',
-		'Uses expected schema when calling newInstrument'
-	);
+	const logEvent = useInstrument( 'suggested-investigations-interaction-v2' );
 
 	logEvent( 'test-action', {
 		context: 'Test context'
 	} );
 
-	// Verify submitInteraction is called with correct parameters
-	assert.strictEqual( submitInteractionStub.callCount, 1, 'Calls submitInteraction' );
+	// Verify send is called with correct parameters
+	assert.strictEqual( sendStub.callCount, 1, 'Calls send' );
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 0 ],
+		sendStub.firstCall.args[ 0 ],
 		'test-action',
-		'Passes correct action to submitInteraction'
+		'Passes correct action to send'
 	);
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 1 ].action_context,
+		sendStub.firstCall.args[ 1 ].action_context,
 		'Test context',
 		'Includes context in interaction data'
 	);

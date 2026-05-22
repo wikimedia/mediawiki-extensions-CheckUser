@@ -642,9 +642,9 @@ QUnit.test.skip( 'logs an event when onWikiLinkClick is called', function ( asse
 	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
 	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
 	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
-	const submitInteractionStub = this.sandbox.stub();
-	const instrumentStub = { submitInteraction: submitInteractionStub };
-	this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+	const sendStub = this.sandbox.stub();
+	const instrumentStub = { send: sendStub };
+	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
 
 	const activeWikisObj = {
 		enwiki: 'https://en.wikipedia.org',
@@ -654,14 +654,14 @@ QUnit.test.skip( 'logs an event when onWikiLinkClick is called', function ( asse
 	const wrapper = mountComponent( { activeWikis: activeWikisObj } );
 	wrapper.vm.onWikiLinkClick( 'enwiki' );
 
-	assert.strictEqual( submitInteractionStub.callCount, 1, 'submitInteraction is called once' );
+	assert.strictEqual( sendStub.callCount, 1, 'send is called once' );
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 0 ],
+		sendStub.firstCall.args[ 0 ],
 		'link_click',
 		'First argument is "link_click"'
 	);
 
-	const interactionData = submitInteractionStub.firstCall.args[ 1 ];
+	const interactionData = sendStub.firstCall.args[ 1 ];
 	assert.strictEqual(
 		interactionData.funnel_entry_token,
 		'test-session-id',

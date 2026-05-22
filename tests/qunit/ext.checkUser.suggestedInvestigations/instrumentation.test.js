@@ -3,20 +3,21 @@
 const instrumentation = require( 'ext.checkUser.suggestedInvestigations/instrumentation.js' );
 
 // Store stubs for use in arrow functions
-let submitInteractionStub;
+let sendStub;
 
 QUnit.module( 'ext.checkUser.suggestedInvestigations.instrumentation', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		// Create stub for the instrument
-		submitInteractionStub = this.sandbox.stub();
-		const instrumentStub = { submitInteraction: submitInteractionStub };
+		sendStub = this.sandbox.stub();
+		const instrumentStub = { send: sendStub };
 
-		if ( 'eventLog' in mw ) {
-			this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+		if ( mw.testKitchen ) {
+			this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
 		} else {
-			const newInstrumentStub = this.sandbox.stub().returns( instrumentStub );
-			// Stub missing mw.eventLog
-			this.sandbox.define( mw, 'eventLog', { newInstrument: newInstrumentStub } );
+			const getInstrumentStub = this.sandbox.stub().returns( instrumentStub );
+			// Stub missing mw.testKitchen
+			delete mw.testKitchen;
+			this.sandbox.define( mw, 'testKitchen', { getInstrument: getInstrumentStub } );
 		}
 	}
 } ) );
@@ -39,15 +40,15 @@ QUnit.test( 'Instruments clicks on "SI cases" contributions special page toollin
 	// Simulate a click on the link
 	$link.trigger( 'click' );
 
-	// Verify submitInteraction is called with correct parameters
-	assert.strictEqual( submitInteractionStub.callCount, 1, 'Calls submitInteraction' );
+	// Verify send is called with correct parameters
+	assert.strictEqual( sendStub.callCount, 1, 'Calls send' );
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 0 ],
+		sendStub.firstCall.args[ 0 ],
 		'contributions_toollink_click',
-		'Passes correct action to submitInteraction'
+		'Passes correct action to send'
 	);
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 1 ].action_context,
+		sendStub.firstCall.args[ 1 ].action_context,
 		'TestUser1234',
 		'Includes context in interaction data'
 	);
@@ -67,14 +68,14 @@ QUnit.test( 'Instruments clicks on "SI cases" links in CheckUser Get Users resul
 	instrumentation();
 	$link.trigger( 'mousedown' );
 
-	assert.strictEqual( submitInteractionStub.callCount, 1, 'Calls submitInteraction' );
+	assert.strictEqual( sendStub.callCount, 1, 'Calls send' );
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 0 ],
+		sendStub.firstCall.args[ 0 ],
 		'checkuser_si_cases_link_click',
-		'Passes correct action to submitInteraction'
+		'Passes correct action to send'
 	);
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 1 ].action_context,
+		sendStub.firstCall.args[ 1 ].action_context,
 		'special_checkuser_get_users',
 		'Includes get_users context in interaction data'
 	);

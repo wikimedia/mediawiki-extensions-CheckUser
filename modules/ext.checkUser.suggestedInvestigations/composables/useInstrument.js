@@ -21,14 +21,13 @@
  * @return {LogEvent}
  */
 module.exports = () => {
-	if ( !mw.eventLog ) {
-		// EventLogging is not installed
+	if ( !mw.testKitchen ) {
+		// Test Kitchen is not installed
 		return () => Promise.resolve();
 	}
 
-	const instrument = mw.eventLog.newInstrument(
-		'mediawiki.product_metrics.suggested_investigations_interaction.v2',
-		'/analytics/mediawiki/suggested_investigations/interaction/1.1.4'
+	const instrument = mw.testKitchen.getInstrument(
+		'suggested-investigations-interaction-v2'
 	);
 
 	return ( action, data = {} ) => {
@@ -56,6 +55,6 @@ module.exports = () => {
 			interactionData.action_context = data.context;
 		}
 
-		instrument.submitInteraction( action, interactionData );
+		instrument.send( action, interactionData );
 	};
 };

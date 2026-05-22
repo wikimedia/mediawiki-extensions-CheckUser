@@ -168,24 +168,24 @@ QUnit.test.skip( 'logs an event when onLinkClick is called', function ( assert )
 	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
 	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
 	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
-	const submitInteractionStub = this.sandbox.stub().resolves();
-	submitInteractionStub.respondImmediately = true;
-	const instrumentStub = { submitInteraction: submitInteractionStub };
-	this.sandbox.stub( mw.eventLog, 'newInstrument' ).returns( instrumentStub );
+	const sendStub = this.sandbox.stub().resolves();
+	sendStub.respondImmediately = true;
+	const instrumentStub = { send: sendStub };
+	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
 
 	const wrapper = mountComponent( {
 		mainLinkLogId: 'main_link_id'
 	} );
 	wrapper.vm.onLinkClick( 'main_link_id' );
 
-	assert.strictEqual( submitInteractionStub.callCount, 1, 'submitInteraction is called once' );
+	assert.strictEqual( sendStub.callCount, 1, 'send is called once' );
 	assert.strictEqual(
-		submitInteractionStub.firstCall.args[ 0 ],
+		sendStub.firstCall.args[ 0 ],
 		'link_click',
 		'First argument is "link_click"'
 	);
 
-	const interactionData = submitInteractionStub.firstCall.args[ 1 ];
+	const interactionData = sendStub.firstCall.args[ 1 ];
 	assert.strictEqual(
 		interactionData.funnel_entry_token,
 		'test-session-id',

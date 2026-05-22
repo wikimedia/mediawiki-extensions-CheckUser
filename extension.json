@@ -18,7 +18,8 @@
 	},
 	"suggests": {
 		"extensions": {
-			"EventLogging": "*"
+			"EventLogging": "*",
+			"TestKitchen": "*"
 		}
 	},
 	"ExtensionMessagesFiles": {
