@@ -62,6 +62,7 @@
 	"checkuser-ip-contributions-deleted-contributions-link": "izbrisani doprinosi korisnika",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Doprinosi privremenog korisnika s IP-a",
 	"checkuser-ip-contributions-special-contributions-button": "Prijašnje izmjene s IP-a",
+	"prefs-checkuser-tempaccount": "Otkrivanje IP-adresa privremenih računa",
 	"checkuser-tempaccount-reveal-ip-button-label": "Prikaži IP",
 	"checkuser-tempaccount-specialblock-ips": "Ovo je privremeni korisnik koji koristi {{PLURAL:$1|sljedeću IP-adresu|sljedeće IP-adrese}}: $2"
 }
