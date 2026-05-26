@@ -396,6 +396,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Приєднався|Приєдналася}}: у 2005 році чи раніше",
 	"checkuser-userinfocard-active-wikis-label": "Активні вікі",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Активні блокування з усіх вікі: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Активні блоки з усіх вікі: $1 ($2 на цій вікі)",
 	"checkuser-userinfocard-past-blocks": "Минулі блокування: $1",
 	"checkuser-userinfocard-global-edits": "Глобальні редагування: $1",
 	"checkuser-userinfocard-local-edits": "Локальні редагування: $1 (відкинуто: $2)",
