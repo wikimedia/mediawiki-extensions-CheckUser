@@ -178,7 +178,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "Ota IP-tiedot käyttöön",
 	"checkuser-temporary-accounts-onboarding-dialog-preference-error": "Jotain meni pieleen. Yritä uudelleen. Virheilmoitus oli: $1",
 	"checkuser-temporary-accounts-onboarding-dialog-preference-success": "Asetukset päivitetty",
-	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Klikkaa ”$1” ennen kuin jatkat",
+	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Napsauta ”$1” ennen kuin jatkat",
 	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Tallenna asetukset",
 	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Tallenna järjestelmänlaajuiset asetukset",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Tilapäisten tunnusten IP-osoitteiden paljastaminen",
