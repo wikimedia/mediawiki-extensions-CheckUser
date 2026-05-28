@@ -447,5 +447,6 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid": "örn. bu kullanıcılar şüpheli değil",
 	"checkuser-suggestedinvestigations-risk-signals-popover-title": "Risk sinyalleri",
 	"checkuser-suggestedinvestigations-risk-signals-popover-body-intro": "Bu sinyaller olası kötü etkinlikleri belirtir",
-	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Kapat"
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Kapat",
+	"checkuser-userinfocard-temporary-account-bucketcount": "İlgili tüm IP adreslerinden gelen geçici hesaplar: $1"
 }
