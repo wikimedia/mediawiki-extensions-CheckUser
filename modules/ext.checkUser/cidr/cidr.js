@@ -4,6 +4,14 @@
 		if ( cidr.toString() === '!' ) {
 			cidr = mw.msg( 'checkuser-cidr-too-small' );
 		}
+		if ( cidr.toString() === 'mixed' ) {
+			$( '.mw-checkuser-cidr-res input', $form ).val( '' );
+			$( '.mw-checkuser-cidr-tool-links', $form ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
+			$( '.mw-checkuser-cidr-ipnote', $form ).text(
+				mw.msg( 'checkuser-cidr-mixed-address-families' )
+			);
+			return;
+		}
 		$( '.mw-checkuser-cidr-res input', $form ).val( cidr );
 		if ( mw.util.isIPAddress( cidr, true ) ) {
 			$( '.mw-checkuser-cidr-tool-links', $form ).removeClass( 'mw-checkuser-cidr-tool-links-hidden' );
@@ -80,6 +88,7 @@
 		let prefix = '';
 		let foundV4 = false;
 		let foundV6 = false;
+		let foundMixed = false;
 		let ipCount;
 		let blocs;
 		// Go through each IP in the list, get its binary form, and
@@ -98,6 +107,7 @@
 			if ( ipV4 ) {
 				foundV4 = true;
 				if ( foundV6 ) { // disjoint address space
+					foundMixed = true;
 					prefix = '';
 					break;
 				}
@@ -161,6 +171,7 @@
 			} else if ( ipV6 ) {
 				foundV6 = true;
 				if ( foundV4 ) { // disjoint address space
+					foundMixed = true;
 					prefix = '';
 					break;
 				}
@@ -242,7 +253,9 @@
 			}
 		}
 		// Update form
-		if ( prefix !== '' ) {
+		if ( foundMixed ) {
+			showResults( '?', 'mixed', $form, hasCheckUserRight, hasCheckUserLogRight );
+		} else if ( prefix !== '' ) {
 			let full = prefix;
 			if ( prefixCidr !== false ) {
 				full += '/' + prefixCidr;
