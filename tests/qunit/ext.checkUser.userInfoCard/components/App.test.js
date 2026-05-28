@@ -159,6 +159,11 @@ QUnit.test.skip( 'open & close method logs an event with correct parameters', fu
 		'button',
 		'Includes correct source in interaction data'
 	);
+	assert.strictEqual(
+		interactionData.action_context,
+		JSON.stringify( { page: 'other', username: 'testuser' } ),
+		'Includes correct action_context in open event'
+	);
 
 	wrapper.vm.close();
 	assert.strictEqual( submitInteractionStub.callCount, 2, 'submitInteraction is called again' );

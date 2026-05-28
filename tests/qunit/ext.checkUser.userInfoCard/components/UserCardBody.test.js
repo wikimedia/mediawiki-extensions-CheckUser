@@ -679,7 +679,7 @@ QUnit.test.skip( 'logs an event when onWikiLinkClick is called', function ( asse
 	);
 	assert.strictEqual(
 		interactionData.action_context,
-		'enwiki',
-		'Includes correct action_context (wiki ID) in interaction data'
+		JSON.stringify( { wiki: 'enwiki', username: 'TestUser' } ),
+		'Includes correct action_context (wiki ID and username) in interaction data'
 	);
 } );

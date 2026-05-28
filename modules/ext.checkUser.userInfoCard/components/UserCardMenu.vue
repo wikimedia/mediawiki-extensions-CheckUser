@@ -137,7 +137,8 @@ module.exports = exports = {
 			// Log the menu selection
 			logEvent( 'link_click', {
 				subType: value,
-				source: 'card_menu'
+				source: 'card_menu',
+				context: JSON.stringify( { username: props.username } )
 			} );
 
 			if ( value === 'toggle-watchlist' ) {

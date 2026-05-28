@@ -83,9 +83,15 @@ module.exports = exports = {
 		function open( target ) {
 			currentTrigger.value = target;
 			isOpen.value = true;
+			const context = Object.assign(
+				{},
+				getOpenContext( target ),
+				{
+					username: username.value
+				} );
 			logEvent( 'open', {
 				source: 'button',
-				context: JSON.stringify( getOpenContext( target ) )
+				context: JSON.stringify( context )
 			} );
 		}
 

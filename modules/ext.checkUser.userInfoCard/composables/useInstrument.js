@@ -40,7 +40,7 @@ const useInstrument = () => {
 	if ( !instrument ) {
 		instrument = mw.eventLog.newInstrument(
 			'mediawiki.product_metrics.user_info_card_interaction',
-			'/analytics/product_metrics/web/base/1.4.2'
+			'/analytics/product_metrics/web/base/2.0.0'
 		);
 	}
 

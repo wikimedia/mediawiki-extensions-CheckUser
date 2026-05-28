@@ -287,4 +287,9 @@ QUnit.test.skip( 'logs an event when onMenuSelect is called', function ( assert 
 		'card_menu',
 		'Includes correct source in interaction data'
 	);
+	assert.strictEqual(
+		interactionData.action_context,
+		JSON.stringify( { username: 'TestUser' } ),
+		'Includes correct action_context (username) in interaction data'
+	);
 } );

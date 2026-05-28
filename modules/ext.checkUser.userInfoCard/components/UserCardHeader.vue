@@ -96,7 +96,8 @@ module.exports = exports = {
 		function onUsernameClick() {
 			logEvent( 'link_click', {
 				subType: 'user_page',
-				source: 'card_header'
+				source: 'card_header',
+				context: JSON.stringify( { username: props.username } )
 			} );
 		}
 

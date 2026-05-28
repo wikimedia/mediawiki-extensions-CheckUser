@@ -517,7 +517,7 @@ module.exports = exports = {
 			logEvent( 'link_click', {
 				subType: 'active_wiki',
 				source: 'card_body',
-				context: wikiId
+				context: JSON.stringify( { wiki: wikiId, username: props.username } )
 			} );
 		}
 
