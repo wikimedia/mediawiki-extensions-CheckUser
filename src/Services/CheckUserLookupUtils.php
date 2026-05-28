@@ -213,15 +213,15 @@ class CheckUserLookupUtils {
 	 * @return ?RevisionRecord null if no revision is found, otherwise the RevisionRecord.
 	 */
 	public function getRevisionRecordFromRow( stdClass $row ): ?RevisionRecord {
-		$revRecord = $this->revisionLookup->getRevisionById( $row->this_oldid );
+		$revRecord = $this->revisionLookup->getRevisionById( (int)$row->this_oldid );
 		if ( !$revRecord ) {
-			$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, $row->this_oldid );
+			$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, (int)$row->this_oldid );
 		}
 		if ( $revRecord === null ) {
 			// This shouldn't happen, CheckUser points to a revision that isn't in revision nor archive table?
 			$this->logger->warning(
 				"Couldn't fetch revision with this_oldid as {old_id}",
-				[ 'old_id' => $row->this_oldid, 'exception' => new RuntimeException ]
+				[ 'old_id' => (int)$row->this_oldid, 'exception' => new RuntimeException ]
 			);
 		}
 		return $revRecord;
