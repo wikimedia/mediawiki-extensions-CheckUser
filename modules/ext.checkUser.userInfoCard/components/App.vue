@@ -57,7 +57,7 @@
 <script>
 const { ref, computed, watch } = require( 'vue' );
 const { CdxPopover } = require( '../codex.js' );
-const { hashUsername } = require( '../util.js' );
+const { hashUsername, getOpenContext } = require( '../util.js' );
 const UserCardView = require( './UserCardView.vue' );
 const useInstrument = require( '../composables/useInstrument.js' );
 
@@ -83,7 +83,10 @@ module.exports = exports = {
 		function open( target ) {
 			currentTrigger.value = target;
 			isOpen.value = true;
-			logEvent( 'open', { source: 'button' } );
+			logEvent( 'open', {
+				source: 'button',
+				context: JSON.stringify( getOpenContext( target ) )
+			} );
 		}
 
 		function close() {

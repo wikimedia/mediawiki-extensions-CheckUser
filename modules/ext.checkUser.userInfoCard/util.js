@@ -93,8 +93,50 @@ function hashUsername( username ) {
 	return numericHash.toString( 36 );
 }
 
+/**
+ * Determine the context in which the UserInfoCard is being opened,
+ * based on the current page type and the position of the trigger element.
+ *
+ * Page types are evaluated in priority order; the first matching rule wins.
+ *
+ * @param {Element} triggerElement The DOM element that triggered the card open
+ * @return {{page: string}} Context in which the card is opened
+ */
+function getOpenContext( triggerElement ) {
+	const specialPageName = mw.config.get( 'wgCanonicalSpecialPageName' );
+	const action = mw.config.get( 'wgAction' );
+	let page;
+
+	if ( specialPageName === 'Log' ||
+		triggerElement.closest( '.mw-logevent-loglines' ) ) {
+		page = 'log';
+	} else if ( specialPageName === 'CheckUser' ||
+		specialPageName === 'Investigate' ||
+		specialPageName === 'SuggestedInvestigations' ) {
+		page = 'checkuser';
+	} else if ( specialPageName === 'BlockList' ) {
+		page = 'blocklist';
+	} else if ( specialPageName === 'Recentchanges' ) {
+		page = 'rc';
+	} else if ( specialPageName ) {
+		page = 'special';
+	} else if ( action === 'history' || action === 'info' ) {
+		page = 'history';
+	} else if ( triggerElement.closest( '#mw-revision-info' ) ||
+		triggerElement.closest( '.diff-title' ) ) {
+		page = 'diff';
+	} else if ( triggerElement.closest( '#mw-content-text' ) ) {
+		page = 'page';
+	} else {
+		page = 'other';
+	}
+
+	return { page };
+}
+
 module.exports = {
 	processEditCountByDay,
 	parseMediaWikiTimestamp,
-	hashUsername
+	hashUsername,
+	getOpenContext
 };
