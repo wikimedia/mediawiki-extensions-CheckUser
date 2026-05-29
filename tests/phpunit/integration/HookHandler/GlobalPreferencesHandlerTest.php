@@ -53,8 +53,9 @@ class GlobalPreferencesHandlerTest extends MediaWikiIntegrationTestCase {
 	public static function providePreferences() {
 		ConvertibleTimestamp::setFakeTime( '20240405060709' );
 		$timeNow = ConvertibleTimestamp::time();
-		$futureTimestamp = $timeNow + 10000;
-		$pastTimestamp = $timeNow - 10000;
+		// Cast to strings, as the API delivers preference values (T427625).
+		$futureTimestamp = (string)( $timeNow + 10000 );
+		$pastTimestamp = (string)( $timeNow - 10000 );
 		ConvertibleTimestamp::setFakeTime( false );
 		return [
 			'IP reveal not in preferences' => [ [], [], '' ],
@@ -105,7 +106,7 @@ class GlobalPreferencesHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'IP reveal global preference starts enabled then expiry extended' => [
 				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
-				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp + 600 ],
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => (string)( (int)$futureTimestamp + 600 ) ],
 				'logAutoRevealAccessEnabled',
 			],
 			'IP auto-reveal global preference starts disabled then enabled' => [
