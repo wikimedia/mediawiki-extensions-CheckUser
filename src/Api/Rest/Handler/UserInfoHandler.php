@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Api\Rest\Handler;
 
 use MediaWiki\Extension\CheckUser\Services\CheckUserUserInfoCardService;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardInstrumentation;
 use MediaWiki\Rest\HttpException;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\Response;
@@ -28,6 +29,7 @@ class UserInfoHandler extends SimpleHandler {
 	public function __construct(
 		private readonly CheckUserUserInfoCardService $userInfoCardService,
 		private readonly UserFactory $userFactory,
+		private readonly UserInfoCardInstrumentation $instrumentation,
 	) {
 	}
 
@@ -53,6 +55,7 @@ class UserInfoHandler extends SimpleHandler {
 		}
 
 		if ( $user === null || !$user->getId() ) {
+			$this->instrumentation->onUserNotFound();
 			throw new LocalizedHttpException(
 				new MessageValue( 'checkuser-rest-userinfo-user-not-found' ),
 				404
@@ -64,6 +67,7 @@ class UserInfoHandler extends SimpleHandler {
 			$user
 		);
 
+		$this->instrumentation->onApiSuccess();
 		return $this->getResponseFactory()->createJson( $userInfo );
 	}
 
@@ -97,6 +101,7 @@ class UserInfoHandler extends SimpleHandler {
 		);
 
 		if ( $performingUser->pingLimiter( 'checkuser-userinfo' ) ) {
+			$this->instrumentation->onRateLimited();
 			throw new HttpException( 'Too many requests to user info data', 429 );
 		}
 	}

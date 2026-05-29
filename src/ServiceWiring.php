@@ -43,6 +43,7 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardInstrumentation;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalBlockCheck;
@@ -588,6 +589,22 @@ return [
 			new CompositeIndefiniteBlockChecker( $globalBlockChecks ),
 			$services->getUserIdentityLookup(),
 			$services->getStatsFactory()
+		);
+	},
+	'CheckUserUserInfoCardInstrumentation' => static function (
+		MediaWikiServices $services
+	): UserInfoCardInstrumentation {
+		$metricsClientFactory = $services->has( 'EventLogging.MetricsClientFactory' )
+			? $services->get( 'EventLogging.MetricsClientFactory' )
+			: null;
+		return new UserInfoCardInstrumentation(
+			new DerivativeContext( RequestContext::getMain() ),
+			$services->getStatsFactory(),
+			new ServiceOptions(
+				UserInfoCardInstrumentation::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig(),
+			),
+			$metricsClientFactory
 		);
 	},
 	'CheckUserUserInfoCardService' => static function (

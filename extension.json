@@ -296,7 +296,8 @@
 			"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoHandler",
 			"services": [
 				"CheckUserUserInfoCardService",
-				"UserFactory"
+				"UserFactory",
+				"CheckUserUserInfoCardInstrumentation"
 			]
 		},
 		{

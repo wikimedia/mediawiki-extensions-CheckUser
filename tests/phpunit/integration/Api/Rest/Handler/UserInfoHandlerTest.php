@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoHandler;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardInstrumentation;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Rest\HttpException;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -45,7 +46,8 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 		$services = $this->getServiceContainer();
 		return new UserInfoHandler(
 			$services->get( 'CheckUserUserInfoCardService' ),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->get( 'CheckUserUserInfoCardInstrumentation' ),
 		);
 	}
 
@@ -145,6 +147,96 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			$user,
 			$session
+		);
+	}
+
+	public function testApiCallEmitsEventLoggingEvent() {
+		$this->overrideConfigValue( 'CheckUserEnableUserInfoCardInstrumentation', true );
+
+		$user = $this->getTestUser()->getUser();
+		$this->editPage( 'Test', 'Test', 'Test', NS_MAIN, $user );
+
+		$instrumentation = $this->createMock( UserInfoCardInstrumentation::class );
+		$instrumentation->expects( $this->once() )
+			->method( 'onApiSuccess' );
+		$this->setService( 'CheckUserUserInfoCardInstrumentation', $instrumentation );
+
+		$this->executeHandler(
+			$this->getObjectUnderTest(),
+			new RequestData( self::$postRequestParams + [
+				'bodyContents' => json_encode( [ 'username' => $user->getName() ] ),
+			] ),
+			[],
+			[],
+			[],
+			[],
+			$user
+		);
+	}
+
+	public function testRateLimitEmitsEventLoggingEvent() {
+		$this->overrideConfigValue( 'CheckUserEnableUserInfoCardInstrumentation', true );
+		$this->mergeMwGlobalArrayValue( 'wgRateLimits', [ 'checkuser-userinfo' => [
+			'user' => [ 1, 86400 ],
+		] ] );
+
+		$session = $this->getSession( true );
+		$user = $this->getTestUser()->getUser();
+		$this->editPage( 'Test', 'Test', 'Test', NS_MAIN, $user );
+		$requestParams = self::$postRequestParams + [
+			'bodyContents' => json_encode( [ 'username' => $user->getName() ] ),
+		];
+
+		$instrumentation = $this->createMock( UserInfoCardInstrumentation::class );
+		$instrumentation->expects( $this->once() )
+			->method( 'onApiSuccess' );
+		$instrumentation->expects( $this->once() )
+			->method( 'onRateLimited' );
+		$this->setService( 'CheckUserUserInfoCardInstrumentation', $instrumentation );
+
+		// First request succeeds and emits api_request
+		$this->executeHandler(
+			$this->getObjectUnderTest(),
+			new RequestData( $requestParams ),
+			[],
+			[],
+			[],
+			[],
+			$user,
+			$session
+		);
+
+		// Second request hits rate limit and emits rate_limit_exceeded
+		$this->expectException(	HttpException::class );
+		$this->executeHandler(
+			$this->getObjectUnderTest(),
+			new RequestData( $requestParams ),
+			[],
+			[],
+			[],
+			[],
+			$user,
+			$session
+		);
+	}
+
+	public function testUserNotFoundIncrementsPrometheusCounter() {
+		$instrumentation = $this->createMock( UserInfoCardInstrumentation::class );
+		$instrumentation->expects( $this->once() )
+			->method( 'onUserNotFound' );
+		$this->setService( 'CheckUserUserInfoCardInstrumentation', $instrumentation );
+
+		$this->expectException( LocalizedHttpException::class );
+		$this->executeHandler(
+			$this->getObjectUnderTest(),
+			new RequestData( self::$postRequestParams + [
+				'bodyContents' => json_encode( [ 'username' => 'non-existing user' ] ),
+			] ),
+			[],
+			[],
+			[],
+			[],
+			$this->getTestUser()->getUser()
 		);
 	}
 }
