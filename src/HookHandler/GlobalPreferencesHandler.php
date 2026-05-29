@@ -42,10 +42,10 @@ class GlobalPreferencesHandler implements GlobalPreferencesSetGlobalPreferencesH
 			}
 		}
 
-		// IP auto-reveal mode
+		// IP auto-reveal mode. Preference values arrive as strings from the API, so cast to int.
 		$timeNow = ConvertibleTimestamp::time();
-		$oldExpiry = $oldPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] ?? 0;
-		$newExpiry = $newPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] ?? 0;
+		$oldExpiry = (int)( $oldPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] ?? 0 );
+		$newExpiry = (int)( $newPreferences[Preferences::ENABLE_IP_AUTO_REVEAL] ?? 0 );
 
 		$needToLog = $oldExpiry !== $newExpiry;
 		$willEnableAutoReveal = $newExpiry > $timeNow;
@@ -54,8 +54,7 @@ class GlobalPreferencesHandler implements GlobalPreferencesSetGlobalPreferencesH
 		if ( $needToLog ) {
 			$logger = $this->loggerFactory->getLogger();
 			if ( $willEnableAutoReveal ) {
-				$expiry = $newPreferences[Preferences::ENABLE_IP_AUTO_REVEAL];
-				$logger->logAutoRevealAccessEnabled( $user, $expiry );
+				$logger->logAutoRevealAccessEnabled( $user, $newExpiry );
 			} else {
 				$logger->logAutoRevealAccessDisabled( $user );
 			}
