@@ -518,6 +518,8 @@ $specialPageAliases['tr'] = [
 $specialPageAliases['uk'] = [
 	'CheckUser' => [ 'Перевірити_користувача', 'Проверить_участника' ],
 	'CheckUserLog' => [ 'Журнал_перевірок_користувачів', 'Журнал_проверок_участников' ],
+	'GlobalContributions' => [ 'Глобальний_внесок' ],
+	'IPContributions' => [ 'Внесок_з_IP' ],
 ];
 
 /** Urdu (اردو) */
