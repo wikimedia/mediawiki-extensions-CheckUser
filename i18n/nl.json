@@ -181,7 +181,7 @@
 	"checkuser-investigateblock-target": "Gebruikersnaam en IP-adressen",
 	"checkuser-investigateblock-actions": "Te blokkeren handelingen",
 	"checkuser-investigateblock-reason": "Reden",
-	"checkuser-investigateblock-options": "Verdere opties",
+	"checkuser-investigateblock-options": "Extra opties",
 	"checkuser-investigateblock-email-label": "Weerhouden van het versturen van e-mail",
 	"checkuser-investigateblock-usertalk-label": "Voorkomen dat de eigen overlegpagina tijdens de blokkade bewerkt kan worden",
 	"checkuser-investigateblock-reblock-label": "Bestaande blokkeringen overschrijven",
