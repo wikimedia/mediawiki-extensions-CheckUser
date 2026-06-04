@@ -7,6 +7,7 @@
 	"checkuser-global-contributions-link": "пугк проэктэнҍ воа̄йхэз",
 	"checkuser-global-contributions-link-sidebar": "Пугк проэктэнҍ воа̄йхэз",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Се̄брэ}}: $1 ($2)",
+	"checkuser-userinfocard-active-wikis-label": "Активнэ вики",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Активнэ бло̄һктэмуж пугк викиенҍ: $1",
 	"checkuser-userinfocard-global-edits": "Э̄ххтса воа̄йхэзэ числа: $1",
 	"checkuser-userinfocard-local-edits-reverts-unknown": "Па̄ҋклаш воа̄йхэзэ числа: $1",

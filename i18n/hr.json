@@ -159,6 +159,7 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Prikaži globalne doprinose",
 	"checkuser-userinfocard-close-button-aria-label": "Zatvori",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Pridružen|Pridružena}}: $1 ($2)",
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Pridružen|Pridružena}}: 2005. ili prije",
 	"checkuser-userinfocard-active-wikis-label": "Aktivnost na wikijima",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktivne blokade na svim wikijima: $1",
 	"checkuser-userinfocard-past-blocks": "Prijašnje blokade: $1",
@@ -183,5 +184,7 @@
 	"checkuser-userinfocard-global-groups": "<strong>Globalne suradničke skupine</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 uređivanje|$2 uređivanja|0=bez uređivanja}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Uključeno odavanje IP adresa privremenih računa",
+	"checkuser-userinfocard-ip-revealed-count": "Odavanja adrese: $1 (posljednji put $2)",
+	"checkuser-userinfocard-ip-revealed-never": "Odavanja adrese: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Broj privremenih računa sa svih povezanih IP adresa: $1"
 }
