@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
@@ -90,7 +91,7 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 		$anonUser = UserIdentityValue::newAnonymous( '4.3.2.1' );
 		// Run jobs and then truncate all CheckUser result tables as CheckUserInsert will have created rows for the
 		// creation of the temporary account.
-		$this->runJobs();
+		$this->runJobs( [ 'minJobs' => 1 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 		$this->truncateTables( [ 'cuci_user', 'cu_log_event', 'cu_private_event', 'cu_changes' ] );
 
 		// Add test data for cu_changes
@@ -229,7 +230,7 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 		$this->maintenance->execute();
 
 		// Run all jobs to make the inserts to cuci_user run
-		$this->runJobs();
+		$this->runJobs( [ 'minJobs' => 1 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 
 		$actorIds = array_map( function ( $userIdentity ) {
 			return $this->getServiceContainer()->getActorStore()->findActorId( $userIdentity, $this->getDb() );

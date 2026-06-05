@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use ManualLogEntry;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
@@ -506,7 +507,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 		], $status->getValue() );
 
 		// Test that a log entry was made
-		$this->runJobs();
+		$this->runJobs( [ 'minJobs' => 1 ], [ 'type' => LogTemporaryAccountAccessJob::TYPE ] );
 		$this->newSelectQueryBuilder()
 			->select( 'COUNT(*)' )
 			->from( 'logging' )

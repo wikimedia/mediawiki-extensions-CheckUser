@@ -9,6 +9,7 @@ use MediaWiki\Exception\ErrorPageError;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Exception\ReadOnlyError;
 use MediaWiki\Exception\UserBlockedError;
+use MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\MainConfigNames;
@@ -135,7 +136,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			// Use occurrences of data attribute in to determine how many rows,
 			// to test pager.
 			$this->assertSame( $expectedCount, substr_count( $html, 'data-mw-revid' ) );
-			$this->runJobs();
+			$this->runJobs( [ 'minJobs' => 1 ], [ 'type' => LogTemporaryAccountAccessJob::TYPE ] );
 			// Test that a log entry was inserted for the viewing of this target.
 			$this->assertSame(
 				1,

@@ -35,7 +35,7 @@ class StoreClientHintsDataJobTest extends MediaWikiIntegrationTestCase {
 		$this->getServiceContainer()->getJobQueueGroup()->push(
 			StoreClientHintsDataJob::newSpec( $clientHintsData, $insertedId, 'privatelog' )
 		);
-		$this->runJobs();
+		$this->runJobs( [ 'minJobs' => 1 ], [ 'type' => StoreClientHintsDataJob::TYPE ] );
 		// Fetch the Client Hints data for this event and assert that the data matches what we passed to the job.
 		/** @var UserAgentClientHintsLookup $clientHintsLookup */
 		$clientHintsLookup = $this->getServiceContainer()->get( 'UserAgentClientHintsLookup' );

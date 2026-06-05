@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logger\LoggerFactory;
@@ -161,7 +162,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			->create( null, new FauxRequest() )->getUser();
 		// We need to run jobs and then truncate the cuci_user table, because entries are written when a temporary
 		// user is created.
-		$this->runJobs( [ 'minJobs' => 0 ] );
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 		$this->truncateTables( [ 'cuci_user' ] );
 		return $performer;
 	}
@@ -350,7 +351,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			false
 		);
 		// Run jobs as the inserts to cuci_user are made using a job.
-		$this->runJobs( [ 'minJobs' => 0 ] );
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 		// Check that no rows were inserted, as there is no central ID
 		$this->assertSame( 0, $this->getRowCountForTable( 'cuci_user' ) );
 	}
@@ -371,7 +372,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			false
 		);
 		// Run jobs as the inserts to cuci_user are made using a job.
-		$this->runJobs( [ 'minJobs' => 0 ] );
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 		// Check that no rows were inserted, as there is no central ID
 		$this->assertSame( 0, $this->getRowCountForTable( 'cuci_user' ) );
 	}
@@ -391,7 +392,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			false
 		);
 		// Run jobs as the inserts to cuci_user are made using a job.
-		$this->runJobs( [ 'minJobs' => 0 ] );
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 		// Check that no rows were inserted, as there is no central ID
 		$this->assertSame( 0, $this->getRowCountForTable( 'cuci_user' ) );
 	}
@@ -437,7 +438,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 		);
 		// Run jobs as the inserts to cuci_user are made using a job, so if we don't run the jobs the test will
 		// fail to catch if the code is actually not doing as expected.
-		$this->runJobs( [ 'minJobs' => 0 ] );
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 	}
 
 	/** @dataProvider provideRecordActionInCentralIndexesOnTooRecentUpdate */
