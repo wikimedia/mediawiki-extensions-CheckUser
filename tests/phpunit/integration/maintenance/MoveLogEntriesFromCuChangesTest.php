@@ -85,13 +85,10 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		// TODO: Update this to be able to handle inserting testing data into cu_changes for old log entries,
 		// including using the SQL patches?
 		// Set up cu_changes
-		$expectedRow = [];
 		for ( $i = 0; $i < $numberOfRows / 2; $i++ ) {
 			// Insert rows for edits, which do not need moving.
 			$this->commonTestsUpdateCheckUserData(
 				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_source' => RecentChange::SRC_EDIT ] ),
-				[],
-				$expectedRow
 			);
 
 			// Insert rows for log entries, which need moving.

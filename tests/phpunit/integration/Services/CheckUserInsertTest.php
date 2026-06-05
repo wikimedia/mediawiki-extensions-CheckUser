@@ -688,8 +688,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			->assertFieldValue( $logId );
 	}
 
-	private function updateCheckUserData( array $rcAttribs, string $table, array $fields, array &$expectedRow ): void {
-		$this->commonTestsUpdateCheckUserData( $rcAttribs, $fields, $expectedRow );
+	private function updateCheckUserData( array $rcAttribs, string $table, array $fields, array $expectedRow ): void {
+		$this->commonTestsUpdateCheckUserData( $rcAttribs );
+		$this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->newSelectQueryBuilder()
 			->select( $fields )
 			->from( $table )
@@ -698,8 +699,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideUpdateCheckUserDataNoSave */
 	public function testUpdateCheckUserDataNoSave( array $rcAttribs ) {
-		$expectedRow = [];
-		$this->commonTestsUpdateCheckUserData( $rcAttribs, [], $expectedRow );
+		$this->commonTestsUpdateCheckUserData( $rcAttribs );
 		$this->assertRowCount(
 			0,
 			'cu_changes',

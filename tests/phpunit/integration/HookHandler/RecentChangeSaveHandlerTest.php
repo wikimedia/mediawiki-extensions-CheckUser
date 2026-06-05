@@ -93,17 +93,14 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 		$logEntryCutoff = $this->getDb()->timestamp( $currentTime - $maxCUDataAge );
 		foreach ( $timestamps as $timestamp ) {
 			ConvertibleTimestamp::setFakeTime( $timestamp );
-			$expectedRow = [];
 			// Insertion into cu_changes
-			$this->commonTestsUpdateCheckUserData( self::getDefaultRecentChangeAttribs(), [], $expectedRow );
+			$this->commonTestsUpdateCheckUserData( self::getDefaultRecentChangeAttribs() );
 			// Insertion into cu_private_event
 			$this->commonTestsUpdateCheckUserData(
 				array_merge(
 					self::getDefaultRecentChangeAttribs(),
 					[ 'rc_source' => RecentChange::SRC_LOG, 'rc_log_type' => '' ]
-				),
-				[],
-				$expectedRow
+				)
 			);
 			// Insertion into cu_log_event
 			$logId = $this->newLogEntry();
@@ -111,9 +108,7 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 				array_merge(
 					self::getDefaultRecentChangeAttribs(),
 					[ 'rc_source' => RecentChange::SRC_LOG, 'rc_logid' => $logId ]
-				),
-				[],
-				$expectedRow
+				)
 			);
 		}
 		$this->assertRowCount(

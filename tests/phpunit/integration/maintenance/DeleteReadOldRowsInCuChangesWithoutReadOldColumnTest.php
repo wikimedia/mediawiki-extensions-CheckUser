@@ -25,11 +25,8 @@ class DeleteReadOldRowsInCuChangesWithoutReadOldColumnTest extends MaintenanceBa
 
 	public function testExecuteWhenReadOldColumnDoesNotExist() {
 		// Add a testing row to cu_changes to skip the empty table check.
-		$expectedRow = [];
 		$this->commonTestsUpdateCheckUserData(
 			array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_source' => RecentChange::SRC_EDIT ] ),
-			[],
-			$expectedRow
 		);
 		// Run the script, and verify it does not run but outputs the message about not running if the
 		// cuc_only_for_read_old column does not exist.

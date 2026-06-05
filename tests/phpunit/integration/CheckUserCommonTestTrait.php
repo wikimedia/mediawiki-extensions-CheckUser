@@ -42,22 +42,15 @@ trait CheckUserCommonTestTrait {
 	 * with "@group Database", or by returning true from needsDB().
 	 *
 	 * @param array $rcAttribs The attribs for the RecentChange object
-	 * @param array $fields The fields to select from the DB when using assertSelect()
-	 * @param array &$expectedRow The expected values for the fields from the DB when using assertSelect()
 	 * @return RecentChange
 	 */
-	public function commonTestsUpdateCheckUserData(
-		array $rcAttribs,
-		array $fields,
-		array &$expectedRow
-	): RecentChange {
+	public function commonTestsUpdateCheckUserData( array $rcAttribs ): RecentChange {
 		if ( !$this->needsDB() ) {
 			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
 				' method should return true. Use @group Database.' );
 		}
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
-		$this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 
 		/** @var CheckUserInsert $checkUserInsert */
 		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
