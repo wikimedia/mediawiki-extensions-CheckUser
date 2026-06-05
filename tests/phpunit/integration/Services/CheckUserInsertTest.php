@@ -794,12 +794,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$rcAttribs['rc_logid'] = $logId;
 		$fields[] = 'cule_log_id';
 		$expectedRow[] = $logId;
-		// Pass the expected timestamp through IReadableTimestamp::timestamp to ensure it is in the right format
-		// for the current DB type (T366590).
-		if ( in_array( 'cule_timestamp', $fields ) ) {
-			$keyForTimestamp = array_search( 'cule_timestamp', $fields );
-			$expectedRow[$keyForTimestamp] = $this->getDb()->timestamp( $expectedRow[$keyForTimestamp] );
-		}
+		$this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->updateCheckUserData( $rcAttribs, $table, $fields, $expectedRow );
 	}
 

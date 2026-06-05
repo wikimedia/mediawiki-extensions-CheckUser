@@ -169,7 +169,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 
 		$objectUnderTest = $this->getObjectUnderTest();
 		$objectUnderTest->filteredTargets = $filteredTargets;
-		// Pass the expected timestamp through IReadableTimestamp::timestamp to ensure it is in the right format
+		// Pass the expected timestamp through IReadableDatabase::timestamp to ensure it is in the right format
 		// for the current DB type (T366590).
 		$expectedRows = array_map( function ( $row ) {
 			$row->timestamp = $this->getDb()->timestamp( $row->timestamp );

@@ -42,11 +42,7 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
 		$this->getObjectUnderTest()->onRecentChange_save( $rc );
-		foreach ( $fields as $index => $field ) {
-			if ( in_array( $field, [ 'cuc_timestamp', 'cule_timestamp', 'cupe_timestamp' ] ) ) {
-				$expectedRow[$index] = $this->getDb()->timestamp( $expectedRow[$index] );
-			}
-		}
+		$this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->newSelectQueryBuilder()
 			->select( $fields )
 			->from( $table )
