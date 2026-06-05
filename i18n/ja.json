@@ -45,7 +45,8 @@
 			"バレロン",
 			"春春眠眠",
 			"背番号4のエース",
-			"青子守歌"
+			"青子守歌",
+			"Tensama0415"
 		]
 	},
 	"checkuser-summary": "このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。\nIPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名を検索できます。\nIPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。\nパフォーマンス上の理由により、最大$3件の編集しか表示できません。\n方針に従って使用してください。",
@@ -486,6 +487,6 @@
 	"checkuser-contributions-temporary-accounts-show-related": "該当するアカウントからの投稿をすべて見る",
 	"checkuser-contributions-temporary-accounts-hide-related": "関連する仮アカウントからの投稿を隠す",
 	"checkuser-contributions-temporary-account-bucketcount": "接続元が共通の仮アカウントの数: $1。",
-	"checkuser-contributions-temporary-accounts-on-ip": "このIPアドレス上の仮アカウント数: $1",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "このIPアドレス上の仮アカウント数: $1 (ブロック済み: $2)"
+	"checkuser-contributions-temporary-accounts-on-ip": "このIPアドレス上の仮アカウント数: $1。",
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "このIPアドレス上の仮アカウント数: $1 (ブロック済み: $2)。"
 }
