@@ -238,6 +238,10 @@
 			"value": false,
 			"description": "Whether the local 'contribs' link in Special:SuggestedInvestigations should instead be a link to Special:GlobalContributions. By default this is not the case and this will have no effect if Special:GlobalContributions is not enabled on the wiki."
 		},
+		"CheckUserSuggestedInvestigationsRequestHeaders": {
+			"value": [],
+			"description": "List of HTTP request header names whose values are captured into the 'headers' key of the extra data attached to Suggested Investigations signals. Header names are matched case-insensitively and stored lowercased. Default: no headers captured."
+		},
 		"CheckUserLogMaxRangeToShowInLog": {
 			"value": false,
 			"description": "When set, this limits the results of the Special:CheckUserLog or associated API to hide range checks above a specified limit (unless directly searched for). This is intended to hide very old invalid checks which used a /1 or similar CIDR, as these entries often confuse scripts which show some visual indicator based on whether a given IP address has been checked before. When set the format should be similar to $wgCheckUserCIDRLimit."
@@ -610,7 +614,8 @@
 		"SuggestedInvestigationsHandler": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SuggestedInvestigationsHandler",
 			"services": [
-				"JobQueueGroup"
+				"JobQueueGroup",
+				"MainConfig"
 			]
 		},
 		"SuggestedInvestigationsAutoCloseOnUsersBlockedHandler": {

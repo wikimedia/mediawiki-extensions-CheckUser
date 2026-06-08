@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
+use MediaWiki\Config\HashConfig;
 use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsHandler;
 use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\JobQueue\IJobSpecification;
@@ -25,7 +26,8 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		$mockUser = $this->createMock( User::class );
 
 		$objectUnderTest = new SuggestedInvestigationsHandler(
-			$this->setUpMockJobQueue( $mockUser, $expectedEventType, [] )
+			$this->setUpMockJobQueue( $mockUser, $expectedEventType, [ 'headers' => [] ] ),
+			$this->getConfig()
 		);
 
 		$objectUnderTest->onLocalUserCreated( $mockUser, $autocreated );
@@ -55,9 +57,10 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 			$this->setUpMockJobQueue(
 				$mockUser,
 				'successfuledit',
-				[ 'revId' => $revId ],
+				[ 'revId' => $revId, 'headers' => [] ],
 				$expectsSignalMatch
-			)
+			),
+			$this->getConfig()
 		);
 
 		$objectUnderTest->onPageSaveComplete(
@@ -81,7 +84,8 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		$mockUser = $this->createMock( User::class );
 
 		$objectUnderTest = new SuggestedInvestigationsHandler(
-			$this->setUpMockJobQueue( $mockUser, 'setemail', [] )
+			$this->setUpMockJobQueue( $mockUser, 'setemail', [ 'headers' => [] ] ),
+			$this->getConfig()
 		);
 
 		$email = 'test@test.com';
@@ -92,7 +96,8 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		$mockUser = $this->createMock( User::class );
 
 		$objectUnderTest = new SuggestedInvestigationsHandler(
-			$this->setUpMockJobQueue( $mockUser, 'confirmemail', [] )
+			$this->setUpMockJobQueue( $mockUser, 'confirmemail', [ 'headers' => [] ] ),
+			$this->getConfig()
 		);
 
 		$timestamp = '20250405060708';
@@ -137,5 +142,9 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 			} );
 
 		return $mockJobQueueGroup;
+	}
+
+	private function getConfig(): HashConfig {
+		return new HashConfig( [ 'CheckUserSuggestedInvestigationsRequestHeaders' => [] ] );
 	}
 }

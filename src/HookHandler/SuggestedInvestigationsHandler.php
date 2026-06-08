@@ -5,6 +5,8 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
+use MediaWiki\Config\Config;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -25,6 +27,7 @@ class SuggestedInvestigationsHandler implements
 
 	public function __construct(
 		private readonly JobQueueGroup $jobQueueGroup,
+		private readonly Config $config,
 	) {
 	}
 
@@ -81,8 +84,27 @@ class SuggestedInvestigationsHandler implements
 		string $eventType,
 		array $extraData = []
 	): void {
+		$extraData['headers'] = $this->getRequestHeaders();
 		$this->jobQueueGroup->lazyPush(
 			SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec( $userIdentity, $eventType, $extraData )
 		);
+	}
+
+	/**
+	 * Reads the configured request headers from the current main request.
+	 *
+	 * @return array<string,string> Map of lowercased header name to value, for the configured
+	 *   headers that are present in the request. Empty when no headers are configured.
+	 */
+	private function getRequestHeaders(): array {
+		$headers = [];
+		$request = RequestContext::getMain()->getRequest();
+		foreach ( $this->config->get( 'CheckUserSuggestedInvestigationsRequestHeaders' ) as $headerName ) {
+			$value = $request->getHeader( $headerName );
+			if ( $value !== false ) {
+				$headers[strtolower( $headerName )] = $value;
+			}
+		}
+		return $headers;
 	}
 }

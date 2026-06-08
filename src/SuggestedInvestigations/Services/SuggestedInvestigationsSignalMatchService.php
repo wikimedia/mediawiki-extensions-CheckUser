@@ -61,6 +61,9 @@ class SuggestedInvestigationsSignalMatchService {
 	 * @param array $extraData An array of extra data associated with the event that is set based on the
 	 *   $eventType. Currently the following values are supported:
 	 *   * 'revId' - Set when event type is {@link self::EVENT_SUCCESSFUL_EDIT}. The revision ID of the edit.
+	 *   * 'headers' - A map of lowercased HTTP request header name to value, for the request headers
+	 *     configured via $wgCheckUserSuggestedInvestigationsRequestHeaders that were present in the
+	 *     triggering request.
 	 */
 	public function matchSignalsAgainstUser( UserIdentity $userIdentity, string $eventType, array $extraData ): void {
 		// Don't attempt to evaluate signals unless the feature is enabled, as we may not have database tables
