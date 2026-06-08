@@ -40,7 +40,7 @@ abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
 				$actualQueryInfo['conds'][$key] = $value->toSql( $this->getDb() );
 			}
 		}
-		$this->assertArraySubmapSame(
+		$this->assertArrayContains(
 			$expectedQueryInfo,
 			$actualQueryInfo,
 			'::getQueryInfo did not return the expected result.'

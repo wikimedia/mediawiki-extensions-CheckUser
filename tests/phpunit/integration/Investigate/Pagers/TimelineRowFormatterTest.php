@@ -41,7 +41,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		// Tests a subset of the items in the array returned by ::getFormattedRowItems
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge( $this->getDefaultsForTimelineRow(), $row );
-		$this->assertArraySubmapSame(
+		$this->assertArrayContains(
 			$expectedArraySubmap,
 			$objectUnderTest->getFormattedRowItems( (object)$row ),
 			'Array returned by ::getFormattedRowItems was not as expected.'
@@ -113,7 +113,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$row = $this->getDefaultsForTimelineRow();
 		$expectedTime = $this->getServiceContainer()->getLanguageFactory()->getLanguage( 'qqx' )
 			->userTime( '20210405060708', $testUser );
-		$this->assertArraySubmapSame(
+		$this->assertArrayContains(
 			[ 'info' => [ 'time' => $expectedTime ] ],
 			$objectUnderTest->getFormattedRowItems( (object)$row ),
 			'Array returned by ::getFormattedRowItems was not as expected.'
