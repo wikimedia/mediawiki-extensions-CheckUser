@@ -285,5 +285,6 @@
 	"checkuser-userinfocard-global-groups": "<strong>Globalne skupine</strong>: $1",
 	"checkuser-suggestedinvestigations-change-status-dialog-text": "Izberite novo stanje za to preiskavo",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Začasni računi z vseh povezanih IP-jev: $1",
-	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Skupno število vseh začasnih računov z vseh IP-naslovov, povezanih s tem računom"
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Skupno število vseh začasnih računov z vseh IP-naslovov, povezanih s tem računom",
+	"checkuser-contributions-temporary-account-bucketcount": "Začasni računi z vseh povezanih IP-jev: $1."
 }
