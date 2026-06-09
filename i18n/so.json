@@ -67,6 +67,7 @@
 	"checkuser-cidr-label": "Raadi xadka guud iyo ciwaannada IP ee saameeyay liiska ciwaannada IP",
 	"checkuser-cidr-res": "CIDR-ka guud:",
 	"checkuser-cidr-affected-ips": "Ciwaannada IP ee saameeyay:",
+	"checkuser-cidr-mixed-address-families": "Lama xisaabin karo xadka wadaag ah: liisku wuxuu ka kooban yahay cinwaanno IPv4 iyo IPv6 ah labadaba.",
 	"checkuser-cidr-too-small": "Xadku waa aad u weyn yahay",
 	"checkuser-cidr-tool-links-checkuser": "Hubi xadkan",
 	"checkuser-cidr-tool-links-checkuserlog": "Hubinnadii hore ee xadkan",

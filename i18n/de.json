@@ -90,6 +90,7 @@
 	"checkuser-cidr-label": "Gemeinsamen Adressbereich und betroffene Adressen für eine Liste von IP-Adressen ermitteln",
 	"checkuser-cidr-res": "Gemeinschaftlicher IP-Adressbereich:",
 	"checkuser-cidr-affected-ips": "Betroffene IP-Adressen:",
+	"checkuser-cidr-mixed-address-families": "Es kann kein gemeinsamer Bereich berechnet werden: Die Liste enthält sowohl IPv4- als auch IPv6-Adressen.",
 	"checkuser-cidr-too-small": "Die Range ist zu groß",
 	"checkuser-cidr-tool-links-checkuser": "Diesen Bereich prüfen",
 	"checkuser-cidr-tool-links-checkuserlog": "Frühere Prüfungen für diesen Bereich",

@@ -88,6 +88,7 @@
 	"checkuser-cidr-label": "IP 주소의 공통 범위와 영향을 받는 주소 목록 찾기",
 	"checkuser-cidr-res": "공통 CIDR:",
 	"checkuser-cidr-affected-ips": "영향을 받는 IP 주소:",
+	"checkuser-cidr-mixed-address-families": "공통 범위를 계산할 수 없습니다: 목록에 IPv4 및 IPv6 주소가 모두 포함되어 있습니다.",
 	"checkuser-cidr-too-small": "범위가 너무 큽니다",
 	"checkuser-cidr-tool-links-checkuser": "이 대역 확인하기",
 	"checkuser-cidr-tool-links-checkuserlog": "이 대역에 대한 이전 검사",

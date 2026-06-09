@@ -85,6 +85,7 @@
 	"checkuser-cidr-label": "Gemeenschappelijke range en getroffen adressen zoeken uit een lijst van IP-adressen",
 	"checkuser-cidr-res": "Gemeenschappelijke CIDR:",
 	"checkuser-cidr-affected-ips": "Getroffen IP-adressen:",
+	"checkuser-cidr-mixed-address-families": "Kan geen gemeenschappelijk bereik berekenen: de lijst bevat zowel IPv4- als IPv6-adressen.",
 	"checkuser-cidr-too-small": "Bereik is te groot",
 	"checkuser-cidr-tool-links-checkuser": "Dit bereik controleren",
 	"checkuser-cidr-tool-links-checkuserlog": "Eerdere controles op dit bereik",

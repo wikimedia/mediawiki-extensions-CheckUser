@@ -74,6 +74,7 @@
 	"checkuser-cidr-label": "Atopar rangos comúns e enderezos afectados para unha lista de enderezos IP",
 	"checkuser-cidr-res": "CIDR común:",
 	"checkuser-cidr-affected-ips": "Enderezos IP afectados:",
+	"checkuser-cidr-mixed-address-families": "Non se pode calcular un rango común: a lista contén enderezos IPv4 e IPv6.",
 	"checkuser-cidr-too-small": "O rango é demasiado grande",
 	"checkuser-cidr-tool-links-checkuser": "Comprobar este rango",
 	"checkuser-cidr-tool-links-checkuserlog": "Comprobacións previas neste rango",

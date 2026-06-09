@@ -71,6 +71,7 @@
 	"checkuser-cidr-label": "Cari julat biasa dan alamat-alamat terlibat untuk sebuah senarai IP",
 	"checkuser-cidr-res": "CIDR biasa:",
 	"checkuser-cidr-affected-ips": "Alamat IP yang terjejas:",
+	"checkuser-cidr-mixed-address-families": "Tidak dapat mengira julat umum: senarai tersebut mengandungi kedua-dua alamat IPv4 dan IPv6.",
 	"checkuser-cidr-too-small": "Julat terlalu besar",
 	"checkuser-cidr-tool-links-checkuser": "Periksa julat ini",
 	"checkuser-cidr-tool-links-checkuserlog": "Pemeriksaan terdahulu pada julat ini",

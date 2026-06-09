@@ -23,6 +23,7 @@
 			"Valtlai",
 			"Valtlait",
 			"Varusmies",
+			"Wikipeedikko",
 			"ZeiP"
 		]
 	},
@@ -86,6 +87,7 @@
 	"checkuser-cidr-label": "Etsi yleinen osoiteavaruus annetulle IP-luettelolle",
 	"checkuser-cidr-res": "Yleinen CIDR:",
 	"checkuser-cidr-affected-ips": "Alaisia IP-osoitteita:",
+	"checkuser-cidr-mixed-address-families": "Yhteisen alueen laskeminen ei onnistu: luettelossa on sekä IPv4- että IPv6-osoitteita.",
 	"checkuser-cidr-too-small": "Alue on liian suuri",
 	"checkuser-cidr-tool-links-checkuser": "Tarkasta tämä alue",
 	"checkuser-cidr-tool-links-checkuserlog": "Aiemmat tarkastukset tällä alueella",
