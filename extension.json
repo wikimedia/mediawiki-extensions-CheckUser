@@ -1217,6 +1217,9 @@
 				"UserFactory",
 				"CheckUserEventLogger"
 			]
+		},
+		"RangeCalculator": {
+			"class": "MediaWiki\\Extension\\CheckUser\\RangeCalculator\\SpecialRangeCalculator"
 		}
 	},
 	"LogTypes": [

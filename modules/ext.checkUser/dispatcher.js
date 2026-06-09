@@ -14,6 +14,9 @@
 			CheckUserHelper.init();
 			break;
 		}
+		case 'RangeCalculator':
+			require( './cidr/cidr.js' );
+			break;
 		case 'CheckUserLog':
 			require( './checkuserlog/highlightScroll.js' );
 			break;

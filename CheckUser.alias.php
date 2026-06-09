@@ -20,6 +20,7 @@ $specialPageAliases['en'] = [
 	'InvestigateBlock' => [ 'InvestigateBlock' ],
 	'IPContributions' => [ 'IPContributions', 'IPContribs' ],
 	'SuggestedInvestigations' => [ 'SuggestedInvestigations' ],
+	'RangeCalculator' => [ 'RangeCalculator' ],
 ];
 
 /** Arabic (العربية) */
@@ -216,6 +217,7 @@ $specialPageAliases['he'] = [
 	'Investigate' => [ 'חקירה' ],
 	'InvestigateBlock' => [ 'חסימה_מרובה' ],
 	'IPContributions' => [ 'תרומות_IP' ],
+	'RangeCalculator' => [ 'מחשבון_טווח' ],
 ];
 
 /** Hindi (हिन्दी) */

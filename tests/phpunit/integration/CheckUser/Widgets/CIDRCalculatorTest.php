@@ -33,7 +33,8 @@ class CIDRCalculatorTest extends MediaWikiIntegrationTestCase {
 		$html = (string)$objectUnderTest;
 
 		// Check the modules needed for the calculator JS code are added
-		$this->assertArrayEquals( [ 'ext.checkUser', 'ext.checkUser.styles' ], $context->getOutput()->getModules() );
+		$this->assertContains( 'ext.checkUser', $context->getOutput()->getModules() );
+		$this->assertContains( 'ext.checkUser.styles', $context->getOutput()->getModuleStyles() );
 
 		// Check that the HTML produced for the calculator is as expected
 		$panelLayoutHtml = $this->assertAndGetByElementId( $html, 'mw-checkuser-cidrform' );

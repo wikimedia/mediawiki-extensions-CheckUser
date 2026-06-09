@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\CheckUser\Widgets;
 
+use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\CollapsibleFieldsetLayout;
 use MediaWiki\Output\OutputPage;
 use OOUI\Element;
@@ -18,50 +19,39 @@ class CIDRCalculator {
 	private readonly bool $mCollapsible;
 
 	/**
-	 * Text to be shown as the legend for
-	 * the calculator.
-	 * Similar to HTMLForm's $mWrapperLegend.
+	 * Text to be shown as the legend for the calculator.
 	 *
 	 * @var string|bool
 	 */
-	private $mWrapperLegend;
+	private readonly string|bool $mWrapperLegend;
 
 	private readonly array $mWrapperAttributes;
 
 	private readonly bool $mCollapsed;
 
+	private readonly bool $mShowFrame;
+
 	/**
 	 * @param OutputPage $out
-	 * @param array $config an array with any of the following keys:
-	 *   * collapsable - whether to allow the CIDR calculator wrapper fieldset
-	 *      to be collapsable (boolean with default of false)
-	 *   * wrapperLegend - the text to use as the title for the CIDR calculator
-	 *      (default is the message checkuser-cidr-label). Use false for no legend.
-	 *   * wrapperAttributes - any attributes to apply to the wrapper fieldset (an array)
-	 *   * collapsed - whether to have the wrapper fieldset be collapsed by default
-	 *      (boolean with default of false)
+	 * @param array $config Configuration array
 	 */
 	public function __construct(
 		private readonly OutputPage $out,
-		array $config = [],
+		array $config = []
 	) {
-		// Just in case the modules were not loaded
-		$out->addModules( [ 'ext.checkUser', 'ext.checkUser.styles' ] );
-		$this->mCollapsible = $config['collapsable'] ?? false;
+		$out->enableOOUI();
+		$out->addModules( 'ext.checkUser' );
+		$out->addModuleStyles( 'ext.checkUser.styles' );
+
+		$this->mCollapsible = $config['collapsible'] ?? $config['collapsable'] ?? false;
 		$this->mWrapperLegend = $config['wrapperLegend'] ?? $out->msg( 'checkuser-cidr-label' )->text();
 		$this->mWrapperAttributes = $config['wrapperAttributes'] ?? [];
 		$this->mCollapsed = $config['collapsed'] ?? false;
+		$this->mShowFrame = $config['showFrame'] ?? ( $this->mWrapperLegend !== false );
 	}
 
 	/**
-	 * Get the string (HTML) representation of the calculator
-	 */
-	public function toString(): string {
-		return $this->getHtml();
-	}
-
-	/**
-	 * Get the HTML for the calculator.
+	 * @return string HTML
 	 */
 	public function getHtml(): string {
 		$items = [];
@@ -82,18 +72,21 @@ class CIDRCalculator {
 		] );
 		$items[] = $input;
 		$items[] = new LabelWidget( [
-			'classes' => [ 'mw-checkuser-cidr-tool-links' ],
+			'classes' => [
+				'mw-checkuser-cidr-tool-links',
+				'mw-checkuser-cidr-tool-links-hidden',
+			],
 		] );
-		$items[] = new LabelWidget( [
+		$items[] = new Element( [
+			'tagName' => 'p',
 			'classes' => [ 'mw-checkuser-cidr-ipnote' ],
 		] );
-		// From OOUIForm but modified.
 		if ( is_string( $this->mWrapperLegend ) ) {
 			$attributes = [
-					'label' => $this->mWrapperLegend,
-					'collapsed' => $this->mCollapsed,
-					'items' => $items,
-				] + Element::configFromHtmlAttributes( $this->mWrapperAttributes );
+				'label' => $this->mWrapperLegend,
+				'collapsed' => $this->mCollapsed,
+				'items' => $items,
+			] + Element::configFromHtmlAttributes( $this->mWrapperAttributes );
 			if ( $this->mCollapsible ) {
 				$content = new CollapsibleFieldsetLayout( $attributes );
 			} else {
@@ -104,24 +97,30 @@ class CIDRCalculator {
 				'content' => $items,
 			] );
 		}
-		return ( new PanelLayout( [
-			'classes' => [ 'mw-checkuser-cidrform mw-checkuser-cidr-calculator-hidden' ],
+
+		$panelLayout = ( new PanelLayout( [
+			'classes' => [
+				'mw-checkuser-cidrform',
+				'mw-checkuser-cidr-calculator-hidden',
+			],
 			'id' => 'mw-checkuser-cidrform',
 			'expanded' => false,
-			'padded' => $this->mWrapperLegend !== false,
-			'framed' => $this->mWrapperLegend !== false,
+			'padded' => $this->mShowFrame,
+			'framed' => $this->mShowFrame,
 			'content' => $content,
 		] ) )->toString();
+
+		return Html::rawElement(
+			'noscript',
+			[],
+			Html::element( 'p', [], $this->out->msg( 'checkuser-cidr-no-script-message' )->text() )
+		) . $panelLayout;
 	}
 
 	/**
-	 * Magic method implementation.
-	 *
-	 * Copied from OOUI\Tag
-	 *
-	 * @return string
+	 * @return string HTML
 	 */
-	public function __toString() {
-		return $this->toString();
+	public function __toString(): string {
+		return $this->getHtml();
 	}
 }

@@ -23,10 +23,10 @@
 				mw.message( 'checkuser-cidr-tool-links', cidr ).parse()
 			);
 			if ( !hasCheckUserRight ) {
-				$( '.mw-checkuser-cidr-checkuser-only' ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
+				$( '.mw-checkuser-cidr-checkuser-only', $form ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
 			}
 			if ( !hasCheckUserLogRight ) {
-				$( '.mw-checkuser-cidr-checkuserlog-only' ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
+				$( '.mw-checkuser-cidr-checkuserlog-only', $form ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
 			}
 		} else {
 			$( '.mw-checkuser-cidr-tool-links', $form ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );

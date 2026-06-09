@@ -75,11 +75,12 @@
 	"checkuser-filter-title": "Filters",
 	"checkuser-filter-hide-temporary-accounts": "Hide temporary accounts",
 	"checkuser-cidr-label": "Find common range and affected IP addresses for a list of IP addresses",
-	"checkuser-cidr-res": "Common CIDR:",
+	"checkuser-cidr-no-script-message": "This tool requires JavaScript to be enabled to work. Please enable JavaScript to use this tool.",
+	"checkuser-cidr-res": "Common range:",
 	"checkuser-cidr-affected-ips": "Affected IP addresses:",
 	"checkuser-cidr-mixed-address-families": "Cannot calculate a common range: the list contains both IPv4 and IPv6 addresses.",
 	"checkuser-cidr-too-small": "Range is too large",
-	"checkuser-cidr-tool-links": "{{int:checkuser-cidr-tool-links-prefix}} <span class=\"plainlinks\">[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS]<span class=\"mw-checkuser-cidr-checkuser-only\">&nbsp;<b>•</b>&#32;[[Special:CheckUser/$1|{{int:checkuser-cidr-tool-links-checkuser}}]]</span><span class=\"mw-checkuser-cidr-checkuserlog-only\">&nbsp;<b>•</b>&#32;[[Special:CheckUserLog/$1|{{int:checkuser-cidr-tool-links-checkuserlog}}]]</span></span>",
+	"checkuser-cidr-tool-links": "{{int:checkuser-cidr-tool-links-prefix}} <span class=\"plainlinks\">[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS]&nbsp;<b>•</b>&#32;[[Special:Contributions/$1|{{int:contribslink}}]]<span class=\"mw-checkuser-cidr-checkuser-only\">&nbsp;<b>•</b>&#32;[[Special:CheckUser/$1|{{int:checkuser-cidr-tool-links-checkuser}}]]</span><span class=\"mw-checkuser-cidr-checkuserlog-only\">&nbsp;<b>•</b>&#32;[[Special:CheckUserLog/$1|{{int:checkuser-cidr-tool-links-checkuserlog}}]]</span></span>",
 	"checkuser-cidr-tool-links-checkuser": "Check this range",
 	"checkuser-cidr-tool-links-checkuserlog": "Previous checks on this range",
 	"checkuser-cidr-tool-links-prefix": "Tools for this range:",
@@ -542,5 +543,7 @@
 	"checkuser-related-tas-specialblock-accounts-list-error": "There was an error when trying to identify temporary accounts that have used IP addresses associated with $1. {{GENDER:$2|You}} can continue with your block on $1, or try searching again to identify any associated accounts.",
 	"checkuser-related-tas-specialblock-confirm": "This will apply the block to $1 {{PLURAL:$1|account|accounts}}. Proceeding to block {{PLURAL:$1|this account|these accounts}} confirms you have investigated {{PLURAL:$1|it|them}}.",
 	"checkuser-related-tas-target": "[[Special:Contributions/$1|$1]]",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "There are too many associated temporary accounts to add to this block. We only allow up to $1 {{PLURAL:$1|account|accounts}} to be blocked at one time."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "There are too many associated temporary accounts to add to this block. We only allow up to $1 {{PLURAL:$1|account|accounts}} to be blocked at one time.",
+	"rangecalculator": "IP Range Calculator",
+	"rangecalculator-summary": "This tool allows you to calculate the common range between a list of IP addresses. This tool only currently calculates one common range and you cannot mix IPv4 and IPv6 addresses."
 }
