@@ -13,11 +13,10 @@
 		>
 			{{ blockConnectedTempAccountsApiCallError }}
 		</cdx-message>
-		<!-- eslint-disable vue/no-v-html-->
 		<p v-if="!blockConnectedTempAccountsApiCallError">
 			<span
-				v-if="connectedTempAccountsText"
-				v-html="connectedTempAccountsText"
+				v-if="connectedTempAccountsMessage"
+				v-i18n-html="connectedTempAccountsMessage"
 			>
 			</span>
 			<span
@@ -25,7 +24,6 @@
 			>
 			</span>
 		</p>
-		<!-- eslint-enable vue/no-v-html-->
 		<cdx-checkbox
 			v-if="!blockId"
 			v-model="shouldBlockConnectedTempAccounts"
@@ -85,7 +83,7 @@ module.exports = exports = defineComponent( {
 			mw.util.isTemporaryUser( props.targetUser ) );
 		const connectedTempAccounts = ref( [] );
 		const blockConnectedTempAccountsApiCallError = ref( '' );
-		const connectedTempAccountsText = ref( '' );
+		const connectedTempAccountsMessage = ref( null );
 		const shouldBlockConnectedTempAccounts = ref( false );
 		const tooManyAccountsToBlock = ref( false );
 		function resetForm() {
@@ -101,7 +99,7 @@ module.exports = exports = defineComponent( {
 
 			// Reset state on new call
 			connectedTempAccounts.value = [];
-			connectedTempAccountsText.value = '';
+			connectedTempAccountsMessage.value = null;
 			resetForm();
 
 			// Do nothing if the input won't be visible
@@ -154,14 +152,14 @@ module.exports = exports = defineComponent( {
 				const userLinks = connectedTempAccounts.value.map(
 					( target ) => mw.message( 'checkuser-related-tas-target', target ).parse()
 				);
-				const listOfUserLinks = mw.language.listToText( userLinks );
-				connectedTempAccountsText.value = mw.message(
+				const $listOfUserLinks = $( $.parseHTML( mw.language.listToText( userLinks ) ) );
+				connectedTempAccountsMessage.value = mw.message(
 					'checkuser-related-tas-specialblock-accounts-list',
 					connectedTempAccounts.value.length,
 					ipsUsedCount,
 					props.targetUser,
 					mw.config.get( 'wgCUDMaxAge' ) / ( 60 * 60 * 24 ),
-					listOfUserLinks
+					$listOfUserLinks
 				);
 			} catch ( e ) {
 				blockConnectedTempAccountsApiCallError.value = mw.msg(
@@ -229,7 +227,7 @@ module.exports = exports = defineComponent( {
 		return {
 			blockConnectedTempAccountsApiCallError,
 			connectedTempAccounts,
-			connectedTempAccountsText,
+			connectedTempAccountsMessage,
 			maxAllowed,
 			shouldBlockConnectedTempAccounts,
 			tooManyAccountsToBlock,
