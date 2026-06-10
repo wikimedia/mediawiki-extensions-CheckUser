@@ -59,8 +59,13 @@
 	"checkuser-investigate-tab-preliminary-check": "ఖాతా సమాచారం",
 	"checkuser-investigate-targets-label": "వాడుకరి పేరు,ఐపీ చిరునామాలు",
 	"checkuser-investigate-reason-label": "కారణం",
+	"checkuser-investigate-compare-table-header-username": "వాడుకరిపేరు",
+	"checkuser-investigate-compare-table-header-activity": "తేదీ పరిధి",
+	"checkuser-investigate-compare-table-header-ip": "ఐపీ",
+	"checkuser-investigate-compare-table-header-useragent": "యూజర్ ఏజెంటు",
 	"checkuser-investigate-tour-block-title": "నిరోధించాలని అనుకుంటున్నారా?",
 	"checkuser-investigate-tour-copywikitext-title": "డేటాను కాపీ చేసుకోవాలనుకుంటున్నారా?",
-	"checkuser-global-contributions-link": "విశ్వ పాలు",
-	"checkuser-global-contributions-link-sidebar": "విశ్వ పాలు"
+	"checkuser-global-contributions-link": "సార్వత్రిక తోడ్పాట్లు",
+	"checkuser-global-contributions-link-sidebar": "సార్వత్రిక తోడ్పాట్లు",
+	"checkuser-userinfocard-enable-preference-help": "వాడుకరిపేర్లకు పక్కనే ఒక బటన్‌ను చూపిస్తుంది. దాన్ని నొక్కినపుడు ఆ ఖాతా సమాచారాన్ని చూపిస్తూ ఒక పాపప్ వస్తుంది."
 }
