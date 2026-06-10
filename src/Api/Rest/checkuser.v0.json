@@ -1,0 +1,166 @@
+{
+	"mwapi": "1.1.0",
+	"moduleId": "checkuser/v0",
+	"info": {
+		"version": "0.1.0",
+		"title": "CheckUser API",
+		"x-i18n-title": "rest-module-checkuser.v0-title",
+		"x-i18n-description": "rest-module-checkuser.v0-desc"
+	},
+	"externalDocs": {
+		"url": "https://www.mediawiki.org/wiki/Extension:CheckUser",
+		"description": "CheckUser extension documentation"
+	},
+	"paths": {
+		"/suggestedinvestigations/case/{caseId}/update": {
+			"post": {
+				"summary": "Update a suggested investigation case status and reason",
+				"description": "Update the status and reason of a suggested investigation case.",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\SuggestedInvestigations\\UpdateCaseHandler",
+					"services": [
+						"MainConfig",
+						"ContentLanguage",
+						"CheckUserSuggestedInvestigationsCaseManager",
+						"CheckUserStatusReasonFormatter"
+					]
+				}
+			}
+		},
+		"/userinfo": {
+			"post": {
+				"summary": "Retrieve detailed user info for the UserInfoCard",
+				"description": "Get public and restricted user data for a given user.",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoHandler",
+					"services": [
+						"CheckUserUserInfoCardService",
+						"UserFactory",
+						"CheckUserUserInfoCardInstrumentation"
+					]
+				}
+			}
+		},
+		"/userinfo/blocked/{name}": {
+			"get": {
+				"summary": "Get user block status",
+				"description": "Retrieve local/global block and lock status for a username.",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoBlockedHandler",
+					"services": [
+						"UserFactory",
+						"CheckUserUserInfoCardBlockStatusCache"
+					]
+				}
+			}
+		},
+		"/temporaryaccount/{name}": {
+			"post": {
+				"summary": "Reveal IP addresses for a temporary account",
+				"description": "Get the IP addresses associated with a temporary account name.",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountHandler",
+					"services": [
+						"MainConfig",
+						"JobQueueGroup",
+						"PermissionManager",
+						"UserNameUtils",
+						"ConnectionProvider",
+						"ActorStore",
+						"BlockManager",
+						"CheckUserPermissionManager",
+						"CheckUserTemporaryAccountAutoRevealLookup",
+						"CheckUserTemporaryAccountLoggerFactory",
+						"ReadOnlyMode"
+					]
+				}
+			}
+		},
+		"/temporaryaccount/ip/{ip}": {
+			"post": {
+				"summary": "Reveal temporary accounts for an IP address",
+				"description": "Get every known temporary account that has edited from a given IP address.",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountIPHandler",
+					"services": [
+						"MainConfig",
+						"JobQueueGroup",
+						"PermissionManager",
+						"UserNameUtils",
+						"ConnectionProvider",
+						"ActorStore",
+						"BlockManager",
+						"TempUserConfig",
+						"CheckUserTemporaryAccountsByIPLookup",
+						"CheckUserPermissionManager",
+						"ReadOnlyMode"
+					]
+				}
+			}
+		},
+		"/batch-temporaryaccount": {
+			"post": {
+				"summary": "Batch retrieve IP addresses for temporary accounts",
+				"description": "Batch retrieve IP addresses mapped to temporary accounts and their revision/log/abuse filter IDs.",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\BatchTemporaryAccountHandler",
+					"services": [
+						"MainConfig",
+						"JobQueueGroup",
+						"PermissionManager",
+						"UserNameUtils",
+						"ConnectionProvider",
+						"ActorStore",
+						"BlockManager",
+						"RevisionStore",
+						"CheckUserPermissionManager",
+						"CheckUserTemporaryAccountAutoRevealLookup",
+						"CheckUserTemporaryAccountLoggerFactory",
+						"ReadOnlyMode",
+						"ExtensionRegistry",
+						"CheckUserExpiredIdsLookupService"
+					]
+				}
+			}
+		},
+		"/connectedtemporaryaccounts/{name}": {
+			"post": {
+				"summary": "Retrieve connected temporary accounts",
+				"description": "Get other temporary accounts editing from the same IPs as the target temporary account.",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\ConnectedTemporaryAccountsHandler",
+					"services": [
+						"MainConfig",
+						"JobQueueGroup",
+						"PermissionManager",
+						"UserNameUtils",
+						"ConnectionProvider",
+						"ActorStore",
+						"BlockManager",
+						"CheckUserPermissionManager",
+						"CheckUserTemporaryAccountAutoRevealLookup",
+						"CheckUserTemporaryAccountLoggerFactory",
+						"ReadOnlyMode",
+						"CheckUserTemporaryAccountsByIPLookup"
+					]
+				}
+			}
+		},
+		"/useragent-clienthints/{type}/{id}": {
+			"post": {
+				"summary": "Store user agent client hints",
+				"description": "Store client hints data for a revision or private log event.",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler",
+					"services": [
+						"MainConfig",
+						"RevisionStore",
+						"UserAgentClientHintsManager",
+						"ConnectionProvider",
+						"ActorStore"
+					]
+				}
+			}
+		}
+	}
+}
