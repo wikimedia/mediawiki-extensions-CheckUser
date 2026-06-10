@@ -174,7 +174,8 @@ QUnit.test.skip( 'logs an event when onLinkClick is called', function ( assert )
 	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
 
 	const wrapper = mountComponent( {
-		mainLinkLogId: 'main_link_id'
+		mainLinkLogId: 'main_link_id',
+		username: 'TestUser'
 	} );
 	wrapper.vm.onLinkClick( 'main_link_id' );
 
@@ -200,5 +201,10 @@ QUnit.test.skip( 'logs an event when onLinkClick is called', function ( assert )
 		interactionData.action_source,
 		'card_body',
 		'Includes correct source in interaction data'
+	);
+	assert.strictEqual(
+		interactionData.action_context,
+		JSON.stringify( { username: 'TestUser' } ),
+		'Includes username in action_context'
 	);
 } );

@@ -41,7 +41,8 @@ module.exports = exports = {
 		mainLinkLogId: { type: String, default: '' },
 		suffixValue: { type: [ String, Number ], default: '' },
 		suffixLink: { type: String, default: '' },
-		suffixLinkLogId: { type: String, default: '' }
+		suffixLinkLogId: { type: String, default: '' },
+		username: { type: String, default: '' }
 	},
 	setup( props ) {
 		const logEvent = useInstrument();
@@ -49,7 +50,8 @@ module.exports = exports = {
 		function onLinkClick( logId ) {
 			logEvent( 'link_click', {
 				subType: logId || 'unknown',
-				source: 'card_body'
+				source: 'card_body',
+				context: JSON.stringify( { username: props.username } )
 			} );
 		}
 

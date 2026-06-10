@@ -29,6 +29,7 @@
 			:suffix-value="row.suffixValue"
 			:suffix-link="row.suffixLink"
 			:suffix-link-log-id="row.suffixLinkLogId"
+			:username="username"
 		></info-row-with-links>
 		<!-- HTML derived from message parsed on server-side -->
 		<!-- eslint-disable vue/no-v-html -->
