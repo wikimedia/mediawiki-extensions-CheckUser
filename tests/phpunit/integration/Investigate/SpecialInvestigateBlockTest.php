@@ -29,15 +29,21 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 
 	/** @dataProvider provideUserRightsForFailure */
 	public function testViewSpecialPageWhenMissingNecessaryRights( $rights ) {
+		// ::checkPermissions takes a User object, so we cannot use a mock authority with specific rights
+		// and instead have to create a group with just the rights we want
+		foreach ( $rights as $right ) {
+			$this->setGroupPermissions( 'new-group', $right, true );
+		}
+
 		// Expect that a PermissionsError is thrown, which indicates that the special page correctly identified that
 		// the authority viewing the page does not have the necessary rights to do so.
 		$this->expectException( PermissionsError::class );
-		// Execute the special page.
+
 		$this->executeSpecialPage(
 			'',
 			new FauxRequest(),
 			null,
-			$this->mockRegisteredAuthorityWithPermissions( $rights )
+			$this->getTestUser( [ 'new-group' ] )->getUser()
 		);
 	}
 
@@ -50,12 +56,15 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 
 	/** @dataProvider provideUserRightsForFailure */
 	public function testUserCanExecute( $rights ) {
+		// ::checkPermissions takes a User object, so we cannot use a mock authority with specific rights
+		// and instead have to create a group with just the rights we want
+		foreach ( $rights as $right ) {
+			$this->setGroupPermissions( 'new-group', $right, true );
+		}
+
 		$specialPage = $this->newSpecialPage();
-		$userIdentity = $this->getServiceContainer()->getUserFactory()->newFromUserIdentity(
-			$this->mockRegisteredAuthorityWithPermissions( $rights )->getUser()
-		);
 		$this->assertFalse(
-			$specialPage->userCanExecute( $userIdentity ),
+			$specialPage->userCanExecute( $this->getTestUser( [ 'new-group' ] )->getUser() ),
 			'User should not be able to execute the special page if they are missing checkuser and block rights.'
 		);
 	}
