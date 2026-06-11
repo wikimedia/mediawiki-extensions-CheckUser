@@ -31,6 +31,8 @@
 	},
 	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1–32) und IPv6 (CIDR $2–128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal $3 Bearbeitungen ausgegeben. {{#FORMAL:Benutze|Benutzen Sie}} CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
 	"checkuser-desc": "Ermöglicht die Überprüfung von IP-Adressen sowie weiterer Informationen von Benutzern",
+	"rest-module-checkuser.v0-title": "CheckUser-API",
+	"rest-module-checkuser.v0-desc": "REST-API für CheckUser-Tools. Siehe [Dokumentation zur CheckUser-Erweiterung] (https://www.mediawiki.org/wiki/Extension:CheckUser).",
 	"checkuser": "Checkuser",
 	"checkuserlog": "Checkuser-Logbuch",
 	"checkuser-contribs": "IP-Adressen des Benutzers prüfen",

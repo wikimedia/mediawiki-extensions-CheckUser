@@ -480,7 +480,7 @@
 	"checkuser-suggestedinvestigations-status-open": "Open",
 	"checkuser-suggestedinvestigations-status-resolved": "Gesloten",
 	"checkuser-suggestedinvestigations-status-invalid": "Onjuist",
-	"checkuser-suggestedinvestigations-status-description-invalid": "Selecteer dit om valse positieven aan te geven",
+	"checkuser-suggestedinvestigations-status-description-invalid": "Selecteer dit om foutpositieven aan te geven",
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Foutpositief",
 	"checkuser-suggestedinvestigations-action-investigate": "Gebruikers onderzoeken",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Kan maximaal $1 account{{PLURAL:$1||s}} onderzoeken",
