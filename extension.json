@@ -614,8 +614,7 @@
 		"SuggestedInvestigationsHandler": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SuggestedInvestigationsHandler",
 			"services": [
-				"JobQueueGroup",
-				"MainConfig"
+				"SuggestedInvestigationsTrigger"
 			]
 		},
 		"SuggestedInvestigationsAutoCloseOnUsersBlockedHandler": {

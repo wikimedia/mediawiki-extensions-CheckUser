@@ -4,11 +4,8 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
-use MediaWiki\Config\HashConfig;
 use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsHandler;
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
-use MediaWiki\JobQueue\IJobSpecification;
-use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\Page\WikiPage;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Storage\EditResult;
@@ -26,8 +23,7 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		$mockUser = $this->createMock( User::class );
 
 		$objectUnderTest = new SuggestedInvestigationsHandler(
-			$this->setUpMockJobQueue( $mockUser, $expectedEventType, [ 'headers' => [] ] ),
-			$this->getConfig()
+			$this->setUpMockTrigger( $mockUser, $expectedEventType, [] )
 		);
 
 		$objectUnderTest->onLocalUserCreated( $mockUser, $autocreated );
@@ -54,13 +50,12 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 			->willReturn( $isNullEdit );
 
 		$objectUnderTest = new SuggestedInvestigationsHandler(
-			$this->setUpMockJobQueue(
+			$this->setUpMockTrigger(
 				$mockUser,
 				'successfuledit',
-				[ 'revId' => $revId, 'headers' => [] ],
+				[ 'revId' => $revId ],
 				$expectsSignalMatch
-			),
-			$this->getConfig()
+			)
 		);
 
 		$objectUnderTest->onPageSaveComplete(
@@ -84,8 +79,7 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		$mockUser = $this->createMock( User::class );
 
 		$objectUnderTest = new SuggestedInvestigationsHandler(
-			$this->setUpMockJobQueue( $mockUser, 'setemail', [ 'headers' => [] ] ),
-			$this->getConfig()
+			$this->setUpMockTrigger( $mockUser, 'setemail', [] )
 		);
 
 		$email = 'test@test.com';
@@ -96,55 +90,24 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiUnitTestCase {
 		$mockUser = $this->createMock( User::class );
 
 		$objectUnderTest = new SuggestedInvestigationsHandler(
-			$this->setUpMockJobQueue( $mockUser, 'confirmemail', [ 'headers' => [] ] ),
-			$this->getConfig()
+			$this->setUpMockTrigger( $mockUser, 'confirmemail', [] )
 		);
 
 		$timestamp = '20250405060708';
 		$objectUnderTest->onUserSetEmailAuthenticationTimestamp( $mockUser, $timestamp );
 	}
 
-	private function setUpMockJobQueue(
+	private function setUpMockTrigger(
 		UserIdentity $expectedUserIdentity,
 		string $expectedEventType,
 		array $expectedExtraData,
 		bool $expectsCall = true
-	): JobQueueGroup {
-		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
-		$mockJobQueueGroup->expects( $expectsCall ? $this->once() : $this->never() )
-			->method( 'lazyPush' )
-			->willReturnCallback( function ( $job ) use (
-				$expectedUserIdentity,
-				$expectedEventType,
-				$expectedExtraData
-			) {
-				$this->assertInstanceOf( IJobSpecification::class, $job );
-				$this->assertSame(
-					SuggestedInvestigationsMatchSignalsAgainstUserJob::TYPE,
-					$job->getType(),
-					'Inserted job was not of the expected type'
-				);
+	): SuggestedInvestigationsTrigger {
+		$mockTrigger = $this->createMock( SuggestedInvestigationsTrigger::class );
+		$mockTrigger->expects( $expectsCall ? $this->once() : $this->never() )
+			->method( 'matchSignalsAgainstUserInJob' )
+			->with( $expectedUserIdentity, $expectedEventType, $expectedExtraData );
 
-				$jobParams = $job->getParams();
-				unset( $jobParams['requestId'] );
-				$this->assertArrayEquals(
-					[
-						'userIdentityId' => $expectedUserIdentity->getId(),
-						'userIdentityName' => $expectedUserIdentity->getName(),
-						'eventType' => $expectedEventType,
-						'extraData' => $expectedExtraData,
-					],
-					$jobParams,
-					false,
-					true,
-					'Job parameters are not as expected'
-				);
-			} );
-
-		return $mockJobQueueGroup;
-	}
-
-	private function getConfig(): HashConfig {
-		return new HashConfig( [ 'CheckUserSuggestedInvestigationsRequestHeaders' => [] ] );
+		return $mockTrigger;
 	}
 }

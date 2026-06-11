@@ -2,25 +2,24 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Services;
 
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsHandler;
 use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\JobQueueGroup;
-use MediaWiki\Page\WikiPage;
 use MediaWiki\Request\FauxRequest;
-use MediaWiki\Revision\RevisionRecord;
-use MediaWiki\Storage\EditResult;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\Extension\CheckUser\HookHandler\SuggestedInvestigationsHandler
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger
  * @group CheckUser
  */
-class SuggestedInvestigationsHandlerTest extends MediaWikiIntegrationTestCase {
+class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideRequestHeaderConfigs */
 	public function testRequestHeadersCapturedIntoExtraData(
@@ -28,24 +27,27 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiIntegrationTestCase {
 		array $requestHeaders,
 		array $expectedHeaders
 	) {
-		$this->overrideConfigValue(
-			'CheckUserSuggestedInvestigationsRequestHeaders',
-			$configuredHeaders
-		);
 		$this->setMainRequestWithHeaders( $requestHeaders );
 
 		$mockUser = $this->createMock( User::class );
-		$handler = new SuggestedInvestigationsHandler(
+		$trigger = new SuggestedInvestigationsTrigger(
 			$this->setUpMockJobQueue(
 				$mockUser,
 				'setemail',
 				[ 'headers' => $expectedHeaders ]
 			),
-			$this->getServiceContainer()->getMainConfig()
+			new ServiceOptions(
+				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
+				[
+					'CheckUserSuggestedInvestigationsRequestHeaders' => $configuredHeaders,
+				]
+			)
 		);
 
-		$email = 'test@test.com';
-		$handler->onUserSetEmail( $mockUser, $email );
+		$trigger->matchSignalsAgainstUserInJob(
+			$mockUser,
+			SuggestedInvestigationsSignalMatchService::EVENT_SET_EMAIL
+		);
 	}
 
 	public static function provideRequestHeaderConfigs(): array {
@@ -78,37 +80,29 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function testHeadersMergedWithRevIdOnPageSaveComplete() {
-		$this->overrideConfigValue(
-			'CheckUserSuggestedInvestigationsRequestHeaders',
-			[ 'User-Agent' ]
-		);
+	public function testHeadersMergedWithExtraData() {
 		$this->setMainRequestWithHeaders( [ 'User-Agent' => 'foo bar' ] );
 
 		$revId = 123;
-		$revisionRecord = $this->createMock( RevisionRecord::class );
-		$revisionRecord->method( 'getId' )->willReturn( $revId );
-
-		$editResult = $this->createMock( EditResult::class );
-		$editResult->method( 'isNullEdit' )->willReturn( false );
-
 		$mockUser = $this->createMock( User::class );
-		$handler = new SuggestedInvestigationsHandler(
+		$trigger = new SuggestedInvestigationsTrigger(
 			$this->setUpMockJobQueue(
 				$mockUser,
 				'successfuledit',
 				[ 'revId' => $revId, 'headers' => [ 'user-agent' => 'foo bar' ] ]
 			),
-			$this->getServiceContainer()->getMainConfig()
+			new ServiceOptions(
+				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
+				[
+					'CheckUserSuggestedInvestigationsRequestHeaders' => [ 'User-Agent' ],
+				]
+			)
 		);
 
-		$handler->onPageSaveComplete(
-			$this->createMock( WikiPage::class ),
+		$trigger->matchSignalsAgainstUserInJob(
 			$mockUser,
-			'',
-			0,
-			$revisionRecord,
-			$editResult
+			SuggestedInvestigationsSignalMatchService::EVENT_SUCCESSFUL_EDIT,
+			[ 'revId' => $revId ]
 		);
 	}
 
@@ -121,11 +115,12 @@ class SuggestedInvestigationsHandlerTest extends MediaWikiIntegrationTestCase {
 	private function setUpMockJobQueue(
 		User $expectedUserIdentity,
 		string $expectedEventType,
-		array $expectedExtraData
+		array $expectedExtraData,
+		string $expectedMethod = 'lazyPush'
 	): JobQueueGroup {
 		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
 		$mockJobQueueGroup->expects( $this->once() )
-			->method( 'lazyPush' )
+			->method( $expectedMethod )
 			->willReturnCallback( function ( $job ) use (
 				$expectedUserIdentity,
 				$expectedEventType,

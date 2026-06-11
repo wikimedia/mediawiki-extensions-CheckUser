@@ -5,15 +5,11 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
-use MediaWiki\Config\Config;
-use MediaWiki\Context\RequestContext;
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
-use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\Storage\Hook\PageSaveCompleteHook;
 use MediaWiki\User\Hook\UserSetEmailAuthenticationTimestampHook;
 use MediaWiki\User\Hook\UserSetEmailHook;
-use MediaWiki\User\UserIdentity;
 
 /**
  * Listens for events that trigger suggested investigation signals to be matched against a user.
@@ -26,14 +22,13 @@ class SuggestedInvestigationsHandler implements
 {
 
 	public function __construct(
-		private readonly JobQueueGroup $jobQueueGroup,
-		private readonly Config $config,
+		private readonly SuggestedInvestigationsTrigger $suggestedInvestigationsTrigger,
 	) {
 	}
 
 	/** @inheritDoc */
 	public function onLocalUserCreated( $user, $autocreated ): void {
-		$this->matchSignalsAgainstUserInJob(
+		$this->suggestedInvestigationsTrigger->matchSignalsAgainstUserInJob(
 			$user,
 			$autocreated ?
 				SuggestedInvestigationsSignalMatchService::EVENT_AUTOCREATE_ACCOUNT :
@@ -49,7 +44,7 @@ class SuggestedInvestigationsHandler implements
 			return;
 		}
 
-		$this->matchSignalsAgainstUserInJob(
+		$this->suggestedInvestigationsTrigger->matchSignalsAgainstUserInJob(
 			$user,
 			SuggestedInvestigationsSignalMatchService::EVENT_SUCCESSFUL_EDIT,
 			[ 'revId' => $revisionRecord->getId() ]
@@ -58,7 +53,7 @@ class SuggestedInvestigationsHandler implements
 
 	/** @inheritDoc */
 	public function onUserSetEmail( $user, &$email ): void {
-		$this->matchSignalsAgainstUserInJob(
+		$this->suggestedInvestigationsTrigger->matchSignalsAgainstUserInJob(
 			$user,
 			SuggestedInvestigationsSignalMatchService::EVENT_SET_EMAIL
 		);
@@ -66,45 +61,9 @@ class SuggestedInvestigationsHandler implements
 
 	/** @inheritDoc */
 	public function onUserSetEmailAuthenticationTimestamp( $user, &$timestamp ): void {
-		$this->matchSignalsAgainstUserInJob(
+		$this->suggestedInvestigationsTrigger->matchSignalsAgainstUserInJob(
 			$user,
 			SuggestedInvestigationsSignalMatchService::EVENT_CONFIRM_EMAIL
 		);
-	}
-
-	/**
-	 * Matches signals against the provided event in a job
-	 *
-	 * @param UserIdentity $userIdentity
-	 * @param string $eventType One of the `SuggestedInvestigationsSignalMatchService::EVENT_*` constants
-	 * @param array $extraData
-	 */
-	private function matchSignalsAgainstUserInJob(
-		UserIdentity $userIdentity,
-		string $eventType,
-		array $extraData = []
-	): void {
-		$extraData['headers'] = $this->getRequestHeaders();
-		$this->jobQueueGroup->lazyPush(
-			SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec( $userIdentity, $eventType, $extraData )
-		);
-	}
-
-	/**
-	 * Reads the configured request headers from the current main request.
-	 *
-	 * @return array<string,string> Map of lowercased header name to value, for the configured
-	 *   headers that are present in the request. Empty when no headers are configured.
-	 */
-	private function getRequestHeaders(): array {
-		$headers = [];
-		$request = RequestContext::getMain()->getRequest();
-		foreach ( $this->config->get( 'CheckUserSuggestedInvestigationsRequestHeaders' ) as $headerName ) {
-			$value = $request->getHeader( $headerName );
-			if ( $value !== false ) {
-				$headers[strtolower( $headerName )] = $value;
-			}
-		}
-		return $headers;
 	}
 }
