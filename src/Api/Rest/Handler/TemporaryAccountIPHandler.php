@@ -64,4 +64,20 @@ class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
 		}
 		return [];
 	}
+
+	/** @inheritDoc */
+	protected function getResponseBodySchema( string $method ): ?array {
+		return [
+			'type' => 'array',
+			'x-i18n-description' => 'checkuser-rest-response-desc-temp-account-ip',
+			'items' => [
+				'type' => 'string',
+				'x-i18n-description' => 'checkuser-rest-property-desc-temp-account-name-item',
+			],
+			'example' => [
+				'~2026-12345',
+				'~2026-67890',
+			],
+		];
+	}
 }

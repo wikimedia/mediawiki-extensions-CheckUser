@@ -43,12 +43,32 @@ class UserInfoBlockedHandler extends SimpleHandler {
 	}
 
 	/** @inheritDoc */
+	protected function getResponseBodySchema( string $method ): ?array {
+		return [
+			'type' => 'object',
+			'x-i18n-description' => 'checkuser-rest-response-desc-userinfo-blocked',
+			'properties' => [
+				'shouldShowBlockedIcon' => [
+					'type' => 'boolean',
+					'x-i18n-description' => 'checkuser-rest-property-desc-should-show-blocked-icon',
+				],
+			],
+			'required' => [ 'shouldShowBlockedIcon' ],
+			'example' => [
+				'shouldShowBlockedIcon' => false,
+			],
+		];
+	}
+
+	/** @inheritDoc */
 	public function getParamSettings(): array {
 		return [
 			'name' => [
 				self::PARAM_SOURCE => 'path',
 				ParamValidator::PARAM_TYPE => 'string',
 				ParamValidator::PARAM_REQUIRED => true,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-name' ),
+				self::PARAM_EXAMPLE => 'ExampleUser',
 			],
 		];
 	}

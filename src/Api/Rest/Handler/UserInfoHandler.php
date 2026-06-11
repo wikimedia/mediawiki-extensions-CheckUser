@@ -71,12 +71,166 @@ class UserInfoHandler extends SimpleHandler {
 		return $this->getResponseFactory()->createJson( $userInfo );
 	}
 
+	/** @inheritDoc */
+	public function getRequestBodyDescription(): MessageValue {
+		return new MessageValue( 'checkuser-rest-request-desc-userinfo' );
+	}
+
+	/** @inheritDoc */
+	protected function getResponseBodySchema( string $method ): ?array {
+		return [
+			'type' => 'object',
+			'x-i18n-description' => 'checkuser-rest-response-desc-userinfo',
+			'properties' => [
+				'name' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-username',
+				],
+				'gender' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-gender',
+				],
+				'localRegistration' => [
+					'type' => 'string',
+					'nullable' => true,
+					'x-i18n-description' => 'checkuser-rest-property-desc-local-registration',
+				],
+				'firstRegistration' => [
+					'type' => 'string',
+					'nullable' => true,
+					'x-i18n-description' => 'checkuser-rest-property-desc-first-registration',
+				],
+				'userPageIsKnown' => [
+					'type' => 'boolean',
+					'x-i18n-description' => 'checkuser-rest-property-desc-user-page-exists',
+				],
+				'hasLocalBlockGlobalBlockOrLock' => [
+					'type' => 'boolean',
+					'x-i18n-description' => 'checkuser-rest-property-desc-blocked-or-locked',
+				],
+				'groups' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-groups',
+				],
+				'totalEditCount' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-total-edit-count',
+				],
+				'globalEditCount' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-global-edit-count',
+				],
+				'globalGroups' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-global-groups',
+				],
+				'globalRestrictions' => [
+					'type' => 'string',
+					'nullable' => true,
+					'x-i18n-description' => 'checkuser-rest-property-desc-global-restrictions',
+				],
+				'globalRestrictionsTimestamp' => [
+					'type' => 'string',
+					'nullable' => true,
+					'x-i18n-description' => 'checkuser-rest-property-desc-global-restrictions-timestamp',
+				],
+				'activeWikis' => [
+					'type' => 'object',
+					'x-i18n-description' => 'checkuser-rest-property-desc-active-wikis',
+				],
+				'checkUserChecks' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-checkuser-checks',
+				],
+				'checkUserLastCheck' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-checkuser-last-check',
+				],
+				'suggestedInvestigationsCaseCount' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-suggested-investigations-cases',
+				],
+				'canAccessTemporaryAccountIpAddresses' => [
+					'type' => 'boolean',
+					'x-i18n-description' => 'checkuser-rest-property-desc-can-access-temp-account-ip',
+				],
+				'activeBlocksOnLocalWiki' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-active-blocks-local',
+				],
+				'activeLocalBlocksAllWikis' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-active-local-blocks-all',
+				],
+				'pastBlocksOnLocalWiki' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-past-blocks-local',
+				],
+				'tempAccountsOnIPCount' => [
+					'type' => 'array',
+					'x-i18n-description' => 'checkuser-rest-property-desc-temp-accounts-ip-count',
+					'items' => [
+						'type' => 'integer',
+					],
+				],
+				'specialCentralAuthUrl' => [
+					'type' => 'string',
+					'nullable' => true,
+					'x-i18n-description' => 'checkuser-rest-property-desc-special-central-auth-url',
+				],
+			],
+			'required' => [
+				'name',
+				'gender',
+				'localRegistration',
+				'firstRegistration',
+				'userPageIsKnown',
+				'hasLocalBlockGlobalBlockOrLock',
+				'groups',
+				'totalEditCount',
+				'activeWikis',
+			],
+			'example' => [
+				'name' => 'ExampleUser',
+				'gender' => 'unknown',
+				'localRegistration' => '20200101000000',
+				'firstRegistration' => '20200101000000',
+				'userPageIsKnown' => true,
+				'hasLocalBlockGlobalBlockOrLock' => false,
+				'x-i18n-groups' => 'checkuser-rest-example-groups',
+				'totalEditCount' => 12500,
+				'globalEditCount' => 45000,
+				'x-i18n-globalGroups' => 'checkuser-rest-example-global-groups',
+				'globalRestrictions' => null,
+				'globalRestrictionsTimestamp' => null,
+				'activeWikis' => [
+					'enwiki' => 'https://en.wikipedia.org/wiki/Special:Contributions/ExampleUser',
+				],
+				'checkUserChecks' => 5,
+				'checkUserLastCheck' => '20260610000000',
+				'suggestedInvestigationsCaseCount' => 2,
+				'canAccessTemporaryAccountIpAddresses' => false,
+				'activeBlocksOnLocalWiki' => 0,
+				'activeLocalBlocksAllWikis' => 0,
+				'pastBlocksOnLocalWiki' => 2,
+				'tempAccountsOnIPCount' => [ 0, 0 ],
+				'specialCentralAuthUrl' => 'https://meta.wikimedia.org/wiki/Special:CentralAuth/ExampleUser',
+			],
+		];
+	}
+
 	public function getBodyParamSettings(): array {
-		return $this->getTokenParamDefinition() + [
+		$settings = $this->getTokenParamDefinition();
+		$settings['token'][self::PARAM_DESCRIPTION] = new MessageValue( 'checkuser-rest-request-property-desc-token' );
+		$settings['token'][self::PARAM_EXAMPLE] = '+\\';
+
+		return $settings + [
 			self::USERNAME_PARAM_NAME => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
 				ParamValidator::PARAM_REQUIRED => true,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-username' ),
+				self::PARAM_EXAMPLE => 'ExampleUser',
 			],
 		];
 	}

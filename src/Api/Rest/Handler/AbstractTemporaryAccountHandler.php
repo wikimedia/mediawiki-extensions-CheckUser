@@ -126,7 +126,15 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	abstract protected function getLogType(): string;
 
 	public function getBodyParamSettings(): array {
-		return $this->getTokenParamDefinition();
+		$settings = $this->getTokenParamDefinition();
+		$settings['token'][self::PARAM_DESCRIPTION] = new MessageValue( 'checkuser-rest-request-property-desc-token' );
+		$settings['token'][self::PARAM_EXAMPLE] = '+\\';
+		return $settings;
+	}
+
+	/** @inheritDoc */
+	public function getRequestBodyDescription(): MessageValue {
+		return new MessageValue( 'checkuser-rest-request-desc-csrf' );
 	}
 
 	/** @inheritDoc */

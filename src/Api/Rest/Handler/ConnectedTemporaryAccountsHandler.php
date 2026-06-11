@@ -82,4 +82,36 @@ class ConnectedTemporaryAccountsHandler extends AbstractTemporaryAccountNameHand
 			'ipsUsedCount' => $ipsUsedCount,
 		];
 	}
+
+	/** @inheritDoc */
+	protected function getResponseBodySchema( string $method ): ?array {
+		return [
+			'type' => 'object',
+			'x-i18n-description' => 'checkuser-rest-response-desc-connected-temp-accounts',
+			'properties' => [
+				'connectedAccounts' => [
+					'type' => 'array',
+					'x-i18n-description' => 'checkuser-rest-property-desc-connected-accounts',
+					'items' => [
+						'type' => 'string',
+						'x-i18n-description' => 'checkuser-rest-property-desc-temp-account-name-item',
+					],
+				],
+				'ipsUsedCount' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-ips-used-count',
+				],
+				'autoReveal' => [
+					'type' => 'boolean',
+					'x-i18n-description' => 'checkuser-rest-property-desc-auto-reveal',
+				],
+			],
+			'required' => [ 'connectedAccounts', 'ipsUsedCount' ],
+			'example' => [
+				'connectedAccounts' => [ '~2026-12345', '~2026-67890' ],
+				'ipsUsedCount' => 2,
+				'autoReveal' => false,
+			],
+		];
+	}
 }

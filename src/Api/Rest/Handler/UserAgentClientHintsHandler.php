@@ -267,49 +267,81 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 				self::PARAM_SOURCE => 'path',
 				ParamValidator::PARAM_TYPE => UserAgentClientHintsManager::SUPPORTED_TYPES,
 				ParamValidator::PARAM_REQUIRED => true,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-type' ),
+				self::PARAM_EXAMPLE => 'revision',
 			],
 			'id' => [
 				self::PARAM_SOURCE => 'path',
 				ParamValidator::PARAM_TYPE => 'integer',
 				ParamValidator::PARAM_REQUIRED => true,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-id' ),
+				self::PARAM_EXAMPLE => 12345,
 			],
 		];
 	}
 
 	/** @inheritDoc */
 	public function getBodyParamSettings(): array {
+		$settings = $this->getTokenParamDefinition();
+		$settings['token'][self::PARAM_DESCRIPTION] = new MessageValue( 'checkuser-rest-request-property-desc-token' );
+		$settings['token'][self::PARAM_EXAMPLE] = '+\\';
+
 		return [
 			'brands' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'array',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-brands' ),
+				self::PARAM_EXAMPLE => [
+					[ 'brand' => 'Not/A)Brand', 'version' => '99' ],
+					[ 'brand' => 'Chromium', 'version' => '100' ],
+					[ 'brand' => 'Google Chrome', 'version' => '100' ],
+				],
 			],
 			'mobile' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'boolean',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-mobile' ),
+				self::PARAM_EXAMPLE => false,
 			],
 			'platform' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-platform' ),
+				self::PARAM_EXAMPLE => 'Windows',
 			],
 			'architecture' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-architecture' ),
+				self::PARAM_EXAMPLE => 'x86',
 			],
 			'bitness' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-bitness' ),
+				self::PARAM_EXAMPLE => '64',
 			],
 			'fullVersionList' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'array',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-fullversionlist' ),
+				self::PARAM_EXAMPLE => [
+					[ 'brand' => 'Not/A)Brand', 'version' => '99.0.0.0' ],
+					[ 'brand' => 'Chromium', 'version' => '100.0.4896.75' ],
+					[ 'brand' => 'Google Chrome', 'version' => '100.0.4896.75' ],
+				],
 			],
 			'model' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-model' ),
+				self::PARAM_EXAMPLE => 'OnePlus 9',
 			],
 			'platformVersion' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-platformversion' ),
+				self::PARAM_EXAMPLE => '10.0.0',
 			],
 			// While this is deprecated and not requested by the JS code, some clients still send this value so we
 			// need to define it as an acceptable parameter (T350316) to prevent the valid request from otherwise
@@ -317,8 +349,33 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 			'uaFullVersion' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-clienthints-uafullversion' ),
+				self::PARAM_EXAMPLE => '100.0.4896.75',
 			],
-		] + $this->getTokenParamDefinition();
+		] + $settings;
+	}
+
+	/** @inheritDoc */
+	public function getRequestBodyDescription(): MessageValue {
+		return new MessageValue( 'checkuser-rest-request-desc-clienthints' );
+	}
+
+	/** @inheritDoc */
+	protected function getResponseBodySchema( string $method ): ?array {
+		return [
+			'type' => 'object',
+			'x-i18n-description' => 'checkuser-rest-response-desc-clienthints',
+			'properties' => [
+				'value' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-clienthints-value',
+				],
+			],
+			'required' => [ 'value' ],
+			'example' => [
+				'value' => 'stored',
+			],
+		];
 	}
 }
 

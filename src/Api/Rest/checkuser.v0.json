@@ -14,8 +14,8 @@
 	"paths": {
 		"/suggestedinvestigations/case/{caseId}/update": {
 			"post": {
-				"summary": "Update a suggested investigation case status and reason",
-				"description": "Update the status and reason of a suggested investigation case.",
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-update-case",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-update-case",
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\SuggestedInvestigations\\UpdateCaseHandler",
 					"services": [
@@ -29,8 +29,8 @@
 		},
 		"/userinfo": {
 			"post": {
-				"summary": "Retrieve detailed user info for the UserInfoCard",
-				"description": "Get public and restricted user data for a given user.",
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-userinfo",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-userinfo",
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoHandler",
 					"services": [
@@ -43,8 +43,8 @@
 		},
 		"/userinfo/blocked/{name}": {
 			"get": {
-				"summary": "Get user block status",
-				"description": "Retrieve local/global block and lock status for a username.",
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-userinfo-blocked",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-userinfo-blocked",
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoBlockedHandler",
 					"services": [
@@ -56,8 +56,8 @@
 		},
 		"/temporaryaccount/{name}": {
 			"post": {
-				"summary": "Reveal IP addresses for a temporary account",
-				"description": "Get the IP addresses associated with a temporary account name.",
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-temp-account",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-temp-account",
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountHandler",
 					"services": [
@@ -78,8 +78,8 @@
 		},
 		"/temporaryaccount/ip/{ip}": {
 			"post": {
-				"summary": "Reveal temporary accounts for an IP address",
-				"description": "Get every known temporary account that has edited from a given IP address.",
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-temp-account-ip",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-temp-account-ip",
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountIPHandler",
 					"services": [
@@ -100,8 +100,8 @@
 		},
 		"/batch-temporaryaccount": {
 			"post": {
-				"summary": "Batch retrieve IP addresses for temporary accounts",
-				"description": "Batch retrieve IP addresses mapped to temporary accounts and their revision/log/abuse filter IDs.",
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-batch-temp-account",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-batch-temp-account",
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\BatchTemporaryAccountHandler",
 					"services": [
@@ -125,8 +125,8 @@
 		},
 		"/connectedtemporaryaccounts/{name}": {
 			"post": {
-				"summary": "Retrieve connected temporary accounts",
-				"description": "Get other temporary accounts editing from the same IPs as the target temporary account.",
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-connected-temp-accounts",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-connected-temp-accounts",
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\ConnectedTemporaryAccountsHandler",
 					"services": [
@@ -148,8 +148,8 @@
 		},
 		"/useragent-clienthints/{type}/{id}": {
 			"post": {
-				"summary": "Store user agent client hints",
-				"description": "Store client hints data for a revision or private log event.",
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-clienthints",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-clienthints",
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler",
 					"services": [

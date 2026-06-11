@@ -109,18 +109,64 @@ class UpdateCaseHandler extends SimpleHandler {
 	}
 
 	/** @inheritDoc */
+	public function getRequestBodyDescription(): MessageValue {
+		return new MessageValue( 'checkuser-rest-request-desc-update-case' );
+	}
+
+	/** @inheritDoc */
+	protected function getResponseBodySchema( string $method ): ?array {
+		return [
+			'type' => 'object',
+			'x-i18n-description' => 'checkuser-rest-response-desc-update-case',
+			'properties' => [
+				'caseId' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-case-id',
+				],
+				'status' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-case-status',
+				],
+				'reason' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-case-reason',
+				],
+				'formattedReason' => [
+					'type' => 'string',
+					'x-i18n-description' => 'checkuser-rest-property-desc-formatted-reason',
+				],
+			],
+			'required' => [ 'caseId', 'status', 'reason', 'formattedReason' ],
+			'example' => [
+				'caseId' => 123,
+				'status' => 'resolved',
+				'reason' => 'Resolved after investigation.',
+				'formattedReason' => 'Resolved by Admin: Resolved after investigation.',
+			],
+		];
+	}
+
+	/** @inheritDoc */
 	public function getBodyParamSettings(): array {
-		return $this->getTokenParamDefinition() + [
+		$settings = $this->getTokenParamDefinition();
+		$settings['token'][self::PARAM_DESCRIPTION] = new MessageValue( 'checkuser-rest-request-property-desc-token' );
+		$settings['token'][self::PARAM_EXAMPLE] = '+\\';
+
+		return $settings + [
 			'status' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => [ 'open', 'resolved', 'invalid' ],
 				ParamValidator::PARAM_REQUIRED => true,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-case-status-input' ),
+				self::PARAM_EXAMPLE => 'resolved',
 			],
 			'reason' => [
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'string',
 				ParamValidator::PARAM_REQUIRED => false,
 				ParamValidator::PARAM_DEFAULT => '',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-case-reason-input' ),
+				self::PARAM_EXAMPLE => 'Resolved after investigation.',
 			],
 		];
 	}
@@ -133,6 +179,8 @@ class UpdateCaseHandler extends SimpleHandler {
 				ParamValidator::PARAM_TYPE => 'integer',
 				ParamValidator::PARAM_REQUIRED => true,
 				NumericDef::PARAM_MIN => 1,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-case-id-input' ),
+				self::PARAM_EXAMPLE => 123,
 			],
 		];
 	}

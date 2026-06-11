@@ -88,6 +88,8 @@ abstract class AbstractTemporaryAccountIPHandler extends AbstractTemporaryAccoun
 				self::PARAM_SOURCE => 'path',
 				ParamValidator::PARAM_TYPE => 'string',
 				ParamValidator::PARAM_REQUIRED => true,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-ip' ),
+				self::PARAM_EXAMPLE => '192.0.2.1',
 			],
 			'limit' => [
 				self::PARAM_SOURCE => 'query',
@@ -96,6 +98,8 @@ abstract class AbstractTemporaryAccountIPHandler extends AbstractTemporaryAccoun
 				ParamValidator::PARAM_DEFAULT => $this->config->get( 'CheckUserMaximumRowCount' ),
 				IntegerDef::PARAM_MAX => $this->config->get( 'CheckUserMaximumRowCount' ),
 				IntegerDef::PARAM_MIN => 1,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-limit-temp-accounts' ),
+				self::PARAM_EXAMPLE => 50,
 			],
 		];
 	}

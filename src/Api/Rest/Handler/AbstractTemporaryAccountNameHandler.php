@@ -14,6 +14,7 @@ use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserNameUtils;
+use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\ReadOnlyMode;
@@ -102,6 +103,8 @@ abstract class AbstractTemporaryAccountNameHandler extends AbstractTemporaryAcco
 				self::PARAM_SOURCE => 'path',
 				ParamValidator::PARAM_TYPE => 'string',
 				ParamValidator::PARAM_REQUIRED => true,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-temp-account-name' ),
+				self::PARAM_EXAMPLE => '~2026-10001',
 			],
 		];
 	}

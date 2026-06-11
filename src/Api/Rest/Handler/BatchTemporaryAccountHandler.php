@@ -22,6 +22,7 @@ use MediaWiki\Rest\Response;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserNameUtils;
+use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -349,21 +350,129 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 				self::PARAM_SOURCE => 'body',
 				ParamValidator::PARAM_TYPE => 'array',
 				ParamValidator::PARAM_REQUIRED => true,
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-batch-users' ),
+				self::PARAM_EXAMPLE => [
+					'~2026-10001' => [
+						'revIds' => [ '123', '456' ],
+						'logIds' => [ '789' ],
+						'lastUsedIp' => true,
+						'abuseLogIds' => [],
+					],
+				],
 				ArrayDef::PARAM_SCHEMA => ArrayDef::makeMapSchema( ArrayDef::makeObjectSchema(
 					[
-						'revIds' => ArrayDef::makeListSchema( 'string' ),
-						'logIds' => ArrayDef::makeListSchema( 'string' ),
-						'lastUsedIp' => 'boolean',
+						'revIds' => [
+							'type' => 'array',
+							'x-i18n-description' => 'checkuser-rest-request-property-desc-rev-ids',
+							'items' => [
+								'type' => 'string',
+								'x-i18n-description' => 'checkuser-rest-request-property-desc-rev-id-item',
+							],
+						],
+						'logIds' => [
+							'type' => 'array',
+							'x-i18n-description' => 'checkuser-rest-request-property-desc-log-ids',
+							'items' => [
+								'type' => 'string',
+								'x-i18n-description' => 'checkuser-rest-request-property-desc-log-id-item',
+							],
+						],
+						'lastUsedIp' => [
+							'type' => 'boolean',
+							'x-i18n-description' => 'checkuser-rest-request-property-desc-last-used-ip',
+						],
 					],
 					[
-						// Allow this parameter unconditionally, becuase a wiki with AbuseFilter
+						// Allow this parameter unconditionally, because a wiki with AbuseFilter
 						// may make a batch request to a wiki without AbuseFilter, and not know
 						// to omit it.
-						'abuseLogIds' => ArrayDef::makeListSchema( 'string' ),
+						'abuseLogIds' => [
+							'type' => 'array',
+							'x-i18n-description' => 'checkuser-rest-request-property-desc-abuse-log-ids',
+							'items' => [
+								'type' => 'string',
+								'x-i18n-description' => 'checkuser-rest-request-property-desc-abuse-log-id-item',
+							],
+						],
 					]
 				) ),
 			],
 		] + parent::getBodyParamSettings();
+	}
+
+	/** @inheritDoc */
+	public function getRequestBodyDescription(): MessageValue {
+		return new MessageValue( 'checkuser-rest-request-desc-batch' );
+	}
+
+	/** @inheritDoc */
+	protected function getResponseBodySchema( string $method ): ?array {
+		return [
+			'type' => 'object',
+			'x-i18n-description' => 'checkuser-rest-response-desc-batch',
+			'properties' => [
+				'autoReveal' => [
+					'type' => 'boolean',
+					'x-i18n-description' => 'checkuser-rest-property-desc-auto-reveal',
+				],
+			],
+			'additionalProperties' => [
+				'type' => 'object',
+				'x-i18n-description' => 'checkuser-rest-property-desc-ip-data',
+				'properties' => [
+					'revIps' => [
+						'type' => 'object',
+						'nullable' => true,
+						'x-i18n-description' => 'checkuser-rest-property-desc-rev-ips',
+						'additionalProperties' => [
+							'type' => 'string',
+							'nullable' => true,
+							'x-i18n-description' => 'checkuser-rest-property-desc-ip-or-null',
+						],
+					],
+					'logIps' => [
+						'type' => 'object',
+						'nullable' => true,
+						'x-i18n-description' => 'checkuser-rest-property-desc-log-ips',
+						'additionalProperties' => [
+							'type' => 'string',
+							'nullable' => true,
+							'x-i18n-description' => 'checkuser-rest-property-desc-ip-or-null',
+						],
+					],
+					'abuseLogIps' => [
+						'type' => 'object',
+						'nullable' => true,
+						'x-i18n-description' => 'checkuser-rest-property-desc-abuse-log-ips',
+						'additionalProperties' => [
+							'type' => 'string',
+							'nullable' => true,
+							'x-i18n-description' => 'checkuser-rest-property-desc-ip-or-null',
+						],
+					],
+					'lastUsedIp' => [
+						'type' => 'string',
+						'nullable' => true,
+						'x-i18n-description' => 'checkuser-rest-property-desc-last-used-ip-val',
+					],
+				],
+				'required' => [ 'revIps', 'logIps', 'lastUsedIp' ],
+			],
+			'example' => [
+				'autoReveal' => false,
+				'~2026-10001' => [
+					'revIps' => [
+						'123' => '192.0.2.1',
+						'456' => '192.0.2.1',
+					],
+					'logIps' => [
+						'789' => '2001:db8::1',
+					],
+					'abuseLogIps' => [],
+					'lastUsedIp' => '192.0.2.1',
+				],
+			],
+		];
 	}
 
 	/**
