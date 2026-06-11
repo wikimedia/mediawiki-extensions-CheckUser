@@ -818,6 +818,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	}
 
 	/**
+	 * @codeCoverageIgnore Merely declarative
 	 * @inheritDoc
 	 */
 	protected function getGroupName() {

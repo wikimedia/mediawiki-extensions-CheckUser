@@ -565,6 +565,7 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	/**
+	 * @codeCoverageIgnore Merely declarative
 	 * @inheritDoc
 	 */
 	protected function getGroupName() {

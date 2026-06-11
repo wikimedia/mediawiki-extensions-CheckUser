@@ -320,6 +320,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	}
 
 	/**
+	 * @codeCoverageIgnore Merely declarative
 	 * @inheritDoc
 	 */
 	protected function getGroupName() {
@@ -511,8 +512,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	}
 
 	/**
-	 * InvestigateBlock writes to the DB when the form is submitted.
-	 *
+	 * @codeCoverageIgnore Merely declarative
 	 * @return true
 	 */
 	public function doesWrites() {
