@@ -1214,7 +1214,7 @@
 				"BlockUserFactory",
 				"BlockPermissionCheckerFactory",
 				"PermissionManager",
-				"TitleFormatter",
+				"TitleFactory",
 				"UserFactory",
 				"CheckUserEventLogger"
 			]

@@ -221,6 +221,93 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		);
 	}
 
+	/** @dataProvider provideOnSubmitOneUserTargetWithTalkNotice */
+	public function testOnSubmitOneUserTargetWithTalkNotice(
+		bool $talkPageAlreadyExists,
+		string $position,
+		string $providedText,
+		string $expectedText
+	): void {
+		$this->markTestSkippedIfSocialProfileExtensionInstalled();
+
+		$testPerformer = $this->getUserForSuccess();
+		RequestContext::getMain()->setUser( $testPerformer );
+		$testTargetUser = $this->getTestUser()->getUser();
+
+		if ( $talkPageAlreadyExists ) {
+			$this->editPage(
+				$testTargetUser->getTalkPage(),
+				'Existing content'
+			);
+		}
+
+		$fauxRequest = new FauxRequest(
+			[
+				'wpTargets' => $testTargetUser->getName(), 'wpTalkPageNotice' => 1,
+				'wpTalkPageNoticeText' => $providedText, 'wpTalkPageNoticePosition' => $position,
+				'wpReason' => 'other', 'wpReason-other' => 'Test reason', 'wpExpiry' => 'infinite',
+			],
+			true
+		);
+
+		// Execute the special page and get the HTML output.
+		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
+
+		// Assert that the success message is shown.
+		$this->assertStringContainsString( '(checkuser-investigateblock-success', $html );
+		$this->assertStringNotContainsString( '(checkuser-investigateblock-notices-failed', $html );
+
+		// Assert that the talk page notice is as expected
+		$this->assertFalse(
+			$testTargetUser->getUserPage()->exists(),
+			'The user page notice should not have been added as only a talk page notice was requested.'
+		);
+		$this->assertSame(
+			$expectedText,
+			$this->getServiceContainer()->getWikiPageFactory()
+				->newFromTitle( $testTargetUser->getTalkPage() )
+				->getRevisionRecord()
+				->getContentOrThrow( SlotRecord::MAIN )
+				->getWikitextForTransclusion(),
+			'The user talk page notice was not as expected'
+		);
+	}
+
+	public static function provideOnSubmitOneUserTargetWithTalkNotice(): array {
+		return [
+			'Talk page notice replaces existing content' => [
+				'talkPageAlreadyExists' => true,
+				'position' => 'text',
+				'providedText' => 'Test talk page text',
+				'expectedText' => 'Test talk page text',
+			],
+			'Talk page notice appends to existing content' => [
+				'talkPageAlreadyExists' => true,
+				'position' => 'appendtext',
+				'providedText' => 'Test talk page text',
+				'expectedText' => "Existing content\nTest talk page text",
+			],
+			'Talk page notice appends, but no existing content on talk page' => [
+				'talkPageAlreadyExists' => false,
+				'position' => 'appendtext',
+				'providedText' => 'Test talk page text',
+				'expectedText' => 'Test talk page text',
+			],
+			'Talk page notice prepends to existing content' => [
+				'talkPageAlreadyExists' => true,
+				'position' => 'prependtext',
+				'providedText' => 'Test talk page text',
+				'expectedText' => "Test talk page text\nExisting content",
+			],
+			'Talk page notice prepends, but no existing content on talk page' => [
+				'talkPageAlreadyExists' => false,
+				'position' => 'prependtext',
+				'providedText' => 'Test talk page text',
+				'expectedText' => 'Test talk page text',
+			],
+		];
+	}
+
 	public function testOnSubmitForIPTargetsWithFailedNotices() {
 		$this->markTestSkippedIfSocialProfileExtensionInstalled();
 		ConvertibleTimestamp::setFakeTime( '20210405060708' );

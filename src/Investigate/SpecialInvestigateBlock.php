@@ -17,8 +17,8 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\DerivativeRequest;
 use MediaWiki\SpecialPage\FormSpecialPage;
-use MediaWiki\Title\TitleFormatter;
-use MediaWiki\Title\TitleValue;
+use MediaWiki\Title\Title;
+use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
@@ -35,7 +35,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		private readonly BlockUserFactory $blockUserFactory,
 		private readonly BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
 		private readonly PermissionManager $permissionManager,
-		private readonly TitleFormatter $titleFormatter,
+		private readonly TitleFactory $titleFactory,
 		private readonly UserFactory $userFactory,
 		private readonly EventLogger $eventLogger,
 	) {
@@ -427,38 +427,44 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	}
 
 	/**
-	 * @param int $namespace
-	 * @param string $target Must be a valid IP address or a valid user name
-	 * @return string
+	 * Gets the {@link Title} for a valid username, IP, or IP range
 	 */
-	private function getTargetPage( int $namespace, string $target ): string {
+	private function getTargetPage( int $namespace, string $target ): Title {
 		if ( IPUtils::isValidRange( $target ) ) {
 			$target = IPUtils::sanitizeRange( $target );
 		}
 
-		return $this->titleFormatter->getPrefixedText(
-			new TitleValue( $namespace, $target )
-		);
+		return $this->titleFactory->makeTitle( $namespace, $target );
 	}
 
 	/**
 	 * Add a notice to a given page. The notice may be prepended or appended,
 	 * or it may replace the page.
 	 *
-	 * @param string $title Page to which to add the notice
+	 * @param Title $title Page to which to add the notice
 	 * @param string $notice The notice, as wikitext
 	 * @param string $position One of 'prependtext', 'appendtext' or 'text'
 	 * @param string $summary Edit summary
 	 */
 	private function addNoticeToPage(
-		string $title,
+		Title $title,
 		string $notice,
 		string $position,
 		string $summary
 	): void {
+		// Add a new line between the notice and existing content to avoid causing
+		// issues with existing talk page comments
+		if ( $title->isTalkPage() && $title->exists() ) {
+			if ( $position === 'appendtext' ) {
+				$notice = "\n" . $notice;
+			} elseif ( $position === 'prependtext' ) {
+				$notice .= "\n";
+			}
+		}
+
 		$apiParams = [
 			'action' => 'edit',
-			'title' => $title,
+			'title' => $title->getPrefixedText(),
 			$position => $notice,
 			'summary' => $summary,
 			'token' => $this->getContext()->getCsrfTokenSet()->getToken(),
