@@ -8,6 +8,8 @@ use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -40,7 +42,8 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getRevisionStore(),
 			$services->get( 'UserAgentClientHintsManager' ),
 			$services->getConnectionProvider(),
-			$services->getActorStore()
+			$services->getActorStore(),
+			$services->get( 'SuggestedInvestigationsTrigger' )
 		);
 	}
 
@@ -98,8 +101,24 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideSuccessfulApiCallForPrivateLogEvent */
-	public function testSuccessfulApiCallForPrivateLogEvent( int $id, callable $performerCallback ) {
+	public function testSuccessfulApiCallForPrivateLogEvent( int $id, callable $performerCallback, bool $triggerSI ) {
 		ConvertibleTimestamp::setFakeTime( '20230405060710' );
+
+		/** @var Authority $performer */
+		$performer = $performerCallback();
+
+		// Also ensure that SuggestedInvestigations is triggered by client hints
+		$suggestedInvestigationsTrigger = $this->createMock( SuggestedInvestigationsTrigger::class );
+		$suggestedInvestigationsTrigger->expects( $triggerSI ? $this->once() : $this->never() )
+			->method( 'matchSignalsAgainstUserInJob' )
+			->willReturnCallback( function ( $user, $event, $data ) use ( $performer, $id ) {
+				$this->assertSame( $user, $performer->getUser() );
+				$this->assertSame( SuggestedInvestigationsSignalMatchService::EVENT_CLIENT_HINTS_SAVED, $event );
+				$this->assertArrayContains( [ 'mobile' => true ], $data['clientHints'] );
+				$this->assertSame( $id, $data['cuPrivateLogId'] );
+			} );
+		$this->setService( 'SuggestedInvestigationsTrigger', $suggestedInvestigationsTrigger );
+
 		// Call the REST API
 		$handler = $this->getObjectUnderTest();
 		$response = $this->executeHandler(
@@ -109,7 +128,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			[ 'type' => 'privatelog', 'id' => $id ],
 			[ 'mobile' => true ],
-			$performerCallback()
+			$performer
 		);
 		// Check that the call resulted in data being inserted to the relevant tables.
 		$this->newSelectQueryBuilder()
@@ -131,8 +150,16 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideSuccessfulApiCallForPrivateLogEvent() {
 		return [
-			'cu_private_event ID 1' => [ 1, static fn () => static::$firstEventPerformer ],
-			'cu_private_event ID 2' => [ 2, static fn () => static::$secondEventPerformer ],
+			'cu_private_event ID 1' => [
+				'id' => 1,
+				'performerCallback' => static fn () => static::$firstEventPerformer,
+				'triggerSI' => true,
+			],
+			'cu_private_event ID 2' => [
+				'id' => 2,
+				'performerCallback' => static fn () => static::$secondEventPerformer,
+				'triggerSI' => false,
+			],
 		];
 	}
 
@@ -145,8 +172,8 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 		// Run the code that successfully inserts data to the Client Hints data tables twice. The second call should
 		// result in a 400 error for data already existing.
-		$this->testSuccessfulApiCallForPrivateLogEvent( 1, static fn () => static::$firstEventPerformer );
-		$this->testSuccessfulApiCallForPrivateLogEvent( 1, static fn () => static::$firstEventPerformer );
+		$this->testSuccessfulApiCallForPrivateLogEvent( 1, static fn () => static::$firstEventPerformer, true );
+		$this->testSuccessfulApiCallForPrivateLogEvent( 1, static fn () => static::$firstEventPerformer, false );
 	}
 
 	public function addDBDataOnce() {

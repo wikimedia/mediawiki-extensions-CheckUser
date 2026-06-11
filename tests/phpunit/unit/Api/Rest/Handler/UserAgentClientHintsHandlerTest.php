@@ -6,7 +6,10 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\Api\Rest\Handler;
 
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -23,6 +26,7 @@ use StatusValue;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
+use Wikimedia\Timestamp\TimestampFormat as TS;
 
 /**
  * @group CheckUser
@@ -62,6 +66,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 				$this->createMock( UserAgentClientHintsManager::class ),
 				$this->createMock( IConnectionProvider::class ),
 				$this->createMock( ActorStore::class ),
+				$this->createMock( SuggestedInvestigationsTrigger::class ),
 			] )
 			->onlyMethods( [ 'getValidatedBody' ] )
 			->getMock();
@@ -91,6 +96,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 				$this->createMock( UserAgentClientHintsManager::class ),
 				$this->createMock( IConnectionProvider::class ),
 				$this->createMock( ActorStore::class ),
+				$this->createMock( SuggestedInvestigationsTrigger::class ),
 			] )
 			->onlyMethods( [ 'getValidatedBody' ] )
 			->getMock();
@@ -120,6 +126,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 				$this->createMock( UserAgentClientHintsManager::class ),
 				$this->createMock( IConnectionProvider::class ),
 				$this->createMock( ActorStore::class ),
+				$this->createMock( SuggestedInvestigationsTrigger::class ),
 			] )
 			->onlyMethods( [ 'getValidatedBody' ] )
 			->getMock();
@@ -340,6 +347,59 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 				),
 			], JSON_UNESCAPED_SLASHES ),
 			$response->getBody()->getContents()
+		);
+	}
+
+	public function testClientHintsArePassedToSuggestedInvestigationsTrigger() {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
+
+		$user = new UserIdentityValue( 123, 'Foo' );
+		$authority = $this->createMock( Authority::class );
+		$authority->method( 'getUser' )
+			->willReturn( $user );
+
+		$revision = $this->createMock( RevisionRecord::class );
+		$revision->method( 'getUser' )->willReturn( $user );
+		$revision->method( 'getTimestamp' )->willReturn(
+			ConvertibleTimestamp::convert( TS::MW, ConvertibleTimestamp::time() - 2 )
+		);
+		$revisionStore = $this->createMock( RevisionStore::class );
+		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
+
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$userAgentClientHintsManager->method( 'insertClientHintValues' )
+			->willReturn( StatusValue::newGood() );
+
+		$clientHintsBody = $this->getExampleClientHintsJsApiResponse();
+		$suggestedInvestigationsTrigger = $this->createMock( SuggestedInvestigationsTrigger::class );
+		$suggestedInvestigationsTrigger->expects( $this->once() )
+			->method( 'matchSignalsAgainstUserInJob' )
+			->with(
+				$user,
+				SuggestedInvestigationsSignalMatchService::EVENT_CLIENT_HINTS_SAVED,
+				[
+					'clientHints' => ClientHintsData::newFromJsApi( $clientHintsBody )->jsonSerialize(),
+					'revId' => 1,
+				]
+			);
+
+		$handler = $this->getObjectUnderTest( [
+			'config' => $config,
+			'revisionStore' => $revisionStore,
+			'userAgentClientHintsManager' => $userAgentClientHintsManager,
+			'suggestedInvestigationsTrigger' => $suggestedInvestigationsTrigger,
+		] );
+		$this->executeHandler(
+			$handler,
+			new RequestData(),
+			[],
+			[],
+			[ 'type' => 'revision', 'id' => 1 ],
+			$clientHintsBody,
+			$authority
 		);
 	}
 

@@ -7,6 +7,8 @@ namespace MediaWiki\Extension\CheckUser\Api\Rest\Handler;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Rest\TokenAwareHandlerTrait;
@@ -40,6 +42,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
 		private readonly IConnectionProvider $dbProvider,
 		private readonly ActorStore $actorStore,
+		private readonly SuggestedInvestigationsTrigger $suggestedInvestigationsTrigger,
 	) {
 	}
 
@@ -105,6 +108,24 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		$status = $this->userAgentClientHintsManager->insertClientHintValues( $clientHints, $identifier, $type );
 		if ( !$status->isGood() ) {
 			throw new LocalizedHttpException( MessageValue::newFromSpecifier( $status->getMessages()[0] ), 400 );
+		}
+
+		// Trigger SuggestedInvestigations if the user is registered
+		$user = $this->getAuthority()->getUser();
+		if ( $user->isRegistered() ) {
+			$data = [
+				'clientHints' => $clientHints->jsonSerialize(),
+			];
+			if ( $type === 'revision' ) {
+				$data['revId'] = $identifier;
+			} else {
+				$data['cuPrivateLogId'] = $identifier;
+			}
+			$this->suggestedInvestigationsTrigger->matchSignalsAgainstUserInJob(
+				$user,
+				SuggestedInvestigationsSignalMatchService::EVENT_CLIENT_HINTS_SAVED,
+				$data
+			);
 		}
 
 		return $this->getResponseFactory()->createJson( [

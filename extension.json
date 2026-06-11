@@ -399,7 +399,8 @@
 				"RevisionStore",
 				"UserAgentClientHintsManager",
 				"ConnectionProvider",
-				"ActorStore"
+				"ActorStore",
+				"SuggestedInvestigationsTrigger"
 			]
 		}
 	],
