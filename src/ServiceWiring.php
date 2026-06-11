@@ -61,6 +61,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Logger\LoggerFactory;
@@ -282,6 +283,7 @@ return [
 			$services->getJobQueueGroup(),
 			$services->getRecentChangeLookup(),
 			$services->get( 'SuggestedInvestigationsSignalMatchService' ),
+			$services->get( 'SuggestedInvestigationsTrigger' ),
 			$services->get( 'CheckUserLogger' )
 		);
 	},
@@ -665,6 +667,17 @@ return [
 			$services->getJobQueueGroup(),
 			$services->get( 'CheckUserLogger' ),
 			$services->get( 'CheckUserSuggestedInvestigationsUserRevisionLookup' ),
+		);
+	},
+	'SuggestedInvestigationsTrigger' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsTrigger {
+		return new SuggestedInvestigationsTrigger(
+			$services->getJobQueueGroup(),
+			new ServiceOptions(
+				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 		);
 	},
 	'UserAgentClientHintsFormatter' => static function (

@@ -11,8 +11,8 @@ use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
-use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Language\Language;
@@ -80,6 +80,7 @@ class CheckUserInsert {
 		private readonly JobQueueGroup $jobQueueGroup,
 		private readonly RecentChangeLookup $recentChangeLookup,
 		private readonly SuggestedInvestigationsSignalMatchService $suggestedInvestigationsSignalMatchService,
+		private readonly SuggestedInvestigationsTrigger $suggestedInvestigationsTrigger,
 		private readonly LoggerInterface $logger,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
@@ -423,11 +424,11 @@ class CheckUserInsert {
 		// Allow SI to match signals when private CheckUser events are inserted
 		DeferredUpdates::addCallableUpdate(
 			function () use ( $user, $row, $insertedId ) {
-				$this->jobQueueGroup->push( SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec(
+				$this->suggestedInvestigationsTrigger->matchSignalsAgainstUserInJob(
 					$user,
 					SuggestedInvestigationsSignalMatchService::EVENT_CHECKUSER_PRIVATE_EVENT,
 					[ 'row' => $row, 'id' => $insertedId ]
-				) );
+				);
 			},
 			DeferredUpdates::POSTSEND,
 			// Cancel the signal matching if the main transaction round is rolled back

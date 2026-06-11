@@ -380,6 +380,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getJobQueueGroup(),
 			$this->getServiceContainer()->getRecentChangeLookup(),
 			$this->getServiceContainer()->get( 'SuggestedInvestigationsSignalMatchService' ),
+			$this->getServiceContainer()->get( 'SuggestedInvestigationsTrigger' ),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 		if ( $table === 'cu_changes' ) {
@@ -630,7 +631,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$actualJob = null;
 		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
 		$mockJobQueueGroup->expects( $this->atLeastOnce() )
-			->method( 'push' )
+			->method( 'lazyPush' )
 			->willReturnCallback( function ( $job ) use ( &$actualJob ) {
 				if ( $job->getType() === SuggestedInvestigationsMatchSignalsAgainstUserJob::TYPE ) {
 					if ( $actualJob === null ) {
