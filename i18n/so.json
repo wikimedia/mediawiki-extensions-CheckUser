@@ -67,7 +67,8 @@
 	"checkuser-filter-title": "Shaandhayn",
 	"checkuser-filter-hide-temporary-accounts": "Qari xisaabaadka ku meelgaarka ah",
 	"checkuser-cidr-label": "Raadi xadka guud iyo ciwaannada IP ee saameeyay liiska ciwaannada IP",
-	"checkuser-cidr-res": "CIDR-ka guud:",
+	"checkuser-cidr-no-script-message": "Qalabkani wuxuu u baahan yahay JavaScript inuu shaqeeyo. Fadlan dhaqaaji JavaScript si aad u isticmaasho qalabkan.",
+	"checkuser-cidr-res": "Xad guud:",
 	"checkuser-cidr-affected-ips": "Ciwaannada IP ee saameeyay:",
 	"checkuser-cidr-mixed-address-families": "Lama xisaabin karo xadka wadaag ah: liisku wuxuu ka kooban yahay cinwaanno IPv4 iyo IPv6 ah labadaba.",
 	"checkuser-cidr-too-small": "Xadku waa aad u weyn yahay",
@@ -513,5 +514,7 @@
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Eeg dhammaan wax ku darsiyada xisaabaadkan]",
 	"checkuser-related-tas-specialblock-accounts-list-error": "Khalad ayaa dhacay markii la isku dayayay in la aqoonsado xisaabaadka ku-meelgaarka ah ee adeegsaday ciwaannada IP ee la xiriira $1. {{GENDER:$2|Waxaad}} sii wadi kartaa xannibaadda $1, ama isku day inaad mar kale raadiso si aad u aqoonsato xisaabaadka la xiriira.",
 	"checkuser-related-tas-specialblock-confirm": "Tani waxay xannibaadda ku dabaqi doontaa $1 {{PLURAL:$1|xisaab|xisaabo}}. Haddii aad sii waddo xannibaadda {{PLURAL:$1|xisaabtan|xisaabaadkan}}, waxaad xaqiijinaysaa inaad baaritaan ku samaysay {{PLURAL:$1|iyada|iyaga}}.",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "Waxaa jira xisaabaad ku-meelgaar ah oo aad u badan oo lagu darayo xannibaaddan. Waxaan kaliya oggol nahay in la xannibo ilaa $1 {{PLURAL:$1|xisaab|xisaabo}} hal mar."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Waxaa jira xisaabaad ku-meelgaar ah oo aad u badan oo lagu darayo xannibaaddan. Waxaan kaliya oggol nahay in la xannibo ilaa $1 {{PLURAL:$1|xisaab|xisaabo}} hal mar.",
+	"rangecalculator": "Xisaabiyaha baaxadda IP-ga",
+	"rangecalculator-summary": "Qalabkani wuxuu kuu oggolaanayaa inaad xisaabiso baaxadda guud ee u dhexeysa liiska cinwaanada IP-ga. Qalabkani hadda wuxuu xisaabiyaa hal baaxad guud oo keliya, mana isku dari kartid cinwaanada IPv4 iyo IPv6."
 }

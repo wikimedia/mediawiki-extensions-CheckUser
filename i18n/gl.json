@@ -15,6 +15,8 @@
 	},
 	"checkuser-summary": "Esta ferramenta analiza os cambios recentes para recuperar os enderezos IP utilizados por un usuario ou amosar as edicións ou os datos de usuario dun enderezo IP.\nOs usuarios e as edicións dun cliente IP poden recuperarse a través de cabeceiras XFF, engadindo o sufixo «/xff» ao enderezo IP. Admítense os protocolos IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNon se devolverán máis de $3 edicións por motivos de rendemento.\nUtiliza isto de acordo coas normas.",
 	"checkuser-desc": "Garante que usuarios cos permisos apropiados poidan comprobar os enderezos IP dos usuarios e acceder a outra información",
+	"rest-module-checkuser.v0-title": "API de verificación de usuarios",
+	"rest-module-checkuser.v0-desc": "API REST para as ferramentas de verificación de usuarios. Consulta a [documentación da extensión CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser).",
 	"checkuser": "Verificación de usuarios",
 	"checkuserlog": "Rexistro de verificación de usuarios",
 	"checkuser-contribs": "comprobar os enderezos IP do usuario",
