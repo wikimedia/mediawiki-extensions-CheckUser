@@ -54,5 +54,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "Error shown if a user provides an invalid expiry time to the globalpreferences API for the IP auto-reveal preference.\n\n{{doc-apierror}}",
 	"checkuser-ip-auto-reveal-missing-permission": "{{doc-apierror}}\n\nError shown if a user tries to set the IP auto-reveal preference when they cannot use that feature.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "{{doc-apierror}}\n\nError message shown when a request to update a suggested investigations case is attempted passing an ID that does not correspond to an existing case",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "{{doc-apierror}}\n\nError message shown when a request to update a suggested investigations case is attempted but the suggested investigations feature is disabled"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "{{doc-apierror}}\n\nError message shown when a request to update a suggested investigations case is attempted but the suggested investigations feature is disabled",
+	"rest-module-checkuser.v0-title": "The name of the CheckUser REST API module",
+	"rest-module-checkuser.v0-desc": "The description of the CheckUser REST API module"
 }

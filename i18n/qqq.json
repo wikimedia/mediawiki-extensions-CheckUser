@@ -48,8 +48,6 @@
 	},
 	"checkuser-summary": "{{CheckUserForm}}\nExplanation of CheckUser tool shown on [[Special:CheckUser]].\n\nParameters:\n* $1 - an integer that can change based on wiki configuration. default value: 16\n* $2 - an integer that can change based on wiki configuration. default value: 32\n* $3 - the maximum number of results returned as set in the wiki global CheckUserMaximumRowCount. default value: 5000",
 	"checkuser-desc": "{{desc|name=Check User|url=https://www.mediawiki.org/wiki/Extension:CheckUser}}",
-	"rest-module-checkuser.v0-title": "The name of the CheckUser REST API module",
-	"rest-module-checkuser.v0-desc": "The description of the CheckUser REST API module",
 	"checkuser": "{{CheckUserForm}}\n{{doc-special|CheckUser}}\nIn this special page, checkusers can check the IP addresses of users.\n{{Identical|Check user}}",
 	"checkuserlog": "{{doc-special|CheckUserLog}}\nIn this special page, checkusers can look at a log of past checkuser actions.",
 	"checkuser-contribs": "[[File:Special-Contributions with the CheckUser extension loaded (2023).png|thumb|Example usage of this link text]]This is a link anchor used in [[Special:Contributions]]/''name'' to link to [[Special:CheckUser]] with ''name'' pre-filled in the form. Displayed only when the user has the ''checkuser'' right.",
