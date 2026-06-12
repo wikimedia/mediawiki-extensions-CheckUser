@@ -14,7 +14,7 @@ use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\LogFormatter;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Logging\ManualLogEntry;
-use MediaWiki\Title\Title;
+use MediaWiki\Page\PageReferenceValue;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -115,7 +115,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	public function testFormatRowForLog() {
 		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
-		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$deleteLogEntry->setTarget( PageReferenceValue::localReference( NS_MAIN, 'Testing page' ) );
 		$this->testFormatRow(
 			[
 				'log_type' => $deleteLogEntry->getType(),
@@ -144,7 +144,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	public function testFormatRowForLogCleansInvalidUtf8Agent() {
 		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
-		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$deleteLogEntry->setTarget( PageReferenceValue::localReference( NS_MAIN, 'Testing page' ) );
 		$this->testFormatRow(
 			[
 				'log_type' => $deleteLogEntry->getType(),
@@ -172,7 +172,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	public function testFormatRowForLogWithDeletedActionText() {
 		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
-		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$deleteLogEntry->setTarget( PageReferenceValue::localReference( NS_MAIN, 'Testing page' ) );
 		$deleteLogEntry->setDeleted( LogPage::DELETED_ACTION );
 		$logFormatter = $this->getServiceContainer()->getLogFormatterFactory()->newFromEntry( $deleteLogEntry );
 		$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
@@ -234,7 +234,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	) {
 		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
 		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
-		$moveLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$moveLogEntry->setTarget( PageReferenceValue::localReference( NS_MAIN, 'Testing page' ) );
 		$moveLogEntry->setParameters( $logParametersAsArray );
 		$this->testFormatRow(
 			[
@@ -289,7 +289,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	public function testFormatRowForLogWhenLogCommentDeleted() {
 		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
 		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
-		$moveLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$moveLogEntry->setTarget( PageReferenceValue::localReference( NS_MAIN, 'Testing page' ) );
 		$moveLogEntry->setParameters( [
 			'4::target' => 'Testing',
 			'5::noredir' => '0',
