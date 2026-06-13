@@ -69,7 +69,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @param int|string $identifier
 	 */
 	public function run( $identifier ): Response {
 		$this->checkPermissions();

@@ -10,6 +10,7 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\Rest\LocalizedHttpException;
+use MediaWiki\Rest\Response;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Rest\TokenAwareHandlerTrait;
 use MediaWiki\Rest\Validator\Validator;
@@ -56,7 +57,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		$this->validateToken( true );
 	}
 
-	/** @inheritDoc */
+	/** @return Response */
 	public function run() {
 		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			// Pretend the route doesn't exist if the feature flag is off.

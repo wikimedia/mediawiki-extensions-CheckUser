@@ -380,9 +380,6 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		return $this->actorStore;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getAutoRevealLookup(): CheckUserTemporaryAccountAutoRevealLookup {
 		return $this->autoRevealLookup;
 	}
