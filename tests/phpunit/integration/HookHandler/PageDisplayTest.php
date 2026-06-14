@@ -82,7 +82,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		if ( $specialPageName !== null ) {
 			$context->setTitle( SpecialPage::getTitleFor( $specialPageName ) );
 		} else {
-			$context->setTitle( Title::newFromText( 'Test' ) );
+			$context->setTitle( Title::makeTitle( NS_MAIN, 'Test' ) );
 			$context->getRequest()->setVal( 'action', $actionName );
 		}
 

@@ -295,7 +295,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		// so we can test the URL we provided without an override affecting it.
 		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'en' );
 		$this->editPage(
-			Title::newFromText( 'ipcontributions-helppage', NS_MEDIAWIKI ),
+			Title::makeTitle( NS_MEDIAWIKI, 'Ippcontributions-helppage' ),
 			'-'
 		);
 		$this->getServiceContainer()->getMessageCache()->enable();

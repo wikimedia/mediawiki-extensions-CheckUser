@@ -708,7 +708,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// so we can test the URL we provided without an override affecting it.
 		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'en' );
 		$this->editPage(
-			Title::newFromText( 'globalcontributions-helppage', NS_MEDIAWIKI ),
+			Title::makeTitle( NS_MEDIAWIKI, 'Globalcontributions-helppage' ),
 			'-'
 		);
 		$this->getServiceContainer()->getMessageCache()->enable();

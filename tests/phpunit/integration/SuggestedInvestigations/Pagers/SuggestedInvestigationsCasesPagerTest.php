@@ -117,7 +117,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 
 		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setTitle( Title::makeTitle( NS_SPECIAL, 'SuggestedInvestigations' ) );
 		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 		$pager = $this->getPager( $context );
 
@@ -450,7 +450,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$this->addCaseWithTwoUsers();
 		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setTitle( Title::makeTitle( NS_SPECIAL, 'SuggestedInvestigations' ) );
 		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
 		// Mock the global edit counts for our test users so that the first test user has no edits
@@ -476,7 +476,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$this->addCaseWithTwoUsers();
 		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setTitle( Title::makeTitle( NS_SPECIAL, 'SuggestedInvestigations' ) );
 		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
 		$this->addCheckUserLogEntryForFirstUser();
@@ -524,7 +524,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	) {
 		$this->addCaseWithTwoUsers();
 		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setTitle( Title::makeTitle( NS_SPECIAL, 'SuggestedInvestigations' ) );
 		$context->setAuthority( $this->mockRegisteredAuthorityWithPermissions( $authorityRights ) );
 		$context->setLanguage( 'qqx' );
 
@@ -1617,7 +1617,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 	private function makeQqxContext(): RequestContext {
 		$context = RequestContext::getMain();
-		$context->setTitle( Title::newFromText( 'Special:SuggestedInvestigations' ) );
+		$context->setTitle( Title::makeTitle( NS_SPECIAL, 'SuggestedInvestigations' ) );
 		$context->setLanguage( 'qqx' );
 
 		return $context;

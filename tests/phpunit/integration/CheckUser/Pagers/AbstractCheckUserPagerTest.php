@@ -287,7 +287,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideGetCheckUserResultsFilterFieldset */
 	public function testGetCheckUserResultsFilterFieldset( $temporaryAccountsKnown, $target, $expectedFilterFields ) {
 		// Needed for HTMLForm to work in the code we are testing
-		RequestContext::getMain()->setTitle( Title::newFromText( 'CheckUser', NS_SPECIAL ) );
+		RequestContext::getMain()->setTitle( Title::makeTitle( NS_SPECIAL, 'CheckUser' ) );
 
 		$this->disableAutoCreateTempUser( [ 'known' => $temporaryAccountsKnown ] );
 
