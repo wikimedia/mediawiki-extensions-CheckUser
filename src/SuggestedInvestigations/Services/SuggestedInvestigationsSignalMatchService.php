@@ -14,6 +14,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInves
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Service that matches signals against users when events occur.
@@ -117,6 +118,7 @@ class SuggestedInvestigationsSignalMatchService {
 		SuggestedInvestigationsCaseUser $user,
 		SuggestedInvestigationsSignalMatchResult $signal
 	): void {
+		// Check for invalid cases from replicas. It's not critical, we can live with slight drift here
 		$invalidCasesWithExactMatch = $this->caseLookup->getCasesForSignal( $signal, [ CaseStatus::Invalid ] );
 		if ( $invalidCasesWithExactMatch ) {
 			// Ignore the signal if there's an invalid case already
@@ -131,7 +133,15 @@ class SuggestedInvestigationsSignalMatchService {
 			return;
 		}
 
-		$mergeableCases = $this->caseLookup->getMergeableCasesForSignal( $signal );
+		// Decide on create/update in a critical section and use primary DB for that
+		// For some requests it might happen that two similar events are triggered at the same time,
+		// so we'd like to avoid a possibility of creating duplicate cases
+		$lock = $this->caseLookup->getScopedLockForSignal( $signal, 5 );
+		if ( $lock === null ) {
+			throw new RuntimeException( "Unable to acquire a lock for signal {$signal->getName()}" );
+		}
+
+		$mergeableCases = $this->caseLookup->getMergeableCasesForSignal( $signal, true );
 		if ( count( $mergeableCases ) === 0 ) {
 			$this->createNewCase( $user, $signal );
 		} else {

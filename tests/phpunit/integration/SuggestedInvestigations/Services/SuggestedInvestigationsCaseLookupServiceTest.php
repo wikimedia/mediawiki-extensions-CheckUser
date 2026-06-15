@@ -33,6 +33,9 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\ScopedCallback;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
@@ -336,6 +339,58 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		$this->expectException( RuntimeException::class );
 		$this->expectExceptionMessage( 'Suggested Investigations is not enabled' );
 		$service->getUserIdsWithCases( [ 1 ] );
+	}
+
+	public function testLockForSignal(): void {
+		$locks = [];
+
+		$dbMock = $this->createMock( IDatabase::class );
+		$dbMock->method( 'getScopedLockAndFlush' )
+			->willReturnCallback( static function ( $lockKey ) use ( &$locks ) {
+				if ( isset( $locks[$lockKey] ) ) {
+					return null;
+				}
+				$locks[$lockKey] = true;
+				return new ScopedCallback( static function () {
+				} );
+			} );
+
+		$dbProviderMock = $this->createMock( IConnectionProvider::class );
+		$dbProviderMock->method( 'getPrimaryDatabase' )
+			->willReturn( $dbMock );
+		$this->setService( 'ConnectionProvider', $dbProviderMock );
+
+		$service = $this->createService();
+
+		$signal1 = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'signal-1',
+			'value',
+			true,
+			equivalentNamesForMerging: [ 'signal-2' ]
+		);
+		$signal2 = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'signal-2',
+			'value',
+			true,
+			equivalentNamesForMerging: [ 'signal-1' ]
+		);
+		$signal3 = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'signal-3',
+			'value',
+			true
+		);
+
+		$lock1 = $service->getScopedLockForSignal( $signal1, 0 );
+		$this->assertNotNull( $lock1 );
+
+		$lock1Again = $service->getScopedLockForSignal( $signal1, 0 );
+		$this->assertNull( $lock1Again );
+
+		$lock2 = $service->getScopedLockForSignal( $signal2, 0 );
+		$this->assertNull( $lock2 );
+
+		$lock3 = $service->getScopedLockForSignal( $signal3, 0 );
+		$this->assertNotNull( $lock3 );
 	}
 
 	public function addDBDataOnce(): void {

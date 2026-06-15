@@ -15,11 +15,13 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
  * @group Database
  */
 class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegrationTestCase {
@@ -505,6 +507,41 @@ class SuggestedInvestigationsSignalMatchServiceTest extends MediaWikiIntegration
 			$this->assertArrayHasKey( 'caseId', $jobs[0]->getParams() );
 			$this->assertArrayNotHasKey( 'jobReleaseTimestamp', $jobs[0]->getParams() );
 		}
+	}
+
+	public function testFailsToProcessMergeableWhenUnableToAcquireLock() {
+		$user = $this->getTestUser()->getUser();
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			'test-signal',
+			'test-value',
+			true,
+		);
+
+		$caseLookup = $this->createMock( SuggestedInvestigationsCaseLookupService::class );
+		$caseLookup->expects( $this->once() )
+			->method( 'getCasesForSignal' )
+			->willReturn( [] );
+		$caseLookup->expects( $this->once() )
+			->method( 'getScopedLockForSignal' )
+			->willReturn( null );
+		$caseLookup->expects( $this->never() )
+			->method( 'getMergeableCasesForSignal' );
+		$this->setService( 'CheckUserSuggestedInvestigationsCaseLookup', $caseLookup );
+
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsSignalMatch',
+			static function (
+				UserIdentity $userIdentity,
+				string $eventType,
+				array &$hookProvidedSignalMatchResults,
+				array $extraData
+			) use ( &$hookCalled, $signal ) {
+				$hookProvidedSignalMatchResults[] = $signal;
+			}
+		);
+
+		$this->expectException( RuntimeException::class );
+		$this->getObjectUnderTest()->matchSignalsAgainstUser( $user, 'event', [] );
 	}
 
 	private function getObjectUnderTest(): SuggestedInvestigationsSignalMatchService {

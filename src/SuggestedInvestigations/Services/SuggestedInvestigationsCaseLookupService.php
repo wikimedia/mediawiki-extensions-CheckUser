@@ -33,7 +33,9 @@ use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\RawSQLExpression;
+use Wikimedia\ScopedCallback;
 
 class SuggestedInvestigationsCaseLookupService {
 
@@ -54,18 +56,22 @@ class SuggestedInvestigationsCaseLookupService {
 	 * signal. Additionally, the value of sis_trigger_id and sis_trigger_type are ignored for the comparison check.
 	 *
 	 * @param SuggestedInvestigationsSignalMatchResult $signal
+	 * @param bool $usePrimary Whether to use the primary DB
 	 * @return SuggestedInvestigationsCase[]
 	 * @throws InvalidArgumentException if a negative signal match is provided
 	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
-	public function getMergeableCasesForSignal( SuggestedInvestigationsSignalMatchResult $signal ): array {
+	public function getMergeableCasesForSignal(
+		SuggestedInvestigationsSignalMatchResult $signal,
+		bool $usePrimary = false
+	): array {
 		$this->assertSuggestedInvestigationsEnabled();
 
 		if ( !$signal->isMatch() ) {
 			throw new InvalidArgumentException( 'Cannot look up for a negative signal match' );
 		}
 
-		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$dbr = $this->getDatabase( $usePrimary );
 
 		// DISTINCT is needed because there may be many matching cusi_signal rows for a given cusi_case row.
 		$mergeableCases = $dbr->newSelectQueryBuilder()
@@ -109,7 +115,7 @@ class SuggestedInvestigationsCaseLookupService {
 			return [];
 		}
 
-		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$dbr = $this->getDatabase();
 
 		// DISTINCT is needed because there may be many matching cusi_signal rows for a given cusi_case row.
 		$queryBuilder = $dbr->newSelectQueryBuilder()
@@ -145,7 +151,7 @@ class SuggestedInvestigationsCaseLookupService {
 			return false;
 		}
 
-		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$dbr = $this->getDatabase();
 		$rowId = $dbr->newSelectQueryBuilder()
 			->select( 'sic_id' )
 			->from( 'cusi_case' )
@@ -168,7 +174,7 @@ class SuggestedInvestigationsCaseLookupService {
 	public function getUserIdsInCase( int $caseId ): array {
 		$this->assertSuggestedInvestigationsEnabled();
 
-		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$dbr = $this->getDatabase();
 
 		$userIds = $dbr->newSelectQueryBuilder()
 			->select( 'siu_user_id' )
@@ -189,7 +195,7 @@ class SuggestedInvestigationsCaseLookupService {
 	public function getOpenCaseIdsForUser( int $userId ): array {
 		$this->assertSuggestedInvestigationsEnabled();
 
-		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$dbr = $this->getDatabase();
 
 		$userIds = $dbr->newSelectQueryBuilder()
 			->select( 'sic_id' )
@@ -214,7 +220,7 @@ class SuggestedInvestigationsCaseLookupService {
 	public function isUserInAnyCase( UserIdentity $userIdentity ): bool {
 		$this->assertSuggestedInvestigationsEnabled();
 
-		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$dbr = $this->getDatabase();
 		return (bool)$dbr->newSelectQueryBuilder()
 			->select( '1' )
 			->from( 'cusi_user' )
@@ -232,7 +238,7 @@ class SuggestedInvestigationsCaseLookupService {
 	public function getCaseStatus( int $caseId ): CaseStatus {
 		$this->assertSuggestedInvestigationsEnabled();
 
-		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$dbr = $this->getDatabase();
 
 		$rawStatus = $dbr->newSelectQueryBuilder()
 			->select( 'sic_status' )
@@ -293,7 +299,7 @@ class SuggestedInvestigationsCaseLookupService {
 			return [];
 		}
 
-		$dbr = $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		$dbr = $this->getDatabase();
 
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( 'siu_user_id' )
@@ -316,6 +322,42 @@ class SuggestedInvestigationsCaseLookupService {
 		}
 
 		return array_map( 'intval', $queryBuilder->fetchFieldValues() );
+	}
+
+	/** Returns a replica or primary database connection for the DB where SI tables are located */
+	private function getDatabase( bool $usePrimary = false ): IReadableDatabase {
+		if ( $usePrimary ) {
+			return $this->dbProvider->getPrimaryDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		} else {
+			return $this->dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		}
+	}
+
+	/**
+	 * Acquires a scoped lock for the primary database operations relying on the passed signal result.
+	 * You can use this function to avoid TOCTOU (time of check - time of use) class of issues related to
+	 * read/write operations using specific signals.
+	 * The lock will apply also results of signals mergable with the passed one.
+	 * @param SuggestedInvestigationsSignalMatchResult $signal The signal to lock on
+	 * @param int $timeout How many seconds to wait before giving up
+	 * @return ScopedCallback|null Unlocker object or null in case of failure. The lock is lifter automatically
+	 *     when the unlocker object falls out of scope
+	 */
+	#[\NoDiscard]
+	public function getScopedLockForSignal(
+		SuggestedInvestigationsSignalMatchResult $signal,
+		int $timeout
+	): ?ScopedCallback {
+		$equivalentNames = array_merge( [ $signal->getName() ], $signal->getEquivalentNamesForMerging() );
+		sort( $equivalentNames );
+		$signalName = $equivalentNames[0];
+
+		$lockKey = 'suggestedinvestigations:' . $signalName;
+		if ( $signal->isMatch() ) {
+			$lockKey .= ':' . hash( 'sha256', $signal->getValue() );
+		}
+		$dbw = $this->dbProvider->getPrimaryDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+		return $dbw->getScopedLockAndFlush( $lockKey, __METHOD__, $timeout );
 	}
 
 	/**
