@@ -64,7 +64,8 @@
 	"checkuser-filter-title": "Filtros",
 	"checkuser-filter-hide-temporary-accounts": "Celar contos temporari",
 	"checkuser-cidr-label": "Cercar le gamma commun e le adresses IP afficite pro un lista de adresses IP",
-	"checkuser-cidr-res": "CIDR commun:",
+	"checkuser-cidr-no-script-message": "Iste instrumento require JavaScript pro functionar. Per favor, activa JavaScript pro usar iste instrumento.",
+	"checkuser-cidr-res": "Intervallo commun:",
 	"checkuser-cidr-affected-ips": "Adresses IP concernite:",
 	"checkuser-cidr-mixed-address-families": "Impossibile calcular un intervallo commun: le lista contine adresses del duo typos IPv4 e IPv6.",
 	"checkuser-cidr-too-small": "Le intervallo es troppo grande",
@@ -504,5 +505,7 @@
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Vider tote le contributiones de iste contos]",
 	"checkuser-related-tas-specialblock-accounts-list-error": "Un error ha occurrite durante le tentativa de identificar contos temporari que ha usate adresses IP associate a $1. Tu pote continuar con tu blocada de $1, o tentar cercar de novo pro identificar contos associate.{{GENDER:$2|}}",
 	"checkuser-related-tas-specialblock-confirm": "Isto applicara le blocada a $1 conto{{PLURAL:$1||s}}. Continuar a blocar iste conto{{PLURAL:$1||s}} confirma que tu lo{{PLURAL:$1||s}} ha investigate.",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "Il ha troppo de contos temporari associate pro adder a iste blocada. Solmente $1 conto{{PLURAL:$1||s}} pote esser blocate al mesme tempore."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Il ha troppo de contos temporari associate pro adder a iste blocada. Solmente $1 conto{{PLURAL:$1||s}} pote esser blocate al mesme tempore.",
+	"rangecalculator": "Calculator de intervallos IP",
+	"rangecalculator-summary": "Iste instrumento permitte calcular le intervallo commun inter un lista de adresses IP. Iste instrumento actualmente calcula solmente un sol intervallo commun. Non es possibile miscer adresses IPv4 e IPv6."
 }

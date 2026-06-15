@@ -55,5 +55,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "Das angegebene Ablaufdatum für die automatische Anzeige ist ungültig.",
 	"checkuser-ip-auto-reveal-missing-permission": "Du verfügst nicht über die erforderliche Berechtigung zur Verwendung der automatischen IP-Offenlegung.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Die angegebene Fall-ID existiert nicht",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Die Funktion „Vorgeschlagene Untersuchungen“ ist nicht aktiviert"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Die Funktion „Vorgeschlagene Untersuchungen“ ist nicht aktiviert",
+	"rest-module-checkuser.v0-title": "CheckUser-API",
+	"rest-module-checkuser.v0-desc": "REST-API für CheckUser-Tools. Siehe [Dokumentation zur CheckUser-Erweiterung] (https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

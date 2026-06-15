@@ -55,5 +55,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "A data de caducidade da revelación automática proporcionada non é válida.",
 	"checkuser-ip-auto-reveal-missing-permission": "Non tes o permiso necesario para usar a revelación automática de enderezos IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "O identificador de caso especificado non existe",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "A función de investigacións suxeridas non está activada"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "A función de investigacións suxeridas non está activada",
+	"rest-module-checkuser.v0-title": "API de verificación de usuarios",
+	"rest-module-checkuser.v0-desc": "API REST para as ferramentas de verificación de usuarios. Consulta a [documentación da extensión CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

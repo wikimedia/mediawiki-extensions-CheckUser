@@ -79,8 +79,10 @@
 	"checkuser-filter-title": "Filtre",
 	"checkuser-filter-hide-temporary-accounts": "Skjul midlertidige konti",
 	"checkuser-cidr-label": "Find fælles interval og påvirkede IP-adresser for en liste af IP-adresser",
-	"checkuser-cidr-res": "Fælles CIDR:",
+	"checkuser-cidr-no-script-message": "Dette værktøj kræver, at JavaScript er aktiveret for at fungere. Aktiver venligst JavaScript for at bruge dette værktøj.",
+	"checkuser-cidr-res": "Fælles interval:",
 	"checkuser-cidr-affected-ips": "Berørte IP-adresser:",
+	"checkuser-cidr-mixed-address-families": "Kan ikke beregne et fælles interval: listen indeholder både IPv4- og IPv6-adresser.",
 	"checkuser-cidr-too-small": "Intervallet er for stort",
 	"checkuser-cidr-tool-links-checkuser": "Kontroller dette interval",
 	"checkuser-cidr-tool-links-checkuserlog": "Tidligere kontrol af dette interval",
@@ -520,5 +522,7 @@
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Se alle bidrag fra disse konti]",
 	"checkuser-related-tas-specialblock-accounts-list-error": "Der opstod en fejl under forsøget på at identificere midlertidige konti, der har brugt IP-adresser tilknyttet $1. {{GENDER:$2|Du}} kan fortsætte med din blokering på $1 eller prøve at søge igen for at identificere eventuelle tilknyttede konti.",
 	"checkuser-related-tas-specialblock-confirm": "Dette vil anvende blokeringen på $1 {{PLURAL:$1| konto|konti}}. Hvis du fortsætter med at blokere {{PLURAL:$1|denne konto|disse konti}}, bekræfter du, at du har undersøgt {{PLURAL:$1|den|dem}}.",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "Der er for mange tilknyttede midlertidige konti til at tilføje til denne blokering. Vi tillader kun blokering af op til $1 {{PLURAL:$1|konto|konti}} ad gangen."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Der er for mange tilknyttede midlertidige konti til at tilføje til denne blokering. Vi tillader kun blokering af op til $1 {{PLURAL:$1|konto|konti}} ad gangen.",
+	"rangecalculator": "IP-intervalberegner",
+	"rangecalculator-summary": "Dette værktøj giver dig mulighed for at beregne det fælles område mellem en liste af IP-adresser. Værktøjet beregner i øjeblikket kun ét fælles område, og du kan ikke blande IPv4- og IPv6-adresser."
 }

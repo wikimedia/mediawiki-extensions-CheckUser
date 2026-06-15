@@ -55,5 +55,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "De opgegeven vervaldatum voor automatisch onthullen is onjuist.",
 	"checkuser-ip-auto-reveal-missing-permission": "U beschikt niet over de benodigde toestemming om het automatisch onthullen van IP-adressen te gebruiken.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "De opgegeven gevals-ID bestaat niet",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "De functie voor voorgestelde onderzoeken is niet ingeschakeld"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "De functie voor voorgestelde onderzoeken is niet ingeschakeld",
+	"rest-module-checkuser.v0-title": "CheckUser-API",
+	"rest-module-checkuser.v0-desc": "REST API voor CheckUser-hulpmiddelen. Zie [documentatie van de CheckUser-extensie](https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

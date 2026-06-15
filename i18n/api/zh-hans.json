@@ -61,5 +61,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "提供的自动显示到期时间无效。",
 	"checkuser-ip-auto-reveal-missing-permission": "您没有使用IP自动显示所需的权限。",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "提供的案例ID不存在",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "建议调查功能未启用。"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "建议调查功能未启用。",
+	"rest-module-checkuser.v0-title": "用户查核API",
+	"rest-module-checkuser.v0-desc": "用户查核工具的REST API。请参阅[用户查核扩展文档](https://www.mediawiki.org/wiki/Extension:CheckUser)。"
 }

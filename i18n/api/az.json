@@ -4,5 +4,7 @@
 			"Nemoralis"
 		]
 	},
-	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} vandalizm və sui-istifadənin tənzimlənməsinə kömək etmək üçün istifadəçi-agent client hint məlumatlarını toplayır. Ətraflı məlumat üçün: https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints"
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} vandalizm və sui-istifadənin tənzimlənməsinə kömək etmək üçün istifadəçi-agent client hint məlumatlarını toplayır. Ətraflı məlumat üçün: https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints",
+	"rest-module-checkuser.v0-title": "Təftişçi API",
+	"rest-module-checkuser.v0-desc": "Təftişçi alətləri üçün REST API. [Təftişçi uzantısı sənədlərinə] baxın (https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

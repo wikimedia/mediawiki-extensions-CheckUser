@@ -83,7 +83,8 @@
 	"checkuser-filter-title": "Filters",
 	"checkuser-filter-hide-temporary-accounts": "Tijdelijke accounts verbergen",
 	"checkuser-cidr-label": "Gemeenschappelijke range en getroffen adressen zoeken uit een lijst van IP-adressen",
-	"checkuser-cidr-res": "Gemeenschappelijke CIDR:",
+	"checkuser-cidr-no-script-message": "Voor het gebruik van dit hulpmiddel is JavaScript vereist. Schakel JavaScript in.",
+	"checkuser-cidr-res": "Gemeenschappelijk bereik:",
 	"checkuser-cidr-affected-ips": "Getroffen IP-adressen:",
 	"checkuser-cidr-mixed-address-families": "Kan geen gemeenschappelijk bereik berekenen: de lijst bevat zowel IPv4- als IPv6-adressen.",
 	"checkuser-cidr-too-small": "Bereik is te groot",
@@ -523,5 +524,7 @@
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/ $1|showRelatedTemporaryAccounts=1}} Alle bijdragen bekijken van deze accounts]",
 	"checkuser-related-tas-specialblock-accounts-list-error": "Er is een fout opgetreden bij het identificeren van tijdelijke accounts die IP-adressen hebben gebruikt die zijn gekoppeld aan $1. {{GENDER:$2|U}} kunt doorgaan met het blokkeren van $1, of opnieuw proberen te zoeken naar eventuele gekoppelde accounts.",
 	"checkuser-related-tas-specialblock-confirm": "Dit past de blokkade toe op {{PLURAL:$1|één account|$1 accounts}}. Door verder te gaan met het blokkeren van {{PLURAL:$1|dit account|deze accounts}} bevestigt u dat u {{PLURAL:$1|het geval|de gevallen}} hebt onderzocht.",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "Er zijn te veel gekoppelde tijdelijke accounts om aan deze blokkade toe te voegen. U kunt maximaal {{PLURAL:$1|één account|$1 accounts}} tegelijk blokkeren."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Er zijn te veel gekoppelde tijdelijke accounts om aan deze blokkade toe te voegen. U kunt maximaal {{PLURAL:$1|één account|$1 accounts}} tegelijk blokkeren.",
+	"rangecalculator": "IP-bereikcalculator",
+	"rangecalculator-summary": "Met dit hulpmiddel kunt u het gemeenschappelijke bereik tussen een lijst met IP-adressen berekenen. Dit hulpmiddel berekent momenteel slechts één gemeenschappelijk bereik en u kunt geen IPv4- en IPv6-adressen combineren."
 }

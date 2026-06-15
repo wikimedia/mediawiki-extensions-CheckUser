@@ -82,7 +82,7 @@
 	"checkuser-filter-title": "Filtri",
 	"checkuser-filter-hide-temporary-accounts": "Nascondi utenze temporanee",
 	"checkuser-cidr-label": "Trova l'intervallo comune e gli indirizzi interessati per una lista di IP",
-	"checkuser-cidr-res": "CIDR comune:",
+	"checkuser-cidr-res": "Intervallo comune:",
 	"checkuser-cidr-affected-ips": "Indirizzi IP interessati:",
 	"checkuser-cidr-too-small": "L'intervallo è troppo grande",
 	"checkuser-cidr-tool-links-checkuser": "Controlla questo intervallo",

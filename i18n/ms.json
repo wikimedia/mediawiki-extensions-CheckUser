@@ -12,8 +12,6 @@
 	},
 	"checkuser-summary": "Alat ini mengimbas senarai perubahan terkini untuk mencapai senarai alamat IP yang digunakan oleh seseorang pengguna atau memaparkan data sunting/pengguna bagi sesebuah alamat IP. \nPengguna dan suntingan oleh sesebuah alamat IP boleh didapatkan melalui pengepala XFF dengan menambah \"/xff\" selepas alamat IP tersebut. Kedua-dua format IPv4 (CIDR $1-32) dan IPv6 (CIDR $2-128) disokong. \nAtas sebab-sebab prestasi, pulangan dihadkan kepada $3 buah suntingan sahaja. Sila guna alat ini mengikut dasar yang telah ditetapkan.",
 	"checkuser-desc": "Melantik pengguna dengan keizinan untuk memeriksa alamat IP pengguna tertentu berserta maklumat-maklumat sulit lain",
-	"rest-module-checkuser.v0-title": "API Pemeriksa",
-	"rest-module-checkuser.v0-desc": "API REST untuk alatan Pemeriksa. Lihat [pendokumenan sambungan CheckUser] (https://www.mediawiki.org/wiki/Extension:CheckUser).",
 	"checkuser": "Periksa pengguna",
 	"checkuserlog": "Log pemeriksa",
 	"checkuser-contribs": "periksa alamat IP pengguna",
@@ -71,7 +69,8 @@
 	"checkuser-filter-title": "Penapis",
 	"checkuser-filter-hide-temporary-accounts": "Sembunyikan akaun sementara",
 	"checkuser-cidr-label": "Cari julat biasa dan alamat-alamat terlibat untuk sebuah senarai IP",
-	"checkuser-cidr-res": "CIDR biasa:",
+	"checkuser-cidr-no-script-message": "Alat ini memerlukan JavaScript didayakan untuk berfungsi. Sila dayakan JavaScript untuk menggunakan alat ini.",
+	"checkuser-cidr-res": "Julat umum:",
 	"checkuser-cidr-affected-ips": "Alamat IP yang terjejas:",
 	"checkuser-cidr-mixed-address-families": "Tidak dapat mengira julat umum: senarai tersebut mengandungi kedua-dua alamat IPv4 dan IPv6.",
 	"checkuser-cidr-too-small": "Julat terlalu besar",
@@ -511,5 +510,7 @@
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Lihat semua sumbangan daripada akaun ini]",
 	"checkuser-related-tas-specialblock-accounts-list-error": "Terdapat ralat semasa cuba mengenal pasti akaun sementara yang telah menggunakan alamat IP yang dikaitkan dengan $1. {{GENDER:$2|Anda}} boleh meneruskan sekatan anda pada $1, atau cuba cari sekali lagi untuk mengenal pasti sebarang akaun yang berkaitan.",
 	"checkuser-related-tas-specialblock-confirm": "Hal ini akan mengenakan sekatan kepada $1 {{PLURAL:$1|akaun}}. Penerusan untuk menyekat {{PLURAL:$1|akaun tersebut|akaun-akaun tersebut}} akan mengesahkan yang anda telah siasat {{PLURAL:$1|akaun tersebut|akaun-akaun tersebut}}.",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "Terdapat terlalu banyak akaun sementara yang berkaitan untuk ditambah pada sekatan ini. Kami hanya membenarkan sehingga $1 {{PLURAL:$1|akaun}} disekat pada satu masa."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Terdapat terlalu banyak akaun sementara yang berkaitan untuk ditambah pada sekatan ini. Kami hanya membenarkan sehingga $1 {{PLURAL:$1|akaun}} disekat pada satu masa.",
+	"rangecalculator": "Kalkulator Julat IP",
+	"rangecalculator-summary": "Alat ini membolehkan anda mengira julat sepunya antara senarai alamat IP. Alat ini hanya mengira satu julat sepunya pada masa ini dan anda tidak boleh mencampurkan alamat IPv4 dan IPv6."
 }

@@ -67,8 +67,10 @@
 	"checkuser-filter-title": "Филтри",
 	"checkuser-filter-hide-temporary-accounts": "Скриј привремени сметки",
 	"checkuser-cidr-label": "Најди заедничка низа и погодени адреси за список на IP-адреси",
-	"checkuser-cidr-res": "Заеднички CIDR:",
+	"checkuser-cidr-no-script-message": "За да работи оваа алатка треба да овозможите JavaScript. Овозможете го за да ја користите.",
+	"checkuser-cidr-res": "Заеднички опсег:",
 	"checkuser-cidr-affected-ips": "Засегната IP-адреса:",
+	"checkuser-cidr-mixed-address-families": "Не можам да пресметам заеднички опсег: списокот содржи и IPv4 и IPv6 адреси.",
 	"checkuser-cidr-too-small": "Опсегот е преголем",
 	"checkuser-cidr-tool-links-checkuser": "Провери го овој опсег",
 	"checkuser-cidr-tool-links-checkuserlog": "Претходни проверки на овој опсег",
@@ -506,5 +508,7 @@
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Погл. сите придонеси од овие сметки]",
 	"checkuser-related-tas-specialblock-accounts-list-error": "Се појави грешка при обидот да ги пронајдам привремените сметки што користеле IP-адреси поврзани со $1. {{GENDER:$2|Можете}} да продлжите со блокот на $1, или повторно да ги пребарате поврзаните сметки.",
 	"checkuser-related-tas-specialblock-confirm": "Ова ќе го примени блокот врз $1 {{PLURAL:$1|сметка|смтки}}. Блокирањето на {{PLURAL:$1|оваа сметка|овие сметки}} потврдува дека сте {{PLURAL:$1|ја иследиле|ги иследиле}}.",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "Има премногу поврзани привремени сметки. Во еден блок може да се {{PLURAL:$1|стави|стават}} највеќе $1 {{PLURAL:$1|сметка|сметки}}."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Има премногу поврзани привремени сметки. Во еден блок може да се {{PLURAL:$1|стави|стават}} највеќе $1 {{PLURAL:$1|сметка|сметки}}.",
+	"rangecalculator": "Пресметувач на IP-опсези",
+	"rangecalculator-summary": "Оваа алатка ви овозможува да го пресметате заедничкиот опсег помеѓу список на IP-адреси. Тековно пресметува само по еден заеднички опсег и не можете да мешате IPv4 и IPv6 адреси."
 }

@@ -18,8 +18,6 @@
 	},
 	"checkuser-summary": "Bu alət bir istifadəçi tərəfindən istifadə olunan IP ünvanlarını almaq və ya bir IP ünvan üçün redaktə/istifadəçi məlumatlarını göstərmək üçün son dəyişiklikləri yoxlayır. Bir müştəri IP ünvanı ilə istifadəçilər və redaktələr IP ünvana \"/xff\"  əlavə edərək XFF başlıqları əldə edə bilər. IPv4 (CIDR $1-32) və IPv6 (CIDR $2-128) ilə dəstəklənir. Performans səbəblərinə görə $3+ redaktə qaytarılmayacaq. Bunu siyasətə uyğun olaraq istifadə edin.",
 	"checkuser-desc": "Müvafiq icazəsi olan istifadəçiləri istifadəçinin IP ünvanlarını və digər məlumatları yoxlamaq imkanı verir",
-	"rest-module-checkuser.v0-title": "Təftişçi API",
-	"rest-module-checkuser.v0-desc": "Təftişçi alətləri üçün REST API. [Təftişçi uzantısı sənədlərinə] baxın (https://www.mediawiki.org/wiki/Extension:CheckUser).",
 	"checkuser": "Təftişçi",
 	"checkuserlog": "Təftişçi jurnalı",
 	"checkuser-contribs": "istifadəçinin IP ünvanını yoxla",
@@ -77,7 +75,8 @@
 	"checkuser-filter-title": "Filtrlər",
 	"checkuser-filter-hide-temporary-accounts": "Müvəqqəti hesabları gizlət",
 	"checkuser-cidr-label": "IP ünvanlarının siyahısı üçün ümumi aralığı və təsirlənmiş IP ünvanlarını tap",
-	"checkuser-cidr-res": "Common CIDR:",
+	"checkuser-cidr-no-script-message": "Bu alətin işləməsi üçün JavaScript-in aktivləşdirilməsi tələb olunur. Bu alətdən istifadə etmək üçün zəhmət olmasa, JavaScript-i aktivləşdirin.",
+	"checkuser-cidr-res": "Ümumi diapazon:",
 	"checkuser-cidr-affected-ips": "Təsirlənən IP ünvanları:",
 	"checkuser-cidr-mixed-address-families": "Ümumi diapazon hesablana bilmədi: siyahıda həm IPv4, həm də IPv6 ünvanları var.",
 	"checkuser-cidr-too-small": "Diapazon çox böyükdür",
@@ -514,7 +513,11 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Hesabların siyahısı panoya kopiyalandı",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Hesabların siyahısını kopiyalamaq alınmadı",
 	"checkuser-related-tas-specialblock-checkbox-label": "Bütün əlaqəli müvəqqəti hesabları blokla",
-	"checkuser-related-tas-specialblock-accounts-list": "Son $4 gün ərzində $3 ilə əlaqəli $2 IP ünvanından istifadə edən $1 müvəqqəti hesab müəyyən edilib: $5.",
+	"checkuser-related-tas-specialblock-accounts-list": "Son $4 gün ərzində $3 ilə əlaqəli $2 IP ünvanından istifadə edən $1 müvəqqəti {{PLURAL:$2|hesab}} müəyyən edilib: $5.",
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Bu hesabların bütün töhfələrinə bax]",
-	"checkuser-related-tas-specialblock-confirm": "Bu, bloku $1 hesaba tətbiq edəcək. Bu {{PLURAL:$1|hesabı|hesabları}} bloklamağa davam etməyiniz {{PLURAL:$1|onu|onları}} araşdırdığınızı təsdiqləyir."
+	"checkuser-related-tas-specialblock-accounts-list-error": "$1 ilə əlaqəli IP ünvanlarından istifadə edən müvəqqəti hesabları müəyyən etməyə çalışarkən xəta baş verdi. {{GENDER:$2|Siz}} $1 üzərindəki bloklamanıza davam edə və ya əlaqəli hesabları müəyyən etmək üçün yenidən axtarışa cəhd edə bilərsiniz.",
+	"checkuser-related-tas-specialblock-confirm": "Bu, bloku $1 hesaba tətbiq edəcək. Bu {{PLURAL:$1|hesabı|hesabları}} bloklamağa davam etməyiniz {{PLURAL:$1|onu|onları}} araşdırdığınızı təsdiqləyir.",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Bu bloka əlavə etmək üçün çoxlu sayda əlaqəli müvəqqəti hesab var. Eyni anda yalnız $1 {{PLURAL:$1|hesaba}} qədər bloklamağa icazə veririk.",
+	"rangecalculator": "IP diapazonu kalkulyatoru",
+	"rangecalculator-summary": "Bu alət sizə IP ünvanlarının siyahısı arasındakı ortaq diapazonu hesablamağa imkan verir. Bu alət hazırda yalnız bir ortaq diapazonu hesablayır və IPv4 və IPv6 ünvanlarını qarışdıra bilməzsiniz."
 }

@@ -3,6 +3,7 @@
 		"authors": [
 			"Amire80",
 			"Guycn2",
+			"Neriah",
 			"YaronSh"
 		]
 	},
@@ -52,5 +53,6 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "תוקף החשיפה האוטומטית שסופק אינו תקין.",
 	"checkuser-ip-auto-reveal-missing-permission": "אין לך את ההרשאה הנדרשת לשימוש בחשיפת IP אוטומטית.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "מזהה תיק החקירה שסופק אינו קיים",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "אפשרות החקירות המוצעות אינה מופעלת"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "אפשרות החקירות המוצעות אינה מופעלת",
+	"rest-module-checkuser.v0-desc": "REST API עבור כלי CheckUser. ראה [תיעוד הרחבת CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

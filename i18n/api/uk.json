@@ -37,5 +37,7 @@
 	"apierror-checkuser-invalidmode": "Неправильний параметр запиту",
 	"checkuser-api-help-param-direction": "У якому напрямку перелічувати:",
 	"checkuser-api-help-paramvalue-direction-newer": "Спочатку найстаріші. Примітка: значення $1from повинне бути до $1to.",
-	"checkuser-api-help-paramvalue-direction-older": "Спочатку найновіші (за замовчуванням). Примітка: значення $1from повинно бути після $1to."
+	"checkuser-api-help-paramvalue-direction-older": "Спочатку найновіші (за замовчуванням). Примітка: значення $1from повинно бути після $1to.",
+	"rest-module-checkuser.v0-title": "CheckUser API",
+	"rest-module-checkuser.v0-desc": "REST API для інструментів чек'юзера. Див. [Документація розширення CheckUser] (https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

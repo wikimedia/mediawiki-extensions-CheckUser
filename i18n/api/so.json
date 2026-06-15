@@ -50,5 +50,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "Mudada auto-reveal ee la bixiyay waa khalad.",
 	"checkuser-ip-auto-reveal-missing-permission": "Ma lihid oggolaanshaha loo baahan yahay si aad u isticmaasho muujinta IP-ga si toos ah.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Aqoonsiga kiiska ee la bixiyay ma jiro.",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Astaanta baaritaannada la soo jeediyay lama shidin"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Astaanta baaritaannada la soo jeediyay lama shidin",
+	"rest-module-checkuser.v0-title": "API-ga CheckUser",
+	"rest-module-checkuser.v0-desc": "REST API ee qalabka CheckUser. \nEeg [dukumentiga kordhinta CheckUser] (https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

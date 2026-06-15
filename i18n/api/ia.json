@@ -50,5 +50,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "Le expiration de auto-revelation fornite non es valide.",
 	"checkuser-ip-auto-reveal-missing-permission": "Tu non ha le permission necessari pro usar le auto-revelation de adresses IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Le ID de caso fornite non existe",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Le functionalitate de investigationes suggerite non es activate"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Le functionalitate de investigationes suggerite non es activate",
+	"rest-module-checkuser.v0-title": "API de CheckUser",
+	"rest-module-checkuser.v0-desc": "API REST pro utensiles CheckUser. Vide [le documentation del extension CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

@@ -51,5 +51,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "Tempoh lupus pendedahan automatik yang diberikan adalah tidak sah.",
 	"checkuser-ip-auto-reveal-missing-permission": "Anda tidak mempunyai kebenaran yang diperlukan untuk menggunakan pendedahan automatik IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "ID kes yang disediakan tidak wujud",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Ciri penyiasatan yang dicadangkan tidak didayakan"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Ciri penyiasatan yang dicadangkan tidak didayakan",
+	"rest-module-checkuser.v0-title": "API Pemeriksa",
+	"rest-module-checkuser.v0-desc": "API REST untuk alatan Pemeriksa. Lihat [pendokumenan sambungan CheckUser] (https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

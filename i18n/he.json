@@ -71,8 +71,9 @@
 	"checkuser-filter-title": "מסננים",
 	"checkuser-filter-hide-temporary-accounts": "הסתרת חשבונות חולפים",
 	"checkuser-cidr-label": "מציאת טווח משותף וכתובות מושפעות עבור רשימה של כתובות IP",
-	"checkuser-cidr-res": "CIDR משותף:",
+	"checkuser-cidr-res": "טווח משותף:",
 	"checkuser-cidr-affected-ips": "כתובות IP מושפעות:",
+	"checkuser-cidr-mixed-address-families": "לא ניתן לחשב טווח משותף: הרשימה מכילה גם כתובות IPv4 וגם כתובות IPv6.",
 	"checkuser-cidr-too-small": "הטווח גדול מדי",
 	"checkuser-cidr-tool-links-checkuser": "בדיקת הטווח הזה",
 	"checkuser-cidr-tool-links-checkuserlog": "בדיקות קודמות בטווח הזה",
@@ -487,5 +488,7 @@
 	"checkuser-contributions-temporary-accounts-on-ip": "מספר החשבונות החולפים מכתובת ה־IP הזאת: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "מספר החשבונות החולפים מכתובת ה־IP הזאת: $1 (חסומים: $2).",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "הצגת כל החשבונות",
-	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "הסתרה"
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "הסתרה",
+	"rangecalculator": "מחשבון טווח IP",
+	"rangecalculator-summary": "כלי זה מאפשר לך לחשב את הטווח המשותף בין רשימת כתובות IP. כלי זה מחשב כרגע רק טווח משותף אחד, ואינו יכול לערבב כתובות IPv4 ו-IPv6."
 }

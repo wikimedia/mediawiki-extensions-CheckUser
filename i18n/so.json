@@ -7,8 +7,6 @@
 	},
 	"checkuser-summary": "Qalabkani waxa uu baaraa isbeddellada dhow si uu u soo saaro ciwaannada IP ee uu isticmaalay isticmaale ama u muujiyo xogta wax-ka-beddelka/isticmaalaha ee ciwaan IP ah.\nIsticmaalayaasha iyo wax-ka-beddellada ka yimaadda ciwaan IP macmiil waxaa lagu heli karaa XFF headers adigoo ku daraya ciwaanka IP-ga \"/xff\". IPv4 (CIDR $1-32) iyo IPv6 (CIDR $2-128) waa la taageeraa.\nLama soo celin karo wax ka badan $3 wax-ka-beddel sababo la xiriira waxqabad.\nU isticmaal si waafaqsan siyaasadda.",
 	"checkuser-desc": "Waxay siisaa isticmaalayaasha haysta oggolaanshaha ku habboon awood ay ku hubiyaan ciwaannada IP ee isticmaalayaasha iyo macluumaad kale.",
-	"rest-module-checkuser.v0-title": "API-ga CheckUser",
-	"rest-module-checkuser.v0-desc": "REST API ee qalabka CheckUser. Eeg [dukumentiga kordhinta CheckUser] (https://www.mediawiki.org/wiki/Extension:CheckUser).",
 	"checkuser": "Hubi isticmaalaha",
 	"checkuserlog": "Diiwaanka CheckUser",
 	"checkuser-contribs": "Hubi ciwaannada IP ee isticmaalayaasha",
