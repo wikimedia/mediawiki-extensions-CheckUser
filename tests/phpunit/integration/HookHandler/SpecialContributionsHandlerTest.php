@@ -53,8 +53,8 @@ class SpecialContributionsHandlerTest extends MediaWikiIntegrationTestCase {
 			$overrideServices['UserIdentityLookup'] ?? $this->createMock( UserIdentityLookup::class ),
 			$overrideServices['DatabaseBlockStore'] ?? $this->createMock( DatabaseBlockStore::class ),
 			$overrideServices['StatsFactory'] ?? $services->getStatsFactory(),
+			$overrideServices['UserLinkRenderer'] ?? $services->getUserLinkRenderer(),
 		);
-
 		return $hookHandler;
 	}
 

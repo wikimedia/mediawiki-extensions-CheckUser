@@ -14,7 +14,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
@@ -60,7 +60,8 @@ class SpecialContributionsHandler implements
 		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly DatabaseBlockStore $databaseBlockStore,
-		private readonly StatsFactory $statsFactory
+		private readonly StatsFactory $statsFactory,
+		private readonly UserLinkRenderer $userLinkRenderer
 	) {
 	}
 
@@ -180,8 +181,7 @@ class SpecialContributionsHandler implements
 					}
 
 					// "TA username (talk | block | etc.)"
-					$services = MediaWikiServices::getInstance();
-					$userLink = $services->getUserLinkRenderer()->userLink( $targetTempAccount, $sp->getContext() );
+					$userLink = $this->userLinkRenderer->userLink( $targetTempAccount, $sp->getContext() );
 					$userToolLinks = Linker::userToolLinks(
 						$targetTempAccount->getId(),
 						$targetTempAccount->getName(),

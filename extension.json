@@ -452,7 +452,8 @@
 				"SpecialPageFactory",
 				"UserIdentityLookup",
 				"DatabaseBlockStore",
-				"StatsFactory"
+				"StatsFactory",
+				"UserLinkRenderer"
 			]
 		},
 		"SpecialLogAddIPRevealLogTypeAliasHandler": {
