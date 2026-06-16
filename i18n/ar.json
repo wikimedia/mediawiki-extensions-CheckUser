@@ -85,7 +85,7 @@
 	"checkuser-filter-title": "المرشحات",
 	"checkuser-filter-hide-temporary-accounts": "إخفاء الحسابات المؤقتة",
 	"checkuser-cidr-label": "جد النطاق المشترك والعناوين المتأثرة لقائمة من عناوين البروتوكولات",
-	"checkuser-cidr-res": "CIDR مشترك:",
+	"checkuser-cidr-res": "النطاق الشائع:",
 	"checkuser-cidr-affected-ips": "عدد عناوين البروتوكولات المتأثرة:",
 	"checkuser-cidr-too-small": "النطاق واسع جدًا",
 	"checkuser-cidr-tool-links-checkuser": "تحقق من هذا النطاق",
