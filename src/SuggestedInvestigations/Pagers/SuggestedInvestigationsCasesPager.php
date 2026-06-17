@@ -427,7 +427,24 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private function formatSignalsCell( array $signals ): string {
 		$signalLabels = array_map( $this->getSignalDisplayNameForSignal( ... ), $signals );
 
-		return $this->getLanguage()->commaList( $signalLabels );
+		$signalsHtml = Html::rawElement( 'strong', [], $this->getLanguage()->commaList( $signalLabels ) );
+
+		// In the detail view (when the case ID filter is set),
+		// don't show the link as it would point to the current page.
+		if ( $this->caseIdFilter ) {
+			return $signalsHtml;
+		}
+
+		$detailViewLink = Html::rawElement(
+			'p',
+			[ 'class' => 'mw-checkuser-suggestedinvestigations-view-case-details' ],
+			$this->getLinkRenderer()->makeKnownLink(
+				$this->getDetailViewTitle( (int)$this->mCurrentRow->sic_url_identifier ),
+				$this->msg( 'checkuser-suggestedinvestigations-view-case-details' )->text()
+			)
+		);
+
+		return $signalsHtml . $detailViewLink;
 	}
 
 	private function getSignalDisplayNameForSignal( string $signal ): string {
@@ -444,16 +461,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$lang = $this->getLanguage();
 		$user = $this->getContext()->getUser();
 
-		// If in the detail view (which is when the case ID filter is set),
-		// don't show the link as it will be a link to the current page.
-		if ( $this->caseIdFilter ) {
-			return htmlspecialchars( $lang->userTimeAndDate( $timestamp, $user ) );
-		}
-
-		return $this->getLinkRenderer()->makeKnownLink(
-			$this->getDetailViewTitle( (int)$this->mCurrentRow->sic_url_identifier ),
-			$lang->userTimeAndDate( $timestamp, $user )
-		);
+		return htmlspecialchars( $lang->userTimeAndDate( $timestamp, $user ) );
 	}
 
 	private function formatStatusCell( CaseStatus $status, int $caseId ): string {
@@ -1118,8 +1126,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	/** @inheritDoc */
 	protected function getFieldNames() {
 		return [
-			'users' => $this->msg( 'checkuser-suggestedinvestigations-header-users' )->text(),
 			'signals' => $this->msg( 'checkuser-suggestedinvestigations-header-signals' )->text(),
+			'users' => $this->msg( 'checkuser-suggestedinvestigations-header-users' )->text(),
 			'sic_updated_timestamp' => $this->msg( 'checkuser-suggestedinvestigations-header-updated' )->text(),
 			'sic_status' => $this->msg( 'checkuser-suggestedinvestigations-header-status' )->text(),
 			'sic_status_reason' => $this->msg( 'checkuser-suggestedinvestigations-header-notes' )->text(),

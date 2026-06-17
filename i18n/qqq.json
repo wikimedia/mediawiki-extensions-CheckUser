@@ -518,6 +518,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Header of the column with investigation status in the Suggested investigations table",
 	"checkuser-suggestedinvestigations-header-notes": "Header of the column with notes in the Suggested investigations table",
 	"checkuser-suggestedinvestigations-header-actions": "Header of the column with actions in the Suggested investigations table",
+	"checkuser-suggestedinvestigations-view-case-details": "Text of a link, shown beneath the risk signal names in the Risk signals column of the Suggested investigations table, that opens the detailed view for a single case.",
 	"checkuser-suggestedinvestigations-user": "{{optional}}This message is used to render items in the users column of the Suggested investigations table.\n\nParameters:\n* $1 - Username, formatted as a link to the user page or contributions (for temp accounts)\n* $2 - Tool links for that user wrapped in the {{msg-mw|parentheses}} message",
 	"checkuser-suggestedinvestigations-user-check-link-text": "Text of a link shown next to usernames in the users column of the Suggested investigations table.\n\nParameters:\n* $1 - Username of the associated user, for GENDER purposes.",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "Text of a link shown next to usernames in the users column of the Suggested investigations table.\n\nParameters:\n* $1 - Username of the associated user, for GENDER purposes.",

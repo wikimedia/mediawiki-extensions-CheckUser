@@ -249,12 +249,21 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-status-reason=""', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-signals="' . self::SIGNAL . '"', $changeStatusButtonHtml );
 
-		// Validate the timestamp cell contains the correct data and also links to the detail view
+		// Validate the "View case details" link is shown in the signals cell and points to the detail view
 		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
+		$viewCaseDetailsCell = $this->assertAndGetByElementClass(
+			$html,
+			'mw-checkuser-suggestedinvestigations-view-case-details'
+		);
 		$this->assertStringContainsString(
 			'Special:SuggestedInvestigations/detail/' . $urlIdentifier,
-			$html,
-			'The detail view link for the case is missing'
+			$viewCaseDetailsCell,
+			'The detail view link for the case is missing from the signals cell'
+		);
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-view-case-details)',
+			$viewCaseDetailsCell,
+			'The "View case details" link label is missing'
 		);
 
 		$context = RequestContext::getMain();
@@ -333,12 +342,21 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$changeStatusButtonHtml
 		);
 
-		// Validate the timestamp cell contains the correct data and also links to the detail view
+		// Validate the "View case details" link is shown in the signals cell and points to the detail view
 		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
+		$viewCaseDetailsCell = $this->assertAndGetByElementClass(
+			$html,
+			'mw-checkuser-suggestedinvestigations-view-case-details'
+		);
 		$this->assertStringContainsString(
 			'Special:SuggestedInvestigations/detail/' . $urlIdentifier,
-			$html,
-			'The detail view link for the case is missing'
+			$viewCaseDetailsCell,
+			'The detail view link for the case is missing from the signals cell'
+		);
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-view-case-details)',
+			$viewCaseDetailsCell,
+			'The "View case details" link label is missing'
 		);
 
 		$context = RequestContext::getMain();

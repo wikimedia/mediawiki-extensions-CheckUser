@@ -481,6 +481,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Notes",
 	"checkuser-suggestedinvestigations-header-actions": "Actions",
+	"checkuser-suggestedinvestigations-view-case-details": "View case details",
 	"checkuser-suggestedinvestigations-user": "$1 $2",
 	"checkuser-suggestedinvestigations-user-check-link-text": "check {{GENDER:$1|user}}",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "past {{GENDER:$1|checks}}",
