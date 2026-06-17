@@ -53,5 +53,5 @@
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Укажаната назнака на случајот не постои",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Предложената функција за иследување не е овозможена",
 	"rest-module-checkuser.v0-title": "Приложник Проверка на корисници",
-	"rest-module-checkuser.v0-desc": "REST API за алатките за проверка на корисници. Погл. [CheckUser документација за додатокот] (https://www.mediawiki.org/wiki/Extension:CheckUser)."
+	"rest-module-checkuser.v0-desc": "REST API за алатките за проверка на корисници. Погл. [CheckUser документација за додатокот](https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }
