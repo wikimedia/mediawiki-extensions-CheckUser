@@ -688,10 +688,6 @@ class SpecialInvestigate extends FormSpecialPage {
 			];
 		}
 
-		// if ( $this->par === $timelineTab ) {
-			// @TODO Add filters specific to the timeline tab.
-		// }
-
 		return $fields;
 	}
 
