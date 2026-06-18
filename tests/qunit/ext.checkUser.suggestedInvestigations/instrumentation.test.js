@@ -80,3 +80,145 @@ QUnit.test( 'Instruments clicks on "SI cases" links in CheckUser Get Users resul
 		'Includes get_users context in interaction data'
 	);
 } );
+
+QUnit.test.each(
+	'Instruments clicks on links in the main table',
+	{
+		'User page': [ 'mw-userlink', 'user-page' ],
+		Contribs: [ 'mw-usertoollinks-contribs', 'contributions' ],
+		Block: [ 'mw-usertoollinks-block', 'block' ],
+		'Past checks': [ 'mw-usertoollinks-past-checks', 'past-checks' ],
+		'Check user': [ 'mw-usertoollinks-checkuser', 'check-user' ],
+		Investigate: [ 'mw-checkuser-suggestedinvestigations-investigate-action', 'investigate' ],
+		'Past cases': [ 'mw-usertoollinks-suggestedinvestigations-cases', 'past-cases' ]
+	},
+	( assert, [ linkClass, expectedSubtype ] ) => {
+		mw.config.set( 'wgPageName', 'Special:SuggestedInvestigations' );
+
+		// eslint-disable-next-line no-jquery/no-global-selector
+		const $qunitFixture = $( '#qunit-fixture' );
+		const $table = $( '<table>' )
+			.addClass( 'ext-checkuser-suggestedinvestigations-table' )
+			.attr( 'data-username', 'Username 123' );
+		const $link = $( '<a>' ).attr( 'href', '#' );
+		// eslint-disable-next-line mediawiki/class-doc
+		$link.addClass( linkClass );
+		$table.append( $link );
+		$qunitFixture.append( $table );
+
+		instrumentation();
+		$link.trigger( 'click' );
+
+		assert.strictEqual( sendStub.callCount, 1, 'Calls send' );
+		assert.strictEqual(
+			sendStub.firstCall.args[ 0 ],
+			'link_click',
+			'Passes the link_click action to send'
+		);
+		assert.strictEqual(
+			sendStub.firstCall.args[ 1 ].action_subtype,
+			expectedSubtype,
+			'Reports the link type as action_subtype'
+		);
+		assert.strictEqual(
+			sendStub.firstCall.args[ 1 ].action_source,
+			'main',
+			'Reports the main view as action_source'
+		);
+		assert.strictEqual(
+			sendStub.firstCall.args[ 1 ].action_context,
+			'Username 123',
+			'Reports the relevant user as action_context'
+		);
+	}
+);
+
+QUnit.test( 'Reports the detail view as the source for main-table link clicks', ( assert ) => {
+	mw.config.set( 'wgPageName', 'Special:SuggestedInvestigations/detail/2a' );
+
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	const $table = $( '<table>' )
+		.addClass( 'ext-checkuser-suggestedinvestigations-table ext-checkuser-suggestedinvestigations-table-main' );
+	const $link = $( '<a>' )
+		.attr( 'href', '#' )
+		.addClass( 'mw-userlink' );
+	$table.append( $link );
+	$qunitFixture.append( $table );
+
+	instrumentation();
+	$link.trigger( 'click' );
+
+	assert.strictEqual( sendStub.callCount, 1, 'Calls send' );
+	assert.strictEqual(
+		sendStub.firstCall.args[ 1 ].action_source,
+		'details',
+		'Reports the detail view as action_source'
+	);
+} );
+
+QUnit.test( 'Reports the detail view as the source for additional table link clicks', ( assert ) => {
+	mw.config.set( 'wgPageName', 'Special:SuggestedInvestigations/detail/2a' );
+
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	const $table = $( '<table>' )
+		.addClass( 'ext-checkuser-suggestedinvestigations-table' );
+	const $link = $( '<a>' )
+		.attr( 'href', '#' )
+		.addClass( 'mw-userlink' );
+	$table.append( $link );
+	$qunitFixture.append( $table );
+
+	instrumentation();
+	$link.trigger( 'click' );
+
+	assert.strictEqual( sendStub.callCount, 1, 'Calls send' );
+	assert.strictEqual(
+		sendStub.firstCall.args[ 1 ].action_source,
+		'details_sub',
+		'Reports the detail_sub view as action_source'
+	);
+} );
+
+QUnit.test( 'Does not instrument link clicks outside the main table', ( assert ) => {
+	mw.config.set( 'wgPageName', 'Special:SuggestedInvestigations' );
+
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	// A user link that is not inside the main table should be ignored.
+	const $link = $( '<a>' )
+		.attr( 'href', '#' )
+		.addClass( 'mw-userlink' );
+	$qunitFixture.append( $link );
+
+	instrumentation();
+	$link.trigger( 'click' );
+
+	assert.strictEqual( sendStub.callCount, 0, 'Does not call send' );
+} );
+
+QUnit.test( 'Reports the custom instrumentation element with proper subtype', ( assert ) => {
+	mw.config.set( 'wgPageName', 'Special:SuggestedInvestigations' );
+
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	const $table = $( '<table>' )
+		.addClass( 'ext-checkuser-suggestedinvestigations-table' );
+	const $link = $( '<a>' )
+		.attr( 'href', '#' )
+		.attr( 'data-subtype', 'lorem-ipsum' )
+		.addClass( 'mw-checkuser-suggestedinvestigations-custom-instrument' );
+	$table.append( $link );
+	$qunitFixture.append( $table );
+
+	instrumentation();
+	$link.trigger( 'click' );
+
+	assert.strictEqual( sendStub.callCount, 1, 'Calls send' );
+	assert.strictEqual(
+		sendStub.firstCall.args[ 1 ].action_subtype,
+		'lorem-ipsum',
+		'Reports lorem-ipsum as action_subtype'
+	);
+} );
