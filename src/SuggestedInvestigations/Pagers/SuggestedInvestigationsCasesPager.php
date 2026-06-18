@@ -396,7 +396,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 						SpecialPage::getTitleFor( 'CheckUserLog', $user->getName() ),
 						$this->msg( 'checkuser-suggestedinvestigations-user-past-checks-link-text' )
 							->params( $user->getName() )
-							->text()
+							->text(),
+						[ 'class' => 'mw-usertoollinks-past-checks' ]
 					);
 				}
 
@@ -407,7 +408,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 						$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
 							->params( $user->getName() )
 							->text(),
-						[],
+						[ 'class' => 'mw-usertoollinks-checkuser' ],
 						[ 'reason' => $checkUserPrefilledReason ]
 					);
 				}
@@ -446,6 +447,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 					'class' => $i >= $userHideThreshold ?
 						'mw-checkuser-suggestedinvestigations-user-defaulthide'
 						: '',
+					'data-username' => $userVisible ? $user->getName() : '',
 				],
 				$this->msg( 'checkuser-suggestedinvestigations-user' )
 					->rawParams( $userLink, $userToolLinksHtml )
@@ -1215,7 +1217,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 	/** @inheritDoc */
 	protected function getTableClass(): string {
-		$tableClasses = [ 'ext-checkuser-suggestedinvestigations-table' ];
+		$tableClasses = [
+			'ext-checkuser-suggestedinvestigations-table',
+			'ext-checkuser-suggestedinvestigations-table-main',
+		];
 		if ( $this->isNavigationBarShown() ) {
 			$tableClasses[] = 'ext-checkuser-suggestedinvestigations-table-with-navigation-bar';
 		}

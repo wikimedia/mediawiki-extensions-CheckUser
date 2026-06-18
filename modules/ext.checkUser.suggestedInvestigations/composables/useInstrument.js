@@ -4,6 +4,8 @@
  * Additional context for an instrumentation event.
  *
  * @typedef {Object} InteractionData
+ * @property {string} [subType] - Subtype of the action
+ * @property {string} [source] - Source of the action
  * @property {string} [context] - Context of the action
  */
 
@@ -49,6 +51,16 @@ module.exports = () => {
 				pageview_id: mw.user.getPageviewToken()
 			}
 		};
+
+		if ( data.subType ) {
+			// eslint-disable-next-line camelcase
+			interactionData.action_subtype = data.subType;
+		}
+
+		if ( data.source ) {
+			// eslint-disable-next-line camelcase
+			interactionData.action_source = data.source;
+		}
 
 		if ( data.context ) {
 			// eslint-disable-next-line camelcase
