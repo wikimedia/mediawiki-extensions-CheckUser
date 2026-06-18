@@ -416,7 +416,7 @@
 	"checkuser-userinfocard-joined": "{{GENDER:$3|加入时间}}: $1（$2）",
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|加入时间}}：2005年或以前",
 	"checkuser-userinfocard-active-wikis-label": "活跃的项目",
-	"checkuser-userinfocard-active-blocks-from-all-wikis": "所有wiki上的现有封禁：$1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "所有wiki上的生效封禁数：$1个",
 	"checkuser-userinfocard-past-blocks": "过去的封禁：$1",
 	"checkuser-userinfocard-global-edits": "全域编辑数：$1",
 	"checkuser-userinfocard-local-edits": "本地编辑数：$1（已被回退：$2）",
