@@ -11,6 +11,7 @@ use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
@@ -50,6 +51,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly LoggerInterface $logger,
 		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
 		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
+		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
 	) {
 	}
 
@@ -112,6 +114,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->compositeBlockChecker,
 			$this->logger,
 			$this->messageRenderer,
+			$this->sharedPagesLookup,
 			$this->linkRenderer,
 			$context,
 			$signals,

@@ -60,6 +60,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
@@ -467,7 +468,19 @@ return [
 			$services->get( 'CheckUserCompositeBlockChecker' ),
 			$services->get( 'CheckUserLogger' ),
 			$services->get( 'CheckUserSuggestedInvestigationsMessageRenderer' ),
-			$centralAuthEditCounter
+			$centralAuthEditCounter,
+			$services->get( 'CheckUserSuggestedInvestigationsSharedPagesLookup' )
+		);
+	},
+	'CheckUserSuggestedInvestigationsSharedPagesLookup' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsSharedPagesLookup {
+		return new SuggestedInvestigationsSharedPagesLookup(
+			new ServiceOptions(
+				SuggestedInvestigationsSharedPagesLookup::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
+			$services->getConnectionProvider()
 		);
 	},
 	'CheckUserSuggestedInvestigationsUserRevisionLookup' => static function (

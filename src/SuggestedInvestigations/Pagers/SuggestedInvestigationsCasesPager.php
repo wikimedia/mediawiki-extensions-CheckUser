@@ -34,6 +34,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Navigation\CodexPagerNavigationBuilder;
@@ -49,6 +50,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
+use stdClass;
 use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -150,6 +152,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly CompositeBlockChecker $compositeBlockChecker,
 		private readonly LoggerInterface $logger,
 		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
+		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals,
@@ -429,14 +432,34 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$signalsHtml = Html::rawElement( 'strong', [], $this->getLanguage()->commaList( $signalLabels ) );
 
+		$metadataLine = '';
+		$metadata = $this->mCurrentRow->metadata;
+		$metadataMessages = [];
+		foreach ( $metadata as $item ) {
+			$message = $item->getMessage();
+			if ( $message ) {
+				$metadataMessages[] = $this->msg( $message )->parse();
+			}
+		}
+
+		if ( $metadataMessages ) {
+			$pipedMetadata = $this->getLanguage()->pipeList( $metadataMessages );
+
+			$metadataLine = Html::rawElement(
+				'div',
+				[ 'class' => 'mw-checkuser-suggestedinvestigations-metadata' ],
+				$this->msg( 'parentheses' )->rawParams( $pipedMetadata )->parse()
+			);
+		}
+
 		// In the detail view (when the case ID filter is set),
 		// don't show the link as it would point to the current page.
 		if ( $this->caseIdFilter ) {
-			return $signalsHtml;
+			return $signalsHtml . $metadataLine;
 		}
 
 		$detailViewLink = Html::rawElement(
-			'p',
+			'div',
 			[ 'class' => 'mw-checkuser-suggestedinvestigations-view-case-details' ],
 			$this->getLinkRenderer()->makeKnownLink(
 				$this->getDetailViewTitle( (int)$this->mCurrentRow->sic_url_identifier ),
@@ -444,7 +467,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			)
 		);
 
-		return $signalsHtml . $detailViewLink;
+		return $signalsHtml . $metadataLine . $detailViewLink;
 	}
 
 	private function getSignalDisplayNameForSignal( string $signal ): string {
@@ -666,6 +689,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$caseRow->signals = $signals[$caseRow->sic_id] ?? [];
 		}
 
+		$this->addMetadataToCases( $cases );
+
 		$performerIds = [];
 		foreach ( $cases as $case ) {
 			if ( $case->sic_status_changed_by !== null && (int)$case->sic_status_changed_by > 0 ) {
@@ -679,6 +704,26 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		return new FakeResultWrapper( $cases );
+	}
+
+	/**
+	 * Iterates over the cases and adds metadata to them.
+	 *
+	 * Metadata is inserted as `->metadata` property on each row of cases, with the value being an array of
+	 * {@see SuggestedInvestigationsCaseMetadata}.
+	 *
+	 * @param stdClass[] $cases Array of rows, fetched from the database and augmented
+	 */
+	private function addMetadataToCases( array $cases ): void {
+		$caseIdToUsers = [];
+		foreach ( $cases as $caseRow ) {
+			$caseRow->metadata = [];
+			$caseIdToUsers[$caseRow->sic_id] = $caseRow->users;
+		}
+		$sharedPagesSummaries = $this->sharedPagesLookup->getSharedPagesForCases( $caseIdToUsers );
+		foreach ( $cases as $caseRow ) {
+			$caseRow->metadata[] = $sharedPagesSummaries[$caseRow->sic_id];
+		}
 	}
 
 	/** @inheritDoc */

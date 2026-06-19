@@ -295,6 +295,38 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [], $parserOutput );
 	}
 
+	public function testMetadataShownWhenAccountsShareEditedPages(): void {
+		// We only want to check that metadata is shown when it should be
+		// Mocking a situation when no metadata should be there would be quite brittle, especially when we add more
+		// data points there
+		$this->overrideConfigValues( [
+			MainConfigNames::LanguageCode => 'qqx',
+		] );
+
+		$this->addCaseWithTwoUsers();
+
+		// Both accounts edit the same page, making it a "shared" page for the case.
+		$this->editPage( 'SharedMetadataPage', 'first', '', NS_MAIN, self::$testUser1 );
+		$this->editPage( 'SharedMetadataPage', 'second', '', NS_MAIN, self::$testUser2 );
+
+		$context = $this->makeQqxContext();
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$html = $this->getPager( $context )->getBody();
+
+		// The shared-pages metadata line is rendered in the signals cell, reporting
+		// the two edits on the one shared page.
+		$metadataElem = $this->assertAndGetByElementClass(
+			$html,
+			'mw-checkuser-suggestedinvestigations-metadata'
+		);
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-shared-pages-summary: 2, 1)',
+			$metadataElem,
+			'The shared-pages metadata message should report 2 edits on 1 shared page'
+		);
+	}
+
 	public function testOutputShowsCaseUpdateTimestamp(): void {
 		$this->overrideConfigValues( [
 			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => false,
