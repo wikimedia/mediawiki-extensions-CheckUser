@@ -131,4 +131,52 @@ class CheckUserLogPagerTest extends MediaWikiUnitTestCase {
 			],
 		];
 	}
+
+	/** @dataProvider provideGetQueryInfoForReasonSearch */
+	public function testGetQueryInfoForReasonSearch( $plaintextReason, $commentStoreJoin, $expectedQueryInfo ) {
+		$objectUnderTest = $this->getMockBuilder( CheckUserLogPager::class )
+			->disableOriginalConstructor()
+			->onlyMethods( [] )
+			->getMock();
+		// Mock CheckUserLogService::getPlaintextReason to return the reason it was given.
+		$mockCheckUserLogService = $this->createMock( CheckUserLogService::class );
+		$mockCheckUserLogService->method( 'getPlaintextReason' )
+			->willReturnArgument( 0 );
+		// Mock CommentStore::getJoin to return a known join array.
+		$mockCommentStore = $this->createMock( CommentStore::class );
+		$mockCommentStore->method( 'getJoin' )
+			->willReturn( $commentStoreJoin );
+		// Assign the mock services to the object under test.
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
+		$objectUnderTest->checkUserLogService = $mockCheckUserLogService;
+		$objectUnderTest->commentStore = $mockCommentStore;
+		// Call the method under test.
+		$this->assertArrayEquals(
+			$expectedQueryInfo,
+			$objectUnderTest->getQueryInfoForReasonSearch( $plaintextReason ),
+			false,
+			true,
+			'::getQueryInfoForReasonSearch did not return the expected query info.'
+		);
+	}
+
+	public static function provideGetQueryInfoForReasonSearch() {
+		return [
+			'Empty plaintext reason' => [
+				'',
+				[ 'tables' => [], 'fields' => [], 'joins' => [] ],
+				[ 'tables' => [], 'fields' => [], 'join_conds' => [] ],
+			],
+			'Non-empty plaintext reason' => [
+				'spam',
+				[ 'tables' => [ 'ct' ], 'fields' => [ 'cf' ], 'joins' => [ 'cj' ] ],
+				[
+					'tables' => [ 'ct' ],
+					'fields' => [ 'cf' ],
+					'join_conds' => [ 'cj' ],
+					'conds' => [ 'comment_cul_reason_plaintext.comment_text' => 'spam' ],
+				],
+			],
+		];
+	}
 }
