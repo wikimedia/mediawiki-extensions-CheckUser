@@ -22,10 +22,16 @@ class SuggestedInvestigationsSharedPagesSummary extends SuggestedInvestigationsC
 	 * @param int $editCount The number of edits made by the case's accounts on shared pages.
 	 * @param PageIdentity[] $sharedPages The pages edited by at least two distinct accounts in the
 	 *   case. Pages known only from archived (deleted) revisions have a page ID of 0.
+	 * @param ?string $firstEditTimestamp The time when the first edit on the shared pages was performed by
+	 *   one of the users of interest.
+	 * @param ?string $lastEditTimestamp The time when the last edit on the shared pages was performed by
+	 *   one of the users of interest.
 	 */
 	public function __construct(
 		private readonly int $editCount,
-		private readonly array $sharedPages,
+		private readonly array $sharedPages = [],
+		private readonly ?string $firstEditTimestamp = null,
+		private readonly ?string $lastEditTimestamp = null,
 	) {
 	}
 
@@ -37,6 +43,22 @@ class SuggestedInvestigationsSharedPagesSummary extends SuggestedInvestigationsC
 	/** @internal For use in tests */
 	public function getPageCount(): int {
 		return count( $this->sharedPages );
+	}
+
+	/**
+	 * Returns the timestamp corresponding to the first of the shared edits
+	 * @return ?string Timestamp in the MediaWiki format (or null if no edits)
+	 */
+	public function getFirstEditTimestamp(): ?string {
+		return $this->firstEditTimestamp;
+	}
+
+	/**
+	 * Returns the timestamp corresponding to the last of the shared edits
+	 * @return ?string Timestamp in the MediaWiki format (or null if no edits)
+	 */
+	public function getLastEditTimestamp(): ?string {
+		return $this->lastEditTimestamp;
 	}
 
 	/** @inheritDoc */

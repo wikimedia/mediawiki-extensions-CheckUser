@@ -10,6 +10,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup
+ * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsSharedPagesSummary
  * @group CheckUser
  * @group Database
  */
@@ -36,6 +37,9 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 
 		$this->assertSame( 0, $summary->getPageCount() );
 		$this->assertSame( 0, $summary->getEditCount() );
+		// With no shared pages there is no edit window to report.
+		$this->assertNull( $summary->getFirstEditTimestamp() );
+		$this->assertNull( $summary->getLastEditTimestamp() );
 	}
 
 	public function testPageEditedByTwoUsersIsShared(): void {
@@ -128,5 +132,26 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 
 		$this->assertSame( 1, $summary->getPageCount() );
 		$this->assertSame( 2, $summary->getEditCount() );
+	}
+
+	public function testFirstAndLastEditTimestampsSpanAllSharedPages(): void {
+		$userA = $this->getMutableTestUser()->getUser();
+		$userB = $this->getMutableTestUser()->getUser();
+
+		ConvertibleTimestamp::setFakeTime( '20260101000000' );
+		$this->editPage( 'TimestampPageOne', 'a', '', NS_MAIN, $userA );
+		ConvertibleTimestamp::setFakeTime( '20260101000100' );
+		$this->editPage( 'TimestampPageOne', 'b', '', NS_MAIN, $userB );
+		ConvertibleTimestamp::setFakeTime( '20260101000200' );
+		$this->editPage( 'TimestampPageTwo', 'a', '', NS_MAIN, $userA );
+		ConvertibleTimestamp::setFakeTime( '20260101000300' );
+		$this->editPage( 'TimestampPageTwo', 'b', '', NS_MAIN, $userB );
+
+		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
+
+		$this->assertSame( 2, $summary->getPageCount() );
+		$this->assertSame( 4, $summary->getEditCount() );
+		$this->assertSame( '20260101000000', $summary->getFirstEditTimestamp() );
+		$this->assertSame( '20260101000300', $summary->getLastEditTimestamp() );
 	}
 }

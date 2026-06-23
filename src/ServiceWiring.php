@@ -480,7 +480,8 @@ return [
 				SuggestedInvestigationsSharedPagesLookup::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getConnectionProvider()
+			$services->getConnectionProvider(),
+			$services->getRevisionStore()
 		);
 	},
 	'CheckUserSuggestedInvestigationsUserRevisionLookup' => static function (
