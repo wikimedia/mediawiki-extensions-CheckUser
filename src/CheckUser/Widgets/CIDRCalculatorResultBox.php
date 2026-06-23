@@ -13,18 +13,18 @@ class CIDRCalculatorResultBox extends TextInputWidget {
 	 */
 	public function __construct( array $config = [] ) {
 		parent::__construct( $config );
-		$this->input->setAttributes( [ 'disabled' => 'disabled' ] );
+		$this->input->setAttributes( [ 'readonly' => 'readonly' ] );
 	}
 
 	/**
-	 * Because this widget is always disabled
+	 * Because this widget is always readonly
 	 * by definition this does nothing.
 	 *
-	 * @param bool $disabled unused
+	 * @param bool $readOnly unused
 	 * @return $this
 	 */
-	public function setDisabled( $disabled ) {
-		// Ignore calls to setDisabled as it should always be disabled.
+	public function setReadOnly( $readOnly ) {
+		// Ignore calls to setReadOnly as it should always be readonly.
 		return $this;
 	}
 }

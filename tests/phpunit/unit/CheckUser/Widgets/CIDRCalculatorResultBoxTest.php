@@ -14,38 +14,38 @@ use Wikimedia\TestingAccessWrapper;
  */
 class CIDRCalculatorResultBoxTest extends MediaWikiUnitTestCase {
 
-	/** @dataProvider provideIsAlwaysDisabled */
-	public function testIsAlwaysDisabled( $config ) {
+	/** @dataProvider provideIsAlwaysReadOnly */
+	public function testIsAlwaysReadOnly( $config ) {
 		$resultBox = TestingAccessWrapper::newFromObject( new CIDRCalculatorResultBox( $config ) );
 		$this->assertSame(
-			'disabled',
-			$resultBox->input->getAttribute( 'disabled' ),
-			'The input should always have the disabled attribute set.'
+			'readonly',
+			$resultBox->input->getAttribute( 'readonly' ),
+			'The input should always have the readonly attribute set.'
 		);
 	}
 
-	public static function provideIsAlwaysDisabled() {
+	public static function provideIsAlwaysReadOnly() {
 		return [
-			'Disabled is not set in the caller\'s config' => [
+			'Read-only is not set in the caller\'s config' => [
 				[],
 			],
-			'Disabled is set in the caller\'s config' => [
-				[ 'disabled' => true ],
+			'Read-only is set in the caller\'s config' => [
+				[ 'readOnly' => true ],
 			],
 		];
 	}
 
-	public function testSetDisabled() {
+	public function testSetReadOnly() {
 		$resultBox = TestingAccessWrapper::newFromObject( new CIDRCalculatorResultBox( [] ) );
 		$this->assertSame(
 			$resultBox->object,
-			$resultBox->setDisabled( false ),
-			'setDisabled should return the result box object'
+			$resultBox->setReadOnly( false ),
+			'setReadOnly should return the result box object'
 		);
 		$this->assertSame(
-			'disabled',
-			$resultBox->input->getAttribute( 'disabled' ),
-			'The input should not have been un-disabled by the setDisabled call.'
+			'readonly',
+			$resultBox->input->getAttribute( 'readonly' ),
+			'The input should not have been non-read-only by the setReadOnly call.'
 		);
 	}
 }
