@@ -180,7 +180,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 				$keys = array_reverse( $keys );
 			}
 			foreach ( $keys as $user_text ) {
-				$s .= $this->formatUserRow( $user_text );
+				// PHP coerces numeric-string keys to int; cast back for formatUserRow() (T429971).
+				$s .= $this->formatUserRow( (string)$user_text );
 			}
 			$s .= $this->getFooter();
 		} else {
