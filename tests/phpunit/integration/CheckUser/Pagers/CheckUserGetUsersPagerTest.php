@@ -478,6 +478,41 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		);
 	}
 
+	public function testGetBodyWithNumericUsername(): void {
+		// A numeric username becomes an int array key, so getBody() must cast it back to
+		// string before calling formatUserRow() (T429971).
+		$numericUsername = '12345';
+		$timestamp = ConvertibleTimestamp::now();
+		$objectUnderTest = $this->setUpObject();
+		$objectUnderTest->templateParser = new MockTemplateParser();
+		$objectUnderTest->userSets = [
+			'first' => [ $numericUsername => $timestamp ],
+			'last' => [ $numericUsername => $timestamp ],
+			'edits' => [ $numericUsername => 5 ],
+			'ids' => [ $numericUsername => 0 ],
+			'infosets' => [ $numericUsername => [ [ '127.0.0.1', null ] ] ],
+			'agentsets' => [ $numericUsername => [ 'Testing user agent' ] ],
+			'clienthints' => [ $numericUsername => new ClientHintsReferenceIds( [] ) ],
+		];
+		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [] );
+		// We need to set a title for the RequestContext for HTMLForm.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+
+		$objectUnderTest->getBody();
+
+		$this->assertNotNull(
+			$objectUnderTest->templateParser->lastCalledWith,
+			'getBody() should have rendered a row for the numeric username.'
+		);
+		$this->assertSame(
+			$numericUsername,
+			$objectUnderTest->templateParser->lastCalledWith[1]['userText'],
+			'The numeric username should be passed to formatUserRow() as a string.'
+		);
+	}
+
 	/** @dataProvider provideGetQueryInfo */
 	public function testGetQueryInfo( $xfor, $table, $expectedQueryInfo ) {
 		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 16, 'IPv6' => 19 ] );
