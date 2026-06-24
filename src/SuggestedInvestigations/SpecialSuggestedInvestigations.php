@@ -26,10 +26,12 @@ namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsSharedPagesSummary;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Html\Html;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Parser\ParserOptions;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\Options\UserOptionsLookup;
@@ -139,7 +141,89 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 				$this->detailedViewCaseId,
 				$output
 			);
+
+			// Render the edits on shared pages below the sections added by signal handlers above.
+			$detailViewMetadata = $pager->getDetailViewMetadata();
+			$this->addSharedPagesEditsSection( $detailViewMetadata, $output );
 		}
+	}
+
+	/**
+	 * Adds a section listing the edits made by the case's accounts on "shared" pages (pages edited
+	 * by at least two of the case's accounts). The edits are shown in a Special:Contributions style
+	 * list, below the per-signal sections added by signal handlers.
+	 *
+	 * Deleted edits are only shown to viewers allowed to see them, in a separate sub-list.
+	 */
+	private function addSharedPagesEditsSection(
+		array $detailViewMetadata,
+		OutputPage $output
+	): void {
+		$summary = null;
+		foreach ( $detailViewMetadata as $metadata ) {
+			if ( $metadata instanceof SuggestedInvestigationsSharedPagesSummary ) {
+				$summary = $metadata;
+				break;
+			}
+		}
+		if ( $summary === null ) {
+			return;
+		}
+
+		$revisionIds = $summary->getRevisionIds();
+		if ( !$revisionIds ) {
+			return;
+		}
+
+		// Module styles used to render a Special:Contributions style list of revisions.
+		$output->addModuleStyles( [
+			'mediawiki.interface.helpers.styles',
+			'mediawiki.special',
+			'mediawiki.special.changeslist',
+		] );
+
+		$html = Html::element(
+			'h3',
+			[],
+			$this->msg( 'checkuser-suggestedinvestigations-detail-view-shared-pages-header' )
+				->numParams( count( $revisionIds ) )
+				->text()
+		);
+
+		$editsToShow = 500;
+
+		// Create pager for live edits
+		$livePager = $this->pagerFactory->createRevisionPager( $this->getContext(), [], $revisionIds );
+		$livePager->setOffset( '' );
+		$livePager->setLimit( $editsToShow );
+		if ( $livePager->getNumRows() > 0 ) {
+			$editsToShow -= $livePager->getNumRows();
+			$html .= $livePager->getBody();
+		}
+
+		// Edits to deleted pages, shown only to viewers allowed to see deleted history. The same
+		// merged list is passed; this pager only matches IDs present in the `archive` table.
+		if ( $this->getAuthority()->isAllowed( 'deletedhistory' ) && $editsToShow > 0 ) {
+			$archivePager = $this->pagerFactory->createRevisionPager(
+				$this->getContext(),
+				[ 'isArchive' => true ],
+				$revisionIds
+			);
+			$archivePager->setOffset( '' );
+			$archivePager->setLimit( $editsToShow );
+			if ( $archivePager->getNumRows() > 0 ) {
+				$html .= Html::element(
+					'h4',
+					[],
+					$this->msg( 'checkuser-suggestedinvestigations-detail-view-shared-pages-deleted-subheader' )
+						->numParams( $archivePager->getNumRows() )
+						->text()
+				);
+				$html .= $archivePager->getBody();
+			}
+		}
+
+		$output->addHTML( $html );
 	}
 
 	/**

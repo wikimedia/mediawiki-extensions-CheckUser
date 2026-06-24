@@ -31,10 +31,12 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\SpecialSuggestedInvestigations;
 use MediaWiki\Output\OutputPage;
+use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\WebResponse;
 use MediaWiki\Tests\Specials\SpecialPageTestBase;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\User\UserIdentity;
 use PHPUnit\Framework\ExpectationFailedException;
 use Wikimedia\Parsoid\Core\DOMCompat;
 use Wikimedia\Parsoid\Ext\DOMUtils;
@@ -46,6 +48,9 @@ use Wikimedia\Parsoid\Ext\DOMUtils;
 class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	use SuggestedInvestigationsTestTrait;
 	use MockAuthorityTrait;
+
+	private static UserIdentity $user1;
+	private static UserIdentity $user2;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -211,6 +216,94 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-summary-detail-view: 1',
 			$descriptionHtml
+		);
+	}
+
+	/** @dataProvider provideSharedPagesEditsSectionPermissions */
+	public function testDetailViewShowsSharedPagesEditsSection( array $groups, bool $expectDeletedEdits ): void {
+		$authority1 = new SimpleAuthority( self::$user1, [], false );
+		$authority2 = new SimpleAuthority( self::$user2, [], false );
+
+		$this->editPage( 'SharedLivePage', 'a', '', NS_MAIN, $authority1 );
+		$this->editPage( 'SharedLivePage', 'b', '', NS_MAIN, $authority2 );
+
+		$this->editPage( 'SharedDeletedPage', 'a', '', NS_MAIN, $authority1 );
+		$this->editPage( 'SharedDeletedPage', 'b', '', NS_MAIN, $authority2 );
+		$this->deletePage( 'SharedDeletedPage' );
+
+		$context = RequestContext::getMain();
+		$context->setUser( $this->getTestUser( $groups )->getUser() );
+		$context->setLanguage( 'qqx' );
+
+		[ $html ] = $this->executeSpecialPage(
+			'detail/c0ffee',
+			new FauxRequest(),
+			null,
+			null,
+			true,
+			$context
+		);
+
+		// The section header reports the total number of edits on shared pages (live + deleted),
+		// regardless of whether this viewer can see the deleted ones.
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-detail-view-shared-pages-header: 4)',
+			$html,
+			'The shared-pages edits section header should report all 4 edits'
+		);
+		// The live shared page is listed for any viewer.
+		$this->assertStringContainsString( 'SharedLivePage', $html );
+
+		if ( $expectDeletedEdits ) {
+			$this->assertStringContainsString(
+				'(checkuser-suggestedinvestigations-detail-view-shared-pages-deleted-subheader: 2)',
+				$html,
+				'A viewer with deletedhistory should see the deleted-edits sub-list header'
+			);
+			$this->assertStringContainsString( 'SharedDeletedPage', $html );
+		} else {
+			$this->assertStringNotContainsString(
+				'checkuser-suggestedinvestigations-detail-view-shared-pages-deleted-subheader',
+				$html,
+				'A viewer without deletedhistory should not see the deleted-edits sub-list'
+			);
+			$this->assertStringNotContainsString( 'SharedDeletedPage', $html );
+		}
+	}
+
+	public static function provideSharedPagesEditsSectionPermissions(): array {
+		return [
+			'Viewer with deletedhistory sees deleted edits' => [
+				'groups' => [ 'checkuser', 'sysop' ],
+				'expectDeletedEdits' => true,
+			],
+			'Viewer without deletedhistory does not see deleted edits' => [
+				'groups' => [ 'checkuser' ],
+				'expectDeletedEdits' => false,
+			],
+		];
+	}
+
+	public function testDetailViewWithoutSharedPagesOmitsEditsSection(): void {
+		// The case created in addDBDataOnce (URL identifier 'abcdef12') has a single account and no
+		// shared-page edits, so the section must not be rendered.
+		$context = RequestContext::getMain();
+		$context->setUser( $this->getTestUser( [ 'checkuser', 'sysop' ] )->getUser() );
+		$context->setLanguage( 'qqx' );
+
+		[ $html ] = $this->executeSpecialPage(
+			'detail/abcdef12',
+			new FauxRequest(),
+			null,
+			null,
+			true,
+			$context
+		);
+
+		$this->assertStringNotContainsString(
+			'checkuser-suggestedinvestigations-detail-view-shared-pages-header',
+			$html,
+			'No shared-pages edits section should be rendered when the case has no shared pages'
 		);
 	}
 
@@ -477,16 +570,28 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 
 		$this->enableSuggestedInvestigations();
 
+		self::$user1 = $this->getMutableTestUser()->getUserIdentity();
+		self::$user2 = $this->getMutableTestUser()->getUserIdentity();
+
 		// Create a suggested investigations case and then set it's URL identifier to 'abcdef12' so we can
 		// test the detailed view by using a pre-defined stable URL identifier.
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false );
-		$caseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+		$caseId1 = $caseManager->createCase( [ self::$user1 ], [ $signal ] );
 		$this->getDb()->newUpdateQueryBuilder()
 			->update( 'cusi_case' )
 			->set( [ 'sic_url_identifier' => hexdec( 'abcdef12' ) ] )
-			->where( [ 'sic_id' => $caseId ] )
+			->where( [ 'sic_id' => $caseId1 ] )
+			->caller( __METHOD__ )
+			->execute();
+
+		// Add another SI case, this time with two users
+		$caseId2 = $caseManager->createCase( [ self::$user1, self::$user2 ], [ $signal ] );
+		$this->getDb()->newUpdateQueryBuilder()
+			->update( 'cusi_case' )
+			->set( [ 'sic_url_identifier' => hexdec( 'c0ffee' ) ] )
+			->where( [ 'sic_id' => $caseId2 ] )
 			->caller( __METHOD__ )
 			->execute();
 	}

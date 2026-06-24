@@ -520,6 +520,8 @@
 	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Read more information about risk signals in a popover",
 	"checkuser-suggestedinvestigations-detail-view-edits-header": "{{PLURAL:$2|Edit|Edits}} flagged by $1 ($2)",
 	"checkuser-suggestedinvestigations-detail-view-logs-header": "Log {{PLURAL:$2|entry|entries}} flagged by $1 ($2)",
+	"checkuser-suggestedinvestigations-detail-view-shared-pages-header": "{{PLURAL:$1|Edit|Edits}} on the same pages ($1)",
+	"checkuser-suggestedinvestigations-detail-view-shared-pages-deleted-subheader": "Deleted {{PLURAL:$1|edit|edits}} ($1)",
 	"checkuser-suggestedinvestigations-contributions-tool-link": "SI cases",
 	"checkuser-suggestedinvestigations-invalid-status-warning-for-account-based-signal": "Marking this case as invalid will mean that no more cases will be created for this account.",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Temporary accounts from all associated IPs: $1",
