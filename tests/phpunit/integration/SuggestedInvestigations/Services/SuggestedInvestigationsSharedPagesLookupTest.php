@@ -154,4 +154,65 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 		$this->assertSame( '20260101000000', $summary->getFirstEditTimestamp() );
 		$this->assertSame( '20260101000300', $summary->getLastEditTimestamp() );
 	}
+
+	public function testCommonEditorsAreUsersWhoEditedSharedPages(): void {
+		$userA = $this->getMutableTestUser()->getUser();
+		$userB = $this->getMutableTestUser()->getUser();
+
+		$this->editPage( 'CommonEditorsPage', 'a', '', NS_MAIN, $userA );
+		$this->editPage( 'CommonEditorsPage', 'b', '', NS_MAIN, $userB );
+
+		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
+
+		$this->assertArrayEquals(
+			[ $userA, $userB ],
+			$summary->getCommonEditors()
+		);
+	}
+
+	public function testCommonEditorsExcludeUsersWithoutSharedEdits(): void {
+		$userA = $this->getMutableTestUser()->getUser();
+		$userB = $this->getMutableTestUser()->getUser();
+		$userC = $this->getMutableTestUser()->getUser();
+
+		// A and B share a page; C only edits a page on their own.
+		$this->editPage( 'SharedByABPage', 'a', '', NS_MAIN, $userA );
+		$this->editPage( 'SharedByABPage', 'b', '', NS_MAIN, $userB );
+		$this->editPage( 'SoloByCPage', 'c', '', NS_MAIN, $userC );
+
+		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB, $userC ] ] )[1];
+
+		$this->assertArrayEquals(
+			[ $userA, $userB ],
+			$summary->getCommonEditors()
+		);
+	}
+
+	public function testCommonEditorsAreDeduplicatedAcrossPages(): void {
+		$userA = $this->getMutableTestUser()->getUser();
+		$userB = $this->getMutableTestUser()->getUser();
+
+		// A and B share two different pages.
+		$this->editPage( 'SharedPageOne', 'a', '', NS_MAIN, $userA );
+		$this->editPage( 'SharedPageOne', 'b', '', NS_MAIN, $userB );
+		$this->editPage( 'SharedPageTwo', 'a', '', NS_MAIN, $userA );
+		$this->editPage( 'SharedPageTwo', 'b', '', NS_MAIN, $userB );
+
+		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
+
+		$this->assertSame( 2, $summary->getPageCount() );
+		$this->assertArrayEquals(
+			[ $userA, $userB ],
+			$summary->getCommonEditors()
+		);
+	}
+
+	public function testNoSharedPagesMeansNoCommonEditors(): void {
+		$user = $this->getMutableTestUser()->getUser();
+		$this->editPage( 'NoSharedEditorsPage', 'a', '', NS_MAIN, $user );
+
+		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $user ] ] )[1];
+
+		$this->assertSame( [], $summary->getCommonEditors() );
+	}
 }

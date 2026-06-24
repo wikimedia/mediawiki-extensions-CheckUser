@@ -31,6 +31,7 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsSharedPagesSummary;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsCasesPager;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
@@ -44,6 +45,7 @@ use MediaWiki\User\User;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Message\MessageValue;
 use Wikimedia\Parsoid\Core\DOMCompat;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\TestingAccessWrapper;
@@ -324,6 +326,86 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'(checkuser-suggestedinvestigations-shared-pages-summary: 2, 1)',
 			$metadataElem,
 			'The shared-pages metadata message should report 2 edits on 1 shared page'
+		);
+	}
+
+	public function testMetadataHookCanModifyMessage(): void {
+		$this->overrideConfigValues( [
+			MainConfigNames::LanguageCode => 'qqx',
+		] );
+
+		$caseId = $this->addCaseWithTwoUsers();
+
+		// Create a real shared page so a metadata message would render and we can change it
+		$this->editPage( 'HookModifyPage', 'first', '', NS_MAIN, self::$testUser1 );
+		$this->editPage( 'HookModifyPage', 'second', '', NS_MAIN, self::$testUser2 );
+
+		$receivedCaseId = null;
+		$receivedMetadata = null;
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay',
+			static function ( int $hookCaseId, array &$metadata )
+				use ( &$receivedCaseId, &$receivedMetadata ) {
+				$receivedCaseId = $hookCaseId;
+				$receivedMetadata = $metadata;
+				foreach ( $metadata as $item ) {
+					$item->overrideMessage( new MessageValue( 'injected-by-hook' ) );
+				}
+			}
+		);
+
+		$context = $this->makeQqxContext();
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$metadataElem = $this->assertAndGetByElementClass(
+			$this->getPager( $context )->getBody(),
+			'mw-checkuser-suggestedinvestigations-metadata'
+		);
+
+		$this->assertSame( $caseId, $receivedCaseId, 'Hook should receive the case id' );
+		$this->assertContainsOnlyInstancesOf(
+			SuggestedInvestigationsSharedPagesSummary::class,
+			$receivedMetadata,
+			'Hook should receive the metadata objects for the case'
+		);
+		$this->assertStringContainsString(
+			'(injected-by-hook)',
+			$metadataElem,
+			'The metadata line should include the string injected by the hook'
+		);
+	}
+
+	public function testMetadataHookCanSuppressMessage(): void {
+		$this->overrideConfigValues( [
+			MainConfigNames::LanguageCode => 'qqx',
+		] );
+
+		$this->addCaseWithTwoUsers();
+
+		// Create a real shared page so a metadata message would normally render.
+		$this->editPage( 'HookSuppressPage', 'first', '', NS_MAIN, self::$testUser1 );
+		$this->editPage( 'HookSuppressPage', 'second', '', NS_MAIN, self::$testUser2 );
+
+		$this->setTemporaryHook(
+			'CheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay',
+			static function ( int $caseId, array &$metadata ) {
+				foreach ( $metadata as $item ) {
+					$item->overrideMessage( null );
+				}
+			}
+		);
+
+		$context = $this->makeQqxContext();
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$html = $this->getPager( $context )->getBody();
+
+		// With every parsed message set to null, the metadata line is filtered out entirely.
+		$document = DOMUtils::parseHTML( $html );
+		$this->assertCount(
+			0,
+			DOMCompat::querySelectorAll( $document, '.mw-checkuser-suggestedinvestigations-metadata' ),
+			'The metadata line should not be rendered when the hook suppresses all items'
 		);
 	}
 

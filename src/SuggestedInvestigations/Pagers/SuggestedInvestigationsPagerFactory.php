@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
+use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
@@ -52,6 +53,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
 		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
+		private readonly HookRunner $hookRunner,
 	) {
 	}
 
@@ -115,6 +117,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->logger,
 			$this->messageRenderer,
 			$this->sharedPagesLookup,
+			$this->hookRunner,
 			$this->linkRenderer,
 			$context,
 			$signals,

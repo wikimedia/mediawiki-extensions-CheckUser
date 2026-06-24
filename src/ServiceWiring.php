@@ -469,7 +469,8 @@ return [
 			$services->get( 'CheckUserLogger' ),
 			$services->get( 'CheckUserSuggestedInvestigationsMessageRenderer' ),
 			$centralAuthEditCounter,
-			$services->get( 'CheckUserSuggestedInvestigationsSharedPagesLookup' )
+			$services->get( 'CheckUserSuggestedInvestigationsSharedPagesLookup' ),
+			$services->get( 'CheckUserHookRunner' ),
 		);
 	},
 	'CheckUserSuggestedInvestigationsSharedPagesLookup' => static function (

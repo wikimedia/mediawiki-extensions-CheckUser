@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model;
 
 use MediaWiki\Page\PageIdentity;
+use MediaWiki\User\UserIdentity;
 use Wikimedia\Message\MessageSpecifier;
 use Wikimedia\Message\MessageValue;
 
@@ -26,12 +27,14 @@ class SuggestedInvestigationsSharedPagesSummary extends SuggestedInvestigationsC
 	 *   one of the users of interest.
 	 * @param ?string $lastEditTimestamp The time when the last edit on the shared pages was performed by
 	 *   one of the users of interest.
+	 * @param UserIdentity[] $commonEditors The users who edited the shared pages.
 	 */
 	public function __construct(
 		private readonly int $editCount,
 		private readonly array $sharedPages = [],
 		private readonly ?string $firstEditTimestamp = null,
 		private readonly ?string $lastEditTimestamp = null,
+		private readonly array $commonEditors = []
 	) {
 	}
 
@@ -59,6 +62,14 @@ class SuggestedInvestigationsSharedPagesSummary extends SuggestedInvestigationsC
 	 */
 	public function getLastEditTimestamp(): ?string {
 		return $this->lastEditTimestamp;
+	}
+
+	/**
+	 * Returns the list of users that have been editing the shared pages
+	 * @return UserIdentity[]
+	 */
+	public function getCommonEditors(): array {
+		return $this->commonEditors;
 	}
 
 	/** @inheritDoc */

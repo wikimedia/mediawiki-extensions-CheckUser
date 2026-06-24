@@ -28,9 +28,11 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseMetadata;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
@@ -153,6 +155,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly LoggerInterface $logger,
 		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
 		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
+		private readonly HookRunner $hookRunner,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals,
@@ -433,10 +436,19 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$signalsHtml = Html::rawElement( 'strong', [], $this->getLanguage()->commaList( $signalLabels ) );
 
 		$metadataLine = '';
+		/** @var SuggestedInvestigationsCaseMetadata[] $metadata */
 		$metadata = $this->mCurrentRow->metadata;
+
+		$this->hookRunner->onCheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay(
+			(int)$this->mCurrentRow->sic_id,
+			$metadata
+		);
+
 		$metadataMessages = [];
 		foreach ( $metadata as $item ) {
-			$message = $item->getMessage();
+			$message = $item->isMessageOverridden()
+				? $item->getMessageOverride()
+				: $item->getMessage();
 			if ( $message ) {
 				$metadataMessages[] = $this->msg( $message )->parse();
 			}

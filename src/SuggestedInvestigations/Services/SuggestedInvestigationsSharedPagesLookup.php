@@ -60,13 +60,13 @@ class SuggestedInvestigationsSharedPagesLookup {
 	 */
 	public function getSharedPagesForCases( array $caseIdToUsers ): array {
 		// First, flatten the array to have list of unique user ids
-		$allUserIds = [];
+		$userIdentities = [];
 		foreach ( $caseIdToUsers as $users ) {
 			foreach ( $users as $user ) {
-				$allUserIds[$user->getId()] = true;
+				$userIdentities[$user->getId()] = $user;
 			}
 		}
-		$allUserIds = array_keys( $allUserIds );
+		$allUserIds = array_keys( $userIdentities );
 
 		// Then, list all pages edited recently by the users in cases
 		$undeletedPages = $this->getUndeletedPagesEditedByUsers( $allUserIds );
@@ -110,13 +110,15 @@ class SuggestedInvestigationsSharedPagesLookup {
 		}
 
 		return array_map(
-			function ( $users ) use ( $pageEditors, $pageEditorMinTs, $pageEditorMaxTs, $pageIdentities ) {
+			function ( $users )
+			use ( $pageEditors, $pageEditorMinTs, $pageEditorMaxTs, $pageIdentities, $userIdentities ) {
 				return $this->buildSummaryForCase(
 					$users,
 					$pageEditors,
 					$pageEditorMinTs,
 					$pageEditorMaxTs,
-					$pageIdentities
+					$pageIdentities,
+					$userIdentities
 				);
 			},
 			$caseIdToUsers
@@ -268,6 +270,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 	 * @param array<string,array<int,string>> $pageEditorMinTs Min edit timestamp per page-editor pair.
 	 * @param array<string,array<int,string>> $pageEditorMaxTs Max edit timestamp per page-editor pair.
 	 * @param array<string,PageIdentity> $pageIdentities
+	 * @param array<int,UserIdentity> $userIdentities
 	 * @return SuggestedInvestigationsSharedPagesSummary
 	 */
 	private function buildSummaryForCase(
@@ -275,7 +278,8 @@ class SuggestedInvestigationsSharedPagesLookup {
 		array $pageEditors,
 		array $pageEditorMinTs,
 		array $pageEditorMaxTs,
-		array $pageIdentities
+		array $pageIdentities,
+		array $userIdentities,
 	): SuggestedInvestigationsSharedPagesSummary {
 		$caseUserIds = [];
 		foreach ( $users as $user ) {
@@ -288,6 +292,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 
 		$editCount = 0;
 		$sharedPages = [];
+		$commonEditors = [];
 		// The earliest and latest edit timestamps across all shared-page editor pairs in this case.
 		$caseMinTimestamp = null;
 		$caseMaxTimestamp = null;
@@ -297,7 +302,10 @@ class SuggestedInvestigationsSharedPagesLookup {
 				continue;
 			}
 
-			$editCount += array_sum( $editsByCaseUsers );
+			foreach ( $editsByCaseUsers as $userId => $numEdits ) {
+				$editCount += $numEdits;
+				$commonEditors[$userId] = $userIdentities[$userId];
+			}
 			$sharedPages[] = $pageIdentities[$pageKey];
 
 			// Reduce the min/max timestamp to min and max for this page; then aggregate it with case-level data
@@ -316,7 +324,8 @@ class SuggestedInvestigationsSharedPagesLookup {
 			$editCount,
 			$sharedPages,
 			$caseMinTimestamp,
-			$caseMaxTimestamp
+			$caseMaxTimestamp,
+			array_values( $commonEditors ),
 		);
 	}
 }
