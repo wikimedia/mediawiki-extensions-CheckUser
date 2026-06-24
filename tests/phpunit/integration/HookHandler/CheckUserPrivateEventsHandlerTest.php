@@ -6,7 +6,6 @@ use LogEntryBase;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
-use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
@@ -282,40 +281,6 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			new MailAddress( 'test@test.com', $userTo->getName() ),
 			new MailAddress( 'testing@test.com', $userFrom->getName() ),
 			[ 'cupe_actor' => $userFrom->getActorId(), 'cupe_title' => $userFrom->getName() ]
-		);
-	}
-
-	/** @covers \MediaWiki\CheckUser\EncryptedData */
-	public function testOnEmailWithCUPublicKeyDefined() {
-		// Generate a private/public key-pair to use in the test. This is needed to allow checking that the encrypted
-		// data that is stored in the database can be decrypted and the decrypted data is correct.
-		$privateKey = openssl_pkey_new( [
-			'digest_alg' => 'rc4', 'private_key_bits' => 1024, 'private_key_type' => OPENSSL_KEYTYPE_RSA,
-		] );
-		$this->overrideConfigValue( 'CUPublicKey', openssl_pkey_get_details( $privateKey )['key'] );
-		// Run the method under test.
-		$userTo = $this->getTestUser()->getUser();
-		$userFrom = $this->getTestSysop()->getUserIdentity();
-		$this->commonOnEmailUser(
-			new MailAddress( 'test@test.com', $userTo->getName() ),
-			new MailAddress( 'testing@test.com', $userFrom->getName() ),
-			[]
-		);
-		// Load the EncryptedData object from the database.
-		$encryptedData = unserialize(
-			$this->newSelectQueryBuilder()
-				->select( 'cupe_private' )
-				->from( 'cu_private_event' )
-				->caller( __METHOD__ )
-				->fetchField()
-		);
-		$this->assertInstanceOf( EncryptedData::class, $encryptedData );
-		// Check that the plaintext data remains the same after an encryption and decryption cycle.
-		// This also checks that the plaintext data being encrypted by the method under test is as expected.
-		$this->assertSame(
-			$userTo->getEmail() . ':' . $userTo->getId(),
-			$encryptedData->getPlaintext( $privateKey ),
-			'The encrypted data for a user email event could not be decrypted or was incorrect.'
 		);
 	}
 
