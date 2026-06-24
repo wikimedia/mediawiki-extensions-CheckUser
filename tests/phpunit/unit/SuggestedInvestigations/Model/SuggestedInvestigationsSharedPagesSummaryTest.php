@@ -17,10 +17,10 @@ use Wikimedia\Message\MessageValue;
 class SuggestedInvestigationsSharedPagesSummaryTest extends MediaWikiUnitTestCase {
 
 	public function testEmptySummaryHasNoMessage(): void {
-		$summary = new SuggestedInvestigationsSharedPagesSummary( 0, [] );
+		$summary = new SuggestedInvestigationsSharedPagesSummary();
 
-		$this->assertSame( 0, $summary->getEditCount() );
-		$this->assertSame( 0, $summary->getPageCount() );
+		$this->assertSame( [], $summary->getRevisionIds() );
+		$this->assertSame( [], $summary->getSharedPages() );
 		$this->assertNull( $summary->getMessage() );
 		$this->assertSame( [], $summary->getCommonEditors() );
 	}
@@ -30,18 +30,19 @@ class SuggestedInvestigationsSharedPagesSummaryTest extends MediaWikiUnitTestCas
 			PageIdentityValue::localIdentity( 42, 0, 'Foo' ),
 			PageIdentityValue::localIdentity( 0, 1, 'Talk_page' ),
 		];
+		$revisionIds = range( 1, 10 );
 		$alice = new UserIdentityValue( 1, 'Alice' );
 		$bob = new UserIdentityValue( 2, 'Bob' );
 		$summary = new SuggestedInvestigationsSharedPagesSummary(
-			10,
+			$revisionIds,
 			$pages,
 			'20260101000000',
 			'20260101000300',
 			[ $alice, $bob ]
 		);
 
-		$this->assertSame( 10, $summary->getEditCount() );
-		$this->assertSame( 2, $summary->getPageCount() );
+		$this->assertSame( $revisionIds, $summary->getRevisionIds() );
+		$this->assertCount( 2, $summary->getSharedPages() );
 
 		$message = $summary->getMessage();
 		$this->assertInstanceOf( MessageValue::class, $message );
@@ -57,14 +58,14 @@ class SuggestedInvestigationsSharedPagesSummaryTest extends MediaWikiUnitTestCas
 	}
 
 	public function testNoDisplayedMessageOverrideByDefault(): void {
-		$summary = new SuggestedInvestigationsSharedPagesSummary( 0, [] );
+		$summary = new SuggestedInvestigationsSharedPagesSummary();
 
 		$this->assertFalse( $summary->isMessageOverridden() );
 		$this->assertNull( $summary->getMessageOverride() );
 	}
 
 	public function testSetDisplayedMessageOverride(): void {
-		$summary = new SuggestedInvestigationsSharedPagesSummary( 0, [] );
+		$summary = new SuggestedInvestigationsSharedPagesSummary();
 		$override = new MessageValue( 'some-override-message' );
 
 		$summary->overrideMessage( $override );
@@ -74,7 +75,7 @@ class SuggestedInvestigationsSharedPagesSummaryTest extends MediaWikiUnitTestCas
 	}
 
 	public function testSetDisplayedMessageOverrideToNullHides(): void {
-		$summary = new SuggestedInvestigationsSharedPagesSummary( 0, [] );
+		$summary = new SuggestedInvestigationsSharedPagesSummary();
 
 		$summary->overrideMessage( null );
 

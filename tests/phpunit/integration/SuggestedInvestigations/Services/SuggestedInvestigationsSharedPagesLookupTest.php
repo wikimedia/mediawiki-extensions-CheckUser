@@ -35,8 +35,8 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 
 		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $user ] ] )[1];
 
-		$this->assertSame( 0, $summary->getPageCount() );
-		$this->assertSame( 0, $summary->getEditCount() );
+		$this->assertSame( [], $summary->getSharedPages() );
+		$this->assertSame( [], $summary->getRevisionIds() );
 		// With no shared pages there is no edit window to report.
 		$this->assertNull( $summary->getFirstEditTimestamp() );
 		$this->assertNull( $summary->getLastEditTimestamp() );
@@ -47,16 +47,17 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 		$userB = $this->getMutableTestUser()->getUser();
 
 		// "SharedPage" is edited by A (twice) and B (once); "SoloPage" only by A.
-		$this->editPage( 'SharedPage', 'a1', '', NS_MAIN, $userA );
-		$this->editPage( 'SharedPage', 'a2', '', NS_MAIN, $userA );
-		$this->editPage( 'SharedPage', 'b1', '', NS_MAIN, $userB );
+		$sharedRevIds = [];
+		$sharedRevIds[] = $this->editPage( 'SharedPage', 'a1', '', NS_MAIN, $userA )->getNewRevision()->getId();
+		$sharedRevIds[] = $this->editPage( 'SharedPage', 'a2', '', NS_MAIN, $userA )->getNewRevision()->getId();
+		$sharedRevIds[] = $this->editPage( 'SharedPage', 'b1', '', NS_MAIN, $userB )->getNewRevision()->getId();
 		$this->editPage( 'SoloPage', 'a', '', NS_MAIN, $userA );
 
 		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
 
-		// Only "SharedPage" qualifies; all 3 edits on it are counted.
-		$this->assertSame( 1, $summary->getPageCount() );
-		$this->assertSame( 3, $summary->getEditCount() );
+		// Only "SharedPage" qualifies; all 3 edits on it are returned
+		$this->assertCount( 1, $summary->getSharedPages() );
+		$this->assertArrayEquals( $sharedRevIds, $summary->getRevisionIds() );
 	}
 
 	public function testPageCountedOnlyForCasesWhoseUsersShareIt(): void {
@@ -65,8 +66,8 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 		$userC = $this->getMutableTestUser()->getUser();
 
 		// "GlobalPage" is edited by A and C, but not B.
-		$this->editPage( 'GlobalPage', 'a', '', NS_MAIN, $userA );
-		$this->editPage( 'GlobalPage', 'c', '', NS_MAIN, $userC );
+		$revA = $this->editPage( 'GlobalPage', 'a', '', NS_MAIN, $userA )->getNewRevision()->getId();
+		$revC = $this->editPage( 'GlobalPage', 'c', '', NS_MAIN, $userC )->getNewRevision()->getId();
 
 		$summaries = $this->lookup->getSharedPagesForCases( [
 			1 => [ $userA, $userB ],
@@ -74,25 +75,28 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 		] );
 
 		// Case 1 (A, B): only A edited the page, so it is not shared within the case.
-		$this->assertSame( 0, $summaries[1]->getPageCount() );
+		$this->assertSame( [], $summaries[1]->getRevisionIds() );
 		// Case 2 (A, C): both edited the page, one edit each.
-		$this->assertSame( 1, $summaries[2]->getPageCount() );
-		$this->assertSame( 2, $summaries[2]->getEditCount() );
+		$this->assertCount( 1, $summaries[2]->getSharedPages() );
+		$this->assertArrayEquals( [ $revA, $revC ], $summaries[2]->getRevisionIds() );
 	}
 
 	public function testEditsOnDeletedPagesAreCounted(): void {
 		$userA = $this->getMutableTestUser()->getUser();
 		$userB = $this->getMutableTestUser()->getUser();
 
-		$this->editPage( 'DeletedSharedPage', 'a', '', NS_MAIN, $userA );
-		$this->editPage( 'DeletedSharedPage', 'b', '', NS_MAIN, $userB );
+		// The original rev_id is preserved as ar_rev_id when a page is deleted, so capturing the
+		// IDs before deletion lets us assert they are still reported afterward.
+		$revIds = [];
+		$revIds[] = $this->editPage( 'DeletedSharedPage', 'a', '', NS_MAIN, $userA )->getNewRevision()->getId();
+		$revIds[] = $this->editPage( 'DeletedSharedPage', 'b', '', NS_MAIN, $userB )->getNewRevision()->getId();
 		$this->deletePage( 'DeletedSharedPage' );
 
 		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
 
 		// The edits now live in the archive table but must still be detected.
-		$this->assertSame( 1, $summary->getPageCount() );
-		$this->assertSame( 2, $summary->getEditCount() );
+		$this->assertCount( 1, $summary->getSharedPages() );
+		$this->assertArrayEquals( $revIds, $summary->getRevisionIds() );
 	}
 
 	public function testLiveAndDeletedEditsOnSameTitleAreMerged(): void {
@@ -101,17 +105,18 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 
 		// A and B edit the title, the page is deleted (both edits archived),
 		// then A recreates the page (a live edit on the same title).
-		$this->editPage( 'MergeTitlePage', 'a1', '', NS_MAIN, $userA );
-		$this->editPage( 'MergeTitlePage', 'b1', '', NS_MAIN, $userB );
+		$revIds = [];
+		$revIds[] = $this->editPage( 'MergeTitlePage', 'a1', '', NS_MAIN, $userA )->getNewRevision()->getId();
+		$revIds[] = $this->editPage( 'MergeTitlePage', 'b1', '', NS_MAIN, $userB )->getNewRevision()->getId();
 		$this->deletePage( 'MergeTitlePage' );
-		$this->editPage( 'MergeTitlePage', 'a2', '', NS_MAIN, $userA );
+		$revIds[] = $this->editPage( 'MergeTitlePage', 'a2', '', NS_MAIN, $userA )->getNewRevision()->getId();
 
 		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
 
 		// Live and archived edits to the same title count as one shared page,
-		// and all three edits (A twice, B once) are counted.
-		$this->assertSame( 1, $summary->getPageCount() );
-		$this->assertSame( 3, $summary->getEditCount() );
+		// and all three edits (A twice, B once) are returned.
+		$this->assertCount( 1, $summary->getSharedPages() );
+		$this->assertArrayEquals( $revIds, $summary->getRevisionIds() );
 	}
 
 	public function testEditsOlderThanMaxAgeAreExcluded(): void {
@@ -125,32 +130,34 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 
 		// ...while a recent shared page is still counted.
 		ConvertibleTimestamp::setFakeTime( false );
-		$this->editPage( 'RecentSharedPage', 'a', '', NS_MAIN, $userA );
-		$this->editPage( 'RecentSharedPage', 'b', '', NS_MAIN, $userB );
+		$recentRevIds = [];
+		$recentRevIds[] = $this->editPage( 'RecentSharedPage', 'a', '', NS_MAIN, $userA )->getNewRevision()->getId();
+		$recentRevIds[] = $this->editPage( 'RecentSharedPage', 'b', '', NS_MAIN, $userB )->getNewRevision()->getId();
 
 		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
 
-		$this->assertSame( 1, $summary->getPageCount() );
-		$this->assertSame( 2, $summary->getEditCount() );
+		$this->assertCount( 1, $summary->getSharedPages() );
+		$this->assertArrayEquals( $recentRevIds, $summary->getRevisionIds() );
 	}
 
 	public function testFirstAndLastEditTimestampsSpanAllSharedPages(): void {
 		$userA = $this->getMutableTestUser()->getUser();
 		$userB = $this->getMutableTestUser()->getUser();
 
+		$revIds = [];
 		ConvertibleTimestamp::setFakeTime( '20260101000000' );
-		$this->editPage( 'TimestampPageOne', 'a', '', NS_MAIN, $userA );
+		$revIds[] = $this->editPage( 'TimestampPageOne', 'a', '', NS_MAIN, $userA )->getNewRevision()->getId();
 		ConvertibleTimestamp::setFakeTime( '20260101000100' );
-		$this->editPage( 'TimestampPageOne', 'b', '', NS_MAIN, $userB );
+		$revIds[] = $this->editPage( 'TimestampPageOne', 'b', '', NS_MAIN, $userB )->getNewRevision()->getId();
 		ConvertibleTimestamp::setFakeTime( '20260101000200' );
-		$this->editPage( 'TimestampPageTwo', 'a', '', NS_MAIN, $userA );
+		$revIds[] = $this->editPage( 'TimestampPageTwo', 'a', '', NS_MAIN, $userA )->getNewRevision()->getId();
 		ConvertibleTimestamp::setFakeTime( '20260101000300' );
-		$this->editPage( 'TimestampPageTwo', 'b', '', NS_MAIN, $userB );
+		$revIds[] = $this->editPage( 'TimestampPageTwo', 'b', '', NS_MAIN, $userB )->getNewRevision()->getId();
 
 		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
 
-		$this->assertSame( 2, $summary->getPageCount() );
-		$this->assertSame( 4, $summary->getEditCount() );
+		$this->assertCount( 2, $summary->getSharedPages() );
+		$this->assertArrayEquals( $revIds, $summary->getRevisionIds() );
 		$this->assertSame( '20260101000000', $summary->getFirstEditTimestamp() );
 		$this->assertSame( '20260101000300', $summary->getLastEditTimestamp() );
 	}
@@ -200,7 +207,7 @@ class SuggestedInvestigationsSharedPagesLookupTest extends MediaWikiIntegrationT
 
 		$summary = $this->lookup->getSharedPagesForCases( [ 1 => [ $userA, $userB ] ] )[1];
 
-		$this->assertSame( 2, $summary->getPageCount() );
+		$this->assertCount( 2, $summary->getSharedPages() );
 		$this->assertArrayEquals(
 			[ $userA, $userB ],
 			$summary->getCommonEditors()

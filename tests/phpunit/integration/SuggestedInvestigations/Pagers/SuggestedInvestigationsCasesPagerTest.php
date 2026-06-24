@@ -329,6 +329,37 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
+	public function testDetailViewMetadataOnlyPopulatedInDetailView(): void {
+		$caseId = $this->addCaseWithTwoUsers();
+
+		// Both accounts edit the same page, making it a "shared" page for the case.
+		$this->editPage( 'SharedDetailPage', 'first', '', NS_MAIN, self::$testUser1 );
+		$this->editPage( 'SharedDetailPage', 'second', '', NS_MAIN, self::$testUser2 );
+
+		$context = $this->makeQqxContext();
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		// In the main (non detail) view, no detail-view metadata is exposed.
+		$mainPager = $this->getPager( $context );
+		$mainPager->getBody();
+		$this->assertSame( [], $mainPager->getDetailViewMetadata() );
+
+		// In the detail view, the shared-pages summary for the case is exposed.
+		$detailPager = $this->getPager( $context, [], $caseId );
+		$detailPager->getBody();
+
+		$summary = null;
+		foreach ( $detailPager->getDetailViewMetadata() as $metadata ) {
+			if ( $metadata instanceof SuggestedInvestigationsSharedPagesSummary ) {
+				$summary = $metadata;
+				break;
+			}
+		}
+		$this->assertInstanceOf( SuggestedInvestigationsSharedPagesSummary::class, $summary );
+		$this->assertCount( 2, $summary->getRevisionIds() );
+		$this->assertCount( 2, $summary->getRevisionIds() );
+	}
+
 	public function testMetadataHookCanModifyMessage(): void {
 		$this->overrideConfigValues( [
 			MainConfigNames::LanguageCode => 'qqx',

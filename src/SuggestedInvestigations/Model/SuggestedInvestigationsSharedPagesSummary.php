@@ -11,16 +11,15 @@ use Wikimedia\Message\MessageValue;
 
 /**
  * Describes, for a single Suggested Investigations case, the pages that were edited by at least
- * two distinct accounts in the case ("shared pages") and the total number of edits made by the
- * case's accounts on those pages.
- *
- * This object can be expanded in the future, so that it can store e.g. the revision ids of edits on
- * shared pages or any other related data that we might want to show.
+ * two distinct accounts in the case ("shared pages"), the revision IDs of the edits made by the
+ * case's accounts on those pages, and the total number of those edits.
  */
 class SuggestedInvestigationsSharedPagesSummary extends SuggestedInvestigationsCaseMetadata {
 
 	/**
-	 * @param int $editCount The number of edits made by the case's accounts on shared pages.
+	 * @param int[] $revisionIds The IDs of the edits made by the case's accounts on shared pages.
+	 *   This is a merged list of `rev_id`s (for edits to existing pages) and `ar_rev_id`s (for edits
+	 *   that have since been deleted); the two share a single ID space, so the merged list is unique.
 	 * @param PageIdentity[] $sharedPages The pages edited by at least two distinct accounts in the
 	 *   case. Pages known only from archived (deleted) revisions have a page ID of 0.
 	 * @param ?string $firstEditTimestamp The time when the first edit on the shared pages was performed by
@@ -30,7 +29,7 @@ class SuggestedInvestigationsSharedPagesSummary extends SuggestedInvestigationsC
 	 * @param UserIdentity[] $commonEditors The users who edited the shared pages.
 	 */
 	public function __construct(
-		private readonly int $editCount,
+		private readonly array $revisionIds = [],
 		private readonly array $sharedPages = [],
 		private readonly ?string $firstEditTimestamp = null,
 		private readonly ?string $lastEditTimestamp = null,
@@ -38,14 +37,20 @@ class SuggestedInvestigationsSharedPagesSummary extends SuggestedInvestigationsC
 	) {
 	}
 
-	/** @internal For use in tests */
-	public function getEditCount(): int {
-		return $this->editCount;
+	/**
+	 * The IDs of the edits made by the case's accounts on shared pages. Includes both ids of live and deleted edits.
+	 * @return int[]
+	 */
+	public function getRevisionIds(): array {
+		return $this->revisionIds;
 	}
 
-	/** @internal For use in tests */
-	public function getPageCount(): int {
-		return count( $this->sharedPages );
+	/**
+	 * The shared pages on which the edits happened.
+	 * @return PageIdentity[]
+	 */
+	public function getSharedPages(): array {
+		return $this->sharedPages;
 	}
 
 	/**
@@ -78,7 +83,7 @@ class SuggestedInvestigationsSharedPagesSummary extends SuggestedInvestigationsC
 			return null;
 		}
 		$msg = new MessageValue( 'checkuser-suggestedinvestigations-shared-pages-summary' );
-		$msg->numParams( $this->editCount, count( $this->sharedPages ) );
+		$msg->numParams( count( $this->revisionIds ), count( $this->sharedPages ) );
 		return $msg;
 	}
 }

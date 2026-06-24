@@ -74,7 +74,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 
 		// Group by namespace id and title, so that contributions that have been since deleted will be clustered
 		// with undeleted edits to pages with the same title.
-		$pageEditors = [];
+		$pageEditorRevIds = [];
 		$pageEditorMinTs = [];
 		$pageEditorMaxTs = [];
 		$pageIdentities = [];
@@ -83,7 +83,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 				/** @var PageIdentity $pageIdentity */
 				$pageIdentity = $entry['page'];
 				$userId = $entry['userId'];
-				$numEdits = $entry['edits'];
+				$revIds = $entry['revIds'];
 				$minTimestamp = $entry['minTimestamp'];
 				$maxTimestamp = $entry['maxTimestamp'];
 
@@ -93,28 +93,28 @@ class SuggestedInvestigationsSharedPagesLookup {
 					$pageIdentities[$key] = $pageIdentity;
 				}
 
-				if ( !isset( $pageEditors[$key][$userId] ) ) {
-					$pageEditors[$key][$userId] = 0;
+				if ( !isset( $pageEditorRevIds[$key][$userId] ) ) {
+					$pageEditorRevIds[$key][$userId] = $revIds;
 					$pageEditorMinTs[$key][$userId] = $minTimestamp;
 					$pageEditorMaxTs[$key][$userId] = $maxTimestamp;
 				} else {
 					// A page-editor pair may appear in both the undeleted and deleted edits (the
-					// page was partially deleted), so combine the timestamp ranges.
+					// page was partially deleted), so combine the revision IDs and timestamp ranges.
+					$pageEditorRevIds[$key][$userId] = array_merge( $pageEditorRevIds[$key][$userId], $revIds );
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset Phan doesn't know it's already initialized
 					$pageEditorMinTs[$key][$userId] = min( $pageEditorMinTs[$key][$userId], $minTimestamp );
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset as above
 					$pageEditorMaxTs[$key][$userId] = max( $pageEditorMaxTs[$key][$userId], $maxTimestamp );
 				}
-				$pageEditors[$key][$userId] += $numEdits;
 			}
 		}
 
 		return array_map(
 			function ( $users )
-			use ( $pageEditors, $pageEditorMinTs, $pageEditorMaxTs, $pageIdentities, $userIdentities ) {
+			use ( $pageEditorRevIds, $pageEditorMinTs, $pageEditorMaxTs, $pageIdentities, $userIdentities ) {
 				return $this->buildSummaryForCase(
 					$users,
-					$pageEditors,
+					$pageEditorRevIds,
 					$pageEditorMinTs,
 					$pageEditorMaxTs,
 					$pageIdentities,
@@ -129,7 +129,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 	 * @return iterable<array> Each returned array has the following keys:
 	 *   - 'page', a PageIdentity of the edited page.
 	 *   - 'userId', int, id of the user.
-	 *   - 'edits', int, number of edits by the user on that page.
+	 *   - 'revIds', int[], the `rev_id`s of the edits by the user on that page.
 	 *   - 'maxTimestamp', string, when the most recent edit by that user on the page occurred.
 	 *   - 'minTimestamp', string, when the oldest edit by that user on the page occurred.
 	 */
@@ -137,10 +137,10 @@ class SuggestedInvestigationsSharedPagesLookup {
 		$dbr = $this->connectionProvider->getReplicaDatabase();
 		$cutoff = $dbr->timestamp( ConvertibleTimestamp::time() - $this->maxDataAgeSeconds );
 
-		// Count edits on pages user by user (and also record min/max timestamps)
+		// Collect edits on pages user by user (and also record min/max timestamps)
 		foreach ( array_chunk( $userIds, 100 ) as $userIdChunk ) {
 			$pagesById = [];
-			$editCounts = [];
+			$revIds = [];
 			$maxTimestamps = [];
 			$minTimestamps = [];
 
@@ -164,10 +164,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 				$page = PageIdentityValue::localIdentity( $pageId, $pageNamespace, $pageTitle );
 
 				// Record edit to the page
-				if ( !isset( $editCounts[$userId][$pageId] ) ) {
-					$editCounts[$userId][$pageId] = 0;
-				}
-				$editCounts[$userId][$pageId]++;
+				$revIds[$userId][$pageId][] = (int)$row->rev_id;
 
 				// Record for use when generating return values
 				$pagesById[$userId][$pageId] = $page;
@@ -181,12 +178,12 @@ class SuggestedInvestigationsSharedPagesLookup {
 			}
 
 			// Yield the per-user data
-			foreach ( $editCounts as $userId => $userEditCounts ) {
-				foreach ( $userEditCounts as $pageId => $numEdits ) {
+			foreach ( $revIds as $userId => $userRevIds ) {
+				foreach ( $userRevIds as $pageId => $pageRevIds ) {
 					yield [
 						'page' => $pagesById[$userId][$pageId],
 						'userId' => $userId,
-						'edits' => $numEdits,
+						'revIds' => $pageRevIds,
 						'maxTimestamp' => $maxTimestamps[$userId][$pageId],
 						'minTimestamp' => $minTimestamps[$userId][$pageId],
 					];
@@ -200,7 +197,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 	 *   - 'page', a PageIdentity of the edited page. Pages known only from archived (deleted)
 	 *     revisions have a page ID of 0.
 	 *   - 'userId', int, id of the user.
-	 *   - 'edits', int, number of edits by the user on that page.
+	 *   - 'revIds', int[], the `ar_rev_id`s of the edits by the user on that page.
 	 *   - 'maxTimestamp', string, when the most recent edit by that user on the page occurred.
 	 *   - 'minTimestamp', string, when the oldest edit by that user on the page occurred.
 	 */
@@ -208,11 +205,11 @@ class SuggestedInvestigationsSharedPagesLookup {
 		$dbr = $this->connectionProvider->getReplicaDatabase();
 		$cutoff = $dbr->timestamp( ConvertibleTimestamp::time() - $this->maxDataAgeSeconds );
 
-		// Count edits on pages user by user (and also record min/max timestamps). Archived
+		// Collect edits on pages user by user (and also record min/max timestamps). Archived
 		// revisions have unreliable page ids (often 0), so aggregate by namespace and title.
 		foreach ( array_chunk( $userIds, 100 ) as $userIdChunk ) {
 			$pagesByKey = [];
-			$editCounts = [];
+			$revIds = [];
 			$maxTimestamps = [];
 			$minTimestamps = [];
 
@@ -233,10 +230,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 				$pageTitle = $row->ar_title;
 
 				$key = $pageNamespace . ':' . $pageTitle;
-				if ( !isset( $editCounts[$userId][$key] ) ) {
-					$editCounts[$userId][$key] = 0;
-				}
-				$editCounts[$userId][$key]++;
+				$revIds[$userId][$key][] = (int)$row->ar_rev_id;
 
 				// Record for use when generating return values
 				$pagesByKey[$userId][$key] = PageIdentityValue::localIdentity( 0, $pageNamespace, $pageTitle );
@@ -250,12 +244,12 @@ class SuggestedInvestigationsSharedPagesLookup {
 			}
 
 			// Yield the per-user data
-			foreach ( $editCounts as $userId => $userEditCounts ) {
-				foreach ( $userEditCounts as $key => $numEdits ) {
+			foreach ( $revIds as $userId => $userRevIds ) {
+				foreach ( $userRevIds as $key => $pageRevIds ) {
 					yield [
 						'page' => $pagesByKey[$userId][$key],
 						'userId' => $userId,
-						'edits' => $numEdits,
+						'revIds' => $pageRevIds,
 						'maxTimestamp' => $maxTimestamps[$userId][$key],
 						'minTimestamp' => $minTimestamps[$userId][$key],
 					];
@@ -266,7 +260,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 
 	/**
 	 * @param UserIdentity[] $users The accounts in the case.
-	 * @param array<string,array<int,int>> $pageEditors
+	 * @param array<string,array<int,int[]>> $pageEditorRevIds Revision IDs per page-editor pair.
 	 * @param array<string,array<int,string>> $pageEditorMinTs Min edit timestamp per page-editor pair.
 	 * @param array<string,array<int,string>> $pageEditorMaxTs Max edit timestamp per page-editor pair.
 	 * @param array<string,PageIdentity> $pageIdentities
@@ -275,7 +269,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 	 */
 	private function buildSummaryForCase(
 		array $users,
-		array $pageEditors,
+		array $pageEditorRevIds,
 		array $pageEditorMinTs,
 		array $pageEditorMaxTs,
 		array $pageIdentities,
@@ -287,23 +281,23 @@ class SuggestedInvestigationsSharedPagesLookup {
 		}
 
 		if ( count( $caseUserIds ) < 2 ) {
-			return new SuggestedInvestigationsSharedPagesSummary( 0 );
+			return new SuggestedInvestigationsSharedPagesSummary();
 		}
 
-		$editCount = 0;
+		$revisionIds = [];
 		$sharedPages = [];
 		$commonEditors = [];
 		// The earliest and latest edit timestamps across all shared-page editor pairs in this case.
 		$caseMinTimestamp = null;
 		$caseMaxTimestamp = null;
-		foreach ( $pageEditors as $pageKey => $editCounts ) {
-			$editsByCaseUsers = array_intersect_key( $editCounts, $caseUserIds );
-			if ( count( $editsByCaseUsers ) < 2 ) {
+		foreach ( $pageEditorRevIds as $pageKey => $revIdsByUser ) {
+			$revIdsByCaseUsers = array_intersect_key( $revIdsByUser, $caseUserIds );
+			if ( count( $revIdsByCaseUsers ) < 2 ) {
 				continue;
 			}
 
-			foreach ( $editsByCaseUsers as $userId => $numEdits ) {
-				$editCount += $numEdits;
+			foreach ( $revIdsByCaseUsers as $userId => $userRevIds ) {
+				$revisionIds = array_merge( $revisionIds, $userRevIds );
 				$commonEditors[$userId] = $userIdentities[$userId];
 			}
 			$sharedPages[] = $pageIdentities[$pageKey];
@@ -321,7 +315,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 		}
 
 		return new SuggestedInvestigationsSharedPagesSummary(
-			$editCount,
+			$revisionIds,
 			$sharedPages,
 			$caseMinTimestamp,
 			$caseMaxTimestamp,

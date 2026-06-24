@@ -142,6 +142,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	/** Database with the users and cu_log table */
 	private readonly IReadableDatabase $localDb;
 
+	/**
+	 * The metadata of the case shown in the detail view, or `null` when not in detail view.
+	 * @var SuggestedInvestigationsCaseMetadata[]|null
+	 */
+	private ?array $detailViewMetadata = null;
+
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
 		private readonly UserEditTracker $userEditTracker,
@@ -735,7 +741,23 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$sharedPagesSummaries = $this->sharedPagesLookup->getSharedPagesForCases( $caseIdToUsers );
 		foreach ( $cases as $caseRow ) {
 			$caseRow->metadata[] = $sharedPagesSummaries[$caseRow->sic_id];
+
+			// In the detail view there is a single case row; keep its metadata so that
+			// SpecialSuggestedInvestigations can render additional sections for it.
+			if ( $this->caseIdFilter !== null ) {
+				$this->detailViewMetadata = $caseRow->metadata;
+			}
 		}
+	}
+
+	/**
+	 * Returns the metadata of the case being shown in the detail view, after the query has run.
+	 *
+	 * @return SuggestedInvestigationsCaseMetadata[] Empty when not in detail view (or before the
+	 *   query has run).
+	 */
+	public function getDetailViewMetadata(): array {
+		return $this->detailViewMetadata ?? [];
 	}
 
 	/** @inheritDoc */
