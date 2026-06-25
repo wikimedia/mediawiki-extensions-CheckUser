@@ -5,11 +5,14 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\GlobalContributions;
 
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Permissions\Authority;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -18,6 +21,11 @@ use MediaWiki\User\User;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\ObjectCache\WANObjectCache;
+use Wikimedia\Rdbms\FakeResultWrapper;
+use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IExpression;
+use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -129,12 +137,12 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			->execute();
 	}
 
-	private function getObjectUnderTest(): CheckUserGlobalContributionsLookup {
+	private function getObjectUnderTest( array $overrides = [] ): CheckUserGlobalContributionsLookup {
 		$services = $this->getServiceContainer();
 		return new CheckUserGlobalContributionsLookup(
-			$services->getConnectionProvider(),
+			$overrides['connectionProvider'] ?? $services->getConnectionProvider(),
 			$services->get( 'ExtensionRegistry' ),
-			$services->get( 'CentralIdLookup' ),
+			$overrides['centralIdLookup'] ?? $services->get( 'CentralIdLookup' ),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getMainConfig(),
 			$services->getRevisionStore(),
@@ -142,6 +150,40 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			$services->getMainWANObjectCache(),
 			$services->getStatsFactory()
 		);
+	}
+
+	/**
+	 * Convenience function to get a database with an expected query result
+	 *
+	 * @param string[] $activeWikis array of wikis to return as the query result
+	 */
+	private function getMockDbProviderWithActiveWikiLookupResults( array $activeWikis ): IConnectionProvider {
+		// Mock fetching the recently active wikis
+		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
+		$queryBuilder
+			->method( $this->logicalOr( ...array_map( $this->identicalTo( ... ), [
+				'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy', 'groupBy',
+			] ) ) )
+			->willReturnSelf();
+		$queryBuilder->method( 'fetchResultSet' )
+			->willReturn( new FakeResultWrapper( array_map(
+				static fn ( $wiki ) => [ 'ciwm_wiki' => $wiki, 'timestamp' => 'unused' ],
+				$activeWikis
+			) ) );
+
+		$database = $this->createMock( IReadableDatabase::class );
+		$database->method( 'newSelectQueryBuilder' )
+			->willreturn( $queryBuilder );
+
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getReplicaDatabase' )
+			->willReturn( $database );
+
+		$dbProvider->expects( $this->once() )
+			->method( 'getReplicaDatabase' )
+			->with( CheckUserQueryInterface::VIRTUAL_GLOBAL_DB_DOMAIN );
+
+		return $dbProvider;
 	}
 
 	/** @dataProvider provideTestGetGlobalContributionCount */
@@ -349,6 +391,52 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 				'target' => static fn () => '127.0.0.3',
 			],
 		];
+	}
+
+	public function testGetActiveWikisRejectsInvalidWikis() {
+		$mockConnectionProvider = $this->getMockDbProviderWithActiveWikiLookupResults(
+			[ 'foo', WikiMap::getCurrentWikiId() ]
+		);
+		$lookup = $this->getObjectUnderTest( [
+			'connectionProvider' => $mockConnectionProvider,
+		] );
+
+		$activeWikis = $lookup->getActiveWikis(
+			self::$tempUser1->getName(),
+			$this->mockAnonUltimateAuthority()
+		);
+		$this->assertArrayEquals( [ WikiMap::getCurrentWikiId() ], $activeWikis );
+	}
+
+	public function testGetActiveWikisForIP() {
+		$activeWikis = [ WikiMap::getCurrentWikiId() ];
+
+		$checkUserLookupUtils = $this->createMock( CheckUserLookupUtils::class );
+		$checkUserLookupUtils->method( 'getIPTargetExprForColumn' )
+			->willReturn( $this->createMock( IExpression::class ) );
+
+		$lookup = $this->getObjectUnderTest( [
+			'connectionProvider' => $this->getMockDbProviderWithActiveWikiLookupResults( $activeWikis ),
+			'checkUserLookupUtils' => $checkUserLookupUtils,
+		] );
+		$result = $lookup->getActiveWikis( '1.2.3.4', $this->createMock( Authority::class ) );
+		$this->assertSame( array_keys( $activeWikis ), array_keys( $result ) );
+	}
+
+	public function testGetActiveWikisForUserWithCentralId() {
+		$activeWikis = [ WikiMap::getCurrentWikiId() ];
+
+		// Mock a return for the central id lookup
+		$centralIdLookup = $this->createMock( CentralIdLookup::class );
+		$centralIdLookup->method( 'centralIdFromName' )
+			->willReturn( 1 );
+
+		$lookup = $this->getObjectUnderTest( [
+			'connectionProvider' => $this->getMockDbProviderWithActiveWikiLookupResults( $activeWikis ),
+			'centralIdLookup' => $centralIdLookup,
+		] );
+		$result = $lookup->getActiveWikis( 'User', $this->createMock( Authority::class ) );
+		$this->assertSame( array_keys( $activeWikis ), array_keys( $result ) );
 	}
 
 	public function testGetActiveWikisVisibleToUser() {

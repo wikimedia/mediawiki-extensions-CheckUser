@@ -223,6 +223,14 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 			$activeWikis = array_map( static fn ( $row ) => $row->ciwm_wiki, iterator_to_array( $activeWikisResult ) );
 		}
 
+		// Guard against wikis that may no longer exist but are still historically logged
+		$activeWikis = array_filter(
+			$activeWikis,
+			static function ( $wiki ) {
+				return (bool)WikiMap::getWiki( $wiki ) || WikiMap::isCurrentWikiDbDomain( $wiki );
+			}
+		);
+
 		return $activeWikis;
 	}
 

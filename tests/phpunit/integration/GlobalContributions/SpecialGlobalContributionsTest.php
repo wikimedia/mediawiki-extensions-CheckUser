@@ -8,7 +8,8 @@ use GlobalPreferences\GlobalPreferencesFactory;
 use LogicException;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Exception\ReadOnlyError;
-use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
+use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
+use MediaWiki\Extension\CheckUser\GlobalContributions\ExternalPermissions;
 use MediaWiki\Extension\CheckUser\GlobalContributions\SpecialGlobalContributions;
 use MediaWiki\Extension\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\Extension\CheckUser\Jobs\UpdateUserCentralIndexJob;
@@ -21,6 +22,7 @@ use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Tests\Specials\SpecialPageTestBase;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
+use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\IPUtils;
 use Wikimedia\Parsoid\Core\DOMCompat;
 use Wikimedia\Parsoid\Ext\DOMUtils;
@@ -688,11 +690,15 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			->caller( __METHOD__ )
 			->execute();
 
-		// Mock the external API failure
-		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
-		$apiRequestAggregator->method( 'execute' )
-			->willReturn( [] );
-			$this->setService( 'CheckUserApiRequestAggregator', $apiRequestAggregator );
+		// Mock the permissions call to represent the error as stubbed wikis won't be called
+		$mockCheckUserGlobalContributionsLookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
+		$mockCheckUserGlobalContributionsLookup
+			->method( 'getAndUpdateExternalWikiPermissions' )
+			->willReturn( new ExternalPermissions( [], true ) );
+		$mockCheckUserGlobalContributionsLookup
+			->method( 'getActiveWikis' )
+			->willReturn( [ WikiMap::getCurrentWikiId() ] );
+		$this->setService( 'CheckUserGlobalContributionsLookup', $mockCheckUserGlobalContributionsLookup );
 
 		[ $html ] = $this->executeSpecialPage(
 			'127.0.0.1',
