@@ -7,7 +7,7 @@
 		Security Note: This use of v-html is considered acceptable because:
 		- Props are set via internal API with no user input (from UserCardBody.vue)
 		- MediaWiki messages used here do not include unescaped placeholders
-		- Anchor content is escaped with jQuery's .text()
+		- Anchor content is escaped by assigning it via textContent
 		-->
 		<!-- eslint-disable vue/no-v-html -->
 		<span
@@ -55,29 +55,39 @@ module.exports = exports = {
 			} );
 		}
 
+		// Create the DOM node passed as a parameter to the i18n message. When a
+		// link is present we build an anchor with a stable id (so the click
+		// handler can be attached afterwards), otherwise a plain span. We could
+		// build the link in the i18n message itself, but we need to log the
+		// event on click, hence the manually instrumented node.
+		function createValueNode( link, logId, value ) {
+			let node;
+			if ( link ) {
+				node = document.createElement( 'a' );
+				node.id = `info-row-${ logId }`;
+				node.href = link;
+			} else {
+				node = document.createElement( 'span' );
+			}
+			// Assigning via textContent escapes the value.
+			node.textContent = value;
+			return node;
+		}
+
 		const formattedMessage = computed( () => {
 			// If no main anchor or main value, this is just a label, return early
 			if ( !props.mainLink && !props.mainValue ) {
 				return mw.message( props.messageKey );
 			}
-			// FIXME: Remove jQuery usage for this functionality (T398172)
-			// Create jQuery anchor objects for the links
-			// We could do that in i18n messages, but we need to log the event on click
-			const mainAnchor = props.mainLink ?
-				$( '<a>' )
-					.attr( 'id', `info-row-${ props.mainLinkLogId }` )
-					.attr( 'href', props.mainLink )
-					.text( props.mainValue ) :
-				$( '<span>' ).text( props.mainValue );
+			const mainAnchor = createValueNode(
+				props.mainLink, props.mainLinkLogId, props.mainValue
+			);
 
 			let suffixAnchor = null;
 			if ( props.suffixValue !== '' && props.suffixValue !== null && props.suffixValue !== undefined ) {
-				suffixAnchor = props.suffixLink ?
-					$( '<a>' )
-						.attr( 'id', `info-row-${ props.suffixLinkLogId }` )
-						.attr( 'href', props.suffixLink )
-						.text( props.suffixValue ) :
-					$( '<span>' ).text( props.suffixValue );
+				suffixAnchor = createValueNode(
+					props.suffixLink, props.suffixLinkLogId, props.suffixValue
+				);
 			}
 
 			if ( suffixAnchor ) {
@@ -112,17 +122,34 @@ module.exports = exports = {
 
 		// We need to attach the click handlers manually here.
 		// v-html won't retain the listeners, so adding them in formattedMessage won't work.
+		// Track the attached listeners so we can detach them before re-attaching
+		// (the v-html re-render swaps in fresh nodes).
+		let attachedHandlers = [];
+
+		function detachClickHandlers() {
+			attachedHandlers.forEach( ( { element, handler } ) => {
+				element.removeEventListener( 'click', handler );
+			} );
+			attachedHandlers = [];
+		}
+
+		function attachClickHandler( logId ) {
+			const element = document.getElementById( `info-row-${ logId }` );
+			if ( !element ) {
+				return;
+			}
+			const handler = () => onLinkClick( logId );
+			element.addEventListener( 'click', handler );
+			attachedHandlers.push( { element, handler } );
+		}
+
 		function attachClickHandlers() {
-			// FIXME: Remove jQuery usage for this functionality (T398172)
+			detachClickHandlers();
 			if ( props.mainLink && props.mainLinkLogId ) {
-				$( `#info-row-${ props.mainLinkLogId }` )
-					.off( 'click' )
-					.on( 'click', () => onLinkClick( props.mainLinkLogId ) );
+				attachClickHandler( props.mainLinkLogId );
 			}
 			if ( props.suffixLink && props.suffixLinkLogId ) {
-				$( `#info-row-${ props.suffixLinkLogId }` )
-					.off( 'click' )
-					.on( 'click', () => onLinkClick( props.suffixLinkLogId ) );
+				attachClickHandler( props.suffixLinkLogId );
 			}
 		}
 

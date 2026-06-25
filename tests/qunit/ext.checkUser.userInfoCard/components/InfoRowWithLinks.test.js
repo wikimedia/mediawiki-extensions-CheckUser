@@ -11,10 +11,10 @@ QUnit.module( 'ext.checkUser.userInfoCard.InfoRowWithLinks', QUnit.newMwEnvironm
 				// Simple mock implementation that includes the arguments
 				if ( args.length === 2 ) {
 					// Two arguments (main and suffix)
-					return `${ key } with ${ args[ 0 ].get( 0 ).outerHTML } and ${ args[ 1 ].get( 0 ).outerHTML }`;
+					return `${ key } with ${ args[ 0 ].outerHTML } and ${ args[ 1 ].outerHTML }`;
 				} else if ( args.length === 1 ) {
 					// One argument (main only)
-					return `${ key } with ${ args[ 0 ].get( 0 ).outerHTML }`;
+					return `${ key } with ${ args[ 0 ].outerHTML }`;
 				}
 				return key;
 			}
