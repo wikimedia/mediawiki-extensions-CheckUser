@@ -329,6 +329,68 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
+	public function testPerUserSiCasesLinkShownForUserInMultipleCases(): void {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
+
+		// A user appearing in two distinct cases should get the "X SI cases" link.
+		$sharedUser = $this->getMutableTestUser()->getUser();
+		$this->setUserEditCount( $sharedUser, 1 );
+
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
+		$caseManager = $this->getCaseManager();
+		$caseId = $caseManager->createCase( [ $sharedUser ], [ $signal ] );
+		$caseManager->createCase( [ $sharedUser ], [ $signal ] );
+
+		$context = $this->makeQqxContext();
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		// Render the detail view of one of the two cases, so the body contains exactly one row
+		// (and therefore one link) while the user's total case count is still 2.
+		$html = $this->getPager( $context, [], $caseId )->getBody();
+
+		$siCasesLinkHtml = $this->assertAndGetByElementClass(
+			$html,
+			'mw-usertoollinks-suggestedinvestigations-cases'
+		);
+		$this->assertStringContainsString(
+			'Special:SuggestedInvestigations',
+			$siCasesLinkHtml,
+			'The per-user SI cases link should point to Special:SuggestedInvestigations'
+		);
+		$this->assertStringContainsString(
+			'username=' . urlencode( $sharedUser->getName() ),
+			$siCasesLinkHtml,
+			'The per-user SI cases link should carry the account username as a query parameter'
+		);
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-user-si-cases-count: 2)',
+			$siCasesLinkHtml,
+			'The per-user SI cases link should report the total number of cases the account is in'
+		);
+	}
+
+	public function testPerUserSiCasesLinkNotShownForUserInSingleOpen(): void {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
+
+		// A user in exactly one Open case should not get the link.
+		$user = $this->getMutableTestUser()->getUser();
+		$this->setUserEditCount( $user, 1 );
+
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
+		$this->getCaseManager()->createCase( [ $user ], [ $signal ] );
+
+		$context = $this->makeQqxContext();
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$html = $this->getPager( $context )->getBody();
+
+		$this->assertStringNotContainsString(
+			'mw-usertoollinks-suggestedinvestigations-cases',
+			$html,
+			'The per-user SI cases link should not be shown for a user in a single Open case'
+		);
+	}
+
 	public function testDetailViewMetadataOnlyPopulatedInDetailView(): void {
 		$caseId = $this->addCaseWithTwoUsers();
 

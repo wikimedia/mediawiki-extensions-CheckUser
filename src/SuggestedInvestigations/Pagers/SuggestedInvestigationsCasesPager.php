@@ -113,6 +113,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private array $usersWhoHaveBeenChecked = [];
 
 	/**
+	 * @var array<int,int> Maps local user ID to the total number of SI cases (any status) the user appears in.
+	 */
+	private array $caseCountsByUserId = [];
+
+	/**
 	 * @var bool Whether to use Special:GlobalContributions over Special:Contributions for
 	 *   the user contributions link.
 	 */
@@ -402,6 +407,19 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 							->text(),
 						[],
 						[ 'reason' => $checkUserPrefilledReason ]
+					);
+				}
+
+				// Link to the other SI cases the account appears in
+				$siCaseCount = $this->caseCountsByUserId[$user->getId()] ?? 0;
+				if ( $siCaseCount >= 2 ) {
+					$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
+						SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
+						$this->msg( 'checkuser-suggestedinvestigations-user-si-cases-count' )
+							->numParams( $siCaseCount )
+							->text(),
+						[ 'class' => 'mw-usertoollinks-suggestedinvestigations-cases' ],
+						[ 'username' => $user->getName(), 'hideCasesWithNoUserEdits' => '0' ]
 					);
 				}
 			} else {
@@ -758,6 +776,46 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 */
 	public function getDetailViewMetadata(): array {
 		return $this->detailViewMetadata ?? [];
+	}
+
+	/** @inheritDoc */
+	protected function preprocessResults( $result ): void {
+		parent::preprocessResults( $result );
+
+		$allUserIds = [];
+		foreach ( $result as $caseRow ) {
+			foreach ( $caseRow->users as $user ) {
+				$allUserIds[$user->getId()] = true;
+			}
+		}
+
+		$this->caseCountsByUserId = $this->queryCaseCountsForUsers( array_keys( $allUserIds ) );
+	}
+
+	/**
+	 * Returns a map of user ID => total number of SI cases (all statuses) the user appears in.
+	 * @param int[] $userIds
+	 * @return array<int,int>
+	 */
+	private function queryCaseCountsForUsers( array $userIds ): array {
+		if ( !$userIds ) {
+			return [];
+		}
+		$counts = [];
+		foreach ( array_chunk( $userIds, 100 ) as $userIdBatch ) {
+			$res = $this->getDatabase()->newSelectQueryBuilder()
+				->select( [ 'siu_user_id', 'count' => 'COUNT(*)' ] )
+				->from( 'cusi_user' )
+				->where( [ 'siu_user_id' => $userIdBatch ] )
+				->groupBy( 'siu_user_id' )
+				->caller( __METHOD__ )
+				->fetchResultSet();
+
+			foreach ( $res as $row ) {
+				$counts[(int)$row->siu_user_id] = (int)$row->count;
+			}
+		}
+		return $counts;
 	}
 
 	/** @inheritDoc */
