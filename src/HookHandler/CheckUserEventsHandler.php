@@ -260,7 +260,10 @@ class CheckUserEventsHandler implements
 			return;
 		}
 
-		$hash = md5( $userTo->getEmail() . $userTo->getId() . $this->config->get( MainConfigNames::SecretKey ) );
+		$hash = hash(
+			'sha256',
+			$userTo->getEmail() . $userTo->getId() . $this->config->get( MainConfigNames::SecretKey )
+		);
 
 		// Define the title as the userpage of the user who sent the email. The user
 		// who receives the email is private information, so cannot be used.
