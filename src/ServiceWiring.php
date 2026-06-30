@@ -693,6 +693,7 @@ return [
 				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
+			$services->getConnectionProvider(),
 		);
 	},
 	'UserAgentClientHintsFormatter' => static function (

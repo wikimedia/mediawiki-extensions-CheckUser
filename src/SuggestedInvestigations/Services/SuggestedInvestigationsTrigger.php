@@ -9,6 +9,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Jobs\SuggestedInvestigationsMatchSignalsAgainstUserJob;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\User\UserIdentity;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class SuggestedInvestigationsTrigger {
 
@@ -19,6 +20,7 @@ class SuggestedInvestigationsTrigger {
 	public function __construct(
 		private readonly JobQueueGroup $jobQueueGroup,
 		private readonly ServiceOptions $options,
+		private readonly IConnectionProvider $connectionProvider,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -37,8 +39,14 @@ class SuggestedInvestigationsTrigger {
 		array $extraData = [],
 	): void {
 		$extraData['headers'] = $this->getRequestHeaders();
-		$this->jobQueueGroup->lazyPush(
-			SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec( $userIdentity, $eventType, $extraData )
+		$spec = SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec( $userIdentity, $eventType, $extraData );
+		// Only enqueue the job once the triggering transaction has committed. We don't want to create
+		// spurious cases when the event gets rolled back later (T430617)
+		$this->connectionProvider->getPrimaryDatabase()->onTransactionCommitOrIdle(
+			function () use ( $spec ) {
+				$this->jobQueueGroup->lazyPush( $spec );
+			},
+			__METHOD__
 		);
 	}
 

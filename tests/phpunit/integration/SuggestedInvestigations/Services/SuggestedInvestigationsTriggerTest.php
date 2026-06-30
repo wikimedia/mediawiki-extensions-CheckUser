@@ -14,6 +14,8 @@ use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger
@@ -26,7 +28,7 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 		array $configuredHeaders,
 		array $requestHeaders,
 		array $expectedHeaders
-	) {
+	): void {
 		$this->setMainRequestWithHeaders( $requestHeaders );
 
 		$mockUser = $this->createMock( User::class );
@@ -41,7 +43,8 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 				[
 					'CheckUserSuggestedInvestigationsRequestHeaders' => $configuredHeaders,
 				]
-			)
+			),
+			$this->newImmediateConnectionProvider()
 		);
 
 		$trigger->matchSignalsAgainstUserInJob(
@@ -80,7 +83,7 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function testHeadersMergedWithExtraData() {
+	public function testHeadersMergedWithExtraData(): void {
 		$this->setMainRequestWithHeaders( [ 'User-Agent' => 'foo bar' ] );
 
 		$revId = 123;
@@ -96,7 +99,8 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 				[
 					'CheckUserSuggestedInvestigationsRequestHeaders' => [ 'User-Agent' ],
 				]
-			)
+			),
+			$this->newImmediateConnectionProvider()
 		);
 
 		$trigger->matchSignalsAgainstUserInJob(
@@ -104,6 +108,60 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 			SuggestedInvestigationsSignalMatchService::EVENT_SUCCESSFUL_EDIT,
 			[ 'revId' => $revId ]
 		);
+	}
+
+	public function testJobIsOnlyEnqueuedAfterTransactionCommits(): void {
+		// Capture the commit callback without running it, to assert the job is not
+		// enqueued until the triggering transaction commits.
+		$capturedCallback = null;
+		$db = $this->createMock( IDatabase::class );
+		$db->method( 'onTransactionCommitOrIdle' )
+			->willReturnCallback( static function ( callable $callback ) use ( &$capturedCallback ) {
+				$capturedCallback = $callback;
+			} );
+		$connectionProvider = $this->createMock( IConnectionProvider::class );
+		$connectionProvider->method( 'getPrimaryDatabase' )->willReturn( $db );
+
+		$jobPushed = false;
+		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$mockJobQueueGroup->expects( $this->once() )
+			->method( 'lazyPush' )
+			->willReturnCallback( static function () use ( &$jobPushed ) {
+				$jobPushed = true;
+			} );
+
+		$mockUser = $this->createMock( User::class );
+		$trigger = new SuggestedInvestigationsTrigger(
+			$mockJobQueueGroup,
+			new ServiceOptions(
+				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
+				[ 'CheckUserSuggestedInvestigationsRequestHeaders' => [] ]
+			),
+			$connectionProvider
+		);
+
+		$trigger->matchSignalsAgainstUserInJob(
+			$mockUser,
+			SuggestedInvestigationsSignalMatchService::EVENT_CREATE_ACCOUNT
+		);
+
+		$this->assertFalse( $jobPushed, 'Enqueue was not deferred to transaction commit' );
+		$this->assertNotNull( $capturedCallback );
+
+		// Simulate the transaction committing.
+		( $capturedCallback )();
+	}
+
+	/**
+	 * A helper function to create a connection provider, which immediately runs the on commit callback
+	 */
+	private function newImmediateConnectionProvider(): IConnectionProvider {
+		$db = $this->createMock( IDatabase::class );
+		$db->method( 'onTransactionCommitOrIdle' )
+			->willReturnCallback( static fn ( callable $callback ) => $callback() );
+		$connectionProvider = $this->createMock( IConnectionProvider::class );
+		$connectionProvider->method( 'getPrimaryDatabase' )->willReturn( $db );
+		return $connectionProvider;
 	}
 
 	private function setMainRequestWithHeaders( array $headers ): void {
@@ -115,12 +173,11 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 	private function setUpMockJobQueue(
 		User $expectedUserIdentity,
 		string $expectedEventType,
-		array $expectedExtraData,
-		string $expectedMethod = 'lazyPush'
+		array $expectedExtraData
 	): JobQueueGroup {
 		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
 		$mockJobQueueGroup->expects( $this->once() )
-			->method( $expectedMethod )
+			->method( 'lazyPush' )
 			->willReturnCallback( function ( $job ) use (
 				$expectedUserIdentity,
 				$expectedEventType,
