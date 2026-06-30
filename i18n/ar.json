@@ -85,8 +85,10 @@
 	"checkuser-filter-title": "المرشحات",
 	"checkuser-filter-hide-temporary-accounts": "إخفاء الحسابات المؤقتة",
 	"checkuser-cidr-label": "جد النطاق المشترك والعناوين المتأثرة لقائمة من عناوين البروتوكولات",
+	"checkuser-cidr-no-script-message": "تتطلب هذه الأداة تفعيل جافا سكريبت لكي تعمل. يرجى تفعيل جافا سكريبت لاستخدام هذه الأداة.",
 	"checkuser-cidr-res": "النطاق الشائع:",
 	"checkuser-cidr-affected-ips": "عدد عناوين البروتوكولات المتأثرة:",
+	"checkuser-cidr-mixed-address-families": "لا يمكن حساب نطاق مشترك: تحتوي القائمة على عناوين IPv4 و IPv6.",
 	"checkuser-cidr-too-small": "النطاق واسع جدًا",
 	"checkuser-cidr-tool-links-checkuser": "تحقق من هذا النطاق",
 	"checkuser-cidr-tool-links-checkuserlog": "الشيكات السابقة في هذا النطاق",
@@ -397,6 +399,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|انضم}}: في عام 2005 أو قبله",
 	"checkuser-userinfocard-active-wikis-label": "نشط في الويكيات",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "المنع النشط من جميع الويكيات: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "الكتل النشطة من جميع مواقع الويكي: $1 ( $2 في موقع الويكي هذا)",
 	"checkuser-userinfocard-past-blocks": "عمليات المنع السابقة: $1",
 	"checkuser-userinfocard-global-edits": "التعديلات العالمية: $1",
 	"checkuser-userinfocard-local-edits": "التعديلات المحلية: $1 (التراجع: $2 )",
@@ -520,5 +523,6 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-button": "قائمة النسخة من الحسابات",
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "قائمة الحسابات التي نسخها إلى لوحة المقطوعات",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "فشل في نسخ قائمة الحسابات",
-	"checkuser-related-tas-specialblock-checkbox-label": "إغلاق جميع الحسابات المؤقتة المرتبطة"
+	"checkuser-related-tas-specialblock-checkbox-label": "إغلاق جميع الحسابات المؤقتة المرتبطة",
+	"rangecalculator": "حاسبة نطاق IP"
 }

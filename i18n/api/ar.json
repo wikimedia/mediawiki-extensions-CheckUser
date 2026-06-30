@@ -58,5 +58,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "تاريخ انتهاء الصلاحية للكشف التلقائي المقدم غير صالح.",
 	"checkuser-ip-auto-reveal-missing-permission": "ليس لديك الإذن اللازم لاستخدام الكشف التلقائي عن عنوان IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "معرف الحالة المقدم غير موجود",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "لم يتم تفعيل ميزة التحقيقات المقترحة"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "لم يتم تفعيل ميزة التحقيقات المقترحة",
+	"rest-module-checkuser.v0-title": "واجهة برمجة تطبيقات التحقق من المستخدم",
+	"rest-module-checkuser.v0-desc": "واجهة برمجة تطبيقات REST لأدوات CheckUser. راجع [وثائق ملحق CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

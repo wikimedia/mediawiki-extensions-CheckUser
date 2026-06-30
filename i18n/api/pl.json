@@ -55,5 +55,7 @@
 	"checkuser-ip-auto-reveal-expiry-invalid": "Podany czas wygaśnięcia automatycznego ujawniania jest nieprawidłowy.",
 	"checkuser-ip-auto-reveal-missing-permission": "Nie masz uprawnień wymaganych do korzystania z automatycznego ujawniania adresów IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Podany identyfikator sprawy nie istnieje",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Funkcja sugerowanych sprawdzeń nie jest włączona"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Funkcja sugerowanych sprawdzeń nie jest włączona",
+	"rest-module-checkuser.v0-title": "API CheckUser",
+	"rest-module-checkuser.v0-desc": "REST API dla narzędzi CheckUser. Zobacz [dokumentację rozszerzenia CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser)."
 }

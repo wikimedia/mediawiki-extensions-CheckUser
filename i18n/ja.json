@@ -11,6 +11,7 @@
 			"Bonfire12",
 			"Buntschann",
 			"Chqaz",
+			"Cookie4782",
 			"Dragoniez",
 			"Dreamy Jazz",
 			"Fievarsty",
@@ -105,7 +106,7 @@
 	"checkuser-filter-title": "絞り込み",
 	"checkuser-filter-hide-temporary-accounts": "仮アカウントを隠す",
 	"checkuser-cidr-label": "IPアドレス一覧から共通レンジとアドレス数を検索",
-	"checkuser-cidr-res": "共通CIDR:",
+	"checkuser-cidr-res": "共通範囲:",
 	"checkuser-cidr-affected-ips": "アドレス数:",
 	"checkuser-cidr-too-small": "範囲が広すぎます",
 	"checkuser-cidr-tool-links-checkuser": "このレンジをチェック",
@@ -451,7 +452,7 @@
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: 案件 #$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: 案件がありません",
 	"checkuser-suggestedinvestigations-summary": "このページには、システムにより自動的に不審と判定され、チェックユーザーによる調査が推奨されるアカウントが一覧表示されます。",
-	"checkuser-suggestedinvestigations-table-caption": "推奨調査表",
+	"checkuser-suggestedinvestigations-table-caption": "不審だと自動的にフラグ付けされたアカウント",
 	"checkuser-suggestedinvestigations-header-users": "アカウント",
 	"checkuser-suggestedinvestigations-header-signals": "リスクシグナル",
 	"checkuser-suggestedinvestigations-header-status": "状態",
@@ -488,5 +489,7 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "関連する仮アカウントからの投稿を隠す",
 	"checkuser-contributions-temporary-account-bucketcount": "接続元が共通の仮アカウントの数: $1。",
 	"checkuser-contributions-temporary-accounts-on-ip": "このIPアドレス上の仮アカウント数: $1。",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "このIPアドレス上の仮アカウント数: $1 (ブロック済み: $2)。"
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "このIPアドレス上の仮アカウント数: $1 (ブロック済み: $2)。",
+	"rangecalculator": "IPレンジ計算ツール",
+	"rangecalculator-summary": "このツールを使用すると、IPアドレスのリスト間で共通するレンジを計算できます。ただし、このツールは現在、共通レンジを1つしか計算できず、IPv4アドレスとIPv6アドレスを混在させることはできません。"
 }

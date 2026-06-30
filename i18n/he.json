@@ -378,6 +378,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|הצטרף|הצטרפה}}: בשנת 2005 או לפניה",
 	"checkuser-userinfocard-active-wikis-label": "אתרי ויקי שהחשבון פעיל בהם",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "חסימות פעילות מכל אתרי הוויקי: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "חסימות פעילות מכל אתרי הוויקי: $1 ($2 בוויקי הזה)",
 	"checkuser-userinfocard-past-blocks": "חסימות קודמות: $1",
 	"checkuser-userinfocard-global-edits": "עריכות גלובליות: $1",
 	"checkuser-userinfocard-local-edits": "עריכות מקומיות: $1 (שוחזרו: $2)",
@@ -490,5 +491,5 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "הצגת כל החשבונות",
 	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "הסתרה",
 	"rangecalculator": "מחשבון טווח IP",
-	"rangecalculator-summary": "כלי זה מאפשר לך לחשב את הטווח המשותף בין רשימת כתובות IP. כלי זה מחשב כרגע רק טווח משותף אחד, ואינו יכול לערבב כתובות IPv4 ו-IPv6."
+	"rangecalculator-summary": "הכלי הזה מאפשר לך לחשב את הטווח המשותף בין רשימת כתובות IP. הכלי הזה מחשב כרגע רק טווח משותף אחד, ואינו יכול לערבב כתובות IPv4 ו־IPv6."
 }

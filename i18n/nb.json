@@ -511,5 +511,7 @@
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Vis alle bidrag fra disse kontoene]",
 	"checkuser-related-tas-specialblock-accounts-list-error": "En feil oppsto under forsøk på å identifisere midlertidige kontoer som har brukt IP-adresser tilknyttet $1. {{GENDER:$2|Du}} kan fortsette med blokkeringen på $1, eller prøve å søke for å identifisere tilknyttede kontoer på nytt.",
 	"checkuser-related-tas-specialblock-confirm": "Dette vil gjelde blokkeringen av {{PLURAL:$1|én konto|$1 kontoer}}. Ved å fortsette å blokkere {{PLURAL:$1|denne kontoen|disse kontoene}} bekrefter du at du har undersøkt {{PLURAL:$1|den|dem}}.",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "Det er for mange tilknyttede midlertidige kontoer til å legge dem til i denne blokkeringen. Vi tillater kun blokkering av opptil {{PLURAL:$1|én konto|$1 kontoer}} av gangen."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Det er for mange tilknyttede midlertidige kontoer til å legge dem til i denne blokkeringen. Vi tillater kun blokkering av opptil {{PLURAL:$1|én konto|$1 kontoer}} av gangen.",
+	"rangecalculator": "Kalkulator for IP-intervaller",
+	"rangecalculator-summary": "Dette verktøyet lar deg regne ut intervallet for ei liste over IP-adresser. Verktøyet regner ut ett felles intervall, så man kan ikke blande IPv4- og IPv6-adresser."
 }
