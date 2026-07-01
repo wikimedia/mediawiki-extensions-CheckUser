@@ -36,6 +36,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvesti
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsRelatedCasesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
@@ -166,6 +167,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly LoggerInterface $logger,
 		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
 		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
+		private readonly SuggestedInvestigationsRelatedCasesLookup $relatedCasesLookup,
 		private readonly HookRunner $hookRunner,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
@@ -757,8 +759,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$caseIdToUsers[$caseRow->sic_id] = $caseRow->users;
 		}
 		$sharedPagesSummaries = $this->sharedPagesLookup->getSharedPagesForCases( $caseIdToUsers );
+		$relatedCases = $this->relatedCasesLookup->getCasesRelatedToCases( $caseIdToUsers );
 		foreach ( $cases as $caseRow ) {
 			$caseRow->metadata[] = $sharedPagesSummaries[$caseRow->sic_id];
+			$caseRow->metadata[] = $relatedCases[$caseRow->sic_id];
 
 			// In the detail view there is a single case row; keep its metadata so that
 			// SpecialSuggestedInvestigations can render additional sections for it.

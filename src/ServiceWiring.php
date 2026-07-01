@@ -60,6 +60,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsRelatedCasesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
@@ -470,7 +471,15 @@ return [
 			$services->get( 'CheckUserSuggestedInvestigationsMessageRenderer' ),
 			$centralAuthEditCounter,
 			$services->get( 'CheckUserSuggestedInvestigationsSharedPagesLookup' ),
+			$services->get( 'CheckUserSuggestedInvestigationsRelatedCasesLookup' ),
 			$services->get( 'CheckUserHookRunner' ),
+		);
+	},
+	'CheckUserSuggestedInvestigationsRelatedCasesLookup' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsRelatedCasesLookup {
+		return new SuggestedInvestigationsRelatedCasesLookup(
+			$services->getConnectionProvider(),
 		);
 	},
 	'CheckUserSuggestedInvestigationsSharedPagesLookup' => static function (

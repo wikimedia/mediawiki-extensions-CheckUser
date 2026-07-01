@@ -31,6 +31,7 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseMetadata;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsSharedPagesSummary;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsCasesPager;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
@@ -457,7 +458,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$this->assertSame( $caseId, $receivedCaseId, 'Hook should receive the case id' );
 		$this->assertContainsOnlyInstancesOf(
-			SuggestedInvestigationsSharedPagesSummary::class,
+			SuggestedInvestigationsCaseMetadata::class,
 			$receivedMetadata,
 			'Hook should receive the metadata objects for the case'
 		);
@@ -499,6 +500,40 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			0,
 			DOMCompat::querySelectorAll( $document, '.mw-checkuser-suggestedinvestigations-metadata' ),
 			'The metadata line should not be rendered when the hook suppresses all items'
+		);
+	}
+
+	public function testRelatedCasesMetadataRenderedWhenCasesAreRelated(): void {
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
+
+		// Two cases with the identical user set and a shared signal (name+value) are related.
+		$user1 = $this->getMutableTestUser()->getUser();
+		$user2 = $this->getMutableTestUser()->getUser();
+		foreach ( [ $user1, $user2 ] as $user ) {
+			$this->setUserEditCount( $user, 1 );
+		}
+
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
+		$caseManager = $this->getCaseManager();
+		$caseManager->createCase( [ $user1, $user2 ], [ $signal ] );
+		$caseManager->createCase( [ $user1, $user2 ], [ $signal ] );
+
+		$context = $this->makeQqxContext();
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$html = $this->getPager( $context )->getBody();
+
+		// The related-cases summary renders in the metadata cell, reporting one related case
+		// for each of the two cases.
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-related-cases-summary: 1)',
+			$html,
+			'The related-cases metadata message should report one related case'
+		);
+		$this->assertStringContainsString(
+			'mw-checkuser-suggestedinvestigations-metadata',
+			$html,
+			'The metadata container should be present when a case has a related case'
 		);
 	}
 
