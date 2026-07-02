@@ -467,6 +467,7 @@ return [
 			$services->get( 'CheckUserSuggestedInvestigationsMessageRenderer' ),
 			$services->get( 'CheckUserSuggestedInvestigationsSharedPagesLookup' ),
 			$services->get( 'CheckUserSuggestedInvestigationsRelatedCasesLookup' ),
+			$services->get( 'CheckUserSuggestedInvestigationsUserRevisionLookup' ),
 			$services->get( 'CheckUserHookRunner' ),
 			$services->get( 'CheckUserSuggestedInvestigationsUserLinkRenderer' ),
 		);
@@ -519,6 +520,10 @@ return [
 		MediaWikiServices $services
 	): SuggestedInvestigationsUserRevisionLookup {
 		return new SuggestedInvestigationsUserRevisionLookup(
+			new ServiceOptions(
+				SuggestedInvestigationsUserRevisionLookup::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			$services->getDBLoadBalancerFactory(),
 		);
 	},

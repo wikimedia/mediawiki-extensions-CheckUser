@@ -14,6 +14,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsRelatedCasesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserLinkRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
@@ -50,6 +51,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
 		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
 		private readonly SuggestedInvestigationsRelatedCasesLookup $relatedCasesLookup,
+		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsUserLinkRenderer $siUserLinkRenderer,
 	) {
@@ -113,6 +115,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->messageRenderer,
 			$this->sharedPagesLookup,
 			$this->relatedCasesLookup,
+			$this->userRevisionLookup,
 			$this->hookRunner,
 			$this->siUserLinkRenderer,
 			$this->linkRenderer,

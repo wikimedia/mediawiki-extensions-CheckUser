@@ -37,6 +37,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsRelatedCasesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserLinkRenderer;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Navigation\CodexPagerNavigationBuilder;
@@ -146,6 +147,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly SuggestedInvestigationsMessageRenderer $messageRenderer,
 		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
 		private readonly SuggestedInvestigationsRelatedCasesLookup $relatedCasesLookup,
+		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsUserLinkRenderer $siUserLinkRenderer,
 		LinkRenderer $linkRenderer,
@@ -648,9 +650,13 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$caseRow->metadata = [];
 			$caseIdToUsers[$caseRow->sic_id] = $caseRow->users;
 		}
+
+		$revisionRevertRateSummaries = $this->userRevisionLookup
+			->getRevertedRevisionCountsByUsersForCases( $caseIdToUsers );
 		$sharedPagesSummaries = $this->sharedPagesLookup->getSharedPagesForCases( $caseIdToUsers );
 		$relatedCases = $this->relatedCasesLookup->getCasesRelatedToCases( $caseIdToUsers );
 		foreach ( $cases as $caseRow ) {
+			$caseRow->metadata[] = $revisionRevertRateSummaries[$caseRow->sic_id];
 			$caseRow->metadata[] = $sharedPagesSummaries[$caseRow->sic_id];
 			$caseRow->metadata[] = $relatedCases[$caseRow->sic_id];
 
