@@ -122,10 +122,14 @@ $specialPageAliases['ce'] = [
 	'CheckUserLog' => [ 'Декъашхойн_нисдарийн_тептар' ],
 ];
 
+/** Czech (čeština) */
 $specialPageAliases['cs'] = [
-	'CheckUser' => [ 'Zkontrolovat uživatele' ],
-	'CheckUserLog' => [ 'Protokolovací záznamy kontrol uživatele' ],
+	'CheckUser' => [ 'Zkontrolovat_uživatele' ],
+	'CheckUserLog' => [ 'Protokolovací_záznamy_kontrol_uživatele' ],
+	'GlobalContributions' => [ 'Globální_příspěvky' ],
 	'Investigate' => [ 'Prošetřit_uživatele' ],
+	'IPContributions' => [ 'Příspěvky_IP', 'Příspěvky_IP_adresy' ],
+	'RangeCalculator' => [ 'Kalkulačka_rozsahů' ],
 ];
 
 /** German (Deutsch) */
