@@ -25,11 +25,9 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigation
 
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
-use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseMetadata;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsSharedPagesSummary;
@@ -43,7 +41,6 @@ use MediaWiki\Parser\ParserOutput;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
-use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Message\MessageValue;
@@ -181,25 +178,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$context = $this->makeQqxContext();
 		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
-		// Mock the edit counts for our test users so that the first test user has no edits
-		// and all other users have one edit
-		$mockUserEditTracker = $this->createMock( UserEditTracker::class );
-		$mockUserEditTracker->method( 'getUserEditCount' )
-			->willReturnCallback(
-				static fn ( UserIdentity $user ) => self::$testUser1->equals( $user ) ? 0 : 1
-			);
-		$this->setService( 'UserEditTracker', $mockUserEditTracker );
-
-		// Expect that the global edit count is never fetched, as we are using the local one.
-		// If CentralAuth is loaded, use a no-op mock. Otherwise a use of the service should
-		// mean trying to access methods on `null` (which will fail)
-		if ( $this->getServiceContainer()->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
-			$this->setService(
-				'CentralAuth.CentralAuthEditCounter',
-				$this->createNoOpMock( CentralAuthEditCounter::class )
-			);
-		}
-
 		$pager = $this->getPager( $context );
 
 		$parserOutput = $pager->getFullOutput();
@@ -212,25 +190,13 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-signal-' . self::SIGNAL . ')', $html );
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-status-open)', $html );
 
+		// The details of the user line rendering are covered by SuggestedInvestigationsUserLinkRendererTest;
+		// this only checks that the pager passes the case ID and detail view link on to the renderer.
 		$this->assertStringContainsString(
 			'?title=Special:CheckUser/' . str_replace( ' ', '_', self::$testUser1->getName() ) .
 				'&amp;reason=%28checkuser-suggestedinvestigations-user-check-reason-prefill',
 			$html,
-			'Should contain link to Special:CheckUser for the first user'
-		);
-		$this->assertStringContainsString(
-			'?title=Special:CheckUser/' . str_replace( ' ', '_', self::$testUser2->getName() ) .
-				'&amp;reason=%28checkuser-suggestedinvestigations-user-check-reason-prefill',
-			$html,
-			'Should contain link to Special:CheckUser for the second user'
-		);
-
-		$this->commonTestContribsToolLinks( 'Contributions', $html );
-
-		$this->assertStringNotContainsString(
-			'checkuser-suggestedinvestigations-user-past-checks-link-text',
-			$html,
-			'Links to Special:CheckUserLog should not be added unless a user has been checked'
+			'Should contain link to Special:CheckUser with a prefilled reason'
 		);
 
 		$name1 = urlencode( self::$testUser1->getName() );
@@ -327,68 +293,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'(checkuser-suggestedinvestigations-shared-pages-summary: 2, 1)',
 			$metadataElem,
 			'The shared-pages metadata message should report 2 edits on 1 shared page'
-		);
-	}
-
-	public function testPerUserSiCasesLinkShownForUserInMultipleCases(): void {
-		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
-
-		// A user appearing in two distinct cases should get the "X SI cases" link.
-		$sharedUser = $this->getMutableTestUser()->getUser();
-		$this->setUserEditCount( $sharedUser, 1 );
-
-		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
-		$caseManager = $this->getCaseManager();
-		$caseId = $caseManager->createCase( [ $sharedUser ], [ $signal ] );
-		$caseManager->createCase( [ $sharedUser ], [ $signal ] );
-
-		$context = $this->makeQqxContext();
-		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
-
-		// Render the detail view of one of the two cases, so the body contains exactly one row
-		// (and therefore one link) while the user's total case count is still 2.
-		$html = $this->getPager( $context, [], $caseId )->getBody();
-
-		$siCasesLinkHtml = $this->assertAndGetByElementClass(
-			$html,
-			'mw-usertoollinks-suggestedinvestigations-cases'
-		);
-		$this->assertStringContainsString(
-			'Special:SuggestedInvestigations',
-			$siCasesLinkHtml,
-			'The per-user SI cases link should point to Special:SuggestedInvestigations'
-		);
-		$this->assertStringContainsString(
-			'username=' . urlencode( $sharedUser->getName() ),
-			$siCasesLinkHtml,
-			'The per-user SI cases link should carry the account username as a query parameter'
-		);
-		$this->assertStringContainsString(
-			'(checkuser-suggestedinvestigations-user-si-cases-count: 2)',
-			$siCasesLinkHtml,
-			'The per-user SI cases link should report the total number of cases the account is in'
-		);
-	}
-
-	public function testPerUserSiCasesLinkNotShownForUserInSingleOpen(): void {
-		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
-
-		// A user in exactly one Open case should not get the link.
-		$user = $this->getMutableTestUser()->getUser();
-		$this->setUserEditCount( $user, 1 );
-
-		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( self::SIGNAL, 'Test value', false );
-		$this->getCaseManager()->createCase( [ $user ], [ $signal ] );
-
-		$context = $this->makeQqxContext();
-		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
-
-		$html = $this->getPager( $context )->getBody();
-
-		$this->assertStringNotContainsString(
-			'mw-usertoollinks-suggestedinvestigations-cases',
-			$html,
-			'The per-user SI cases link should not be shown for a user in a single Open case'
 		);
 	}
 
@@ -618,42 +522,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	/**
-	 * Verifies that the contribs toollinks are present for a two user case and that they use the provided
-	 * contributions special page.
-	 */
-	private function commonTestContribsToolLinks(
-		string $expectedContributionsSpecialPageName,
-		string $html
-	): void {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$contributionsToolLinks = DOMCompat::querySelectorAll( $specialPageDocument, '.mw-usertoollinks-contribs' );
-		$this->assertCount( 2, $contributionsToolLinks, 'Expected two contributions toollinks' );
-		foreach ( $contributionsToolLinks as $contributionsToolLink ) {
-			$toolLinkHtml = DOMCompat::getOuterHTML( $contributionsToolLink );
-
-			// Check if the tool link has the class for indicating that the user has no edits:
-			// * If it does, then the first test user is the user we should expect be associated
-			//   with this tool link.
-			// * If it does not, then the second test user should be expected
-			// This is because we mock in the test for the first test user to have no edits
-			// and all other users to have one edit
-			$expectedUserName = str_contains( $toolLinkHtml, 'mw-usertoollinks-contribs-no-edits' ) ?
-				self::$testUser1->getName() : self::$testUser2->getName();
-
-			$this->assertStringContainsString(
-				$expectedUserName,
-				$toolLinkHtml,
-				"Expected tool link to be for user $expectedUserName"
-			);
-			$this->assertStringContainsString(
-				"Special:$expectedContributionsSpecialPageName/$expectedUserName",
-				$toolLinkHtml
-			);
-			$this->assertStringContainsString( "(contribslink: $expectedUserName)", $toolLinkHtml );
-		}
-	}
-
 	/** @dataProvider provideSignalNameForVaryingSignalsArray */
 	public function testSignalNameForVaryingSignalsArray( array $signals, string $expectedSignalName ): void {
 		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
@@ -690,160 +558,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'Signals array has self::SIGNAL defined using array format with custom display name' => [
 				[ [ 'name' => self::SIGNAL, 'displayName' => 'Test signal display name' ] ],
 				'expectedSignalName' => 'Test signal display name',
-			],
-		];
-	}
-
-	public function testOutputWhenGlobalContributionsUsedAsContribsLink(): void {
-		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
-
-		$isGlobalContributionsEnabled = $this->getServiceContainer()->getSpecialPageFactory()
-			->exists( 'GlobalContributions' );
-		if ( !$isGlobalContributionsEnabled ) {
-			$this->markTestSkipped( 'Test requires GlobalContributions dependencies to be met' );
-		}
-
-		$this->overrideConfigValues( [
-			'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' => true,
-			MainConfigNames::LanguageCode => 'qqx',
-		] );
-
-		$this->addCaseWithTwoUsers();
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::makeTitle( NS_SPECIAL, 'SuggestedInvestigations' ) );
-		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
-
-		// Mock the global edit counts for our test users so that the first test user has no edits
-		// and all other users have one edit
-		$mockCentralAuthEditCounter = $this->createMock( CentralAuthEditCounter::class );
-		$mockCentralAuthEditCounter->method( 'getCount' )
-			->willReturnCallback(
-				static fn ( CentralAuthUser $centralUser ) =>
-					self::$testUser1->getName() === $centralUser->getName() ? 0 : 1
-			);
-		$this->setService( 'CentralAuth.CentralAuthEditCounter', $mockCentralAuthEditCounter );
-
-		// Expect that the local edit count is never fetched, as we are using the global one
-		$this->setService( 'UserEditTracker', $this->createNoOpMock( UserEditTracker::class ) );
-
-		// Check that the pager uses Special:GlobalContributions as the "contribs" tool link
-		$html = $this->getPager( $context )->getBody();
-		$this->commonTestContribsToolLinks( 'GlobalContributions', $html );
-	}
-
-	public function testOutputWhenUserHasBeenCheckedBefore(): void {
-		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'qqx' );
-
-		$this->addCaseWithTwoUsers();
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::makeTitle( NS_SPECIAL, 'SuggestedInvestigations' ) );
-		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
-
-		$this->addCheckUserLogEntryForFirstUser();
-
-		$html = $this->getPager( $context )->getBody();
-
-		// Expect that the table pager shows the "past checks" link for the first test user
-		$this->assertStringContainsString( 'Special:CheckUserLog/' . self::$testUser1->getName(), $html );
-		$this->assertStringContainsString(
-			'(checkuser-suggestedinvestigations-user-past-checks-link-text: ' . self::$testUser1->getName(),
-			$html
-		);
-
-		// Expect that the table pager does not show the "past checks" link for the second test user
-		$this->assertStringNotContainsString( 'Special:CheckUserLog/' . self::$testUser2->getName(), $html );
-		$this->assertStringNotContainsString(
-			'(checkuser-suggestedinvestigations-user-past-checks-link-text: ' . self::$testUser2->getName(),
-			$html
-		);
-	}
-
-	/**
-	 * Add a CheckUserLog entry where the target of the check is the first test user
-	 * (as set by {@link self::addCaseWithTwoUsers})
-	 */
-	private function addCheckUserLogEntryForFirstUser(): void {
-		/** @var CheckUserLogService $checkUserLogService */
-		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
-		$checkUserLogService->addLogEntry(
-			self::$testUser2,
-			'userips',
-			'user',
-			self::$testUser1->getName(),
-			'test',
-			self::$testUser1->getId()
-		);
-		DeferredUpdates::doUpdates();
-	}
-
-	/** @dataProvider provideToolLinksThatVaryBasedOnRights */
-	public function testToolLinksThatVaryBasedOnRights(
-		array $authorityRights,
-		bool $shouldSeeCheckUserToolLink,
-		bool $shouldSeeCheckUserLogToolLink
-	) {
-		$this->addCaseWithTwoUsers();
-		$context = RequestContext::getMain();
-		$context->setTitle( Title::makeTitle( NS_SPECIAL, 'SuggestedInvestigations' ) );
-		$context->setAuthority( $this->mockRegisteredAuthorityWithPermissions( $authorityRights ) );
-		$context->setLanguage( 'qqx' );
-
-		$this->addCheckUserLogEntryForFirstUser();
-
-		// If the user has the 'checkuser' right, then the tool links should include a link to
-		// Special:CheckUser. Otherwise the tool link should not be displayed
-		$html = $this->getPager( $context )->getBody();
-
-		if ( $shouldSeeCheckUserToolLink ) {
-			$this->assertStringContainsString(
-				'checkuser-suggestedinvestigations-user-check-link-text',
-				$html,
-				'Should have checkuser tool link as user has the checkuser right'
-			);
-		} else {
-			$this->assertStringNotContainsString(
-				'checkuser-suggestedinvestigations-user-check-link-text',
-				$html,
-				'Should not have checkuser tool link as user lacks the checkuser right'
-			);
-		}
-
-		if ( $shouldSeeCheckUserLogToolLink ) {
-			$this->assertStringContainsString(
-				'checkuser-suggestedinvestigations-user-past-checks-link-text',
-				$html,
-				'Should have checkuser log tool link as user has the checkuser right'
-			);
-		} else {
-			$this->assertStringNotContainsString(
-				'checkuser-suggestedinvestigations-user-past-checks-link-text',
-				$html,
-				'Should not have checkuser log tool link as user lacks the checkuser right'
-			);
-		}
-	}
-
-	public static function provideToolLinksThatVaryBasedOnRights(): array {
-		return [
-			'User has the checkuser and checkuser-log rights' => [
-				'authorityRights' => [ 'checkuser-suggested-investigations', 'checkuser', 'checkuser-log' ],
-				'shouldSeeCheckUserToolLink' => true,
-				'shouldSeeCheckUserLogToolLink' => true,
-			],
-			'User lacks the checkuser-log right' => [
-				'authorityRights' => [ 'checkuser-suggested-investigations', 'checkuser' ],
-				'shouldSeeCheckUserToolLink' => true,
-				'shouldSeeCheckUserLogToolLink' => false,
-			],
-			'User lacks the checkuser right' => [
-				'authorityRights' => [ 'checkuser-suggested-investigations', 'checkuser-log' ],
-				'shouldSeeCheckUserToolLink' => false,
-				'shouldSeeCheckUserLogToolLink' => true,
-			],
-			'User lacks the checkuser and checkuser-log rights' => [
-				'authorityRights' => [ 'checkuser-suggested-investigations' ],
-				'shouldSeeCheckUserToolLink' => false,
-				'shouldSeeCheckUserLogToolLink' => false,
 			],
 		];
 	}

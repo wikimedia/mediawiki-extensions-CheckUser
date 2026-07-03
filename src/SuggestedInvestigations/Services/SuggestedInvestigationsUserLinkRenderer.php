@@ -1,0 +1,349 @@
+<?php
+
+declare( strict_types=1 );
+
+namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
+
+use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Html\Html;
+use MediaWiki\Language\MessageLocalizer;
+use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Permissions\Authority;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\UserEditTracker;
+use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserIdentity;
+use Wikimedia\Rdbms\IConnectionProvider;
+
+class SuggestedInvestigationsUserLinkRenderer {
+
+	/**
+	 * @var bool Whether to use Special:GlobalContributions over Special:Contributions for
+	 *   the user contributions link.
+	 */
+	public readonly bool $useGlobalContribs;
+
+	/** @var array<int,int> The number of SI cases, keyed by the user id */
+	private array $caseCountsByUser = [];
+
+	/** @var array<int,bool> A cache for storing whether a user with given id is hidden or not */
+	private array $hiddenUsersCache = [];
+
+	/** @var array<int,bool> A cache for storing whether a user with given id has been checked or not */
+	private array $pastChecksCache = [];
+
+	/** @internal For use by ServiceWiring */
+	public const CONSTRUCTOR_OPTIONS = [
+		'CheckUserSuggestedInvestigationsUseGlobalContributionsLink',
+		'CheckUserSuggestedInvestigationsEnabled',
+	];
+
+	public function __construct(
+		private readonly LinkRenderer $linkRenderer,
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly SpecialPageFactory $specialPageFactory,
+		private readonly UserEditTracker $userEditTracker,
+		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
+		private readonly UserFactory $userFactory,
+		private readonly ServiceOptions $options,
+	) {
+		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+		$this->useGlobalContribs = $this->centralAuthEditCounter !== null &&
+			$this->specialPageFactory->exists( 'GlobalContributions' ) &&
+			$options->get( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' );
+	}
+
+	/**
+	 * Renders a user link, along with tool links suitable for SuggestedInvestigations
+	 *
+	 * @param UserIdentity $user The user to link to
+	 * @param Authority $viewingAuthority The authority of the viewer. Used to decide whether to show a hidden
+	 *     user at all and to decide what tool links to show.
+	 * @param IContextSource $context The context to use for messages, language and user link rendering.
+	 * @param array $options Additional options to configure what and how is being shown. The known options are:
+	 *     - 'caseId' (?int) - id of the SI case this row is displayed in; used for generating prefill reason in
+	 *         the 'check user' link; if unset, no prefill will be generated.
+	 *     - 'caseDetailsLink' (?string) - full text title of the detail page for the relevant case, used in check user
+	 *         reason prefill; if unset, no prefill will be generated.
+	 */
+	public function makeUserLinkLine(
+		UserIdentity $user,
+		Authority $viewingAuthority,
+		IContextSource $context,
+		array $options = [],
+	): string {
+		if ( !$this->isUserVisible( $user, $viewingAuthority ) ) {
+			return Html::element(
+				'span',
+				[ 'class' => 'history-deleted' ],
+				$context->msg( 'rev-deleted-user' )->text()
+			);
+		}
+
+		$userLink = $this->linkRenderer->makeUserLink( $user, $context );
+
+		$userToolLinks = [
+			$this->makeContributionsLink( $user, $context ),
+			$this->makePastChecksLink( $user, $context, $viewingAuthority ),
+			$this->makeCheckUserLink(
+				$user,
+				$context,
+				$viewingAuthority,
+				$options['caseId'] ?? null,
+				$options['caseDetailsLink'] ?? null,
+			),
+			$this->makePreviousCasesLink( $user, $context ),
+		];
+		$userToolLinks = array_filter( $userToolLinks );
+
+		$userToolLinksHtml = $context->msg( 'parentheses' )
+			->rawParams( $context->getLanguage()->pipeList( $userToolLinks ) )
+			->escaped();
+
+		return $context->msg( 'checkuser-suggestedinvestigations-user' )
+			->rawParams( $userLink, $userToolLinksHtml )
+			->parse();
+	}
+
+	private function makeContributionsLink( UserIdentity $user, MessageLocalizer $localizer ): string {
+		// Generate the link class for the "contribs" tool link
+		$linkClass = 'mw-usertoollinks-contribs';
+		$contributionsSpecialPage = $this->useGlobalContribs ? 'GlobalContributions' : 'Contributions';
+
+		if ( $this->getUserEditCount( $user ) === 0 ) {
+			// Use same CSS classes as Linker::userToolLinkArray to get a red link when no edits
+			$linkClass .= ' mw-usertoollinks-contribs-no-edits';
+		}
+
+		return $this->linkRenderer->makeKnownLink(
+			SpecialPage::getTitleFor( $contributionsSpecialPage, $user->getName() ),
+			$localizer->msg( 'contribslink' )
+				->params( $user->getName() )
+				->text(),
+			[ 'class' => $linkClass ]
+		);
+	}
+
+	private function makePastChecksLink(
+		UserIdentity $user,
+		MessageLocalizer $localizer,
+		Authority $viewingAuthority
+	): ?string {
+		// Only show link to past checks if the target user has been checked before and if viewer can see
+		// the CheckUser log
+		if (
+			!$viewingAuthority->isAllowed( 'checkuser-log' )
+			|| !$this->hasUserBeenChecked( $user )
+		) {
+			return null;
+		}
+
+		return $this->linkRenderer->makeKnownLink(
+			SpecialPage::getTitleFor( 'CheckUserLog', $user->getName() ),
+			$localizer->msg( 'checkuser-suggestedinvestigations-user-past-checks-link-text' )
+				->params( $user->getName() )
+				->text(),
+			[ 'class' => 'mw-usertoollinks-past-checks' ]
+		);
+	}
+
+	private function makeCheckUserLink(
+		UserIdentity $user,
+		MessageLocalizer $localizer,
+		Authority $viewingAuthority,
+		?int $caseId = null,
+		?string $caseDetailsLink = null
+	): ?string {
+		if ( !$viewingAuthority->isAllowed( 'checkuser' ) ) {
+			return null;
+		}
+
+		// Generate a link to Special:CheckUser with a prefilled 'reason' input field that links back to the
+		// case that this user is in.
+		$prefilledReason = null;
+		if ( $caseId !== null && $caseDetailsLink !== null ) {
+			$prefilledReason = $localizer->msg( 'checkuser-suggestedinvestigations-user-check-reason-prefill' )
+				->params( $caseDetailsLink )
+				->numParams( $caseId )
+				->params( $user->getName() )
+				->inContentLanguage()
+				->text();
+		}
+
+		return $this->linkRenderer->makeKnownLink(
+			SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
+			$localizer->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
+				->params( $user->getName() )
+				->text(),
+			[ 'class' => 'mw-usertoollinks-checkuser' ],
+			[ 'reason' => $prefilledReason ]
+		);
+	}
+
+	private function makePreviousCasesLink( UserIdentity $user, MessageLocalizer $localizer ): ?string {
+		// Only show the link if there are at least two cases
+		// (i.e., there's at least one other case)
+		$siCaseCount = $this->getCaseCountForUser( $user );
+		if ( $siCaseCount <= 1 ) {
+			return null;
+		}
+
+		return $this->linkRenderer->makeKnownLink(
+			SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
+			$localizer->msg( 'checkuser-suggestedinvestigations-user-si-cases-count' )
+				->numParams( $siCaseCount )
+				->text(),
+			[ 'class' => 'mw-usertoollinks-suggestedinvestigations-cases' ],
+			[ 'username' => $user->getName(), 'hideCasesWithNoUserEdits' => '0' ]
+		);
+	}
+
+	/**
+	 * Returns the number of edits that will be used by this link renderer for deciding whether to
+	 * display blue or red contributions link. Depending on the renderer configuration, it can be
+	 * either global or local edits.
+	 */
+	public function getUserEditCount( UserIdentity $user ): int {
+		if ( $this->useGlobalContribs ) {
+			return $this->centralAuthEditCounter->getCount(
+				CentralAuthUser::getInstance( $user )
+			);
+		} else {
+			return $this->userEditTracker->getUserEditCount( $user ) ?? 0;
+		}
+	}
+
+	/**
+	 * Checks whether the target user is visible to the passed authority.
+	 */
+	public function isUserVisible( UserIdentity $user, Authority $viewingAuthority ): bool {
+		if ( $viewingAuthority->isAllowed( 'hideuser' ) ) {
+			return true;
+		}
+		if ( !isset( $this->hiddenUsersCache[$user->getId()] ) ) {
+			$this->preloadNonEditingData( [ $user ] );
+		}
+		return !$this->hiddenUsersCache[$user->getId()];
+	}
+
+	private function getCaseCountForUser( UserIdentity $user ): int {
+		if ( !isset( $this->caseCountsByUser[$user->getId()] ) ) {
+			$this->preloadNonEditingData( [ $user ] );
+		}
+		return $this->caseCountsByUser[$user->getId()];
+	}
+
+	private function hasUserBeenChecked( UserIdentity $user ): bool {
+		if ( !isset( $this->pastChecksCache[$user->getId()] ) ) {
+			$this->preloadNonEditingData( [ $user ] );
+		}
+		return $this->pastChecksCache[$user->getId()];
+	}
+
+	/**
+	 * Preloads the edit counts for a list of users that are going to have links rendered afterward.
+	 *
+	 * Use this method to save DB queries, by performing batch lookups ahead of time, instead of single user at a time.
+	 *
+	 * This method is separate, so that data preloading in {@see SuggestedInvestigationsCasesPager::queryUsersForCases}
+	 * doesn't have to be repeated in this class (if link renderer caller is sure that it was preloaded,
+	 * they don't call this method).
+	 * @param UserIdentity[] $users The users to preload the data for
+	 */
+	public function preloadEditCounts( array $users ): void {
+		if ( $this->useGlobalContribs ) {
+			$this->centralAuthEditCounter->preloadGetCountCache( array_map(
+				static fn ( UserIdentity $user ) => CentralAuthUser::getInstance( $user ),
+				$users
+			) );
+		} else {
+			$this->userEditTracker->preloadUserEditCountCache( $users );
+		}
+	}
+
+	/**
+	 * Preloads data for a list of users that are going to have links rendered afterward.
+	 *
+	 * Use this method to save DB queries, by performing batch lookups ahead of time, instead of single user at a time.
+	 * @param UserIdentity[] $users The users to preload the data for
+	 */
+	public function preloadNonEditingData( array $users ): void {
+		$userIds = array_map( static fn ( UserIdentity $user ) => $user->getId(), $users );
+
+		foreach ( $this->queryCaseCountsForUsers( $userIds ) as $userId => $caseCount ) {
+			$this->caseCountsByUser[$userId] = $caseCount;
+		}
+		foreach ( $this->queryUserHiddenStatus( $users ) as $userId => $isHidden ) {
+			$this->hiddenUsersCache[$userId] = $isHidden;
+		}
+		foreach ( $this->queryPastChecks( $userIds ) as $userId => $wasChecked ) {
+			$this->pastChecksCache[$userId] = $wasChecked;
+		}
+	}
+
+	/**
+	 * @param int[] $userIds
+	 * @return array<int,int>
+	 */
+	private function queryCaseCountsForUsers( array $userIds ): array {
+		if ( !$userIds || !$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+			return [];
+		}
+		$counts = array_fill_keys( $userIds, 0 );
+		foreach ( array_chunk( $userIds, 100 ) as $userIdBatch ) {
+			$res = $this->connectionProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN )
+				->newSelectQueryBuilder()
+				->select( [ 'siu_user_id', 'count' => 'COUNT(*)' ] )
+				->from( 'cusi_user' )
+				->where( [ 'siu_user_id' => $userIdBatch ] )
+				->groupBy( 'siu_user_id' )
+				->caller( __METHOD__ )
+				->fetchResultSet();
+
+			foreach ( $res as $row ) {
+				$counts[(int)$row->siu_user_id] = (int)$row->count;
+			}
+		}
+		return $counts;
+	}
+
+	/**
+	 * @param UserIdentity[] $users
+	 * @return array<int,bool>
+	 */
+	private function queryUserHiddenStatus( array $users ): array {
+		$result = [];
+		foreach ( $users as $userIdentity ) {
+			// TODO: We should have a batch way of accessing the hidden status for a user
+			$user = $this->userFactory->newFromUserIdentity( $userIdentity );
+			$result[$user->getId()] = $user->isHidden();
+		}
+		return $result;
+	}
+
+	/**
+	 * @param int[] $userIds
+	 * @return array<int,bool>
+	 */
+	private function queryPastChecks( array $userIds ): array {
+		$result = array_fill_keys( $userIds, false );
+		foreach ( array_chunk( $userIds, 500 ) as $userIdsBatch ) {
+			$checkedUsers = $this->connectionProvider->getReplicaDatabase()->newSelectQueryBuilder()
+					->select( 'cul_target_id' )
+					->from( 'cu_log' )
+					->where( [ 'cul_target_id' => $userIdsBatch ] )
+					->caller( __METHOD__ )
+					->fetchFieldValues();
+
+			foreach ( $checkedUsers as $userId ) {
+				$result[$userId] = true;
+			}
+		}
+		return $result;
+	}
+}

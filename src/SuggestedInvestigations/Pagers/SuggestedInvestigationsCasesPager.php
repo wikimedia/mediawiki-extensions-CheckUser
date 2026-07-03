@@ -25,8 +25,6 @@ namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
 use MediaWiki\Context\IContextSource;
-use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
-use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
@@ -38,6 +36,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBloc
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsRelatedCasesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserLinkRenderer;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Navigation\CodexPagerNavigationBuilder;
@@ -45,9 +44,7 @@ use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Pager\CodexTablePager;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
-use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
@@ -109,22 +106,6 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private array $signalsToDisplayNames = [];
 
 	/**
-	 * @var int[] User IDs of users who have at least one check on them recorded in the cu_log table
-	 */
-	private array $usersWhoHaveBeenChecked = [];
-
-	/**
-	 * @var array<int,int> Maps local user ID to the total number of SI cases (any status) the user appears in.
-	 */
-	private array $caseCountsByUserId = [];
-
-	/**
-	 * @var bool Whether to use Special:GlobalContributions over Special:Contributions for
-	 *   the user contributions link.
-	 */
-	private bool $useGlobalContribs;
-
-	/**
 	 * @var bool Whether the filters implemented using PHP have scanned too many rows and have
 	 *   returned only partial results
 	 */
@@ -156,11 +137,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
-		private readonly UserEditTracker $userEditTracker,
-		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly StatusReasonFormatter $statusReasonFormatter,
-		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 		private readonly LinkBatchFactory $linkBatchFactory,
 		private readonly UserFactory $userFactory,
 		private readonly CompositeBlockChecker $compositeBlockChecker,
@@ -169,6 +147,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
 		private readonly SuggestedInvestigationsRelatedCasesLookup $relatedCasesLookup,
 		private readonly HookRunner $hookRunner,
+		private readonly SuggestedInvestigationsUserLinkRenderer $siUserLinkRenderer,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals,
@@ -218,10 +197,6 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				'checkuser-suggestedinvestigations-signal-' . $signal
 			)->parse();
 		}
-
-		$this->useGlobalContribs = $this->centralAuthEditCounter !== null &&
-			$this->specialPageFactory->exists( 'GlobalContributions' ) &&
-			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink' );
 
 		$this->parseFilters( $urlNamesToSignals );
 	}
@@ -344,103 +319,18 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$detailViewLink = $this->getDetailViewTitle( (int)$this->mCurrentRow->sic_url_identifier )->getFullText();
 
-		$contributionsSpecialPage = $this->useGlobalContribs ? 'GlobalContributions' : 'Contributions';
-
 		foreach ( $users as $i => $user ) {
-			$userVisible = $this->getAuthority()->isAllowed( 'hideuser' ) ||
-				!$this->userFactory->newFromUserIdentity( $user )->isHidden();
-			if ( $userVisible ) {
-				$userLink = $this->getLinkRenderer()->makeUserLink( $user, $this->getContext() );
+			$userLinks = $this->siUserLinkRenderer->makeUserLinkLine(
+				$user,
+				$this->getAuthority(),
+				$this->getContext(),
+				[
+					'caseId' => (int)$this->mCurrentRow->sic_id,
+					'caseDetailsLink' => $detailViewLink,
+				]
+			);
 
-				// Generate a link to Special:CheckUser with a prefilled 'reason' input field that links back to the
-				// case that this user is in.
-				$checkUserPrefilledReason = $this->msg( 'checkuser-suggestedinvestigations-user-check-reason-prefill' )
-					->params( $detailViewLink )
-					->numParams( $this->mCurrentRow->sic_id )
-					->params( $user->getName() )
-					->inContentLanguage()
-					->text();
-
-				// Generate the link class for the "contribs" tool link
-				$userContribsLinkClass = 'mw-usertoollinks-contribs';
-
-				if ( $this->useGlobalContribs ) {
-					$editCount = $this->centralAuthEditCounter->getCount(
-						CentralAuthUser::getInstance( $user )
-					);
-				} else {
-					$editCount = $this->userEditTracker->getUserEditCount( $user );
-				}
-				if ( $editCount === 0 ) {
-					// Use same CSS classes as Linker::userToolLinkArray to get a red link when no contribs
-					$userContribsLinkClass .= ' mw-usertoollinks-contribs-no-edits';
-				}
-
-				// Add link to either Special:Contributions or Special:GlobalContributions
-				$userToolLinks = [];
-				$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( $contributionsSpecialPage, $user->getName() ),
-					$this->msg( 'contribslink' )
-						->params( $user->getName() )
-						->text(),
-					[ 'class' => $userContribsLinkClass ]
-				);
-
-				// Add link to Special:CheckUserLog if the user has been checked before and the
-				// viewing authority has the 'checkuser-log' right
-				if (
-					in_array( $user->getId(), $this->usersWhoHaveBeenChecked ) &&
-					$this->getAuthority()->isAllowed( 'checkuser-log' )
-				) {
-					$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
-						SpecialPage::getTitleFor( 'CheckUserLog', $user->getName() ),
-						$this->msg( 'checkuser-suggestedinvestigations-user-past-checks-link-text' )
-							->params( $user->getName() )
-							->text(),
-						[ 'class' => 'mw-usertoollinks-past-checks' ]
-					);
-				}
-
-				// Add link to Special:CheckUser if the user has the 'checkuser' right
-				if ( $this->getAuthority()->isAllowed( 'checkuser' ) ) {
-					$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
-						SpecialPage::getTitleFor( 'CheckUser', $user->getName() ),
-						$this->msg( 'checkuser-suggestedinvestigations-user-check-link-text' )
-							->params( $user->getName() )
-							->text(),
-						[ 'class' => 'mw-usertoollinks-checkuser' ],
-						[ 'reason' => $checkUserPrefilledReason ]
-					);
-				}
-
-				// Link to the other SI cases the account appears in
-				$siCaseCount = $this->caseCountsByUserId[$user->getId()] ?? 0;
-				if ( $siCaseCount >= 2 ) {
-					$userToolLinks[] = $this->getLinkRenderer()->makeKnownLink(
-						SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
-						$this->msg( 'checkuser-suggestedinvestigations-user-si-cases-count' )
-							->numParams( $siCaseCount )
-							->text(),
-						[ 'class' => 'mw-usertoollinks-suggestedinvestigations-cases' ],
-						[ 'username' => $user->getName(), 'hideCasesWithNoUserEdits' => '0' ]
-					);
-				}
-			} else {
-				$userLink = Html::element(
-					'span',
-					[ 'class' => 'history-deleted' ],
-					$this->msg( 'rev-deleted-user' )->text()
-				);
-				$userToolLinks = [];
-			}
-
-			$userToolLinksHtml = '';
-			if ( $userToolLinks !== [] ) {
-				$userToolLinksHtml = $this->msg( 'parentheses' )
-					->rawParams( $this->getLanguage()->pipeList( $userToolLinks ) )
-					->escaped();
-			}
-
+			$userVisible = $this->siUserLinkRenderer->isUserVisible( $user, $this->getAuthority() );
 			$formattedUsers .= Html::rawElement(
 				'li',
 				[
@@ -449,9 +339,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 						: '',
 					'data-username' => $userVisible ? $user->getName() : '',
 				],
-				$this->msg( 'checkuser-suggestedinvestigations-user' )
-					->rawParams( $userLink, $userToolLinksHtml )
-					->parse()
+				$userLinks
 			);
 		}
 		$formattedUsers .= Html::closeElement( 'ul' );
@@ -788,40 +676,14 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	protected function preprocessResults( $result ): void {
 		parent::preprocessResults( $result );
 
-		$allUserIds = [];
+		$allUsers = [];
 		foreach ( $result as $caseRow ) {
 			foreach ( $caseRow->users as $user ) {
-				$allUserIds[$user->getId()] = true;
+				$allUsers[$user->getId()] = $user;
 			}
 		}
 
-		$this->caseCountsByUserId = $this->queryCaseCountsForUsers( array_keys( $allUserIds ) );
-	}
-
-	/**
-	 * Returns a map of user ID => total number of SI cases (all statuses) the user appears in.
-	 * @param int[] $userIds
-	 * @return array<int,int>
-	 */
-	private function queryCaseCountsForUsers( array $userIds ): array {
-		if ( !$userIds ) {
-			return [];
-		}
-		$counts = [];
-		foreach ( array_chunk( $userIds, 100 ) as $userIdBatch ) {
-			$res = $this->getDatabase()->newSelectQueryBuilder()
-				->select( [ 'siu_user_id', 'count' => 'COUNT(*)' ] )
-				->from( 'cusi_user' )
-				->where( [ 'siu_user_id' => $userIdBatch ] )
-				->groupBy( 'siu_user_id' )
-				->caller( __METHOD__ )
-				->fetchResultSet();
-
-			foreach ( $res as $row ) {
-				$counts[(int)$row->siu_user_id] = (int)$row->count;
-			}
-		}
-		return $counts;
+		$this->siUserLinkRenderer->preloadNonEditingData( array_values( $allUsers ) );
 	}
 
 	/** @inheritDoc */
@@ -941,21 +803,6 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		$lb->execute();
-
-		foreach ( array_chunk( $users, 500 ) as $usersBatch ) {
-			$this->usersWhoHaveBeenChecked = array_merge(
-				$this->localDb->newSelectQueryBuilder()
-					->select( 'cul_target_id' )
-					->from( 'cu_log' )
-					->where( [ 'cul_target_id' => array_map(
-						static fn ( UserIdentity $user ) => $user->getId(),
-						$usersBatch
-					) ] )
-					->caller( __METHOD__ )
-					->fetchFieldValues(),
-				$this->usersWhoHaveBeenChecked
-			);
-		}
 	}
 
 	/**
@@ -1093,17 +940,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			}
 		}
 
-		// Preload the local or global user edit counts (as appropriate). Needed
-		// for the $this->hideCasesWithNoUserEdits filter, but also for the "contribs"
-		// link colour check in ::formatUsersCell
-		if ( $this->useGlobalContribs ) {
-			$this->centralAuthEditCounter->preloadGetCountCache( array_map(
-				static fn ( UserIdentity $user ) => CentralAuthUser::getInstance( $user ),
-				$userIdToUserIdentity
-			) );
-		} else {
-			$this->userEditTracker->preloadUserEditCountCache( $userIdToUserIdentity );
-		}
+		// We defer to the link renderer service whether to use local or global contributions,
+		// therefore we preload and get the edit counts through it.
+		// Preload the counts here, to save on DB queries.
+		$this->siUserLinkRenderer->preloadEditCounts( $userIdToUserIdentity );
 
 		$unblockedUserIds = [];
 		if ( $this->hideCasesWithNoBlockedUsers ) {
@@ -1123,14 +963,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 					$userIdentity = $userIdToUserIdentity[$userId];
 
 					if ( $caseHasNoEdits ) {
-						if ( $this->useGlobalContribs ) {
-							$editCount = $this->centralAuthEditCounter->getCount(
-								CentralAuthUser::getInstance( $userIdentity )
-							);
-						} else {
-							$editCount = $this->userEditTracker->getUserEditCount( $userIdentity );
-						}
-
+						$editCount = $this->siUserLinkRenderer->getUserEditCount( $userIdentity );
 						$caseHasNoEdits = $editCount === 0;
 					}
 				}
@@ -1237,7 +1070,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		);
 		$pout->setJsConfigVar(
 			'wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed',
-			$this->useGlobalContribs
+			$this->siUserLinkRenderer->useGlobalContribs
 		);
 		return $pout;
 	}

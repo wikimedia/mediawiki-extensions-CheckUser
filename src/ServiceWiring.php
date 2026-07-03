@@ -64,6 +64,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserLinkRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Logger\LoggerFactory;
@@ -449,10 +450,6 @@ return [
 	'CheckUserSuggestedInvestigationsPagerFactory' => static function (
 		MediaWikiServices $services
 	): SuggestedInvestigationsPagerFactory {
-		$centralAuthEditCounter = null;
-		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
-			$centralAuthEditCounter = CentralAuthServices::getEditCounter( $services );
-		}
 		return new SuggestedInvestigationsPagerFactory(
 			$services->getLinkRenderer(),
 			$services->getLinkBatchFactory(),
@@ -463,16 +460,14 @@ return [
 			$services->getCommentFormatter(),
 			$services->getUserFactory(),
 			$services->getConnectionProvider(),
-			$services->getUserEditTracker(),
-			$services->getSpecialPageFactory(),
 			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserCompositeBlockChecker' ),
 			$services->get( 'CheckUserLogger' ),
 			$services->get( 'CheckUserSuggestedInvestigationsMessageRenderer' ),
-			$centralAuthEditCounter,
 			$services->get( 'CheckUserSuggestedInvestigationsSharedPagesLookup' ),
 			$services->get( 'CheckUserSuggestedInvestigationsRelatedCasesLookup' ),
 			$services->get( 'CheckUserHookRunner' ),
+			$services->get( 'CheckUserSuggestedInvestigationsUserLinkRenderer' ),
 		);
 	},
 	'CheckUserSuggestedInvestigationsRelatedCasesLookup' => static function (
@@ -492,6 +487,26 @@ return [
 			),
 			$services->getConnectionProvider(),
 			$services->getRevisionStore()
+		);
+	},
+	'CheckUserSuggestedInvestigationsUserLinkRenderer' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsUserLinkRenderer {
+		$centralAuthEditCounter = null;
+		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+			$centralAuthEditCounter = CentralAuthServices::getEditCounter( $services );
+		}
+		return new SuggestedInvestigationsUserLinkRenderer(
+			$services->getLinkRenderer(),
+			$services->getConnectionProvider(),
+			$services->getSpecialPageFactory(),
+			$services->getUserEditTracker(),
+			$centralAuthEditCounter,
+			$services->getUserFactory(),
+			new ServiceOptions(
+				SuggestedInvestigationsUserLinkRenderer::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			)
 		);
 	},
 	'CheckUserSuggestedInvestigationsUserRevisionLookup' => static function (
