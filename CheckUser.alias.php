@@ -304,9 +304,10 @@ $specialPageAliases['ko'] = [
 	'CheckUserLog' => [ '사용자검사기록', '사용자확인기록' ],
 	'GlobalContributions' => [ '전역기여' ],
 	'Investigate' => [ '조사', '사용자조사' ],
-	'InvestigateBlock' => [ '조사차단' ],
+	'InvestigateBlock' => [ '조사차단', '사용자조사차단' ],
 	'IPContributions' => [ 'IP기여' ],
 	'SuggestedInvestigations' => [ '조사제안', '제안된조사' ],
+	'RangeCalculator' => [ '대역계산기', 'IP대역계산기', '대역계산', 'IP대역계산' ],
 ];
 
 /** Colognian (Ripoarisch) */
