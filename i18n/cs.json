@@ -40,6 +40,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Revize uživatele",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Uživatelé s přístupem k datům o dočasných účtech",
 	"checkuser-clienthints-name-architecture": "Architektura",
+	"checkuser-clienthints-name-bitness": "Délka slova",
 	"checkuser-clienthints-name-form-factor": "Form faktor",
 	"checkuser-clienthints-name-brand": "Značka",
 	"checkuser-clienthints-name-mobile": "Mobil",

@@ -9,6 +9,7 @@
 			"شاه زمان پټان"
 		]
 	},
+	"checkuser-desc": "کارنانو ته مناسبه اجازه روکوي چې د کارنانو وېبپتې او نور مالومات وگوري",
 	"checkuser": "سم‌کتونکی کارن",
 	"checkuserlog": "سم‌کتونکي کارن يادښت",
 	"checkuser-contribs": "کارن وېب‌پتو سم‌کتنه",
@@ -101,8 +102,14 @@
 	"checkuser-helper-xff-untrusted": "XFF (بې باوره):",
 	"logentry-checkuser-private-event-login-success": "د $4 په توگه په برياليتوب سره {{SITENAME}} ته {{GENDER:$2|ورننوتلئ}}",
 	"logentry-checkuser-private-event-login-failure": "د $4 په توگه {{SITENAME}} ته په ننوتلو کې {{GENDER:$2|پاتې راغلئ}}",
+	"logentry-checkuser-private-event-login-failure-with-good-password": "د $4 په توگه {{SITENAME}} ته ننوتلو کې {{GENDER:$2|نابرياله شو}}؛ خو پټنوم يې سم و",
+	"logentry-checkuser-private-event-user-logout": "د ای‌پي‌آی يا {{#special:logout}} په کارولو سره په برياليتوب سره {{GENDER:$2|له غونډاله ووت}}",
+	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$5|کارن}} $4 ته د پټنوم بيااوڼلو برېښليک {{GENDER:$2|ولېږل شو}}",
+	"logentry-checkuser-private-event-email-sent": "\"$4\" ته يو برېښليک {{GENDER:$2|ولېږلو}}",
 	"logentry-checkuser-private-event-autocreate-account": "په خپلکاره توگه جوړ شو",
 	"logentry-checkuser-private-event-create-account": "جوړ شو",
+	"group-checkuser.css": "/* دلته ځای پرځای شوی سي‌اېس‌اېس کوډ به يوازې سم‌کتونکي کارنان اغېزمن کړي*/",
+	"group-checkuser.js": "/* دلته ځای پرځای شوی جاواسکريپټ کوډ به يوازې سم‌کتونکي کارنان اغېزمن کړي*/",
 	"checkuser-link-investigate-label": "{{#special:investigate}} وازمويئ",
 	"checkuser-investigateblock": "په کارنانو بنديز‌لگول",
 	"checkuser-investigateblock-target": "کارن‌نومونه او وېبپتې",
@@ -186,8 +193,17 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "وېبپته ښودل",
 	"checkuser-tempaccount-reveal-ip-missing": "لاسرسي نه بهر",
 	"checkuser-tempaccount-reveal-ip-error": "تېروتنه",
+	"checkuser-temporary-account-log-header": "دا د لاندې مواردو يادښت دی:\n# د لنډمهاله گڼونونو کارولې وېب پتې کتل\n# د وېبپتې يا وېب پتې لړۍ پورې اړوند لنډمهاله گڼونو کتل\n# د لنډمهاله گڼونونو له خوا کارېدلو وېبپتو د کتلو لپاره د کارن لاسرسي کچې بدلول",
+	"logentry-checkuser-temporary-account-change-access": "$1 د {{GENDER:$2|هغه|هغې|هغوی}} د لنډمهاله گڼونونو د وېبپتو کتلو ته خپل لاسرسی $4",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|ناچارن‌شوی}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|چارن‌شوی}}",
+	"logentry-checkuser-temporary-account-view-ips": "$1 د $3 وېبپتې {{GENDER:$2|وکتلې}}",
+	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 په $3 کې لنډمهاله گڼونونه {{GENDER:$2|وکتل}}",
+	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 په ټوليز ډول په $3 کې لنډمهاله گڼونونه {{GENDER:$2|وکتل}}",
 	"log-action-filter-checkuser-temporary-account": "چارې ډول:",
-	"log-action-filter-checkuser-temporary-account-change-access": "لاسرسی بدلول"
+	"log-action-filter-checkuser-temporary-account-change-access": "لاسرسی بدلول",
+	"log-action-filter-checkuser-temporary-account-view-ips": "د لنډمهاله گڼون د وېبپتې اومتوک ته لاسرسی ترلاسه‌کول",
+	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 د ژغورل‌شويو اوښتگرو کتلو لپاره {{GENDER:$2|خپل}} لاسرسی چارن کړ",
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 د ژغورل‌شويو اوښتگرو کتلو لپاره {{GENDER:$2|خپل}} لاسرسی ناچارن کړ",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 ژغورل‌شوي اوښتگر چې $3 سره تړاو لري {{GENDER:$2|وکتل}}"
 }

@@ -77,7 +77,7 @@
 	"checkuser-cidr-tool-links-checkuserlog": "Tidligere kontrol af dette interval",
 	"checkuser-cidr-tool-links-prefix": "Værktøj for dette interval:",
 	"checkuser-range-outside-limit": "Intervallet $1 er uden for de tilladte grænser.",
-	"checkuser-empty": "Loggen indeholder ingen poster.",
+	"checkuser-empty": "Loggen indeholder ingen elementer.",
 	"checkuser-nomatch": "Ingen matchende resultater blev fundet.",
 	"checkuser-nomatch-edits": "Ingen matchende resultater blev fundet.\nSeneste redigering var $1 $2.",
 	"checkuser-check": "Tjek",
