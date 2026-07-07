@@ -6,6 +6,7 @@ namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
 
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\AbuseFilter\AbuseLogLookup;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
@@ -37,6 +38,9 @@ class SuggestedInvestigationsUserLinkRenderer {
 	/** @var array<int,bool> A cache for storing whether a user with given id has been checked or not */
 	private array $pastChecksCache = [];
 
+	/** @var array<int,int> Maps local user ID to the number of AbuseFilter hits for the user */
+	private array $abuseFilterHitCountsByUserId = [];
+
 	/** @internal For use by ServiceWiring */
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserSuggestedInvestigationsUseGlobalContributionsLink',
@@ -51,6 +55,7 @@ class SuggestedInvestigationsUserLinkRenderer {
 		private readonly ?CentralAuthEditCounter $centralAuthEditCounter,
 		private readonly UserFactory $userFactory,
 		private readonly ServiceOptions $options,
+		private readonly ?AbuseLogLookup $abuseLogLookup,
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->useGlobalContribs = $this->centralAuthEditCounter !== null &&
@@ -97,7 +102,8 @@ class SuggestedInvestigationsUserLinkRenderer {
 				$options['caseId'] ?? null,
 				$options['caseDetailsLink'] ?? null,
 			),
-			$this->makePreviousCasesLink( $user, $context ),
+			$this->makePreviousCasesLink( $user, $context, $viewingAuthority ),
+			$this->makeAbuseLogLink( $user, $context, $viewingAuthority ),
 		];
 		$userToolLinks = array_filter( $userToolLinks );
 
@@ -138,7 +144,7 @@ class SuggestedInvestigationsUserLinkRenderer {
 		// the CheckUser log
 		if (
 			!$viewingAuthority->isAllowed( 'checkuser-log' )
-			|| !$this->hasUserBeenChecked( $user )
+			|| !$this->hasUserBeenChecked( $user, $viewingAuthority )
 		) {
 			return null;
 		}
@@ -185,10 +191,14 @@ class SuggestedInvestigationsUserLinkRenderer {
 		);
 	}
 
-	private function makePreviousCasesLink( UserIdentity $user, MessageLocalizer $localizer ): ?string {
+	private function makePreviousCasesLink(
+		UserIdentity $user,
+		MessageLocalizer $localizer,
+		Authority $viewingAuthority
+	): ?string {
 		// Only show the link if there are at least two cases
 		// (i.e., there's at least one other case)
-		$siCaseCount = $this->getCaseCountForUser( $user );
+		$siCaseCount = $this->getCaseCountForUser( $user, $viewingAuthority );
 		if ( $siCaseCount <= 1 ) {
 			return null;
 		}
@@ -200,6 +210,27 @@ class SuggestedInvestigationsUserLinkRenderer {
 				->text(),
 			[ 'class' => 'mw-usertoollinks-suggestedinvestigations-cases' ],
 			[ 'username' => $user->getName(), 'hideCasesWithNoUserEdits' => '0' ]
+		);
+	}
+
+	private function makeAbuseLogLink(
+		UserIdentity $user,
+		MessageLocalizer $localizer,
+		Authority $viewingAuthority
+	): ?string {
+		// Link to Special:AbuseLog for the account
+		$abuseFilterHits = $this->getFilterHitCountForUser( $user, $viewingAuthority );
+		if ( $abuseFilterHits === 0 ) {
+			return null;
+		}
+
+		return $this->linkRenderer->makeKnownLink(
+			SpecialPage::getTitleFor( 'AbuseLog' ),
+			$localizer->msg( 'checkuser-suggestedinvestigations-user-af-hits-count' )
+				->numParams( $abuseFilterHits )
+				->text(),
+			[ 'class' => 'mw-usertoollinks-abusefilter-hits' ],
+			[ 'wpSearchUser' => $user->getName() ]
 		);
 	}
 
@@ -226,23 +257,30 @@ class SuggestedInvestigationsUserLinkRenderer {
 			return true;
 		}
 		if ( !isset( $this->hiddenUsersCache[$user->getId()] ) ) {
-			$this->preloadNonEditingData( [ $user ] );
+			$this->preloadNonEditingData( [ $user ], $viewingAuthority );
 		}
 		return !$this->hiddenUsersCache[$user->getId()];
 	}
 
-	private function getCaseCountForUser( UserIdentity $user ): int {
+	private function getCaseCountForUser( UserIdentity $user, Authority $viewingAuthority ): int {
 		if ( !isset( $this->caseCountsByUser[$user->getId()] ) ) {
-			$this->preloadNonEditingData( [ $user ] );
+			$this->preloadNonEditingData( [ $user ], $viewingAuthority );
 		}
 		return $this->caseCountsByUser[$user->getId()];
 	}
 
-	private function hasUserBeenChecked( UserIdentity $user ): bool {
+	private function hasUserBeenChecked( UserIdentity $user, Authority $viewingAuthority ): bool {
 		if ( !isset( $this->pastChecksCache[$user->getId()] ) ) {
-			$this->preloadNonEditingData( [ $user ] );
+			$this->preloadNonEditingData( [ $user ], $viewingAuthority );
 		}
 		return $this->pastChecksCache[$user->getId()];
+	}
+
+	private function getFilterHitCountForUser( UserIdentity $user, Authority $viewingAuthority ): int {
+		if ( !isset( $this->abuseFilterHitCountsByUserId[$user->getId()] ) ) {
+			$this->preloadNonEditingData( [ $user ], $viewingAuthority );
+		}
+		return $this->abuseFilterHitCountsByUserId[$user->getId()];
 	}
 
 	/**
@@ -271,8 +309,10 @@ class SuggestedInvestigationsUserLinkRenderer {
 	 *
 	 * Use this method to save DB queries, by performing batch lookups ahead of time, instead of single user at a time.
 	 * @param UserIdentity[] $users The users to preload the data for
+	 * @param Authority $authority Authority in context of which the data should be preloaded. It may influence whether
+	 *     hidden items are reflected in the count.
 	 */
-	public function preloadNonEditingData( array $users ): void {
+	public function preloadNonEditingData( array $users, Authority $authority ): void {
 		$userIds = array_map( static fn ( UserIdentity $user ) => $user->getId(), $users );
 
 		foreach ( $this->queryCaseCountsForUsers( $userIds ) as $userId => $caseCount ) {
@@ -283,6 +323,11 @@ class SuggestedInvestigationsUserLinkRenderer {
 		}
 		foreach ( $this->queryPastChecks( $userIds ) as $userId => $wasChecked ) {
 			$this->pastChecksCache[$userId] = $wasChecked;
+		}
+		// $hitCounts may have some entries missing (primarily due to missing permissions); fill these with zeros
+		$hitCounts = $this->abuseLogLookup?->getHitCountsForUsers( $authority, $userIds ) ?? [];
+		foreach ( $userIds as $userId ) {
+			$this->abuseFilterHitCountsByUserId[$userId] = $hitCounts[$userId] ?? 0;
 		}
 	}
 

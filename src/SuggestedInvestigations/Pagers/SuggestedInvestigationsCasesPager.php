@@ -683,7 +683,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			}
 		}
 
-		$this->siUserLinkRenderer->preloadNonEditingData( array_values( $allUsers ) );
+		$this->siUserLinkRenderer->preloadNonEditingData( array_values( $allUsers ), $this->getAuthority() );
 	}
 
 	/** @inheritDoc */

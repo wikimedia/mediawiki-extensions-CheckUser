@@ -6,6 +6,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigation
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Extension\AbuseFilter\AbuseLogLookup;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
@@ -14,12 +15,14 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInves
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
@@ -334,9 +337,13 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 		$this->createCaseForUsers( [ $firstUser, $secondUser ] );
 		$this->createCaseForUsers( [ $secondUser ] );
 
+		// The viewer must not have 'hideuser', as it would skip the hidden status check entirely
+		$authority = $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] );
+		$context = $this->makeQqxContext();
+
 		$renderer = $this->getRenderer();
 		$renderer->preloadEditCounts( [ $firstUser, $secondUser, $thirdUser ] );
-		$renderer->preloadNonEditingData( [ $firstUser, $secondUser, $thirdUser ] );
+		$renderer->preloadNonEditingData( [ $firstUser, $secondUser, $thirdUser ], $authority );
 
 		// Invert the state of every preloaded data point, so that the assertions below only pass
 		// when the preloaded data is used for rendering instead of being queried again.
@@ -349,10 +356,6 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 		// DB in between (e.g. a reload of the user row caused by placing the block above)
 		$this->setUserEditCount( $firstUser, 5 );
 		$this->setUserEditCount( $secondUser, 0 );
-
-		// The viewer must not have 'hideuser', as it would skip the hidden status check entirely
-		$authority = $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] );
-		$context = $this->makeQqxContext();
 
 		$firstUserHtml = $renderer->makeUserLinkLine( $firstUser, $authority, $context );
 		$this->assertStringContainsString( 'Special:CheckUserLog/' . $firstUser->getName(), $firstUserHtml );
@@ -399,9 +402,10 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 
 	public function testPreloadForNoUsersDontThrow(): void {
 		$this->expectNotToPerformAssertions();
+		$authority = $this->mockRegisteredUltimateAuthority();
 		$renderer = $this->getRenderer();
 		$renderer->preloadEditCounts( [] );
-		$renderer->preloadNonEditingData( [] );
+		$renderer->preloadNonEditingData( [], $authority );
 	}
 
 	public function testHiddenUserReplacedForViewerWhoCannotSeeHiddenUsers(): void {
@@ -429,6 +433,90 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 
 		$this->assertStringContainsString( $user->getName(), $html );
 		$this->assertStringNotContainsString( '(rev-deleted-user)', $html );
+	}
+
+	/** @dataProvider provideAbuseFilterHitCount */
+	public function testAbuseFilterHitsLinkShownForUserWithHits(
+		int $numHits,
+		bool $showLink
+	): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
+
+		$user = $this->getMutableTestUser()->getUser();
+		$this->createCaseForUsers( [ $user ] );
+
+		$abuseLogLookup = $this->createMock( AbuseLogLookup::class );
+		$abuseLogLookup->method( 'getHitCountsForUsers' )
+			->willReturn( [ $user->getId() => $numHits ] );
+		$this->setService( 'AbuseFilterAbuseLogLookup', $abuseLogLookup );
+
+		$authority = $this->mockRegisteredUltimateAuthority();
+		$context = $this->makeQqxContext();
+		$html = $this->getRenderer()->makeUserLinkLine( $user, $authority, $context );
+
+		if ( $showLink ) {
+			$this->assertStringContainsString( 'mw-usertoollinks-abusefilter-hits', $html );
+			$this->assertStringContainsString( 'Special:AbuseLog', $html );
+			$this->assertStringContainsString(
+				'wpSearchUser=' . urlencode( $user->getName() ),
+				$html
+			);
+			$this->assertStringContainsString(
+				"(checkuser-suggestedinvestigations-user-af-hits-count: $numHits)",
+				$html,
+			);
+		} else {
+			$this->assertStringNotContainsString( 'mw-usertoollinks-abusefilter-hits', $html );
+		}
+	}
+
+	public static function provideAbuseFilterHitCount(): array {
+		return [
+			'Has no hits' => [
+				'numHits' => 0,
+				'showLink' => false,
+			],
+			'Has 5 hits' => [
+				'numHits' => 5,
+				'showLink' => true,
+			],
+		];
+	}
+
+	public function testDoesntThrowWithoutExtensions(): void {
+		$this->expectNotToPerformAssertions();
+		$this->clearHooks();
+		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$extensionRegistry->method( 'isLoaded' )
+			->willReturn( false );
+		$this->setService( 'ExtensionRegistry', $extensionRegistry );
+
+		$user = $this->getMutableTestUser()->getUser();
+		$authority = $this->mockRegisteredUltimateAuthority();
+		$context = $this->makeQqxContext();
+		$renderer = $this->getRenderer();
+		$renderer->makeUserLinkLine( $user, $authority, $context );
+	}
+
+	/** @dataProvider provideMethodsPreloadNonEditingData */
+	public function testPreloadsNonEditingDataWhenNeeded( string $method ): void {
+		$user = $this->getMutableTestUser()->getUser();
+		$authority = $this->mockAnonNullAuthority();
+
+		$renderer = $this->getRenderer();
+		$wrappedRenderer = TestingAccessWrapper::newFromObject( $renderer );
+		$wrappedRenderer->$method( $user, $authority );
+
+		$this->assertArrayHasKey( $user->getId(), $wrappedRenderer->hiddenUsersCache );
+	}
+
+	public static function provideMethodsPreloadNonEditingData(): array {
+		return [
+			[ 'isUserVisible' ],
+			[ 'getCaseCountForUser' ],
+			[ 'hasUserBeenChecked' ],
+			[ 'getFilterHitCountForUser' ],
+		];
 	}
 
 	private function getRenderer(): SuggestedInvestigationsUserLinkRenderer {

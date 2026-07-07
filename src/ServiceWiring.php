@@ -6,6 +6,7 @@ use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
@@ -496,6 +497,10 @@ return [
 		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
 			$centralAuthEditCounter = CentralAuthServices::getEditCounter( $services );
 		}
+		$abuseLogLookup = null;
+		if ( $services->getExtensionRegistry()->isLoaded( 'Abuse Filter' ) ) {
+			$abuseLogLookup = AbuseFilterServices::getAbuseLogLookup( $services );
+		}
 		return new SuggestedInvestigationsUserLinkRenderer(
 			$services->getLinkRenderer(),
 			$services->getConnectionProvider(),
@@ -506,7 +511,8 @@ return [
 			new ServiceOptions(
 				SuggestedInvestigationsUserLinkRenderer::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
-			)
+			),
+			$abuseLogLookup,
 		);
 	},
 	'CheckUserSuggestedInvestigationsUserRevisionLookup' => static function (

@@ -486,6 +486,7 @@
 	"checkuser-suggestedinvestigations-view-case-details": "View case details",
 	"checkuser-suggestedinvestigations-user": "$1 $2",
 	"checkuser-suggestedinvestigations-user-check-link-text": "check {{GENDER:$1|user}}",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 filter {{PLURAL:$1|hit|hits}}",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "past {{GENDER:$1|checks}}",
 	"checkuser-suggestedinvestigations-user-si-cases-count": "{{PLURAL:$1|$1 SI case|$1 SI cases}}",
 	"checkuser-suggestedinvestigations-user-showmore": "Show +$1 {{PLURAL:$1|accounts}}",
