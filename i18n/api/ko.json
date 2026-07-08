@@ -38,7 +38,7 @@
 	"apihelp-query+globalcontributions-example-1": "주어진 사용자의 모든 위키에 걸친 가장 최근 편집 내용을 표시합니다.",
 	"apihelp-query+globalcontributions-example-2": "주어진 사용자의 모든 위키에 걸친 가장 최근 편집 내용을 주어진 계속되는 오프셋으로부터 사용자 지정 제한과 함께 표시합니다.",
 	"apierror-checkuser-missingsummary": "검사 이유를 지정해야 합니다.",
-	"apierror-checkuser-timelimit": "올바른 시간 형식(\"-2 weeks\" 혹은 \"2 weeks ago\"과 같이)으로 사용하셔야 합니다.",
+	"apierror-checkuser-timelimit": "올바른 시간 형식(\"-2 weeks\" 혹은 \"2 weeks ago\"과 같이)으로 사용해야 합니다.",
 	"apierror-checkuser-invalidmode": "잘못된 요청 모드",
 	"apierror-checkuser-nosuchuser": "이 사용자 이름에 대한 해당 사용자가 없습니다",
 	"checkuser-api-help-param-direction": "정렬할 방향입니다:",

@@ -42,6 +42,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Revize uživatele",
 	"grouppage-temporary-account-viewer": "{{ns:project}}:Zobrazovači IP adres dočasných účtů",
 	"checkuser-clienthints-name-architecture": "Architektura",
+	"checkuser-clienthints-name-bitness": "Délka slova",
 	"checkuser-clienthints-name-form-factor": "Form faktor",
 	"checkuser-clienthints-name-brand": "Značka",
 	"checkuser-clienthints-name-mobile": "Mobil",

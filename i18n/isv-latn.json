@@ -4,6 +4,9 @@
 			"IJzeren Jan"
 		]
 	},
+	"checkuser-global-contributions-link-sidebar": "Globalny vklad",
+	"checkuser-global-contributions": "Iskanje globalnogo vklada",
+	"checkuser-global-contributions-search-form-wrapper": "Iskati globalny vklad",
 	"prefs-checkuser-tempaccount": "Razkrytje IP-adresov začasnyh kont",
 	"checkuser-tempaccount-enable-preference": "Vključiti razkryvanje IP-adresov vrěmennyh konto",
 	"checkuser-tempaccount-reveal-blocked-header": "Razkrytje IP-adresov začasnyh kont jest izključeno"
