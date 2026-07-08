@@ -58,8 +58,10 @@
 	"checkuser-filter-title": "Filtrid",
 	"checkuser-filter-hide-temporary-accounts": "Peida ajutised kontod",
 	"checkuser-cidr-label": "Leia loetletud IP-aadresside ühine vahemik ja mõjutatud IP-aadresside arv",
-	"checkuser-cidr-res": "Ühine CIDR:",
+	"checkuser-cidr-no-script-message": "See tööriist töötab ainult JavaScriptiga. Palun luba JavaScript, et tööriista kasutada.",
+	"checkuser-cidr-res": "Ühine vahemik:",
 	"checkuser-cidr-affected-ips": "Mõjutatud IP-aadresside arv:",
+	"checkuser-cidr-mixed-address-families": "Ei saa ühist vahemikku leida: loend sisaldab nii IPv4- kui ka IPv6-aadresse.",
 	"checkuser-cidr-too-small": "Vahemik on liiga suur",
 	"checkuser-cidr-tool-links-checkuser": "Kontrolli seda vahemikku",
 	"checkuser-cidr-tool-links-checkuserlog": "Selle vahemiku varasemad kontrollid",
@@ -394,5 +396,7 @@
 	"checkuser-related-tas-specialblock-accounts-list": "$1 ajutise konto puhul on tuvastatud, et {{PLURAL:$1|see kasutas|need kasutasid}} viimase $4 päeva jooksul $2 IP-aadressi, mis on seotud kontoga $3: $5.",
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Vaata nende kontode kogu kaastööd]",
 	"checkuser-related-tas-specialblock-confirm": "Sellega blokeeritakse $1 {{PLURAL:$1|konto|kontot}}. Jätkates {{PLURAL:$1|selle konto|nende kontode}} blokeerimist, kinnitad, et oled {{PLURAL:$1|seda|neid}} uurinud.",
-	"checkuser-related-tas-specialblock-limit-exceeded-error": "Seotud ajutisi kontosid on sellele blokeeringule lisamiseks liiga palju. Lubame blokeerida ühe korraga kuni $1 {{PLURAL:$1|konto|kontot}}."
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Seotud ajutisi kontosid on sellele blokeeringule lisamiseks liiga palju. Lubame blokeerida ühe korraga kuni $1 {{PLURAL:$1|konto|kontot}}.",
+	"rangecalculator": "IP-vahemiku kalkulaator",
+	"rangecalculator-summary": "See tööriist võimaldab leida loetletud IP-aadresside ühise IP-vahemiku. Praegu leiab see tööriist ainult ühe ühise vahemiku ning korraga ei saa lisada IPv4- ja IPv6-aadresse."
 }

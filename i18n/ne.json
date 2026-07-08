@@ -6,6 +6,7 @@
 			"Bhawani Gautam Rhk",
 			"NehalDaveND",
 			"Nirajan pant",
+			"Pratik11",
 			"पर्वत सुबेदी",
 			"बडा काजी",
 			"बिप्लब आनन्द"
@@ -118,6 +119,7 @@
 	"checkuser-suggestedinvestigations-header-status": "स्थिति",
 	"checkuser-suggestedinvestigations-header-notes": "टिप्पणीहरू",
 	"checkuser-suggestedinvestigations-header-actions": "कार्यहरू",
+	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1| $1 सम्पादन| $1 सम्पादनहरू}} एउटै {{PLURAL:$2| पृष्ठमा| $2 पृष्ठहरू}}",
 	"checkuser-suggestedinvestigations-user-check-link-text": "{{GENDER:$1|प्रयोगकर्ता}} जाँच गर्नुहोस्",
 	"checkuser-suggestedinvestigations-status-open": "खुल्ला",
 	"checkuser-suggestedinvestigations-status-resolved": "बन्द गरिएको",
@@ -128,5 +130,6 @@
 	"checkuser-suggestedinvestigations-change-status-dialog-title": "स्थिति परिवर्तन गर्नुहोस्",
 	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "स्थिति",
 	"checkuser-suggestedinvestigations-change-status-dialog-status-reason-header": "एक टिप्पणी थप्नुहोस्",
-	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "बन्द गर्नुहोस्"
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "बन्द गर्नुहोस्",
+	"checkuser-suggestedinvestigations-detail-view-shared-pages-header": "उही पृष्ठहरूमा {{PLURAL:$1| सम्पादन|सम्पादनहरू}} ( $1 )"
 }

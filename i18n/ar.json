@@ -478,6 +478,7 @@
 	"checkuser-suggestedinvestigations-header-status": "الحالة",
 	"checkuser-suggestedinvestigations-header-notes": "ملاحظات",
 	"checkuser-suggestedinvestigations-header-actions": "الإجراءات",
+	"checkuser-suggestedinvestigations-view-case-details": "عرض تفاصيل القضية",
 	"checkuser-suggestedinvestigations-user-check-link-text": "فحص {{GENDER:$1|المستخدم|المستخدمة}}",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "{{GENDER:$1|عمليات التحقق}} السابقة",
 	"checkuser-suggestedinvestigations-user-showmore": "إظهار + $1 {{PLURAL:$1| حسابات}}",
@@ -524,5 +525,6 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "قائمة الحسابات التي نسخها إلى لوحة المقطوعات",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "فشل في نسخ قائمة الحسابات",
 	"checkuser-related-tas-specialblock-checkbox-label": "إغلاق جميع الحسابات المؤقتة المرتبطة",
-	"rangecalculator": "حاسبة نطاق IP"
+	"rangecalculator": "حاسبة نطاق IP",
+	"rangecalculator-summary": "تتيح لك هذه الأداة حساب النطاق المشترك بين قائمة عناوين IP. وتحسب هذه الأداة حاليًا نطاقًا مشتركًا واحدًا فقط، ولا يمكنك استخدام عناوين IPv4 وIPv6 معًا."
 }

@@ -73,6 +73,7 @@
 	"checkuser-filter-title": "Filtry",
 	"checkuser-filter-hide-temporary-accounts": "Skrýt dočasné účty",
 	"checkuser-cidr-label": "Zjištění společného rozsahu ze seznamu IP adres",
+	"checkuser-cidr-no-script-message": "Aby nástroj fungoval, potřebuje zapnutý JavaScript. Pro použití tohoto nástroje prosím zapněte JavaScript.",
 	"checkuser-cidr-res": "Společný rozsah:",
 	"checkuser-cidr-affected-ips": "Dotčené IP adresy:",
 	"checkuser-cidr-mixed-address-families": "Nelze vypočítat společný rozsah: seznam obsahuje adresy IPv4 i IPv6.",
@@ -233,7 +234,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Časové období",
 	"checkuser-investigate-compare-table-header-ip": "IP adresa",
 	"checkuser-investigate-compare-table-header-useragent": "User-Agent",
-	"checkuser-ip-contributions-subtitle": "Zobrazeny výsledky z {{PLURAL:posledního dne|posledních $1 dnů}}.",
+	"checkuser-ip-contributions-subtitle": "Zobrazeny výsledky z {{PLURAL:$1|posledního dne|posledních $1 dnů}}.",
 	"checkuser-ip-contributions-target-label": "IP adresa nebo rozsah:",
 	"checkuser-ip-contributions-target-error-no-ip": "Zadejte platnou IP adresu nebo rozsah IP adres",
 	"checkuser-ip-contributions-tab-label-contributions": "Příspěvky",
@@ -311,5 +312,6 @@
 	"checkuser-contributions-temporary-account-bucketcount": "Dočasných účtů ze všech přidružených IP adres: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Dočasných účtů na této IP: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "Dočasných účtů na této IP: $1 (zablokovaných: $2).",
-	"rangecalculator": "Kalkulačka rozsahu IP adres"
+	"rangecalculator": "Kalkulačka rozsahu IP adres",
+	"rangecalculator-summary": "Tento nástroj umožňuje vypočítat nejmenší rozsah sdílený seznamem IP adres. Tento nástroj v současné době vypočítává pouze jeden společný rozsah a nemůžete kombinovat adresy IPv4 a IPv6."
 }
