@@ -527,6 +527,7 @@ $specialPageAliases['uk'] = [
 	'CheckUserLog' => [ 'Журнал_перевірок_користувачів', 'Журнал_проверок_участников' ],
 	'GlobalContributions' => [ 'Глобальний_внесок' ],
 	'IPContributions' => [ 'Внесок_з_IP' ],
+	'RangeCalculator' => [ 'Калькулятор_діапазону_IP-адрес' ],
 ];
 
 /** Urdu (اردو) */
