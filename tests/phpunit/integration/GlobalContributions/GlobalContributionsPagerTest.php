@@ -1292,9 +1292,21 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$revisionStoreProxies
 			);
 
+		$changeTagsStore = $this->createMock( ChangeTagsStore::class );
+		$changeTagsStore
+			->expects( $this->atLeastOnce() )
+			->method( 'addTagsToDisplayQuery' )
+			->with(
+				$this->isInstanceOf( SelectQueryBuilder::class ),
+				'revision',
+				$this->identicalTo( $authority ),
+				$this->anything(),
+				$this->anything()
+			);
+
 		$changeTagsStoreFactory = $this->createMock( ChangeTagsStoreFactory::class );
 		$changeTagsStoreFactory->method( 'getChangeTagsStore' )
-			->willReturn( $this->createMock( ChangeTagsStore::class ) );
+			->willReturn( $changeTagsStore );
 
 		// Initialize the subject under test
 		$pager = $this->getPagerWithOverrides( [

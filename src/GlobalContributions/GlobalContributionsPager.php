@@ -342,10 +342,12 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				->limit( self::REVISION_COUNT_LIMIT );
 
 			$changeTagsStore = $this->changeTagsStoreFactory->getChangeTagsStore( $wikiId );
-			$changeTagsStore->modifyDisplayQueryBuilder(
+			$tagFilter = $this->getTagFilter();
+			$changeTagsStore->addTagsToDisplayQuery(
 				$queryBuilder,
 				'revision',
-				$this->getTagFilter(),
+				$this->getAuthority(),
+				$tagFilter === false ? '' : $tagFilter,
 				$this->getTagInvert(),
 			);
 			$resultSet = $queryBuilder->fetchResultSet();
