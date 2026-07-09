@@ -477,6 +477,7 @@
 	"checkuser-suggestedinvestigations-header-status": "상태",
 	"checkuser-suggestedinvestigations-header-notes": "참고",
 	"checkuser-suggestedinvestigations-header-actions": "작업",
+	"checkuser-suggestedinvestigations-related-cases-summary": "관련된 {{PLURAL:$1|사안}} $1개",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "동일한 {{PLURAL:$2|문서 $2개}}에서의 {{PLURAL:$1|편집 $1개}}",
 	"checkuser-suggestedinvestigations-view-case-details": "사안 세부 정보 보기",
 	"checkuser-suggestedinvestigations-user-check-link-text": "{{GENDER:$1|사용자}} 확인",

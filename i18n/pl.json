@@ -481,6 +481,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Uwagi",
 	"checkuser-suggestedinvestigations-header-actions": "Akcje",
+	"checkuser-suggestedinvestigations-related-cases-summary": "&1 {{PLURAL:$1|powiązany przypadek|powiązane przypadki|powiązanych przypadków}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 edycja|$1 edycje|$1 edycji}} na {{PLURAL:$2|tej samej stronie|tych samych $2 stronach}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Wyświetl szczegóły",
 	"checkuser-suggestedinvestigations-user-check-link-text": "sprawdź {{GENDER:$1|użytkownika|użytkowniczkę}}",

@@ -3,6 +3,7 @@
 		"authors": [
 			"Boulaur",
 			"BrennodAloisi",
+			"COMISSIONTOPOC",
 			"Cedric31",
 			"Dreamy Jazz",
 			"Quentí"
@@ -51,5 +52,6 @@
 	"logentry-checkuser-private-event-autocreate-account": "es estat creat automaticament",
 	"logentry-checkuser-private-event-create-account": "es estat creat",
 	"checkuser-investigate-subtitle-cancel-button-label": "Anullar",
-	"checkuser-investigate-subtitle-continue-button-label": "Contunhar"
+	"checkuser-investigate-subtitle-continue-button-label": "Contunhar",
+	"checkuser-suggestedinvestigations-related-cases-summary": "$1 liat a {{PLURAL:$1| cas|cas}}"
 }

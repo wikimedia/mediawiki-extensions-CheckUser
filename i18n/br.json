@@ -296,7 +296,7 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Roll ar c'hontoù eilet er golver",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "C'hwitet eo bet eilañ roll ar c'hontoù",
 	"checkuser-related-tas-specialblock-checkbox-label": "Stankañ an holl gontoù berrbad stag",
-	"checkuser-related-tas-specialblock-accounts-list": "{{PLURAL:$1|gont|kont}} berrbad {{PLURAL:$1|zo bet dinoet}} a {{PLURAL:$2|ra}} gant $2 {{PLURAL:$2|cholec'h IP}} {{PLURAL:$2|stag}} ouzh $3 e-pad an $4 deiz paseet: $5.",
+	"checkuser-related-tas-specialblock-accounts-list": "{{PLURAL:$1|gont|kont}} berrbad {{PLURAL:$1|zo bet dinoet}} {{PLURAL:$2|en|o}} deus graet gant $2 {{PLURAL:$2|cholec'h IP}} {{PLURAL:$2|stag}} ouzh $3 e-pad an $4 deiz paseet: $5.",
 	"checkuser-related-tas-specialblock-accounts-list-error": "Ur fazi ez eus bet o klask kavout ar c'hontoù berrbad a zo graet gant chomlec'hioù IP stag ouzh $1. Gallout a {{GENDER:$2|rit}} kenderc'hel gant ho stankadenn war $1 pe klask kontoù stag adarre.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Re a gontoù stag zo da ouzhpennañ d'ar stankadenn-mañ. $1 {{PLURAL:$1|gont|kont}} a c'hall bezañ stanket er memes mare.",
 	"rangecalculator": "Jeder Lijorennoù IP",

@@ -467,6 +467,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Qeydlər",
 	"checkuser-suggestedinvestigations-header-actions": "Fəaliyyətlər",
+	"checkuser-suggestedinvestigations-related-cases-summary": "$1 əlaqəli {{PLURAL:$1|iş}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "Eyni {{PLURAL:$2|səhifədə|$2 səhifədə}} {{PLURAL:$1|$1 redaktə}}",
 	"checkuser-suggestedinvestigations-view-case-details": "İşin detallarına bax",
 	"checkuser-suggestedinvestigations-user-check-link-text": "{{GENDER:$1|istifadəçini}} yoxla",

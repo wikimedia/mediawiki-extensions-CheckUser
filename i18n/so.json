@@ -458,6 +458,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Xaaladda",
 	"checkuser-suggestedinvestigations-header-notes": "Fiiro gaar ah",
 	"checkuser-suggestedinvestigations-header-actions": "Falal",
+	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|kiis la xiriira|kiisas la xiriira}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 tafatir|$1 tafatirro}} oo lagu sameeyay isla {{PLURAL:$2|bogga|$2 bog}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Eeg faahfaahinta kiiska",
 	"checkuser-suggestedinvestigations-user-check-link-text": "hubi {{GENDER:$1|isticmaale}}",

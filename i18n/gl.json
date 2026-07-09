@@ -464,6 +464,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Estado",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
 	"checkuser-suggestedinvestigations-header-actions": "Accións",
+	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|caso relacionado|casos relacionados}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 edición|$1 edicións}} {{PLURAL:$2|na mesma páxina|nas mesmas $2 páxinas}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Ver os detalles do caso",
 	"checkuser-suggestedinvestigations-user-check-link-text": "verificar {{GENDER:$1|o usuario|a usuaria}}",
