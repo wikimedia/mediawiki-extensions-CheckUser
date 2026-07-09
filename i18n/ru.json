@@ -49,7 +49,8 @@
 			"Vonavy",
 			"Jack who built the house",
 			"Shabe",
-			"Merrahtar"
+			"Merrahtar",
+			"Alex NB IT"
 		]
 	},
 	"checkuser-summary": "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником или участницей, либо чтобы показать правки/участников, работавших с IP-адреса.\nПравки и участники, которые правили с определённого IP-адреса, указанного в заголовках XFF, можно получить, добавив постфикс «/xff» к IP-адресу. Поддерживаются версии IPv4 (CIDR $1—32) и IPv6 (CIDR $2—128).\nИз соображений производительности будут показаны не более $3 правок.\nИспользуйте инструмент только в соответствии с правилами.",
@@ -105,7 +106,7 @@
 	"checkuser-all": "все",
 	"checkuser-filter-title": "Фильтры",
 	"checkuser-filter-hide-temporary-accounts": "Скрыть временные учётные записи",
-	"checkuser-cidr-label": "Найти общий диапазон и затрагиваемые адреса для списка IP",
+	"checkuser-cidr-label": "Найти наименьший общий диапазон и количество затрагиваемых адресов для списка IP",
 	"checkuser-cidr-res": "Общая CIDR:",
 	"checkuser-cidr-affected-ips": "Затронутые IP-адреса:",
 	"checkuser-cidr-too-small": "Диапазон слишком велик",
@@ -326,10 +327,13 @@
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "Срок:",
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Выбрать срок",
 	"checkuser-ip-auto-reveal-off-dialog-title": "Автораскрытие IP включено",
+	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 мин",
+	"checkuser-ip-auto-reveal-off-dialog-off-action": "Выключить",
 	"prefs-checkuser-tempaccount": "Раскрытие IP-адресов временных учётных записей",
 	"checkuser-tempaccount-enable-preference": "Включить возможность отображения IP-адресов временных учётных записей",
 	"checkuser-tempaccount-reveal-ip-button-label": "Показать IP",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
+	"checkuser-tempaccount-reveal-blocked-error": "Произошла ошибка при получении данных о блокировке. Пожалуйста, перезагрузите страницу и попробуйте снова.",
 	"checkuser-tempaccount-reveal-blocked-header": "Раскрытие IP-адресов временных учётных записей отключено",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2",
 	"checkuser-temporary-account-log-header": "Это журнал:\n# Просмотров IP-адресов, используемых временной учётной записью\n# Просмотров временных учётных записей, связанных с IP-адресом или диапазоном IP-адресов\n# Изменений уровней доступа пользователей к просмотру IP-адресов, используемых временными учётными записями",
@@ -376,6 +380,7 @@
 	"checkuser-userinfocard-ip-revealed-never": "Раскрытий IP: $1",
 	"checkuser-suggestedinvestigations-status-open": "Открыть",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Закрыть",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Закрыть",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Количество временных учётных записей со всех связанных IP-адресов: $1",
 	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "Совокупное количество всех временных учётных записей со всех IP-адресов, связанных с этой учётной записью"
 }

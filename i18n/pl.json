@@ -27,7 +27,8 @@
 			"Wpedzich",
 			"Zero",
 			"Wawrzec",
-			"Atvalerie"
+			"Atvalerie",
+			"PanWor"
 		]
 	},
 	"checkuser-summary": "Narzędzie pozwala na ustalenie adresów IP, z których\nkorzystał użytkownik lub pokazać edycje i nazwy użytkowników edytujących z zadanego adresu IP.\n\nDodając parametr „/xff” do adresu IP można odnaleźć użytkowników i edycje przeszukując zapisane nagłówki XFF (X-Forwarded-For).\n\nObsługiwane są zakresy adresów IPv4 (maska CIDR $1-32) i IPv6 (CIDR $2-128).\n\nNarzędzie ze względu na wydajność pokazuje maksymalnie {{formatnum:$3}} {{PLURAL:$3|edycję|edycje|edycji}}.\n\nPamiętaj o korzystaniu z narzędzia zgodnie z zasadami.",
@@ -83,9 +84,9 @@
 	"checkuser-all": "wszystkie",
 	"checkuser-filter-title": "Filtry",
 	"checkuser-filter-hide-temporary-accounts": "Ukryj konta tymczasowe",
-	"checkuser-cidr-label": "Znajdź wspólny zakres i wpływ na adresy IP z listy",
+	"checkuser-cidr-label": "Znajdź wspólny zakres i objęte nim adresy IP dla danej listy adresów IP",
 	"checkuser-cidr-res": "Wspólny CIDR:",
-	"checkuser-cidr-affected-ips": "Liczba adresów:",
+	"checkuser-cidr-affected-ips": "Liczba objętych adresów:",
 	"checkuser-cidr-too-small": "Zakres jest za duży",
 	"checkuser-cidr-tool-links-checkuser": "Sprawdź ten zakres",
 	"checkuser-cidr-tool-links-checkuserlog": "Poprzednie sprawdzenia tego zakresu",

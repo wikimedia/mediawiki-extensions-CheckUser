@@ -31,7 +31,8 @@
 			"ZandDev",
 			"Dream Indigo",
 			"FL2226",
-			"Neonsn0w"
+			"Neonsn0w",
+			"ZioNicco"
 		]
 	},
 	"checkuser-summary": "Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un'utenza o mostrare contributi e dati di un IP.\nUtenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all'IP il suffisso \"/xff\". Sono supportati IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNon saranno restituite più di $3 modifiche per ragioni di prestazioni.\nUsa questo strumento in stretta conformità alle policy.",
@@ -375,6 +376,7 @@
 	"checkuser-userinfocard-menu-block-user": "Blocca {{GENDER:$1|utente}}",
 	"checkuser-userinfocard-menu-provide-feedback": "Commenta questa funzionalità",
 	"checkuser-userinfocard-menu-turn-off": "Disattiva questa funzionalità",
+	"checkuser-userinfocard-menu-view-xtools": "Visualizza XTools",
 	"checkuser-userinfocard-loading-label": "Caricamento informazioni utente",
 	"checkuser-userinfocard-error-title": "Si è verificato un errore",
 	"checkuser-userinfocard-error-no-data": "Impossibile recuperare le informazioni per questo utente. Riprova più tardi.",
@@ -403,6 +405,7 @@
 	"checkuser-suggestedinvestigations-signal-hcaptcha": "hCaptcha sospetto",
 	"checkuser-suggestedinvestigations-status-open": "Aperto",
 	"checkuser-suggestedinvestigations-status-resolved": "Chiuso",
+	"checkuser-suggestedinvestigations-status-invalid": "Non valido",
 	"checkuser-suggestedinvestigations-status-description-invalid": "Selezionare questa opzione per indicare i falsi positivi",
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Falso positivo",
 	"checkuser-suggestedinvestigations-action-investigate": "Investiga l'utente",

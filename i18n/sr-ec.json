@@ -71,7 +71,7 @@
 	"checkuser-all": "све",
 	"checkuser-filter-title": "Филтери",
 	"checkuser-filter-hide-temporary-accounts": "Сакриј привремене налоге",
-	"checkuser-cidr-label": "Проналажење заједничког опсега и погођених адресе за списак IP адреса",
+	"checkuser-cidr-label": "Проналажење заједничког опсега захваћених IP адресе за списак истих",
 	"checkuser-cidr-res": "Заједнички CIDR:",
 	"checkuser-cidr-affected-ips": "Погођене IP адресе:",
 	"checkuser-cidr-too-small": "Опсег је превелики",
