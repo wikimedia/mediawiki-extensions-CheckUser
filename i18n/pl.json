@@ -486,6 +486,7 @@
 	"checkuser-suggestedinvestigations-view-case-details": "Wyświetl szczegóły",
 	"checkuser-suggestedinvestigations-user-check-link-text": "sprawdź {{GENDER:$1|użytkownika|użytkowniczkę}}",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "poprzednie {{GENDER:$1|sprawdzenia}}",
+	"checkuser-suggestedinvestigations-user-si-cases-count": "{{PLURAL:$1|$1 sugerowane dochodzenie|$1 sugerowanych dochodzeń}}",
 	"checkuser-suggestedinvestigations-user-showmore": "Pokaż $1 {{PLURAL:$1|kolejne konto|kolejne konta|kolejnych kont}}",
 	"checkuser-suggestedinvestigations-user-showless": "Ukryj $1 {{PLURAL:$1|ostatnie konto|ostatnie konta|ostatnich kont}}",
 	"checkuser-suggestedinvestigations-user-check-reason-prefill": "[[$1|Automatycznie zasugerowane dochodzenie #$2]]: {{GENDER:$3|$3}}",
