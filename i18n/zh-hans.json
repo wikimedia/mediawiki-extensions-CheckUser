@@ -62,6 +62,7 @@
 			"沈澄心",
 			"白布飘扬",
 			"范",
+			"郭佳昌",
 			"铁桶"
 		]
 	},
@@ -517,6 +518,7 @@
 	"checkuser-suggestedinvestigations-header-notes": "备注",
 	"checkuser-suggestedinvestigations-header-actions": "操作",
 	"checkuser-suggestedinvestigations-user-check-link-text": "查核{{GENDER:$1|用户}}",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "触发了 $1 次过滤器",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "过去的{{GENDER:$1|查核}}",
 	"checkuser-suggestedinvestigations-user-showmore": "显示+$1{{PLURAL:$1|个账号}}",
 	"checkuser-suggestedinvestigations-user-showless": "隐藏后$1{{PLURAL:$1|个账号}}",

@@ -468,6 +468,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 edición|$1 edicións}} {{PLURAL:$2|na mesma páxina|nas mesmas $2 páxinas}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Ver os detalles do caso",
 	"checkuser-suggestedinvestigations-user-check-link-text": "verificar {{GENDER:$1|o usuario|a usuaria}}",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|detección|deteccións}} do filtro",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "{{GENDER:$1|verificacións}} anteriores",
 	"checkuser-suggestedinvestigations-user-si-cases-count": "$1 {{PLURAL:$1|caso|casos}} de investigacións suxeridas",
 	"checkuser-suggestedinvestigations-user-showmore": "Mostrar $1 {{PLURAL:$1|conta|contas}} máis",

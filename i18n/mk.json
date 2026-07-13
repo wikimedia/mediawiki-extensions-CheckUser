@@ -458,6 +458,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Статус",
 	"checkuser-suggestedinvestigations-header-notes": "Белешки",
 	"checkuser-suggestedinvestigations-header-actions": "Дејства",
+	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|поврзан случај|поврзани случаи}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 уредување|$1 уредувања}} на {{PLURAL:$2|истата страница|истите $2 страници}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Погл. поединости за случајот",
 	"checkuser-suggestedinvestigations-user-check-link-text": "провери {{GENDER:$1|корисник}}",

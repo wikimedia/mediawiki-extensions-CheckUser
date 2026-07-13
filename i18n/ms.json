@@ -464,6 +464,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 suntingan}} pada {{PLURAL:$2|laman|$2 laman}} yang sama",
 	"checkuser-suggestedinvestigations-view-case-details": "Lihat butiran kes",
 	"checkuser-suggestedinvestigations-user-check-link-text": "siasat {{GENDER:$1|pengguna}}",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|kenaan}} penapis",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "{{GENDER:$1|siasatan}} lampau",
 	"checkuser-suggestedinvestigations-user-si-cases-count": "{{PLURAL:$1|$1 kes SI}}",
 	"checkuser-suggestedinvestigations-user-showmore": "Tunjukkan +$1 {{PLURAL:$1|akaun}}",

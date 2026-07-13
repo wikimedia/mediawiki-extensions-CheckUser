@@ -481,6 +481,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "동일한 {{PLURAL:$2|문서 $2개}}에서의 {{PLURAL:$1|편집 $1개}}",
 	"checkuser-suggestedinvestigations-view-case-details": "사안 세부 정보 보기",
 	"checkuser-suggestedinvestigations-user-check-link-text": "{{GENDER:$1|사용자}} 확인",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "필터 $1{{PLURAL:$1|회}}",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "지난 {{GENDER:$1|확인}}",
 	"checkuser-suggestedinvestigations-user-si-cases-count": "{{PLURAL:$1|제안된 조사 사안 $1개}}",
 	"checkuser-suggestedinvestigations-user-showmore": "+$1 {{PLURAL:$1|계정}} 표시",

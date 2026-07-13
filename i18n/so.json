@@ -462,6 +462,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 tafatir|$1 tafatirro}} oo lagu sameeyay isla {{PLURAL:$2|bogga|$2 bog}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Eeg faahfaahinta kiiska",
 	"checkuser-suggestedinvestigations-user-check-link-text": "hubi {{GENDER:$1|isticmaale}}",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|natiijo|natiijooyin}} shaandhayn ah",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "{{GENDER:$1|hubino}} hore",
 	"checkuser-suggestedinvestigations-user-si-cases-count": "{{PLURAL:$1|$1 kiis SI|$1 kiisas SI}}",
 	"checkuser-suggestedinvestigations-user-showmore": "Muuji +$1 {{PLURAL:$1|xisaab|xisaabo}}",

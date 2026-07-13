@@ -471,6 +471,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "Eyni {{PLURAL:$2|səhifədə|$2 səhifədə}} {{PLURAL:$1|$1 redaktə}}",
 	"checkuser-suggestedinvestigations-view-case-details": "İşin detallarına bax",
 	"checkuser-suggestedinvestigations-user-check-link-text": "{{GENDER:$1|istifadəçini}} yoxla",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 süzgəc {{PLURAL:$1|qeydi}}",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "əvvəlki {{GENDER:$1|yoxlanışlar}}",
 	"checkuser-suggestedinvestigations-user-si-cases-count": "{{PLURAL:$1|$1 TA işi}}",
 	"checkuser-suggestedinvestigations-user-showmore": "+$1 {{PLURAL:$1|hesabı}} göstər",

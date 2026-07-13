@@ -476,6 +476,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 redigering|$1 redigeringer}} på den samme {{PLURAL:$2|side|$2 sider}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Se sagsoplysninger",
 	"checkuser-suggestedinvestigations-user-check-link-text": "tjek {{GENDER:$1|bruger}}",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 filter {{PLURAL:$1|træf}}",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "tidligere {{GENDER:$1|tjek}}",
 	"checkuser-suggestedinvestigations-user-si-cases-count": "{{PLURAL:$1|$1 SI-sag|$1 SI-sager}}",
 	"checkuser-suggestedinvestigations-user-showmore": "Vis +$1 {{PLURAL:$1|konti}}",

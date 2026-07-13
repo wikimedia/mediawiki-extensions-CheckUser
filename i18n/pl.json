@@ -485,6 +485,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 edycja|$1 edycje|$1 edycji}} na {{PLURAL:$2|tej samej stronie|tych samych $2 stronach}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Wyświetl szczegóły",
 	"checkuser-suggestedinvestigations-user-check-link-text": "sprawdź {{GENDER:$1|użytkownika|użytkowniczkę}}",
+	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|wywołanie|wywołania|wywołań}} filtra",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "poprzednie {{GENDER:$1|sprawdzenia}}",
 	"checkuser-suggestedinvestigations-user-si-cases-count": "{{PLURAL:$1|$1 sugerowane dochodzenie|$1 sugerowanych dochodzeń}}",
 	"checkuser-suggestedinvestigations-user-showmore": "Pokaż $1 {{PLURAL:$1|kolejne konto|kolejne konta|kolejnych kont}}",
