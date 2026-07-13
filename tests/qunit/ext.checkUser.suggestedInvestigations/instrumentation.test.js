@@ -9,7 +9,8 @@ QUnit.module( 'ext.checkUser.suggestedInvestigations.instrumentation', QUnit.new
 	beforeEach: function () {
 		// Create stub for the instrument
 		sendStub = this.sandbox.stub();
-		const instrumentStub = { send: sendStub };
+		const setSchemaStub = this.sandbox.stub().returns( { send: sendStub } );
+		const instrumentStub = { send: sendStub, setSchema: setSchemaStub };
 
 		if ( mw.testKitchen ) {
 			this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );

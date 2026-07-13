@@ -3,13 +3,14 @@
 const useInstrument = require( 'ext.checkUser.suggestedInvestigations/composables/useInstrument.js' );
 
 // Store stubs for use in arrow functions
-let getInstrumentStub, sendStub;
+let getInstrumentStub, sendStub, setSchemaStub;
 
 QUnit.module( 'ext.checkUser.suggestedInvestigations.useInstrument', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		// Create stub for the instrument
 		sendStub = this.sandbox.stub();
-		const instrumentStub = { send: sendStub };
+		setSchemaStub = this.sandbox.stub().returns( { send: sendStub } );
+		const instrumentStub = { send: sendStub, setSchema: setSchemaStub };
 
 		if ( mw.testKitchen ) {
 			getInstrumentStub = this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
@@ -28,6 +29,13 @@ QUnit.test( 'returned function logs events with correct data', ( assert ) => {
 	logEvent( 'test-action', {
 		context: 'Test context'
 	} );
+
+	assert.strictEqual( setSchemaStub.callCount, 1, 'Schema is set' );
+	assert.strictEqual(
+		setSchemaStub.firstCall.args[ 0 ],
+		'/analytics/mediawiki/suggested_investigations/interaction/1.1.4',
+		'SI interaction schema is set'
+	);
 
 	// Verify send is called with correct parameters
 	assert.strictEqual( sendStub.callCount, 1, 'Calls send' );
