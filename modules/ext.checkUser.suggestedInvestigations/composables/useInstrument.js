@@ -30,8 +30,6 @@ module.exports = () => {
 
 	const instrument = mw.testKitchen.getInstrument(
 		'suggested-investigations-interaction-v2'
-	).setSchema(
-		'/analytics/mediawiki/suggested_investigations/interaction/1.1.4'
 	);
 
 	return ( action, data = {} ) => {
