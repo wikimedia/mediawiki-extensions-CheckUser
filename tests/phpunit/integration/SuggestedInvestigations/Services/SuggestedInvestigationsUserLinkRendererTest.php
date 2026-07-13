@@ -483,6 +483,106 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 		];
 	}
 
+	private function getRevertedRevisionsTestUsers(): array {
+		$userWithReverts = $this->getMutableTestUser()->getUser();
+		$userWithDeletedReverts = $this->getMutableTestUser()->getUser();
+		$userWithoutReverts = $this->getTestSysop()->getUser();
+
+		// Reverted revision
+		$this->editPage( 'Foo', 'Foo', '', NS_MAIN, $userWithReverts );
+		$revertedEditId = $this
+			->editPage( 'Foo', 'Foo Bar', '', NS_MAIN, $userWithReverts )
+			->getNewRevision()
+			->getId();
+		$this->editPage( 'Foo', 'Foo', '', NS_MAIN, $userWithoutReverts );
+
+		// Mock that the edit has been marked as reverted, which usually happens via job
+		$rcId = null;
+		$this->getServiceContainer()->getChangeTagsStore()
+			->updateTags( [ 'mw-reverted' ], [], $rcId, $revertedEditId );
+
+		// Deleted/Reverted revision
+		$this->editPage( 'Foo2', 'Foo', '', NS_MAIN, $userWithDeletedReverts );
+		$revertedDeletedEditId = $this
+			->editPage( 'Foo2', 'Foo Bar', '', NS_MAIN, $userWithDeletedReverts )
+			->getNewRevision()
+			->getId();
+		$this->editPage( 'Foo2', 'Foo', '', NS_MAIN, $userWithDeletedReverts );
+
+		// Mock that the edit has been marked as reverted, which usually happens via job
+		$rcId = null;
+		$this->getServiceContainer()->getChangeTagsStore()
+			->updateTags( [ 'mw-reverted' ], [], $rcId, $revertedDeletedEditId );
+
+		// Delete the page, creating the reverted/deleted edit
+		$deletePage = $this->getServiceContainer()
+			->getDeletePageFactory()
+			->newDeletePage(
+				Title::makeTitle( NS_MAIN, 'Foo2' )->toPageIdentity(),
+				$userWithoutReverts
+			)
+			->forceImmediate( true );
+		$deletePage->deleteUnsafe( 'Force delete' );
+
+		return [ $userWithReverts, $userWithDeletedReverts, $userWithoutReverts ];
+	}
+
+	public function testRevertedRevisionsShownWithContributionsLink(): void {
+		[ $userWithReverts, $userWithDeletedReverts, $userWithoutReverts ] = $this->getRevertedRevisionsTestUsers();
+		$this->createCaseForUsers( [ $userWithReverts, $userWithoutReverts ] );
+
+		// Assert that revert revision data is only shown if it exists
+		$authority = $this->mockRegisteredUltimateAuthority();
+		$context = $this->makeQqxContext();
+		$userWithRevertsHtml = $this->getRenderer()->makeUserLinkLine( $userWithReverts, $authority, $context );
+		$this->assertStringContainsString(
+			'checkuser-suggestedinvestigations-reverted-revisions',
+			$userWithRevertsHtml
+		);
+		$userWithoutRevertsHtml = $this->getRenderer()->makeUserLinkLine( $userWithoutReverts, $authority, $context );
+		$this->assertStringContainsString(
+			'contribslink',
+			$userWithoutRevertsHtml
+		);
+	}
+
+	public function testRevertedDeletedRevisionsShownWithContributionsLink(): void {
+		[ $userWithReverts, $userWithDeletedReverts, $userWithoutReverts ] = $this->getRevertedRevisionsTestUsers();
+		$this->createCaseForUsers( [ $userWithDeletedReverts, $userWithoutReverts ] );
+
+		// Assert that revert revision data is only shown if it exists
+		$authority = $this->mockRegisteredUltimateAuthority();
+		$context = $this->makeQqxContext();
+		$userWithRevertsHtml = $this->getRenderer()->makeUserLinkLine( $userWithDeletedReverts, $authority, $context );
+		$this->assertStringContainsString(
+			'checkuser-suggestedinvestigations-reverted-revisions',
+			$userWithRevertsHtml
+		);
+		$userWithoutRevertsHtml = $this->getRenderer()->makeUserLinkLine( $userWithoutReverts, $authority, $context );
+		$this->assertStringContainsString(
+			'contribslink',
+			$userWithoutRevertsHtml
+		);
+	}
+
+	public function testRevertedRevisionsNotShownForGlobalContribsLink(): void {
+		$this->skipIfGlobalContribsUnavailable();
+
+		[ $userWithReverts, $userWithDeletedReverts, $userWithoutReverts ] = $this->getRevertedRevisionsTestUsers();
+		$this->createCaseForUsers( [ $userWithReverts, $userWithDeletedReverts, $userWithoutReverts ] );
+
+		// Assert that if global contributions are enabled, the reverted revision data isn't shown regardless
+		$authority = $this->mockRegisteredUltimateAuthority();
+		$context = $this->makeQqxContext();
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', true );
+		$userWithRevertsHtml = $this->getRenderer()->makeUserLinkLine( $userWithReverts, $authority, $context );
+		$this->assertStringNotContainsString(
+			'checkuser-suggestedinvestigations-reverted-revisions',
+			$userWithRevertsHtml
+		);
+		$this->assertStringContainsString( 'contribslink', $userWithRevertsHtml );
+	}
+
 	public function testDoesntThrowWithoutExtensions(): void {
 		$this->expectNotToPerformAssertions();
 		$this->clearHooks();

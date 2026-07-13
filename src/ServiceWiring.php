@@ -514,6 +514,7 @@ return [
 				$services->getMainConfig()
 			),
 			$abuseLogLookup,
+			$services->get( 'CheckUserSuggestedInvestigationsUserRevisionLookup' ),
 		);
 	},
 	'CheckUserSuggestedInvestigationsUserRevisionLookup' => static function (

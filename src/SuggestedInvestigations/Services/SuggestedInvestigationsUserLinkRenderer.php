@@ -41,6 +41,18 @@ class SuggestedInvestigationsUserLinkRenderer {
 	/** @var array<int,int> Maps local user ID to the number of AbuseFilter hits for the user */
 	private array $abuseFilterHitCountsByUserId = [];
 
+	/**
+	 * @var array<int, array{reverted: int, total: int}>
+	 * Maps local user ID to the number of reverted and total revisions
+	 */
+	private array $userRevertedRevisions = [];
+
+	/**
+	 * @var array<int, array{reverted: int, total: int}>
+	 * Maps local user ID to the number of reverted and total deleted revisions
+	 */
+	private array $userRevertedDeletedRevisions = [];
+
 	/** @internal For use by ServiceWiring */
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserSuggestedInvestigationsUseGlobalContributionsLink',
@@ -56,6 +68,7 @@ class SuggestedInvestigationsUserLinkRenderer {
 		private readonly UserFactory $userFactory,
 		private readonly ServiceOptions $options,
 		private readonly ?AbuseLogLookup $abuseLogLookup,
+		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->useGlobalContribs = $this->centralAuthEditCounter !== null &&
@@ -93,7 +106,7 @@ class SuggestedInvestigationsUserLinkRenderer {
 		$userLink = $this->linkRenderer->makeUserLink( $user, $context );
 
 		$userToolLinks = [
-			$this->makeContributionsLink( $user, $context ),
+			$this->makeContributionsLink( $user, $context, $viewingAuthority ),
 			$this->makePastChecksLink( $user, $context, $viewingAuthority ),
 			$this->makeCheckUserLink(
 				$user,
@@ -116,7 +129,11 @@ class SuggestedInvestigationsUserLinkRenderer {
 			->parse();
 	}
 
-	private function makeContributionsLink( UserIdentity $user, MessageLocalizer $localizer ): string {
+	private function makeContributionsLink(
+		UserIdentity $user,
+		MessageLocalizer $localizer,
+		Authority $viewingAuthority
+	): string {
 		// Generate the link class for the "contribs" tool link
 		$linkClass = 'mw-usertoollinks-contribs';
 		$contributionsSpecialPage = $this->useGlobalContribs ? 'GlobalContributions' : 'Contributions';
@@ -126,11 +143,34 @@ class SuggestedInvestigationsUserLinkRenderer {
 			$linkClass .= ' mw-usertoollinks-contribs-no-edits';
 		}
 
+		$linkText = $localizer->msg( 'contribslink' )
+			->params( $user->getName() )
+			->text();
+
+		// If the user has reverted revisions, update the contributions link to reveal that
+		if ( !$this->useGlobalContribs ) {
+			$revertedRevisionsForUser = $this->getRevertedRevisionsForUser( $user, $viewingAuthority );
+			$revertedDeletedRevisionsForUser = $this->getRevertedDeletedRevisionsForUser( $user, $viewingAuthority );
+
+			if (
+				$revertedRevisionsForUser['reverted'] ||
+				$revertedDeletedRevisionsForUser['reverted']
+			) {
+				$revertedRevisionCount = $revertedRevisionsForUser['reverted'] +
+					$revertedDeletedRevisionsForUser['reverted'];
+				$totalRevisionCount = $revertedRevisionsForUser['total'] + $revertedDeletedRevisionsForUser['total'];
+				$linkText = $localizer->msg( 'checkuser-suggestedinvestigations-reverted-revisions' )
+					->numParams(
+						$revertedRevisionCount,
+						$totalRevisionCount
+					)
+					->text();
+			}
+		}
+
 		return $this->linkRenderer->makeKnownLink(
 			SpecialPage::getTitleFor( $contributionsSpecialPage, $user->getName() ),
-			$localizer->msg( 'contribslink' )
-				->params( $user->getName() )
-				->text(),
+			$linkText,
 			[ 'class' => $linkClass ]
 		);
 	}
@@ -283,6 +323,22 @@ class SuggestedInvestigationsUserLinkRenderer {
 		return $this->abuseFilterHitCountsByUserId[$user->getId()];
 	}
 
+	/** @return array{reverted: int, total: int} */
+	private function getRevertedRevisionsForUser( UserIdentity $user, Authority $viewingAuthority ): array {
+		if ( !isset( $this->userRevertedRevisions[$user->getId()] ) ) {
+			$this->preloadNonEditingData( [ $user ], $viewingAuthority );
+		}
+		return $this->userRevertedRevisions[$user->getId()];
+	}
+
+	/** @return array{reverted: int, total: int} */
+	private function getRevertedDeletedRevisionsForUser( UserIdentity $user, Authority $viewingAuthority ): array {
+		if ( !isset( $this->userRevertedDeletedRevisions[$user->getId()] ) ) {
+			$this->preloadNonEditingData( [ $user ], $viewingAuthority );
+		}
+		return $this->userRevertedDeletedRevisions[$user->getId()];
+	}
+
 	/**
 	 * Preloads the edit counts for a list of users that are going to have links rendered afterward.
 	 *
@@ -328,6 +384,19 @@ class SuggestedInvestigationsUserLinkRenderer {
 		$hitCounts = $this->abuseLogLookup?->getHitCountsForUsers( $authority, $userIds ) ?? [];
 		foreach ( $userIds as $userId ) {
 			$this->abuseFilterHitCountsByUserId[$userId] = $hitCounts[$userId] ?? 0;
+		}
+
+		// Account-level contributions data is only supported if global contributions are not being linked to
+		if ( !$this->useGlobalContribs ) {
+			$revertedRevisions = $this->userRevisionLookup->getAllRevisionCountsByUsers( $userIds );
+			foreach ( $userIds as $userId ) {
+				$this->userRevertedRevisions[$userId] = $revertedRevisions[$userId];
+			}
+
+			$revertedDeletedRevisions = $this->userRevisionLookup->getAllRevisionCountsByUsers( $userIds, true );
+			foreach ( $userIds as $userId ) {
+				$this->userRevertedDeletedRevisions[$userId] = $revertedDeletedRevisions[$userId];
+			}
 		}
 	}
 

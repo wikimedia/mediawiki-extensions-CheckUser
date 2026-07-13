@@ -87,7 +87,7 @@ class SuggestedInvestigationsUserRevisionLookup {
 	 * @param bool $getDeleted Whether or use the revision or archive table
 	 * @return array [ userId => [ 'reverted' => x, 'total' => y ] ]
 	 */
-	private function getAllRevisionCountsByUsers( array $userIds, bool $getDeleted = false ): array {
+	public function getAllRevisionCountsByUsers( array $userIds, bool $getDeleted = false ): array {
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		$cutoff = $dbr->timestamp( ConvertibleTimestamp::time() - $this->maxDataAgeSeconds );
 

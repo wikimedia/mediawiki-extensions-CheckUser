@@ -484,6 +484,7 @@
 	"checkuser-suggestedinvestigations-related-cases-summary": "$1 related {{PLURAL:$1|case|cases}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 edit|$1 edits}} on the same {{PLURAL:$2|page|$2 pages}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 out of {{PLURAL:$2|$2 edit|$2 edits}} {{PLURAL:$1|is reverted|are reverted}}",
+	"checkuser-suggestedinvestigations-reverted-revisions": "$1 of {{PLURAL:$2|$2 contrib|$2 contribs}} {{PLURAL:$1|reverted}}",
 	"checkuser-suggestedinvestigations-view-case-details": "View case details",
 	"checkuser-suggestedinvestigations-user": "$1 $2",
 	"checkuser-suggestedinvestigations-user-check-link-text": "check {{GENDER:$1|user}}",
