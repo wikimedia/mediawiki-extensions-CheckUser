@@ -469,6 +469,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Toiminnot",
 	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|liittyvä tapaus|liittyvää tapausta}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "$1 {{PLURAL:$1|muokkaus|muokkausta}} {{PLURAL:$2|samalla sivulla|samoilla sivuilla}}",
+	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 / $2 {{PLURAL:$2|muokkaus|muokkausta}} {{PLURAL:$1|palautettu}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Näytä tapauksen tiedot",
 	"checkuser-suggestedinvestigations-user-check-link-text": "tarkasta {{GENDER:$1|käyttäjä}}",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 väärinkäyttösuodattimen {{PLURAL:$1|osuma|osumaa}}",

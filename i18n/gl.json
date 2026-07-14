@@ -466,6 +466,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Accións",
 	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|caso relacionado|casos relacionados}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 edición|$1 edicións}} {{PLURAL:$2|na mesma páxina|nas mesmas $2 páxinas}}",
+	"checkuser-suggestedinvestigations-revision-reverts-summary": "{{PLURAL:$1|Reverteuse unha edición|Revertéronse $1 edicións}} dun total {{PLURAL:$2|dunha edición|de $2 edicións}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Ver os detalles do caso",
 	"checkuser-suggestedinvestigations-user-check-link-text": "verificar {{GENDER:$1|o usuario|a usuaria}}",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|detección|deteccións}} do filtro",

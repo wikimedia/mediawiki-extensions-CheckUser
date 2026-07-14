@@ -462,6 +462,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Tindakan",
 	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|kes}} berkaitan",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 suntingan}} pada {{PLURAL:$2|laman|$2 laman}} yang sama",
+	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 daripada {{PLURAL:$2|$2 suntingan}} {{PLURAL:$1|telah dibalikkan}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Lihat butiran kes",
 	"checkuser-suggestedinvestigations-user-check-link-text": "siasat {{GENDER:$1|pengguna}}",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|kenaan}} penapis",
