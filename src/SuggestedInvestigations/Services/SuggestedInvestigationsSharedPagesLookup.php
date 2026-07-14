@@ -33,6 +33,8 @@ class SuggestedInvestigationsSharedPagesLookup {
 	 */
 	private const EDITS_PER_USER = 500;
 
+	private const BATCH_SIZE = 10000 / self::EDITS_PER_USER;
+
 	/**
 	 * @internal For use by ServiceWiring
 	 */
@@ -138,7 +140,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 		$cutoff = $dbr->timestamp( ConvertibleTimestamp::time() - $this->maxDataAgeSeconds );
 
 		// Collect edits on pages user by user (and also record min/max timestamps)
-		foreach ( array_chunk( $userIds, 100 ) as $userIdChunk ) {
+		foreach ( array_chunk( $userIds, self::BATCH_SIZE ) as $userIdChunk ) {
 			$pagesById = [];
 			$revIds = [];
 			$maxTimestamps = [];
@@ -207,7 +209,7 @@ class SuggestedInvestigationsSharedPagesLookup {
 
 		// Collect edits on pages user by user (and also record min/max timestamps). Archived
 		// revisions have unreliable page ids (often 0), so aggregate by namespace and title.
-		foreach ( array_chunk( $userIds, 100 ) as $userIdChunk ) {
+		foreach ( array_chunk( $userIds, self::BATCH_SIZE ) as $userIdChunk ) {
 			$pagesByKey = [];
 			$revIds = [];
 			$maxTimestamps = [];
