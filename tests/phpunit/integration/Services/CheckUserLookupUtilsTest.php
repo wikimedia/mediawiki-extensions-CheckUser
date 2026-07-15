@@ -216,7 +216,7 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 				(object)[
 					'log_type' => 'type',
 					'log_action' => 'action',
-					'log_params' => LogPage::makeParamBlob( [ '4::target' => 'Testing', '5::noredir' => '0' ] ),
+					'log_params' => LogPage::makeParamBlob( [ 'Testing', '0' ] ),
 					'log_deleted' => 0,
 					'title' => 'title',
 					'namespace' => 0,
