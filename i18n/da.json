@@ -474,6 +474,7 @@
 	"checkuser-suggestedinvestigations-header-actions": "Handlinger",
 	"checkuser-suggestedinvestigations-related-cases-summary": "$1 relateret {{PLURAL:$1|sag|sager}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 redigering|$1 redigeringer}} på den samme {{PLURAL:$2|side|$2 sider}}",
+	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 ud af {{PLURAL:$2|$2 redigering|$2 redigeringer}} {{PLURAL:$1|er gendannet}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Se sagsoplysninger",
 	"checkuser-suggestedinvestigations-user-check-link-text": "tjek {{GENDER:$1|bruger}}",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 filter {{PLURAL:$1|træf}}",
