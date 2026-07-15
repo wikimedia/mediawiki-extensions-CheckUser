@@ -653,12 +653,15 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$revisionRevertRateSummaries = $this->userRevisionLookup
 			->getRevertedRevisionCountsByUsersForCases( $caseIdToUsers );
+		$deletedRevisionsSummaries = $this->userRevisionLookup
+			->getDeletedRevisionCountsByUsersForCases( $caseIdToUsers );
 		$sharedPagesSummaries = $this->sharedPagesLookup->getSharedPagesForCases( $caseIdToUsers );
 		$relatedCases = $this->relatedCasesLookup->getCasesRelatedToCases( $caseIdToUsers );
 		foreach ( $cases as $caseRow ) {
 			$caseRow->metadata[] = $revisionRevertRateSummaries[$caseRow->sic_id];
 			$caseRow->metadata[] = $sharedPagesSummaries[$caseRow->sic_id];
 			$caseRow->metadata[] = $relatedCases[$caseRow->sic_id];
+			$caseRow->metadata[] = $deletedRevisionsSummaries[$caseRow->sic_id];
 
 			// In the detail view there is a single case row; keep its metadata so that
 			// SpecialSuggestedInvestigations can render additional sections for it.

@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
 
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsDeletedRevisionsSummary;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsRevisionRevertsSummary;
 use MediaWiki\User\UserIdentity;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -23,6 +24,18 @@ class SuggestedInvestigationsUserRevisionLookup {
 	];
 
 	private readonly int $maxDataAgeSeconds;
+
+	/**
+	 * @var array<int, array{reverted: int, total: int}>
+	 * Maps local user ID to the number of reverted and total revisions
+	 */
+	private array $revisionCountsByUserCache = [];
+
+	/**
+	 * @var array<int, array{reverted: int, total: int}>
+	 * Maps local user ID to the number of reverted and total archived (deleted) revisions
+	 */
+	private array $deletedRevisionCountsByUserCache = [];
 
 	public function __construct(
 		ServiceOptions $options,
@@ -73,8 +86,50 @@ class SuggestedInvestigationsUserRevisionLookup {
 		$allCases = [];
 		foreach ( $caseIdToUsers as $caseId => $users ) {
 			$allCases[ $caseId ] = new SuggestedInvestigationsRevisionRevertsSummary(
-				$revisionCountsByCaseId[$caseId]['reverted'],
-				$revisionCountsByCaseId[$caseId]['total'],
+				$revisionCountsByCaseId[ $caseId ]['reverted'],
+				$revisionCountsByCaseId[ $caseId ]['total'],
+			);
+		}
+		return $allCases;
+	}
+
+	/**
+	 * Get the count of deleted (archived) revisions on a case-level summed from all users.
+	 *
+	 * @param array<int,list<UserIdentity>> $caseIdToUsers Maps each case ID to the list of accounts in that case.
+	 * @return SuggestedInvestigationsDeletedRevisionsSummary[] Maps each input case ID to the deleted
+	 * revision count.
+	 */
+	public function getDeletedRevisionCountsByUsersForCases( array $caseIdToUsers ): array {
+		// First, flatten the array to have list of unique user ids
+		$userIdentities = [];
+		foreach ( $caseIdToUsers as $users ) {
+			foreach ( $users as $user ) {
+				$userIdentities[ $user->getId() ] = $user;
+			}
+		}
+		$allUserIds = array_keys( $userIdentities );
+
+		// Get all revision counts for all users in the archive table
+		$deletedRevisionByUserCounts = $this->getAllRevisionCountsByUsers( $allUserIds, true );
+
+		// Sum all deleted user revision counts by case
+		$deletedRevisionCountsByCaseId = [];
+		foreach ( $caseIdToUsers as $caseId => $users ) {
+			$deletedRevisionCountsByCaseId[ $caseId ] = [
+				'total' => 0,
+			];
+			foreach ( $users as $user ) {
+				$userId = $user->getId();
+				$deletedRevisionCountsByCaseId[ $caseId ]['total'] += $deletedRevisionByUserCounts[ $userId ]['total'];
+			}
+		}
+
+		// Return information in expected summary format
+		$allCases = [];
+		foreach ( $caseIdToUsers as $caseId => $users ) {
+			$allCases[ $caseId ] = new SuggestedInvestigationsDeletedRevisionsSummary(
+				$deletedRevisionCountsByCaseId[ $caseId ]['total'],
 			);
 		}
 		return $allCases;
@@ -91,14 +146,23 @@ class SuggestedInvestigationsUserRevisionLookup {
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		$cutoff = $dbr->timestamp( ConvertibleTimestamp::time() - $this->maxDataAgeSeconds );
 
-		$revisionsByUser = [];
-		foreach ( $userIds as $userId ) {
-			$revisionsByUser[ $userId ] = [
-				'reverted' => 0,
-				'total' => 0,
-			];
+		$userIdsToLookUp = [];
+		if ( $getDeleted ) {
+			$cache = &$this->deletedRevisionCountsByUserCache;
+		} else {
+			$cache = &$this->revisionCountsByUserCache;
 		}
-		foreach ( array_chunk( $userIds, 100 ) as $userIdChunk ) {
+		foreach ( $userIds as $userId ) {
+			if ( !isset( $cache[ $userId ] ) ) {
+				$cache[ $userId ] = [
+					'reverted' => 0,
+					'total' => 0,
+				];
+				$userIdsToLookUp[] = $userId;
+			}
+		}
+
+		foreach ( array_chunk( $userIdsToLookUp, 100 ) as $userIdChunk ) {
 			$revisionTableName = $getDeleted ? 'archive' : 'revision';
 			$revisionQueryBuilder = $dbr->newSelectQueryBuilder()->from( $revisionTableName );
 
@@ -142,14 +206,14 @@ class SuggestedInvestigationsUserRevisionLookup {
 			}
 
 			foreach ( $revisionQueryBuilder->fetchResultSet() as $row ) {
-				$revisionsByUser[ $row->actor_user ]['total'] = (int)$row->count;
+				$cache[ $row->actor_user ]['total'] = (int)$row->count;
 			}
 			foreach ( $revertedRevisionQueryBuilder->fetchResultSet() as $row ) {
-				$revisionsByUser[ $row->actor_user ]['reverted'] = (int)$row->count;
+				$cache[ $row->actor_user ]['reverted'] = (int)$row->count;
 			}
 		}
 
-		return $revisionsByUser;
+		return array_intersect_key( $cache, array_flip( $userIds ) );
 	}
 
 	/**
