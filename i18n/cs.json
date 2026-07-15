@@ -222,7 +222,7 @@
 	"checkuser-investigate-tour-filterip-title": "Zpřesnit své vyšetřování?",
 	"checkuser-investigate-tour-block-title": "Chcete je zablokovat?",
 	"checkuser-investigate-tour-copywikitext-title": "Chcete si data zkopírovat?",
-	"checkuser-ip-contributions-subtitle": "Zobrazeny výsledky z {{PLURAL:posledního dne|posledních $1 dnů}}.",
+	"checkuser-ip-contributions-subtitle": "Zobrazeny výsledky z {{PLURAL:$1|posledního dne|posledních $1 dnů}}.",
 	"checkuser-ip-contributions-target-label": "IP adresa nebo rozsah:",
 	"checkuser-ip-contributions-target-error-no-ip": "Zadejte platnou IP adresu nebo rozsah IP adres",
 	"checkuser-ip-contributions-tab-label-contributions": "Příspěvky",

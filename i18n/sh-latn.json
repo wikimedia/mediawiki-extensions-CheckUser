@@ -77,6 +77,7 @@
 	"checkuser-token-fail": "Sesija nije uspjela. Pokušajte ponovo.",
 	"checkuser-helper-copy-success": "Iskopirano",
 	"checkuser-helper-user": "Korisnik",
+	"checkuser-rest-userinfo-user-not-found": "Pružen je neispravan korisnički ID.",
 	"checkuser-link-investigate-label": "Isprobajte alat {{#special:investigate}}",
 	"checkuser-investigateblock": "Blokiraj korisnike",
 	"checkuser-investigateblock-target": "Korisnička imena i IP adrese",

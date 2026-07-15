@@ -28,6 +28,7 @@
 	"right-checkuser-temporary-account-no-preference": "Gwelet ar chomlec'hioù IP implijet gant ar c'hontoù berrbad hep ezhomm da weredekaat an dibab",
 	"right-checkuser-temporary-account-log": "Gwelet ar marilh aksed da chomlec'hioù IP ar c’hontoù berrbad",
 	"right-checkuser-temporary-account-auto-reveal": "Diskuliañ ent emgefre ar chomlec'hioù IP implijet gant ar c'hontoù berrbad",
+	"grant-checkuser": "Aksediñ roadennoù gwirier implijerien",
 	"grant-checkuser-temporary-account": "Aksediñ roadennoù gwirier implijerien evit ar c'hontoù berrbad",
 	"action-checkuser": "Gwiriañ chomlec'hioù IP an implijer ha titouroù all",
 	"action-checkuser-log": "Gwelet marilh gwiriañ an implijerien",
