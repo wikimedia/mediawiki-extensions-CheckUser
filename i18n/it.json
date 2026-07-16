@@ -434,6 +434,8 @@
 	"checkuser-suggestedinvestigations-header-status": "Stato",
 	"checkuser-suggestedinvestigations-header-notes": "Note",
 	"checkuser-suggestedinvestigations-header-actions": "Azioni",
+	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 modifica|$1 modifiche}} {{PLURAL:$2|alla stessa pagina|alle stesse $2 pagine}}",
+	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 {{PLURAL:$2|modifica|modifiche}} su $2 {{PLURAL:$1|è stata annullata|sono state annullate}}",
 	"checkuser-suggestedinvestigations-status-open": "Aperto",
 	"checkuser-suggestedinvestigations-status-resolved": "Chiuso",
 	"checkuser-suggestedinvestigations-status-invalid": "Non valido",
