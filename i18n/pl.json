@@ -349,7 +349,7 @@
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "Aby wyświetlić wkład adresy IP kont tymczasowych, zaakceptuj warunki w [[Special:Preferences|swoich preferencjach]].",
 	"checkuser-tempaccount-reveal-blocked-loading": "Ładowanie szczegółów blokady",
 	"checkuser-tempaccount-reveal-blocked-title": "Wyświetl szczegóły blokady",
-	"checkuser-tempaccount-reveal-blocked-missingblock": "Ujawnianie adresów IP kont tymczasowych zostało zablokowane z powodu blokady nałożonej na twoje konto, która nie jest już aktywna. Odśwież stronę.",
+	"checkuser-tempaccount-reveal-blocked-missingblock": "Ujawnianie adresów IP kont tymczasowych zostało zablokowane z powodu blokady nałożonej na Twoje konto, która nie jest już aktywna. Odśwież stronę.",
 	"checkuser-tempaccount-reveal-blocked-error": "Podczas pobierania szczegółów blokady wystąpił błąd. Odśwież stronę i spróbuj ponownie.",
 	"checkuser-tempaccount-reveal-blocked-header": "Ujawnianie adresów IP kont tymczasowych jest wyłączone",
 	"checkuser-tempaccount-reveal-blocked-description": "Nie masz uprawnień do korzystania z tej funkcji z następującego powodu:",
