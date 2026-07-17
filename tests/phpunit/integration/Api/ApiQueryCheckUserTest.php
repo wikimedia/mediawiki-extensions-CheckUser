@@ -18,7 +18,6 @@ use MediaWiki\HookContainer\HookRunner;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Revision\SlotRecord;
-use MediaWiki\Session\SessionManager;
 use MediaWiki\Tests\Api\ApiTestCase;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentity;
@@ -77,7 +76,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	) {
 		// From ApiTestCase::doApiRequest() but modified
 		$session = RequestContext::getMain()->getRequest()->getSessionArray();
-		$sessionObj = SessionManager::singleton()->getEmptySession();
+		$sessionObj = $this->getServiceContainer()->getSessionManager()->getEmptySession();
 
 		if ( $session !== null ) {
 			foreach ( $session as $key => $value ) {

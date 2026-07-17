@@ -8,7 +8,6 @@ use Firebase\JWT\JWT;
 use MediaWiki\Config\ConfigException;
 use MediaWiki\Extension\CheckUser\Services\TokenManager;
 use MediaWiki\Request\FauxRequest;
-use MediaWiki\Session\SessionManager;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -56,7 +55,7 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 		$this->expectExceptionMessage( 'Signature verification failed' );
 
 		$tokenManager = new TokenManager( 'abcdef' );
-		$session = SessionManager::singleton()->getEmptySession();
+		$session = $this->getServiceContainer()->getSessionManager()->getEmptySession();
 		$encoded = $tokenManager->encode( $session, [] );
 
 		$tokenManager = new TokenManager( 'abcdef2' );
@@ -67,8 +66,8 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 		$this->expectExceptionMessage( 'Signature verification failed' );
 
 		$tokenManager = new TokenManager( 'abcdef' );
-		$encoded = $tokenManager->encode( SessionManager::singleton()->getEmptySession(), [] );
-		$tokenManager->decode( SessionManager::singleton()->getEmptySession(), $encoded );
+		$encoded = $tokenManager->encode( $this->getServiceContainer()->getSessionManager()->getEmptySession(), [] );
+		$tokenManager->decode( $this->getServiceContainer()->getSessionManager()->getEmptySession(), $encoded );
 	}
 
 	public function testDecodeExpiredToken() {
