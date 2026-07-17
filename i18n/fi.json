@@ -85,6 +85,7 @@
 	"checkuser-filter-title": "Suodattimet",
 	"checkuser-filter-hide-temporary-accounts": "Piilota tilapäiset tunnukset",
 	"checkuser-cidr-label": "Etsi yhteinen IP-osoiteavaruus annetulle IP-listalle",
+	"checkuser-cidr-no-script-message": "Tämä työkalu vaatii toimiakseen JavaScriptin. Ota JavaScript käyttöön käyttääksesi tätä työkalua.",
 	"checkuser-cidr-res": "Yhteinen IP-osoiteavaruus:",
 	"checkuser-cidr-affected-ips": "Alaisia IP-osoitteita:",
 	"checkuser-cidr-mixed-address-families": "Yhteisen alueen laskeminen ei onnistu: luettelossa on sekä IPv4- että IPv6-osoitteita.",
