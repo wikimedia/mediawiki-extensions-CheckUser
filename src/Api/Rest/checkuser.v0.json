@@ -8,7 +8,7 @@
 		"x-i18n-description": "rest-module-checkuser.v0-desc"
 	},
 	"externalDocs": {
-		"url": "https://www.mediawiki.org/wiki/Extension:CheckUser",
+		"url": "https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs",
 		"description": "CheckUser extension documentation"
 	},
 	"paths": {

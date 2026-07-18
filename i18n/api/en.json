@@ -55,7 +55,7 @@
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "The provided case ID does not exist",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "The suggested investigations feature is not enabled",
 	"rest-module-checkuser.v0-title": "CheckUser API",
-	"rest-module-checkuser.v0-desc": "REST API for CheckUser tools. See [CheckUser extension documentation](https://www.mediawiki.org/wiki/Extension:CheckUser).",
+	"rest-module-checkuser.v0-desc": "REST API for CheckUser tools. See [CheckUser extension documentation](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Username to retrieve details for",
 	"checkuser-rest-request-desc-userinfo": "Request body to retrieve information for the UserInfoCard",
 	"checkuser-rest-response-desc-userinfo": "Response containing detailed public and restricted user activity data",
