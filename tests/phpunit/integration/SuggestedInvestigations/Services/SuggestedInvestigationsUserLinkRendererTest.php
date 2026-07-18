@@ -108,11 +108,11 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 		return [
 			'User has edits' => [
 				'editCount' => 1,
-				'redLink' => false,
+				'expectRedLink' => false,
 			],
 			'User has no edits' => [
 				'editCount' => 0,
-				'redLink' => true,
+				'expectRedLink' => true,
 			],
 		];
 	}
