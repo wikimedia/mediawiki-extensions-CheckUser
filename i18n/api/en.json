@@ -54,6 +54,7 @@
 	"checkuser-ip-auto-reveal-missing-permission": "You do not have the permission needed to use IP auto-reveal.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "The provided case ID does not exist",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "The suggested investigations feature is not enabled",
+	"checkuser-suggestedinvestigations-not-enabled": "The suggested investigations feature is not enabled",
 	"rest-module-checkuser.v0-title": "CheckUser API",
 	"rest-module-checkuser.v0-desc": "REST API for CheckUser tools. See [CheckUser extension documentation](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Username to retrieve details for",
@@ -157,5 +158,7 @@
 	"checkuser-rest-endpoint-summary-connected-temp-accounts": "Get connected temporary accounts",
 	"checkuser-rest-endpoint-desc-connected-temp-accounts": "Returns other temporary accounts that have edited from the same IPs as a given temporary account.",
 	"checkuser-rest-endpoint-summary-clienthints": "Create user agent client hints",
-	"checkuser-rest-endpoint-desc-clienthints": "Creates user agent client hints data for a given revision or log event."
+	"checkuser-rest-endpoint-desc-clienthints": "Creates user agent client hints data for a given revision or log event.",
+	"checkuser-rest-endpoint-summary-suggestedinvestigationsusersummary": "Retrieve a summary of the user's association with suggested investigation cases",
+	"checkuser-rest-endpoint-desc-suggestedinvestigationsusersummary": "Return how many accounts and cases a user is related to in suggested investigations"
 }

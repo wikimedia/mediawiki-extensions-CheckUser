@@ -161,6 +161,7 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 			'checkuser-suggestedinvestigations-risk-signals-popover-body-intro',
 			'checkuser-suggestedinvestigations-risk-signals-popover-close-label',
 			'checkuser-suggestedinvestigations-risk-signals-popover-open-label',
+			'checkuser-si-related-cases-info',
 		];
 
 		if ( $this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
@@ -193,12 +194,14 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 				'rest.js',
 				'utils.js',
 				'instrumentation.js',
+				'SpecialBlock.js',
 				'SpecialSuggestedInvestigations.js',
 				'components/ChangeInvestigationStatusDialog.vue',
 				'components/CharacterLimitedTextInput.vue',
 				'components/FilterDialog.vue',
 				'components/FilterDialogUsernameFilter.vue',
 				'components/SignalsPopover.vue',
+				'components/RelatedCasesMessage.vue',
 				'composables/useInstrument.js',
 			],
 			'messages' => $messages,

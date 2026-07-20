@@ -592,5 +592,6 @@
 	"checkuser-related-tas-target": "Link to the user's contributions page.\n\nParameters:\n* $1 - Main target",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Error message shown when the feature is unavailable due to usage constraints.\n\nParameters:\n* $1 - Number of temporary accounts",
 	"rangecalculator": "{{doc-special|RangeCalculator}}\nIn the special page, users can calculate a common range and the number of affected IPs for a list of IP addresses.",
-	"rangecalculator-summary": "Help text shown for the RangeCalculator special page."
+	"rangecalculator-summary": "Help text shown for the RangeCalculator special page.",
+	"checkuser-si-related-cases-info": "Notice shown on Special:Block when the block target is associated with any suggested investigations cases and the performer has access to suggested investigations.\n\nParameters:\n* $1 - Number of related accounts\n* $2 - Number of suggested investigations cases\n* $3 - Username of the block target"
 }

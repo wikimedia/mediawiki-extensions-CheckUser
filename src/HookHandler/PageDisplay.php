@@ -25,6 +25,12 @@ use MediaWiki\User\UserIdentityUtils;
 use Psr\Log\LoggerInterface;
 
 class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
+
+	/**
+	 * Allows for re-use of this value across hooks in case two features independently need it
+	 */
+	private ?bool $canViewSuggestedInvestigations = null;
+
 	public function __construct(
 		private readonly Config $config,
 		private readonly CheckUserPermissionManager $checkUserPermissionManager,
@@ -49,6 +55,28 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 		$this->addTemporaryAccountsOnboardingDialog( $out );
 		$this->addIPRevealButtons( $out );
 		$this->instrumentSuggestedInvestigations( $out );
+		$this->addSuggestedInvestigationsFeatures( $out );
+	}
+
+	private function addSuggestedInvestigationsFeatures( OutputPage $out ): void {
+		// Add SI case heads-up to Special:Block
+		$title = $out->getTitle();
+		if ( !$title->isSpecial( 'Block' ) ) {
+			return;
+		}
+		$siEnabled = $this->config->get( 'CheckUserSuggestedInvestigationsEnabled' );
+		if ( !is_bool( $this->canViewSuggestedInvestigations ) ) {
+			$this->canViewSuggestedInvestigations = $siEnabled &&
+				$out->getAuthority()->isAllowed( 'checkuser-suggested-investigations' );
+		}
+
+		if ( $siEnabled && $this->canViewSuggestedInvestigations ) {
+			$out->addJsConfigVars( [
+				'wgCheckUserSuggestedInvestigationsEnabled' => $siEnabled,
+				'wgCheckUserCanViewSuggestedInvestigations' => $this->canViewSuggestedInvestigations,
+			] );
+			$out->addModules( 'ext.checkUser.suggestedInvestigations' );
+		}
 	}
 
 	/**
@@ -106,6 +134,12 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 
 		$authority = $out->getAuthority();
 
+		if ( !is_bool( $this->canViewSuggestedInvestigations ) ) {
+			$this->canViewSuggestedInvestigations = $authority
+				->isAllowed( 'checkuser-suggested-investigations' ) &&
+				$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' );
+		}
+
 		$out->addJsConfigVars( [
 			'wgCheckUserCanViewCheckUserLog' =>
 				$authority->isAllowed( 'checkuser-log' ),
@@ -116,8 +150,7 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 			'wgCheckUserCanAccessTemporaryAccountLog' =>
 				$authority->isAllowed( 'checkuser-temporary-account-log' ),
 			'wgCheckUserCanViewSuggestedInvestigations' =>
-				$authority->isAllowed( 'checkuser-suggested-investigations' ) &&
-				$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ),
+				$this->canViewSuggestedInvestigations,
 		] );
 	}
 

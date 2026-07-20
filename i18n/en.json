@@ -555,5 +555,6 @@
 	"checkuser-related-tas-target": "[[Special:Contributions/$1|$1]]",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "There are too many associated temporary accounts to add to this block. We only allow up to $1 {{PLURAL:$1|account|accounts}} to be blocked at one time.",
 	"rangecalculator": "IP Range Calculator",
-	"rangecalculator-summary": "This tool allows you to calculate the common range between a list of IP addresses. This tool only currently calculates one common range and you cannot mix IPv4 and IPv6 addresses."
+	"rangecalculator-summary": "This tool allows you to calculate the common range between a list of IP addresses. This tool only currently calculates one common range and you cannot mix IPv4 and IPv6 addresses.",
+	"checkuser-si-related-cases-info": "The target account is linked to {{PLURAL:$1|$1 account|$1 accounts}} across [$3 {{PLURAL:$2|$2 suggested investigation|$2 suggested investigations}}]"
 }

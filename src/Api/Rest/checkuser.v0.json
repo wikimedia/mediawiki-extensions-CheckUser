@@ -162,6 +162,20 @@
 					]
 				}
 			}
+		},
+		"/suggestedinvestigationsusersummary/{name}": {
+			"post": {
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-suggestedinvestigationsusersummary",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-suggestedinvestigationsusersummary",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\SuggestedInvestigations\\UserSummaryHandler",
+					"services": [
+						"MainConfig",
+						"ActorStore",
+						"CheckUserSuggestedInvestigationsCaseLookup"
+					]
+				}
+			}
 		}
 	}
 }

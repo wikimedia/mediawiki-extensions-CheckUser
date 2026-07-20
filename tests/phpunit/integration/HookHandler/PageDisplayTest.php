@@ -365,6 +365,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$this->disableAutoCreateTempUser();
 
 		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( SpecialPage::getTitleFor( 'Contributions' ) );
 		$performer = $performerIsNamed ?
 			$this->mockRegisteredUltimateAuthority() :
 			$this->mockAnonUltimateAuthority();
@@ -666,6 +667,94 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$configVars['wgCheckUserCanViewSuggestedInvestigations'],
 			'wgCheckUserCanViewSuggestedInvestigations is true when feature is enabled and performer has permission'
 		);
+	}
+
+	/** @dataProvider provideOnBeforePageDisplayForSuggestedInvestigations */
+	public function testOnBeforePageDisplayForSuggestedInvestigations(
+		string $specialPageName,
+		bool $isFeatureEnabled,
+		bool $canViewFeature,
+		bool $shouldLoadModule,
+		array $expectedJsConfigVars,
+	): void {
+		$this->disableAutoCreateTempUser();
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( SpecialPage::getTitleFor( $specialPageName ) );
+		$performer = $canViewFeature ?
+			$this->mockRegisteredUltimateAuthority() :
+			$this->mockRegisteredNullAuthority();
+		$context->setAuthority( $performer );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CUDMaxAge' => 12345,
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserSuggestedInvestigationsEnabled' => $isFeatureEnabled,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils(),
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
+			$this->getServiceContainer()->get( 'CheckUserLogger' ),
+			$this->getBlockStatusCacheMock()
+		);
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output,
+			$this->createMock( Skin::class )
+		);
+
+		$this->assertArrayEquals(
+			$expectedJsConfigVars,
+			$output->getJsConfigVars(),
+		);
+		if ( $shouldLoadModule ) {
+			$this->assertContains( 'ext.checkUser.suggestedInvestigations', $output->getModules() );
+		} else {
+			$this->assertNotContains( 'ext.checkUser.suggestedInvestigations', $output->getModules() );
+		}
+	}
+
+	public static function provideOnBeforePageDisplayForSuggestedInvestigations(): array {
+		return [
+			'Should show - all checks pass' => [
+				'specialPageName' => 'Block',
+				'isFeatureEnabled' => true,
+				'canViewFeature' => true,
+				'shouldLoadModule' => true,
+				'expectedJsConfigVars' => [
+					'wgCheckUserSuggestedInvestigationsEnabled' => true,
+					'wgCheckUserCanViewSuggestedInvestigations' => true,
+				],
+			],
+			'Shouldn\'t load on pages other than Special:Block' => [
+				'specialPageName' => 'Version',
+				'isFeatureEnabled' => true,
+				'canViewFeature' => true,
+				'shouldLoadModule' => false,
+				'expectedJsConfigVars' => [],
+			],
+			'Shouldn\'t load if suggested investigations is disabled' => [
+				'specialPageName' => 'Block',
+				'isFeatureEnabled' => false,
+				'canViewFeature' => true,
+				'shouldLoadModule' => false,
+				'expectedJsConfigVars' => [],
+			],
+			'Shouldn\'t load if user cannot view suggested investigations' => [
+				'specialPageName' => 'Block',
+				'isFeatureEnabled' => true,
+				'canViewFeature' => false,
+				'shouldLoadModule' => false,
+				'expectedJsConfigVars' => [],
+			],
+		];
 	}
 
 	/** @dataProvider provideOnBeforePageDisplayForIPInfoHookCases */
