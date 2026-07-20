@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Vellion Eagle"
+		]
+	},
+	"checkuser-rest-property-desc-username": "Numele de utilizator al utilizatorului",
+	"checkuser-rest-property-desc-gender": "Sexul utilizatorului",
+	"checkuser-rest-property-desc-local-registration": "Marcajul temporal al înregistrării locale a utilizatorului",
+	"checkuser-rest-property-desc-first-registration": "Primul marcaj temporal al înregistrării pe toate wiki-urile",
+	"checkuser-rest-property-desc-user-page-exists": "Dacă pagina de utilizator există",
+	"checkuser-rest-property-desc-global-edit-count": "Numărul total de contribuții globale ale utilizatorului",
+	"checkuser-rest-property-desc-global-restrictions": "Starea restricțiilor globale (ex., încuiat, blocat)",
+	"checkuser-rest-property-desc-global-restrictions-timestamp": "Marcaj temporal al aplicării restricției globale",
+	"checkuser-rest-param-desc-limit-ips": "Numărul maxim de adrese IP de returnat",
+	"checkuser-rest-param-desc-limit-temp-accounts": "Numărul maxim de conturi temporare de returnat",
+	"checkuser-rest-property-desc-temp-account-name-item": "Numele contului temporar",
+	"checkuser-rest-param-desc-clienthints-mobile": "Dacă dispozitivul este mobil",
+	"checkuser-rest-param-desc-clienthints-platform": "Platforma dispozitivului",
+	"checkuser-rest-param-desc-clienthints-architecture": "Arhitectura CPU-ului dispozitivului",
+	"checkuser-rest-param-desc-clienthints-model": "Modelul dispozitivului",
+	"checkuser-rest-param-desc-clienthints-platformversion": "Versiunea platformei"
+}

@@ -478,6 +478,8 @@
 	"checkuser-suggestedinvestigations-header-actions": "Дії",
 	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|пов'язана справа|пов'язані справи|пов'язаних справ}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 редагування|$1 редагування|$1 редагувань}} на {{PLURAL:$2|тій самій сторінці|тих самих $2 сторінках}}",
+	"checkuser-suggestedinvestigations-revision-reverts-summary": "{{PLURAL:$1|Скасовано}} $1 з {{PLURAL:$2|$2 редагування|$2 редагувань}}",
+	"checkuser-suggestedinvestigations-reverted-revisions": "{{PLURAL:$1|Скасовано}} $1 з {{PLURAL:$2|$2 версії|$2 версій}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Переглянути деталі справи",
 	"checkuser-suggestedinvestigations-user-check-link-text": "перевірити {{GENDER:$1|користувача|користувачку}}",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|спрацьовування|спрацьовування|спрацьовувань}} фільтрів",

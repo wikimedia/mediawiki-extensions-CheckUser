@@ -5,6 +5,7 @@
 			"McDutchie",
 			"Revi",
 			"Tensama0415",
+			"YeBoy371",
 			"Ykhwong",
 			"아라"
 		]
@@ -57,5 +58,15 @@
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "제공된 사안 ID가 존재하지 않습니다.",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "제안된 조사 기능이 활성화되어 있지 않습니다.",
 	"rest-module-checkuser.v0-title": "검사관 API",
-	"rest-module-checkuser.v0-desc": "검사관 도구용 REST API입니다. [검사관 확장 기능 설명문서](https://www.mediawiki.org/wiki/Extension:CheckUser)를 참조하세요."
+	"rest-module-checkuser.v0-desc": "검사관 도구용 REST API입니다. [검사관 확장 기능 설명문서](https://www.mediawiki.org/wiki/Extension:CheckUser)를 참조하세요.",
+	"checkuser-rest-property-desc-username": "사용자의 사용자 이름",
+	"checkuser-rest-property-desc-groups": "로컬 사용자 그룹의 형식화된 HTML 목록",
+	"checkuser-rest-property-desc-global-groups": "전역 사용자 그룹의 형식화된 HTML 목록",
+	"checkuser-rest-example-groups": "<strong>그룹</strong>: 관리자",
+	"checkuser-rest-example-global-groups": "<strong>전역 그룹</strong>: 사무장",
+	"checkuser-rest-property-desc-temp-account-name-item": "임시 계정 이름",
+	"checkuser-rest-request-property-desc-token": "CSRF 토큰",
+	"checkuser-rest-request-property-desc-rev-id-item": "판 ID",
+	"checkuser-rest-request-property-desc-log-id-item": "기록 ID",
+	"checkuser-rest-request-property-desc-abuse-log-id-item": "AbuseFilter 기록 ID"
 }
