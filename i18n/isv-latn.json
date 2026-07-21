@@ -4,6 +4,8 @@
 			"IJzeren Jan"
 		]
 	},
+	"checkuser-ip-contributions": "Iskanje vklada od IP-adresa",
+	"checkuser-ip-contributions-search-form-wrapper": "Iskanje vklada od IP-adresa",
 	"checkuser-global-contributions": "Iskanje globalnogo vklada",
 	"checkuser-global-contributions-search-form-wrapper": "Iskati globalny vklad",
 	"prefs-checkuser-tempaccount": "Razkrytje IP-adresov začasnyh kont",
