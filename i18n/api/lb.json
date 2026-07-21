@@ -21,6 +21,7 @@
 	"checkuser-rest-param-desc-limit-ips": "Maximal Zuel vun IP-Adresse fir zeréckzeginn",
 	"checkuser-rest-property-desc-ips": "Lëscht vun den IP-Adressen, déi vum temporäre Kont benotzt ginn",
 	"checkuser-rest-property-desc-ip-item": "IP-Adress am IPv4- oder IPv6-Format",
+	"checkuser-rest-param-desc-ip": "IP-Adress fir ofzefroen",
 	"checkuser-rest-property-desc-temp-account-name-item": "Numm vum temporäre Kont",
 	"checkuser-rest-request-property-desc-token": "CSRF-Token",
 	"checkuser-rest-request-property-desc-rev-ids": "Lëscht vun de Versiouns-IDe fir nozekucken",

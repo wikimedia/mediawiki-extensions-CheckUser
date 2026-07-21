@@ -537,6 +537,6 @@
 	"checkuser-related-tas-specialblock-accounts-list-error": "$1와(과) 연결된 IP 주소를 사용한 임시 계정을 식별하는 과정에서 오류가 발생했습니다. $1에 대한 차단을 계속 진행하거나, 연결된 {{GENDER:$2|계정}}을 식별하기 위해 다시 검색해 보세요.",
 	"checkuser-related-tas-specialblock-confirm": "이로 인해 $1개 {{PLURAL:$1|계정|계정들}}에 차단이 적용됩니다. {{PLURAL:$1|이 계정|이 계정들}}을 차단하는 것은 당신이 {{PLURAL:$1|그 계정|그 계정들}}에 대해 조사했음을 확인합니다.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "연관된 임시 계정이 너무 많아 이 차단에 추가할 수 없습니다. 한 번에 최대 $1개 {{PLURAL:$1|계정}}만 차단할 수 있습니다.",
-	"rangecalculator": "IR 범위 계산기",
+	"rangecalculator": "IP 대역 계산기",
 	"rangecalculator-summary": "이 도구는 IP 주소 목록간의 공통 범위를 계산할 수 있습니다. 이 도구는 현재 하나의 공통 범위를 계산하며 IPv4와 IPv6 주소를 혼합해 사용할 수 없습니다."
 }

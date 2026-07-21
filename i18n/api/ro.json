@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
+			"Chemballs",
 			"Vellion Eagle"
 		]
 	},
 	"checkuser-rest-property-desc-username": "Numele de utilizator al utilizatorului",
-	"checkuser-rest-property-desc-gender": "Sexul utilizatorului",
+	"checkuser-rest-property-desc-gender": "Genul utilizatorului",
 	"checkuser-rest-property-desc-local-registration": "Marcajul temporal al înregistrării locale a utilizatorului",
 	"checkuser-rest-property-desc-first-registration": "Primul marcaj temporal al înregistrării pe toate wiki-urile",
 	"checkuser-rest-property-desc-user-page-exists": "Dacă pagina de utilizator există",
