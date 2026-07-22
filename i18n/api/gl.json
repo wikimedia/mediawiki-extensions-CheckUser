@@ -57,7 +57,7 @@
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "O identificador de caso especificado non existe",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "A función de investigacións suxeridas non está activada",
 	"rest-module-checkuser.v0-title": "API de verificación de usuarios",
-	"rest-module-checkuser.v0-desc": "API REST para as ferramentas de verificación de usuarios. Consulta a [documentación da extensión CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser).",
+	"rest-module-checkuser.v0-desc": "API REST para as ferramentas de verificación de usuarios. Consulta a [documentación da extensión CheckUser](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Nome de usuario do que obter os detalles",
 	"checkuser-rest-request-desc-userinfo": "Corpo da solicitude para recuperar a información para a tarxeta UserInfoCard",
 	"checkuser-rest-response-desc-userinfo": "Resposta que contén datos detallados da actividade do usuario, tanto públicos como restrinxidos",

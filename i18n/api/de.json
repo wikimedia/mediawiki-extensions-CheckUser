@@ -57,5 +57,6 @@
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Die angegebene Fall-ID existiert nicht",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Die Funktion „Vorgeschlagene Untersuchungen“ ist nicht aktiviert",
 	"rest-module-checkuser.v0-title": "CheckUser-API",
-	"rest-module-checkuser.v0-desc": "REST-API für CheckUser-Tools. Siehe [Dokumentation zur CheckUser-Erweiterung] (https://www.mediawiki.org/wiki/Extension:CheckUser)."
+	"rest-module-checkuser.v0-desc": "REST-API für CheckUser-Tools. Siehe [Dokumentation zur CheckUser-Erweiterung] (https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
+	"checkuser-rest-param-desc-clienthints-platformversion": "Plattformversion"
 }
