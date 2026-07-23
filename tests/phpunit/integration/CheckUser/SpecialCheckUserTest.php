@@ -185,40 +185,10 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	}
 
 	/**
-	 * Expects that one element exists in the provided HTML with the given ID and then returns the
-	 * HTML inside the element.
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $id The ID to search for, excluding the "#" character
-	 * @return string
-	 */
-	private function assertAndGetByElementId( string $html, string $id ): string {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::getElementById( $specialPageDocument, $id );
-		$this->assertNotNull( $element, "Could not find element with ID $id in $html" );
-		return DOMCompat::getInnerHTML( $element );
-	}
-
-	/**
-	 * Expects that one element exists with the given class inside the provided HTML and then returns
-	 * the HTML inside that element
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $class The CSS class to search for, excluding the "." character
-	 * @return string
-	 */
-	private function assertAndGetByElementClass( string $html, string $class ): string {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
-		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
-		return DOMCompat::getOuterHTML( $element[0] );
-	}
-
-	/**
 	 * Verifies that the form fields are present for the Special:CheckUser search form
 	 */
 	private function commonVerifyFormFieldsPresent( string $html ): void {
-		$formHtml = $this->assertAndGetByElementId( $html, 'checkuserform' );
+		$formHtml = $this->assertSelectorMatchesOneElement( $html, '#checkuserform' );
 
 		$this->assertStringContainsString( '(checkuser-target', $formHtml );
 		$this->assertStringContainsString( '(checkuser-period', $formHtml );
@@ -233,7 +203,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	 * Verifies that the CIDR form is shown on the page
 	 */
 	private function verifyCidrFormExists( string $html ): void {
-		$cidrFormHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-cidrform' );
+		$cidrFormHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-cidrform' );
 		$this->assertStringContainsString( '(checkuser-cidr-label', $cidrFormHtml );
 	}
 
@@ -269,7 +239,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		);
 
 		// Verify that the results contain the IP '1.2.3.4'
-		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-ips-results' );
+		$resultHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-get-ips-results' );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 
 		$this->verifyCheckUserLogEntryCreated(
@@ -298,10 +268,10 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 		$this->commonVerifyFormFieldsPresent( $html );
 		$this->verifyCidrFormExists( $html );
-		$this->assertAndGetByElementClass( $html, 'mw-checkuser-helper-fieldset' );
+		$this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-helper-fieldset' );
 
 		// Verify that the results contain the IP '1.2.3.4' and target username
-		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-actions-results' );
+		$resultHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-get-actions-results' );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
@@ -335,10 +305,10 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 		$this->commonVerifyFormFieldsPresent( $html );
 		$this->verifyCidrFormExists( $html );
-		$this->assertAndGetByElementClass( $html, 'mw-checkuser-helper-fieldset' );
+		$this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-helper-fieldset' );
 
 		// Verify that the results contain the IP '1.2.3.4' and target username
-		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-actions-results' );
+		$resultHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-get-actions-results' );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
@@ -424,10 +394,10 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 		$this->commonVerifyFormFieldsPresent( $html );
 		$this->verifyCidrFormExists( $html );
-		$this->assertAndGetByElementClass( $html, 'mw-checkuser-helper-fieldset' );
+		$this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-helper-fieldset' );
 
 		// Verify that the results contain the target IP '1.2.3.4' and the user who has used that IP
-		$resultHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-get-users-results' );
+		$resultHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-get-users-results' );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 

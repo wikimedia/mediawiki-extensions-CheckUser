@@ -8,10 +8,10 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\Extension\CheckUser\Services\TokenManager;
 use MediaWiki\Html\FormOptions;
+use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Parsoid\Core\DOMCompat;
-use Wikimedia\Parsoid\DOM\Element;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\TestingAccessWrapper;
 
@@ -20,6 +20,7 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\Extension\CheckUser\CheckUser\CheckUserPagerNavigationBuilder
  */
 class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
+	use HtmlAssertionHelperTrait;
 
 	public function testMakeLink() {
 		$opts = new FormOptions();
@@ -50,11 +51,11 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 			'prev'
 		);
 
-		$form = $this->assertAndGetByElementClass( $actualLinkHtml, 'mw-checkuser-paging-links-form' );
-		$formHtml = DOMCompat::getInnerHTML( $form );
+		$formHtml = $this->assertSelectorMatchesOneElement( $actualLinkHtml, '.mw-checkuser-paging-links-form' );
+		$form = DOMUtils::parseHTML( $formHtml );
 
-		$submitButton = $this->assertAndGetByElementClass( $formHtml, 'mw-checkuser-paging-links' );
-		$this->assertSame( 'prev text', $submitButton->getAttribute( 'value' ) );
+		$submitButtonHtml = $this->assertSelectorMatchesOneElement( $formHtml, '.mw-checkuser-paging-links' );
+		$this->assertStringContainsString( 'prev text', $submitButtonHtml );
 
 		// Expect that the paging links have the temporary accounts hide filter, so that the current value persists
 		// across pages
@@ -65,7 +66,7 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 		/** @var TokenManager $tokenManager */
 		$tokenManager = $this->getServiceContainer()->get( 'CheckUserTokenManager' );
 
-		$tokenField = $this->assertAndGetByElementClass( $formHtml, 'mw-checkuser-paging-links-token' );
+		$tokenField = DOMCompat::querySelector( $form, '.mw-checkuser-paging-links-token' );
 		$actualToken = $tokenField->getAttribute( 'value' );
 		$this->assertArrayEquals(
 			[
@@ -78,7 +79,7 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 			'CheckUser JWT token for paging returned unexpected data'
 		);
 
-		$editTokenField = $this->assertAndGetByElementClass( $formHtml, 'mw-checkuser-paging-links-edit-token' );
+		$editTokenField = DOMCompat::querySelector( $form, '.mw-checkuser-paging-links-edit-token' );
 		$this->assertTrue(
 			$context->getCsrfTokenSet()->matchToken( $editTokenField->getAttribute( 'value' ) ),
 			'wpEditToken field had an invalid token specified'
@@ -111,20 +112,5 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 			'span.mw-prevlink'
 		);
 		$this->assertNotNull( $pagingLink, 'The paging link should be rendered as text instead of a link' );
-	}
-
-	/**
-	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
-	 * that Element object
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $class The CSS class to search for, excluding the "." character
-	 * @return Element The Element object
-	 */
-	private function assertAndGetByElementClass( string $html, string $class ): Element {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
-		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
-		return $element[0];
 	}
 }

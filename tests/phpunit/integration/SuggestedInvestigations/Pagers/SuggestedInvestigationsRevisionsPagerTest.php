@@ -6,10 +6,9 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigation
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsPagerFactory;
+use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
-use Wikimedia\Parsoid\Core\DOMCompat;
-use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsRevisionsPager
@@ -17,6 +16,7 @@ use Wikimedia\Parsoid\Ext\DOMUtils;
  * @group Database
  */
 class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTestCase {
+	use HtmlAssertionHelperTrait;
 
 	private static int $firstRevisionId;
 	private static int $secondRevisionId;
@@ -41,13 +41,13 @@ class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTest
 		$this->assertStringNotContainsString( 'Test page2', $html );
 		$this->assertStringNotContainsString( 'Test page3', $html );
 
-		$firstRevisionRowHtml = $this->assertAndGetByElementSelector(
+		$firstRevisionRowHtml = $this->assertSelectorMatchesOneElement(
 			$html,
 			'li[data-mw-revid="' . static::$firstRevisionId . '"]'
 		);
 		$this->assertUserCorrectlyAddedToRowHtml( $passUserToPager, $firstRevisionRowHtml );
 
-		$secondRevisionRowHtml = $this->assertAndGetByElementSelector(
+		$secondRevisionRowHtml = $this->assertSelectorMatchesOneElement(
 			$html,
 			'li[data-mw-revid="' . static::$secondRevisionId . '"]'
 		);
@@ -78,7 +78,7 @@ class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTest
 		$this->assertStringNotContainsString( 'Test page2', $html );
 		$this->assertStringContainsString( 'Test page3', $html );
 
-		$deletedRevisionRowHtml = $this->assertAndGetByElementSelector(
+		$deletedRevisionRowHtml = $this->assertSelectorMatchesOneElement(
 			$html,
 			'li[data-mw-revid="' . static::$deletedRevisionId . '"]'
 		);
@@ -99,21 +99,6 @@ class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTest
 				'If user is not passed to the pager, then the username should be rendered in the row'
 			);
 		}
-	}
-
-	/**
-	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
-	 * the HTML inside that Element.
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $selector The selector that should find one element
-	 * @return string The HTML inside the given class
-	 */
-	private function assertAndGetByElementSelector( string $html, string $selector ): string {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::querySelectorAll( $specialPageDocument, $selector );
-		$this->assertCount( 1, $element, "Could not find only one element matching $selector in $html" );
-		return DOMCompat::getInnerHTML( $element[0] );
 	}
 
 	private function getPagerFactory(): SuggestedInvestigationsPagerFactory {

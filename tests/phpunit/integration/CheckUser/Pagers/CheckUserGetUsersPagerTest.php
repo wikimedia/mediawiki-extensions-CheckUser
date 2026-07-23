@@ -18,12 +18,11 @@ use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockT
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\ArrayUtils\ArrayUtils;
 use Wikimedia\IPUtils;
-use Wikimedia\Parsoid\Core\DOMCompat;
-use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -37,6 +36,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 	use CheckUserClientHintsCommonTestTrait;
+	use HtmlAssertionHelperTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -636,21 +636,6 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$objectUnderTest->getEndBody();
 	}
 
-	/**
-	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
-	 * the HTML inside that Element.
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $class The CSS class to search for, excluding the "." character
-	 * @return string The HTML inside the given class
-	 */
-	private function assertAndGetByElementClass( string $html, string $class ): string {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
-		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
-		return DOMCompat::getInnerHTML( $element[0] );
-	}
-
 	/** @dataProvider provideGetEndBodyForBlockFieldset */
 	public function testGetEndBodyForBlockFieldset(
 		bool $hasLocalBlockRights,
@@ -722,7 +707,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		} else {
 			$this->assertStringContainsString( 'mw-checkbox-toggle-controls', $html );
 			$this->assertStringContainsString( '(checkuser-massblock-text', $html );
-			$fieldsetHtml = $this->assertAndGetByElementClass( $html, 'mw-checkuser-massblock' );
+			$fieldsetHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-massblock' );
 
 			$this->assertContains( 'ext.checkUser', $output->getModules() );
 		}

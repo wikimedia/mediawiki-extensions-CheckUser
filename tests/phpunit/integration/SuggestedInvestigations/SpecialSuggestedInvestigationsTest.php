@@ -134,9 +134,9 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 				'Should not find any private data warning if the user has seen it'
 			);
 		} else {
-			$privateDataWarning = $this->assertAndGetByElementClass(
+			$privateDataWarning = $this->assertSelectorMatchesOneElement(
 				$html,
-				'ext-checkuser-suggestedinvestigations-private-data-warning'
+				'.ext-checkuser-suggestedinvestigations-private-data-warning'
 			);
 			$this->assertStringContainsString(
 				'(checkuser-suggestedinvestigations-private-data-warning)',
@@ -144,17 +144,17 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			);
 		}
 
-		$descriptionHtml = $this->assertAndGetByElementClass(
+		$descriptionHtml = $this->assertSelectorMatchesOneElement(
 			$html,
-			'ext-checkuser-suggestedinvestigations-description'
+			'.ext-checkuser-suggestedinvestigations-description'
 		);
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-summary',
 			$descriptionHtml
 		);
-		$this->assertAndGetByElementClass(
+		$this->assertSelectorMatchesOneElement(
 			$descriptionHtml,
-			'ext-checkuser-suggestedinvestigations-signals-popover-icon'
+			'.ext-checkuser-suggestedinvestigations-signals-popover-icon'
 		);
 
 		$actualJsConfigVars = $context->getOutput()->getJsConfigVars();
@@ -209,9 +209,9 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			'Missing link to go back to the main suggested investigations page'
 		);
 
-		$descriptionHtml = $this->assertAndGetByElementClass(
+		$descriptionHtml = $this->assertSelectorMatchesOneElement(
 			$html,
-			'ext-checkuser-suggestedinvestigations-description'
+			'.ext-checkuser-suggestedinvestigations-description'
 		);
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-summary-detail-view: 1',
@@ -353,21 +353,6 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			'Missing link to go back to the main suggested investigations page'
 		);
 		$this->assertSame( 404, $webResponse->getStatusCode() );
-	}
-
-	/**
-	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
-	 * the HTML inside that Element.
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $class The CSS class to search for, excluding the "." character
-	 * @return string The HTML inside the given class
-	 */
-	private function assertAndGetByElementClass( string $html, string $class ): string {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
-		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
-		return DOMCompat::getInnerHTML( $element[0] );
 	}
 
 	/** @dataProvider provideUnavailableSpecialPage */

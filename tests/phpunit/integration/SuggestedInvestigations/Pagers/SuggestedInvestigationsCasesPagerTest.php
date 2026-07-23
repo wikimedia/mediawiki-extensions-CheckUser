@@ -38,6 +38,7 @@ use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Sugg
 use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\IndexPager;
 use MediaWiki\Parser\ParserOutput;
+use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
@@ -57,6 +58,7 @@ use Wikimedia\Timestamp\TimestampFormat;
 class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase {
 	use SuggestedInvestigationsTestTrait;
 	use MockAuthorityTrait;
+	use HtmlAssertionHelperTrait;
 
 	private static User $testUser1;
 	private static User $testUser2;
@@ -209,9 +211,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 		$this->assertStringContainsString( 'title="(checkuser-suggestedinvestigations-action-investigate)"', $html );
 
-		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
+		$changeStatusButtonHtml = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-change-status-button'
+			'.mw-checkuser-suggestedinvestigations-change-status-button'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 		$this->assertStringContainsString( 'data-case-status="open"', $changeStatusButtonHtml );
@@ -220,9 +222,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Validate the "View case details" link is shown in the signals cell and points to the detail view
 		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
-		$viewCaseDetailsCell = $this->assertAndGetByElementClass(
+		$viewCaseDetailsCell = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-view-case-details'
+			'.mw-checkuser-suggestedinvestigations-view-case-details'
 		);
 		$this->assertStringContainsString(
 			'Special:SuggestedInvestigations/detail/' . $urlIdentifier,
@@ -244,15 +246,15 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Validate that both the status reason and status cells have the associated suggested investigations case
 		// ID as data attributes.
-		$statusReasonCell = $this->assertAndGetByElementClass(
+		$statusReasonCell = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-status-reason'
+			'.mw-checkuser-suggestedinvestigations-status-reason'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusReasonCell );
 
-		$statusCell = $this->assertAndGetByElementClass(
+		$statusCell = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-status'
+			'.mw-checkuser-suggestedinvestigations-status'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusCell );
 
@@ -285,9 +287,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// The shared-pages metadata line is rendered in the signals cell, reporting
 		// the two edits on the one shared page.
-		$metadataElem = $this->assertAndGetByElementClass(
+		$metadataElem = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-metadata'
+			'.mw-checkuser-suggestedinvestigations-metadata'
 		);
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-shared-pages-summary: 2, 1)',
@@ -355,9 +357,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$context = $this->makeQqxContext();
 		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
 
-		$metadataElem = $this->assertAndGetByElementClass(
+		$metadataElem = $this->assertSelectorMatchesOneElement(
 			$this->getPager( $context )->getBody(),
-			'mw-checkuser-suggestedinvestigations-metadata'
+			'.mw-checkuser-suggestedinvestigations-metadata'
 		);
 
 		$this->assertSame( $caseId, $receivedCaseId, 'Hook should receive the case id' );
@@ -479,9 +481,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// 1 data row + 1 header row
 		$this->assertSame( 2, substr_count( $html, '<tr' ) );
 
-		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
+		$changeStatusButtonHtml = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-change-status-button'
+			'.mw-checkuser-suggestedinvestigations-change-status-button'
 		);
 		$this->assertStringContainsString(
 			"data-case-id=\"{$caseId}\"",
@@ -490,9 +492,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Validate the "View case details" link is shown in the signals cell and points to the detail view
 		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
-		$viewCaseDetailsCell = $this->assertAndGetByElementClass(
+		$viewCaseDetailsCell = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-view-case-details'
+			'.mw-checkuser-suggestedinvestigations-view-case-details'
 		);
 		$this->assertStringContainsString(
 			'Special:SuggestedInvestigations/detail/' . $urlIdentifier,
@@ -691,9 +693,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'All usernames should be replaced with the rev-deleted-user message'
 		);
 
-		$investigateButtonHtml = $this->assertAndGetByElementClass(
+		$investigateButtonHtml = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-investigate-action'
+			'.mw-checkuser-suggestedinvestigations-investigate-action'
 		);
 		$this->assertStringContainsString(
 			'title="(checkuser-suggestedinvestigations-action-investigate)"',
@@ -735,9 +737,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$html
 		);
 
-		$changeStatusButtonHtml = $this->assertAndGetByElementClass(
+		$changeStatusButtonHtml = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-change-status-button'
+			'.mw-checkuser-suggestedinvestigations-change-status-button'
 		);
 		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
 	}
@@ -759,9 +761,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$html = $pager->getBody();
 
 		// Validate that the status reason contains the default for the invalid status
-		$statusReasonCell = $this->assertAndGetByElementClass(
+		$statusReasonCell = $this->assertSelectorMatchesOneElement(
 			$html,
-			'mw-checkuser-suggestedinvestigations-status-reason'
+			'.mw-checkuser-suggestedinvestigations-status-reason'
 		);
 		$this->assertStringContainsString( $reasonDisplayedInPager, $statusReasonCell );
 	}
@@ -1512,21 +1514,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			true,
 			'Active filters on the page is not as expected'
 		);
-	}
-
-	/**
-	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
-	 * the HTML of that Element.
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $class The CSS class to search for, excluding the "." character
-	 * @return string
-	 */
-	private function assertAndGetByElementClass( string $html, string $class ): string {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
-		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
-		return DOMCompat::getOuterHTML( $element[0] );
 	}
 
 	private function addCaseWithTwoUsers(): int {

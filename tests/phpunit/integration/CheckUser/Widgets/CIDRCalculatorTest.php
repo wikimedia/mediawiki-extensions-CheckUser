@@ -8,17 +8,17 @@ use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUser\Widgets\CIDRCalculator;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWikiIntegrationTestCase;
 use OOUI\BlankTheme;
 use OOUI\Theme;
-use Wikimedia\Parsoid\Core\DOMCompat;
-use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
  * @group CheckUser
  * @covers \MediaWiki\Extension\CheckUser\CheckUser\Widgets\CIDRCalculator
  */
 class CIDRCalculatorTest extends MediaWikiIntegrationTestCase {
+	use HtmlAssertionHelperTrait;
 
 	/** @dataProvider provideToString */
 	public function testToString( $config, $textToBeInHtml, $textNotToBeInHtml ) {
@@ -37,13 +37,13 @@ class CIDRCalculatorTest extends MediaWikiIntegrationTestCase {
 		$this->assertContains( 'ext.checkUser.styles', $context->getOutput()->getModuleStyles() );
 
 		// Check that the HTML produced for the calculator is as expected
-		$panelLayoutHtml = $this->assertAndGetByElementId( $html, 'mw-checkuser-cidrform' );
-		$this->assertAndGetByElementClass( $panelLayoutHtml, 'mw-checkuser-cidr-iplist' );
-		$this->assertAndGetByElementClass( $panelLayoutHtml, 'mw-checkuser-cidr-res' );
-		$resultLabelHtml = $this->assertAndGetByElementClass( $panelLayoutHtml, 'mw-checkuser-cidr-res-label' );
+		$panelLayoutHtml = $this->assertSelectorMatchesOneElement( $html, '#mw-checkuser-cidrform' );
+		$this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-iplist' );
+		$this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-res' );
+		$resultLabelHtml = $this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-res-label' );
 		$this->assertStringContainsString( '(checkuser-cidr-res', $resultLabelHtml );
-		$this->assertAndGetByElementClass( $panelLayoutHtml, 'mw-checkuser-cidr-tool-links' );
-		$this->assertAndGetByElementClass( $panelLayoutHtml, 'mw-checkuser-cidr-ipnote' );
+		$this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-tool-links' );
+		$this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-ipnote' );
 
 		// Check that text snippets in $textToBeInHtml are in the HTML of the panel
 		foreach ( $textToBeInHtml as $textSnippet ) {
@@ -66,35 +66,5 @@ class CIDRCalculatorTest extends MediaWikiIntegrationTestCase {
 				[ 'wrapperLegend' => false ], [], [ '(checkuser-cidr-label)', 'fieldsetLayout' ],
 			],
 		];
-	}
-
-	/**
-	 * Calls DOMCompat::getElementById, expects that it returns a valid Element object and then returns
-	 * the HTML of that Element.
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $id The ID to search for, excluding the "#" character
-	 * @return string
-	 */
-	private function assertAndGetByElementId( string $html, string $id ): string {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::getElementById( $specialPageDocument, $id );
-		$this->assertNotNull( $element, "Could not find element with ID $id in $html" );
-		return DOMCompat::getOuterHTML( $element );
-	}
-
-	/**
-	 * Calls DOMCompat::querySelectorAll, expects that it returns one valid Element object and then returns
-	 * the HTML of that Element.
-	 *
-	 * @param string $html The HTML to search through
-	 * @param string $class The CSS class to search for, excluding the "." character
-	 * @return string
-	 */
-	private function assertAndGetByElementClass( string $html, string $class ): string {
-		$specialPageDocument = DOMUtils::parseHTML( $html );
-		$element = DOMCompat::querySelectorAll( $specialPageDocument, '.' . $class );
-		$this->assertCount( 1, $element, "Could not find only one element with CSS class $class in $html" );
-		return DOMCompat::getOuterHTML( $element[0] );
 	}
 }
