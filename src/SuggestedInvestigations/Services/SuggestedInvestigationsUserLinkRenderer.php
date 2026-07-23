@@ -143,9 +143,13 @@ class SuggestedInvestigationsUserLinkRenderer {
 			$linkClass .= ' mw-usertoollinks-contribs-no-edits';
 		}
 
-		$linkText = $localizer->msg( 'contribslink' )
-			->params( $user->getName() )
-			->text();
+		if ( $this->useGlobalContribs ) {
+			$linkText = $localizer->msg( 'checkuser-global-contributions-link' )->text();
+		} else {
+			$linkText = $localizer->msg( 'contribslink' )
+				->params( $user->getName() )
+				->text();
+		}
 
 		// If the user has reverted revisions, update the contributions link to reveal that
 		if ( !$this->useGlobalContribs ) {

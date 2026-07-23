@@ -184,6 +184,8 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 		$html = $renderer->makeUserLinkLine( $user, $authority, $context );
 		$this->assertStringContainsString( 'Special:GlobalContributions/' . $user->getName(), $html );
 		$this->assertStringNotContainsString( 'Special:Contributions/', $html );
+		$this->assertStringContainsString( '(checkuser-global-contributions-link)', $html );
+		$this->assertStringNotContainsString( 'contribslink', $html );
 		if ( $expectRedLink ) {
 			$this->assertStringContainsString( 'mw-usertoollinks-contribs-no-edits', $html );
 		} else {
@@ -580,7 +582,7 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 			'checkuser-suggestedinvestigations-reverted-revisions',
 			$userWithRevertsHtml
 		);
-		$this->assertStringContainsString( 'contribslink', $userWithRevertsHtml );
+		$this->assertStringContainsString( 'checkuser-global-contributions-link', $userWithRevertsHtml );
 	}
 
 	public function testDoesntThrowWithoutExtensions(): void {
