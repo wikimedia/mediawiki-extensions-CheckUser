@@ -17,7 +17,6 @@ const commonDismissableWarningTest = ( assert, messageClass ) => {
 	const $warningDismissButton = $( '<button>' )
 		.addClass( 'ext-checkuser-suggestedinvestigations-warning-dismiss' );
 
-	// eslint-disable-next-line mediawiki/class-doc
 	const $warningMessage = $( '<div>' )
 		.addClass( 'cdx-message--user-dismissable' )
 		.addClass( messageClass )

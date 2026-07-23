@@ -102,7 +102,7 @@ QUnit.test.each(
 			.addClass( 'ext-checkuser-suggestedinvestigations-table' )
 			.attr( 'data-username', 'Username 123' );
 		const $link = $( '<a>' ).attr( 'href', '#' );
-		// eslint-disable-next-line mediawiki/class-doc
+
 		$link.addClass( linkClass );
 		$table.append( $link );
 		$qunitFixture.append( $table );

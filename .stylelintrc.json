@@ -4,6 +4,7 @@
 		"stylelint-config-wikimedia/mediawiki"
 	],
 	"rules": {
-		"selector-class-pattern": "^(mw|oo-ui|ext-checkuser)-"
+		"selector-class-pattern": "^(mw|oo-ui|ext-checkuser)-",
+		"declaration-property-value-keyword-no-deprecated": null
 	}
 }
