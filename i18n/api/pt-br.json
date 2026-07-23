@@ -4,7 +4,8 @@
 			"Araceletorres",
 			"Eduardoaddad",
 			"Felipe L. Ewald",
-			"Macofe"
+			"Macofe",
+			"NenhumaFênix"
 		]
 	},
 	"apihelp-query+checkuser-summary": "Verifique quais endereços IP são utilizados por um determinado nome de usuário ou quais nomes de usuários são utilizados por um determinado endereço IP.",
@@ -27,5 +28,6 @@
 	"apihelp-query+checkuserlog-example-2": "Mostrar verificações de 192.0.2.0/24 após 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Você deve definir o motivo da verificação.",
 	"apierror-checkuser-timelimit": "Você precisa usar o limite de tempo correto (como \"-2 semanas\" ou \"2 semanas atrás\").",
-	"apierror-checkuser-invalidmode": "Modo de solicitação inválido"
+	"apierror-checkuser-invalidmode": "Modo de solicitação inválido",
+	"checkuser-rest-property-desc-gender": "Gênero do usuário"
 }

@@ -475,6 +475,8 @@
 	"checkuser-suggestedinvestigations-related-cases-summary": "$1 gerelateerde {{PLURAL:$1|zaak|zaken}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "$1 bewerking{{PLURAL:$1||en}} op dezelfde pagina{{PLURAL:$2||’s}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 {{PLURAL:$2|bewerking|van de $2 bewerkingen}} {{PLURAL:$1|wordt teruggedraaid|worden teruggedraaid}}",
+	"checkuser-suggestedinvestigations-reverted-revisions": "{{PLURAL:$2|Één bijdrage (alle)|$1 van $2 bijdragen}} {{PLURAL:$1| teruggedraaid}}",
+	"checkuser-suggestedinvestigations-deleted-revisions-summary": "{{PLURAL:$1|Één verwijderde bewerking|$1 verwijderde bewerkingen}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Details over het geval bekijken",
 	"checkuser-suggestedinvestigations-user-check-link-text": "gebruik{{GENDER:$1||st}}er controleren",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|resultaat|resultaten}} filteren",

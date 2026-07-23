@@ -481,6 +481,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 Bearbeitung|$1 Bearbeitungen}} auf {{PLURAL:$2|derselben Seite|denselben $2 Seiten}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 von {{PLURAL:$2|$2 Bearbeitung|$2 Bearbeitungen}} {{PLURAL:$1|wurde rückgängig gemacht|wurden rückgängig gemacht}}",
 	"checkuser-suggestedinvestigations-reverted-revisions": "$1 von {{PLURAL:$2|$2 Beitrag|$2 Beiträgen}} {{PLURAL:$1|rückgängig gemacht}}",
+	"checkuser-suggestedinvestigations-deleted-revisions-summary": "$1 {{PLURAL:$1|gelöschte Bearbeitung|gelöschte Bearbeitungen}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Falldetails anzeigen",
 	"checkuser-suggestedinvestigations-user-check-link-text": "{{GENDER:$1|Benutzer|Benutzerin}} überprüfen",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|Filtertreffer}}",

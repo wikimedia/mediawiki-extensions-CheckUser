@@ -462,6 +462,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 tafatir|$1 tafatirro}} oo lagu sameeyay isla {{PLURAL:$2|bogga|$2 bog}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 ka mid ah {{PLURAL:$2|$2 tafatir|$2 tafatirro}} {{PLURAL:$1|waa la celiyey}}",
 	"checkuser-suggestedinvestigations-reverted-revisions": "$1 ka mid ah {{PLURAL:$2|$2 wax ku daris|$2 wax ku darisyo}} {{PLURAL:$1|dib loo celiyey}}",
+	"checkuser-suggestedinvestigations-deleted-revisions-summary": "{{PLURAL:$1|$1 wax ka beddel la tirtiray|$1 wax ka beddello la tirtiray}}",
 	"checkuser-suggestedinvestigations-view-case-details": "Eeg faahfaahinta kiiska",
 	"checkuser-suggestedinvestigations-user-check-link-text": "hubi {{GENDER:$1|isticmaale}}",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 {{PLURAL:$1|natiijo|natiijooyin}} shaandhayn ah",

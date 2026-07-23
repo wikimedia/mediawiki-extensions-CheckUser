@@ -471,6 +471,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "Eyni {{PLURAL:$2|səhifədə|$2 səhifədə}} {{PLURAL:$1|$1 redaktə}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "{{PLURAL:$2|$2 redaktədən}} $1 ədədi geri qaytarılıb",
 	"checkuser-suggestedinvestigations-reverted-revisions": "{{PLURAL:$2|$2 töhfədən}} $1 ədədi geri qaytarılıb",
+	"checkuser-suggestedinvestigations-deleted-revisions-summary": "{{PLURAL:$1|$1 silinmiş redaktə}}",
 	"checkuser-suggestedinvestigations-view-case-details": "İşin detallarına bax",
 	"checkuser-suggestedinvestigations-user-check-link-text": "{{GENDER:$1|istifadəçini}} yoxla",
 	"checkuser-suggestedinvestigations-user-af-hits-count": "$1 süzgəc {{PLURAL:$1|qeydi}}",

@@ -57,7 +57,7 @@
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "De opgegeven gevals-ID bestaat niet",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "De functie voor voorgestelde onderzoeken is niet ingeschakeld",
 	"rest-module-checkuser.v0-title": "CheckUser-API",
-	"rest-module-checkuser.v0-desc": "REST API voor CheckUser-hulpmiddelen. Zie [documentatie van de CheckUser-extensie](https://www.mediawiki.org/wiki/Extension:CheckUser).",
+	"rest-module-checkuser.v0-desc": "REST API voor CheckUser-hulpmiddelen. Zie [documentatie van de CheckUser-extensie](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-property-desc-username": "Gebruikersnaam van de gebruiker",
 	"checkuser-rest-property-desc-gender": "Geslacht van de gebruiker"
 }

@@ -5,5 +5,6 @@
 		]
 	},
 	"apihelp-query+checkuser-param-reason": "পরীক্ষার কারণ।",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "ব্যবহারকারী $1 $2 নং সংস্করণের লেখক নয়"
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "ব্যবহারকারী $1 $2 নং সংস্করণের লেখক নয়",
+	"checkuser-rest-request-property-desc-rev-id-item": "সংস্করণ আইডি"
 }
