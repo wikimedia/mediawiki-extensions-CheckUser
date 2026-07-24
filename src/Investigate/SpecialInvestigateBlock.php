@@ -11,6 +11,7 @@ use MediaWiki\Block\BlockUser;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\Exception\PermissionsError;
 use MediaWiki\Extension\CheckUser\Investigate\Utilities\EventLogger;
+use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Linker\Linker;
 use MediaWiki\MainConfigNames;
@@ -509,7 +510,15 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 		$out = $this->getOutput();
 		$out->setPageTitleMsg( $this->msg( 'blockipsuccesssub' ) );
-		$out->addHtml( $blockedMessage );
+		$out->addHtml( Html::rawElement(
+			'div',
+			[ 'id' => 'mw-checkuser-investigateblock-blocked-users' ],
+			$blockedMessage
+		) );
+		$out->addJsConfigVars(
+			'wgCheckUserInvestigateBlockBlockedTargets',
+			$this->blockedUsers
+		);
 
 		if ( $this->noticesFailed ) {
 			$failedNoticesMessage = $this->msg( 'checkuser-investigateblock-notices-failed' )->parse();

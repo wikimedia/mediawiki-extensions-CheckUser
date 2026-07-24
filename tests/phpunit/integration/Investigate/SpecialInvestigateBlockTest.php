@@ -163,7 +163,8 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		$this->markTestSkippedIfSocialProfileExtensionInstalled();
 		// Set-up the valid request and get a test user which has the necessary rights.
 		$testPerformer = $this->getUserForSuccess();
-		RequestContext::getMain()->setUser( $testPerformer );
+		$context = RequestContext::getMain();
+		$context->setUser( $testPerformer );
 		$testTargetUser = $this->getTestUser()->getUser();
 		$fauxRequest = new FauxRequest(
 			[
@@ -176,18 +177,24 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 				'wpEditToken' => $testPerformer->getEditToken(),
 			],
 			true,
-			RequestContext::getMain()->getRequest()->getSession()
+			$context->getRequest()->getSession()
 		);
 		// Assign the fake valid request to the main request context, as well as updating the session user
 		// so that the CSRF token is a valid token for the request user.
-		RequestContext::getMain()->setRequest( $fauxRequest );
-		RequestContext::getMain()->getRequest()->getSession()->setUser( $testPerformer );
+		$context->setRequest( $fauxRequest );
+		$context->getRequest()->getSession()->setUser( $testPerformer );
+		$context->setLanguage( 'qqx' );
 
 		// Execute the special page and get the HTML output.
-		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
+		[ $html ] = $this->executeSpecialPage( '', null, null, null, false, $context );
+
+		$blockedUsersListHtml = $this->assertSelectorMatchesOneElement(
+			$html,
+			'#mw-checkuser-investigateblock-blocked-users'
+		);
 		// Assert that the success message is shown.
-		$this->assertStringContainsString( '(checkuser-investigateblock-success', $html );
-		$this->assertStringNotContainsString( '(checkuser-investigateblock-notices-failed', $html );
+		$this->assertStringContainsString( '(checkuser-investigateblock-success', $blockedUsersListHtml );
+		$this->assertStringNotContainsString( '(checkuser-investigateblock-notices-failed', $blockedUsersListHtml );
 
 		// Assert that the user is blocked
 		$block = $this->getServiceContainer()->getDatabaseBlockStore()->newFromTarget( $testTargetUser );
@@ -218,6 +225,13 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 				->getContentOrThrow( SlotRecord::MAIN )
 				->getWikitextForTransclusion(),
 			'The user talk page notice was not as expected'
+		);
+
+		$jsConfigVars = RequestContext::getMain()->getOutput()->getJsConfigVars();
+		$this->assertArrayHasKey( 'wgCheckUserInvestigateBlockBlockedTargets', $jsConfigVars );
+		$this->assertSame(
+			[ $testTargetUser->getName() ],
+			$jsConfigVars['wgCheckUserInvestigateBlockBlockedTargets']
 		);
 	}
 
