@@ -96,7 +96,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			);
 		}
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
-		$dbr = $mainLb->getConnection( DB_REPLICA, 'vslow' );
+		$dbr = $services->getConnectionProvider()->getReplicaDatabase( false, 'vslow' );
 		$dbw = $mainLb->getMaintenanceConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 

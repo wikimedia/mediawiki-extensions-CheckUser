@@ -67,7 +67,7 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 		$services = $this->getServiceContainer();
 		$commentStore = $services->getCommentStore();
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
-		$dbr = $mainLb->getConnection( DB_REPLICA, 'vslow' );
+		$dbr = $services->getConnectionProvider()->getReplicaDatabase( false, 'vslow' );
 		$dbw = $mainLb->getMaintenanceConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
