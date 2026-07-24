@@ -128,6 +128,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "Klickt wgl. virum Virufueren op „$1“",
 	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Astellunge späicheren",
 	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Global Astellunge späicheren",
+	"checkuser-rest-access-denied": "Dir hutt net d'Recht, fir dës Aktioun duerchzeféieren",
 	"checkuser-rest-userinfo-user-not-found": "Ongülteg Benotzer-ID uginn.",
 	"checkuser-link-investigate-label": "{{#special:investigate}} ausprobéieren",
 	"checkuser-investigateblock": "Benotzer spären",

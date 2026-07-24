@@ -484,7 +484,7 @@
 	"checkuser-suggestedinvestigations-status-resolved": "닫힘",
 	"checkuser-suggestedinvestigations-status-invalid": "유효하지 않음",
 	"checkuser-suggestedinvestigations-status-description-invalid": "거짓 양성을 표시하려면 이것을 선택",
-	"checkuser-suggestedinvestigations-status-reason-default-invalid": "거짓 양성",
+	"checkuser-suggestedinvestigations-status-reason-default-invalid": "오진",
 	"checkuser-suggestedinvestigations-action-investigate": "사용자를 조사",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "한번에 $1개 {{PLURAL:$1|계정}}만 조사할 수 있음",
 	"checkuser-suggestedinvestigations-action-change-status": "상태 바꾸기",
