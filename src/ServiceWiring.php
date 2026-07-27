@@ -403,6 +403,7 @@ return [
 			),
 			$services->getConnectionProvider(),
 			$services->get( 'CheckUserLogger' ),
+			$services->getLockManager()
 		);
 	},
 	'CheckUserSuggestedInvestigationsCaseManager' => static function (

@@ -1282,7 +1282,8 @@
 				"CheckUserDataPurger",
 				"MainConfig",
 				"ConnectionProvider",
-				"UserAgentClientHintsManager"
+				"UserAgentClientHintsManager",
+				"LockManager"
 			]
 		},
 		"checkuserSuggestedInvestigationsAutoCloseForCase": {
@@ -1315,7 +1316,8 @@
 		"checkuserUpdateUserCentralIndexJob": {
 			"class": "MediaWiki\\Extension\\CheckUser\\Jobs\\UpdateUserCentralIndexJob",
 			"services": [
-				"ConnectionProvider"
+				"ConnectionProvider",
+				"LockManager"
 			]
 		},
 		"checkuserStoreClientHintsDataJob": {

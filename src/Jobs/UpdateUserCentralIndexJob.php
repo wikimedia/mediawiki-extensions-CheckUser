@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\CheckUser\Jobs;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\JobQueue\Job;
 use MediaWiki\Title\Title;
+use Wikimedia\LockManager\ILockManager;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -27,6 +28,7 @@ class UpdateUserCentralIndexJob extends Job implements CheckUserQueryInterface {
 		?Title $title,
 		array $params,
 		private readonly IConnectionProvider $dbProvider,
+		private readonly ILockManager $lockManager,
 	) {
 		parent::__construct( self::TYPE, $params );
 	}
@@ -38,7 +40,7 @@ class UpdateUserCentralIndexJob extends Job implements CheckUserQueryInterface {
 		// Get an exclusive lock to update the cuci_user central index for this central ID and wiki map
 		// ID to avoid deadlocks. We cannot use ::forUpdate due to T374244
 		$key = "cuci-insert:" . $this->params['wikiMapID'] . ":" . $this->params['centralID'];
-		$scopedLock = $dbw->getScopedLockAndFlush( $key, __METHOD__, 5 );
+		$scopedLock = $this->lockManager->scopedLock( $key, 5 );
 		if ( !$scopedLock ) {
 			return true;
 		}

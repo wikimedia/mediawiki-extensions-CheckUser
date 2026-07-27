@@ -32,6 +32,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInves
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Wikimedia\LockManager\ILockManager;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\RawSQLExpression;
@@ -47,6 +48,7 @@ class SuggestedInvestigationsCaseLookupService {
 		private readonly ServiceOptions $options,
 		private readonly IConnectionProvider $dbProvider,
 		private readonly LoggerInterface $logger,
+		private readonly ILockManager $lockManager,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -356,8 +358,7 @@ class SuggestedInvestigationsCaseLookupService {
 		if ( $signal->isMatch() ) {
 			$lockKey .= ':' . hash( 'sha256', $signal->getValue() );
 		}
-		$dbw = $this->dbProvider->getPrimaryDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
-		return $dbw->getScopedLockAndFlush( $lockKey, __METHOD__, $timeout );
+		return $this->lockManager->scopedLock( $lockKey, $timeout );
 	}
 
 	/**

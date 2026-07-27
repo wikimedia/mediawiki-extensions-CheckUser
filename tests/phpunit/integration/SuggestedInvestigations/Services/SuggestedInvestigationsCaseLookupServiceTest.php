@@ -33,8 +33,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
-use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\LockManager\ILockManager;
 use Wikimedia\ScopedCallback;
 
 /**
@@ -344,8 +343,8 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 	public function testLockForSignal(): void {
 		$locks = [];
 
-		$dbMock = $this->createMock( IDatabase::class );
-		$dbMock->method( 'getScopedLockAndFlush' )
+		$lockManager = $this->createMock( ILockManager::class );
+		$lockManager->method( 'scopedLock' )
 			->willReturnCallback( static function ( $lockKey ) use ( &$locks ) {
 				if ( isset( $locks[$lockKey] ) ) {
 					return null;
@@ -354,11 +353,7 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 				return new ScopedCallback( static function () {
 				} );
 			} );
-
-		$dbProviderMock = $this->createMock( IConnectionProvider::class );
-		$dbProviderMock->method( 'getPrimaryDatabase' )
-			->willReturn( $dbMock );
-		$this->setService( 'ConnectionProvider', $dbProviderMock );
+		$this->setService( 'LockManager', $lockManager );
 
 		$service = $this->createService();
 

@@ -20,7 +20,8 @@ class UpdateUserCentralIndexJobTest extends MediaWikiIntegrationTestCase {
 		return new UpdateUserCentralIndexJob(
 			null,
 			$params,
-			$this->getServiceContainer()->getConnectionProvider()
+			$this->getServiceContainer()->getConnectionProvider(),
+			$this->getServiceContainer()->getLockManager()
 		);
 	}
 
