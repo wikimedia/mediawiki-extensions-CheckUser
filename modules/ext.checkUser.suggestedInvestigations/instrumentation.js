@@ -59,6 +59,7 @@ function instrumentSpecialSuggestedInvestigations( logEvent ) {
 		'mw-usertoollinks-checkuser': 'check-user',
 		'mw-checkuser-suggestedinvestigations-investigate-action': 'investigate',
 		'mw-usertoollinks-suggestedinvestigations-cases': 'past-cases',
+		'mw-usertoollinks-abusefilter-hits': 'abusefilter-hits',
 		// The value will be replaced later with content of data-subtype
 		[ customInstrumentClass ]: 'custom-instrument'
 	};
