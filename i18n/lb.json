@@ -298,6 +298,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-actions": "Aktiounen",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 Ännerung|$1 Ännerungen}} op {{PLURAL:$2|der selwechter Säit|deene(n) $2 selwechte Säiten}}",
+	"checkuser-suggestedinvestigations-reverted-revisions": "$1 {{PLURAL:$2|vun $2 Kontributioun|vu(n) $2 Kontributiounen}} {{PLURAL:$1|zeréckgesat}}",
 	"checkuser-suggestedinvestigations-deleted-revisions-summary": "$1 geläscht {{PLURAL:$1|Ännerung|Ännerungen}}",
 	"checkuser-suggestedinvestigations-user-check-link-text": "{{GENDER:$1|Benotzer|Benotzerin}} kontrolléieren",
 	"checkuser-suggestedinvestigations-user-past-checks-link-text": "vergaange {{GENDER:$1|Kontrollen}}",

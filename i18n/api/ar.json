@@ -60,5 +60,5 @@
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "معرف الحالة المقدم غير موجود",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "لم يتم تفعيل ميزة التحقيقات المقترحة",
 	"rest-module-checkuser.v0-title": "واجهة برمجة تطبيقات التحقق من المستخدم",
-	"rest-module-checkuser.v0-desc": "واجهة برمجة تطبيقات REST لأدوات CheckUser. راجع [وثائق ملحق CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser)."
+	"rest-module-checkuser.v0-desc": "واجهة برمجة تطبيقات REST لأدوات CheckUser. راجع [وثائق ملحق CheckUser](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs)."
 }

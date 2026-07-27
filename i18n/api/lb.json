@@ -9,6 +9,7 @@
 	"apihelp-query+globalcontributions-param-target": "Benotzernumm fir nozekucken (däerf keng IP sinn).",
 	"apihelp-query+globalcontributions-param-limit": "Limitt vun den Zeilen.",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "D'$1-ID $2 gëtt et net",
+	"rest-module-checkuser.v0-title": "CheckUser-API",
 	"checkuser-rest-param-desc-username": "Benotzernumm fir Detailer ofzeruffen",
 	"checkuser-rest-property-desc-username": "Benotzernumm vum Benotzer",
 	"checkuser-rest-property-desc-gender": "Geschlecht vum Benotzer",
