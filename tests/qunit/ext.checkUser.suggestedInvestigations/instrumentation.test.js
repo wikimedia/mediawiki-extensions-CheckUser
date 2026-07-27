@@ -91,7 +91,8 @@ QUnit.test.each(
 		'Past checks': [ 'mw-usertoollinks-past-checks', 'past-checks' ],
 		'Check user': [ 'mw-usertoollinks-checkuser', 'check-user' ],
 		Investigate: [ 'mw-checkuser-suggestedinvestigations-investigate-action', 'investigate' ],
-		'Past cases': [ 'mw-usertoollinks-suggestedinvestigations-cases', 'past-cases' ]
+		'Past cases': [ 'mw-usertoollinks-suggestedinvestigations-cases', 'past-cases' ],
+		'AbuseFilter hits': [ 'mw-usertoollinks-abusefilter-hits', 'abusefilter-hits' ]
 	},
 	( assert, [ linkClass, expectedSubtype ] ) => {
 		mw.config.set( 'wgPageName', 'Special:SuggestedInvestigations' );
