@@ -40,7 +40,9 @@ function instrumentSpecialCheckUser( logEvent ) {
 }
 
 /**
- * Add instrumentation specific to Special:SuggestedInvestigations
+ * Add query parameters to be used in instrumenting Special:SuggestedInvestigations server-side. For
+ * server-side implementation, see PageDisplay::instrumentSuggestedInvestigations.
+ * This is done instead of client-side instrumentation due to significant loss in events.
  *
  * @param {function(string, object): void} logEvent
  */
@@ -64,25 +66,24 @@ function instrumentSpecialSuggestedInvestigations( logEvent ) {
 		[ customInstrumentClass ]: 'custom-instrument'
 	};
 	const linkClasses = Object.keys( subtypeByClass );
-	const linkSelector = linkClasses.map(
-		( className ) => '.ext-checkuser-suggestedinvestigations-table .' + className
+	const linkSelectors = linkClasses.map(
+		( className ) => `.ext-checkuser-suggestedinvestigations-table .${ className }`
 	).join( ', ' );
+	$( linkSelectors ).each( ( _i, el ) => {
+		const $el = $( el );
+		const $a = $el.is( 'a' ) ? $el : $el.find( 'a' );
+		const href = $a.attr( 'href' );
 
-	// Listening also for additional click types, especially for the "Open in new tab" option,
-	// since users may want to keep the SI results page open.
-	$( linkSelector ).on( 'click auxclick contextmenu', function ( e ) {
-		// Right-clicking on element fires both auxclick and contextmenu - skip the former
-		if ( e.type === 'auxclick' && e.button === 2 ) {
+		if ( !href ) {
 			return;
 		}
 
 		const subTypeClass = linkClasses.find(
-			( className ) => this.classList.contains( className )
+			( className ) => $el[ 0 ].classList.contains( className )
 		);
-		const usernameElement = this.closest( '[data-username]' );
-		const targetUser = usernameElement ? usernameElement.getAttribute( 'data-username' ) : '';
-
-		const inTopTable = this.closest( '.ext-checkuser-suggestedinvestigations-table-main' ) !== null;
+		const $usernameElement = $el.closest( '[data-username]' );
+		const targetUser = $usernameElement.length ? $usernameElement.attr( 'data-username' ) : '';
+		const inTopTable = $el.closest( '.ext-checkuser-suggestedinvestigations-table-main' ).length !== 0;
 		let actionSource = 'main';
 		if ( isDetailsPage && inTopTable ) {
 			actionSource = 'details';
@@ -90,22 +91,48 @@ function instrumentSpecialSuggestedInvestigations( logEvent ) {
 			// This can happen if we instrument links from signal-specific details that are rendered below the main table
 			actionSource = 'details_sub';
 		}
-
 		let subType = subtypeByClass[ subTypeClass ];
 		if ( subTypeClass === customInstrumentClass ) {
-			subType = this.getAttribute( 'data-subtype' );
+			subType = $el.attr( 'data-subtype' );
 		}
 
-		if ( subType === null ) {
-			mw.log.warn( 'Action subtype for link_click is not configured. Not sending the event.' );
+		const $container = $el.closest( 'tr' );
+		const caseId = $container.find( '[data-case-id]' ).attr( 'data-case-id' );
+
+		if ( !subType ) {
+			mw.log.warn( 'Action subtype for link_click is not configured. Aborting' );
+			return;
+		}
+		if ( !caseId ) {
+			mw.log.warn( 'Case identifier needed for link_click and not found. Aborting' );
 			return;
 		}
 
-		logEvent( 'link_click', {
-			subType: subType,
-			source: actionSource,
-			context: targetUser
-		} );
+		// If the link is a custom link, there's no guarantee it'll lead to a wiki page that
+		// we can instrument on so instrument those clicks client-side despite the known event loss
+		if ( $el[ 0 ].classList.contains( customInstrumentClass ) ) {
+			$el.on( 'click auxclick contextmenu', ( e ) => {
+				// Right-clicking on element fires both auxclick and contextmenu - skip the former
+				if ( e.type === 'auxclick' && e.button === 2 ) {
+					return;
+				}
+
+				logEvent( 'link_click', {
+					subType: subType,
+					source: actionSource,
+					context: targetUser,
+					caseId: caseId
+				} );
+			} );
+		} else {
+			// Add query parameters to make this link click associable with SuggestedInvestigations
+			const url = new URL( href, window.location.origin );
+			url.searchParams.append( 'si_subtype', subType );
+			url.searchParams.append( 'si_actionsource', actionSource );
+			url.searchParams.append( 'si_targetuser', targetUser );
+			url.searchParams.append( 'si_caseid', caseId );
+			$a.attr( 'href', url.toString() );
+		}
 	} );
 }
 

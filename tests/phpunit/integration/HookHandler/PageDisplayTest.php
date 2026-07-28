@@ -13,8 +13,10 @@ use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Extension\CheckUser\HookHandler\PageDisplay;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\Skin\Skin;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -23,6 +25,7 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\Options\StaticUserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
 use Wikimedia\ArrayUtils\ArrayUtils;
 
 /**
@@ -153,6 +156,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
 				'CUDMaxAge' => 12345,
 				'CheckUserAutoRevealMaximumExpiry' => 1,
+				'CheckUserSuggestedInvestigationsEnabled' => false,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
@@ -160,7 +164,9 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$extensionRegistry,
 			$this->getServiceContainer()->getUserIdentityUtils(),
-			$this->getServiceContainer()->getPreferencesFactory()
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
+			$this->getServiceContainer()->get( 'CheckUserLogger' )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -373,7 +379,9 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$this->getServiceContainer()->getExtensionRegistry(),
 			$this->getServiceContainer()->getUserIdentityUtils(),
-			$this->getServiceContainer()->getPreferencesFactory()
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
+			$this->getServiceContainer()->get( 'CheckUserLogger' )
 		);
 		$pageDisplayHookHandler->onBeforePageDisplay(
 			$output,
@@ -438,7 +446,9 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$this->getServiceContainer()->getExtensionRegistry(),
 			$this->getServiceContainer()->getUserIdentityUtils(),
-			$this->getServiceContainer()->getPreferencesFactory()
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
+			$this->getServiceContainer()->get( 'CheckUserLogger' )
 		);
 		$pageDisplayHookHandler->onBeforePageDisplay(
 			$output,
@@ -498,6 +508,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
 				'CheckUserAutoRevealMaximumExpiry' => 1,
+				'CheckUserSuggestedInvestigationsEnabled' => false,
 			] ),
 			$cuPermissionManager,
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
@@ -505,7 +516,9 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$mockExtensionRegistry,
 			$this->getServiceContainer()->getUserIdentityUtils(),
-			$this->getServiceContainer()->getPreferencesFactory()
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
+			$this->getServiceContainer()->get( 'CheckUserLogger' )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -566,5 +579,143 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'shouldLoadModule' => false,
 			],
 		];
+	}
+
+	public static function provideOnBeforePageDisplayHook_instrumentSuggestedInvestigations(): array {
+		return [
+			'Do nothing if feature is disabled' => [
+				false,
+				[],
+				false,
+				false,
+				null,
+			],
+			'Do nothing if subtype is missing despite other relevant params' => [
+				true,
+				[
+					'si_actionsource' => 'foo',
+					'si_targetuser' => 'bar',
+					'si_caseid' => 1,
+				],
+				false,
+				false,
+				null,
+			],
+			'Warn if the case id cannot be found' => [
+				true,
+				[
+					'si_subtype' => 'baz',
+					'si_actionsource' => 'foo',
+					'si_targetuser' => 'bar',
+				],
+				true,
+				false,
+				'/wiki/Special:Contributions',
+			],
+			'Preserve all other query parameters' => [
+				true,
+				[
+					'si_subtype' => 'baz',
+					'si_actionsource' => 'foo',
+					'si_targetuser' => 'bar',
+					'si_caseid' => 1,
+					'foo' => 'bar',
+				],
+				false,
+				true,
+				'/index.php?title=Special:Contributions&foo=bar',
+			],
+		];
+	}
+
+	/** @dataProvider provideOnBeforePageDisplayHook_instrumentSuggestedInvestigations */
+	public function testOnBeforePageDisplayHook_instrumentSuggestedInvestigations(
+		bool $isFeatureEnabled,
+		array $queryParams,
+		bool $shouldWarn,
+		bool $shouldInstrument,
+		?string $expectRedirect
+	): void {
+		$request = new FauxRequest( $queryParams );
+		$request->setRequestURL( SpecialPage::getTitleFor( 'Contributions' )->getLocalURL( $queryParams ) );
+		RequestContext::getMain()->setRequest( $request );
+
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( SpecialPage::getTitleFor( 'Contributions' ) );
+		$context->setRequest( $request );
+		foreach ( $queryParams as $queryParam => $value ) {
+			$context->getRequest()->setVal( $queryParam, $value );
+		}
+
+		$testAuthority = $this->mockRegisteredUltimateAuthority();
+		$context->setAuthority( $testAuthority );
+
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		$skin = $this->createMock( Skin::class );
+
+		$mockCheckUserLogger = $this->createMock( LoggerInterface::class );
+		$mockCheckUserSuggestedInvestigationsInstrumentationClient = $this
+			->createMock( ISuggestedInvestigationsInstrumentationClient::class );
+
+		if ( $shouldWarn ) {
+			$mockCheckUserLogger
+				->expects( $this->once() )
+				->method( 'warning' );
+		} else {
+			$mockCheckUserLogger
+				->expects( $this->never() )
+				->method( 'warning' );
+		}
+
+		if ( $shouldInstrument ) {
+			$mockCheckUserSuggestedInvestigationsInstrumentationClient
+				->expects( $this->once() )
+				->method( 'submitInteraction' )
+				->willReturnCallback( function ( $context, $action, $interactionData ) use ( $queryParams ) {
+					$this->assertSame( 'link_click', $action );
+					$this->assertSame( $queryParams[ 'si_subtype' ], $interactionData[ 'action_subtype' ] );
+					$this->assertSame( $queryParams[ 'si_actionsource' ], $interactionData[ 'action_source' ] );
+					$this->assertSame( $queryParams[ 'si_targetuser' ], $interactionData[ 'action_context' ] );
+					$this->assertSame( $queryParams[ 'si_caseid' ], $interactionData[ 'case_id' ] );
+				} );
+		} else {
+			$mockCheckUserSuggestedInvestigationsInstrumentationClient
+				->expects( $this->never() )
+				->method( 'submitInteraction' );
+		}
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserAutoRevealMaximumExpiry' => 1,
+				'CheckUserSuggestedInvestigationsEnabled' => $isFeatureEnabled,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils(),
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$mockCheckUserSuggestedInvestigationsInstrumentationClient,
+			$mockCheckUserLogger
+		);
+
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output,
+			$skin
+		);
+
+		$expectedResponse = $output->getRequest()->response();
+		if ( $expectRedirect ) {
+			$this->assertSame( $expectRedirect, $expectedResponse->getHeader( 'Location' ) );
+			$this->assertSame( 302, $expectedResponse->getStatusCode() );
+		} else {
+			$this->assertNull( $expectedResponse->getHeader( 'Location' ) );
+			$this->assertNull( $expectedResponse->getStatusCode() );
+		}
 	}
 }

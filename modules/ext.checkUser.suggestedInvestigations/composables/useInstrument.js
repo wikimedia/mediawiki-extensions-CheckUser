@@ -69,6 +69,11 @@ module.exports = () => {
 			interactionData.action_context = data.context;
 		}
 
+		if ( data.caseId ) {
+			// eslint-disable-next-line camelcase
+			interactionData.case_id = Number( data.caseId );
+		}
+
 		instrument.send( action, interactionData );
 	};
 };

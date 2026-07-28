@@ -83,7 +83,7 @@ QUnit.test( 'Instruments clicks on "SI cases" links in CheckUser Get Users resul
 } );
 
 QUnit.test.each(
-	'Instruments clicks on links in the main table',
+	'Updates links as expected',
 	{
 		'User page': [ 'mw-userlink', 'user-page' ],
 		Contribs: [ 'mw-usertoollinks-contribs', 'contributions' ],
@@ -102,10 +102,47 @@ QUnit.test.each(
 		const $table = $( '<table>' )
 			.addClass( 'ext-checkuser-suggestedinvestigations-table' )
 			.attr( 'data-username', 'Username 123' );
+		const $tr = $( '<tr>' );
+		$tr.append( $( '<span>' ).attr( 'data-case-id', '1' ) );
 		const $link = $( '<a>' ).attr( 'href', '#' );
+		// See test parameters array
 		// eslint-disable-next-line mediawiki/class-doc
 		$link.addClass( linkClass );
-		$table.append( $link );
+		$table.append( $tr.append( $link ) );
+		$qunitFixture.append( $table );
+
+		instrumentation();
+		const updatedUrl = new URL( $link.attr( 'href' ) );
+		assert.strictEqual(
+			updatedUrl.searchParams.get( 'si_subtype' ),
+			expectedSubtype,
+			'Updates si_subtype with the expected subtype'
+		);
+		assert.strictEqual(
+			updatedUrl.searchParams.get( 'si_caseid' ),
+			'1',
+			'Updates si_caseid with the expected case id'
+		);
+	}
+);
+
+QUnit.test(
+	'Instruments clicks on links in the main table',
+	( assert ) => {
+		mw.config.set( 'wgPageName', 'Special:SuggestedInvestigations' );
+
+		// eslint-disable-next-line no-jquery/no-global-selector
+		const $qunitFixture = $( '#qunit-fixture' );
+		const $table = $( '<table>' )
+			.addClass( 'ext-checkuser-suggestedinvestigations-table' )
+			.attr( 'data-username', 'Username 123' );
+		const $tr = $( '<tr>' );
+		$tr.append( $( '<span>' ).attr( 'data-case-id', '1' ) );
+		const $link = $( '<a>' ).attr( 'href', '#' );
+
+		$link.addClass( 'mw-checkuser-suggestedinvestigations-custom-instrument' );
+		$link.attr( 'data-subtype', 'foo' );
+		$table.append( $tr.append( $link ) );
 		$qunitFixture.append( $table );
 
 		instrumentation();
@@ -119,7 +156,7 @@ QUnit.test.each(
 		);
 		assert.strictEqual(
 			sendStub.firstCall.args[ 1 ].action_subtype,
-			expectedSubtype,
+			'foo',
 			'Reports the link type as action_subtype'
 		);
 		assert.strictEqual(
@@ -132,6 +169,11 @@ QUnit.test.each(
 			'Username 123',
 			'Reports the relevant user as action_context'
 		);
+		assert.strictEqual(
+			sendStub.firstCall.args[ 1 ].case_id,
+			1,
+			'Reports the case id as case_id'
+		);
 	}
 );
 
@@ -142,10 +184,13 @@ QUnit.test( 'Reports the detail view as the source for main-table link clicks', 
 	const $qunitFixture = $( '#qunit-fixture' );
 	const $table = $( '<table>' )
 		.addClass( 'ext-checkuser-suggestedinvestigations-table ext-checkuser-suggestedinvestigations-table-main' );
+	const $tr = $( '<tr>' );
+	$tr.append( $( '<span>' ).attr( 'data-case-id', '1' ) );
 	const $link = $( '<a>' )
 		.attr( 'href', '#' )
-		.addClass( 'mw-userlink' );
-	$table.append( $link );
+		.attr( 'data-subtype', 'foo' )
+		.addClass( 'mw-checkuser-suggestedinvestigations-custom-instrument' );
+	$table.append( $tr.append( $link ) );
 	$qunitFixture.append( $table );
 
 	instrumentation();
@@ -166,10 +211,13 @@ QUnit.test( 'Reports the detail view as the source for additional table link cli
 	const $qunitFixture = $( '#qunit-fixture' );
 	const $table = $( '<table>' )
 		.addClass( 'ext-checkuser-suggestedinvestigations-table' );
+	const $tr = $( '<tr>' );
+	$tr.append( $( '<span>' ).attr( 'data-case-id', '1' ) );
 	const $link = $( '<a>' )
 		.attr( 'href', '#' )
-		.addClass( 'mw-userlink' );
-	$table.append( $link );
+		.attr( 'data-subtype', 'foo' )
+		.addClass( 'mw-checkuser-suggestedinvestigations-custom-instrument' );
+	$table.append( $tr.append( $link ) );
 	$qunitFixture.append( $table );
 
 	instrumentation();
@@ -191,7 +239,7 @@ QUnit.test( 'Does not instrument link clicks outside the main table', ( assert )
 	// A user link that is not inside the main table should be ignored.
 	const $link = $( '<a>' )
 		.attr( 'href', '#' )
-		.addClass( 'mw-userlink' );
+		.addClass( 'mw-checkuser-suggestedinvestigations-custom-instrument' );
 	$qunitFixture.append( $link );
 
 	instrumentation();
@@ -207,11 +255,13 @@ QUnit.test( 'Reports the custom instrumentation element with proper subtype', ( 
 	const $qunitFixture = $( '#qunit-fixture' );
 	const $table = $( '<table>' )
 		.addClass( 'ext-checkuser-suggestedinvestigations-table' );
+	const $tr = $( '<tr>' );
+	$tr.append( $( '<span>' ).attr( 'data-case-id', '1' ) );
 	const $link = $( '<a>' )
 		.attr( 'href', '#' )
 		.attr( 'data-subtype', 'lorem-ipsum' )
 		.addClass( 'mw-checkuser-suggestedinvestigations-custom-instrument' );
-	$table.append( $link );
+	$table.append( $tr.append( $link ) );
 	$qunitFixture.append( $table );
 
 	instrumentation();
