@@ -332,7 +332,9 @@
 				"UserOptionsLookup",
 				"ExtensionRegistry",
 				"UserIdentityUtils",
-				"PreferencesFactory"
+				"PreferencesFactory",
+				"CheckUserSuggestedInvestigationsInstrumentationClient",
+				"CheckUserLogger"
 			]
 		},
 		"CheckUserEvents": {

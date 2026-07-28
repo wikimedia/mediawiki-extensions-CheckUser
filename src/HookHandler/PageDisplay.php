@@ -8,6 +8,7 @@ use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\CheckUser\Services\CheckUserIPRevealManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
@@ -19,6 +20,7 @@ use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityUtils;
+use Psr\Log\LoggerInterface;
 
 class PageDisplay implements BeforePageDisplayHook {
 	public function __construct(
@@ -30,6 +32,8 @@ class PageDisplay implements BeforePageDisplayHook {
 		private readonly ExtensionRegistry $extensionRegistry,
 		private readonly UserIdentityUtils $userIdentityUtils,
 		private readonly PreferencesFactory $preferencesFactory,
+		private readonly ISuggestedInvestigationsInstrumentationClient $siInstrumentationClient,
+		private readonly LoggerInterface $checkUserLogger,
 	) {
 	}
 
@@ -41,6 +45,7 @@ class PageDisplay implements BeforePageDisplayHook {
 		$this->addUserInfoCardConfigVars( $out );
 		$this->addTemporaryAccountsOnboardingDialog( $out );
 		$this->addIPRevealButtons( $out );
+		$this->instrumentSuggestedInvestigations( $out );
 	}
 
 	/**
@@ -263,5 +268,65 @@ class PageDisplay implements BeforePageDisplayHook {
 		// expected to load, and accessing user has permission to view Special:GlobalContributions.
 		// Add module to load Special:GC link to IPInfo infobox.
 		$out->addModules( 'ext.checkUser.ipInfo.hooks' );
+	}
+
+	/**
+	 * Instrument SuggestedInvestigations' link_click event server-side to prevent client-side loss
+	 */
+	private function instrumentSuggestedInvestigations( OutputPage $out ): void {
+		// Do nothing if SuggestedInvestigations is not enabled
+		if ( !$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+			return;
+		}
+
+		// Only instrument for users who can use SuggestedInvestigations, so the stream
+		// cannot be forged by arbitrary requests to any page.
+		if ( !$out->getAuthority()->isAllowed( 'checkuser-suggested-investigations' ) ) {
+			return;
+		}
+
+		// Do nothing if a subtype isn't declared as there's nothing to instrument
+		$request = $out->getRequest();
+		$queryParams = $request->getQueryValues();
+		$siSubtype = $queryParams[ 'si_subtype' ] ?? null;
+		if ( !$siSubtype ) {
+			return;
+		}
+
+		// Grab other context information
+		$siActionSource = $queryParams[ 'si_actionsource' ] ?? null;
+		$siTargetUser = $queryParams[ 'si_targetuser' ] ?? null;
+		$siCaseId = $queryParams[ 'si_caseid' ] ?? null;
+
+		// Something was misconfigured. Warn and don't instrument if no case is found as
+		// it cannot be used in funnels without the identifier.
+		if ( !$siCaseId || !is_numeric( $siCaseId ) ) {
+			$this->checkUserLogger->warning(
+				'No case id derivable from url {url}. Aborting instrumenting this event.',
+				[ 'url' => $request->getFullRequestURL() ]
+			);
+		} else {
+			$this->siInstrumentationClient->submitInteraction(
+				$out->getContext(),
+				'link_click',
+				[
+					'case_id' => (int)$siCaseId,
+					'action_subtype' => $siSubtype,
+					'action_source' => $siActionSource,
+					'action_context' => $siTargetUser,
+				]
+			);
+		}
+
+		// Parameters have been ingested by instrumentation and are no longer needed.
+		// To avoid confusion, unset them and redirect to the clean URL.
+		unset( $queryParams[ 'si_subtype' ] );
+		unset( $queryParams[ 'si_actionsource' ] );
+		unset( $queryParams[ 'si_targetuser' ] );
+		unset( $queryParams[ 'si_caseid' ] );
+		unset( $queryParams[ 'title' ] );
+		$newUrl = $out->getTitle()->getLocalURL( $queryParams );
+		$request->response()->header( "Location: $newUrl" );
+		$request->response()->statusHeader( 302 );
 	}
 }
