@@ -81,6 +81,7 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
 				'CUDMaxAge' => 12345,
 				'CheckUserAutoRevealMaximumExpiry' => 1,
+				'CheckUserSuggestedInvestigationsEnabled' => false,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
@@ -88,7 +89,9 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserOptionsLookup(),
 			$this->getServiceContainer()->getExtensionRegistry(),
 			$this->getServiceContainer()->getUserIdentityUtils(),
-			$this->getServiceContainer()->getPreferencesFactory()
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
+			$this->getServiceContainer()->get( 'CheckUserLogger' )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
