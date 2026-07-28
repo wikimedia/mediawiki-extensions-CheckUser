@@ -104,6 +104,7 @@
 	"logentry-checkuser-private-event-email-sent": "huet eng E-Mail un de Benotzer „$4“ {{GENDER:$2|geschéckt}}",
 	"logentry-checkuser-private-event-autocreate-account": "gouf automatesch ugeluecht",
 	"logentry-checkuser-private-event-create-account": "gouf ugeluecht",
+	"checkuser-rest-access-denied": "Dir hutt net d'Recht, fir dës Aktioun duerchzeféieren",
 	"checkuser-link-investigate-label": "{{#special:investigate}} ausprobéieren",
 	"checkuser-investigateblock": "Benotzer spären",
 	"checkuser-investigateblock-target": "Benotzernimm an IP-Adressen",
