@@ -114,6 +114,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "IP-Informatiounen aktivéieren",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Astellung aktualiséiert",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Astellung späicheren",
+	"checkuser-rest-access-denied": "Dir hutt net d'Recht, fir dës Aktioun duerchzeféieren",
 	"checkuser-rest-userinfo-user-not-found": "Ongülteg Benotzer-ID uginn.",
 	"checkuser-link-investigate-label": "{{#special:investigate}} ausprobéieren",
 	"checkuser-investigateblock": "Benotzer spären",
