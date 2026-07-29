@@ -4,5 +4,9 @@
 			"شاه زمان پټان"
 		]
 	},
-	"apihelp-query+checkuser-summary": "وگورئ چې کومې وېبپتې د ورکړل شوي کارن‌نوم له خوا کارول شوي يا کوم کارن‌نومونه د ورکړل‌شوې وېبپتې له خوا کارول شوي."
+	"apihelp-query+checkuser-summary": "وگورئ چې کومې وېبپتې د ورکړل شوي کارن‌نوم له خوا کارول شوي يا کوم کارن‌نومونه د ورکړل‌شوې وېبپتې له خوا کارول شوي.",
+	"checkuser-rest-endpoint-summary-userinfo-blocked": "د کارن بنديز دريځ ترلاسه‌کول",
+	"checkuser-rest-endpoint-summary-temp-account-ip": "وېبپتې لپاره لنډمهاله گڼونونه ترلاسه‌کول",
+	"checkuser-rest-endpoint-summary-connected-temp-accounts": "لنډمهاله گڼونونه ونښلوئ",
+	"checkuser-rest-endpoint-summary-clienthints": "د کارن پلاوي غوښتندوی پېښېدنې جوړول"
 }
