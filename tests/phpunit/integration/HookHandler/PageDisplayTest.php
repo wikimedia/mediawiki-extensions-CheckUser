@@ -673,12 +673,13 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$mockCheckUserSuggestedInvestigationsInstrumentationClient
 				->expects( $this->once() )
 				->method( 'submitInteraction' )
-				->willReturnCallback( function ( $context, $action, $interactionData ) use ( $queryParams ) {
+				->willReturnCallback( function ( $context, $action, $interactionData ) use ( $output, $queryParams ) {
 					$this->assertSame( 'link_click', $action );
 					$this->assertSame( $queryParams[ 'si_subtype' ], $interactionData[ 'action_subtype' ] );
 					$this->assertSame( $queryParams[ 'si_actionsource' ], $interactionData[ 'action_source' ] );
 					$this->assertSame( $queryParams[ 'si_targetuser' ], $interactionData[ 'action_context' ] );
 					$this->assertSame( $queryParams[ 'si_caseid' ], $interactionData[ 'case_id' ] );
+					$this->assertSame( $output->getUser()->getId(), $interactionData[ 'performer' ][ 'id' ] );
 				} );
 		} else {
 			$mockCheckUserSuggestedInvestigationsInstrumentationClient
