@@ -105,6 +105,8 @@ QUnit.test.each(
 		const $tr = $( '<tr>' );
 		$tr.append( $( '<span>' ).attr( 'data-case-id', '1' ) );
 		const $link = $( '<a>' ).attr( 'href', '#' );
+		// See test parameters array
+		// eslint-disable-next-line mediawiki/class-doc
 		$link.addClass( linkClass );
 		$table.append( $tr.append( $link ) );
 		$qunitFixture.append( $table );
