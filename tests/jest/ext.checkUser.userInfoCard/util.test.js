@@ -53,7 +53,7 @@ describe( 'getOpenContext', () => {
 	} );
 
 	describe( 'checkuser', () => {
-		it.each( [ 'CheckUser', 'Investigate', 'SuggestedInvestigations' ] )(
+		it.each( [ 'CheckUser', 'Investigate' ] )(
 			'returns "checkuser" on Special:%s',
 			( specialPage ) => {
 				setConfig( { wgCanonicalSpecialPageName: specialPage } );
@@ -61,6 +61,14 @@ describe( 'getOpenContext', () => {
 				expect( getOpenContext( button ) ).toStrictEqual( { page: 'checkuser' } );
 			}
 		);
+	} );
+
+	describe( 'suggested-investigations', () => {
+		it( 'returns "suggested-investigations" on Special:SuggestedInvestigations', () => {
+			setConfig( { wgCanonicalSpecialPageName: 'SuggestedInvestigations' } );
+			const button = document.createElement( 'button' );
+			expect( getOpenContext( button ) ).toStrictEqual( { page: 'suggested-investigations' } );
+		} );
 	} );
 
 	describe( 'blocklist', () => {

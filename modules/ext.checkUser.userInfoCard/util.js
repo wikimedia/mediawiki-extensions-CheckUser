@@ -111,9 +111,10 @@ function getOpenContext( triggerElement ) {
 		triggerElement.closest( '.mw-logevent-loglines' ) ) {
 		page = 'log';
 	} else if ( specialPageName === 'CheckUser' ||
-		specialPageName === 'Investigate' ||
-		specialPageName === 'SuggestedInvestigations' ) {
+		specialPageName === 'Investigate' ) {
 		page = 'checkuser';
+	} else if ( specialPageName === 'SuggestedInvestigations' ) {
+		page = 'suggested-investigations';
 	} else if ( specialPageName === 'BlockList' ) {
 		page = 'blocklist';
 	} else if ( specialPageName === 'Recentchanges' ) {
