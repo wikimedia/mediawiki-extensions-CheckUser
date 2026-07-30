@@ -60,7 +60,7 @@ class UpdateCaseHandler extends SimpleHandler {
 			);
 		}
 
-		$this->authorizeActionOrThrow( $this->getAuthority(), 'checkuser' );
+		$this->authorizeActionOrThrow( $this->getAuthority(), 'checkuser-suggested-investigations' );
 
 		$caseId = $this->getValidatedParams()['caseId'];
 

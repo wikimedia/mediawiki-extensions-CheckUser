@@ -64,7 +64,7 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testWhenUserLacksCheckUserRight() {
+	public function testWhenUserLacksSuggestedInvestigationsRight() {
 		$this->expectExceptionObject( new LocalizedHttpException( new MessageValue( 'rest-permission-error' ), 403 ) );
 		$this->executeHandler(
 			$this->getObjectUnderTest(),
@@ -73,7 +73,7 @@ class UpdateCaseHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			[],
 			[],
-			$this->mockRegisteredNullAuthority()
+			$this->mockRegisteredAuthorityWithoutPermissions( [ 'checkuser-suggested-investigations' ] )
 		);
 	}
 
