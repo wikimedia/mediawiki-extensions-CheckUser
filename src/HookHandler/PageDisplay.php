@@ -314,6 +314,7 @@ class PageDisplay implements BeforePageDisplayHook {
 					'action_subtype' => $siSubtype,
 					'action_source' => $siActionSource,
 					'action_context' => $siTargetUser,
+					'performer' => [ 'id' => $out->getUser()->getId() ],
 				]
 			);
 		}
