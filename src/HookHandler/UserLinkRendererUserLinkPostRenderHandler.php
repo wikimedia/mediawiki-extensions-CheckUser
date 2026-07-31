@@ -4,22 +4,20 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
-use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentity;
-use MediaWiki\User\UserNameUtils;
 
 class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserLinkPostRenderHook {
 
 	public function __construct(
 		private readonly UserOptionsLookup $userOptionsLookup,
-		private readonly UserNameUtils $userNameUtils,
-		private readonly Config $config,
 		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
+		private readonly UserInfoCardButtonRenderer $buttonRenderer,
 	) {
 	}
 
@@ -40,43 +38,17 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 
 			$isBlocked = $this->blockStatusCache->isIndefinitelyBlockedOrLocked( $targetUser->getName() );
 
-			if ( $isBlocked ) {
-				$iconClass = 'userBlocked';
-			} elseif ( $this->userNameUtils->isTemp( $targetUser->getName() ) ) {
-				$iconClass = 'userTemporary';
-			} else {
-				$iconClass = 'userAvatar';
-			}
-			// CSS-only Codex icon button
-			$icon = Html::rawElement(
-				'span',
-				[
-					'class' =>
-						'cdx-button__icon ext-checkuser-userinfocard-button__icon ' .
-						"ext-checkuser-userinfocard-button__icon--$iconClass",
-				]
+			$buttonHtml = $this->buttonRenderer->render(
+				$targetUser->getName(),
+				$isBlocked,
+				$context
 			);
-			// <button>, not <a>: avoids matching gadgets that do
-			// $('#mw-diff-ntitle2 a').first() to find the editor (T426830).
-			$markup = Html::rawElement(
-				'button',
-				[
-					'type' => 'button',
-					'aria-label' => $context->msg(
-						'checkuser-userinfocard-toggle-button-aria-label',
-						$targetUser->getName()
-					)->text(),
-					'aria-haspopover' => 'dialog',
-					'class' => 'ext-checkuser-userinfocard-button cdx-button ' .
-						'cdx-button--action-default cdx-button--weight-quiet cdx-button--icon-only',
-					'data-username' => $targetUser->getName(),
-				],
-				$icon
-			);
+
+			// This will prevent the button + userlink from wrapping next to the screen edges
 			$html = Html::rawElement(
 				'span',
 				[ 'class' => 'ext-checkuser-userinfocard-button-wrapper' ],
-				$markup . $html
+				$buttonHtml . $html
 			);
 		}
 	}

@@ -44,6 +44,7 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardInstrumentation;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck;
@@ -643,6 +644,13 @@ return [
 			new CompositeIndefiniteBlockChecker( $globalBlockChecks ),
 			$services->getUserIdentityLookup(),
 			$services->getStatsFactory()
+		);
+	},
+	'CheckUserUserInfoCardButtonRenderer' => static function (
+		MediaWikiServices $services
+	): UserInfoCardButtonRenderer {
+		return new UserInfoCardButtonRenderer(
+			$services->getUserNameUtils(),
 		);
 	},
 	'CheckUserUserInfoCardInstrumentation' => static function (

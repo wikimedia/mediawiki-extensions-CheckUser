@@ -479,9 +479,8 @@
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserLinkRendererUserLinkPostRenderHandler",
 			"services": [
 				"UserOptionsLookup",
-				"UserNameUtils",
-				"MainConfig",
-				"CheckUserUserInfoCardBlockStatusCache"
+				"CheckUserUserInfoCardBlockStatusCache",
+				"CheckUserUserInfoCardButtonRenderer"
 			]
 		},
 		"IPInfoHandler": {

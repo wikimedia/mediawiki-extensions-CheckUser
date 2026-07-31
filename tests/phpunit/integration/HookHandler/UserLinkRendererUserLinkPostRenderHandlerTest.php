@@ -51,14 +51,26 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 		$userOptionsManager->saveOptions( $user );
 		$context = RequestContext::getMain();
 		$context->setUser( $user );
-		$expected = "<span class=\"cdx-button__icon";
 		$html = $this->getServiceContainer()->getUserLinkRenderer()->userLink(
 			$user,
 			$context
 		);
-		$this->assertStringContainsString( $expected, $html, 'Output does not contain Codex button' );
-		$expected = "class=\"ext-checkuser-userinfocard-button";
-		$this->assertStringContainsString( $expected, $html, 'Output does not contain expected CSS classes' );
+		$this->assertStringContainsString(
+			'<span class="ext-checkuser-userinfocard-button-wrapper"',
+			$html,
+			'The UIC button is not wrapped'
+		);
+		$this->assertStringContainsString(
+			'<span class="cdx-button__icon',
+			$html,
+			'Output does not contain Codex button'
+		);
+		$this->assertStringContainsString(
+			'class="ext-checkuser-userinfocard-button',
+			$html,
+			'Output does not contain expected CSS classes'
+		);
+
 		// T426830: pin the trigger element to <button> so gadgets like
 		// Twinkle that do $('#mw-diff-ntitle2 a').first() don't match it.
 		$this->assertStringContainsString(
