@@ -51,10 +51,12 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 			'prev'
 		);
 
-		$formHtml = $this->assertSelectorMatchesOneElement( $actualLinkHtml, '.mw-checkuser-paging-links-form' );
-		$form = DOMUtils::parseHTML( $formHtml );
+		$form = $this->assertSelectorMatchesOneElementInNode(
+			DOMUtils::parseHTML( $actualLinkHtml ),
+			'.mw-checkuser-paging-links-form'
+		);
 
-		$submitButtonHtml = $this->assertSelectorMatchesOneElement( $formHtml, '.mw-checkuser-paging-links' );
+		$submitButtonHtml = $this->assertSelectorMatchesOneElementInNode( $form, '.mw-checkuser-paging-links', true );
 		$this->assertStringContainsString( 'prev text', $submitButtonHtml );
 
 		// Expect that the paging links have the temporary accounts hide filter, so that the current value persists
@@ -99,16 +101,18 @@ class CheckUserPagerNavigationBuilderTest extends MediaWikiIntegrationTestCase {
 			UserIdentityValue::newAnonymous( '1.2.3.4' )
 		) );
 
-		$actualLinkHtml = $objectUnderTest->makeLink( null, 'mw-prevlink', 'prev text', 'tooltip', 'prev' );
+		$actualLinkNode = DOMUtils::parseHTML(
+			$objectUnderTest->makeLink( null, 'mw-prevlink', 'prev text', 'tooltip', 'prev' )
+		);
 
 		$pagingForm = DOMCompat::querySelector(
-			DOMUtils::parseHTML( $actualLinkHtml ),
+			$actualLinkNode,
 			'.mw-checkuser-paging-links-form'
 		);
 		$this->assertNull( $pagingForm, 'No paging form should be added if there $query param was null' );
 
 		$pagingLink = DOMCompat::querySelector(
-			DOMUtils::parseHTML( $actualLinkHtml ),
+			$actualLinkNode,
 			'span.mw-prevlink'
 		);
 		$this->assertNotNull( $pagingLink, 'The paging link should be rendered as text instead of a link' );

@@ -9,6 +9,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvest
 use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers\SuggestedInvestigationsRevisionsPager
@@ -33,6 +34,7 @@ class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTest
 			$passUserToPager ? static::$editingUser : null
 		);
 		$html = $objectUnderTest->getBody();
+		$htmlDoc = DOMUtils::parseHTML( $html );
 
 		// Assert that the two specified undeleted revisions are shown in the page (the deleted one is expected
 		// to not be shown)
@@ -41,15 +43,17 @@ class SuggestedInvestigationsRevisionsPagerTest extends MediaWikiIntegrationTest
 		$this->assertStringNotContainsString( 'Test page2', $html );
 		$this->assertStringNotContainsString( 'Test page3', $html );
 
-		$firstRevisionRowHtml = $this->assertSelectorMatchesOneElement(
-			$html,
-			'li[data-mw-revid="' . static::$firstRevisionId . '"]'
+		$firstRevisionRowHtml = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'li[data-mw-revid="' . static::$firstRevisionId . '"]',
+			true
 		);
 		$this->assertUserCorrectlyAddedToRowHtml( $passUserToPager, $firstRevisionRowHtml );
 
-		$secondRevisionRowHtml = $this->assertSelectorMatchesOneElement(
-			$html,
-			'li[data-mw-revid="' . static::$secondRevisionId . '"]'
+		$secondRevisionRowHtml = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'li[data-mw-revid="' . static::$secondRevisionId . '"]',
+			true
 		);
 		$this->assertUserCorrectlyAddedToRowHtml( $passUserToPager, $secondRevisionRowHtml );
 	}

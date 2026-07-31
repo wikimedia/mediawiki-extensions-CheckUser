@@ -184,6 +184,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$parserOutput = $pager->getFullOutput();
 		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+		$htmlDoc = DOMUtils::parseHTML( $html );
 
 		// 1 data row + 1 header row
 		$this->assertSame( 2, substr_count( $html, '<tr' ) );
@@ -211,20 +212,21 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 		$this->assertStringContainsString( 'title="(checkuser-suggestedinvestigations-action-investigate)"', $html );
 
-		$changeStatusButtonHtml = $this->assertSelectorMatchesOneElement(
-			$html,
+		$changeStatusButton = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
 			'.mw-checkuser-suggestedinvestigations-change-status-button'
 		);
-		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
-		$this->assertStringContainsString( 'data-case-status="open"', $changeStatusButtonHtml );
-		$this->assertStringContainsString( 'data-case-status-reason=""', $changeStatusButtonHtml );
-		$this->assertStringContainsString( 'data-case-signals="' . self::SIGNAL . '"', $changeStatusButtonHtml );
+		$this->assertEquals( $caseId, $changeStatusButton->getAttribute( 'data-case-id' ) );
+		$this->assertEquals( 'open', $changeStatusButton->getAttribute( 'data-case-status' ) );
+		$this->assertSame( '', $changeStatusButton->getAttribute( 'data-case-status-reason' ) );
+		$this->assertEquals( self::SIGNAL, $changeStatusButton->getAttribute( 'data-case-signals' ) );
 
 		// Validate the "View case details" link is shown in the signals cell and points to the detail view
 		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
-		$viewCaseDetailsCell = $this->assertSelectorMatchesOneElement(
-			$html,
-			'.mw-checkuser-suggestedinvestigations-view-case-details'
+		$viewCaseDetailsCell = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'.mw-checkuser-suggestedinvestigations-view-case-details',
+			true
 		);
 		$this->assertStringContainsString(
 			'Special:SuggestedInvestigations/detail/' . $urlIdentifier,
@@ -246,17 +248,17 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Validate that both the status reason and status cells have the associated suggested investigations case
 		// ID as data attributes.
-		$statusReasonCell = $this->assertSelectorMatchesOneElement(
-			$html,
+		$statusReasonCell = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
 			'.mw-checkuser-suggestedinvestigations-status-reason'
 		);
-		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusReasonCell );
+		$this->assertEquals( $caseId, $statusReasonCell->getAttribute( 'data-case-id' ) );
 
-		$statusCell = $this->assertSelectorMatchesOneElement(
-			$html,
+		$statusCell = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
 			'.mw-checkuser-suggestedinvestigations-status'
 		);
-		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $statusCell );
+		$this->assertEquals( $caseId, $statusCell->getAttribute( 'data-case-id' ) );
 
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-filter-button)',
@@ -477,24 +479,23 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$parserOutput = $this->getPager( $context )->getFullOutput();
 		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+		$htmlDoc = DOMUtils::parseHTML( $html );
 
 		// 1 data row + 1 header row
 		$this->assertSame( 2, substr_count( $html, '<tr' ) );
 
-		$changeStatusButtonHtml = $this->assertSelectorMatchesOneElement(
-			$html,
+		$changeStatusButton = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
 			'.mw-checkuser-suggestedinvestigations-change-status-button'
 		);
-		$this->assertStringContainsString(
-			"data-case-id=\"{$caseId}\"",
-			$changeStatusButtonHtml
-		);
+		$this->assertEquals( $caseId, $changeStatusButton->getAttribute( 'data-case-id' ) );
 
 		// Validate the "View case details" link is shown in the signals cell and points to the detail view
 		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
-		$viewCaseDetailsCell = $this->assertSelectorMatchesOneElement(
-			$html,
-			'.mw-checkuser-suggestedinvestigations-view-case-details'
+		$viewCaseDetailsCell = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'.mw-checkuser-suggestedinvestigations-view-case-details',
+			true
 		);
 		$this->assertStringContainsString(
 			'Special:SuggestedInvestigations/detail/' . $urlIdentifier,
@@ -693,15 +694,18 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'All usernames should be replaced with the rev-deleted-user message'
 		);
 
-		$investigateButtonHtml = $this->assertSelectorMatchesOneElement(
-			$html,
+		$investigateButton = $this->assertSelectorMatchesOneElementInNode(
+			DOMUtils::parseHTML( $html ),
 			'.mw-checkuser-suggestedinvestigations-investigate-action'
 		);
-		$this->assertStringContainsString(
-			'title="(checkuser-suggestedinvestigations-action-investigate)"',
-			$investigateButtonHtml
+		$this->assertEquals(
+			'(checkuser-suggestedinvestigations-action-investigate)',
+			$investigateButton->getAttribute( 'title' )
 		);
-		$this->assertStringContainsString( 'cdx-button--fake-button--disabled', $investigateButtonHtml );
+		$this->assertStringContainsString(
+			'cdx-button--fake-button--disabled',
+			$investigateButton->className
+		);
 
 		$this->assertStringNotContainsString(
 			self::$testUser1->getName(),
@@ -725,6 +729,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$pager = $this->getPager( $context );
 
 		$html = $pager->getBody();
+		$htmlDoc = DOMUtils::parseHTML( $html );
 
 		// 1 data row + 1 header row
 		$this->assertSame( 2, substr_count( $html, '<tr' ) );
@@ -732,16 +737,20 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringNotContainsString( '?title=Special:Investigate', $html );
 
 		$usersLimit = SpecialInvestigate::MAX_TARGETS;
-		$this->assertStringContainsString(
-			'title="(checkuser-suggestedinvestigations-action-investigate-disabled: ' . $usersLimit . ')"',
-			$html
+		$investigateButton = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'.mw-checkuser-suggestedinvestigations-investigate-action'
+		);
+		$this->assertEquals(
+			"(checkuser-suggestedinvestigations-action-investigate-disabled: $usersLimit)",
+			$investigateButton->getAttribute( 'title' )
 		);
 
-		$changeStatusButtonHtml = $this->assertSelectorMatchesOneElement(
-			$html,
+		$changeStatusButton = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
 			'.mw-checkuser-suggestedinvestigations-change-status-button'
 		);
-		$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $changeStatusButtonHtml );
+		$this->assertEquals( $caseId, $changeStatusButton->getAttribute( 'data-case-id' ) );
 	}
 
 	/** @dataProvider provideStatusReasonDisplayedInPager */

@@ -24,6 +24,7 @@ use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Parsoid\Core\DOMCompat;
+use Wikimedia\Parsoid\DOM\Document;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\TestingAccessWrapper;
 
@@ -187,8 +188,8 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	/**
 	 * Verifies that the form fields are present for the Special:CheckUser search form
 	 */
-	private function commonVerifyFormFieldsPresent( string $html ): void {
-		$formHtml = $this->assertSelectorMatchesOneElement( $html, '#checkuserform' );
+	private function commonVerifyFormFieldsPresent( Document $doc ): void {
+		$formHtml = $this->assertSelectorMatchesOneElementInNode( $doc, '#checkuserform', true );
 
 		$this->assertStringContainsString( '(checkuser-target', $formHtml );
 		$this->assertStringContainsString( '(checkuser-period', $formHtml );
@@ -202,17 +203,18 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 	/**
 	 * Verifies that the CIDR form is shown on the page
 	 */
-	private function verifyCidrFormExists( string $html ): void {
-		$cidrFormHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-cidrform' );
+	private function verifyCidrFormExists( Document $doc ): void {
+		$cidrFormHtml = $this->assertSelectorMatchesOneElementInNode( $doc, '.mw-checkuser-cidrform', true );
 		$this->assertStringContainsString( '(checkuser-cidr-label', $cidrFormHtml );
 	}
 
 	public function testLoadSpecialPageBeforeFormSubmission() {
 		// Execute the special page. We need the full HTML to verify the subtitle links.
 		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+		$doc = DOMUtils::parseHTML( $html );
 
-		$this->commonVerifyFormFieldsPresent( $html );
-		$this->verifyCidrFormExists( $html );
+		$this->commonVerifyFormFieldsPresent( $doc );
+		$this->verifyCidrFormExists( $doc );
 
 		// Assert that the "Try out Special:Investigate" link is present
 		$this->assertStringContainsString( '(checkuser-link-investigate-label', $html );
@@ -227,19 +229,20 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$request = new FauxRequest( [ 'checktype' => 'subuserips', 'reason' => 'Test check' ], true );
 		$testCheckUser = $this->getTestCheckUser();
 		[ $html ] = $this->executeSpecialPage( self::$usernameTarget->getName(), $request, null, $testCheckUser );
+		$doc = DOMUtils::parseHTML( $html );
 
-		$this->commonVerifyFormFieldsPresent( $html );
-		$this->verifyCidrFormExists( $html );
+		$this->commonVerifyFormFieldsPresent( $doc );
+		$this->verifyCidrFormExists( $doc );
 
 		// Verify that the CheckUser helper fieldset is not present for a Get IPs check
 		$this->assertCount(
 			0,
-			DOMCompat::querySelectorAll( DOMUtils::parseHTML( $html ), '.mw-checkuser-helper-fieldset' ),
+			DOMCompat::querySelectorAll( $doc, '.mw-checkuser-helper-fieldset' ),
 			'The CheckUserHelper fieldset should not be present for a "Get IPs" check'
 		);
 
 		// Verify that the results contain the IP '1.2.3.4'
-		$resultHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-get-ips-results' );
+		$resultHtml = $this->assertSelectorMatchesOneElementInNode( $doc, '.mw-checkuser-get-ips-results', true );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 
 		$this->verifyCheckUserLogEntryCreated(
@@ -265,13 +268,14 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			true
 		);
 		[ $html ] = $this->executeSpecialPage( '1.2.3.4', $request, null, $testCheckUser );
+		$doc = DOMUtils::parseHTML( $html );
 
-		$this->commonVerifyFormFieldsPresent( $html );
-		$this->verifyCidrFormExists( $html );
-		$this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-helper-fieldset' );
+		$this->commonVerifyFormFieldsPresent( $doc );
+		$this->verifyCidrFormExists( $doc );
+		$this->assertSelectorMatchesOneElementInNode( $doc, '.mw-checkuser-helper-fieldset' );
 
 		// Verify that the results contain the IP '1.2.3.4' and target username
-		$resultHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-get-actions-results' );
+		$resultHtml = $this->assertSelectorMatchesOneElementInNode( $doc, '.mw-checkuser-get-actions-results', true );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
@@ -302,13 +306,14 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$testCheckUser = $this->getTestCheckUser();
 		$request = new FauxRequest( [ 'checktype' => 'subactions', 'reason' => 'Test check' ], true );
 		[ $html ] = $this->executeSpecialPage( self::$usernameTarget->getName(), $request, null, $testCheckUser );
+		$doc = DOMUtils::parseHTML( $html );
 
-		$this->commonVerifyFormFieldsPresent( $html );
-		$this->verifyCidrFormExists( $html );
-		$this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-helper-fieldset' );
+		$this->commonVerifyFormFieldsPresent( $doc );
+		$this->verifyCidrFormExists( $doc );
+		$this->assertSelectorMatchesOneElementInNode( $doc, '.mw-checkuser-helper-fieldset' );
 
 		// Verify that the results contain the IP '1.2.3.4' and target username
-		$resultHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-get-actions-results' );
+		$resultHtml = $this->assertSelectorMatchesOneElementInNode( $doc, '.mw-checkuser-get-actions-results', true );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 
@@ -391,13 +396,14 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			true
 		);
 		[ $html ] = $this->executeSpecialPage( '', $request, null, $testCheckUser );
+		$doc = DOMUtils::parseHTML( $html );
 
-		$this->commonVerifyFormFieldsPresent( $html );
-		$this->verifyCidrFormExists( $html );
-		$this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-helper-fieldset' );
+		$this->commonVerifyFormFieldsPresent( $doc );
+		$this->verifyCidrFormExists( $doc );
+		$this->assertSelectorMatchesOneElementInNode( $doc, '.mw-checkuser-helper-fieldset' );
 
 		// Verify that the results contain the target IP '1.2.3.4' and the user who has used that IP
-		$resultHtml = $this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-get-users-results' );
+		$resultHtml = $this->assertSelectorMatchesOneElementInNode( $doc, '.mw-checkuser-get-users-results', true );
 		$this->assertStringContainsString( '1.2.3.4', $resultHtml );
 		$this->assertStringContainsString( self::$usernameTarget->getName(), $resultHtml );
 

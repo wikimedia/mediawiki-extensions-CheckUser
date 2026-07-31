@@ -121,9 +121,9 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			true,
 			$context
 		);
+		$specialPageDocument = DOMUtils::parseHTML( $html );
 
 		if ( $hasUserSeenPrivateDataWarning ) {
-			$specialPageDocument = DOMUtils::parseHTML( $html );
 			$element = DOMCompat::querySelectorAll(
 				$specialPageDocument,
 				'.ext-checkuser-suggestedinvestigations-private-data-warning'
@@ -134,9 +134,10 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 				'Should not find any private data warning if the user has seen it'
 			);
 		} else {
-			$privateDataWarning = $this->assertSelectorMatchesOneElement(
-				$html,
-				'.ext-checkuser-suggestedinvestigations-private-data-warning'
+			$privateDataWarning = $this->assertSelectorMatchesOneElementInNode(
+				$specialPageDocument,
+				'.ext-checkuser-suggestedinvestigations-private-data-warning',
+				true
 			);
 			$this->assertStringContainsString(
 				'(checkuser-suggestedinvestigations-private-data-warning)',
@@ -144,16 +145,16 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 			);
 		}
 
-		$descriptionHtml = $this->assertSelectorMatchesOneElement(
-			$html,
+		$descriptionNode = $this->assertSelectorMatchesOneElementInNode(
+			$specialPageDocument,
 			'.ext-checkuser-suggestedinvestigations-description'
 		);
 		$this->assertStringContainsString(
 			'(checkuser-suggestedinvestigations-summary',
-			$descriptionHtml
+			DOMCompat::getInnerHTML( $descriptionNode )
 		);
-		$this->assertSelectorMatchesOneElement(
-			$descriptionHtml,
+		$this->assertSelectorMatchesOneElementInNode(
+			$descriptionNode,
 			'.ext-checkuser-suggestedinvestigations-signals-popover-icon'
 		);
 

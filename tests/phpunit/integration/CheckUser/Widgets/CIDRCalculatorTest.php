@@ -12,6 +12,8 @@ use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWikiIntegrationTestCase;
 use OOUI\BlankTheme;
 use OOUI\Theme;
+use Wikimedia\Parsoid\Ext\DOMUtils;
+use Wikimedia\Parsoid\Utils\DOMCompat;
 
 /**
  * @group CheckUser
@@ -31,19 +33,25 @@ class CIDRCalculatorTest extends MediaWikiIntegrationTestCase {
 		// Use type casting to call __toString and then test that too. That method calls all of the other methods
 		// in the class we are testing.
 		$html = (string)$objectUnderTest;
+		$htmlDoc = DOMUtils::parseHTML( $html );
 
 		// Check the modules needed for the calculator JS code are added
 		$this->assertContains( 'ext.checkUser', $context->getOutput()->getModules() );
 		$this->assertContains( 'ext.checkUser.styles', $context->getOutput()->getModuleStyles() );
 
 		// Check that the HTML produced for the calculator is as expected
-		$panelLayoutHtml = $this->assertSelectorMatchesOneElement( $html, '#mw-checkuser-cidrform' );
-		$this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-iplist' );
-		$this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-res' );
-		$resultLabelHtml = $this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-res-label' );
+		$panelLayoutNode = $this->assertSelectorMatchesOneElementInNode( $htmlDoc, '#mw-checkuser-cidrform' );
+		$panelLayoutHtml = DOMCompat::getOuterHTML( $panelLayoutNode );
+		$this->assertSelectorMatchesOneElementInNode( $panelLayoutNode, '.mw-checkuser-cidr-iplist' );
+		$this->assertSelectorMatchesOneElementInNode( $panelLayoutNode, '.mw-checkuser-cidr-res' );
+		$resultLabelHtml = $this->assertSelectorMatchesOneElementInNode(
+			$panelLayoutNode,
+			'.mw-checkuser-cidr-res-label',
+			true
+		);
 		$this->assertStringContainsString( '(checkuser-cidr-res', $resultLabelHtml );
-		$this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-tool-links' );
-		$this->assertSelectorMatchesOneElement( $panelLayoutHtml, '.mw-checkuser-cidr-ipnote' );
+		$this->assertSelectorMatchesOneElementInNode( $panelLayoutNode, '.mw-checkuser-cidr-tool-links' );
+		$this->assertSelectorMatchesOneElementInNode( $panelLayoutNode, '.mw-checkuser-cidr-ipnote' );
 
 		// Check that text snippets in $textToBeInHtml are in the HTML of the panel
 		foreach ( $textToBeInHtml as $textSnippet ) {

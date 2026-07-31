@@ -15,6 +15,7 @@ use MediaWikiIntegrationTestCase;
 use OOUI\BlankTheme;
 use OOUI\Theme;
 use Wikimedia\Codex\Utility\Codex;
+use Wikimedia\Parsoid\Ext\DOMUtils;
 
 /**
  * @group CheckUser
@@ -65,14 +66,16 @@ class SuggestedInvestigationsMessageRendererTest extends MediaWikiIntegrationTes
 		);
 
 		$result = $renderer->getUserDismissableWarning( 'Test HTML', 'test-class-abc' );
+		$resultDoc = DOMUtils::parseHTML( $result );
 
-		$this->assertSelectorMatchesOneElement(
-			$result,
+		$this->assertSelectorMatchesOneElementInNode(
+			$resultDoc,
 			'.ext-checkuser-suggestedinvestigations-warning-dismiss'
 		);
-		$actualMessageHtml = $this->assertSelectorMatchesOneElement(
-			$result,
-			'.ext-checkuser-suggestedinvestigations-dismissable-warning.test-class-abc'
+		$actualMessageHtml = $this->assertSelectorMatchesOneElementInNode(
+			$resultDoc,
+			'.ext-checkuser-suggestedinvestigations-dismissable-warning.test-class-abc',
+			true
 		);
 		$this->assertStringContainsString( 'Test HTML', $actualMessageHtml );
 	}
