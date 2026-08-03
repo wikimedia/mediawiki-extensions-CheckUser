@@ -38,12 +38,13 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideFunctionIncrementsCounter */
 	public function testFunctionIncrementsCounter(
 		string $functionName,
-		string $counterName
+		string $counterName,
+		array $functionArgs
 	) {
 		$statsHelper = StatsFactory::newUnitTestingHelper();
 
 		$instrumentation = $this->newInstrumentation( null, true, $statsHelper->getStatsFactory() );
-		$instrumentation->$functionName();
+		$instrumentation->$functionName( ...$functionArgs );
 
 		$this->assertSame(
 			1,
@@ -56,21 +57,26 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 		yield 'onApiSuccess' => [
 			'functionName' => 'onApiSuccess',
 			'counterName' => 'userinfocard_api_success',
+			'functionArgs' => [ 'username' ],
 		];
 		yield 'onUserNotFound' => [
 			'functionName' => 'onUserNotFound',
 			'counterName' => 'userinfocard_api_user_not_found',
+			'functionArgs' => [ 'username' ],
 		];
 		yield 'onRateLimited' => [
 			'functionName' => 'onRateLimited',
 			'counterName' => 'userinfocard_api_rate_limit',
+			'functionArgs' => [],
 		];
 	}
 
 	/** @dataProvider provideFunctionEmitsEvent */
 	public function testFunctionEmitsEvent(
 		string $functionName,
-		string $eventName
+		string $eventName,
+		array $functionArgs,
+		array $expectedContext
 	) {
 		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
 
@@ -81,20 +87,22 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 				'mediawiki.product_metrics.user_info_card_interaction',
 				'/analytics/product_metrics/web/base/2.0.0',
 				$eventName,
-				[]
+				[ 'action_context' => json_encode( $expectedContext ) ]
 			);
 
 		$mockFactory = $this->createMock( MetricsClientFactory::class );
 		$mockFactory->method( 'newMetricsClient' )->willReturn( $mockClient );
 
 		$this->newInstrumentation( $mockFactory )
-			->$functionName();
+			->$functionName( ...$functionArgs );
 	}
 
 	/** @dataProvider provideFunctionEmitsEvent */
 	public function testFunctionDoesntEmitEventWhenConfigDisabled(
 		string $functionName,
-		string $eventName
+		string $eventName,
+		array $functionArgs,
+		array $expectedContext
 	) {
 		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
 
@@ -102,21 +110,27 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 		$mockFactory->expects( $this->never() )->method( 'newMetricsClient' );
 
 		$instrumentation = $this->newInstrumentation( $mockFactory, false );
-		$instrumentation->$functionName();
+		$instrumentation->$functionName( ...$functionArgs );
 	}
 
 	public static function provideFunctionEmitsEvent(): iterable {
 		yield 'onApiSuccess' => [
 			'functionName' => 'onApiSuccess',
 			'eventName' => 'api_request',
+			'functionArgs' => [ 'User123' ],
+			'expectedContext' => [ 'username' => 'User123' ],
 		];
 		yield 'onUserNotFound' => [
 			'functionName' => 'onUserNotFound',
 			'eventName' => 'user_not_found',
+			'functionArgs' => [ 'User123' ],
+			'expectedContext' => [ 'username' => 'User123' ],
 		];
 		yield 'onRateLimited' => [
 			'functionName' => 'onRateLimited',
 			'eventName' => 'rate_limit_exceeded',
+			'functionArgs' => [],
+			'expectedContext' => [],
 		];
 	}
 }
