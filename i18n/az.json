@@ -467,7 +467,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Status",
 	"checkuser-suggestedinvestigations-header-notes": "Qeydlər",
 	"checkuser-suggestedinvestigations-header-actions": "Fəaliyyətlər",
-	"checkuser-suggestedinvestigations-related-cases-summary": "$1 əlaqəli {{PLURAL:$1|iş}}",
+	"checkuser-suggestedinvestigations-related-cases-summary": "$1 eyni {{PLURAL:$1|iş}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "Eyni {{PLURAL:$2|səhifədə|$2 səhifədə}} {{PLURAL:$1|$1 redaktə}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "{{PLURAL:$2|$2 redaktədən}} $1 ədədi geri qaytarılıb",
 	"checkuser-suggestedinvestigations-reverted-revisions": "{{PLURAL:$2|$2 töhfədən}} $1 ədədi geri qaytarılıb",

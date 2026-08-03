@@ -437,6 +437,7 @@
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 modifica|$1 modifiche}} {{PLURAL:$2|alla stessa pagina|alle stesse $2 pagine}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "$1 {{PLURAL:$1|modifica|modifiche}} su $2 {{PLURAL:$1|è stata annullata|sono state annullate}}",
 	"checkuser-suggestedinvestigations-reverted-revisions": "$1 {{PLURAL:$1|contributo|contributi}} su $2 {{PLURAL:$1|annullato|annullati}}",
+	"checkuser-suggestedinvestigations-deleted-revisions-summary": "{{PLURAL:$1|$1 modifica cancellata|$1 modifiche cancellate}}",
 	"checkuser-suggestedinvestigations-status-open": "Aperto",
 	"checkuser-suggestedinvestigations-status-resolved": "Chiuso",
 	"checkuser-suggestedinvestigations-status-invalid": "Non valido",

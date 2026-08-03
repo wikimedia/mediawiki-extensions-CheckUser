@@ -464,7 +464,7 @@
 	"checkuser-suggestedinvestigations-header-status": "Estado",
 	"checkuser-suggestedinvestigations-header-notes": "Notas",
 	"checkuser-suggestedinvestigations-header-actions": "Accións",
-	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|caso relacionado|casos relacionados}}",
+	"checkuser-suggestedinvestigations-related-cases-summary": "$1 {{PLURAL:$1|caso idéntico|casos idénticos}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "{{PLURAL:$1|$1 edición|$1 edicións}} {{PLURAL:$2|na mesma páxina|nas mesmas $2 páxinas}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "{{PLURAL:$1|Reverteuse unha edición|Revertéronse $1 edicións}} dun total {{PLURAL:$2|dunha edición|de $2 edicións}}",
 	"checkuser-suggestedinvestigations-reverted-revisions": "{{PLURAL:$1|Reverteuse unha contribución|Revertéronse $1 contribucións}} dun total {{PLURAL:$2|dunha contribución|de $2 contribucións}}",
