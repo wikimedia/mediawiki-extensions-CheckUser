@@ -55,7 +55,7 @@ class UserInfoHandler extends SimpleHandler {
 		}
 
 		if ( $user === null || !$user->getId() ) {
-			$this->instrumentation->onUserNotFound();
+			$this->instrumentation->onUserNotFound( $username );
 			throw new LocalizedHttpException(
 				new MessageValue( 'checkuser-rest-userinfo-user-not-found' ),
 				404
@@ -67,7 +67,7 @@ class UserInfoHandler extends SimpleHandler {
 			$user
 		);
 
-		$this->instrumentation->onApiSuccess();
+		$this->instrumentation->onApiSuccess( $user->getName() );
 		return $this->getResponseFactory()->createJson( $userInfo );
 	}
 

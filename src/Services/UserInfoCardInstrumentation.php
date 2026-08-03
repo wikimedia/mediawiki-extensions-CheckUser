@@ -34,24 +34,26 @@ class UserInfoCardInstrumentation {
 
 	/**
 	 * Record a successful API call to /checkuser/v0/userinfo (HTTP 200).
+	 * @param string $targetUser Name of the user, whose data was returned
 	 */
-	public function onApiSuccess(): void {
+	public function onApiSuccess( string $targetUser ): void {
 		$this->statsFactory->withComponent( 'CheckUser' )
 			->getCounter( 'userinfocard_api_success' )
 			->setLabel( 'wiki', WikiMap::getCurrentWikiId() )
 			->increment();
-		$this->emitInteractionEvent( 'api_request' );
+		$this->emitInteractionEvent( 'api_request', [ 'username' => $targetUser ] );
 	}
 
 	/**
 	 * Record that the requested user was not found.
+	 * @param string $targetUser Username that was requested
 	 */
-	public function onUserNotFound(): void {
+	public function onUserNotFound( string $targetUser ): void {
 		$this->statsFactory->withComponent( 'CheckUser' )
 			->getCounter( 'userinfocard_api_user_not_found' )
 			->setLabel( 'wiki', WikiMap::getCurrentWikiId() )
 			->increment();
-		$this->emitInteractionEvent( 'user_not_found' );
+		$this->emitInteractionEvent( 'user_not_found', [ 'username' => $targetUser ] );
 	}
 
 	/**
@@ -65,7 +67,7 @@ class UserInfoCardInstrumentation {
 		$this->emitInteractionEvent( 'rate_limit_exceeded' );
 	}
 
-	private function emitInteractionEvent( string $action ): void {
+	private function emitInteractionEvent( string $action, array $actionContext = [] ): void {
 		if (
 			$this->metricsClientFactory === null ||
 			!$this->config->get( 'CheckUserEnableUserInfoCardInstrumentation' )
@@ -76,7 +78,10 @@ class UserInfoCardInstrumentation {
 		$client->submitInteraction(
 			'mediawiki.product_metrics.user_info_card_interaction',
 			'/analytics/product_metrics/web/base/2.0.0',
-			$action
+			$action,
+			[
+				'action_context' => json_encode( $actionContext ),
+			]
 		);
 	}
 }
