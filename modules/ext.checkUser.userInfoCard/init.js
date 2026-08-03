@@ -44,6 +44,13 @@ $( () => {
 		// is enabled. See T397609 for follow-up work.
 		// Set up event listeners for the user info card buttons
 		$content.find( '.ext-checkuser-userinfocard-button' ).each( function () {
+			// Buttons emitted into page content by {{#uic:}} are part of the parser output that
+			// every viewer shares, and they are marked hidden so that consumers of that HTML
+			// which load no CheckUser CSS don't show a button that cannot work.
+			// Now, given that we know UIC is wanted, we can remove the hidden attribute.
+			// It should have no impact (the button is shown with CSS), but let's do it just in case.
+			this.removeAttribute( 'hidden' );
+
 			$( this ).on( 'click keydown', ( event ) => {
 				// For keyboard events, only respond to Enter key
 				if ( event.type === 'keydown' &&

@@ -35,6 +35,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 			$output = $context->getOutput();
 			$output->addModuleStyles( 'ext.checkUser.styles' );
 			$output->addModules( 'ext.checkUser.userInfoCard' );
+			// No need for the ext.checkUser.userInfoCard.contentStyles module; it's relevant only to content pages
 
 			$isBlocked = $this->blockStatusCache->isIndefinitelyBlockedOrLocked( $targetUser->getName() );
 

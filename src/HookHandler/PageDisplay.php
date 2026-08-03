@@ -91,7 +91,8 @@ class PageDisplay implements BeforePageDisplayHook {
 	}
 
 	/**
-	 * Export JS config variables for UserInfoCard to determine permissions.
+	 * Export JS config variables for UserInfoCard to determine permissions, and set up the
+	 * trigger buttons placed in page content.
 	 *
 	 * @param OutputPage $out
 	 * @return void
@@ -110,6 +111,8 @@ class PageDisplay implements BeforePageDisplayHook {
 		if ( $hasEnabledInfoCard ) {
 			$authority = $out->getAuthority();
 
+			$this->displayUserInfoCardContentTriggers( $out );
+
 			$out->addJsConfigVars( [
 				'wgCheckUserCanViewCheckUserLog' =>
 					$authority->isAllowed( 'checkuser-log' ),
@@ -124,6 +127,24 @@ class PageDisplay implements BeforePageDisplayHook {
 					$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ),
 			] );
 		}
+	}
+
+	/**
+	 * Reveal the UserInfoCard trigger buttons that the {{#uic:}} parser function emits into page content,
+	 * if this page has any.
+	 *
+	 * The buttons are part of parser output shared by every viewer, so they are emitted hidden and
+	 * only made visible here, for viewers who have the card enabled. Detecting them by the style
+	 * module the parser function requested keeps that decision out of the parser cache.
+	 */
+	private function displayUserInfoCardContentTriggers( OutputPage $out ): void {
+		if ( !in_array( 'ext.checkUser.userInfoCard.contentStyles', $out->getModuleStyles(), true ) ) {
+			return;
+		}
+
+		$out->addBodyClasses( 'ext-checkuser-userinfocard-enabled' );
+		$out->addModules( 'ext.checkUser.userInfoCard' );
+		$out->addModuleStyles( 'ext.checkUser.styles' );
 	}
 
 	/**

@@ -27,6 +27,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
 use Wikimedia\ArrayUtils\ArrayUtils;
+use Wikimedia\TestingAccessWrapper;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\HookHandler\PageDisplay
@@ -420,6 +421,98 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'expected' => [],
 			],
 		];
+	}
+
+	/** @dataProvider provideOnBeforePageDisplayForContentUserInfoCard */
+	public function testOnBeforePageDisplayForContentUserInfoCard(
+		bool $isEnabled,
+		bool $hasContentButtons,
+		bool $performerIsNamed,
+		bool $expectRevealed
+	) {
+		$this->disableAutoCreateTempUser();
+
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setAuthority(
+			$performerIsNamed ?
+			$this->mockRegisteredUltimateAuthority() :
+			$this->mockAnonUltimateAuthority()
+		);
+		$output = $context->getOutput();
+		$output->setContext( $context );
+		if ( $hasContentButtons ) {
+			$output->addModuleStyles( 'ext.checkUser.userInfoCard.contentStyles' );
+		}
+
+		$options = [ Preferences::ENABLE_USER_INFO_CARD => (int)$isEnabled ];
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup( [], $options ) );
+
+		$this->getPageDisplayHookHandlerForUserInfoCard()->onBeforePageDisplay(
+			$output,
+			$this->createMock( Skin::class )
+		);
+
+		// The two go together: revealing the buttons without loading the card would leave a
+		// visible trigger that does nothing.
+		$bodyClasses = TestingAccessWrapper::newFromObject( $output )->mAdditionalBodyClasses;
+		$this->assertSame(
+			$expectRevealed,
+			in_array( 'ext-checkuser-userinfocard-enabled', $bodyClasses, true ),
+			'body class'
+		);
+		$this->assertSame(
+			$expectRevealed,
+			in_array( 'ext.checkUser.userInfoCard', $output->getModules(), true ),
+			'card module'
+		);
+	}
+
+	public static function provideOnBeforePageDisplayForContentUserInfoCard() {
+		return [
+			'enabled, page has content buttons' => [
+				'isEnabled' => true,
+				'hasContentButtons' => true,
+				'performerIsNamed' => true,
+				'expectRevealed' => true,
+			],
+			// Nothing to reveal, and the card would be dead weight: it depends on Vue and d3.
+			'enabled, page has no content buttons' => [
+				'isEnabled' => true,
+				'hasContentButtons' => false,
+				'performerIsNamed' => true,
+				'expectRevealed' => false,
+			],
+			'disabled, page has content buttons' => [
+				'isEnabled' => false,
+				'hasContentButtons' => true,
+				'performerIsNamed' => true,
+				'expectRevealed' => false,
+			],
+			// The highest-volume audience, and the one that must never see the buttons.
+			'anonymous viewer, page has content buttons' => [
+				'isEnabled' => true,
+				'hasContentButtons' => true,
+				'performerIsNamed' => false,
+				'expectRevealed' => false,
+			],
+		];
+	}
+
+	private function getPageDisplayHookHandlerForUserInfoCard(): PageDisplay {
+		return new PageDisplay(
+			new HashConfig( [
+				'CheckUserSuggestedInvestigationsEnabled' => false,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils(),
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
+			$this->getServiceContainer()->get( 'CheckUserLogger' )
+		);
 	}
 
 	public function testOnBeforePageDisplayForUserInfoCardWithSuggestedInvestigationsEnabled() {
