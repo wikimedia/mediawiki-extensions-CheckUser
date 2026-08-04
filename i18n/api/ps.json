@@ -5,6 +5,8 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "وگورئ چې کومې وېبپتې د ورکړل شوي کارن‌نوم له خوا کارول شوي يا کوم کارن‌نومونه د ورکړل‌شوې وېبپتې له خوا کارول شوي.",
+	"checkuser-rest-request-property-desc-rev-id-item": "بياليدنې پېژند",
+	"checkuser-rest-request-property-desc-log-id-item": "يادښت پېژند",
 	"checkuser-rest-endpoint-summary-userinfo-blocked": "د کارن بنديز دريځ ترلاسه‌کول",
 	"checkuser-rest-endpoint-summary-temp-account-ip": "وېبپتې لپاره لنډمهاله گڼونونه ترلاسه‌کول",
 	"checkuser-rest-endpoint-summary-connected-temp-accounts": "لنډمهاله گڼونونه ونښلوئ",
