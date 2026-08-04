@@ -45,3 +45,12 @@ CREATE TABLE /*_*/cusi_signal (
     sis_trigger_type
   )
 ) /*$wgDBTableOptions*/;
+
+
+CREATE TABLE /*_*/cusi_case_property (
+  sicp_sic_id INT UNSIGNED NOT NULL,
+  sicp_property SMALLINT UNSIGNED NOT NULL,
+  sicp_value FLOAT UNSIGNED NOT NULL,
+  sicp_stale TINYINT DEFAULT 0 NOT NULL,
+  PRIMARY KEY(sicp_sic_id, sicp_property)
+) /*$wgDBTableOptions*/;

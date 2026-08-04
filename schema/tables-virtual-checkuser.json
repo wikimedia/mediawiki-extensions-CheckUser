@@ -151,5 +151,37 @@
 			}
 		],
 		"pk": [ "sis_name", "sis_value", "sis_sic_id", "sis_trigger_id", "sis_trigger_type" ]
+	},
+	{
+		"name": "cusi_case_property",
+		"comment": "A table which describes properties for a row in the cusi_case table (which holds suggested investigations). A cusi_case row can be described by multiple unique properties. Used by the the Suggested Investigations feature of the CheckUser extension.",
+		"columns": [
+			{
+				"name": "sicp_sic_id",
+				"comment": "Part of composite primary key. The cusi_case row (suggested investigation) that this property is associated with.",
+				"type": "integer",
+				"options": { "unsigned": true, "notnull": true }
+			},
+			{
+				"name": "sicp_property",
+				"comment": "Part of composite primary key. The id of the property as defined in PHP.",
+				"type": "smallint",
+				"options": { "unsigned": true, "notnull": true }
+			},
+			{
+				"name": "sicp_value",
+				"comment": "The value of the property. Float is used to support decimal values.",
+				"type": "float",
+				"options": { "unsigned": true, "notnull": true }
+			},
+			{
+				"name": "sicp_stale",
+				"comment": "Whether or not the property should be recalculated.",
+				"type": "mwtinyint",
+				"options": { "default": 0, "notnull": true }
+			}
+		],
+		"indexes": [],
+		"pk": [ "sicp_sic_id", "sicp_property" ]
 	}
 ]
