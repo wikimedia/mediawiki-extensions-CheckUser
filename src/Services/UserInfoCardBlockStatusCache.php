@@ -23,6 +23,12 @@ use Wikimedia\Stats\StatsFactory;
  */
 class UserInfoCardBlockStatusCache {
 
+	/**
+	 * Maximum number of users whose block status is resolved in a single set of queries by
+	 * getIndefinitelyBlockedOrLockedUsers(), to keep the IN() lists bounded.
+	 */
+	private const LOOKUP_BATCH_SIZE = 500;
+
 	public function __construct(
 		private readonly WANObjectCache $wanCache,
 		private readonly CompositeIndefiniteBlockChecker $localBlockChecker,
@@ -60,68 +66,37 @@ class UserInfoCardBlockStatusCache {
 	 * wikis and is deliberately ignored.
 	 */
 	public function isIndefinitelyBlockedOrLocked( string $username ): bool {
-		$localValue = $this->checkCache(
-			$this->makeLocalCacheKey( $username ),
-			$this->localBlockChecker,
-			$username,
-			'local'
-		);
-
-		if ( $localValue ) {
-			return true;
-		}
-
-		return $this->checkCache(
-			$this->makeGlobalCacheKey( $username ),
-			$this->globalBlockChecker,
-			$username,
-			'global'
-		);
+		return $this->getIndefinitelyBlockedOrLockedUsers( [ $username ] ) !== [];
 	}
 
 	/**
-	 * Check a single cache key, populating it on miss by resolving the
-	 * username to a local user ID and running the given block checker.
+	 * Filter a list of usernames down to those that are indefinitely blocked
+	 * (locally or globally) or locked.
+	 *
+	 * Callers that only care about a single user can use isIndefinitelyBlockedOrLocked().
+	 *
+	 * @param list<string> $usernames Names of the users to check
+	 * @return string[] Those of $usernames that are indefinitely blocked or locked
 	 */
-	private function checkCache(
-		string $cacheKey,
-		CompositeIndefiniteBlockChecker $checker,
-		string $username,
-		string $type
-	): bool {
-		// Use 1/0 instead of true/false because WANObjectCache::getWithSetCallback()
-		// skips caching when the callback returns false.
-		$isBlocked = $this->wanCache->getWithSetCallback(
-			$cacheKey,
-			$this->wanCache::TTL_INDEFINITE,
-			function () use ( $username, $checker, $type ) {
-				$this->statsFactory->withComponent( 'CheckUser' )
-					->getCounter( 'userinfocard_block_status_cache_miss' )
-					->setLabel( 'type', $type )
-					->increment();
-				$user = $this->userIdentityLookup->getUserIdentityByName( $username );
-				if ( $user === null || !$user->isRegistered() ) {
-					return 0;
-				}
-				$userId = $user->getId();
-				$unblockedIds = $checker
-					->getUserIdsNotIndefinitelyBlocked( [ $userId ] );
-				return in_array( $userId, $unblockedIds, true ) ? 0 : 1;
-			},
-			[
-				// Stampede protection: after delete() places a tombstone,
-				// only one thread regenerates; others serve the interim
-				// value or busyValue.
-				'lockTSE' => 30,
-				// Fallback when no stale value exists and another thread
-				// holds the regeneration lock (fail-open: assume not blocked).
-				'busyValue' => 0,
-				// Process-level cache avoids repeated memcached round-trips
-				// for the same user within a single request.
-				'pcTTL' => $this->wanCache::TTL_PROC_LONG,
-			]
+	public function getIndefinitelyBlockedOrLockedUsers( array $usernames ): array {
+		if ( $usernames === [] ) {
+			return [];
+		}
+
+		$localStatus = $this->checkCache( $usernames, true );
+		// Do the global lookup only for users unblocked locally
+		$globalStatus = $this->checkCache(
+			array_values( array_filter(
+				$usernames,
+				static fn ( string $username ) => !$localStatus[$username]
+			) ),
+			false
 		);
-		return (bool)$isBlocked;
+
+		return array_values( array_filter(
+			$usernames,
+			static fn ( string $username ) => $localStatus[$username] || ( $globalStatus[$username] ?? false )
+		) );
 	}
 
 	private function makeLocalCacheKey( string $username ): string {
@@ -130,5 +105,90 @@ class UserInfoCardBlockStatusCache {
 
 	private function makeGlobalCacheKey( string $username ): string {
 		return $this->wanCache->makeGlobalKey( 'checkuser-userinfocard-global-blocked', $username );
+	}
+
+	/**
+	 * Check the cache keys of the given type for several users at once, populating the ones that
+	 * miss in a single batch.
+	 *
+	 * @param string[] $usernames
+	 * @param bool $isLocal Whether checking for local or global blocks
+	 * @return array<int|string,bool> Map of username to blocked status. Numeric usernames appear
+	 *   as integer keys, per PHP array key coercion.
+	 */
+	private function checkCache( array $usernames, bool $isLocal ): array {
+		if ( $usernames === [] ) {
+			return [];
+		}
+
+		$checker = $isLocal ? $this->localBlockChecker : $this->globalBlockChecker;
+		$keyedIds = $this->wanCache->makeMultiKeys(
+			$usernames,
+			fn ( string $username ) => $isLocal
+				? $this->makeLocalCacheKey( $username )
+				: $this->makeGlobalCacheKey( $username )
+		);
+
+		$values = $this->wanCache->getMultiWithUnionSetCallback(
+			$keyedIds,
+			$this->wanCache::TTL_INDEFINITE,
+			function ( array $missingUsernames ) use ( $checker, $isLocal ) {
+				$this->statsFactory->withComponent( 'CheckUser' )
+					->getCounter( 'userinfocard_block_status_cache_miss' )
+					->setLabel( 'type', $isLocal ? 'local' : 'global' )
+					->incrementBy( count( $missingUsernames ) );
+				return $this->computeIndefiniteBlockStatus( $missingUsernames, $checker );
+			},
+			[
+				'pcTTL' => $this->wanCache::TTL_PROC_LONG,
+			]
+		);
+
+		$status = [];
+		foreach ( $keyedIds as $cacheKey => $username ) {
+			$status[$username] = (bool)$values[$cacheKey];
+		}
+		return $status;
+	}
+
+	/**
+	 * Resolve the given usernames to local user IDs in one query and determine which of them are
+	 * indefinitely blocked according to the given checker.
+	 *
+	 * @param int[]|string[] $usernames Usernames to check. WANObjectCache round-trips these
+	 *   through array keys, so numeric usernames arrive as integers.
+	 * @param CompositeIndefiniteBlockChecker $checker
+	 * @return array<int|string,int> Map of the given usernames to 1 if blocked and 0 if not. Uses
+	 *   1/0 rather than true/false because WANObjectCache treats false as "do not cache".
+	 */
+	private function computeIndefiniteBlockStatus(
+		array $usernames,
+		CompositeIndefiniteBlockChecker $checker
+	): array {
+		// Assume all users are unblocked, then set to 1 if checker says so
+		$result = array_fill_keys( $usernames, 0 );
+
+		foreach ( array_chunk( $usernames, self::LOOKUP_BATCH_SIZE ) as $usernameChunk ) {
+			$usersById = [];
+			$userIdentities = $this->userIdentityLookup->newSelectQueryBuilder()
+				->whereUserNames( array_map( 'strval', $usernameChunk ) )
+				->registered()
+				->caller( __METHOD__ )
+				->fetchUserIdentities();
+			foreach ( $userIdentities as $user ) {
+				$usersById[$user->getId()] = $user->getName();
+			}
+			if ( $usersById === [] ) {
+				continue;
+			}
+
+			$unblockedIds = $checker->getUserIdsNotIndefinitelyBlocked( array_keys( $usersById ) );
+			$blockedIds = array_diff( array_keys( $usersById ), $unblockedIds );
+			foreach ( $blockedIds as $blockedId ) {
+				$result[$usersById[$blockedId]] = 1;
+			}
+		}
+
+		return $result;
 	}
 }
