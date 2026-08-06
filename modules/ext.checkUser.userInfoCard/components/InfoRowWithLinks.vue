@@ -105,6 +105,8 @@ module.exports = exports = {
 				// Possible messages here
 				// * checkuser-userinfocard-global-edits
 				// * checkuser-userinfocard-new-articles
+				// * checkuser-userinfocard-suggested-investigations
+				// * checkuser-userinfocard-abusefilter-hits
 				return mw.message( props.messageKey, mainAnchor ).parse();
 			}
 		} );

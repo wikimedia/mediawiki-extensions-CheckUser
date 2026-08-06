@@ -58,6 +58,7 @@
 				:global-restrictions-date="userCard.globalRestrictionsDate"
 				:temp-accounts-on-ip-count="userCard.tempAccountsOnIPCount"
 				:suggested-investigations-case-count="userCard.suggestedInvestigationsCaseCount"
+				:abuse-filter-hits="userCard.abuseFilterHits"
 			></user-card-body>
 			<!--eslint-enable-->
 		</div>
@@ -136,6 +137,7 @@ module.exports = exports = {
 			globalRestrictionsTimestamp: null,
 			tempAccountsOnIPCount: [],
 			suggestedInvestigationsCaseCount: 0,
+			abuseFilterHits: 0,
 			hasLocalBlockGlobalBlockOrLock: false
 		} );
 
@@ -184,6 +186,7 @@ module.exports = exports = {
 						globalRestrictionsTimestamp,
 						tempAccountsOnIPCount,
 						suggestedInvestigationsCaseCount,
+						abuseFilterHitCount,
 						hasLocalBlockGlobalBlockOrLock
 					} = userInfo;
 					const userTitleObj = mw.Title.makeTitle( 2, name );
@@ -238,6 +241,7 @@ module.exports = exports = {
 					userCard.tempAccountsOnIPCount = tempAccountsOnIPCount;
 					userCard.suggestedInvestigationsCaseCount =
 						suggestedInvestigationsCaseCount || 0;
+					userCard.abuseFilterHits = abuseFilterHitCount || 0;
 
 					// Parse and format checkUserLastCheck date
 					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );

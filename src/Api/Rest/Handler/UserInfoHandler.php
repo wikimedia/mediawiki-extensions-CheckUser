@@ -150,6 +150,10 @@ class UserInfoHandler extends SimpleHandler {
 					'type' => 'integer',
 					'x-i18n-description' => 'checkuser-rest-property-desc-suggested-investigations-cases',
 				],
+				'abuseFilterHitCount' => [
+					'type' => 'integer',
+					'x-i18n-description' => 'checkuser-rest-property-desc-abusefilter-hit-count',
+				],
 				'canAccessTemporaryAccountIpAddresses' => [
 					'type' => 'boolean',
 					'x-i18n-description' => 'checkuser-rest-property-desc-can-access-temp-account-ip',
@@ -209,6 +213,7 @@ class UserInfoHandler extends SimpleHandler {
 				'checkUserChecks' => 5,
 				'checkUserLastCheck' => '20260610000000',
 				'suggestedInvestigationsCaseCount' => 2,
+				'abuseFilterHitCount' => 3,
 				'canAccessTemporaryAccountIpAddresses' => false,
 				'activeBlocksOnLocalWiki' => 0,
 				'activeLocalBlocksAllWikis' => 0,

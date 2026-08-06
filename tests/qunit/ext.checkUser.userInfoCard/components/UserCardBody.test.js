@@ -635,6 +635,42 @@ QUnit.test( 'does not render suggested investigations row when count is zero', (
 	assert.strictEqual( row, undefined, 'Suggested investigations row does not exist when count is zero' );
 } );
 
+QUnit.test( 'renders abuse filter hits row when count > 0', ( assert ) => {
+	const wrapper = mountComponent( { abuseFilterHits: 12 } );
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-abusefilter-hits' );
+	assert.true( row !== undefined, 'Abuse filter hits row exists' );
+	assert.strictEqual(
+		row.props( 'mainValue' ),
+		'12',
+		'Abuse filter hits row has correct main value'
+	);
+	assert.strictEqual(
+		row.props( 'mainLink' ),
+		'/-1/AbuseLog?wpSearchUser=TestUser',
+		'Abuse filter hits row links to Special:AbuseLog filtered to the user'
+	);
+	assert.strictEqual(
+		row.props( 'mainLinkLogId' ),
+		'abusefilter_hits',
+		'Abuse filter hits row has correct log ID'
+	);
+} );
+
+QUnit.test( 'does not render abuse filter hits row when count is zero', ( assert ) => {
+	const wrapper = mountComponent( { abuseFilterHits: 0 } );
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-abusefilter-hits' );
+	assert.strictEqual( row, undefined, 'Abuse filter hits row does not exist when count is zero' );
+} );
+
+QUnit.test( 'does not render abuse filter hits row when the count is absent', ( assert ) => {
+	const wrapper = mountComponent();
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-abusefilter-hits' );
+	assert.strictEqual( row, undefined, 'Abuse filter hits row does not exist when count is not provided' );
+} );
+
 // TODO: T386440 - Fix the test and remove the skip
 // This test fails when running in conjunction with the other test components in this folder.
 // When running this test file alone, this test is passing.

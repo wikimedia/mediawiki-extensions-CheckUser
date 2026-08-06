@@ -76,6 +76,7 @@
 	"checkuser-rest-property-desc-checkuser-checks": "Number of CheckUser checks performed on this user",
 	"checkuser-rest-property-desc-checkuser-last-check": "Timestamp of the most recent CheckUser check performed on this user",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "Number of suggested investigation cases associated with this user",
+	"checkuser-rest-property-desc-abusefilter-hit-count": "Number of abuse filter log entries triggered by this user. Only present for temporary accounts and accounts that are not autoconfirmed",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "Whether the performer can access temporary account IP addresses for the user",
 	"checkuser-rest-property-desc-active-blocks-local": "Number of active blocks on the local wiki",
 	"checkuser-rest-property-desc-active-local-blocks-all": "Total number of active local blocks across all wikis",

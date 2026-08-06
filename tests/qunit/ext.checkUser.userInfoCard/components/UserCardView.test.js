@@ -30,7 +30,8 @@ const mockComponents = {
 			'thanksReceived', 'thanksSent', 'activeBlocks', 'pastBlocks',
 			'localEdits', 'localEditsReverted', 'newArticles', 'checks',
 			'lastChecked', 'activeWikis', 'recentLocalEdits', 'totalLocalEdits',
-			'ipRevealCount', 'hasIpRevealInfo', 'suggestedInvestigationsCaseCount'
+			'ipRevealCount', 'hasIpRevealInfo', 'suggestedInvestigationsCaseCount',
+			'abuseFilterHits'
 		]
 	}
 };
@@ -61,7 +62,8 @@ const sampleUserData = {
 		enwiki: 'https://en.wikipedia.org',
 		dewiki: 'https://de.wikipedia.org'
 	},
-	suggestedInvestigationsCaseCount: 3
+	suggestedInvestigationsCaseCount: 3,
+	abuseFilterHitCount: 12
 };
 
 let server;
@@ -273,6 +275,62 @@ QUnit.test( 'defaults suggestedInvestigationsCaseCount to 0 when not in API resp
 			wrapper.vm.userCard.suggestedInvestigationsCaseCount,
 			0,
 			'suggestedInvestigationsCaseCount defaults to 0 when not in response'
+		);
+	} );
+} );
+
+QUnit.test( 'sets abuseFilterHits from API response', ( assert ) => {
+	let userInfoCardApiCalled = false;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( sampleUserData )
+			);
+			userInfoCardApiCalled = true;
+		}
+	} );
+
+	const wrapper = mountComponent();
+
+	return waitFor( () => {
+		const loadingView = wrapper.findComponent( mockComponents.UserCardLoadingView );
+		return userInfoCardApiCalled && !loadingView.exists();
+	} ).then( () => {
+		assert.strictEqual(
+			wrapper.vm.userCard.abuseFilterHits,
+			12,
+			'abuseFilterHits is set from the abuseFilterHitCount API response field'
+		);
+	} );
+} );
+
+QUnit.test( 'defaults abuseFilterHits to 0 when not in API response', ( assert ) => {
+	let userInfoCardApiCalled = false;
+	const dataWithoutHits = Object.assign( {}, sampleUserData );
+	delete dataWithoutHits.abuseFilterHitCount;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( dataWithoutHits )
+			);
+			userInfoCardApiCalled = true;
+		}
+	} );
+
+	const wrapper = mountComponent();
+
+	return waitFor( () => {
+		const loadingView = wrapper.findComponent( mockComponents.UserCardLoadingView );
+		return userInfoCardApiCalled && !loadingView.exists();
+	} ).then( () => {
+		assert.strictEqual(
+			wrapper.vm.userCard.abuseFilterHits,
+			0,
+			'abuseFilterHits defaults to 0 when not in response'
 		);
 	} );
 } );

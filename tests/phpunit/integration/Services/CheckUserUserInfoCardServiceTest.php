@@ -10,6 +10,8 @@ use GrowthExperiments\UserImpact\UserImpact;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
+use MediaWiki\Extension\AbuseFilter\AbuseLogLookup;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
@@ -30,6 +32,7 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
+use MediaWiki\User\UserGroupManager;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -134,6 +137,13 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		array $overrides = []
 	): CheckUserUserInfoCardService {
 		$services = $this->getServiceContainer();
+		if ( array_key_exists( 'AbuseLogLookup', $overrides ) ) {
+			$abuseLogLookup = $overrides['AbuseLogLookup'];
+		} elseif ( $services->getExtensionRegistry()->isLoaded( 'Abuse Filter' ) ) {
+			$abuseLogLookup = AbuseFilterServices::getAbuseLogLookup( $services );
+		} else {
+			$abuseLogLookup = null;
+		}
 		return new CheckUserUserInfoCardService(
 			$services->getService( 'GrowthExperimentsUserImpactLookup' ),
 			$services->getExtensionRegistry(),
@@ -159,7 +169,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			),
 			$services->getCentralIdLookup(),
 			$overrides[ 'UserInfoCardBlockStatusCache' ] ??
-				$services->get( 'CheckUserUserInfoCardBlockStatusCache' )
+				$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
+			$abuseLogLookup
 		);
 	}
 
@@ -418,7 +429,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( [], $userImpact );
 	}
 
-	public function testLoadingWithoutGrowthExperiments() {
+	public function testLoadingWithoutExtensions() {
 		$services = $this->getServiceContainer();
 		$infoCardService = new CheckUserUserInfoCardService(
 			null,
@@ -441,7 +452,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				$services->getMainConfig()
 			),
 			$services->getCentralIdLookup(),
-			$services->get( 'CheckUserUserInfoCardBlockStatusCache' )
+			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
+			null
 		);
 		$targetUser = $this->getTestUser()->getUser();
 		$userInfo = $infoCardService->getUserInfo(
@@ -458,6 +470,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayContains( [ 'activeLocalBlocksAllWikis' => 0 ], $userInfo );
 		$this->assertArrayContains( [ 'activeBlocksOnLocalWiki' => 0 ], $userInfo );
 		$this->assertArrayNotHasKey( 'thanksGiven', $userInfo );
+		$this->assertArrayNotHasKey( 'abuseFilterHitCount', $userInfo );
 	}
 
 	public function testGetUserInfoHasLocalBlockGlobalBlockOrLockWhenBlocked(): void {
@@ -650,6 +663,62 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 				'expectKeyPresent' => false,
 			],
 		];
+	}
+
+	/** @dataProvider provideAbuseFilterHitCount */
+	public function testAbuseFilterHitCount( bool $isTemp, bool $isAutoconfirmed, bool $expectCount ): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
+
+		$user = $isTemp ? self::$tempUser1 : self::$testUser;
+
+		$userGroupManager = $this->createMock( UserGroupManager::class );
+		$userGroupManager->method( 'getUserEffectiveGroups' )
+			->willReturn( $isAutoconfirmed ? [ 'autoconfirmed' ] : [] );
+		$this->setService( 'UserGroupManager', $userGroupManager );
+
+		$abuseLogLookup = $this->createMock( AbuseLogLookup::class );
+		$abuseLogLookup->expects( $expectCount ? $this->once() : $this->never() )
+			->method( 'getHitCountsForUsers' )
+			->with( $this->anything(), [ $user ] )
+			->willReturn( [ $user->getName() => 5 ] );
+
+		$result = $this->getObjectUnderTest( [ 'AbuseLogLookup' => $abuseLogLookup ] )
+			->getUserInfo( $this->mockRegisteredUltimateAuthority(), $user );
+
+		if ( $expectCount ) {
+			$this->assertSame( 5, $result['abuseFilterHitCount'] );
+		} else {
+			$this->assertArrayNotHasKey( 'abuseFilterHitCount', $result );
+		}
+	}
+
+	public static function provideAbuseFilterHitCount(): array {
+		return [
+			'Non-autoconfirmed named user' => [
+				'isTemp' => false,
+				'isAutoconfirmed' => false,
+				'expectCount' => true,
+			],
+			'Temporary user' => [
+				'isTemp' => true,
+				'isAutoconfirmed' => false,
+				'expectCount' => true,
+			],
+			'Autoconfirmed named user' => [
+				'isTemp' => false,
+				'isAutoconfirmed' => true,
+				'expectCount' => false,
+			],
+		];
+	}
+
+	public function testAbuseFilterHitCountIsZeroWhenAuthorityCannotViewAbuseLog() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
+		$user = $this->getMutableTestUser()->getUser();
+
+		$result = $this->getObjectUnderTest()
+			->getUserInfo( $this->mockRegisteredAuthorityWithPermissions( [] ), $user );
+		$this->assertArrayNotHasKey( 'abuseFilterHitCount', $result );
 	}
 
 	/** @dataProvider provideBlockLogDelete */

@@ -682,6 +682,10 @@ return [
 		if ( $extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$globalContributionsLookup = $services->get( 'CheckUserGlobalContributionsLookup' );
 		}
+		$abuseLogLookup = null;
+		if ( $extensionRegistry->isLoaded( 'Abuse Filter' ) ) {
+			$abuseLogLookup = AbuseFilterServices::getAbuseLogLookup( $services );
+		}
 		return new CheckUserUserInfoCardService(
 			$userImpactLookup,
 			$extensionRegistry,
@@ -703,7 +707,8 @@ return [
 				$services->getMainConfig()
 			),
 			$services->getCentralIdLookup(),
-			$services->get( 'CheckUserUserInfoCardBlockStatusCache' )
+			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
+			$abuseLogLookup
 		);
 	},
 	'CheckUserUtilityService' => static function (

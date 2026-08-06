@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use MediaWiki\Cache\GenderCache;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\AbuseFilter\AbuseLogLookup;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CentralAuth\LocalUserNotFoundException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
@@ -74,6 +75,7 @@ class CheckUserUserInfoCardService {
 		private readonly ServiceOptions $options,
 		private readonly CentralIdLookup $centralIdLookup,
 		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
+		private readonly ?AbuseLogLookup $abuseLogLookup,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -150,6 +152,22 @@ class CheckUserUserInfoCardService {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Whether the number of AbuseFilter hits should be shown for the given user.
+	 *
+	 * The count is a useful signal primarily for accounts that are not yet established, and showing
+	 * it for established accounts risks stigmatizing them over incidental filter hits, so it is
+	 * limited to temporary accounts and accounts that have not reached autoconfirmed (T409396).
+	 */
+	private function shouldShowAbuseFilterHitCount( UserIdentity $user ): bool {
+		if ( $this->tempUserConfig->isTempName( $user->getName() ) ) {
+			return true;
+		}
+
+		$effectiveGroups = $this->userGroupManager->getUserEffectiveGroups( $user );
+		return !in_array( 'autoconfirmed', $effectiveGroups );
 	}
 
 	/**
@@ -347,6 +365,13 @@ class CheckUserUserInfoCardService {
 				->caller( __METHOD__ )
 				->fetchField();
 			$userInfo['suggestedInvestigationsCaseCount'] = (int)$caseCount;
+		}
+
+		if ( $this->abuseLogLookup && $this->shouldShowAbuseFilterHitCount( $user ) ) {
+			// getHitCountsForUsers() returns an empty array when the authority is not allowed to
+			// view the abuse log at all, so fall back to zero in that case.
+			$hitCounts = $this->abuseLogLookup->getHitCountsForUsers( $authority, [ $user ] );
+			$userInfo['abuseFilterHitCount'] = $hitCounts[$user->getName()] ?? 0;
 		}
 
 		$blocks = [];

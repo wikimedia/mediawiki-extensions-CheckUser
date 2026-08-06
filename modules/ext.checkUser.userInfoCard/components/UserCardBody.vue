@@ -78,6 +78,7 @@ const { computed } = require( 'vue' );
 const {
 	cdxIconAlert,
 	cdxIconEdit,
+	cdxIconEditLock,
 	cdxIconArticles,
 	cdxIconArticlesSearch,
 	cdxIconHeart,
@@ -223,6 +224,10 @@ module.exports = exports = {
 			default: () => ( [] )
 		},
 		suggestedInvestigationsCaseCount: {
+			type: Number,
+			default: 0
+		},
+		abuseFilterHits: {
 			type: Number,
 			default: 0
 		}
@@ -435,6 +440,19 @@ module.exports = exports = {
 					mainValue: mw.language.convertNumber( props.suggestedInvestigationsCaseCount ),
 					mainLink: suggestedInvestigationsLink,
 					mainLinkLogId: 'suggested_investigations'
+				} );
+			}
+
+			if ( props.abuseFilterHits > 0 ) {
+				const abuseLogLink = mw.Title.makeTitle( -1, 'AbuseLog' )
+					.getUrl( { wpSearchUser: props.username } );
+				rows.push( {
+					icon: cdxIconEditLock,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					messageKey: 'checkuser-userinfocard-abusefilter-hits',
+					mainValue: mw.language.convertNumber( props.abuseFilterHits ),
+					mainLink: abuseLogLink,
+					mainLinkLogId: 'abusefilter_hits'
 				} );
 			}
 

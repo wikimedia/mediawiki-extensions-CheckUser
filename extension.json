@@ -701,6 +701,7 @@
 						"cdxIconClose",
 						"cdxIconAlert",
 						"cdxIconEdit",
+						"cdxIconEditLock",
 						"cdxIconArticles",
 						"cdxIconArticlesSearch",
 						"cdxIconHeart",
@@ -765,7 +766,8 @@
 				"checkuser-temporary-account-bucketcount-min",
 				"checkuser-temporary-account-bucketcount-range",
 				"checkuser-temporary-account-bucketcount-max",
-				"checkuser-userinfocard-suggested-investigations"
+				"checkuser-userinfocard-suggested-investigations",
+				"checkuser-userinfocard-abusefilter-hits"
 			],
 			"dependencies": [
 				"mediawiki.api",
