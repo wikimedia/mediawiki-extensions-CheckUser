@@ -59,3 +59,15 @@
 .mw-changeslist-user-in-group:last-of-type {
 	margin-right: @spacing-25;
 }
+
+// Styles for UserInfoCard trigger buttons emitted into page content by the {{#uic:}} parser
+// function.
+//
+// The button markup is the same for every viewer, so that the parser cache is not split on
+// whether the viewer has the UserInfoCard preference enabled. Emitting the full button rather
+// than an empty placeholder avoids a flash of unstyled content, so the button has to be hidden
+// here and revealed for viewers who have the preference on, via a body class that PageDisplay
+// adds at request time.
+body:not( .ext-checkuser-userinfocard-enabled ) .mw-parser-output .ext-checkuser-userinfocard-button {
+	display: none;
+}

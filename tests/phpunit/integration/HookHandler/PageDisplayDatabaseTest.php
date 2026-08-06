@@ -96,7 +96,8 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserIdentityUtils(),
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
-			$this->getServiceContainer()->get( 'CheckUserLogger' )
+			$this->getServiceContainer()->get( 'CheckUserLogger' ),
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardBlockStatusCache' )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -115,8 +116,19 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayContains( $expectedConfigVars, $output->getJsConfigVars() );
 	}
 
-	public function testOnBeforePageDisplayForContentUserInfoCardWithRealParserOutput() {
+	/** @dataProvider provideUserBlocked */
+	public function testOnBeforePageDisplayForContentUserInfoCardWithRealParserOutput( bool $userBlocked ) {
 		$this->disableAutoCreateTempUser();
+
+		$user = $this->getMutableTestUser()->getUser();
+		if ( $userBlocked ) {
+			$this->getServiceContainer()->getDatabaseBlockStore()->insertBlockWithParams( [
+				'targetUser' => $user,
+				'by' => $this->getTestSysop()->getUser(),
+				'expiry' => 'infinity',
+				'sitewide' => true,
+			] );
+		}
 
 		$title = Title::makeTitle( NS_PROJECT, 'Administrator intervention against vandalism' );
 		$context = new DerivativeContext( RequestContext::getMain() );
@@ -126,14 +138,14 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 		$output->setContext( $context );
 
 		$parserOptions = ParserOptions::newFromAnon();
-		$output->addParserOutput(
-			$this->getServiceContainer()->getParserFactory()->getInstance()->parse(
-				'{{#uic:Foo}}',
-				$title,
-				$parserOptions
-			),
+		$parserOutput = $this->getServiceContainer()->getParserFactory()->getInstance()->parse(
+			'{{#uic:' . $user->getName() . '}} {{#uic:Nonexistent user}}',
+			$title,
 			$parserOptions
 		);
+		// The registered OutputPageParserOutput handler also runs from here, but the card
+		// preference is still off at this point, so it does nothing.
+		$output->addParserOutput( $parserOutput, $parserOptions );
 
 		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
 			[],
@@ -152,8 +164,10 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserIdentityUtils(),
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
-			$this->getServiceContainer()->get( 'CheckUserLogger' )
+			$this->getServiceContainer()->get( 'CheckUserLogger' ),
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardBlockStatusCache' )
 		);
+		$pageDisplayHookHandler->onOutputPageParserOutput( $output, $parserOutput );
 		$pageDisplayHookHandler->onBeforePageDisplay(
 			$output,
 			$this->createMock( Skin::class )
@@ -162,6 +176,26 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 		$bodyClasses = TestingAccessWrapper::newFromObject( $output )->mAdditionalBodyClasses;
 		$this->assertContains( 'ext-checkuser-userinfocard-enabled', $bodyClasses );
 		$this->assertContains( 'ext.checkUser.userInfoCard', $output->getModules() );
+		if ( $userBlocked ) {
+			$this->assertSame(
+				[ $user->getName() => 'userBlocked' ],
+				$output->getJsConfigVars()['wgCheckUserUserInfoCardCustomIcons'],
+				'Only the blocked target should be reported, and the non-existent one left out'
+			);
+		} else {
+			$this->assertArrayNotHasKey(
+				'wgCheckUserUserInfoCardCustomIcons',
+				$output->getJsConfigVars(),
+				'Neither an unblocked target nor a non-existent one needs a custom icon'
+			);
+		}
+	}
+
+	public static function provideUserBlocked(): array {
+		return [
+			'is blocked' => [ true ],
+			'is not blocked' => [ false ],
+		];
 	}
 
 	public static function provideOnBeforePageDisplayForOnboardingWhenIPInfoPreferenceIsGlobal() {

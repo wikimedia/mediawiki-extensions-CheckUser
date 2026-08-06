@@ -39,6 +39,11 @@ $( () => {
 		}
 	};
 
+	// Some users might need a custom icon in their UIC button (i.e., other than userAvatar/userTemporary).
+	// Because status designated by such icon can be temporary, it cannot be recorded in the parser cache,
+	// and we have to apply it here instead.
+	const customAccountIcons = mw.config.get( 'wgCheckUserUserInfoCardCustomIcons', {} );
+
 	const attachInfoCardHandlers = ( $content ) => {
 		// FIXME: The popover will lose its position when "Live update" mode
 		// is enabled. See T397609 for follow-up work.
@@ -50,6 +55,27 @@ $( () => {
 			// Now, given that we know UIC is wanted, we can remove the hidden attribute.
 			// It should have no impact (the button is shown with CSS), but let's do it just in case.
 			this.removeAttribute( 'hidden' );
+
+			// Correct the icon of buttons whose target needs one other than the variant baked into
+			// the parser output. Buttons rendered server-side already carry the right icon, in
+			// which case this is a no-op.
+			const customIcon = customAccountIcons[ this.getAttribute( 'data-username' ) ];
+			if ( customIcon ) {
+				const iconElem = this.querySelector( '.cdx-button__icon' );
+				if ( iconElem ) {
+					iconElem.classList.remove(
+						'ext-checkuser-userinfocard-button__icon--userTemporary',
+						'ext-checkuser-userinfocard-button__icon--userAvatar'
+					);
+					// The variant comes from the server, and can be any of the ones
+					// UserInfoCardButtonRenderer itself emits. The following CSS classes are used
+					// here:
+					// * ext-checkuser-userinfocard-button__icon--userAvatar
+					// * ext-checkuser-userinfocard-button__icon--userTemporary
+					// * ext-checkuser-userinfocard-button__icon--userBlocked
+					iconElem.classList.add( 'ext-checkuser-userinfocard-button__icon--' + customIcon );
+				}
+			}
 
 			$( this ).on( 'click keydown', ( event ) => {
 				// For keyboard events, only respond to Enter key

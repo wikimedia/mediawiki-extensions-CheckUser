@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
+use MediaWiki\Extension\CheckUser\HookHandler\ParserFunctionsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Parser\ParserOptions;
 use MediaWiki\Parser\ParserOutput;
@@ -42,8 +43,38 @@ class ParserFunctionsHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 'Foo', $button->getAttribute( 'data-username' ) );
 
 		// Only styles module should be added by parser
-		$this->assertContains( 'ext.checkUser.userInfoCard.contentStyles', $parserOutput->getModuleStyles() );
+		$this->assertContains( 'ext.checkUser.styles', $parserOutput->getModuleStyles() );
 		$this->assertNotContains( 'ext.checkUser.userInfoCard', $parserOutput->getModules() );
+	}
+
+	public function testRecordsTargetInExtensionData(): void {
+		$parserOutput = $this->parse( '{{#uic:Foo}}' );
+
+		$this->assertSame(
+			[ 'Foo' => true ],
+			$parserOutput->getExtensionData( ParserFunctionsHandler::TARGETS_EXTENSION_DATA_KEY )
+		);
+		$this->assertSame(
+			[],
+			$parserOutput->getJsConfigVars(),
+			'The targets must not reach the client as a JS config variable'
+		);
+	}
+
+	public function testRecordsEveryTargetOnce(): void {
+		$parserOutput = $this->parse( '{{#uic:Foo}} {{#uic:Bar}} {{#uic:Foo}}' );
+
+		$targets = $parserOutput->getExtensionData( ParserFunctionsHandler::TARGETS_EXTENSION_DATA_KEY );
+		ksort( $targets );
+		$this->assertSame( [ 'Bar' => true, 'Foo' => true ], $targets );
+	}
+
+	public function testRecordsCanonicalisedTarget(): void {
+		$this->assertSame(
+			[ 'Foo bar' => true ],
+			$this->parse( '{{#uic:user:foo_bar}}' )
+				->getExtensionData( ParserFunctionsHandler::TARGETS_EXTENSION_DATA_KEY )
+		);
 	}
 
 	public function testDoesNotUseAnyCacheVaryingParserOption(): void {
@@ -113,8 +144,11 @@ class ParserFunctionsHandlerTest extends MediaWikiIntegrationTestCase {
 			$parserOutput->getContentHolderText()
 		);
 		$this->assertNotContains(
-			'ext.checkUser.userInfoCard.contentStyles',
+			'ext.checkUser.styles',
 			$parserOutput->getModuleStyles()
+		);
+		$this->assertNull(
+			$parserOutput->getExtensionData( ParserFunctionsHandler::TARGETS_EXTENSION_DATA_KEY ),
 		);
 
 		$trackingCategories = $parserOutput->getCategoryNames();

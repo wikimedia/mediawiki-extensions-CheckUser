@@ -338,7 +338,8 @@
 				"UserIdentityUtils",
 				"PreferencesFactory",
 				"CheckUserSuggestedInvestigationsInstrumentationClient",
-				"CheckUserLogger"
+				"CheckUserLogger",
+				"CheckUserUserInfoCardBlockStatusCache"
 			]
 		},
 		"CheckUserEvents": {
@@ -568,6 +569,7 @@
 			"clienthints",
 			"pageDisplay"
 		],
+		"OutputPageParserOutput": "pageDisplay",
 		"ApiBlockSucceeded": "BlockConnectedAccounts",
 		"ApiQuery::moduleManager": "ConditionalRegistration",
 		"APIGetAllowedParams": [
@@ -992,13 +994,6 @@
 				"checkuser-investigateblock-expiry-default",
 				"checkuser-investigateblock-expiry-ip",
 				"tempuser-expired-link-tooltip"
-			]
-		},
-		"ext.checkUser.userInfoCard.contentStyles": {
-			"localBasePath": "modules/ext.checkUser.userInfoCard.contentStyles",
-			"remoteExtPath": "CheckUser/modules/ext.checkUser.userInfoCard.contentStyles",
-			"styles": [
-				"content.less"
 			]
 		},
 		"ext.checkUser.styles": {

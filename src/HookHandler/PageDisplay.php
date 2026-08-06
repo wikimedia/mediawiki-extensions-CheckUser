@@ -8,9 +8,11 @@ use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\CheckUser\Services\CheckUserIPRevealManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
+use MediaWiki\Output\Hook\OutputPageParserOutputHook;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Preferences\PreferencesFactory;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -22,7 +24,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityUtils;
 use Psr\Log\LoggerInterface;
 
-class PageDisplay implements BeforePageDisplayHook {
+class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 	public function __construct(
 		private readonly Config $config,
 		private readonly CheckUserPermissionManager $checkUserPermissionManager,
@@ -34,6 +36,7 @@ class PageDisplay implements BeforePageDisplayHook {
 		private readonly PreferencesFactory $preferencesFactory,
 		private readonly ISuggestedInvestigationsInstrumentationClient $siInstrumentationClient,
 		private readonly LoggerInterface $checkUserLogger,
+		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 	) {
 	}
 
@@ -91,60 +94,79 @@ class PageDisplay implements BeforePageDisplayHook {
 	}
 
 	/**
-	 * Export JS config variables for UserInfoCard to determine permissions, and set up the
-	 * trigger buttons placed in page content.
+	 * Export JS config variables for UserInfoCard to determine permissions.
 	 *
 	 * @param OutputPage $out
 	 * @return void
 	 */
 	private function addUserInfoCardConfigVars( OutputPage $out ) {
-		$performer = $out->getUser();
-		if ( !$performer->isNamed() ) {
+		if ( !$this->hasEnabledUserInfoCard( $out ) ) {
 			return;
 		}
 
-		$hasEnabledInfoCard = $this->userOptionsLookup->getBoolOption(
-			$performer,
-			Preferences::ENABLE_USER_INFO_CARD
+		$authority = $out->getAuthority();
+
+		$out->addJsConfigVars( [
+			'wgCheckUserCanViewCheckUserLog' =>
+				$authority->isAllowed( 'checkuser-log' ),
+			'wgCheckUserCanBlock' =>
+				$authority->isAllowed( 'block' ),
+			'wgCheckUserCanPerformCheckUser' =>
+				$authority->isAllowed( 'checkuser' ),
+			'wgCheckUserCanAccessTemporaryAccountLog' =>
+				$authority->isAllowed( 'checkuser-temporary-account-log' ),
+			'wgCheckUserCanViewSuggestedInvestigations' =>
+				$authority->isAllowed( 'checkuser-suggested-investigations' ) &&
+				$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ),
+		] );
+	}
+
+	/** @inheritDoc */
+	public function onOutputPageParserOutput( $outputPage, $parserOutput ): void {
+		$targets = $parserOutput->getExtensionData(
+			ParserFunctionsHandler::TARGETS_EXTENSION_DATA_KEY
 		);
-
-		if ( $hasEnabledInfoCard ) {
-			$authority = $out->getAuthority();
-
-			$this->displayUserInfoCardContentTriggers( $out );
-
-			$out->addJsConfigVars( [
-				'wgCheckUserCanViewCheckUserLog' =>
-					$authority->isAllowed( 'checkuser-log' ),
-				'wgCheckUserCanBlock' =>
-					$authority->isAllowed( 'block' ),
-				'wgCheckUserCanPerformCheckUser' =>
-					$authority->isAllowed( 'checkuser' ),
-				'wgCheckUserCanAccessTemporaryAccountLog' =>
-					$authority->isAllowed( 'checkuser-temporary-account-log' ),
-				'wgCheckUserCanViewSuggestedInvestigations' =>
-					$authority->isAllowed( 'checkuser-suggested-investigations' ) &&
-					$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ),
-			] );
+		if ( !is_array( $targets ) || $targets === [] ) {
+			return;
 		}
+
+		if ( !$this->hasEnabledUserInfoCard( $outputPage ) ) {
+			return;
+		}
+
+		$outputPage->addModules( 'ext.checkUser.userInfoCard' );
+		$outputPage->addModuleStyles( 'ext.checkUser.styles' );
+		$outputPage->addBodyClasses( 'ext-checkuser-userinfocard-enabled' );
+
+		// The icon baked into the parser output cannot reflect the block status, as that changes
+		// without the page being reparsed. Tell the client which of this page's targets are
+		// blocked, so that it can swap the icon at run time.
+		$blockedTargets = $this->blockStatusCache->getIndefinitelyBlockedOrLockedUsers(
+			array_map( 'strval', array_keys( $targets ) )
+		);
+		if ( $blockedTargets === [] ) {
+			return;
+		}
+
+		// A page can be built from more than one parser output, so add to whatever an earlier one
+		// already reported rather than replacing it.
+		$customAccountIcons = $outputPage->getJsConfigVars()['wgCheckUserUserInfoCardCustomIcons'] ?? [];
+		foreach ( $blockedTargets as $target ) {
+			$customAccountIcons[$target] = 'userBlocked';
+		}
+		$outputPage->addJsConfigVars( 'wgCheckUserUserInfoCardCustomIcons', $customAccountIcons );
 	}
 
 	/**
-	 * Reveal the UserInfoCard trigger buttons that the {{#uic:}} parser function emits into page content,
-	 * if this page has any.
-	 *
-	 * The buttons are part of parser output shared by every viewer, so they are emitted hidden and
-	 * only made visible here, for viewers who have the card enabled. Detecting them by the style
-	 * module the parser function requested keeps that decision out of the parser cache.
+	 * Whether the viewer has the UserInfoCard preference enabled.
 	 */
-	private function displayUserInfoCardContentTriggers( OutputPage $out ): void {
-		if ( !in_array( 'ext.checkUser.userInfoCard.contentStyles', $out->getModuleStyles(), true ) ) {
-			return;
-		}
+	private function hasEnabledUserInfoCard( OutputPage $out ): bool {
+		$performer = $out->getUser();
 
-		$out->addBodyClasses( 'ext-checkuser-userinfocard-enabled' );
-		$out->addModules( 'ext.checkUser.userInfoCard' );
-		$out->addModuleStyles( 'ext.checkUser.styles' );
+		return $performer->isNamed() && $this->userOptionsLookup->getBoolOption(
+			$performer,
+			Preferences::ENABLE_USER_INFO_CARD
+		);
 	}
 
 	/**

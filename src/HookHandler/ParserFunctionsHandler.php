@@ -20,6 +20,11 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 	 */
 	private const INVALID_USERNAME_TRACKING_CATEGORY = 'checkuser-uic-invalid-username-category';
 
+	/**
+	 * Key under which every target a button was emitted for is recorded in the parser output's extension data.
+	 */
+	public const TARGETS_EXTENSION_DATA_KEY = 'checkuser-userinfocard-targets';
+
 	public function __construct(
 		private readonly UserNameUtils $userNameUtils,
 		private readonly UserInfoCardButtonRenderer $buttonRenderer,
@@ -36,7 +41,7 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 	 *
 	 * The button is emitted for everyone, so that the parser cache is not split on whether the
 	 * viewer has the UserInfoCard preference enabled. It is emitted hidden, and revealed by
-	 * ext.checkUser.userInfoCard.contentStyles together with a body class that PageDisplay adds
+	 * ext.checkUser.styles together with a body class that PageDisplay adds
 	 * at request time for viewers who have the preference on.
 	 *
 	 * No database is touched: the icon variant is derived from the name alone, and the user's
@@ -62,7 +67,10 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 			$parser,
 			true
 		);
-		$parser->getOutput()->addModuleStyles( [ 'ext.checkUser.userInfoCard.contentStyles' ] );
+
+		$output = $parser->getOutput();
+		$output->addModuleStyles( [ 'ext.checkUser.styles' ] );
+		$output->appendExtensionData( self::TARGETS_EXTENSION_DATA_KEY, $canonicalUsername );
 
 		return [ $html, 'isRawHTML' => true ];
 	}

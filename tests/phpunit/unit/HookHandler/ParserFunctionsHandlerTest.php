@@ -71,7 +71,7 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 
 		$this->assertSame( [ '<button>button</button>', 'isRawHTML' => true ], $result );
 		$this->assertContains(
-			'ext.checkUser.userInfoCard.contentStyles',
+			'ext.checkUser.styles',
 			$this->parserOutput->getModuleStyles()
 		);
 	}
