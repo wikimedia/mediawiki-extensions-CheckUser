@@ -449,7 +449,7 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 
 		$abuseLogLookup = $this->createMock( AbuseLogLookup::class );
 		$abuseLogLookup->method( 'getHitCountsForUsers' )
-			->willReturn( [ $user->getId() => $numHits ] );
+			->willReturn( [ $user->getName() => $numHits ] );
 		$this->setService( 'AbuseFilterAbuseLogLookup', $abuseLogLookup );
 
 		$authority = $this->mockRegisteredUltimateAuthority();

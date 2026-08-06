@@ -387,9 +387,7 @@ class SuggestedInvestigationsUserLinkRenderer {
 		// $hitCounts may have some entries missing (primarily due to missing permissions); fill these with zeros
 		$hitCounts = $this->abuseLogLookup?->getHitCountsForUsers( $authority, $users ) ?? [];
 		foreach ( $users as $user ) {
-			// @phan-suppress-next-line PhanTypeMismatchDimFetch Temporary, will be removed in next commit
-			$this->abuseFilterHitCountsByUserId[$user->getId()] = $hitCounts[$user->getName()] ??
-				$hitCounts[$user->getId()] ?? 0;
+			$this->abuseFilterHitCountsByUserId[$user->getId()] = $hitCounts[$user->getName()] ?? 0;
 		}
 
 		// Account-level contributions data is only supported if global contributions are not being linked to
