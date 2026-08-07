@@ -372,6 +372,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|wuxuu arkay}} {{PLURAL:$4|doorsoome|doorsoomayaal}} la ilaaliyay oo ku xiran $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "si otomaatig ah ayaa looga noqday hawl la'aan awgeed",
 	"checkuser-ipinfo-global-contributions-url-text": "Eeg wax ku darka caalamiga ah",
+	"checkuser-uic-invalid-username-category": "Bogag leh bartilmaameed kaadhka macluumaadka isticmaale oo aan sax ahayn",
+	"checkuser-uic-invalid-username-category-desc": "Boggu wuxuu isticmaalaa <code><nowiki>{{#uic:}}</nowiki></code> oo leh wax aan noqon karin magaca isticmaale diiwaangashan, sida cinwaanka IP-ga, sidaas darteed badhanka kaadhka macluumaadka isticmaalaha lama darin.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Fur kaarka macluumaadka ee {{GENDER:$1|isticmaale}}",
 	"checkuser-userinfocard-close-button-aria-label": "Xir",
 	"checkuser-userinfocard-open-menu-aria-label": "Fur liiska kaarka macluumaadka ee {{GENDER:$1|isticmaale}}",

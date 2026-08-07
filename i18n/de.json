@@ -392,6 +392,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|sah}} die {{PLURAL:$4|geschützte Variable|geschützten Variablen}} an, verknüpft mit $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "aufgrund von Inaktivität automatisch widerrufen",
 	"checkuser-ipinfo-global-contributions-url-text": "Globale Beiträge anzeigen",
+	"checkuser-uic-invalid-username-category": "Seiten mit einem ungültigen Ziel für die Benutzerinfokarte",
+	"checkuser-uic-invalid-username-category-desc": "Die Seite verwendet <code><nowiki>{{#uic:}}</nowiki></code> mit etwas, das nicht der Name eines registrierten Benutzers sein kann, wie z. B. eine IP-Adresse, daher wurde keine Schaltfläche für eine Benutzerinfokarte hinzugefügt.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Infokarte zu {{GENDER:$1|Benutzer|Benutzerin}} öffnen",
 	"checkuser-userinfocard-close-button-aria-label": "Schließen",
 	"checkuser-userinfocard-open-menu-aria-label": "Menü der Infokarte zu {{GENDER:$1|Benutzer|Benutzerin}} öffnen",
