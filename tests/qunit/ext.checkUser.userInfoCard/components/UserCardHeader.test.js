@@ -3,6 +3,9 @@
 const { shallowMount } = require( 'vue-test-utils' );
 const UserCardHeader = require( 'ext.checkUser.userInfoCard/components/UserCardHeader.vue' );
 
+const COPY_BUTTON_SELECTOR = '.ext-checkuser-userinfocard-header-copy-button';
+const CLOSE_BUTTON_SELECTOR = '.ext-checkuser-userinfocard-header-close-button';
+
 QUnit.module( 'ext.checkUser.userInfoCard.UserCardHeader', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		this.server = this.sandbox.useFakeServer();
@@ -15,9 +18,19 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardHeader', QUnit.newMwEnvironmen
 			}
 			return returnValue + ')';
 		} );
+
+		// `navigator.clipboard` is only exposed in secure contexts and cannot
+		// be stubbed in place, so shadow it with an own property for the
+		// duration of the test.
+		this.writeText = this.sandbox.stub().resolves();
+		Object.defineProperty( navigator, 'clipboard', {
+			value: { writeText: this.writeText },
+			configurable: true
+		} );
 	},
 	afterEach: function () {
 		this.server.restore();
+		delete navigator.clipboard;
 	}
 } ) );
 
@@ -115,7 +128,7 @@ QUnit.test( 'emits close event when close button is clicked', ( assert ) => {
 
 	assert.strictEqual( wrapper.emitted().close, undefined, 'No close events emitted initially' );
 
-	const closeButton = wrapper.findComponent( { name: 'CdxButton' } );
+	const closeButton = wrapper.find( CLOSE_BUTTON_SELECTOR );
 
 	closeButton.trigger( 'click' ).then( () => {
 		assert.true( wrapper.emitted().close !== undefined, 'Close event is emitted' );
@@ -126,12 +139,93 @@ QUnit.test( 'emits close event when close button is clicked', ( assert ) => {
 QUnit.test( 'sets the correct aria-label on the close button', ( assert ) => {
 	const wrapper = mountComponent();
 
-	const closeButton = wrapper.findComponent( { name: 'CdxButton' } );
+	const closeButton = wrapper.find( CLOSE_BUTTON_SELECTOR );
 	assert.strictEqual(
 		closeButton.attributes( 'aria-label' ),
 		'(checkuser-userinfocard-close-button-aria-label)',
 		'Close button has correct aria-label'
 	);
+} );
+
+QUnit.test( 'sets the correct aria-label on the copy button', ( assert ) => {
+	const wrapper = mountComponent();
+
+	assert.strictEqual(
+		wrapper.find( COPY_BUTTON_SELECTOR ).attributes( 'aria-label' ),
+		'(checkuser-userinfocard-copy-username-button-aria-label)',
+		'Copy button has correct aria-label'
+	);
+} );
+
+QUnit.test( 'clicking the copy button writes the username to the clipboard', function ( assert ) {
+	const done = assert.async();
+	const wrapper = mountComponent();
+
+	wrapper.find( COPY_BUTTON_SELECTOR ).trigger( 'click' ).then( () => {
+		assert.strictEqual( this.writeText.callCount, 1, 'writeText is called once' );
+		assert.strictEqual(
+			this.writeText.firstCall.args[ 0 ],
+			'TestUser',
+			'writeText is called with the username'
+		);
+		done();
+	} );
+} );
+
+QUnit.test( 'copy button shows the copied state until the header is left', ( assert ) => {
+	const done = assert.async();
+	const wrapper = mountComponent();
+
+	wrapper.vm.onCopyClick()
+		.then( () => wrapper.vm.$nextTick() )
+		.then( () => {
+			assert.true( wrapper.vm.copied, 'Copy button is in the copied state' );
+			assert.strictEqual(
+				wrapper.find( COPY_BUTTON_SELECTOR ).attributes( 'aria-label' ),
+				'(checkuser-userinfocard-copy-username-copied)',
+				'Copy button switches to the copied label'
+			);
+
+			// Leaving the header hides the button again, which resets the state.
+			return wrapper.trigger( 'mouseleave' );
+		} )
+		.then( () => {
+			assert.false( wrapper.vm.copied, 'Copied state is reset on mouseleave' );
+			assert.strictEqual(
+				wrapper.find( COPY_BUTTON_SELECTOR ).attributes( 'aria-label' ),
+				'(checkuser-userinfocard-copy-username-button-aria-label)',
+				'Copy button switches back to the default label'
+			);
+			done();
+		} );
+} );
+
+QUnit.test( 'copy button notifies the user when copying fails', function ( assert ) {
+	const done = assert.async();
+	const notify = this.sandbox.stub( mw, 'notify' );
+	const logError = this.sandbox.stub( mw.errorLogger, 'logError' );
+	const error = new Error( 'Clipboard unavailable' );
+	this.writeText.rejects( error );
+
+	const wrapper = mountComponent();
+
+	wrapper.vm.onCopyClick().then( () => {
+		assert.false( wrapper.vm.copied, 'Copy button is not in the copied state' );
+		assert.strictEqual( logError.callCount, 1, 'The error is logged' );
+		assert.strictEqual( logError.firstCall.args[ 0 ], error, 'The error is passed on' );
+		assert.strictEqual( notify.callCount, 1, 'The user is notified' );
+		assert.strictEqual(
+			notify.firstCall.args[ 0 ],
+			'(checkuser-userinfocard-copy-username-error)',
+			'The error message is shown'
+		);
+		assert.propEqual(
+			notify.firstCall.args[ 1 ],
+			{ type: 'error' },
+			'The notification is an error notification'
+		);
+		done();
+	} );
 } );
 
 QUnit.test( 'shows blocked icon when hasLocalBlockGlobalBlockOrLock is true', ( assert ) => {

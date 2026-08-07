@@ -708,13 +708,18 @@
 						"cdxIconNotice",
 						"cdxIconUserTemporaryLocation",
 						"cdxIconUserTemporary",
-						"cdxIconUserBlocked"
+						"cdxIconUserBlocked",
+						"cdxIconCopy",
+						"cdxIconCheck"
 					]
 				}
 			],
 			"messages": [
 				"checkuser-userinfocard-toggle-button-aria-label",
 				"checkuser-userinfocard-close-button-aria-label",
+				"checkuser-userinfocard-copy-username-button-aria-label",
+				"checkuser-userinfocard-copy-username-copied",
+				"checkuser-userinfocard-copy-username-error",
 				"checkuser-userinfocard-open-menu-aria-label",
 				"checkuser-userinfocard-joined",
 				"checkuser-userinfocard-joined-unknowndate",
