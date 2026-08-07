@@ -52,7 +52,8 @@
 			"Sukanya121",
 			"Superzerocool",
 			"Titoxd",
-			"VegaDark"
+			"VegaDark",
+			"ZebaX2010"
 		]
 	},
 	"checkuser-summary": "Esta herramienta explora cambios recientes para obtener las direcciones IP utilizadas por un usuario, o para mostrar los datos sobre ediciones y usuarios de una dirección IP en concreto.\nSe pueden obtener los usuarios y las ediciones de una dirección IP cliente vía XFF añadiendo «/xff» al final de la dirección IP. Funciona con IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNo se muestran más de $3 ediciones por motivos de rendimiento.\nUtiliza esta herramienta de acuerdo con las correspondientes políticas.",
@@ -417,7 +418,7 @@
 	"checkuser-userinfocard-open-menu-aria-label": "Abrir el menú de la tarjeta de información del {{GENDER:$1|usuario|usauria}}",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Se unió}}: $1 ($2)",
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Se unió}}: en o antes de 2005",
-	"checkuser-userinfocard-active-wikis-label": "Wiki activas",
+	"checkuser-userinfocard-active-wikis-label": "Wikis activas",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Bloqueos activos de todas las wikis: $1",
 	"checkuser-userinfocard-past-blocks": "Bloqueos pasados: $1",
 	"checkuser-userinfocard-global-edits": "Ediciones globales: $1",

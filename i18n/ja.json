@@ -305,6 +305,7 @@
 	"checkuser-investigate-compare-table-header-activity": "日付範囲",
 	"checkuser-investigate-compare-table-header-ip": "IPアドレス",
 	"checkuser-investigate-compare-table-header-useragent": "ユーザーエージェント",
+	"checkuser-contributions-filters-related-temporary-accounts": "関連する仮アカウントからの投稿を表示",
 	"checkuser-ip-contributions": "IP投稿の検索",
 	"checkuser-ip-contributions-permission-error-title": "権限エラー",
 	"checkuser-ip-contributions-permission-error-description": "IPの仮アカウント投稿記録を表示するには、[[Special:Preferences|個人設定]]で規約に同意してください。",
@@ -393,6 +394,7 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 が $3 のIPアドレスを{{GENDER:$2|閲覧しました}}",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 が $3 にてIPアドレスを{{GENDER:$2|閲覧しました}}",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 が $3 でIPアドレスをグローバルに{{GENDER:$2|閲覧しました}}",
+	"logentry-checkuser-temporary-account-view-related-temporary-accounts": "$1 が $3 に関連する仮アカウントを{{GENDER:$2|閲覧しました}}",
 	"log-action-filter-checkuser-temporary-account": "操作の種類:",
 	"log-action-filter-checkuser-temporary-account-change-access": "アクセスを変更",
 	"log-action-filter-checkuser-temporary-account-view-ips": "仮アカウントのIPデータにアクセス",
@@ -489,5 +491,7 @@
 	"checkuser-contributions-temporary-accounts-hide-related": "関連する仮アカウントからの投稿を隠す",
 	"checkuser-contributions-temporary-account-bucketcount": "接続元が共通の仮アカウントの数: $1。",
 	"checkuser-contributions-temporary-accounts-on-ip": "このIPアドレス上の仮アカウント数: $1。",
-	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "このIPアドレス上の仮アカウント数: $1 (ブロック済み: $2)。"
+	"checkuser-contributions-temporary-accounts-on-ip-with-blocked": "このIPアドレス上の仮アカウント数: $1 (ブロック済み: $2)。",
+	"checkuser-related-tas-specialblock-checkbox-label": "関連する全ての仮アカウントをブロック",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} 関連する全ての仮アカウントによる投稿を閲覧]"
 }
