@@ -432,6 +432,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1{{GENDER:$2|查看}}受保护的{{PLURAL:$4|variable|变量}}与$3相关联：$5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "因不活跃而自动撤销",
 	"checkuser-ipinfo-global-contributions-url-text": "查看全域贡献",
+	"checkuser-uic-invalid-username-category": "含有无效用户信息卡片目标的页面",
+	"checkuser-uic-invalid-username-category-desc": "页面使用的<code><nowiki>{{#uic:}}</nowiki></code>含有不是已注册用户名称的内容，例如IP地址，因此未添加用户信息卡片按钮。",
 	"checkuser-userinfocard-toggle-button-aria-label": "打开{{GENDER:$1|用户}}信息卡",
 	"checkuser-userinfocard-close-button-aria-label": "关闭",
 	"checkuser-userinfocard-open-menu-aria-label": "打开{{GENDER:$1|用户}}信息卡菜单",
@@ -517,7 +519,7 @@
 	"checkuser-suggestedinvestigations-header-status": "状态",
 	"checkuser-suggestedinvestigations-header-notes": "备注",
 	"checkuser-suggestedinvestigations-header-actions": "操作",
-	"checkuser-suggestedinvestigations-related-cases-summary": "$1件相关{{PLURAL:$1|案例}}",
+	"checkuser-suggestedinvestigations-related-cases-summary": "$1件相同{{PLURAL:$1|案例}}",
 	"checkuser-suggestedinvestigations-shared-pages-summary": "在{{PLURAL:$2|同一页面|相同的$2个页面}}上的{{PLURAL:$1|$1个编辑}}",
 	"checkuser-suggestedinvestigations-revision-reverts-summary": "{{PLURAL:$2|$2个编辑}}中的$1个{{PLURAL:$1|已被回退}}",
 	"checkuser-suggestedinvestigations-reverted-revisions": "{{PLURAL:$2|$2次贡献}}中的$1次{{PLURAL:$1|已被回退}}",
@@ -579,5 +581,6 @@
 	"checkuser-related-tas-specialblock-confirm": "这将对$1个{{PLURAL:$1|账号}}应用封禁。继续封禁{{PLURAL:$1|此账号|这些账号}}即表示您已完成对其的调查。",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "添加至此封禁的关联临时账号过多。一次仅允许封禁最多$1个{{PLURAL:$1|账号}}。",
 	"rangecalculator": "IP范围计算器",
-	"rangecalculator-summary": "此工具可计算一组IP地址间的共同范围。此工具目前仅支持计算一个共同范围，且不能混用IPv4和IPv6地址。"
+	"rangecalculator-summary": "此工具可计算一组IP地址间的共同范围。此工具目前仅支持计算一个共同范围，且不能混用IPv4和IPv6地址。",
+	"checkuser-si-related-cases-info": "目标账号与涉及[$3 {{PLURAL:$2|$2项调查建议}}]的{{PLURAL:$1|$1个账号}}关联"
 }

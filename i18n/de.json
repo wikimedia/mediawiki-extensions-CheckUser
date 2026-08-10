@@ -541,5 +541,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Dadurch wird die Sperre auf $1 {{PLURAL:$1|Konto|Konten}} angewendet. Mit der Sperrung von {{PLURAL:$1|diesem Konto|diesen Konten}} bestätigst du, dass du {{PLURAL:$1|es|sie}} überprüft hast.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Es gibt zu viele verknüpfte temporäre Konten, um sie dieser Sperre hinzuzufügen. Wir erlauben maximal $1 {{PLURAL:$1|Konto|Konten}} gleichzeitig zu sperren.",
 	"rangecalculator": "IP-Range-Rechner",
-	"rangecalculator-summary": "Mit diesem Tool kannst du den gemeinsamen Bereich einer Liste von IP-Adressen berechnen. Dieses Tool berechnet derzeit nur einen gemeinsamen Bereich, und du kannst keine IPv4- und IPv6-Adressen mischen."
+	"rangecalculator-summary": "Mit diesem Tool kannst du den gemeinsamen Bereich einer Liste von IP-Adressen berechnen. Dieses Tool berechnet derzeit nur einen gemeinsamen Bereich, und du kannst keine IPv4- und IPv6-Adressen mischen.",
+	"checkuser-si-related-cases-info": "Das Zielkonto ist mit {{PLURAL:$1|$1 Konto|$1 Konten}} über [$3 {{PLURAL:$2|$2 vorgeschlagene Untersuchung|$2 vorgeschlagene Untersuchungen}}] verknüpft."
 }

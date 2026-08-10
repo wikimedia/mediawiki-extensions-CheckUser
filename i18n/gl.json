@@ -378,6 +378,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|consultou}} {{PLURAL:$4|a variable protexida asociada|as variables protexidas asociadas}} a «$3»: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "revogado automaticamente por inactividade",
 	"checkuser-ipinfo-global-contributions-url-text": "Ver as contribucións globais",
+	"checkuser-uic-invalid-username-category": "Páxinas cun obxectivo non válido para a tarxeta de información de usuario",
+	"checkuser-uic-invalid-username-category-desc": "A páxina usa <code><nowiki>{{#uic:}}</nowiki></code> con algo que non pode ser o nome dun usuario rexistrado, como un enderezo IP, polo que non se engadiu ningún botón de tarxeta de información de usuario.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Abrir a ficha de información {{GENDER:$1|do usuario|da usuaria}}",
 	"checkuser-userinfocard-close-button-aria-label": "Pechar",
 	"checkuser-userinfocard-open-menu-aria-label": "Abrir o menú da ficha de información {{GENDER:$1|do usuario|da usuaria}}",
@@ -526,5 +528,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Isto aplicará o bloqueo a {{PLURAL:$1|unha conta|$1 contas}}. Ao continuar co bloqueo {{PLURAL:$1|desta conta|destas contas}}, confirmas que {{PLURAL:$1|a|as}} investigaches.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Hai demasiadas contas temporais asociadas para engadir a este bloqueo. Só permitimos bloquear {{PLURAL:$1|unha conta|ata $1 contas}} de cada vez.",
 	"rangecalculator": "Calculadora de rango IP",
-	"rangecalculator-summary": "Esta ferramenta permíteche calcular o rango común entre unha lista de enderezos IP. Actualmente, esta ferramenta só calcula un rango común e non podes mesturar enderezos IPv4 e IPv6."
+	"rangecalculator-summary": "Esta ferramenta permíteche calcular o rango común entre unha lista de enderezos IP. Actualmente, esta ferramenta só calcula un rango común e non podes mesturar enderezos IPv4 e IPv6.",
+	"checkuser-si-related-cases-info": "A conta obxectivo está ligada a {{PLURAL:$1|unha conta|$1 contas}} a través [$3 {{PLURAL:$2|dunha investigación suxerida|de $2 investigacións suxeridas}}]"
 }

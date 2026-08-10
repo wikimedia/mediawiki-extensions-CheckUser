@@ -526,5 +526,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Tani waxay xannibaadda ku dabaqi doontaa $1 {{PLURAL:$1|xisaab|xisaabo}}. Haddii aad sii waddo xannibaadda {{PLURAL:$1|xisaabtan|xisaabaadkan}}, waxaad xaqiijinaysaa inaad baaritaan ku samaysay {{PLURAL:$1|iyada|iyaga}}.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Waxaa jira xisaabaad ku-meelgaar ah oo aad u badan oo lagu darayo xannibaaddan. Waxaan kaliya oggol nahay in la xannibo ilaa $1 {{PLURAL:$1|xisaab|xisaabo}} hal mar.",
 	"rangecalculator": "Xisaabiyaha baaxadda IP-ga",
-	"rangecalculator-summary": "Qalabkani wuxuu kuu oggolaanayaa inaad xisaabiso baaxadda guud ee u dhexeysa liiska cinwaanada IP-ga. Qalabkani hadda wuxuu xisaabiyaa hal baaxad guud oo keliya, mana isku dari kartid cinwaanada IPv4 iyo IPv6."
+	"rangecalculator-summary": "Qalabkani wuxuu kuu oggolaanayaa inaad xisaabiso baaxadda guud ee u dhexeysa liiska cinwaanada IP-ga. Qalabkani hadda wuxuu xisaabiyaa hal baaxad guud oo keliya, mana isku dari kartid cinwaanada IPv4 iyo IPv6.",
+	"checkuser-si-related-cases-info": "Akoonka bartilmaameedka ah wuxuu ku xiran yahay {{PLURAL:$1|$1 akoon|$1 akoonnada}} ee ku kala baahsan [$3 {{PLURAL:$2|$2 baaritaan la soo jeediyay|$2 baaritaanno la soo jeediyay}}]"
 }

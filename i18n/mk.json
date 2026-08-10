@@ -373,6 +373,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 {{GENDER:$2|погледа}} {{PLURAL:$4|заштитена променлива поврзана|заштитени променливи поврзани}} со $3: $5",
 	"checkuser-temporary-account-autorevoke-userright-reason": "автоотповикано поради неактивност",
 	"checkuser-ipinfo-global-contributions-url-text": "Глобални придонеси",
+	"checkuser-uic-invalid-username-category": "Страници со вежечка цел на инфоркартичка",
+	"checkuser-uic-invalid-username-category-desc": "Страницата користи <code><nowiki>{{#uic:}}</nowiki></code> со нешто што не може да биде име на зачленет корисник како IP-адреса, па затоа не е додадено копче за корисничка инфокартичка.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Отвори инфокартичка за {{GENDER:$1|корисникот}}",
 	"checkuser-userinfocard-close-button-aria-label": "Затвори",
 	"checkuser-userinfocard-open-menu-aria-label": "Отвори мени на инфокартичката за {{GENDER:$1|корисникот}}",
@@ -520,5 +522,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Ова ќе го примени блокот врз $1 {{PLURAL:$1|сметка|смтки}}. Блокирањето на {{PLURAL:$1|оваа сметка|овие сметки}} потврдува дека сте {{PLURAL:$1|ја иследиле|ги иследиле}}.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Има премногу поврзани привремени сметки. Во еден блок може да се {{PLURAL:$1|стави|стават}} највеќе $1 {{PLURAL:$1|сметка|сметки}}.",
 	"rangecalculator": "Пресметувач на IP-опсези",
-	"rangecalculator-summary": "Оваа алатка ви овозможува да го пресметате заедничкиот опсег помеѓу список на IP-адреси. Тековно пресметува само по еден заеднички опсег и не можете да мешате IPv4 и IPv6 адреси."
+	"rangecalculator-summary": "Оваа алатка ви овозможува да го пресметате заедничкиот опсег помеѓу список на IP-адреси. Тековно пресметува само по еден заеднички опсег и не можете да мешате IPv4 и IPv6 адреси.",
+	"checkuser-si-related-cases-info": "Целната сметка е поврзана со {{PLURAL:$1|$1 сметка|$1 сметки}} на [$3 {{PLURAL:$2|$2 предложено иследување|$2 предложени иследувања}}]"
 }

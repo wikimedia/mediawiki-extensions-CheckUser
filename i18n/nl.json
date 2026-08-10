@@ -387,6 +387,8 @@
 	"logentry-checkuser-temporary-account-af-view-protected-var-value-varnames": "$1 heeft de volgende met $3 in verband staande beveiligde variabele{{PLURAL:$4||n}} ingezien: $5{{GENDER:$2|}}",
 	"checkuser-temporary-account-autorevoke-userright-reason": "automatisch ingetrokken vanwege inactiviteit",
 	"checkuser-ipinfo-global-contributions-url-text": "Globale bijdragen bekijken",
+	"checkuser-uic-invalid-username-category": "Pagina's met een ongeldige gebruikersinfokaart als doel",
+	"checkuser-uic-invalid-username-category-desc": "De pagina maakt gebruik van <code><nowiki>{{#uic:}}</nowiki></code> met iets dat niet de naam van een geregistreerde gebruikers is, zoals een IP-adres, zodat er geen knop voor een gebruikersinfokaart is toegevoegd.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Gebruik{{GENDER:$1||st}}ersinfokaart openen",
 	"checkuser-userinfocard-close-button-aria-label": "Sluiten",
 	"checkuser-userinfocard-open-menu-aria-label": "Menu met gebruik{{GENDER:$1||st}}ersinfokaart openen",
@@ -536,5 +538,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Dit past de blokkade toe op {{PLURAL:$1|één account|$1 accounts}}. Door verder te gaan met het blokkeren van {{PLURAL:$1|dit account|deze accounts}} bevestigt u dat u {{PLURAL:$1|het geval|de gevallen}} hebt onderzocht.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Er zijn te veel gekoppelde tijdelijke accounts om aan deze blokkade toe te voegen. U kunt maximaal {{PLURAL:$1|één account|$1 accounts}} tegelijk blokkeren.",
 	"rangecalculator": "IP-bereikcalculator",
-	"rangecalculator-summary": "Met dit hulpmiddel kunt u het gemeenschappelijke bereik tussen een lijst met IP-adressen berekenen. Dit hulpmiddel berekent momenteel slechts één gemeenschappelijk bereik en u kunt geen IPv4- en IPv6-adressen combineren."
+	"rangecalculator-summary": "Met dit hulpmiddel kunt u het gemeenschappelijke bereik tussen een lijst met IP-adressen berekenen. Dit hulpmiddel berekent momenteel slechts één gemeenschappelijk bereik en u kunt geen IPv4- en IPv6-adressen combineren.",
+	"checkuser-si-related-cases-info": "Het doelaccount is gekoppeld aan {{PLURAL:$1|één account|$1 accounts}} via [$3 {{PLURAL:$2|één voorgesteld onderzoek|$2 voorgestelde onderzoeken}}]"
 }

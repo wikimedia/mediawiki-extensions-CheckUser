@@ -56,6 +56,7 @@
 	"checkuser-ip-auto-reveal-missing-permission": "Non tes o permiso necesario para usar a revelación automática de enderezos IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "O identificador de caso especificado non existe",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "A función de investigacións suxeridas non está activada",
+	"checkuser-suggestedinvestigations-not-enabled": "A función de investigacións suxeridas non está activada",
 	"rest-module-checkuser.v0-title": "API de verificación de usuarios",
 	"rest-module-checkuser.v0-desc": "API REST para as ferramentas de verificación de usuarios. Consulta a [documentación da extensión CheckUser](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Nome de usuario do que obter os detalles",
@@ -159,5 +160,7 @@
 	"checkuser-rest-endpoint-summary-connected-temp-accounts": "Obter as contas temporais conectadas",
 	"checkuser-rest-endpoint-desc-connected-temp-accounts": "Devolve as outras contas temporais que editaron desde os mesmos enderezos IP que a conta temporal de destino indicada.",
 	"checkuser-rest-endpoint-summary-clienthints": "Crear suxestións de cliente do axente de usuario",
-	"checkuser-rest-endpoint-desc-clienthints": "Crea datos de suxestión de cliente do axente de usuario para unha revisión ou evento de rexistro determinado."
+	"checkuser-rest-endpoint-desc-clienthints": "Crea datos de suxestión de cliente do axente de usuario para unha revisión ou evento de rexistro determinado.",
+	"checkuser-rest-endpoint-summary-suggestedinvestigationsusersummary": "Recuperar un resumo da asociación do usuario cos casos de investigación suxeridos",
+	"checkuser-rest-endpoint-desc-suggestedinvestigationsusersummary": "Devolver con cantas contas e casos está relacionado un usuario nas investigacións suxeridas"
 }

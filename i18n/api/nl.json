@@ -56,6 +56,7 @@
 	"checkuser-ip-auto-reveal-missing-permission": "U beschikt niet over de benodigde toestemming om het automatisch onthullen van IP-adressen te gebruiken.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "De opgegeven gevals-ID bestaat niet",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "De functie voor voorgestelde onderzoeken is niet ingeschakeld",
+	"checkuser-suggestedinvestigations-not-enabled": "De functie voor voorgestelde onderzoeken is niet ingeschakeld",
 	"rest-module-checkuser.v0-title": "CheckUser-API",
 	"rest-module-checkuser.v0-desc": "REST API voor CheckUser-hulpmiddelen. Zie [documentatie van de CheckUser-extensie](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Gebruikersnaam waarvoor details worden opgehaald",
@@ -159,5 +160,7 @@
 	"checkuser-rest-endpoint-summary-connected-temp-accounts": "Verbonden tijdelijke accounts ophalen",
 	"checkuser-rest-endpoint-desc-connected-temp-accounts": "Geeft andere tijdelijke accounts terug die hebben bewerkt vanaf dezelfde IP-adressen als een opgegeven tijdelijk account.",
 	"checkuser-rest-endpoint-summary-clienthints": "Client-hints van browser aanmaken",
-	"checkuser-rest-endpoint-desc-clienthints": "Maakt client-hints-gegevens van de browser aan voor een opgegeven versie of logboekgebeurtenis."
+	"checkuser-rest-endpoint-desc-clienthints": "Maakt client-hints-gegevens van de browser aan voor een opgegeven versie of logboekgebeurtenis.",
+	"checkuser-rest-endpoint-summary-suggestedinvestigationsusersummary": "Een overzicht ophalen van de betrokkenheid van de gebruiker bij voorgestelde onderzoeksgevallen.",
+	"checkuser-rest-endpoint-desc-suggestedinvestigationsusersummary": "Een overzicht ophalen met hoeveel accounts en zaken een gebruiker verband houdt in de voorgestelde onderzoeken"
 }
