@@ -524,5 +524,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Hal ini akan mengenakan sekatan kepada $1 {{PLURAL:$1|akaun}}. Penerusan untuk menyekat {{PLURAL:$1|akaun tersebut|akaun-akaun tersebut}} akan mengesahkan yang anda telah siasat {{PLURAL:$1|akaun tersebut|akaun-akaun tersebut}}.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Terdapat terlalu banyak akaun sementara yang berkaitan untuk ditambah pada sekatan ini. Kami hanya membenarkan sehingga $1 {{PLURAL:$1|akaun}} disekat pada satu masa.",
 	"rangecalculator": "Kalkulator Julat IP",
-	"rangecalculator-summary": "Alat ini membolehkan anda mengira julat sepunya antara senarai alamat IP. Alat ini hanya mengira satu julat sepunya pada masa ini dan anda tidak boleh mencampurkan alamat IPv4 dan IPv6."
+	"rangecalculator-summary": "Alat ini membolehkan anda mengira julat sepunya antara senarai alamat IP. Alat ini hanya mengira satu julat sepunya pada masa ini dan anda tidak boleh mencampurkan alamat IPv4 dan IPv6.",
+	"checkuser-si-related-cases-info": "Akaun sasaran dipautkan ke {{PLURAL:$1|$1 akaun}} yang merentasi [$3 {{PLURAL:$2|$2 siasatan yang dicadangkan}}]"
 }
