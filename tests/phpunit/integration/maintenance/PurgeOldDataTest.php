@@ -10,8 +10,8 @@ use MediaWiki\Maintenance\Maintenance;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use PurgeRecentChanges;
-use Wikimedia\LockManager\ILockManager;
 use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\ScopedCallback;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -46,9 +46,15 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 	/**
 	 * Installs a mock IDatabase instance to the maintenance script that will be returned on calls to
 	 * ::getPrimaryDB
+	 *
+	 * @param bool $shouldReturnScopedLock Whether IDatabase::getScopedLockAndFlush should return a ScopedCallback (
+	 *   otherwise it returns null).
 	 */
-	private function installMockDatabase(): void {
+	private function installMockDatabase( bool $shouldReturnScopedLock ): void {
+		// Mock ::getScopedLockAndFlush to return null, to simulate that we were unable to acquire a lock.
 		$mockDatabase = $this->createMock( IDatabase::class );
+		$mockDatabase->method( 'getScopedLockAndFlush' )
+			->willReturn( $shouldReturnScopedLock ? $this->createMock( ScopedCallback::class ) : null );
 		// Mock ::timestamp to use the real behaviour.
 		$mockDatabase->method( 'timestamp' )->willReturnCallback(
 			static fn ( $ts ) => ( new ConvertibleTimestamp( $ts ) )->getTimestamp( TS_MW )
@@ -60,11 +66,7 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 	}
 
 	public function testExecuteWhenUnableToAcquireLock() {
-		$this->installMockDatabase();
-		$lockManager = $this->createNoOpMock( ILockManager::class, [ 'scopedLock' ] );
-		$lockManager->method( 'scopedLock' )
-			->willReturn( null );
-		$this->setService( 'LockManager', $lockManager );
+		$this->installMockDatabase( false );
 		// Expect that UserAgentClientHintsManager::deleteOrphanedMapRows are called (as this can be run even if
 		// no lock is acquired).
 		$hintsManager = $this->createNoOpMock( UserAgentClientHintsManager::class, [ 'deleteOrphanedMapRows' ] );

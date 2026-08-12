@@ -11,7 +11,6 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\JobQueue\Job;
-use Wikimedia\LockManager\ILockManager;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -31,7 +30,6 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 		private readonly Config $config,
 		private readonly IConnectionProvider $dbProvider,
 		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
-		private readonly ILockManager $lockManager,
 	) {
 		parent::__construct( 'checkuserPruneCheckUserDataJob', $params );
 	}
@@ -48,7 +46,7 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 		// Get an exclusive lock to purge data from the CheckUser tables. This is done to avoid multiple jobs and/or
 		// the purgeOldData.php maintenance script attempting to purge at the same time.
 		$key = CheckUserDataPurger::getPurgeLockKey( $this->params['domainID'] );
-		$scopedLock = $this->lockManager->scopedLock( $key, 1 );
+		$scopedLock = $dbw->getScopedLockAndFlush( $key, __METHOD__, 1 );
 		if ( !$scopedLock ) {
 			return true;
 		}
