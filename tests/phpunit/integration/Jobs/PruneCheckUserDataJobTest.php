@@ -11,7 +11,6 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler\RecentChangeSaveHandlerTest;
 use MediaWikiIntegrationTestCase;
-use Wikimedia\LockManager\ILockManager;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 
@@ -27,12 +26,13 @@ class PruneCheckUserDataJobTest extends MediaWikiIntegrationTestCase {
 			->method( 'isReadOnly' )
 			->willReturn( true );
 
+		$mockDatabase->expects( $this->never() )
+			->method( 'getScopedLockAndFlush' );
+
 		$mockConnectionProvider = $this->createMock( IConnectionProvider::class );
 		$mockConnectionProvider->method( 'getPrimaryDatabase' )
 			->with( 'enwiki' )
 			->willReturn( $mockDatabase );
-
-		$mockLockManager = $this->createNoOpMock( ILockManager::class );
 
 		$job = new PruneCheckUserDataJob(
 			'unused',
@@ -41,16 +41,15 @@ class PruneCheckUserDataJobTest extends MediaWikiIntegrationTestCase {
 			$this->createNoOpMock( CheckUserDataPurger::class ),
 			new HashConfig(),
 			$mockConnectionProvider,
-			$this->createNoOpMock( UserAgentClientHintsManager::class ),
-			$mockLockManager,
+			$this->createNoOpMock( UserAgentClientHintsManager::class )
 		);
-		$job->run();
+		$this->assertTrue( $job->run() );
 	}
 
 	public function testRunWhenUnableToAcquireLock() {
-		$mockLockManager = $this->createMock( ILockManager::class );
-		$mockLockManager->expects( $this->once() )
-			->method( 'scopedLock' )
+		$mockDatabase = $this->createMock( IDatabase::class );
+		$mockDatabase->expects( $this->once() )
+			->method( 'getScopedLockAndFlush' )
 			->willReturnCallback( function ( $key ) {
 				$this->assertSame( 'enwiki:PruneCheckUserData', $key, 'The lock key was not as expected' );
 				// Simulate that the lock could not be acquired.
@@ -60,7 +59,7 @@ class PruneCheckUserDataJobTest extends MediaWikiIntegrationTestCase {
 		$mockConnectionProvider = $this->createMock( IConnectionProvider::class );
 		$mockConnectionProvider->method( 'getPrimaryDatabase' )
 			->with( 'enwiki' )
-			->willReturn( $this->createMock( IDatabase::class ) );
+			->willReturn( $mockDatabase );
 		// Expect that no calls to the CheckUserDataPurger service occur, as the lock could not be acquired.
 		// Call the code being tested.
 		$job = new PruneCheckUserDataJob(
@@ -70,8 +69,7 @@ class PruneCheckUserDataJobTest extends MediaWikiIntegrationTestCase {
 			$this->createNoOpMock( CheckUserDataPurger::class ),
 			new HashConfig(),
 			$mockConnectionProvider,
-			$this->createNoOpMock( UserAgentClientHintsManager::class ),
-			$mockLockManager,
+			$this->createNoOpMock( UserAgentClientHintsManager::class )
 		);
 		$job->run();
 	}
