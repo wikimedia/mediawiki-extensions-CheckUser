@@ -53,6 +53,7 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
 use stdClass;
+use Wikimedia\Codex\Localization\MediaWikiLocalization;
 use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -440,7 +441,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			default => 'notice',
 		};
 
-		$codex = new Codex();
+		$codex = new Codex( new MediaWikiLocalization( $this->getContext() ) );
 		$statusChip = $codex->infoChip()
 			->setText( $statusText )
 			->setStatus( $chipType )
@@ -541,13 +542,13 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		] );
 		$actionsHtml .= Html::closeElement( 'a' );
 
-		$codex = new Codex();
+		$codex = new Codex( new MediaWikiLocalization( $this->getContext() ) );
 		$actionsHtml .= $codex->button()
 			->setIconOnly( true )
 			->setIconClass( 'mw-checkuser-suggestedinvestigations-icon--edit' )
 			->setAttributes( [
 				'title' => $this->msg( 'checkuser-suggestedinvestigations-action-change-status' )->text(),
-				'data-case-id' => $caseId,
+				'data-case-id' => (string)$caseId,
 				'data-case-status' => strtolower( $status->name ),
 				'data-case-status-reason' => $reason,
 				'data-case-signals' => implode( ' ', $this->mCurrentRow->signals ),

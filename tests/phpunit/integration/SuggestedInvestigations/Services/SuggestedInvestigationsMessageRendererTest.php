@@ -14,6 +14,7 @@ use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWikiIntegrationTestCase;
 use OOUI\BlankTheme;
 use OOUI\Theme;
+use Wikimedia\Codex\Localization\MediaWikiLocalization;
 use Wikimedia\Codex\Utility\Codex;
 use Wikimedia\Parsoid\Ext\DOMUtils;
 
@@ -47,7 +48,7 @@ class SuggestedInvestigationsMessageRendererTest extends MediaWikiIntegrationTes
 
 		$renderer = new SuggestedInvestigationsMessageRenderer(
 			$this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseLookup' ),
-			new Codex()
+			new Codex( new MediaWikiLocalization( RequestContext::getMain() ) )
 		);
 
 		$result = $renderer->getOpenCasesNotice(
@@ -62,7 +63,7 @@ class SuggestedInvestigationsMessageRendererTest extends MediaWikiIntegrationTes
 	public function testGetUserDismissableWarning(): void {
 		$renderer = new SuggestedInvestigationsMessageRenderer(
 			$this->createMock( SuggestedInvestigationsCaseLookupService::class ),
-			new Codex()
+			new Codex( new MediaWikiLocalization( RequestContext::getMain() ) )
 		);
 
 		$result = $renderer->getUserDismissableWarning( 'Test HTML', 'test-class-abc' );

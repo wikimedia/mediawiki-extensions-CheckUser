@@ -70,10 +70,12 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserLinkRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsUserRevisionLookup;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
+use MediaWiki\Language\LazyLocalizationContext;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\WikiMap\WikiMap;
 use Psr\Log\LoggerInterface;
+use Wikimedia\Codex\Localization\MediaWikiLocalization;
 use Wikimedia\Codex\Utility\Codex;
 
 // PHP unit does not understand code coverage for this file
@@ -459,7 +461,10 @@ return [
 	): SuggestedInvestigationsMessageRenderer {
 		return new SuggestedInvestigationsMessageRenderer(
 			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
-			new Codex()
+			// Services must not depend on the current request at construction time (T218555).
+			new Codex( new MediaWikiLocalization(
+				new LazyLocalizationContext( RequestContext::getMain( ... ) )
+			) )
 		);
 	},
 	'CheckUserSuggestedInvestigationsPagerFactory' => static function (

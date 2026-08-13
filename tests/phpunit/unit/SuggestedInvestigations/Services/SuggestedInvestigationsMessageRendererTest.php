@@ -12,6 +12,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Linker\LinkRenderer;
 use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Wikimedia\Codex\Contract\ILocalizer;
 use Wikimedia\Codex\Utility\Codex;
 
 /**
@@ -29,7 +30,10 @@ class SuggestedInvestigationsMessageRendererTest extends MediaWikiUnitTestCase {
 		parent::setUp();
 
 		$this->caseLookupService = $this->createMock( SuggestedInvestigationsCaseLookupService::class );
-		$this->renderer = new SuggestedInvestigationsMessageRenderer( $this->caseLookupService, new Codex() );
+		$this->renderer = new SuggestedInvestigationsMessageRenderer(
+			$this->caseLookupService,
+			new Codex( $this->createMock( ILocalizer::class ) )
+		);
 		$this->checkUserGetUsersPager = $this->createMock( CheckUserGetUsersPager::class );
 	}
 

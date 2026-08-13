@@ -136,7 +136,7 @@ class SuggestedInvestigationsMessageRenderer {
 
 		return $this->codex->message()
 			->setType( 'warning' )
-			->setContentHtml( new CodexHtmlSnippet( $warningMessageHtml, [] ) )
+			->setContentHtml( new CodexHtmlSnippet( $warningMessageHtml ) )
 			->setAttributes( [
 				'class' => "$warningClass cdx-message--user-dismissable "
 					. 'ext-checkuser-suggestedinvestigations-dismissable-warning',

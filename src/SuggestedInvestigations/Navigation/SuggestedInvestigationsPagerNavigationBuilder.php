@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\Navigation\CodexPagerNavigationBuilder;
+use Wikimedia\Codex\Localization\MediaWikiLocalization;
 use Wikimedia\Codex\Utility\Codex;
 
 class SuggestedInvestigationsPagerNavigationBuilder extends CodexPagerNavigationBuilder {
@@ -45,7 +46,7 @@ class SuggestedInvestigationsPagerNavigationBuilder extends CodexPagerNavigation
 		);
 		$buttonLabelHtml .= $this->msg( 'checkuser-suggestedinvestigations-filter-button' )->escaped();
 		if ( $this->numberOfFiltersApplied !== 0 ) {
-			$codex = new Codex();
+			$codex = new Codex( new MediaWikiLocalization( $this->context ) );
 			$buttonLabelHtml .= $codex->infoChip()
 				->setIcon( null )
 				->setAttributes( [
