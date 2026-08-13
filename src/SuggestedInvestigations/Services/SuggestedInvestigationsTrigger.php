@@ -62,7 +62,7 @@ class SuggestedInvestigationsTrigger {
 		foreach ( $this->options->get( 'CheckUserSuggestedInvestigationsRequestHeaders' ) as $headerName ) {
 			$value = $request->getHeader( $headerName );
 			if ( $value !== false ) {
-				$headers[strtolower( $headerName )] = $value;
+				$headers[strtolower( $headerName )] = mb_scrub( $value );
 			}
 		}
 		return $headers;
