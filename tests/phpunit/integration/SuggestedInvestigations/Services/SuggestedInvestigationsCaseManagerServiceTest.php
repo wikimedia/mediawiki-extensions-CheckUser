@@ -103,7 +103,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 					$this->getServiceContainer()->getMainConfig()
 				),
 				$this->getServiceContainer()->getConnectionProvider(),
-				$this->getServiceContainer()->getUserIdentityLookup(),
+				$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
 				$client,
 			] )
 			->onlyMethods( [ 'generateUrlIdentifier' ] )
@@ -192,7 +192,7 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 					$this->getServiceContainer()->getMainConfig()
 				),
 				$this->getServiceContainer()->getConnectionProvider(),
-				$this->getServiceContainer()->getUserIdentityLookup(),
+				$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
 				$this->createMock( SuggestedInvestigationsInstrumentationClient::class ),
 			] )
 			->onlyMethods( [ 'generateUrlIdentifier' ] )

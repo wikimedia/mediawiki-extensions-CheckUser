@@ -33,7 +33,6 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseUser;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\User\UserIdentity;
-use MediaWiki\User\UserIdentityLookup;
 use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
@@ -68,7 +67,7 @@ class SuggestedInvestigationsCaseManagerService {
 	public function __construct(
 		private readonly ServiceOptions $options,
 		private readonly IConnectionProvider $dbProvider,
-		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly SuggestedInvestigationsCaseLookupService $caseLookupService,
 		private readonly ISuggestedInvestigationsInstrumentationClient $instrumentationClient,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
@@ -88,7 +87,7 @@ class SuggestedInvestigationsCaseManagerService {
 	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function createCase( array $users, array $signals ): int {
-		$this->assertSuggestedInvestigationsEnabled();
+		$this->caseLookupService->assertSuggestedInvestigationsEnabled();
 		if ( count( $users ) === 0 ) {
 			throw new InvalidArgumentException( 'At least one user must be provided to create a case' );
 		}
@@ -168,8 +167,8 @@ class SuggestedInvestigationsCaseManagerService {
 	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
 	public function updateCase( int $caseId, array $users, array $signals ): void {
-		$this->assertSuggestedInvestigationsEnabled();
-		$this->assertCasesExist( [ $caseId ] );
+		$this->caseLookupService->assertSuggestedInvestigationsEnabled();
+		$this->caseLookupService->assertCasesExist( [ $caseId ] );
 
 		if ( count( $signals ) === 0 && count( $users ) === 0 ) {
 			return;
@@ -180,7 +179,7 @@ class SuggestedInvestigationsCaseManagerService {
 			'signals_in_case' => $this->getSignalNamesInCase( $caseId ),
 		];
 
-		$usersInCase = $this->getUsersInCase( $caseId );
+		$usersInCase = $this->caseLookupService->getUsersInCase( $caseId );
 
 		if ( count( $signals ) !== 0 ) {
 			$this->addSignalsToCaseInternal( $caseId, $signals );
@@ -243,8 +242,8 @@ class SuggestedInvestigationsCaseManagerService {
 		string $reason = '',
 		int $performerUserId = 0
 	): void {
-		$this->assertSuggestedInvestigationsEnabled();
-		$this->assertCasesExist( [ $caseId ] );
+		$this->caseLookupService->assertSuggestedInvestigationsEnabled();
+		$this->caseLookupService->assertCasesExist( [ $caseId ] );
 
 		$dbr = $this->getPrimaryDatabase();
 		$oldCaseStatus = (int)$dbr->newSelectQueryBuilder()
@@ -430,13 +429,13 @@ class SuggestedInvestigationsCaseManagerService {
 	 * @param int[] $caseIds
 	 */
 	public function updateCasesUpdatedAtTimestamps( array $caseIds ): void {
-		$this->assertSuggestedInvestigationsEnabled();
+		$this->caseLookupService->assertSuggestedInvestigationsEnabled();
 
 		if ( !$caseIds ) {
 			return;
 		}
 
-		$this->assertCasesExist( $caseIds );
+		$this->caseLookupService->assertCasesExist( $caseIds );
 
 		$dbw = $this->getPrimaryDatabase();
 		$dbw->newUpdateQueryBuilder()
@@ -445,42 +444,6 @@ class SuggestedInvestigationsCaseManagerService {
 			->where( [ 'sic_id' => $caseIds ] )
 			->caller( __METHOD__ )
 			->execute();
-	}
-
-	/**
-	 * Asserts that all cases with the given IDs exist.
-	 *
-	 * @param int[] $caseIds IDs for the cases to test for.
-	 *
-	 * @throws CaseNotFoundException if any ID does not match an existing case
-	 */
-	private function assertCasesExist( array $caseIds ): void {
-		$existingIds = array_map(
-			'intval',
-			$this->getReplicaDatabase()->newSelectQueryBuilder()
-				->select( 'sic_id' )
-				->from( 'cusi_case' )
-				->where( [ 'sic_id' => $caseIds ] )
-				->caller( __METHOD__ )
-				->fetchFieldValues()
-		);
-		$missingIds = array_diff( $caseIds, $existingIds );
-
-		if ( $missingIds ) {
-			throw new CaseNotFoundException(
-				'Case IDs do not exist: ' . implode( ', ', $missingIds )
-			);
-		}
-	}
-
-	/**
-	 * Helper function to return early if SI is not enabled, so we don't interact with non-existing tables in DB
-	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
-	 */
-	private function assertSuggestedInvestigationsEnabled(): void {
-		if ( !$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
-			throw new RuntimeException( 'Suggested Investigations is not enabled' );
-		}
 	}
 
 	/** Returns a connection to the primary database with SI tables */
@@ -508,29 +471,6 @@ class SuggestedInvestigationsCaseManagerService {
 			->where( [ 'sis_sic_id' => $caseId ] )
 			->caller( __METHOD__ )
 			->fetchFieldValues();
-	}
-
-	/**
-	 * Gets a list of all users in a given case, using the cusi_user table as the data source
-	 *
-	 * Used for instrumentation events only, so not added to
-	 * {@link SuggestedInvestigationsCaseLookupService} and then made inherently stable
-	 *
-	 * @return UserIdentity[]
-	 */
-	private function getUsersInCase( int $caseId ): array {
-		$dbr = $this->getReplicaDatabase();
-		$userIds = $dbr->newSelectQueryBuilder()
-			->select( 'siu_user_id' )
-			->from( 'cusi_user' )
-			->where( [ 'siu_sic_id' => $caseId ] )
-			->caller( __METHOD__ )
-			->fetchFieldValues();
-
-		return array_filter( array_map(
-			$this->userIdentityLookup->getUserIdentityByUserId( ... ),
-			$userIds
-		) );
 	}
 
 	/**

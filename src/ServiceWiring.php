@@ -404,7 +404,8 @@ return [
 			),
 			$services->getConnectionProvider(),
 			$services->get( 'CheckUserLogger' ),
-			$services->getLockManager()
+			$services->getLockManager(),
+			$services->getUserIdentityLookup()
 		);
 	},
 	'CheckUserSuggestedInvestigationsCaseManager' => static function (
@@ -416,7 +417,7 @@ return [
 				$services->getMainConfig()
 			),
 			$services->getConnectionProvider(),
-			$services->getUserIdentityLookup(),
+			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
 			$services->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' )
 		);
 	},

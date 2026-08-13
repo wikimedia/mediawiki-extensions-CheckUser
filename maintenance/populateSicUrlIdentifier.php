@@ -4,13 +4,9 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Maintenance;
 
-use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
-// phpcs:ignore Generic.Files.LineLength
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\NoOpSuggestedInvestigationsInstrumentationClient;
-use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
-use Wikimedia\Services\NoSuchServiceException;
+use Wikimedia\Rdbms\IDatabase;
 
 // @codeCoverageIgnoreStart
 $IP = getenv( 'MW_INSTALL_PATH' );
@@ -57,7 +53,6 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 			return true;
 		}
 
-		$caseManager = $this->getSuggestedInvestigationsCaseManager();
 		$dbProvider = $this->getServiceContainer()->getConnectionProvider();
 		$dbw = $dbProvider->getPrimaryDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
 		$dbr = $dbProvider->getReplicaDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
@@ -75,7 +70,7 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 			foreach ( $idsBatch as $id ) {
 				$dbw->newUpdateQueryBuilder()
 					->update( 'cusi_case' )
-					->set( [ 'sic_url_identifier' => $caseManager->generateUniqueUrlIdentifier( true ) ] )
+					->set( [ 'sic_url_identifier' => $this->generateUniqueUrlIdentifier( $dbw ) ] )
 					->where( [ 'sic_id' => $id ] )
 					->caller( __METHOD__ )
 					->execute();
@@ -92,26 +87,32 @@ class PopulateSicUrlIdentifier extends LoggedUpdateMaintenance {
 	}
 
 	/**
-	 * Fetches an instance of the {@link SuggestedInvestigationsCaseManagerService}.
-	 *
-	 * We cannot directly fetch the service because we may be running this script during DB updates where
-	 * we don't have either config or services defined from CheckUser. In this case, this method will
-	 * manually construct the service.
+	 * Manually derived from {@link SuggestedInvestigationsCaseManagerService::generateUniqueUrlIdentifier}
+	 * to avoid having to instantiate the service and all its dependencies. This maintenance script is not
+	 * expected to be permanent but until its removal, if the functions this copied from change then this should
+	 * be similarly updated.
 	 */
-	private function getSuggestedInvestigationsCaseManager(): SuggestedInvestigationsCaseManagerService {
-		try {
-			return $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
-		} catch ( NoSuchServiceException ) {
-			return new SuggestedInvestigationsCaseManagerService(
-				new ServiceOptions(
-					SuggestedInvestigationsCaseManagerService::CONSTRUCTOR_OPTIONS,
-					[ 'CheckUserSuggestedInvestigationsEnabled' => true ]
-				),
-				$this->getServiceContainer()->getConnectionProvider(),
-				$this->getServiceContainer()->getUserIdentityLookup(),
-				new NoOpSuggestedInvestigationsInstrumentationClient()
+	public function generateUniqueUrlIdentifier( IDatabase $db ): int {
+		do {
+			// SuggestedInvestigationsCaseManagerService::generateUrlIdentifier
+			// SuggestedInvestigationsCaseManagerService::getMaxInteger
+			$urlIdentifier = random_int(
+				1,
+				match ( $db->getType() ) {
+					'postgres' => 2147483647,
+					default => 4294967295,
+				}
 			);
-		}
+
+			$isUrlIdentifierAlreadyInUse = $db->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'cusi_case' )
+				->where( [ 'sic_url_identifier' => $urlIdentifier ] )
+				->caller( __METHOD__ )
+				->fetchField();
+		} while ( $isUrlIdentifierAlreadyInUse !== false );
+
+		return $urlIdentifier;
 	}
 }
 

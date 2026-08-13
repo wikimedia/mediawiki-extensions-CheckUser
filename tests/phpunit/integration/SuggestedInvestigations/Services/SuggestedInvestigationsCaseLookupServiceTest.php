@@ -24,6 +24,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Services;
 
 use InvalidArgumentException;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\CaseNotFoundException;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
@@ -338,6 +339,47 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 		$this->expectException( RuntimeException::class );
 		$this->expectExceptionMessage( 'Suggested Investigations is not enabled' );
 		$service->getUserIdsWithCases( [ 1 ] );
+	}
+
+	public function testGetUsersInCase(): void {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		$user1 = $this->getTestUser()->getUser();
+		$user2 = $this->getTestUser( [ 'user' ] )->getUser();
+
+		$case = $caseManager->createCase(
+			[ $user1, $user2 ],
+			[
+				SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false ),
+			]
+		);
+		$caseManager->setCaseStatus( $case, CaseStatus::Resolved, 'Test reason' );
+		$service = $this->createService();
+		$users = $service->getUsersInCase( $case );
+
+		// Map back into user ids for the assertion
+		$userIds = array_map(
+			static function ( $user ) {
+				return $user->getId();
+			},
+			$users
+		);
+		$this->assertSame( [ $user1->getId(), $user2->getId() ], $userIds );
+	}
+
+	public function testAssertCasesExist(): void {
+		$this->expectNotToPerformAssertions();
+		$service = $this->createService();
+		$service->assertCasesExist( [ self::$openCase, self::$closedCase ] );
+	}
+
+	public function testAssertCasesExistException(): void {
+		$this->expectException( CaseNotFoundException::class );
+		$this->expectExceptionMessage( 'Case IDs do not exist: 100' );
+
+		$service = $this->createService();
+		$service->assertCasesExist( [ self::$openCase, 100 ] );
 	}
 
 	public function testLockForSignal(): void {

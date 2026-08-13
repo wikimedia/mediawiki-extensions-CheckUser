@@ -26,10 +26,12 @@ namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
 use InvalidArgumentException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\CaseNotFoundException;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCase;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Wikimedia\LockManager\ILockManager;
@@ -49,6 +51,7 @@ class SuggestedInvestigationsCaseLookupService {
 		private readonly IConnectionProvider $dbProvider,
 		private readonly LoggerInterface $logger,
 		private readonly ILockManager $lockManager,
+		private readonly UserIdentityLookup $userIdentityLookup,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -186,6 +189,22 @@ class SuggestedInvestigationsCaseLookupService {
 			->fetchFieldValues();
 
 		return array_map( 'intval', $userIds );
+	}
+
+	/**
+	 * Gets a list of all users in a given case, using the cusi_user table as the data source
+	 *
+	 * @since 1.47
+	 * @return UserIdentity[]
+	 */
+	public function getUsersInCase( int $caseId ): array {
+		$dbr = $this->getDatabase();
+		$userIds = $this->getUserIdsInCase( $caseId );
+
+		return array_filter( array_map(
+			$this->userIdentityLookup->getUserIdentityByUserId( ... ),
+			$userIds
+		) );
 	}
 
 	/**
@@ -372,9 +391,36 @@ class SuggestedInvestigationsCaseLookupService {
 	 * Helper function to return early if SI is not enabled, so we don't interact with non-existing tables in DB
 	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
-	private function assertSuggestedInvestigationsEnabled(): void {
+	public function assertSuggestedInvestigationsEnabled(): void {
 		if ( !$this->areSuggestedInvestigationsEnabled() ) {
 			throw new RuntimeException( 'Suggested Investigations is not enabled' );
+		}
+	}
+
+	/**
+	 * Asserts that all cases with the given IDs exist.
+	 *
+	 * @since 1.47
+	 * @param int[] $caseIds IDs for the cases to test for.
+	 *
+	 * @throws CaseNotFoundException if any ID does not match an existing case
+	 */
+	public function assertCasesExist( array $caseIds ): void {
+		$existingIds = array_map(
+			'intval',
+			$this->getDatabase()->newSelectQueryBuilder()
+				->select( 'sic_id' )
+				->from( 'cusi_case' )
+				->where( [ 'sic_id' => $caseIds ] )
+				->caller( __METHOD__ )
+				->fetchFieldValues()
+		);
+		$missingIds = array_diff( $caseIds, $existingIds );
+
+		if ( $missingIds ) {
+			throw new CaseNotFoundException(
+				'Case IDs do not exist: ' . implode( ', ', $missingIds )
+			);
 		}
 	}
 }
