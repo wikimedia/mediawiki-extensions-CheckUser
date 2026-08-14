@@ -61,6 +61,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeInde
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsAutoCloseCrossWikiJobDispatcher;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCasePropertyManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsRelatedCasesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
@@ -418,7 +419,17 @@ return [
 			),
 			$services->getConnectionProvider(),
 			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
+			$services->get( 'CheckUserSuggestedInvestigationsCasePropertyManager' ),
 			$services->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' )
+		);
+	},
+	'CheckUserSuggestedInvestigationsCasePropertyManager' => static function (
+		MediaWikiServices $services
+	): SuggestedInvestigationsCasePropertyManagerService {
+		return new SuggestedInvestigationsCasePropertyManagerService(
+			$services->getConnectionProvider(),
+			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
+			$services->get( 'CheckUserSuggestedInvestigationsSharedPagesLookup' ),
 		);
 	},
 	'CheckUserSuggestedInvestigationsInstrumentationClient' => static function (

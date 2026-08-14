@@ -541,6 +541,13 @@
 				"CheckUserCrossWikiAutoCloseJobDispatcher"
 			]
 		},
+		"SuggestedInvestigationsCasePropertiesHandler": {
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\SuggestedInvestigationsCasePropertiesHandler",
+			"services": [
+				"CheckUserSuggestedInvestigationsCaseLookup",
+				"CheckUserSuggestedInvestigationsCasePropertyManager"
+			]
+		},
 		"UserInfoCardCacheInvalidationHandler": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserInfoCardCacheInvalidationHandler",
 			"services": [
@@ -599,6 +606,7 @@
 		"RecentChange_save": "RecentChangeSaveHandler",
 		"RenameUserSQL": "RenameUserSQLHandler",
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
+		"RevisionFromEditComplete": "SuggestedInvestigationsCasePropertiesHandler",
 		"SaveUserOptions": "preferences",
 		"SidebarBeforeOutput": "SidebarLinksHandler",
 		"SpecialContributionsBeforeMainOutput": [

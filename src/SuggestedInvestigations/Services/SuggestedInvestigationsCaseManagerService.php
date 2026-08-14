@@ -68,6 +68,7 @@ class SuggestedInvestigationsCaseManagerService {
 		private readonly ServiceOptions $options,
 		private readonly IConnectionProvider $dbProvider,
 		private readonly SuggestedInvestigationsCaseLookupService $caseLookupService,
+		private readonly SuggestedInvestigationsCasePropertyManagerService $casePropertyManagerService,
 		private readonly ISuggestedInvestigationsInstrumentationClient $instrumentationClient,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
@@ -117,6 +118,10 @@ class SuggestedInvestigationsCaseManagerService {
 			$this->addUsersToCaseInternal( $caseId, $this->convertUsersToCaseUsers( $users ) );
 			$this->addSignalsToCaseInternal( $caseId, $signals );
 			$dbw->endAtomic( __METHOD__ );
+
+			$dbw->onTransactionCommitOrIdle( function () use ( $caseId ) {
+				$this->casePropertyManagerService->updateEditRelatedPropertiesForCases( [ $caseId ] );
+			}, __METHOD__ );
 		} catch ( \Exception $e ) {
 			// Ensure we cancel the atomic block if an exception is thrown
 			$dbw->cancelAtomic( __METHOD__ );
@@ -212,6 +217,12 @@ class SuggestedInvestigationsCaseManagerService {
 			->where( [ 'sic_id' => $caseId ] )
 			->caller( __METHOD__ )
 			->execute();
+
+		if ( count( $users ) !== 0 ) {
+			$dbw->onTransactionCommitOrIdle( function () use ( $caseId ) {
+				$this->casePropertyManagerService->updateEditRelatedPropertiesForCases( [ $caseId ] );
+			}, __METHOD__ );
+		}
 
 		$this->instrumentationClient->submitInteraction(
 			RequestContext::getMain(),
