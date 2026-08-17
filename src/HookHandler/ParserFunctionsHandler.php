@@ -72,6 +72,6 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 		$output->addModuleStyles( [ 'ext.checkUser.styles' ] );
 		$output->appendExtensionData( self::TARGETS_EXTENSION_DATA_KEY, $canonicalUsername );
 
-		return [ $html, 'isRawHTML' => true ];
+		return [ $html, 'isHTML' => true ];
 	}
 }

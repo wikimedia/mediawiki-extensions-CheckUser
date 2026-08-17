@@ -69,7 +69,7 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 
 		$result = $this->getHandler()->renderUserInfoCardButton( $this->parser, 'Foo' );
 
-		$this->assertSame( [ '<button>button</button>', 'isRawHTML' => true ], $result );
+		$this->assertSame( [ '<button>button</button>', 'isHTML' => true ], $result );
 		$this->assertContains(
 			'ext.checkUser.styles',
 			$this->parserOutput->getModuleStyles()
