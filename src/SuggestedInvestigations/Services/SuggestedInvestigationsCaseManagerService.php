@@ -445,6 +445,22 @@ class SuggestedInvestigationsCaseManagerService {
 			->where( [ 'sic_id' => $caseIds ] )
 			->caller( __METHOD__ )
 			->execute();
+
+		// ::updateCasesUpdatedAtTimestamps can technically be called whenenver.
+		// In practice, it's currently only called on the first edit via
+		// SuggestedInvestigationsSignalMatchService::bumpCaseTimestampForUserIfFirstEdit
+		// and this instrumentation reflects that. If this situation changes, this will
+		// need to be updated to accomodate non-first-edit cases.
+		foreach ( $caseIds as $caseId ) {
+			$this->instrumentationClient->submitInteraction(
+				RequestContext::getMain(),
+				'case_updated',
+				[
+					'case_id' => $caseId,
+					'action_context' => 'started_editing',
+				]
+			);
+		}
 	}
 
 	/**
