@@ -347,6 +347,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			self::VIRTUAL_DB_DOMAIN, 'addTable', 'cusi_case_property',
 			"$base/$dbType/patch-cusi_case_property-def.sql", true,
 		] );
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_DB_DOMAIN, 'dropField', 'cusi_case_property', 'sicp_stale',
+			"$base/$dbType/patch-cusi_case_property-drop-sicp_stale.sql", true,
+		] );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
