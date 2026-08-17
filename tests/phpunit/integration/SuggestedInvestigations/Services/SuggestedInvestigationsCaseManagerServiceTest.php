@@ -688,6 +688,35 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	}
 
 	public function testTouchCasesMultipleCases(): void {
+		// Expect 3 create events anad 2 update events
+		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
+		$client->expects( $this->exactly( 5 ) )
+			->method( 'submitInteraction' )
+			->willReturnCallback( function ( $request, $action, $interactionData ) {
+				static $callCount = 0;
+				$callCount++;
+				switch ( $callCount ) {
+					case 1:
+						$this->assertEquals( 'case_open', $action );
+						break;
+					case 2:
+						$this->assertEquals( 'case_open', $action );
+						break;
+					case 3:
+						$this->assertEquals( 'case_open', $action );
+						break;
+					case 4:
+						$this->assertEquals( 'case_updated', $action );
+						$this->assertEquals( 'started_editing', $interactionData[ 'action_context' ] );
+						break;
+					case 5:
+						$this->assertEquals( 'case_updated', $action );
+						$this->assertEquals( 'started_editing', $interactionData[ 'action_context' ] );
+						break;
+				}
+			} );
+		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
+
 		$service = $this->createService();
 		$user = UserIdentityValue::newRegistered( 1, 'Test user 1' );
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'test-signal', 'test-value', false );
@@ -714,6 +743,15 @@ class SuggestedInvestigationsCaseManagerServiceTest extends MediaWikiIntegration
 	}
 
 	public function testUpdateCasesUpdatedAtTimestampsThrowsOnNonExistentCaseId(): void {
+		// Only expect the case creation to be instrumented. The failed update should not instrument.
+		$client = $this->createMock( SuggestedInvestigationsInstrumentationClient::class );
+		$client->expects( $this->once() )
+			->method( 'submitInteraction' )
+			->willReturnCallback( function ( $request, $action, $interactionData ) {
+				$this->assertEquals( 'case_open', $action );
+			} );
+		$this->setService( 'CheckUserSuggestedInvestigationsInstrumentationClient', $client );
+
 		$service = $this->createService();
 		$user = UserIdentityValue::newRegistered( 1, 'Test user 1' );
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'test-signal', 'test-value', false );
