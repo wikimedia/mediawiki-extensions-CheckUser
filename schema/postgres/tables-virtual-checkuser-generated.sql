@@ -57,6 +57,5 @@ CREATE TABLE cusi_case_property (
   sicp_sic_id INT NOT NULL,
   sicp_property SMALLINT NOT NULL,
   sicp_value FLOAT NOT NULL,
-  sicp_stale SMALLINT DEFAULT 0 NOT NULL,
   PRIMARY KEY(sicp_sic_id, sicp_property)
 );

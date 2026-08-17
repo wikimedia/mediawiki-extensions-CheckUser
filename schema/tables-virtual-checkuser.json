@@ -173,12 +173,6 @@
 				"comment": "The value of the property. Float is used to support decimal values.",
 				"type": "float",
 				"options": { "unsigned": true, "notnull": true }
-			},
-			{
-				"name": "sicp_stale",
-				"comment": "Whether or not the property should be recalculated.",
-				"type": "mwtinyint",
-				"options": { "default": 0, "notnull": true }
 			}
 		],
 		"indexes": [],
