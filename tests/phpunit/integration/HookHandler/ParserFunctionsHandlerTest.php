@@ -136,7 +136,7 @@ class ParserFunctionsHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideInvalidTargets */
-	public function testRendersNothingForInvalidTargets( string $wikitext ): void {
+	public function testRendersNothingForInvalidTargets( string $wikitext, string $category ): void {
 		$parserOutput = $this->parse( $wikitext );
 
 		$this->assertStringNotContainsString(
@@ -152,16 +152,27 @@ class ParserFunctionsHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$trackingCategories = $parserOutput->getCategoryNames();
-		$this->assertSame( [ 'Pages_with_an_invalid_user_info_card_target' ], $trackingCategories );
+		$this->assertSame( [ $category ], $trackingCategories );
 	}
 
 	public static function provideInvalidTargets(): array {
 		return [
-			'no argument' => [ '{{#uic:}}' ],
-			'whitespace only' => [ '{{#uic: }}' ],
-			'IP address' => [ '{{#uic:1.2.3.4}}' ],
-			'IP range' => [ '{{#uic:1.2.3.4/24}}' ],
-			'not a possible user name' => [ '{{#uic:Foo#bar}}' ],
+			'no argument' => [
+				'wikitext' => '{{#uic:}}',
+				'category' => 'Pages_with_an_invalid_user_info_card_target',
+			],
+			'whitespace only' => [
+				'wikitext' => '{{#uic: }}',
+				'category' => 'Pages_with_an_invalid_user_info_card_target',
+			],
+			'not a possible user name' => [
+				'wikitext' => '{{#uic:Foo#bar}}',
+				'category' => 'Pages_with_an_invalid_user_info_card_target',
+			],
+			'IP address' => [
+				'wikitext' => '{{#uic:1.2.3.4}}',
+				'category' => 'Pages_with_an_IP_as_user_info_card_target',
+			],
 		];
 	}
 }

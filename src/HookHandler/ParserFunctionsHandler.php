@@ -8,6 +8,7 @@ use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Parser\Hook\ParserFirstCallInitHook;
 use MediaWiki\Parser\Parser;
 use MediaWiki\User\UserNameUtils;
+use Wikimedia\IPUtils;
 
 /**
  * Registers the parser functions provided by CheckUser.
@@ -16,9 +17,14 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 
 	/**
 	 * Tracking category for pages that invoke {{#uic:}} with something that cannot be a
-	 * registered user name.
+	 * registered user name and is not an IP address or range.
 	 */
 	private const INVALID_USERNAME_TRACKING_CATEGORY = 'checkuser-uic-invalid-username-category';
+
+	/**
+	 * Tracking category for pages that invoke {{#uic:}} with an IP address or range as a target.
+	 */
+	private const IP_TARGET_TRACKING_CATEGORY = 'checkuser-uic-ip-target-category';
 
 	/**
 	 * Key under which every target a button was emitted for is recorded in the parser output's extension data.
@@ -57,7 +63,11 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 		$username = trim( $username );
 		$canonicalUsername = $this->userNameUtils->getCanonical( $username );
 		if ( $canonicalUsername === false ) {
-			$parser->addTrackingCategory( self::INVALID_USERNAME_TRACKING_CATEGORY );
+			if ( IPUtils::isIPAddress( $username ) ) {
+				$parser->addTrackingCategory( self::IP_TARGET_TRACKING_CATEGORY );
+			} else {
+				$parser->addTrackingCategory( self::INVALID_USERNAME_TRACKING_CATEGORY );
+			}
 			return '';
 		}
 

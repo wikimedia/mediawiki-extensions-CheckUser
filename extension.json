@@ -27,7 +27,8 @@
 		"CheckUserMagic": "CheckUser.i18n.magic.php"
 	},
 	"TrackingCategories": [
-		"checkuser-uic-invalid-username-category"
+		"checkuser-uic-invalid-username-category",
+		"checkuser-uic-ip-target-category"
 	],
 	"config": {
 		"CheckUserCIDRLimit": {

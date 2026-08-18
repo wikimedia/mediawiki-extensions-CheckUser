@@ -94,18 +94,44 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 		$this->getHandler()->renderUserInfoCardButton( $this->parser, "  user:foo_bar\n" );
 	}
 
-	public function testRenderReturnsNothingAndTracksInvalidUsernames(): void {
+	/** @dataProvider provideInvalidUsernames */
+	public function testRenderReturnsNothingAndTracksInvalidUsernames( string $username, string $category ): void {
 		$this->userNameUtils->method( 'getCanonical' )->willReturn( false );
 
 		$this->buttonRenderer->expects( $this->never() )->method( 'render' );
 		$this->parser->expects( $this->once() )
 			->method( 'addTrackingCategory' )
-			->with( 'checkuser-uic-invalid-username-category' );
+			->with( $category );
 
 		$this->assertSame(
 			'',
-			$this->getHandler()->renderUserInfoCardButton( $this->parser, 'whatever' )
+			$this->getHandler()->renderUserInfoCardButton( $this->parser, $username )
 		);
 		$this->assertSame( [], $this->parserOutput->getModuleStyles() );
+	}
+
+	public static function provideInvalidUsernames(): array {
+		return [
+			'Invalid (non-IP) username' => [
+				'username' => '<3',
+				'category' => 'checkuser-uic-invalid-username-category',
+			],
+			'IPv4 address' => [
+				'username' => '1.2.3.4',
+				'category' => 'checkuser-uic-ip-target-category',
+			],
+			'IPv4 range' => [
+				'username' => '1.2.3.4/24',
+				'category' => 'checkuser-uic-ip-target-category',
+			],
+			'IPv6 address' => [
+				'username' => '2001:db8::1',
+				'category' => 'checkuser-uic-ip-target-category',
+			],
+			'IPv6 range' => [
+				'username' => '2001:db8::1/64',
+				'category' => 'checkuser-uic-ip-target-category',
+			],
+		];
 	}
 }
