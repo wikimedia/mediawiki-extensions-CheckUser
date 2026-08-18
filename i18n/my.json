@@ -36,5 +36,8 @@
 	"checkuser-investigateblock-email-label": "အီးမေးလ်ပို့ခြင်းကို တားဆီးရန်",
 	"checkuser-investigate-notice-no-results": "ရလဒ်များ မရှိပါ။",
 	"checkuser-investigate-preliminary-table-header-blocked": "အခြေအနေ",
+	"checkuser-global-contributions": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများကို ရှာဖွေပါ",
+	"checkuser-global-contributions-permission-error-description": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများကို ကြည့်ရှုရန်အတွက် [[Special:GlobalPreferences|သင့်ကမ္ဘာလုံးဆိုင်ရာ ဦးစားပေးမှုများ]] ရှိ သဘောတူညီချက်ကို လက်ခံပါ။",
+	"checkuser-global-contributions-search-form-wrapper": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများကို ရှာဖွေပါ",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1| ပိတ်ထားသည်}}"
 }
