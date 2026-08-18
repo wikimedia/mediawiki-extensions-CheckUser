@@ -715,6 +715,7 @@
 						"cdxIconHeart",
 						"cdxIconSearch",
 						"cdxIconNotice",
+						"cdxIconRecentChanges",
 						"cdxIconUserTemporaryLocation",
 						"cdxIconUserTemporary",
 						"cdxIconUserBlocked",
@@ -775,7 +776,8 @@
 				"checkuser-temporary-account-bucketcount-range",
 				"checkuser-temporary-account-bucketcount-max",
 				"checkuser-userinfocard-suggested-investigations",
-				"checkuser-userinfocard-abusefilter-hits"
+				"checkuser-userinfocard-abusefilter-hits",
+				"checkuser-userinfocard-has-checkuser-data"
 			],
 			"dependencies": [
 				"mediawiki.api",

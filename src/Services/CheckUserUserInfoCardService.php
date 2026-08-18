@@ -27,6 +27,7 @@ use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\TitleFactory;
+use MediaWiki\User\ActorNormalization;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Registration\UserRegistrationLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
@@ -76,6 +77,7 @@ class CheckUserUserInfoCardService {
 		private readonly CentralIdLookup $centralIdLookup,
 		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 		private readonly ?AbuseLogLookup $abuseLogLookup,
+		private readonly ActorNormalization $actorNormalization,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -333,6 +335,10 @@ class CheckUserUserInfoCardService {
 		}
 
 		$dbr = $this->dbProvider->getReplicaDatabase();
+		if ( $authority->isAllowed( 'checkuser' ) ) {
+			$userInfo['hasCheckUserData'] = $this->hasCheckUserData( $user, $dbr );
+		}
+
 		if ( $authority->isAllowed( 'checkuser-log' ) ) {
 			$row = $dbr->newSelectQueryBuilder()
 				->select( [
@@ -483,6 +489,37 @@ class CheckUserUserInfoCardService {
 			->observe( ( microtime( true ) - $start ) * 1000 );
 
 		return $userInfo;
+	}
+
+	/**
+	 * Checks if the user performed any action which is recorded in the CheckUser tables on this
+	 * wiki. Only rows where the user is the performer are counted.
+	 * @param UserIdentity $user
+	 * @param IReadableDatabase $dbr
+	 * @return bool
+	 */
+	private function hasCheckUserData( UserIdentity $user, IReadableDatabase $dbr ): bool {
+		$actorId = $this->actorNormalization->findActorId( $user, $dbr );
+		if ( !$actorId ) {
+			return false;
+		}
+
+		foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
+			$actorField = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . 'actor';
+			$hasRow = $dbr->newSelectQueryBuilder()
+				->select( '1' )
+				->from( $table )
+				->where( [ $actorField => $actorId ] )
+				->limit( 1 )
+				->caller( __METHOD__ )
+				->fetchField();
+
+			if ( $hasRow ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

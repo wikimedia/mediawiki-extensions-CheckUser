@@ -155,6 +155,7 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig( [
 				'CheckUserSuggestedInvestigationsEnabled' => false,
+				'CUDMaxAge' => 12345,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),

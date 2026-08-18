@@ -418,6 +418,7 @@
 	"checkuser-userinfocard-checks-empty": "Checks: $1",
 	"checkuser-userinfocard-suggested-investigations": "Suggested investigations cases: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Abuse filter hits: $1",
+	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Has}} been active in the last $1 {{PLURAL:$1|day|days}}",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Globally {{GENDER:$1|locked}}]] since $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Globally {{GENDER:$1|locked}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Globally {{GENDER:$1|blocked}}]] since $3",

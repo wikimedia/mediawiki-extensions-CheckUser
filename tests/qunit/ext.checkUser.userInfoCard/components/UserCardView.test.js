@@ -31,7 +31,7 @@ const mockComponents = {
 			'localEdits', 'localEditsReverted', 'newArticles', 'checks',
 			'lastChecked', 'activeWikis', 'recentLocalEdits', 'totalLocalEdits',
 			'ipRevealCount', 'hasIpRevealInfo', 'suggestedInvestigationsCaseCount',
-			'abuseFilterHits'
+			'abuseFilterHits', 'hasCheckUserData'
 		]
 	}
 };
@@ -63,7 +63,8 @@ const sampleUserData = {
 		dewiki: 'https://de.wikipedia.org'
 	},
 	suggestedInvestigationsCaseCount: 3,
-	abuseFilterHitCount: 12
+	abuseFilterHitCount: 12,
+	hasCheckUserData: true
 };
 
 let server;
@@ -246,6 +247,60 @@ QUnit.test( 'sets suggestedInvestigationsCaseCount from API response', ( assert 
 			wrapper.vm.userCard.suggestedInvestigationsCaseCount,
 			3,
 			'suggestedInvestigationsCaseCount is set from API response'
+		);
+	} );
+} );
+
+QUnit.test( 'sets hasCheckUserData from API response', ( assert ) => {
+	let userInfoCardApiCalled = false;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( sampleUserData )
+			);
+			userInfoCardApiCalled = true;
+		}
+	} );
+
+	const wrapper = mountComponent();
+
+	return waitFor( () => {
+		const loadingView = wrapper.findComponent( mockComponents.UserCardLoadingView );
+		return userInfoCardApiCalled && !loadingView.exists();
+	} ).then( () => {
+		assert.true(
+			wrapper.vm.userCard.hasCheckUserData,
+			'hasCheckUserData is set from API response'
+		);
+	} );
+} );
+
+QUnit.test( 'defaults hasCheckUserData to false when not in API response', ( assert ) => {
+	let userInfoCardApiCalled = false;
+	const dataWithoutCheckUserData = Object.assign( {}, sampleUserData );
+	delete dataWithoutCheckUserData.hasCheckUserData;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( dataWithoutCheckUserData )
+			);
+			userInfoCardApiCalled = true;
+		}
+	} );
+
+	const wrapper = mountComponent();
+
+	return waitFor( () => {
+		const loadingView = wrapper.findComponent( mockComponents.UserCardLoadingView );
+		return userInfoCardApiCalled && !loadingView.exists();
+	} ).then( () => {
+		assert.false(
+			wrapper.vm.userCard.hasCheckUserData,
+			'hasCheckUserData defaults to false when not in response'
 		);
 	} );
 } );

@@ -719,7 +719,8 @@ return [
 			),
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
-			$abuseLogLookup
+			$abuseLogLookup,
+			$services->getActorNormalization()
 		);
 	},
 	'CheckUserUtilityService' => static function (

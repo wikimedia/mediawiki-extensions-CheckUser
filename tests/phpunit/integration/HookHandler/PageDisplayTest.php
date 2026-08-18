@@ -379,6 +379,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig( [
 				'CheckUserSuggestedInvestigationsEnabled' => false,
+				'CUDMaxAge' => 7776000,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
@@ -410,6 +411,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'isEnabled' => true,
 				'performerIsNamed' => true,
 				'expected' => [
+					'wgCUDMaxAge' => 7776000,
 					'wgCheckUserCanAccessTemporaryAccountLog' => true,
 					'wgCheckUserCanBlock' => true,
 					'wgCheckUserCanPerformCheckUser' => true,
@@ -640,6 +642,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig( [
+				'CUDMaxAge' => 7776000,
 				'CheckUserSuggestedInvestigationsEnabled' => true,
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],

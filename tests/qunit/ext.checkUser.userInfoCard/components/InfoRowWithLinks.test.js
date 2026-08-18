@@ -8,15 +8,13 @@ QUnit.module( 'ext.checkUser.userInfoCard.InfoRowWithLinks', QUnit.newMwEnvironm
 		// Mock mw.message to return a mock object with parse method
 		this.sandbox.stub( mw, 'message' ).callsFake( ( key, ...args ) => ( {
 			parse: () => {
-				// Simple mock implementation that includes the arguments
-				if ( args.length === 2 ) {
-					// Two arguments (main and suffix)
-					return `${ key } with ${ args[ 0 ].outerHTML } and ${ args[ 1 ].outerHTML }`;
-				} else if ( args.length === 1 ) {
-					// One argument (main only)
-					return `${ key } with ${ args[ 0 ].outerHTML }`;
+				// Simple mock implementation that includes the arguments. Parameters are
+				// either DOM nodes (main and suffix values) or plain strings.
+				const format = ( arg ) => ( arg && arg.outerHTML ) || String( arg );
+				if ( args.length === 0 ) {
+					return key;
 				}
-				return key;
+				return `${ key } with ${ args.map( format ).join( ', ' ) }`;
 			}
 		} ) );
 
@@ -124,6 +122,20 @@ QUnit.test( 'does not include suffix when suffixValue is empty, null, or undefin
 			`Formatted message is created for suffixValue: ${ suffixValue }`
 		);
 	} );
+} );
+
+QUnit.test( 'passes message parameters for a label without a value', ( assert ) => {
+	const wrapper = mountComponent( {
+		messageKey: 'checkuser-userinfocard-has-checkuser-data',
+		mainValue: '',
+		messageParams: [ '90', 'female' ]
+	} );
+
+	assert.strictEqual(
+		wrapper.vm.formattedMessage,
+		'checkuser-userinfocard-has-checkuser-data with 90, female',
+		'Message parameters are passed to the message'
+	);
 } );
 
 QUnit.test( 'handles numeric values correctly', ( assert ) => {

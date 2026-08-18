@@ -22,6 +22,7 @@
 			:icon="row.icon"
 			:icon-class="row.iconClass"
 			:message-key="row.messageKey"
+			:message-params="row.messageParams"
 			:tooltip-key="row.tooltipKey"
 			:main-value="row.mainValue"
 			:main-link="row.mainLink"
@@ -82,6 +83,7 @@ const {
 	cdxIconArticles,
 	cdxIconArticlesSearch,
 	cdxIconHeart,
+	cdxIconRecentChanges,
 	cdxIconSearch,
 	cdxIconUserTemporary,
 	cdxIconUserTemporaryLocation
@@ -230,6 +232,10 @@ module.exports = exports = {
 		abuseFilterHits: {
 			type: Number,
 			default: 0
+		},
+		hasCheckUserData: {
+			type: Boolean,
+			default: false
 		}
 	},
 	setup( props ) {
@@ -304,6 +310,9 @@ module.exports = exports = {
 		const maxEdits = mw.config.get( 'wgCheckUserGEUserImpactMaxEdits' ) || 1000;
 		const maxThanks = mw.config.get( 'wgCheckUserGEUserImpactMaxThanks' ) || 1000;
 		const canViewCheckUserLog = mw.config.get( 'wgCheckUserCanViewCheckUserLog' );
+		const checkUserDataMaxAgeInDays = Math.round(
+			mw.config.get( 'wgCUDMaxAge' ) / 86400
+		);
 		const canViewSuggestedInvestigations = mw.config.get( 'wgCheckUserCanViewSuggestedInvestigations' );
 		const canAccessTemporaryAccountLog = mw.config.get( 'wgCheckUserCanAccessTemporaryAccountLog' );
 		const canAccessTemporaryAccountIpAddresses = computed(
@@ -403,6 +412,18 @@ module.exports = exports = {
 					suffixValue: formatCount( props.thanksSent, maxThanks ),
 					suffixLink: thanksSentLink,
 					suffixLinkLogId: 'thanks_sent'
+				} );
+			}
+
+			if ( props.hasCheckUserData ) {
+				rows.push( {
+					icon: cdxIconRecentChanges,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					messageKey: 'checkuser-userinfocard-has-checkuser-data',
+					messageParams: [
+						mw.language.convertNumber( checkUserDataMaxAgeInDays ),
+						props.gender
+					]
 				} );
 			}
 

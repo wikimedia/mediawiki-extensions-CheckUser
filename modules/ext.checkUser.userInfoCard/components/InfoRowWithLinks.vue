@@ -35,6 +35,7 @@ module.exports = exports = {
 		icon: { type: [ String, Object ], default: null },
 		iconClass: { type: String, default: '' },
 		messageKey: { type: String, required: true },
+		messageParams: { type: Array, default: () => [] },
 		tooltipKey: { type: String, default: '' },
 		mainValue: { type: [ String, Number ], default: '' },
 		mainLink: { type: String, default: '' },
@@ -77,7 +78,10 @@ module.exports = exports = {
 		const formattedMessage = computed( () => {
 			// If no main anchor or main value, this is just a label, return early
 			if ( !props.mainLink && !props.mainValue ) {
-				return mw.message( props.messageKey );
+				// Possible messages here
+				// * checkuser-userinfocard-temporary-account-viewer-opted-in
+				// * checkuser-userinfocard-has-checkuser-data
+				return mw.message( props.messageKey, ...props.messageParams ).parse();
 			}
 			const mainAnchor = createValueNode(
 				props.mainLink, props.mainLinkLogId, props.mainValue
@@ -100,14 +104,14 @@ module.exports = exports = {
 				// * checkuser-userinfocard-active-blocks-from-all-wikis-with-local
 				// * checkuser-userinfocard-checks-empty
 				// * checkuser-userinfocard-past-blocks
-				return mw.message( props.messageKey, mainAnchor, suffixAnchor ).parse();
+				return mw.message( props.messageKey, mainAnchor, suffixAnchor, ...props.messageParams ).parse();
 			} else {
 				// Possible messages here
 				// * checkuser-userinfocard-global-edits
 				// * checkuser-userinfocard-new-articles
 				// * checkuser-userinfocard-suggested-investigations
 				// * checkuser-userinfocard-abusefilter-hits
-				return mw.message( props.messageKey, mainAnchor ).parse();
+				return mw.message( props.messageKey, mainAnchor, ...props.messageParams ).parse();
 			}
 		} );
 

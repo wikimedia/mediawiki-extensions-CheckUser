@@ -141,6 +141,7 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 		}
 
 		$out->addJsConfigVars( [
+			'wgCUDMaxAge' => $this->config->get( 'CUDMaxAge' ),
 			'wgCheckUserCanViewCheckUserLog' =>
 				$authority->isAllowed( 'checkuser-log' ),
 			'wgCheckUserCanBlock' =>

@@ -35,6 +35,7 @@ QUnit.module( 'ext.checkUser.userInfoCard.UserCardBody', QUnit.newMwEnvironment(
 		mw.config.set( 'wgCheckUserCanViewCheckUserLog', true );
 		mw.config.set( 'wgCheckUserCanBlock', true );
 		mw.config.set( 'wgCheckUserGEUserImpactMaxEdits', 1000 );
+		mw.config.set( 'wgCUDMaxAge', 7776000 );
 		mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', false );
 	}
 } ) );
@@ -593,6 +594,28 @@ QUnit.test( 'temporary accounts on ip count doesn\'t display for registered user
 	assert.strictEqual(
 		findRowByLabel( wrapper, 'checkuser-userinfocard-temporary-account-bucketcount' ),
 		undefined
+	);
+} );
+
+QUnit.test( 'renders CheckUser data row when data exists', ( assert ) => {
+	const wrapper = mountComponent( { hasCheckUserData: true } );
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-has-checkuser-data' );
+	assert.true( row !== undefined, 'CheckUser data row exists' );
+	assert.deepEqual(
+		row.props( 'messageParams' ),
+		[ '90', 'female' ],
+		'CheckUser data row is told the retention period in days and the gender'
+	);
+} );
+
+QUnit.test( 'does not render CheckUser data row when the user has no CheckUser data', ( assert ) => {
+	const wrapper = mountComponent( { hasCheckUserData: false } );
+
+	assert.strictEqual(
+		findRowByLabel( wrapper, 'checkuser-userinfocard-has-checkuser-data' ),
+		undefined,
+		'CheckUser data row does not exist when the user has no CheckUser data'
 	);
 } );
 

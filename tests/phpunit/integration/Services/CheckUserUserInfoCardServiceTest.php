@@ -15,6 +15,7 @@ use MediaWiki\Extension\AbuseFilter\AbuseLogLookup;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
@@ -170,7 +171,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getCentralIdLookup(),
 			$overrides[ 'UserInfoCardBlockStatusCache' ] ??
 				$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
-			$abuseLogLookup
+			$abuseLogLookup,
+			$services->getActorNormalization()
 		);
 	}
 
@@ -453,7 +455,8 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			),
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
-			null
+			null,
+			$services->getActorNormalization()
 		);
 		$targetUser = $this->getTestUser()->getUser();
 		$userInfo = $infoCardService->getUserInfo(
@@ -603,6 +606,55 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayNotHasKey(
 			'checkUserLastCheck',
 			$result
+		);
+	}
+
+	public function testHasCheckUserDataDataPoint() {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+		$cuUserAuthority = $this->getTestUser( [ 'checkuser' ] )->getAuthority();
+		$user = $this->getMutableTestUser()->getUser();
+
+		$this->assertFalse(
+			$this->getObjectUnderTest()->getUserInfo( $cuUserAuthority, $user )['hasCheckUserData'],
+			'The user has no rows in the CheckUser tables'
+		);
+
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+		$checkUserInsert->insertIntoCuChangesTable( [ 'cuc_type' => RC_EDIT ], __METHOD__, $user );
+
+		$this->assertTrue(
+			$this->getObjectUnderTest()->getUserInfo( $cuUserAuthority, $user )['hasCheckUserData']
+		);
+
+		// Users without the checkuser right must not see this data point.
+		$this->assertArrayNotHasKey(
+			'hasCheckUserData',
+			$this->getObjectUnderTest()->getUserInfo(
+				$this->getTestUser()->getAuthority(),
+				$user
+			)
+		);
+	}
+
+	public function testHasCheckUserDataDataPointForPrivateEventOnly() {
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+		$cuUserAuthority = $this->getTestUser( [ 'checkuser' ] )->getAuthority();
+		$user = $this->getMutableTestUser()->getUser();
+
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+		$checkUserInsert->insertIntoCuPrivateEventTable(
+			[ 'cupe_log_action' => 'login-success' ],
+			__METHOD__,
+			$user
+		);
+
+		// A login is recorded in cu_private_event, even if the user made no public edits.
+		$this->assertTrue(
+			$this->getObjectUnderTest()->getUserInfo( $cuUserAuthority, $user )['hasCheckUserData']
 		);
 	}
 
