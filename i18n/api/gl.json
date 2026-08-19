@@ -78,6 +78,7 @@
 	"checkuser-rest-property-desc-checkuser-checks": "Número de comprobacións de verificación de usuarios realizadas a este usuario",
 	"checkuser-rest-property-desc-checkuser-last-check": "Marca de tempo da comprobación de verificación de usuarios máis recente realizada a este usuario",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "Número de casos de investigación suxeridos asociados a este usuario",
+	"checkuser-rest-property-desc-abusefilter-hit-count": "Número de entradas do rexistro do filtro de abusos activadas por este usuario. Só está presente para as contas temporais e mais as contas que non están autoconfirmadas.",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "Indica se quen realizou a acción pode acceder aos enderezos IP temporais da conta do usuario",
 	"checkuser-rest-property-desc-active-blocks-local": "Número de bloqueos activos no wiki local",
 	"checkuser-rest-property-desc-active-local-blocks-all": "Número de bloqueos activos en todos os wikis",

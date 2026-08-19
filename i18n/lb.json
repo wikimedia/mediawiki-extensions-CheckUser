@@ -238,6 +238,8 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|Benotzerinfokaart}} opmaachen",
 	"checkuser-userinfocard-close-button-aria-label": "Zoumaachen",
+	"checkuser-userinfocard-copy-username-button-aria-label": "Benotzernumm kopéieren",
+	"checkuser-userinfocard-copy-username-copied": "Kopéiert",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|Benotzerinfokaartemenü}} opmaachen",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Bäigetrueden}}: $1 ($2)",
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Bäigetrueden}}: am Joer 2005 oder virdrun",
