@@ -142,6 +142,7 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 			'checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits',
 			'checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally',
 			'checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users',
+			'checkuser-suggestedinvestigations-filter-dialog-show-cases-with-edits-shared-pages',
 			'checkuser-suggestedinvestigations-filter-dialog-last-updated-header',
 			'checkuser-suggestedinvestigations-filter-dialog-last-updated-today',
 			'checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days',

@@ -199,7 +199,7 @@ class SuggestedInvestigationsInstrumentationClientTest extends MediaWikiIntegrat
 			->method( 'submitInteraction' )
 			->with(
 				'mediawiki.product_metrics.suggested_investigations_interaction.v2',
-				'/analytics/mediawiki/suggested_investigations/interaction/1.1.4',
+				'/analytics/mediawiki/suggested_investigations/interaction/1.1.5',
 				'test',
 				$expectedInteractionData
 			);

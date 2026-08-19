@@ -19,7 +19,14 @@ const FilterDialog = require( '../../../../modules/ext.checkUser.suggestedInvest
 const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
 	props: { initialFilters: Object.assign(
 		{},
-		{ status: [], username: [], hideCasesWithNoUserEdits: true, hideCasesWithNoBlockedUsers: false, signal: [] },
+		{
+			status: [],
+			username: [],
+			hideCasesWithNoUserEdits: true,
+			hideCasesWithNoBlockedUsers: false,
+			showCasesWithEditsOnSharedPages: false,
+			signal: []
+		},
 		initialFilters
 	) }
 } );
@@ -175,6 +182,21 @@ const commonHideCasesWithNoBlockedUsersCheckboxTest = async ( dialog, expectedCh
 	expect( hideCasesWithNoBlockedUsersCheckbox.element.checked ).toEqual( expectedCheckedState );
 };
 
+const commonShowCasesWithEditsOnSharedPagesCheckboxTest = async ( dialog, expectedCheckedState ) => {
+	const showCasesWithEditsOnSharedPagesField = dialog.find(
+		'.cdx-checkbox:has(input[name=filter-show-cases-with-edits-shared-pages])'
+	);
+
+	expect( showCasesWithEditsOnSharedPagesField.text() ).toContain(
+		'(checkuser-suggestedinvestigations-filter-dialog-show-cases-with-edits-shared-pages)'
+	);
+
+	const showCasesWithEditsOnSharedPagesCheckbox = showCasesWithEditsOnSharedPagesField.find(
+		'input[name=filter-show-cases-with-edits-shared-pages]'
+	);
+	expect( showCasesWithEditsOnSharedPagesCheckbox.element.checked ).toEqual( expectedCheckedState );
+};
+
 /**
  * Checks the signal filter checkboxes exist and have the expected checked state
  *
@@ -261,6 +283,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		await commonShowCasesWithNoUserEditsCheckboxTest( dialog, false, false );
 		await commonHideCasesWithNoBlockedUsersCheckboxTest( dialog, false );
+		await commonShowCasesWithEditsOnSharedPagesCheckboxTest( dialog, false );
 	} );
 
 	it( 'Renders correctly when opened with showCasesWithNoUserEdits pre-checked', async () => {
@@ -395,6 +418,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		await commonShowCasesWithNoUserEditsCheckboxTest( dialog, false, false );
 		await commonHideCasesWithNoBlockedUsersCheckboxTest( dialog, true );
+		await commonShowCasesWithEditsOnSharedPagesCheckboxTest( dialog, false );
 	} );
 
 	it( '`Show results` button press when hideCasesWithNoBlockedUsers checkbox is checked', async () => {
@@ -430,6 +454,52 @@ describe( 'Suggested Investigations change status dialog', () => {
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{ hideCasesWithNoBlockedUsers: 1, status: [], username: [], signal: [ 'signal-1a' ] }, window
+		);
+	} );
+
+	it( 'Renders correctly when opened with showCasesWithEditsOnSharedPages pre-checked', async () => {
+		const { dialog } = await commonComponentTest(
+			{ showCasesWithEditsOnSharedPages: true }
+		);
+
+		await commonShowCasesWithNoUserEditsCheckboxTest( dialog, false, false );
+		await commonHideCasesWithNoBlockedUsersCheckboxTest( dialog, false );
+		await commonShowCasesWithEditsOnSharedPagesCheckboxTest( dialog, true );
+	} );
+
+	it( '`Show results` button press when showCasesWithEditsOnSharedPages checkbox is checked', async () => {
+		const { dialog, wrapper } = await commonComponentTest(
+			{ hideCasesWithNoUserEdits: true, showCasesWithEditsOnSharedPages: true }
+		);
+
+		const showResultsButton = dialog.find(
+			'.cdx-dialog__footer__primary-action'
+		);
+		await showResultsButton.trigger( 'click' );
+
+		expect( wrapper.vm.open ).toEqual( true );
+		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
+			{ showCasesWithEditsOnSharedPages: 1, status: [], username: [], signal: [] },
+			window
+		);
+	} );
+
+	it( '`Show results` button press includes showCasesWithEditsOnSharedPages when checkbox is checked', async () => {
+		const { dialog, wrapper } = await commonComponentTest(
+			{ showCasesWithEditsOnSharedPages: true, signal: [ 'dev-signal-1' ] },
+			false,
+			[ { name: 'dev-signal-1', urlName: 'signal-1a' } ]
+		);
+
+		// Press the "Show results" button
+		const showResultsButton = dialog.find(
+			'.cdx-dialog__footer__primary-action'
+		);
+		await showResultsButton.trigger( 'click' );
+
+		expect( wrapper.vm.open ).toEqual( true );
+		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
+			{ showCasesWithEditsOnSharedPages: 1, status: [], username: [], signal: [ 'signal-1a' ] }, window
 		);
 	} );
 

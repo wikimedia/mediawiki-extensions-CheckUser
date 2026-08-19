@@ -105,6 +105,8 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 				$filterName = 'hide_cases_with_no_user_edits';
 			} elseif ( $filterName === 'hideCasesWithNoBlockedUsers' ) {
 				$filterName = 'hide_cases_with_no_blocked_users';
+			} elseif ( $filterName === 'showCasesWithEditsOnSharedPages' ) {
+				$filterName = 'show_cases_with_edits_on_shared_pages';
 			} elseif ( $filterName === 'lastUpdated' ) {
 				if ( $filterValue === null ) {
 					continue;

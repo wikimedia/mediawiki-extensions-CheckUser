@@ -86,6 +86,14 @@
 					'checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users'
 				).text() }}
 			</cdx-checkbox>
+			<cdx-checkbox
+				v-model="showCasesWithEditsOnSharedPagesCheckboxValue"
+				name="filter-show-cases-with-edits-shared-pages"
+			>
+				{{ $i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-show-cases-with-edits-shared-pages'
+				).text() }}
+			</cdx-checkbox>
 		</cdx-field>
 		<filter-dialog-username-filter v-model:selected-usernames="selectedUsernames">
 		</filter-dialog-username-filter>
@@ -124,6 +132,8 @@ module.exports = exports = {
 		 *      opts in to seeing those cases (i.e. hideCasesWithNoUserEdits=false on the server).
 		 *  - hideCasesWithNoBlockedUsers: Boolean. If true, only show cases where at least one
 		 *      of the accounts has been blocked
+		 *  - showCasesWithEditsOnSharedPages: Boolean. If true, only show cases where accounts have
+		 *      edited on the same page(s)
 		 *  - signal: An array of signals that are being filtered for on the page
 		 *  - lastUpdated: number|null. A positive integer (number of days), or null/undefined for all time.
 		 */
@@ -204,6 +214,11 @@ module.exports = exports = {
 		const hideCasesWithNoBlockedUsersCheckboxValue = ref(
 			props.initialFilters.hideCasesWithNoBlockedUsers
 		);
+
+		const showCasesWithEditsOnSharedPagesCheckboxValue = ref(
+			props.initialFilters.showCasesWithEditsOnSharedPages
+		);
+
 		const lastUpdated = ref( props.initialFilters.lastUpdated || '' );
 		// For grepping, the currently known i18n messages are:
 		// * checkuser-suggestedinvestigations-filter-dialog-last-updated-today
@@ -250,6 +265,10 @@ module.exports = exports = {
 				filters.hideCasesWithNoBlockedUsers = 1;
 			}
 
+			if ( showCasesWithEditsOnSharedPagesCheckboxValue.value ) {
+				filters.showCasesWithEditsOnSharedPages = 1;
+			}
+
 			if ( lastUpdated.value !== '' ) {
 				filters.lastUpdated = lastUpdated.value;
 			}
@@ -276,6 +295,7 @@ module.exports = exports = {
 			showCasesWithNoUserEditsCheckboxLabel,
 			showCasesWithNoUserEditsCheckboxValue,
 			hideCasesWithNoBlockedUsersCheckboxValue,
+			showCasesWithEditsOnSharedPagesCheckboxValue,
 			lastUpdated,
 			lastUpdatedOptions,
 			onCloseButtonClick,

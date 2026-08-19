@@ -33,6 +33,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseMetadata;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Navigation\SuggestedInvestigationsPagerNavigationBuilder;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCasePropertyManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsRelatedCasesLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSharedPagesLookup;
@@ -87,6 +88,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * @var bool If true, hide cases where all of the accounts in the case are unblocked
 	 */
 	private bool $hideCasesWithNoBlockedUsers = false;
+
+	private bool $showCasesWithEditsOnSharedPages = false;
 
 	/**
 	 * @var string[] If not an empty array, then filter for these signal database names
@@ -220,6 +223,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			'username' => $this->userNamesFilter,
 			'hideCasesWithNoUserEdits' => $this->hideCasesWithNoUserEdits,
 			'hideCasesWithNoBlockedUsers' => $this->hideCasesWithNoBlockedUsers,
+			'showCasesWithEditsOnSharedPages' => $this->showCasesWithEditsOnSharedPages,
 			'signal' => $this->signalsFilter,
 			'lastUpdated' => $this->lastUpdatedDaysFilter,
 		];
@@ -253,6 +257,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$this->hideCasesWithNoBlockedUsers = $this->mRequest->getBool( 'hideCasesWithNoBlockedUsers' );
 		if ( $this->hideCasesWithNoBlockedUsers ) {
+			$this->numberOfFiltersApplied++;
+		}
+
+		$this->showCasesWithEditsOnSharedPages = $this->mRequest->getBool( 'showCasesWithEditsOnSharedPages' );
+		if ( $this->showCasesWithEditsOnSharedPages ) {
 			$this->numberOfFiltersApplied++;
 		}
 
@@ -726,6 +735,20 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$queryInfo = $this->applyUsernameFilter( $queryInfo );
 		$queryInfo = $this->applySignalsFilter( $queryInfo );
 		$queryInfo = $this->applyLastUpdatedFilter( $queryInfo );
+		$queryInfo = $this->applyCasePropertyFilters( $queryInfo );
+
+		return $queryInfo;
+	}
+
+	private function applyCasePropertyFilters( array $queryInfo ): array {
+		if ( $this->showCasesWithEditsOnSharedPages ) {
+			// Only query for cases with PROPERTY_SHARED_PAGE_EDITS_COUNT > 0
+			$queryInfo['tables'][] = 'cusi_case_property';
+			$queryInfo['join_conds']['cusi_case_property'] = [ 'JOIN', 'sic_id = sicp_sic_id' ];
+			$queryInfo['conds']['sicp_property'] =
+				SuggestedInvestigationsCasePropertyManagerService::PROPERTY_SHARED_PAGE_EDITS_COUNT;
+			$queryInfo['conds'][] = $this->getDatabase()->expr( 'sicp_value', '>', 0 );
+		}
 
 		return $queryInfo;
 	}
@@ -905,6 +928,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 					$dbr->buildComparison( '<', [ 'siu_sic_id' => $lastCaseId, 'siu_user_id' => $lastUserId ] )
 				);
 			}
+
 			$batchOfCaseUsers = $caseUsersQueryBuilder
 				->orderBy( [ 'siu_sic_id', 'siu_user_id' ], SelectQueryBuilder::SORT_DESC )
 				->limit( 500 )

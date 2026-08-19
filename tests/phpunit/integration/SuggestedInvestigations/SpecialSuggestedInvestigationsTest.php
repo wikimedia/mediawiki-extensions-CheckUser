@@ -439,6 +439,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
+						'show_cases_with_edits_on_shared_pages' => false,
 					],
 				],
 			],
@@ -450,6 +451,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
+						'show_cases_with_edits_on_shared_pages' => false,
 					],
 				],
 			],
@@ -464,6 +466,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 						'status' => [ 'open' ], 'username' => [ 'TestUser1' ],
 						'hide_cases_with_no_user_edits' => true,
 						'hide_cases_with_no_blocked_users' => false,
+						'show_cases_with_edits_on_shared_pages' => false,
 						'signal' => [ 'dev-signal-1' ],
 					],
 				],
@@ -476,6 +479,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [ 'dev-signal-1' ],
+						'show_cases_with_edits_on_shared_pages' => false,
 					],
 				],
 			],
@@ -487,6 +491,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [ 'dev-signal-1' ],
+						'show_cases_with_edits_on_shared_pages' => false,
 					],
 				],
 			],
@@ -498,6 +503,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
 						'hide_cases_with_no_blocked_users' => true, 'signal' => [ 'dev-signal-1' ],
+						'show_cases_with_edits_on_shared_pages' => false,
 					],
 				],
 			],
@@ -509,6 +515,31 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [ 'dev-signal-1' ],
+						'show_cases_with_edits_on_shared_pages' => false,
+					],
+				],
+			],
+			'Page load with "show cases with edits on shared pages" filter applied' => [
+				'subPage' => '',
+				'queryParameters' => [ 'showCasesWithEditsOnSharedPages' => 1, 'signal' => 'dev-signal-1' ],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
+						'hide_cases_with_no_blocked_users' => false, 'signal' => [ 'dev-signal-1' ],
+						'show_cases_with_edits_on_shared_pages' => true,
+					],
+				],
+			],
+			'Page load with "show cases with edits on shared pages" filter explicitly disabled' => [
+				'subPage' => '',
+				'queryParameters' => [ 'showCasesWithEditsOnSharedPages' => 0, 'signal' => 'dev-signal-1' ],
+				'expectedInstrumentationData' => [
+					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => false,
+					'applied_filters' => [
+						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
+						'hide_cases_with_no_blocked_users' => false, 'signal' => [ 'dev-signal-1' ],
+						'show_cases_with_edits_on_shared_pages' => false,
 					],
 				],
 			],
@@ -520,6 +551,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
+						'show_cases_with_edits_on_shared_pages' => false,
 					],
 				],
 			],
@@ -531,6 +563,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => true,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
+						'show_cases_with_edits_on_shared_pages' => false,
 						'last_updated' => 7,
 					],
 				],
@@ -544,6 +577,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 					'applied_filters' => [
 						'status' => [], 'username' => [], 'hide_cases_with_no_user_edits' => false,
 						'hide_cases_with_no_blocked_users' => false, 'signal' => [],
+						'show_cases_with_edits_on_shared_pages' => false,
 					],
 				],
 			],

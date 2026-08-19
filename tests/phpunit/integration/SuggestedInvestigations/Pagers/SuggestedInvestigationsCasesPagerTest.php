@@ -1204,6 +1204,38 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoBlockedUsers' => true ], $parserOutput );
 	}
 
+	public function testWhenShowCasesWithEditsOnSharedPagesFilterIsSet(): void {
+		// Create a case where both accounts edit the same page, making it a "shared" page for the case
+		$sharedPagesEditCaseId = $this->addCaseWithTwoUsers();
+		$this->editPage( 'SharedMetadataPage', 'first', '', NS_MAIN, self::$testUser1 );
+		$this->editPage( 'SharedMetadataPage', 'second', '', NS_MAIN, self::$testUser2 );
+
+		// Create another case with edits but without any shared page edits
+		// so that it is expected to appear on the default view
+		$anotherUser = $this->getTestUser()->getUserIdentity();
+		$this->setUserEditCount( $anotherUser, 1 );
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL,
+			'Test value',
+			false
+		);
+		$caseManager = $this->getCaseManager();
+		$anotherCaseId = $caseManager->createCase( [ $anotherUser ], [ $signal ] );
+
+		// Set the filter and the context
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'showCasesWithEditsOnSharedPages', 1 );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		$this->assertStringContainsString( 'data-case-id="' . $sharedPagesEditCaseId . '"', $html );
+		$this->assertStringNotContainsString( 'data-case-id="' . $anotherCaseId . '"', $html );
+
+		$this->assertActiveFiltersJsConfigVar( [ 'showCasesWithEditsOnSharedPages' => true ], $parserOutput );
+	}
+
 	public function testWhenPHPFiltersLimitReached(): void {
 		$context = $this->makeQqxContext();
 
@@ -1515,6 +1547,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 				'username' => [],
 				'hideCasesWithNoUserEdits' => true,
 				'hideCasesWithNoBlockedUsers' => false,
+				'showCasesWithEditsOnSharedPages' => false,
 				'signal' => [],
 				'lastUpdated' => null,
 			], $expected ),
