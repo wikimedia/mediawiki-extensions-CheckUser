@@ -11,6 +11,7 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Logging\ManualLogEntry;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWikiIntegrationTestCase;
@@ -50,8 +51,11 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 		$expectedClientHintDataRowCount,
 		$referenceIdsToDelete,
 		$expectedMappingRowCountAfterDeletion,
-		$expectedClientHintDataRowCountAfterDeletion
+		$expectedClientHintDataRowCountAfterDeletion,
+		$updateRowsPerQuery
 	) {
+		$this->overrideConfigValue( MainConfigNames::UpdateRowsPerQuery, $updateRowsPerQuery );
+
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		foreach ( $clientHintDataItems as $key => $clientHintData ) {
@@ -98,23 +102,18 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideExampleClientHintData() {
 		yield 'One set of client hint data' => [
-			[ self::getExampleClientHintsDataObjectFromJsApi() ],
-			// Reference IDs for the client hint data
-			[ 1234 ],
-			// Mapping table count
-			11,
-			// Client hint data count
-			11,
-			// Reference IDs to be deleted
-			[ 1234 ],
-			// Mapping table count after deletion
-			0,
-			// Client hint data count after deletion
-			11,
+			'clientHintDataItems' => [ self::getExampleClientHintsDataObjectFromJsApi() ],
+			'referenceIdsToInsert' => [ 1234 ],
+			'expectedMappingRowCount' => 11,
+			'expectedClientHintDataRowCount' => 11,
+			'referenceIdsToDelete' => [ 1234 ],
+			'expectedMappingRowCountAfterDeletion' => 0,
+			'expectedClientHintDataRowCountAfterDeletion' => 11,
+			'updateRowsPerQuery' => 100,
 		];
 
-		yield 'Two client hint mapping data items' => [
-			[
+		yield 'Two client hint mapping data items with one to delete' => [
+			'clientHintDataItems' => [
 				self::getExampleClientHintsDataObjectFromJsApi(),
 				self::getExampleClientHintsDataObjectFromJsApi(
 					"x86",
@@ -153,18 +152,28 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 					"14.0.0"
 				),
 			],
-			// Reference IDs for the client hint data
-			[ 123, 12345 ],
-			// Mapping table count
-			22,
-			// Client hint data count
-			15,
-			// Reference IDs to be deleted
-			[ 12345 ],
-			// Mapping table count after deletion
-			11,
-			// Client hint data count after deletion
-			15,
+			'referenceIdsToInsert' => [ 123, 12345 ],
+			'expectedMappingRowCount' => 22,
+			'expectedClientHintDataRowCount' => 15,
+			'referenceIdsToDelete' => [ 12345 ],
+			'expectedMappingRowCountAfterDeletion' => 11,
+			'expectedClientHintDataRowCountAfterDeletion' => 15,
+			'updateRowsPerQuery' => 100,
+		];
+
+		yield 'Three client hint mapping data items with two to delete over multiple batches' => [
+			'clientHintDataItems' => [
+				self::getExampleClientHintsDataObjectFromJsApi(),
+				self::getExampleClientHintsDataObjectFromJsApi(),
+				self::getExampleClientHintsDataObjectFromJsApi(),
+			],
+			'referenceIdsToInsert' => [ 123, 1234, 12345 ],
+			'expectedMappingRowCount' => 33,
+			'expectedClientHintDataRowCount' => 11,
+			'referenceIdsToDelete' => [ 12345, 123 ],
+			'expectedMappingRowCountAfterDeletion' => 11,
+			'expectedClientHintDataRowCountAfterDeletion' => 11,
+			'updateRowsPerQuery' => 10,
 		];
 	}
 

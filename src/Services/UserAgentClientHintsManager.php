@@ -190,25 +190,34 @@ class UserAgentClientHintsManager {
 	 */
 	public function deleteMappingRows( ClientHintsReferenceIds $clientHintsReferenceIds ): int {
 		$dbw = $this->dbProvider->getPrimaryDatabase();
+		$dbr = $this->dbProvider->getReplicaDatabase();
 
-		// Keep a track of the number of mapping rows that are deleted.
 		$mappingRowsDeleted = 0;
 		foreach ( $clientHintsReferenceIds->getReferenceIds() as $mapId => $referenceIds ) {
 			if ( !count( $referenceIds ) ) {
 				continue;
 			}
 			// Delete the rows in cu_useragent_clienthints_map associated with these reference IDs
+			$lastRowProcessed = null;
 			do {
-				// Fetch a batch of rows to delete from the DB (the primary key is all rows in the table,
-				// so we need to fetch all of them).
-				$batchToDelete = $dbw->newSelectQueryBuilder()
+				// Fetch a batch of rows to delete from the DB, resuming after the last row of the
+				// previous batch. The primary key is all fields in the table.
+				$batchToDeleteQueryBuilder = $dbr->newSelectQueryBuilder()
 					->select( [ 'uachm_uach_id', 'uachm_reference_type', 'uachm_reference_id' ] )
 					->from( 'cu_useragent_clienthints_map' )
 					->where( [
 						'uachm_reference_id' => $referenceIds,
 						'uachm_reference_type' => $mapId,
 					] )
-					->limit( $this->options->get( MainConfigNames::UpdateRowsPerQuery ) )
+					->orderBy( [ 'uachm_reference_id', 'uachm_uach_id' ] )
+					->limit( $this->options->get( MainConfigNames::UpdateRowsPerQuery ) );
+				if ( $lastRowProcessed !== null ) {
+					$batchToDeleteQueryBuilder->where( $dbr->buildComparison( '>', [
+						'uachm_reference_id' => $lastRowProcessed->uachm_reference_id,
+						'uachm_uach_id' => $lastRowProcessed->uachm_uach_id,
+					] ) );
+				}
+				$batchToDelete = $batchToDeleteQueryBuilder
 					->caller( __METHOD__ )
 					->fetchResultSet();
 				if ( !$batchToDelete->count() ) {
@@ -217,6 +226,7 @@ class UserAgentClientHintsManager {
 				// Construct a list of WHERE conditions which would delete all the rows for this batch.
 				$batchDeleteConds = [];
 				foreach ( $batchToDelete as $row ) {
+					$lastRowProcessed = $row;
 					$batchDeleteConds[] = $dbw->andExpr( [
 						'uachm_uach_id' => $row->uachm_uach_id,
 						'uachm_reference_type' => $row->uachm_reference_type,
