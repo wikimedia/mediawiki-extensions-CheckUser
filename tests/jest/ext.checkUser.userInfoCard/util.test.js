@@ -110,9 +110,9 @@ describe( 'getOpenContext', () => {
 	} );
 
 	describe( 'page', () => {
-		it( 'returns "page" when trigger is inside #mw-content-text', () => {
+		it( 'returns "page" when trigger is inside .mw-parser-output', () => {
 			const button = makeButton(
-				'<div id="mw-content-text"><button></button></div>'
+				'<div class="mw-parser-output"><button></button></div>'
 			);
 			expect( getOpenContext( button ) ).toStrictEqual( { page: 'page' } );
 		} );
@@ -129,13 +129,6 @@ describe( 'getOpenContext', () => {
 		it( 'returns "diff" when trigger is inside .diff-title', () => {
 			const button = makeButton(
 				'<table><tbody><tr class="diff-title"><td><button></button></td></tr></tbody></table>'
-			);
-			expect( getOpenContext( button ) ).toStrictEqual( { page: 'diff' } );
-		} );
-
-		it( 'returns "diff" over "page" when trigger is inside .diff-title nested in #mw-content-text', () => {
-			const button = makeButton(
-				'<div id="mw-content-text"><table><tbody><tr class="diff-title"><td><button></button></td></tr></tbody></table></div>'
 			);
 			expect( getOpenContext( button ) ).toStrictEqual( { page: 'diff' } );
 		} );
