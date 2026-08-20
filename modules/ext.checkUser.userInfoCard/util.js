@@ -107,7 +107,9 @@ function getOpenContext( triggerElement ) {
 	const action = mw.config.get( 'wgAction' );
 	let page;
 
-	if ( specialPageName === 'Log' ||
+	if ( triggerElement.closest( '.ext-checkuser-userinfocard-navigation-item' ) ) {
+		page = 'user-page-toolbar';
+	} else if ( specialPageName === 'Log' ||
 		triggerElement.closest( '.mw-logevent-loglines' ) ) {
 		page = 'log';
 	} else if ( specialPageName === 'CheckUser' ||

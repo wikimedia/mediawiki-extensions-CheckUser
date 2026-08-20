@@ -31,14 +31,19 @@ const ICON_BASE = 'ext-checkuser-userinfocard-button__icon';
  * @param {Object<string,string>|undefined} customIcons Value of
  *   wgCheckUserUserInfoCardCustomIcons, mapping a target name to its icon variant, or undefined
  *   to simulate the server not exporting it at all
+ * @param {string} [relevantUserName] Value of wgRelevantUserName, the user of the page
  * @return {Function}
  */
-function loadInit( customIcons ) {
-	mw.config.get = jest.fn( ( key, fallback ) => (
-		key === 'wgCheckUserUserInfoCardCustomIcons' && customIcons !== undefined ?
-			customIcons :
-			fallback
-	) );
+function loadInit( customIcons, relevantUserName ) {
+	mw.config.get = jest.fn( ( key, fallback ) => {
+		if ( key === 'wgCheckUserUserInfoCardCustomIcons' && customIcons !== undefined ) {
+			return customIcons;
+		}
+		if ( key === 'wgRelevantUserName' ) {
+			return relevantUserName;
+		}
+		return fallback;
+	} );
 
 	let contentHandler;
 	mw.hook = jest.fn( () => ( {
@@ -72,6 +77,33 @@ function makeButton( { username, variant = 'userAvatar', withIcon = true } ) {
 				${ icon }
 			</button>
 		</span>`;
+	document.body.appendChild( container );
+	return container;
+}
+
+/**
+ * Add a trigger in the page navigation, as the skins render it. It has to be in the DOM before
+ * init.js runs, because init.js attaches to it on load rather than on the wikipage.content hook.
+ *
+ * @param {Object} [options]
+ * @param {boolean} [options.classOnLink] Put the class of the item on the link, as MinervaNeue
+ *   does, instead of on the list element
+ * @param {boolean} [options.withDropdownCopy] Also add the copy Vector 2022 puts into the page
+ *   tools dropdown
+ * @return {HTMLElement} Container holding the item
+ */
+function makeNavigationItem( { classOnLink = false, withDropdownCopy = false } = {} ) {
+	const container = document.createElement( 'ul' );
+	const itemClass = classOnLink ? '' : 'ext-checkuser-userinfocard-navigation-item';
+	const linkClass = classOnLink ? 'ext-checkuser-userinfocard-navigation-item' : '';
+	const item = ( idSuffix ) => `
+		<li id="ca-checkuser-userinfocard${ idSuffix }" class="mw-list-item ${ itemClass }">
+			<a href="#" class="cdx-button cdx-button--icon-only ${ linkClass }">
+				<span class="vector-icon mw-ui-icon-wikimedia-userAvatar"></span>
+				<span>User info</span>
+			</a>
+		</li>`;
+	container.innerHTML = item( '' ) + ( withDropdownCopy ? item( '-more' ) : '' );
 	document.body.appendChild( container );
 	return container;
 }
@@ -187,6 +219,51 @@ describe( 'ext.checkUser.userInfoCard init', () => {
 			buttonOf( container ).dispatchEvent( new MouseEvent( 'click', { bubbles: true } ) );
 
 			expect( global.popoverApp.setUserInfo ).toHaveBeenCalledWith( 'Some user' );
+		} );
+	} );
+
+	describe( 'page navigation trigger', () => {
+		it( 'opens the card for the user of the page', () => {
+			const container = makeNavigationItem();
+			loadInit( {}, 'Some user' );
+
+			const link = container.querySelector( 'a' );
+			link.dispatchEvent( new MouseEvent( 'click', { bubbles: true } ) );
+
+			expect( global.popoverApp.setUserInfo ).toHaveBeenCalledWith( 'Some user' );
+			expect( global.popoverApp.open ).toHaveBeenCalledWith( link );
+		} );
+
+		it( 'opens the card when the class of the item is on the link', () => {
+			const container = makeNavigationItem( { classOnLink: true } );
+			loadInit( {}, 'Some user' );
+
+			container.querySelector( 'a' ).dispatchEvent(
+				new MouseEvent( 'click', { bubbles: true } )
+			);
+
+			expect( global.popoverApp.setUserInfo ).toHaveBeenCalledWith( 'Some user' );
+		} );
+
+		it( 'attaches to the copy in the page tools dropdown as well', () => {
+			const container = makeNavigationItem( { withDropdownCopy: true } );
+			loadInit( {}, 'Some user' );
+
+			const copy = container.querySelector( '#ca-checkuser-userinfocard-more a' );
+			copy.dispatchEvent( new MouseEvent( 'click', { bubbles: true } ) );
+
+			expect( global.popoverApp.open ).toHaveBeenCalledWith( copy );
+		} );
+
+		it( 'does nothing when the page has no relevant user', () => {
+			const container = makeNavigationItem();
+			loadInit( {}, undefined );
+
+			container.querySelector( 'a' ).dispatchEvent(
+				new MouseEvent( 'click', { bubbles: true } )
+			);
+
+			expect( global.popoverApp.setUserInfo ).not.toHaveBeenCalled();
 		} );
 	} );
 } );

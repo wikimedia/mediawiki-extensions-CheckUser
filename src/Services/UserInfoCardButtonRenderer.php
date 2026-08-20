@@ -33,20 +33,14 @@ class UserInfoCardButtonRenderer {
 		MessageLocalizer $messageLocalizer,
 		bool $hiddenByDefault = false,
 	): string {
-		if ( $isBlocked ) {
-			$iconClass = 'userBlocked';
-		} elseif ( $this->userNameUtils->isTemp( $targetName ) ) {
-			$iconClass = 'userTemporary';
-		} else {
-			$iconClass = 'userAvatar';
-		}
+		$iconName = $this->getIconName( $targetName, $isBlocked );
 		// CSS-only Codex icon button
 		$icon = Html::rawElement(
 			'span',
 			[
 				'class' =>
 					'cdx-button__icon ext-checkuser-userinfocard-button__icon ' .
-					"ext-checkuser-userinfocard-button__icon--$iconClass",
+					"ext-checkuser-userinfocard-button__icon--$iconName",
 			]
 		);
 		$ariaLabel = $messageLocalizer->msg(
@@ -69,5 +63,22 @@ class UserInfoCardButtonRenderer {
 			],
 			$icon
 		);
+	}
+
+	/**
+	 * Returns the name of the Codex icon which represents the status of the target user.
+	 *
+	 * @param string $targetName Name of the user for whom to display the card
+	 * @param bool $isBlocked Whether the target user is blocked
+	 * @return string One of 'userBlocked', 'userTemporary' or 'userAvatar'
+	 */
+	public function getIconName( string $targetName, bool $isBlocked ): string {
+		if ( $isBlocked ) {
+			return 'userBlocked';
+		}
+		if ( $this->userNameUtils->isTemp( $targetName ) ) {
+			return 'userTemporary';
+		}
+		return 'userAvatar';
 	}
 }

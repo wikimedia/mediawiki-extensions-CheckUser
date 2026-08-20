@@ -57,6 +57,14 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		];
 	}
 
+	/** @dataProvider provideIconVariants */
+	public function testGetIconName( bool $isBlocked, bool $isTemp, string $expectedIconName ): void {
+		$this->assertSame(
+			$expectedIconName,
+			$this->getRenderer( $isTemp )->getIconName( 'Foo', $isBlocked )
+		);
+	}
+
 	public function testUsernameIsEscaped(): void {
 		$localizer = new FakeQqxMessageLocalizer();
 		$html = $this->getRenderer()->render( 'Foo "&"', false, $localizer );

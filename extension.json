@@ -481,6 +481,14 @@
 				"UserOptionsLookup"
 			]
 		},
+		"UserInfoCardNavigationHandler": {
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserInfoCardNavigationHandler",
+			"services": [
+				"UserOptionsLookup",
+				"CheckUserUserInfoCardBlockStatusCache",
+				"CheckUserUserInfoCardButtonRenderer"
+			]
+		},
 		"UserLinkRendererUserLinkPostRenderHandler": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserLinkRendererUserLinkPostRenderHandler",
 			"services": [
@@ -610,6 +618,7 @@
 		"RevisionFromEditComplete": "SuggestedInvestigationsCasePropertiesHandler",
 		"SaveUserOptions": "preferences",
 		"SidebarBeforeOutput": "SidebarLinksHandler",
+		"SkinTemplateNavigation::Universal": "UserInfoCardNavigationHandler",
 		"SpecialContributionsBeforeMainOutput": [
 			"SpecialContributions",
 			"ToolLinks"
@@ -1025,7 +1034,8 @@
 				"temporaryaccount.less",
 				"cidr.less",
 				"temporaryaccountonboarding.less",
-				"userInfoCard.less"
+				"userInfoCard.less",
+				"userinfocard.navigation.less"
 			],
 			"skinStyles": {
 				"minerva": [

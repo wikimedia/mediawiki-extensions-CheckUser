@@ -39,6 +39,33 @@ $( () => {
 		}
 	};
 
+	/**
+	 * Attaches the UserInfoCard event handler to the specified element
+	 *
+	 * @param {HTMLElement} element The element, which should open the UIC when clicked
+	 * @param {string|null} username The user for whom the UIC should show data. If not specified,
+	 *     value of the `data-username` attribute on element will be used.
+	 */
+	const attachInfoCardHandler = ( element, username = null ) => {
+		$( element ).on( 'click keydown', ( event ) => {
+			// For keyboard events, only respond to Enter key
+			if ( event.type === 'keydown' &&
+				event.key !== 'Enter' &&
+				event.keyCode !== 13 ) {
+				return;
+			}
+			event.preventDefault();
+
+			if ( username === null ) {
+				username = element.getAttribute( 'data-username' );
+			}
+
+			if ( username ) {
+				togglePopover( element, username );
+			}
+		} );
+	};
+
 	// Some users might need a custom icon in their UIC button (i.e., other than userAvatar/userTemporary).
 	// Because status designated by such icon can be temporary, it cannot be recorded in the parser cache,
 	// and we have to apply it here instead.
@@ -77,21 +104,29 @@ $( () => {
 				}
 			}
 
-			$( this ).on( 'click keydown', ( event ) => {
-				// For keyboard events, only respond to Enter key
-				if ( event.type === 'keydown' &&
-					event.key !== 'Enter' &&
-					event.keyCode !== 13 ) {
-					return;
-				}
-				event.preventDefault();
+			attachInfoCardHandler( this );
+		} );
+	};
 
-				const username = this.getAttribute( 'data-username' );
+	// T403700 - the trigger in the page navigation of user pages and user talk pages is rendered
+	// by the skin, which keeps no data attribute with the username, so use the relevant user of
+	// the page. UserInfoCardNavigationHandler and wgRelevantUserName use the same source for it.
+	const attachNavigationHandlers = () => {
+		const relevantUserName = mw.config.get( 'wgRelevantUserName' );
+		if ( !relevantUserName ) {
+			return;
+		}
 
-				if ( username ) {
-					togglePopover( this, username );
-				}
-			} );
+		// Vector 2022 puts a copy of the item into the page tools dropdown for narrow screens,
+		// so there can be more than one trigger.
+		$( '.ext-checkuser-userinfocard-navigation-item' ).each( function () {
+			// Some skins put the class of the item on the list element, others on the link.
+			const trigger = this.matches( 'a' ) ? this : this.querySelector( 'a' );
+			if ( !trigger ) {
+				return;
+			}
+
+			attachInfoCardHandler( trigger, relevantUserName );
 		} );
 	};
 
@@ -99,6 +134,7 @@ $( () => {
 	// T402196 - user link on permalink pages is outside #mw-content-text,
 	// so it's not covered by the hook above
 	attachInfoCardHandlers( $( '#contentSub' ) );
+	attachNavigationHandlers();
 
 	UserCardButton.methods.togglePopover = togglePopover;
 	module.exports = { UserCardButton };

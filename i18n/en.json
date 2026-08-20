@@ -400,6 +400,8 @@
 	"checkuser-uic-ip-target-category": "Pages with an IP as user info card target",
 	"checkuser-uic-ip-target-category-desc": "The page uses <code><nowiki>{{#uic:}}</nowiki></code> with an IP address or range as a target, which is unsupported, so no user info card button was added.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Open {{GENDER:$1|user}} info card",
+	"checkuser-userinfocard-navigation-label": "User info",
+	"tooltip-ca-checkuser-userinfocard": "Show information about {{GENDER:$1|this user}}",
 	"checkuser-userinfocard-close-button-aria-label": "Close",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Copy username",
 	"checkuser-userinfocard-copy-username-copied": "Copied",

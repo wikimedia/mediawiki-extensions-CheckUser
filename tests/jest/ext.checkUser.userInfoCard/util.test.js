@@ -29,6 +29,35 @@ describe( 'getOpenContext', () => {
 		document.body.innerHTML = '';
 	} );
 
+	describe( 'user-page-toolbar', () => {
+		function makeNavigationTrigger( { classOnLink = false } = {} ) {
+			const wrapper = document.createElement( 'ul' );
+			const itemClass = classOnLink ? '' : 'ext-checkuser-userinfocard-navigation-item';
+			const linkClass = classOnLink ? 'ext-checkuser-userinfocard-navigation-item' : '';
+			wrapper.innerHTML =
+				`<li id="ca-checkuser-userinfocard" class="${ itemClass }">` +
+				`<a href="#" class="${ linkClass }">User info</a></li>`;
+			document.body.appendChild( wrapper );
+			return wrapper.querySelector( 'a' );
+		}
+
+		it( 'returns "user-page-toolbar" when the class of the item is on the list element', () => {
+			expect( getOpenContext( makeNavigationTrigger() ) )
+				.toStrictEqual( { page: 'user-page-toolbar' } );
+		} );
+
+		it( 'returns "user-page-toolbar" when the class of the item is on the link', () => {
+			expect( getOpenContext( makeNavigationTrigger( { classOnLink: true } ) ) )
+				.toStrictEqual( { page: 'user-page-toolbar' } );
+		} );
+
+		it( 'returns "user-page-toolbar" over "history" on a history page', () => {
+			setConfig( { wgAction: 'history' } );
+			expect( getOpenContext( makeNavigationTrigger() ) )
+				.toStrictEqual( { page: 'user-page-toolbar' } );
+		} );
+	} );
+
 	describe( 'log', () => {
 		it( 'returns "log" on Special:Log by page name', () => {
 			setConfig( { wgCanonicalSpecialPageName: 'Log' } );
