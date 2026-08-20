@@ -79,7 +79,7 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 	 * @return void
 	 */
 	private function moveLogEntriesFromCuChanges() {
-		$dbw = $this->getDB( DB_PRIMARY );
+		$dbw = $this->getPrimaryDB();
 
 		$start = (int)$dbw->newSelectQueryBuilder()
 			->field( 'MIN(cuc_id)' )
