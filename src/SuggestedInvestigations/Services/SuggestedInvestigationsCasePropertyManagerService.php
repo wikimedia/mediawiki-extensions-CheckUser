@@ -4,12 +4,22 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
 
+use InvalidArgumentException;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 
 class SuggestedInvestigationsCasePropertyManagerService {
 
+	/**
+	 * Array of all supported case properties:
+	 *   - The key is the id int used to identify the property
+	 *   - The value is the function name that is used to calculate the
+	 *     property's value.
+	 */
+	public const ALL_PROPERTIES = [
+		self::PROPERTY_SHARED_PAGE_EDITS_COUNT => 'updateCountOfEditsOnSharedPages',
+	];
 	public const PROPERTY_SHARED_PAGE_EDITS_COUNT = 1;
 
 	public function __construct(
@@ -17,6 +27,36 @@ class SuggestedInvestigationsCasePropertyManagerService {
 		private readonly SuggestedInvestigationsCaseLookupService $caseLookupService,
 		private readonly SuggestedInvestigationsSharedPagesLookup $sharedPagesLookup,
 	) {
+	}
+
+	/**
+	 * Updates a given set of $properties for a given set of $caseIds
+	 * @param int[] $caseIds
+	 * @param int[] $properties
+	 */
+	public function updatePropertiesForCases(
+		array $caseIds,
+		array $properties
+	): void {
+		$this->caseLookupService->assertCasesExist( $caseIds );
+
+		$userIdsInCases = [];
+		foreach ( $caseIds as $caseId ) {
+			$userIdsInCase = $this->caseLookupService->getUsersInCase( $caseId );
+			$userIdsInCases[ $caseId ] = $userIdsInCase;
+		}
+
+		$dbw = $this->dbProvider->getPrimaryDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
+
+		foreach ( $properties as $propertyKey ) {
+			$methodName = self::ALL_PROPERTIES[
+				$propertyKey
+			] ?? null;
+			if ( !$methodName ) {
+				throw new InvalidArgumentException( "Invalid property id, $propertyKey" );
+			}
+			$this->$methodName( $dbw, $userIdsInCases );
+		}
 	}
 
 	/**
@@ -46,17 +86,7 @@ class SuggestedInvestigationsCasePropertyManagerService {
 	 */
 	public function updateEditRelatedPropertiesForCases( array $caseIds ): void {
 		$this->caseLookupService->assertCasesExist( $caseIds );
-
-		$userIdsInCases = [];
-		foreach ( $caseIds as $caseId ) {
-			$userIdsInCase = $this->caseLookupService->getUsersInCase( $caseId );
-			$userIdsInCases[ $caseId ] = $userIdsInCase;
-		}
-
-		$dbw = $this->dbProvider->getPrimaryDatabase( CheckUserQueryInterface::VIRTUAL_DB_DOMAIN );
-
-		// Update the count of edits on shared pages
-		$this->updateCountOfEditsOnSharedPages( $dbw, $userIdsInCases );
+		$this->updatePropertiesForCases( $caseIds, [ self::PROPERTY_SHARED_PAGE_EDITS_COUNT ] );
 	}
 
 	private function updateCountOfEditsOnSharedPages( IDatabase $dbw, array $userIdsInCases ): void {

@@ -40,6 +40,58 @@ class SuggestedInvestigationsCasePropertyManagerServiceTest extends MediaWikiInt
 		$this->enableSuggestedInvestigations();
 	}
 
+	public function testUpdatePropertiesForCases(): void {
+		$users = [
+			$this->getTestUser()->getUser(),
+			$this->getTestUser( [ 'read' ] )->getUser(),
+		];
+		$signals = [
+			SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Lorem', 'ipsum', false ),
+		];
+
+		$caseId = $this
+			->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' )
+			->createCase( $users, $signals );
+
+		// Clear the table, as properties will be auto-updated on any normal action initiated
+		$dbw = $this->getDb( DB_PRIMARY );
+		$dbw->newDeleteQueryBuilder()
+			->deleteFrom( 'cusi_case_property' )
+			->where( $dbw->expr( 'sicp_property', '!=', null ) )
+			->caller( __METHOD__ )
+			->execute();
+		$casePropertiesCountInitial = $dbw->newSelectQueryBuilder()
+			->select( [ 'count' => 'COUNT(*)' ] )
+			->from( 'cusi_case_property' )
+			->where( [
+				'sicp_sic_id' => $caseId,
+			] )
+			->caller( __METHOD__ )
+			->fetchRow();
+
+		$this->assertSame( 0, (int)$casePropertiesCountInitial->count );
+
+		$this->getServiceContainer()
+			->get( 'CheckUserSuggestedInvestigationsCasePropertyManager' )
+			->updatePropertiesForCases(
+				[ $caseId ],
+				array_keys( SuggestedInvestigationsCasePropertyManagerService::ALL_PROPERTIES )
+			);
+		$casePropertiesCountFinal = $dbw->newSelectQueryBuilder()
+			->select( [ 'count' => 'COUNT(*)' ] )
+			->from( 'cusi_case_property' )
+			->where( [
+				'sicp_sic_id' => $caseId,
+			] )
+			->caller( __METHOD__ )
+			->fetchRow();
+
+		$this->assertSame(
+			count( SuggestedInvestigationsCasePropertyManagerService::ALL_PROPERTIES ),
+			(int)$casePropertiesCountFinal->count
+		);
+	}
+
 	public function testUpdateEditRelatedPropertiesForCasesOnCreateCase(): void {
 		$users = [
 			$this->getTestUser()->getUser(),
