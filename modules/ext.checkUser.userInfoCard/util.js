@@ -126,7 +126,7 @@ function getOpenContext( triggerElement ) {
 	} else if ( triggerElement.closest( '#mw-revision-info' ) ||
 		triggerElement.closest( '.diff-title' ) ) {
 		page = 'diff';
-	} else if ( triggerElement.closest( '#mw-content-text' ) ) {
+	} else if ( triggerElement.closest( '.mw-parser-output' ) ) {
 		page = 'page';
 	} else {
 		page = 'other';
