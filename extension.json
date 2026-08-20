@@ -1041,6 +1041,12 @@
 				"minerva": [
 					"temporaryaccount.minerva.less",
 					"userinfocard.minerva.less"
+				],
+				"vector": [
+					"userinfocard.navigation.vector.less"
+				],
+				"timeless": [
+					"userinfocard.navigation.timeless.less"
 				]
 			},
 			"lessMessages": [

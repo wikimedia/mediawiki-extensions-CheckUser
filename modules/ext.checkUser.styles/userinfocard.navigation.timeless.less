@@ -1,0 +1,47 @@
+@import 'mediawiki.skin.variables.less';
+
+// Timeless ignores the 'icon' key of a navigation item. It puts a generic icon on every inline
+// page tool, with `.tools-inline li a` in its screen-common.less, and gives some items an icon
+// of their own, keyed on the id of the item. Items in this menu, such as Edit and History, show
+// the icon next to the label, so do the same here: replace the generic icon of the trigger with
+// the icon of the card, and keep the label.
+//
+// The icon of the card needs a mask, which cannot go on the link itself, because the mask would
+// clip the label too. Put it in a pseudo-element, in the space which the skin already reserves
+// for the icon through the left padding of the link.
+//
+// These rules need one class more than `.tools-inline li a` has, to override the generic icon.
+
+/* stylelint-disable selector-class-pattern */
+
+.tools-inline .ext-checkuser-userinfocard-navigation-item a {
+	background-image: none;
+	position: relative;
+}
+
+.tools-inline .ext-checkuser-userinfocard-navigation-item a::before {
+	// Timeless draws its icons in the small size, centered in the medium size area which
+	// `.ca-icon` reserves with the left padding of the link.
+	.cdx-mixin-css-icon-background( @min-size-icon-small );
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: @min-size-icon-medium;
+	height: @min-size-icon-medium;
+	opacity: 0.5; // To match Timeless' icons
+}
+
+.tools-inline .ext-checkuser-userinfocard-navigation-item--userAvatar a::before {
+	.cdx-mixin-css-icon-background-image( @cdx-icon-user-avatar, @color-subtle );
+}
+
+.tools-inline .ext-checkuser-userinfocard-navigation-item--userTemporary a::before {
+	.cdx-mixin-css-icon-background-image( @cdx-icon-user-temporary, @color-subtle );
+}
+
+.tools-inline .ext-checkuser-userinfocard-navigation-item--userBlocked a::before {
+	.cdx-mixin-css-icon-background-image( @cdx-icon-user-blocked, @color-subtle );
+}
+
+/* stylelint-enable selector-class-pattern */

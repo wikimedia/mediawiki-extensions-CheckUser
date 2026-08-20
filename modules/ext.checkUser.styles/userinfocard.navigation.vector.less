@@ -1,0 +1,49 @@
+@import 'mediawiki.skin.variables.less';
+
+// Vector 2010 renders items which extensions add to the "views" menu as text tabs, and it keeps
+// the name of the icon out of the HTML. It only adds the "icon" class to the item. To get an
+// icon-only tab next to the watchstar, clip the label of the tab and draw the icon before it,
+// as the WikiLove extension does for its own tab (see ext.wikiLove.icon.vector.css). The sizes
+// are the ones WikiLove uses, so that both tabs have the same height as their neighbours.
+//
+// The icon is only for the tab bar. If the item is ever in a menu instead, the label is shown.
+//
+// The skin keeps the height of a tab relative to the font size of the tab, which is 13px at the
+// default font size of the browser. The skin does not export that font size, so this file
+// repeats it and makes all sizes relative to it. If the sizes were absolute, the icon would move
+// out of its place when the reader changes the font size.
+
+@ext-checkuser-uic-nav-font-size-tabs: 13;
+@ext-checkuser-uic-nav-icon-size: unit( ( 16 / @ext-checkuser-uic-nav-font-size-tabs ), em );
+@ext-checkuser-uic-nav-icon-margin: unit( ( 15 / @ext-checkuser-uic-nav-font-size-tabs ), em );
+
+/* stylelint-disable selector-class-pattern */
+.mw-portlet-views .ext-checkuser-userinfocard-navigation-item.icon a {
+	display: block;
+	width: unit( ( 28 / @ext-checkuser-uic-nav-font-size-tabs ), em );
+	padding: @ext-checkuser-uic-nav-icon-margin unit( ( 5 / @ext-checkuser-uic-nav-font-size-tabs ), em ) 0;
+	overflow: hidden;
+}
+
+.mw-portlet-views .ext-checkuser-userinfocard-navigation-item.icon a::before {
+	.cdx-mixin-css-icon-background( @ext-checkuser-uic-nav-icon-size );
+	content: '';
+	display: block;
+	width: @ext-checkuser-uic-nav-icon-size;
+	height: @ext-checkuser-uic-nav-icon-size;
+	margin-bottom: @ext-checkuser-uic-nav-icon-margin;
+}
+
+.mw-portlet-views .ext-checkuser-userinfocard-navigation-item--userAvatar.icon a::before {
+	.cdx-mixin-css-icon-background-image( @cdx-icon-user-avatar, @color-subtle );
+}
+
+.mw-portlet-views .ext-checkuser-userinfocard-navigation-item--userTemporary.icon a::before {
+	.cdx-mixin-css-icon-background-image( @cdx-icon-user-temporary, @color-subtle );
+}
+
+.mw-portlet-views .ext-checkuser-userinfocard-navigation-item--userBlocked.icon a::before {
+	.cdx-mixin-css-icon-background-image( @cdx-icon-user-blocked, @color-subtle );
+}
+
+/* stylelint-enable selector-class-pattern */
