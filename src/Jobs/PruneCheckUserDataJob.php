@@ -11,6 +11,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\JobQueue\Job;
+use Wikimedia\LockManager\ILockManager;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -30,6 +31,7 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 		private readonly Config $config,
 		private readonly IConnectionProvider $dbProvider,
 		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
+		private readonly ILockManager $lockManager,
 	) {
 		parent::__construct( 'checkuserPruneCheckUserDataJob', $params );
 	}
@@ -37,6 +39,7 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 	/** @return bool */
 	public function run() {
 		$dbw = $this->dbProvider->getPrimaryDatabase( $this->params['domainID'] );
+		$ticket = $this->dbProvider->getEmptyTransactionTicket( __METHOD__ );
 
 		// Exit early if the database is in read-only mode to avoid log spam
 		if ( $dbw->isReadOnly() ) {
@@ -46,7 +49,7 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 		// Get an exclusive lock to purge data from the CheckUser tables. This is done to avoid multiple jobs and/or
 		// the purgeOldData.php maintenance script attempting to purge at the same time.
 		$key = CheckUserDataPurger::getPurgeLockKey( $this->params['domainID'] );
-		$scopedLock = $dbw->getScopedLockAndFlush( $key, __METHOD__, 1 );
+		$scopedLock = $this->lockManager->scopedLock( $key, 1 );
 		if ( !$scopedLock ) {
 			return true;
 		}
@@ -72,6 +75,11 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 			// Purge expired rows from the central index tables where the rows are associated with this wiki
 			$this->checkUserCentralIndexManager->purgeExpiredRows( $cutoff, $this->params['domainID'] );
 		}
+
+		// Commit changes and then release the lock to avoid other purge jobs attempting to purge data
+		// we are purging in this job.
+		$this->dbProvider->commitAndWaitForReplication( __METHOD__, $ticket );
+		unset( $scopedLock );
 
 		return true;
 	}

@@ -1335,7 +1335,8 @@
 				"CheckUserDataPurger",
 				"MainConfig",
 				"ConnectionProvider",
-				"UserAgentClientHintsManager"
+				"UserAgentClientHintsManager",
+				"LockManager"
 			]
 		},
 		"checkuserSuggestedInvestigationsAutoCloseForCase": {

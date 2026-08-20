@@ -42,7 +42,7 @@ class PurgeOldData extends Maintenance {
 		$domainId = $this->getPrimaryDB()->getDomainID();
 		$key = CheckUserDataPurger::getPurgeLockKey( $domainId );
 		// Set the timeout at 60s, in case any job that has the lock is slow to run.
-		$scopedLock = $this->getPrimaryDB()->getScopedLockAndFlush( $key, __METHOD__, 60 );
+		$scopedLock = $this->getServiceContainer()->getLockManager()->scopedLock( $key, 60 );
 		if ( $scopedLock ) {
 			// Purge expired rows from each local CheckUser result table
 			foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
