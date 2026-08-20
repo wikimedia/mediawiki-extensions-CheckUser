@@ -415,6 +415,7 @@
 	"checkuser-userinfocard-checks-empty": "Überprüfungen: $1",
 	"checkuser-userinfocard-suggested-investigations": "Angebotene Untersuchungsfälle: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Missbrauchsfilter-Treffer: $1",
+	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Er/Sie}} war {{PLURAL:$1|war an einem Tag|in den letzten $1 Tagen}} aktiv.",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Global {{GENDER:$1|geschlossen}}]] seit $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Global {{GENDER:$1|geschlossen}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Global {{GENDER:$1|gesperrt}}]] seit $3",

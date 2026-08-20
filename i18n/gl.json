@@ -401,6 +401,7 @@
 	"checkuser-userinfocard-checks-empty": "Verificacións: $1",
 	"checkuser-userinfocard-suggested-investigations": "Casos de investigación suxeridos: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Deteccións do filtro de abusos: $1",
+	"checkuser-userinfocard-has-checkuser-data": "Estivo {{GENDER:$2|activo|activa}} {{PLURAL:$1|no último día|nos últimos $1 días}}",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|{{GENDER:$1|Bloqueado|Bloqueada}} globalmente]] desde o $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|{{GENDER:$1|Bloqueado|Bloqueada}} globalmente]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|{{GENDER:$1|Bloqueado|Bloqueada}} globalmente]] desde o $3",

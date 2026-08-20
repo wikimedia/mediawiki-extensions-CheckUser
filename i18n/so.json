@@ -395,6 +395,7 @@
 	"checkuser-userinfocard-checks-empty": "Hubinno: $1",
 	"checkuser-userinfocard-suggested-investigations": "Kiisaska baaritaanno la soo jeediyay: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Ku dhacyada shaandhada xadgudubka: $1",
+	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Wuxuu}} firfircoonaa {{PLURAL:$1|maalintii|$1 maalmood}} ee la soo dhaafay",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Caalami ahaan {{GENDER:$1|la xannibay}}]] tan iyo $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Caalami ahaan {{GENDER:$1|quful}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Caalami ahaan {{GENDER:$1|xanniban}}]] tan iyo $3",

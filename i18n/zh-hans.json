@@ -455,6 +455,7 @@
 	"checkuser-userinfocard-checks-empty": "被查核次数：$1",
 	"checkuser-userinfocard-suggested-investigations": "建议调查案例数：$1",
 	"checkuser-userinfocard-abusefilter-hits": "滥用过滤器触发次数：$1",
+	"checkuser-userinfocard-has-checkuser-data": "在过去$1{{PLURAL:$1|天}}内{{GENDER:$2|活跃}}",
 	"checkuser-userinfocard-global-restrictions-locked": "自$3起被[[$2|全域{{GENDER:$1|锁定}}]]",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "被[[$2|全域{{GENDER:$1|锁定}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "自$3起被[[$2|全域{{GENDER:$1|封禁}}]]",

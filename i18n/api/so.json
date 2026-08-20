@@ -51,6 +51,7 @@
 	"checkuser-ip-auto-reveal-missing-permission": "Ma lihid oggolaanshaha loo baahan yahay si aad u isticmaasho muujinta IP-ga si toos ah.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Aqoonsiga kiiska ee la bixiyay ma jiro.",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Astaanta baaritaannada la soo jeediyay lama shidin",
+	"checkuser-suggestedinvestigations-not-enabled": "Astaanta baaritaannada la soo jeediyey lama hawlgelin",
 	"rest-module-checkuser.v0-title": "API-ga CheckUser",
 	"rest-module-checkuser.v0-desc": "REST API ee qalabka CheckUser. \nEeg [dukumentiga kordhinta CheckUser] (https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Magaca isticmaalaha laga soo saarayo faahfaahinta",
@@ -72,6 +73,8 @@
 	"checkuser-rest-property-desc-checkuser-checks": "Tirada baaritaannada CheckUser ee lagu sameeyay isticmaalahan",
 	"checkuser-rest-property-desc-checkuser-last-check": "Waqtiga baaritaankii ugu dambeeyay ee CheckUser lagu sameeyay isticmaalahan",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "Tirada kiisaska baaritaanka la soo jeediyay ee la xiriira isticmaalahan",
+	"checkuser-rest-property-desc-abusefilter-hit-count": "Tirada gelinnada diiwaanka shaandhada xadgudubka ee uu kiciyey isticmaalahani. Waxaa la muujinayaa oo keliya akoonnada ku-meelgaarka ah iyo akoonnada aan si toos ah loo xaqiijin",
+	"checkuser-rest-property-desc-has-checkuser-data": "Haddii isticmaaluhu leeyahay wax dhaqdhaqaaq ah oo lagu diiwaangeliyey jadwallada CheckUser ee wiki-gan. Waxaa la muujinayaa oo keliya haddii qofka fulinaya uu leeyahay xuquuqda checkuser",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "Inuu fuliyaha heli karo cinwaannada IP-ga ku meelgaarka ah ee koontada isticmaalaha",
 	"checkuser-rest-property-desc-active-blocks-local": "Tirada xannibaadaha firfircoon ee ku jira wiki-ga maxalliga ah",
 	"checkuser-rest-property-desc-active-local-blocks-all": "Tirada guud ee xannibaadaha maxalliga ah ee firfircoon dhammaan wikiyada",
@@ -154,5 +157,7 @@
 	"checkuser-rest-endpoint-summary-connected-temp-accounts": "Hel akoonnada ku meelgaarka ah ee xiriirka leh",
 	"checkuser-rest-endpoint-desc-connected-temp-accounts": "Waxay soo celisaa akoonnada kale ee ku meelgaarka ah ee wax ka beddelay iyagoo isticmaalaya isla cinwaannada IP-ga sida akoonka ku meelgaarka ah ee la bixiyay.",
 	"checkuser-rest-endpoint-summary-clienthints": "Abuur tilmaamaha macmiilka ee wakiilka isticmaalaha",
-	"checkuser-rest-endpoint-desc-clienthints": "Waxay abuurtaa xogta tilmaamaha macmiilka ee wakiilka isticmaalaha ee dib u eegis ama dhacdo diiwaan ah oo la bixiyay."
+	"checkuser-rest-endpoint-desc-clienthints": "Waxay abuurtaa xogta tilmaamaha macmiilka ee wakiilka isticmaalaha ee dib u eegis ama dhacdo diiwaan ah oo la bixiyay.",
+	"checkuser-rest-endpoint-summary-suggestedinvestigationsusersummary": "Soo hel soo koobidda xiriirka isticmaalaha uu la leeyahay kiisaska baaritaannada la soo jeediyey",
+	"checkuser-rest-endpoint-desc-suggestedinvestigationsusersummary": "Soo celi tirada akoonnada iyo kiisaska uu isticmaaluhu xiriir la leeyahay ee ku jira baaritaannada la soo jeediyey"
 }
