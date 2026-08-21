@@ -116,6 +116,7 @@
 		},
 		"CheckUserClientHintsSpecialPages": {
 			"value": {
+				"ChangeCredentials": "header",
 				"CreateAccount": "header",
 				"Emailuser": "js",
 				"PasswordReset": "js",
@@ -592,6 +593,7 @@
 			"BlockConnectedAccounts",
 			"clienthints"
 		],
+		"ChangeAuthenticationDataAudit": "CheckUserEvents",
 		"ChangesListInsertLogEntry": "LogDisplayHandler",
 		"ContributionsToolLinks": "ToolLinks",
 		"EmailUser": "CheckUserEvents",

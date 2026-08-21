@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
+use MediaWiki\Auth\PasswordAuthenticationRequest;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
@@ -22,8 +23,10 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\RecentChanges\Hook\MarkPatrolledAuditHook;
 use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\SpecialPage\Hook\ChangeAuthenticationDataAuditHook;
 use MediaWiki\Specials\Hook\EmailUserHook;
 use MediaWiki\Specials\Hook\UserLogoutCompleteHook;
+use MediaWiki\Title\TitleValue;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
@@ -47,6 +50,7 @@ class CheckUserEventsHandler implements
 	LocalUserCreatedHook,
 	UserLogoutCompleteHook,
 	User__mailPasswordInternalHook,
+	ChangeAuthenticationDataAuditHook,
 	MarkPatrolledAuditHook
 {
 
@@ -227,6 +231,37 @@ class CheckUserEventsHandler implements
 				'privatelog',
 				RequestContext::getMain()->getRequest()
 			);
+		}
+	}
+
+	/** @inheritDoc */
+	public function onChangeAuthenticationDataAudit( $req, $status ): void {
+		if ( $req->username === null ) {
+			return;
+		}
+
+		$userIdentity = $this->userIdentityLookup->getUserIdentityByName( $req->username );
+		if ( !$userIdentity ) {
+			return;
+		}
+
+		if ( $req instanceof PasswordAuthenticationRequest && $status->isGood() ) {
+			$title = new TitleValue( NS_USER, $userIdentity->getName() );
+			$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable(
+				[
+					'cupe_namespace' => $title->getNamespace(),
+					'cupe_title' => $title->getDBkey(),
+					'cupe_log_action' => 'password-changed',
+				],
+				__METHOD__,
+				$userIdentity
+			);
+
+			if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+				// Successful authentication redirects the user, so we can only use HTTP Client Hints headers
+				$context = RequestContext::getMain();
+				$this->storeClientHintsDataFromHeaders( $insertedId, 'privatelog', $context->getRequest() );
+			}
 		}
 	}
 

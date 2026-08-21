@@ -6,6 +6,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
+use MediaWiki\Auth\PasswordAuthenticationRequest;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CheckUser\HookHandler\CheckUserEventsHandler;
@@ -23,6 +24,7 @@ use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
+use StatusValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;
@@ -948,5 +950,92 @@ class CheckUserEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->where( [ 'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT ] )
 			->caller( __METHOD__ )
 			->assertFieldValue( $actualLogId );
+	}
+
+	public function testOnChangeAuthenticationDataAuditWhenUsernameDoesNotExist(): void {
+		$mockAuthenticationRequest = $this->createMock( AuthenticationRequest::class );
+		$mockAuthenticationRequest->username = 'NonExistingTestUser123234234';
+
+		$this->expectNoCheckUserInsertCalls();
+		$this->getObjectUnderTest()->onChangeAuthenticationDataAudit(
+			$mockAuthenticationRequest,
+			StatusValue::newGood()
+		);
+	}
+
+	public function testOnChangeAuthenticationDataAuditWhenChangeNotToPassword(): void {
+		$mockAuthenticationRequest = $this->createMock( AuthenticationRequest::class );
+		$mockAuthenticationRequest->username = $this->getTestUser()->getUserIdentity()->getName();
+
+		$this->expectNoCheckUserInsertCalls();
+		$this->getObjectUnderTest()->onChangeAuthenticationDataAudit(
+			$mockAuthenticationRequest,
+			StatusValue::newGood()
+		);
+	}
+
+	public function testOnChangeAuthenticationDataAuditForFailedPasswordChange(): void {
+		$mockAuthenticationRequest = $this->createMock( PasswordAuthenticationRequest::class );
+		$mockAuthenticationRequest->username = $this->getTestUser()->getUserIdentity()->getName();
+
+		$this->expectNoCheckUserInsertCalls();
+		$this->getObjectUnderTest()->onChangeAuthenticationDataAudit(
+			$mockAuthenticationRequest,
+			StatusValue::newFatal( 'test' )
+		);
+	}
+
+	/** @dataProvider provideClientHintsEnabledState */
+	public function testOnChangeAuthenticationDataAuditForSuccessfulPasswordChange( bool $clientHintsEnabled ): void {
+		RequestContext::getMain()->getRequest()->setHeader( 'Sec-CH-UA-Bitness', '"32"' );
+		$this->overrideConfigValue( 'CheckUserClientHintsEnabled', $clientHintsEnabled );
+
+		$targetUser = $this->getTestUser()->getUser();
+		$mockAuthenticationRequest = $this->createMock( PasswordAuthenticationRequest::class );
+		$mockAuthenticationRequest->username = $targetUser->getName();
+
+		$this->getObjectUnderTest()->onChangeAuthenticationDataAudit(
+			$mockAuthenticationRequest,
+			StatusValue::newGood()
+		);
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'cupe_namespace', 'cupe_title', 'actor_name' ] )
+			->from( 'cu_private_event' )
+			->join( 'actor', null, 'actor_id = cupe_actor' )
+			->where( [ 'cupe_log_action' => 'password-changed', 'cupe_log_type' => 'checkuser-private-event' ] )
+			->caller( __METHOD__ )
+			->assertRowValue( [ NS_USER, $targetUser->getUserPage()->getDBkey(), $targetUser->getName() ] );
+
+		// Check that Client Hints data is only collected if the collection is enabled
+		$actualEventId = (int)$this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->where( [ 'cupe_log_action' => 'password-changed', 'cupe_log_type' => 'checkuser-private-event' ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		if ( $clientHintsEnabled ) {
+			$this->newSelectQueryBuilder()
+				->select( [ 'uachm_reference_id', 'uachm_reference_type', 'uach_name', 'uach_value' ] )
+				->from( 'cu_useragent_clienthints_map' )
+				->join( 'cu_useragent_clienthints', null, [ 'uachm_uach_id = uach_id' ] )
+				->caller( __METHOD__ )
+				->assertRowValue( [
+					$actualEventId, UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT, 'bitness', '32',
+				] );
+		} else {
+			$this->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'cu_useragent_clienthints_map' )
+				->caller( __METHOD__ )
+				->assertEmptyResult();
+		}
+	}
+
+	public static function provideClientHintsEnabledState(): array {
+		return [
+			'Client hints are enabled' => [ 'clientHintsEnabled' => true ],
+			'Client hints are disabled' => [ 'clientHintsEnabled' => false ],
+		];
 	}
 }

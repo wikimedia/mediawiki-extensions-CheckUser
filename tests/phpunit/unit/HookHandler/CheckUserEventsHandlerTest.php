@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
+use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Deferred\DeferredUpdates;
@@ -17,6 +18,7 @@ use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiUnitTestCase;
+use StatusValue;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\ReadOnlyMode;
 
@@ -140,5 +142,16 @@ class CheckUserEventsHandlerTest extends MediaWikiUnitTestCase {
 			'wgLogRestrictions is empty' => [ [] ],
 			'wgLogRestrictions contains a "newusers" key with value of "*"' => [ [ 'newusers' => '*' ] ],
 		];
+	}
+
+	public function testOnChangeAuthenticationDataAuditWhenUsernameIsNull(): void {
+		$mockAuthenticationRequest = $this->createMock( AuthenticationRequest::class );
+		$mockAuthenticationRequest->username = null;
+
+		$handler = $this->getObjectUnderTestForNoCheckUserInsertCalls();
+		$handler->onChangeAuthenticationDataAudit(
+			$mockAuthenticationRequest,
+			StatusValue::newFatal( 'test' )
+		);
 	}
 }
