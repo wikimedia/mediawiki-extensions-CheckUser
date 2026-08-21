@@ -398,6 +398,7 @@
 	"checkuser-userinfocard-checks-empty": "Pemeriksaan: $1",
 	"checkuser-userinfocard-suggested-investigations": "Kes siasatan yang dicadangkan: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Kenaan penapis salah guna: $1",
+	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Telah}} aktif dalam $1 {{PLURAL:$1|hari}} terkini",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|{{GENDER:$1|Dikunci}} secara sejagat]] sejak $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|{{GENDER:$1|Dikunci}} secara sejagat]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|{{GENDER:$1|Dikunci}} secara sejagat]] sejak $3",

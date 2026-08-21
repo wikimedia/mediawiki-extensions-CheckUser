@@ -383,8 +383,12 @@
 	"checkuser-temporary-account-autorevoke-userright-reason": "qeyri-aktivlik səbəbindən avtomatik ləğv edildi",
 	"checkuser-ipinfo-global-contributions-url-text": "Qlobal töhfələrə bax",
 	"checkuser-uic-invalid-username-category": "Yanlış istifadəçi məlumat kartı hədəfi olan səhifələr",
+	"checkuser-uic-invalid-username-category-desc": "Səhifədə qeydiyyatdan keçmiş istifadəçinin adı ola bilməyən, məsələn, IP ünvanı kimi bir məlumatla <code><nowiki>{{#uic:}}</nowiki></code> istifadə edildiyinə görə istifadəçi məlumatı kartı düyməsi əlavə edilmədi.",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|İstifadəçi}} məlumat kartını aç",
 	"checkuser-userinfocard-close-button-aria-label": "Bağla",
+	"checkuser-userinfocard-copy-username-button-aria-label": "İstifadəçi adını kopiyala",
+	"checkuser-userinfocard-copy-username-copied": "Kopiyalandı",
+	"checkuser-userinfocard-copy-username-error": "İstifadəçi adını kopiyalamaq mümkün olmadı.",
 	"checkuser-userinfocard-open-menu-aria-label": "{{GENDER:$1|İstifadəçi}} məlumat kartı menyusunu aç",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Qoşulma tarixi}}: $1 ($2)",
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Qoşulub}}: 2005-ci ildə və ya əvvəl",
@@ -400,6 +404,7 @@
 	"checkuser-userinfocard-checks": "Təftişlər: $1 (son yoxlanış: $2)",
 	"checkuser-userinfocard-checks-empty": "Təftişlər: $1",
 	"checkuser-userinfocard-suggested-investigations": "Təklif olunan araşdırma işləri: $1",
+	"checkuser-userinfocard-abusefilter-hits": "Dəyişiklik süzgəcinə ilişmə: $1",
 	"checkuser-userinfocard-global-restrictions-locked": "$3 tarixindən bəri [[$2|qlobal {{GENDER:$1|kiliddədir}}]]",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Qlobal {{GENDER:$1|kiliddədir}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "$3 tarixindən bəri [[$2|qlobal {{GENDER:$1|bloklanıb}}]]",
@@ -530,5 +535,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Bu, bloku $1 hesaba tətbiq edəcək. Bu {{PLURAL:$1|hesabı|hesabları}} bloklamağa davam etməyiniz {{PLURAL:$1|onu|onları}} araşdırdığınızı təsdiqləyir.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Bu bloka əlavə etmək üçün çoxlu sayda əlaqəli müvəqqəti hesab var. Eyni anda yalnız $1 {{PLURAL:$1|hesaba}} qədər bloklamağa icazə veririk.",
 	"rangecalculator": "IP diapazonu kalkulyatoru",
-	"rangecalculator-summary": "Bu alət sizə IP ünvanlarının siyahısı arasındakı ortaq diapazonu hesablamağa imkan verir. Bu alət hazırda yalnız bir ortaq diapazonu hesablayır və IPv4 və IPv6 ünvanlarını qarışdıra bilməzsiniz."
+	"rangecalculator-summary": "Bu alət sizə IP ünvanlarının siyahısı arasındakı ortaq diapazonu hesablamağa imkan verir. Bu alət hazırda yalnız bir ortaq diapazonu hesablayır və IPv4 və IPv6 ünvanlarını qarışdıra bilməzsiniz.",
+	"checkuser-si-related-cases-info": "Hədəf hesabı [$3 {{PLURAL:$2|$2 təklif olunan araşdırma}}] üzrə {{PLURAL:$1|$1 hesabla}} əlaqələndirilib."
 }
