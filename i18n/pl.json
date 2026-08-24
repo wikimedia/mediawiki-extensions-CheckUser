@@ -397,7 +397,9 @@
 	"checkuser-temporary-account-autorevoke-userright-reason": "usunięto automatycznie z powodu nieaktywności",
 	"checkuser-ipinfo-global-contributions-url-text": "Zobacz wkład globalny",
 	"checkuser-uic-invalid-username-category": "Strony z nieprawidłowym elementem docelowym karty informacji o użytkowniku",
-	"checkuser-uic-invalid-username-category-desc": "Strona korzysta z <code><nowiki>{{#uic:}}</nowiki></code> z podanym parametrem, który nie może być nazwą zarejestrowanego użytkownika, adresem IP, co spowoduje, że przycisk do wyświetlania karty informacji o użytkowniku się nie wyświetli.",
+	"checkuser-uic-invalid-username-category-desc": "Strona korzysta z <code><nowiki>{{#uic:}}</nowiki></code> z podanym parametrem, który nie jest adresem IP ani nazwą zarejestrowanego użytkownika, co spowoduje, że przycisk do wyświetlania karty informacji o użytkowniku się nie wyświetli.",
+	"checkuser-uic-ip-target-category": "Strony z IP jako elementem docelowym karty informacji o użytkowniku",
+	"checkuser-uic-ip-target-category-desc": "Strona korzysta z <code><nowiki>{{#uic:}}</nowiki></code> z adresem lub zakresem IP jako elementem docelowym, co nie jest obsługiwane, przycisk do wyświetlania karty informacji o użytkowniku się nie wyświetli.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Otwórz okienko z informacjami o {{GENDER:$1|użytkowniku|użytkowniczce}}",
 	"checkuser-userinfocard-close-button-aria-label": "Zamknij",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Skopiuj nazwę użytkownika",
@@ -472,6 +474,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "Pokaż przypadki, w których żadne konto nie ma edycji",
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally": "Pokaż przypadki, w których żadne konto nie ma edycji na jakiejkolwiek wiki globalnie",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Ukryj przypadki, w których nie zablokowano żadnych kont",
+	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-edits-shared-pages": "Pokaż przypadki, w których konta mają edycje na tych samych stronach",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-header": "Pokaż sugestie zaktualizowane:",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Dzisiaj",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "W ciągu ostatnich 3 dni",
@@ -550,5 +553,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Spowoduje to rozciągnięcie blokady na $1 {{PLURAL:$1|konto|konta|kont}}. Nakładając blokadę potwierdzasz, że {{GENDER:|zapoznałeś się z|zapoznałaś się z|znasz}} {{PLURAL:$1|jego|ich}} {{GENDER:|wkładem|wkładem|wkład}}.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Jest zbyt wiele powiązanych kont tymczasowych, aby dodać je do tej blokady. Maksymalna liczba kont, które można zablokować jednocześnie, {{PLURAL:$1|to}} $1.",
 	"rangecalculator": "Kalkulator zakresów IP",
-	"rangecalculator-summary": "To narzędzie pozwala obliczyć wspólny zakres dla listy adresów IP. Obecnie narzędzie oblicza tylko jeden wspólny zakres i nie można mieszać adresów IPv4 i IPv6."
+	"rangecalculator-summary": "To narzędzie pozwala obliczyć wspólny zakres dla listy adresów IP. Obecnie narzędzie oblicza tylko jeden wspólny zakres i nie można mieszać adresów IPv4 i IPv6.",
+	"checkuser-si-related-cases-info": "Konto docelowe jest powiązane z {{PLURAL:$1|$1 kontem|$1 kontami}} w ramach [$3 {{PLURAL:$2|$2 sugestii sprawdzeń}}]"
 }

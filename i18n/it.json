@@ -358,7 +358,7 @@
 	"checkuser-temporary-account-autorevoke-userright-reason": "revocato automaticamente per inattività",
 	"checkuser-ipinfo-global-contributions-url-text": "Visualizza i contributi globali",
 	"checkuser-uic-invalid-username-category": "Pagine con una scheda informativa di utente non valido",
-	"checkuser-uic-invalid-username-category-desc": "La pagina utilizza <code><nowiki>{{#uic:}}</nowiki></code> con qualcosa che non può essere il nome di un utente registrato, come un indirizzo IP, quindi non è stato aggiunto alcun pulsante per la scheda informazioni utente.",
+	"checkuser-uic-invalid-username-category-desc": "La pagina utilizza <code><nowiki>{{#uic:}}</nowiki></code> con un valore che non è un indirizzo IP e non può essere il nome di un utente registrato, quindi non è stato aggiunto alcun pulsante per la scheda informazioni utente.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Apri la scheda delle informazioni dell'{{GENDER:$1|utente}}",
 	"checkuser-userinfocard-close-button-aria-label": "Chiudi",
 	"checkuser-userinfocard-open-menu-aria-label": "Apri il menu della scheda delle informazioni dell'{{GENDER:$1|utente}}",

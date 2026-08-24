@@ -78,6 +78,8 @@
 	"checkuser-rest-property-desc-checkuser-checks": "Aantal CheckUser-controles uitgevoerd op deze gebruiker",
 	"checkuser-rest-property-desc-checkuser-last-check": "Tijdstempel van de meest recente CheckUser-controle uitgevoerd op deze gebruiker",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "Aantal voorgestelde onderzoeksgevallen gekoppeld aan deze gebruiker",
+	"checkuser-rest-property-desc-abusefilter-hit-count": "Het aantal logboekvermeldingen van het misbruikfilter die door deze gebruiker zijn veroorzaakt. Alleen van toepassing op tijdelijke accounts en accounts die niet automatisch zijn bevestigd.",
+	"checkuser-rest-property-desc-has-checkuser-data": "Of de gebruiker activiteit heeft geregistreerd in de CheckUser-tabellen op deze wiki. Alleen aanwezig als de gebruiker de CheckUser-rechten heeft.",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "Of de uitvoerder toegang heeft tot de IP-adressen van tijdelijke accounts van de gebruiker",
 	"checkuser-rest-property-desc-active-blocks-local": "Aantal actieve blokkades op de lokale wiki",
 	"checkuser-rest-property-desc-active-local-blocks-all": "Totaal aantal actieve lokale blokkades op alle wiki's",

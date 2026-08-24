@@ -59,6 +59,7 @@
 	"checkuser-ip-auto-reveal-missing-permission": "ليس لديك الإذن اللازم لاستخدام الكشف التلقائي عن عنوان IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "معرف الحالة المقدم غير موجود",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "لم يتم تفعيل ميزة التحقيقات المقترحة",
+	"checkuser-suggestedinvestigations-not-enabled": "ميزة التحقيقات المقترحة غير مفعلة",
 	"rest-module-checkuser.v0-title": "واجهة برمجة تطبيقات التحقق من المستخدم",
 	"rest-module-checkuser.v0-desc": "واجهة برمجة تطبيقات REST لأدوات CheckUser. راجع [وثائق ملحق CheckUser](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "اسم المستخدم لاسترداد التفاصيل الخاصة بـ",
@@ -80,6 +81,8 @@
 	"checkuser-rest-property-desc-checkuser-checks": "عدد عمليات التحقق من المستخدم التي تم إجراؤها على هذا المستخدم",
 	"checkuser-rest-property-desc-checkuser-last-check": "الطابع الزمني لآخر عملية فحص للمستخدم (CheckUser) التي تم إجراؤها على هذا المستخدم",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "عدد حالات التحقيق المقترحة المرتبطة بهذا المستخدم",
+	"checkuser-rest-property-desc-abusefilter-hit-count": "عدد سجلات فلترة إساءة الاستخدام التي تم تشغيلها بواسطة هذا المستخدم. يظهر هذا الإحصاء فقط للحسابات المؤقتة والحسابات التي لم يتم تأكيدها تلقائيًا.",
+	"checkuser-rest-property-desc-has-checkuser-data": "ما إذا كان للمستخدم أي نشاط مسجل في جداول CheckUser على هذه الويكي. يظهر هذا الخيار فقط إذا كان لدى المستخدم صلاحية التحقق من المستخدم.",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "ما إذا كان بإمكان المؤدي الوصول إلى عناوين IP المؤقتة لحساب المستخدم",
 	"checkuser-rest-property-desc-active-blocks-local": "عدد الكتل النشطة على ويكي المحلي",
 	"checkuser-rest-property-desc-active-local-blocks-all": "إجمالي عدد الكتل المحلية النشطة عبر جميع مواقع الويكي",
@@ -162,5 +165,7 @@
 	"checkuser-rest-endpoint-summary-connected-temp-accounts": "قم بتوصيل الحسابات المؤقتة",
 	"checkuser-rest-endpoint-desc-connected-temp-accounts": "يعرض هذا الأمر الحسابات المؤقتة الأخرى التي تم تعديلها من نفس عناوين IP الخاصة بحساب مؤقت معين.",
 	"checkuser-rest-endpoint-summary-clienthints": "إنشاء تلميحات عميل وكيل المستخدم",
-	"checkuser-rest-endpoint-desc-clienthints": "يقوم بإنشاء بيانات تلميحات عميل وكيل المستخدم لمراجعة معينة أو حدث سجل."
+	"checkuser-rest-endpoint-desc-clienthints": "يقوم بإنشاء بيانات تلميحات عميل وكيل المستخدم لمراجعة معينة أو حدث سجل.",
+	"checkuser-rest-endpoint-summary-suggestedinvestigationsusersummary": "استرجع ملخصًا لارتباط المستخدم بحالات التحقيق المقترحة",
+	"checkuser-rest-endpoint-desc-suggestedinvestigationsusersummary": "اعرض عدد الحسابات والقضايا التي يرتبط بها المستخدم في التحقيقات المقترحة"
 }
