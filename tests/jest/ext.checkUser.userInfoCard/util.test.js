@@ -1,6 +1,9 @@
 'use strict';
 
-const { getOpenContext } = require( '../../../modules/ext.checkUser.userInfoCard/util.js' );
+const {
+	getOpenContext,
+	isUserInfoCardEnabled
+} = require( '../../../modules/ext.checkUser.userInfoCard/util.js' );
 
 describe( 'getOpenContext', () => {
 	function setConfig( overrides ) {
@@ -168,5 +171,34 @@ describe( 'getOpenContext', () => {
 			const button = document.createElement( 'button' );
 			expect( getOpenContext( button ) ).toStrictEqual( { page: 'other' } );
 		} );
+	} );
+} );
+
+describe( 'isUserInfoCardEnabled', () => {
+	function setViewer( isNamed, preference ) {
+		mw.user.isNamed = jest.fn( () => isNamed );
+		mw.user.options.get = jest.fn( ( key ) => (
+			key === 'checkuser-userinfocard-enable' ? preference : undefined
+		) );
+	}
+
+	it( 'is on for a named user who set the preference', () => {
+		setViewer( true, '1' );
+		expect( isUserInfoCardEnabled() ).toBe( true );
+	} );
+
+	it( 'is off for a named user who did not set the preference', () => {
+		setViewer( true, '' );
+		expect( isUserInfoCardEnabled() ).toBe( false );
+	} );
+
+	it( 'is off when the preference is absent', () => {
+		setViewer( true, undefined );
+		expect( isUserInfoCardEnabled() ).toBe( false );
+	} );
+
+	it( 'is off for a viewer who is not a named user', () => {
+		setViewer( false, '1' );
+		expect( isUserInfoCardEnabled() ).toBe( false );
 	} );
 } );

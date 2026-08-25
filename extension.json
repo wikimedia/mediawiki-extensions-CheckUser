@@ -797,7 +797,8 @@
 				"mediawiki.user",
 				"mediawiki.util",
 				"mediawiki.DateFormatter",
-				"mediawiki.jqueryMsg"
+				"mediawiki.jqueryMsg",
+				"ext.checkUser.styles"
 			]
 		},
 		"ext.checkUser.clientHints": {

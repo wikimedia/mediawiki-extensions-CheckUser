@@ -137,9 +137,25 @@ function getOpenContext( triggerElement ) {
 	return { page };
 }
 
+/**
+ * Check whether the viewer wants the user info card.
+ *
+ * The module is normally only loaded for viewers that want it, but code outside CheckUser can
+ * load it at any time, so anything that shows a card has to ask.
+ *
+ * This is the client-side counterpart of PageDisplay::hasEnabledUserInfoCard().
+ *
+ * @return {boolean}
+ */
+function isUserInfoCardEnabled() {
+	return mw.user.isNamed() &&
+		!!mw.user.options.get( 'checkuser-userinfocard-enable' );
+}
+
 module.exports = {
 	processEditCountByDay,
 	parseMediaWikiTimestamp,
 	hashUsername,
-	getOpenContext
+	getOpenContext,
+	isUserInfoCardEnabled
 };

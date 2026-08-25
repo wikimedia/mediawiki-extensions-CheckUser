@@ -13,6 +13,7 @@
 <script>
 const { CdxButton, CdxIcon } = require( '../codex.js' );
 const { cdxIconUserAvatar, cdxIconUserBlocked, cdxIconUserTemporary } = require( './icons.json' );
+const { isUserInfoCardEnabled } = require( '../util.js' );
 const rest = new mw.Rest();
 
 // @vue/component
@@ -48,7 +49,7 @@ module.exports = exports = {
 		togglePopover() {}
 	},
 	async created() {
-		if ( mw.user.getId() === 0 || !mw.user.options.get( 'checkuser-userinfocard-enable' ) ) {
+		if ( !isUserInfoCardEnabled() ) {
 			return;
 		}
 
