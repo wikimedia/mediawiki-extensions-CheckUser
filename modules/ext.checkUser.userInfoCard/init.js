@@ -1,5 +1,26 @@
 'use strict';
 
+/**
+ * This module lets other JavaScript modules (including gadgets and user scripts) put
+ * a UserInfo card (UIC) button on user links that they make themselves.
+ *
+ * Normally, this module is added only to pages that contain UIC buttons in the server
+ * output. Therefore, treat its absence as normal, and explicitly require the module
+ * before using it. A viewer who disabled UIC in their preferences will not get the buttons,
+ * even with the module loaded.
+ *
+ * @example
+ * mw.loader.using( 'ext.checkUser.userInfoCard' ).then( ( require ) => {
+ *     const uic = require( 'ext.checkUser.userInfoCard' );
+ *     if ( !uic.isEnabled() ) {
+ *         return;
+ *     }
+ *     myUserLinkWrapper.append( uic.createButton( 'Example user' ) );
+ * } );
+ *
+ * @module ext.checkUser.userInfoCard
+ */
+
 const Vue = require( 'vue' );
 const App = require( './components/App.vue' );
 const { isUserInfoCardEnabled } = require( './util.js' );
@@ -60,6 +81,7 @@ const togglePopover = ( button, username ) => {
  *
  * @param {Element} button
  * @param {string} variant 'userAvatar', 'userBlocked' or 'userTemporary'
+ * @private
  */
 function setIconVariant( button, variant ) {
 	const iconElem = button.querySelector( '.cdx-button__icon' );
@@ -84,6 +106,7 @@ function setIconVariant( button, variant ) {
  *
  * @param {string} username
  * @return {string} 'userAvatar', 'userBlocked' or 'userTemporary'
+ * @private
  */
 function defaultIconVariant( username ) {
 	if ( customAccountIcons[ username ] ) {
@@ -105,7 +128,8 @@ function defaultIconVariant( username ) {
  * @param {string} [options.icon] Icon variant: 'userAvatar', 'userBlocked' or 'userTemporary'.
  *   Defaults to the variant that the server sent for this user, or else to the one that the
  *   name itself implies.
- * @return {HTMLButtonElement|null} Null if the viewer turned the card off
+ * @return {HTMLButtonElement|null} The button or null if the viewer turned the card off
+ * @memberof module:ext.checkUser.userInfoCard
  * @stable for use in gadgets and user scripts
  * @since 1.47
  */
@@ -144,9 +168,13 @@ function createButton( username, options = {} ) {
  * Attaches an event listener to a single button. The function is safe to be called many times
  * on the same element.
  *
+ * A typical use case for calling this function is when caller operates on HTML source,
+ * for example when handling the Parse API response.
+ *
  * @param {HTMLElement} button The element, which should open the UIC when clicked
  * @param {string|null} username The user for whom the UIC should show data. If not specified,
  *     value of the `data-username` attribute on button will be used.
+ * @memberof module:ext.checkUser.userInfoCard
  * @stable for use in gadgets and user scripts
  * @since 1.47
  */
@@ -180,6 +208,7 @@ function attachInfoCardButtonHandler( button, username = null ) {
  * Everything else in this module does nothing when this returns false.
  *
  * @return {boolean}
+ * @memberof module:ext.checkUser.userInfoCard
  * @stable for use in gadgets and user scripts
  * @since 1.47
  */

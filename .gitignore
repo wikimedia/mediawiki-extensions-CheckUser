@@ -2,6 +2,7 @@
 /node_modules/
 /vendor/
 /coverage/
+/docs/
 
 # Editors
 *.kate-swp

@@ -1,0 +1,29 @@
+{
+	"opts": {
+		"destination": "docs",
+		"package": "package.json",
+		"readme": "JSDOC-README.md",
+		"pedantic": true,
+		"recurse": true,
+		"template": "node_modules/jsdoc-wmf-theme"
+	},
+	"plugins": [
+		"node_modules/jsdoc-wmf-theme/plugins/default"
+	],
+	"source": {
+		"include": [ "modules/ext.checkUser.userInfoCard/init.js" ]
+	},
+	"templates": {
+		"cleverLinks": true,
+		"default": {
+			"useLongnameInNav": true
+		},
+		"wmf": {
+			"maintitle": "CheckUser",
+			"repository": "https://gerrit.wikimedia.org/g/mediawiki/extensions/CheckUser/",
+			"prefixMap": {
+				"mw.": "https://doc.wikimedia.org/mediawiki-core/master/js/{type}.html"
+			}
+		}
+	}
+}
