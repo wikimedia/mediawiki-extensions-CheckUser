@@ -286,6 +286,7 @@ $specialPageAliases['ja'] = [
 	'Investigate' => [ '調査' ],
 	'InvestigateBlock' => [ '調査ブロック' ],
 	'IPContributions' => [ 'IP投稿記録' ],
+	'SuggestedInvestigations' => [ '推奨調査' ],
 ];
 
 /** Georgian (ქართული) */
