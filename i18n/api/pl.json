@@ -3,6 +3,7 @@
 		"authors": [
 			"Chrumps",
 			"Msz2001",
+			"PanWor",
 			"Rail",
 			"Railfail536",
 			"Saper",
@@ -79,7 +80,7 @@
 	"checkuser-rest-property-desc-checkuser-last-check": "Data najnowszego sprawdzenia na tym użytkowniku w usłudze CheckUser",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "Liczba sugestii sprawdzeń powiązanych z tym użytkownikiem",
 	"checkuser-rest-property-desc-abusefilter-hit-count": "Liczba wpisów w rejestrze nadużyć, wywołanych przez tego użytkownika. Zwracana tylko dla kont tymczasowych i użytkowników, którzy nie są automatycznie zatwierdzeni",
-	"checkuser-rest-property-desc-has-checkuser-data": "Czy użytkownika ma jakąkolwiek aktywność na tej wiki zapisaną w tabelach CheckUser. Zwracane tylko, jeśli wykonujący żądanie ma uprawnienie checkuser",
+	"checkuser-rest-property-desc-has-checkuser-data": "Czy użytkownik ma jakąkolwiek aktywność na tej wiki zapisaną w tabelach CheckUser. Zwracane tylko, jeśli wykonujący żądanie ma uprawnienie checkuser",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "Czy wykonujący żądanie ma dostęp do adresów IP tego konta tymczasowego",
 	"checkuser-rest-property-desc-active-blocks-local": "Liczba aktywnych blokad użytkownika na lokalnej wiki",
 	"checkuser-rest-property-desc-active-local-blocks-all": "Całkowita liczba aktywnych lokalnych blokad użytkownika na wszystkich wiki",

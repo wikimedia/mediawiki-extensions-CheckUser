@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dragoniez",
 			"Mirinano",
 			"Omotecho",
 			"Otokoume",
@@ -42,5 +43,16 @@
 	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 が古すぎるためクライアントヒント・データを記録できません",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "$1 のID $2 は存在しません",
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} ではユーザーエージェントのクライアントヒントのデータを取得、不正行為と荒らしの仲裁を補助します。詳細は、https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints を参照してください。",
-	"apihelp-logout-param-checkuserclienthints": "ApiLogout のリクエストとともに提供されるクライアントのヒント データ。内部使用限定。"
+	"apihelp-logout-param-checkuserclienthints": "ApiLogout のリクエストとともに提供されるクライアントのヒント データ。内部使用限定。",
+	"checkuser-suggestedinvestigations-case-update-case-not-found": "指定されたケース ID は存在しません",
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "推奨調査の機能が有効化されていません",
+	"checkuser-suggestedinvestigations-not-enabled": "推奨調査の機能が有効化されていません",
+	"checkuser-rest-property-desc-suggested-investigations-cases": "この利用者に関連する推奨調査ケースの件数",
+	"checkuser-rest-request-desc-update-case": "推奨調査ケースの状態更新用のリクエストボディ",
+	"checkuser-rest-response-desc-update-case": "更新された推奨調査ケースの詳細を含むレスポンス",
+	"checkuser-rest-param-desc-case-id-input": "推奨調査ケースの識別子",
+	"checkuser-rest-endpoint-summary-update-case": "推奨調査ケースの状態と理由を更新",
+	"checkuser-rest-endpoint-desc-update-case": "特定の推奨調査ケースの状態と理由を更新します。",
+	"checkuser-rest-endpoint-summary-suggestedinvestigationsusersummary": "この利用者に関連する推奨調査ケースの概要を取得",
+	"checkuser-rest-endpoint-desc-suggestedinvestigationsusersummary": "推奨調査で特定利用者に紐づけられたアカウント数とケース数を取得"
 }

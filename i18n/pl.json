@@ -421,7 +421,7 @@
 	"checkuser-userinfocard-checks-empty": "Sprawdzenia: $1",
 	"checkuser-userinfocard-suggested-investigations": "Zasugerowanych sprawdzeń: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Liczba trafień filtra nadużyć: $1",
-	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Był aktywny|Była aktywna}} w ciągu {{PLURAL:$1|ostatniego dnia|ostatnich $1 dni}}",
+	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Był aktywny|Była aktywna|Widziano}} w ciągu {{PLURAL:$1|ostatniego dnia|ostatnich $1 dni}}",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Globalnie {{GENDER:$1|wyłączone}} konto]] od $3",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Globalnie częściowo {{GENDER:$1|zablokowany|zablokowana|zablokowany(a)}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Globalnie {{GENDER:$1|zablokowany|zablokowana|zablokowany(a)}}]] od $3",

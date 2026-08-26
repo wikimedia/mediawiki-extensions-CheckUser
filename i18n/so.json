@@ -377,6 +377,8 @@
 	"checkuser-uic-ip-target-category": "Bogagga leh cinwaan IP oo ah bartilmaameedka kaarka macluumaadka isticmaalaha",
 	"checkuser-uic-ip-target-category-desc": "Boggu wuxuu isticmaalaa <code><nowiki>{{#uic:}}</nowiki></code> oo leh cinwaan IP ama xad IP oo bartilmaameed ah, taas oo aan la taageerin, sidaas darteed badhanka kaarka macluumaadka isticmaalaha laguma darin.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Fur kaarka macluumaadka ee {{GENDER:$1|isticmaale}}",
+	"checkuser-userinfocard-navigation-label": "Macluumaadka isticmaalaha",
+	"tooltip-ca-checkuser-userinfocard": "Muuji macluumaadka ku saabsan {{GENDER:$1|isticmaalahan}}",
 	"checkuser-userinfocard-close-button-aria-label": "Xir",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Nuqul ka samee magaca isticmaalaha",
 	"checkuser-userinfocard-copy-username-copied": "La koobiyeyay",
