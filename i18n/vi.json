@@ -393,7 +393,7 @@
 	"checkuser-userinfocard-error-title": "Đã xảy ra lỗi",
 	"checkuser-userinfocard-error-no-data": "Không thể truy xuất thông tin của người dùng này. Xin vui lòng thử lại sau.",
 	"checkuser-userinfocard-error-generic": "Đã xảy ra lỗi. Xin vui lòng thử lại sau.",
-	"checkuser-userinfocard-enable-preference-description": "Bật [[mw:Special:MyLanguage/Trust_and_Safety_Product/Anti-abuse_signals/User_Info|thẻ thông tin người dùng]]",
+	"checkuser-userinfocard-enable-preference-description": "Bật [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|thẻ thông tin người dùng]]",
 	"checkuser-userinfocard-enable-preference-help": "Hiển thị nút bên cạnh tên người dùng để hiện một popup chứa thông tin về tài khoản.",
 	"checkuser-userinfocard-activity-chart-label": "Thống kê hoạt động trong vòng 60 ngày qua ({{PLURAL:$1|$1 sửa đổi|0=không có sửa đổi}})",
 	"checkuser-userinfocard-last-edit-timestamp-label": "Lần sửa đổi gần nhất: $1",
