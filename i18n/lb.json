@@ -237,6 +237,7 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "Zougang änneren",
 	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|Benotzerinfokaart}} opmaachen",
+	"tooltip-ca-checkuser-userinfocard": "Informatiounen iwwer {{GENDER:$1|dëse Benotzer|dës Benotzerin}} weisen",
 	"checkuser-userinfocard-close-button-aria-label": "Zoumaachen",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Benotzernumm kopéieren",
 	"checkuser-userinfocard-copy-username-copied": "Kopéiert",

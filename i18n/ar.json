@@ -397,6 +397,7 @@
 	"checkuser-uic-ip-target-category": "الصفحات التي تستهدف بطاقة معلومات المستخدم باستخدام عنوان IP",
 	"checkuser-uic-ip-target-category-desc": "تستخدم الصفحة <code><nowiki>{{#uic:}}</nowiki></code> باستخدام عنوان IP أو نطاق كهدف، وهو أمر غير مدعوم، لذلك لم تتم إضافة زر بطاقة معلومات المستخدم.",
 	"checkuser-userinfocard-toggle-button-aria-label": "افتح بطاقة معلومات {{GENDER:$1|المستخدم}}",
+	"checkuser-userinfocard-navigation-label": "معلومات المستخدم",
 	"checkuser-userinfocard-close-button-aria-label": "إغلاق",
 	"checkuser-userinfocard-copy-username-button-aria-label": "انسخ اسم المستخدم",
 	"checkuser-userinfocard-copy-username-copied": "تم النسخ",

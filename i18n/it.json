@@ -360,6 +360,8 @@
 	"checkuser-uic-invalid-username-category": "Pagine con una scheda informativa di utente non valido",
 	"checkuser-uic-invalid-username-category-desc": "La pagina utilizza <code><nowiki>{{#uic:}}</nowiki></code> con un valore che non è un indirizzo IP e non può essere il nome di un utente registrato, quindi non è stato aggiunto alcun pulsante per la scheda informazioni utente.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Apri la scheda delle informazioni dell'{{GENDER:$1|utente}}",
+	"checkuser-userinfocard-navigation-label": "Informazioni utente",
+	"tooltip-ca-checkuser-userinfocard": "Mostra informazioni su {{GENDER:$1|questo|questa|questo/a}} utente",
 	"checkuser-userinfocard-close-button-aria-label": "Chiudi",
 	"checkuser-userinfocard-open-menu-aria-label": "Apri il menu della scheda delle informazioni dell'{{GENDER:$1|utente}}",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Iscritto|Iscritta|Iscrizione}}: $1 ($2)",

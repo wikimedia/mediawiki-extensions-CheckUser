@@ -380,6 +380,8 @@
 	"checkuser-uic-ip-target-category": "Laman dengan IP sebagai sasaran kad maklumat pengguna",
 	"checkuser-uic-ip-target-category-desc": "Laman tersebut menggunakan <code><nowiki>{{#uic:}}</nowiki></code> dengan julat atau alamat IP sebagai sasaran yang tidak disokong, maka tidak ada butang kad maklumat pengguna ditambah.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Buka {{GENDER:$1|kad maklumat pengguna}}.",
+	"checkuser-userinfocard-navigation-label": "Maklumat pengguna",
+	"tooltip-ca-checkuser-userinfocard": "Tunjukkan maklumat berkenaan {{GENDER:$1|pengguna ini}}",
 	"checkuser-userinfocard-close-button-aria-label": "Tutup",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Salin nama pengguna",
 	"checkuser-userinfocard-copy-username-copied": "Disalin",

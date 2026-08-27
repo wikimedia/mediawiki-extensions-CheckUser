@@ -437,6 +437,8 @@
 	"checkuser-uic-ip-target-category": "用户信息卡片目标为IP的页面",
 	"checkuser-uic-ip-target-category-desc": "页面使用的<code><nowiki>{{#uic:}}</nowiki></code>使用IP地址或IP段作为目标，这是不受支持的，因此未添加用户信息卡片按钮。",
 	"checkuser-userinfocard-toggle-button-aria-label": "打开{{GENDER:$1|用户}}信息卡",
+	"checkuser-userinfocard-navigation-label": "用户信息",
+	"tooltip-ca-checkuser-userinfocard": "显示有关{{GENDER:$1|此用户}}的信息",
 	"checkuser-userinfocard-close-button-aria-label": "关闭",
 	"checkuser-userinfocard-copy-username-button-aria-label": "复制用户名",
 	"checkuser-userinfocard-copy-username-copied": "已复制",

@@ -383,6 +383,8 @@
 	"checkuser-uic-ip-target-category": "Páxinas cun enderezo IP como obxectivo da tarxeta de información de usuario",
 	"checkuser-uic-ip-target-category-desc": "A páxina usa <code><nowiki>{{#uic:}}</nowiki></code> cun enderezo IP ou rango IP como obxectivo, o cal non é compatible, polo que non se engadiu ningún botón de tarxeta de información de usuario.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Abrir a ficha de información {{GENDER:$1|do usuario|da usuaria}}",
+	"checkuser-userinfocard-navigation-label": "Información do usuario",
+	"tooltip-ca-checkuser-userinfocard": "Mostrar información sobre {{GENDER:$1|este usuario|esta usuaria}}",
 	"checkuser-userinfocard-close-button-aria-label": "Pechar",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Copiar o nome de usuario",
 	"checkuser-userinfocard-copy-username-copied": "Copiado",

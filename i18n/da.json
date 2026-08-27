@@ -391,6 +391,8 @@
 	"checkuser-uic-ip-target-category": "Sider med en IP-adresse som mål for brugerinfokort",
 	"checkuser-uic-ip-target-category-desc": "Siden bruger <code><nowiki>{{#uic:}}</nowiki></code> med en IP-adresse eller et IP-interval som mål, hvilket ikke understøttes, så der blev ikke tilføjet nogen brugerinfokortknap.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Åbn {{GENDER:$1|bruger}}infokort",
+	"checkuser-userinfocard-navigation-label": "Brugeroplysninger",
+	"tooltip-ca-checkuser-userinfocard": "Vis oplysninger om {{GENDER:$1|denne bruger}}",
 	"checkuser-userinfocard-close-button-aria-label": "Luk",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Kopiér brugernavn",
 	"checkuser-userinfocard-copy-username-copied": "Kopieret",

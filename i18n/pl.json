@@ -401,6 +401,8 @@
 	"checkuser-uic-ip-target-category": "Strony z IP jako elementem docelowym karty informacji o użytkowniku",
 	"checkuser-uic-ip-target-category-desc": "Strona korzysta z <code><nowiki>{{#uic:}}</nowiki></code> z adresem lub zakresem IP jako elementem docelowym, co nie jest obsługiwane, przycisk do wyświetlania karty informacji o użytkowniku się nie wyświetli.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Otwórz okienko z informacjami o {{GENDER:$1|użytkowniku|użytkowniczce}}",
+	"checkuser-userinfocard-navigation-label": "Informacje o użytkowniku",
+	"tooltip-ca-checkuser-userinfocard": "Pokaż informacje o {{GENDER:$1|tym użytkowniku|tej użytkowniczce}}",
 	"checkuser-userinfocard-close-button-aria-label": "Zamknij",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Skopiuj nazwę użytkownika",
 	"checkuser-userinfocard-copy-username-copied": "Skopiowano",
