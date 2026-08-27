@@ -117,11 +117,12 @@ class SuggestedInvestigationsCaseManagerService {
 			// We don't need to check if the case exists, so let's just use the internal versions of methods
 			$this->addUsersToCaseInternal( $caseId, $this->convertUsersToCaseUsers( $users ) );
 			$this->addSignalsToCaseInternal( $caseId, $signals );
-			$dbw->endAtomic( __METHOD__ );
 
 			$dbw->onTransactionCommitOrIdle( function () use ( $caseId ) {
 				$this->casePropertyManagerService->updateEditRelatedPropertiesForCases( [ $caseId ] );
 			}, __METHOD__ );
+
+			$dbw->endAtomic( __METHOD__ );
 		} catch ( \Exception $e ) {
 			// Ensure we cancel the atomic block if an exception is thrown
 			$dbw->cancelAtomic( __METHOD__ );
