@@ -393,7 +393,7 @@
 	"checkuser-uic-ip-target-category-desc": "De pagina maakt gebruik van <code><nowiki>{{#uic:}}</nowiki></code> met een IP-adres of IP-bereik als doel. Dit wordt niet ondersteund en dus is er geen knop voor een gebruikersinfokaart toegevoegd.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Gebruik{{GENDER:$1||st}}ersinfokaart openen",
 	"checkuser-userinfocard-navigation-label": "Gebruikersinfo",
-	"tooltip-ca-checkuser-userinfocard": "Informatie over deze gebruik{{GENDER:$1||st}}er weergeven",
+	"tooltip-ca-checkuser-userinfocard": "Informatie over deze {{GENDER:$1|gebruiker|gebruikster}} weergeven",
 	"checkuser-userinfocard-close-button-aria-label": "Sluiten",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Gebruikersnaam kopiëren",
 	"checkuser-userinfocard-copy-username-copied": "Gekopieerd",
