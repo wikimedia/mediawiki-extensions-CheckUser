@@ -37,6 +37,8 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 		$this->parser->method( 'getOutput' )->willReturn( $this->parserOutput );
 		$this->parser->method( 'msg' )
 			->willReturnCallback( static fn ( string $msg, ...$params ) => $localizer->msg( $msg, ...$params ) );
+
+		ParserFunctionsHandler::clearRecordedUserInfoCardTargets();
 	}
 
 	private function getHandler(): ParserFunctionsHandler {
@@ -74,6 +76,8 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 			'ext.checkUser.styles',
 			$this->parserOutput->getModuleStyles()
 		);
+		// Interface messages lose the parser output, so the target is recorded here as well
+		$this->assertSame( [ 'Foo' ], ParserFunctionsHandler::getRecordedUserInfoCardTargets() );
 	}
 
 	public function testRenderUsesTheCanonicalUsername(): void {
@@ -92,6 +96,7 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 
 		// Also covers the surrounding whitespace that template expansion tends to leave behind.
 		$this->getHandler()->renderUserInfoCardButton( $this->parser, "  user:foo_bar\n" );
+		$this->assertSame( [ 'Foo bar' ], ParserFunctionsHandler::getRecordedUserInfoCardTargets() );
 	}
 
 	/** @dataProvider provideInvalidUsernames */
@@ -108,6 +113,7 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 			$this->getHandler()->renderUserInfoCardButton( $this->parser, $username )
 		);
 		$this->assertSame( [], $this->parserOutput->getModuleStyles() );
+		$this->assertSame( [], ParserFunctionsHandler::getRecordedUserInfoCardTargets() );
 	}
 
 	public static function provideInvalidUsernames(): array {

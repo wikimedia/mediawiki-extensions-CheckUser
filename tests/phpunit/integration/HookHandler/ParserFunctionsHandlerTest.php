@@ -23,6 +23,12 @@ use Wikimedia\Parsoid\Ext\DOMUtils;
  */
 class ParserFunctionsHandlerTest extends MediaWikiIntegrationTestCase {
 
+	public function setUp(): void {
+		parent::setUp();
+
+		ParserFunctionsHandler::clearRecordedUserInfoCardTargets();
+	}
+
 	private function parse( string $wikitext ): ParserOutput {
 		return $this->getServiceContainer()->getParserFactory()->getInstance()->parse(
 			$wikitext,
@@ -58,6 +64,10 @@ class ParserFunctionsHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			$parserOutput->getJsConfigVars(),
 			'The targets must not reach the client as a JS config variable'
+		);
+		$this->assertSame(
+			[ 'Foo' ],
+			ParserFunctionsHandler::getRecordedUserInfoCardTargets()
 		);
 	}
 

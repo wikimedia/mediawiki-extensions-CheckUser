@@ -31,6 +31,18 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 	 */
 	public const TARGETS_EXTENSION_DATA_KEY = 'checkuser-userinfocard-targets';
 
+	/**
+	 * Array of all the targets for whom {{#uic:}} was invoked. Consumed by PageDisplay hook handler.
+	 *
+	 * Normally we store such a list in parser's extension data, but if the parse is done for an interface message,
+	 * this data will be thrown away (T66969). In order to preserve it, we keep this additional in-memory cache.
+	 * It can't replace the parser cache though - parsed pages can be cached for a longer duration than a single
+	 * request, in which case this array will be empty. This is not a problem for interface messages.
+	 *
+	 * @var array<string,bool>
+	 */
+	private static array $recordedTargets = [];
+
 	public function __construct(
 		private readonly UserNameUtils $userNameUtils,
 		private readonly UserInfoCardButtonRenderer $buttonRenderer,
@@ -81,7 +93,25 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 		$output = $parser->getOutput();
 		$output->addModuleStyles( [ 'ext.checkUser.styles' ] );
 		$output->appendExtensionData( self::TARGETS_EXTENSION_DATA_KEY, $canonicalUsername );
+		self::$recordedTargets[$canonicalUsername] = true;
 
 		return [ $html, 'isHTML' => true ];
+	}
+
+	/**
+	 * @return list<string> Names of the users for whom {{#uic:}} was invoked
+	 */
+	public static function getRecordedUserInfoCardTargets(): array {
+		return array_keys( self::$recordedTargets );
+	}
+
+	/**
+	 * Resets the list of users for whom {{#uic:}} was invoked.
+	 *
+	 * It's supposed to be called once the information has been applied to the page being currently displayed,
+	 * through the PageDisplay hook handler.
+	 */
+	public static function clearRecordedUserInfoCardTargets(): void {
+		self::$recordedTargets = [];
 	}
 }

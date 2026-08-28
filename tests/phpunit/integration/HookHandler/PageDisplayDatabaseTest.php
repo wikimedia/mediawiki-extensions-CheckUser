@@ -8,6 +8,7 @@ use MediaWiki\Config\HashConfig;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\HookHandler\PageDisplay;
+use MediaWiki\Extension\CheckUser\HookHandler\ParserFunctionsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\MainConfigNames;
@@ -38,6 +39,29 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 		// We don't want to test specifically the CentralAuth implementation of the CentralIdLookup. As such, force it
 		// to be the local provider.
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+		ParserFunctionsHandler::clearRecordedUserInfoCardTargets();
+	}
+
+	private function getHookHandler(): PageDisplay {
+		return new PageDisplay(
+			new HashConfig( [
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CUDMaxAge' => 12345,
+				'CheckUserAutoRevealMaximumExpiry' => 1,
+				'CheckUserSuggestedInvestigationsEnabled' => false,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils(),
+			$this->getServiceContainer()->getPreferencesFactory(),
+			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
+			$this->getServiceContainer()->get( 'CheckUserLogger' ),
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardBlockStatusCache' )
+		);
 	}
 
 	/** @dataProvider provideOnBeforePageDisplayForOnboardingWhenIPInfoPreferenceIsGlobal */
@@ -80,26 +104,7 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 		);
 		$userOptionsManager->saveOptions( $user );
 
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserTemporaryAccountMaxAge' => 1234,
-				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
-				'CUDMaxAge' => 12345,
-				'CheckUserAutoRevealMaximumExpiry' => 1,
-				'CheckUserSuggestedInvestigationsEnabled' => false,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils(),
-			$this->getServiceContainer()->getPreferencesFactory(),
-			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
-			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$this->getServiceContainer()->get( 'CheckUserUserInfoCardBlockStatusCache' )
-		);
-
+		$pageDisplayHookHandler = $this->getHookHandler();
 		$pageDisplayHookHandler->onBeforePageDisplay(
 			$output,
 			$this->createMock( Skin::class )
@@ -152,22 +157,7 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 			[ Preferences::ENABLE_USER_INFO_CARD => 1 ]
 		) );
 
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserSuggestedInvestigationsEnabled' => false,
-				'CUDMaxAge' => 12345,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils(),
-			$this->getServiceContainer()->getPreferencesFactory(),
-			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
-			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$this->getServiceContainer()->get( 'CheckUserUserInfoCardBlockStatusCache' )
-		);
+		$pageDisplayHookHandler = $this->getHookHandler();
 		$pageDisplayHookHandler->onOutputPageParserOutput( $output, $parserOutput );
 		$pageDisplayHookHandler->onBeforePageDisplay(
 			$output,
@@ -190,6 +180,49 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 				'Neither an unblocked target nor a non-existent one needs a custom icon'
 			);
 		}
+	}
+
+	public function testOnBeforePageDisplayForUserInfoCardInInterfaceMessage() {
+		$this->disableAutoCreateTempUser();
+
+		$title = Title::makeTitle( NS_PROJECT, 'Page title' );
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+		$context->setTitle( $title );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
+			[],
+			[ Preferences::ENABLE_USER_INFO_CARD => 1 ]
+		) );
+
+		// The path that Message::parse() takes. It throws the parser output away (T66969), so
+		// onOutputPageParserOutput never learns about the target, and the collector is the only
+		// record of it.
+		$parserOutput = $this->getServiceContainer()->getMessageParser()->parse(
+			'{{#uic:Some user}}',
+			$title,
+			true,
+			true
+		);
+		$output->addHTML( $parserOutput->getContentHolderText() );
+
+		$pageDisplayHookHandler = $this->getHookHandler();
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output,
+			$this->createMock( Skin::class )
+		);
+
+		$this->assertStringContainsString(
+			'ext-checkuser-userinfocard-button',
+			$output->getHTML(),
+			'The interface message should hold a button'
+		);
+		$bodyClasses = TestingAccessWrapper::newFromObject( $output )->mAdditionalBodyClasses;
+		$this->assertContains( 'ext-checkuser-userinfocard-enabled', $bodyClasses );
+		$this->assertContains( 'ext.checkUser.userInfoCard', $output->getModules() );
+		$this->assertContains( 'ext.checkUser.styles', $output->getModuleStyles() );
 	}
 
 	public static function provideUserBlocked(): array {

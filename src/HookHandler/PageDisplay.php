@@ -31,6 +31,13 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 	 */
 	private ?bool $canViewSuggestedInvestigations = null;
 
+	/**
+	 * Names of the users for whom the UserInfoCard has already been enabled on the output.
+	 *
+	 * @var list<string>
+	 */
+	private array $userInfoCardTargetsHandled = [];
+
 	public function __construct(
 		private readonly Config $config,
 		private readonly CheckUserPermissionManager $checkUserPermissionManager,
@@ -52,6 +59,7 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 	public function onBeforePageDisplay( $out, $skin ): void {
 		$this->loadIPInfoGlobalContributionsLink( $out, $skin );
 		$this->addUserInfoCardConfigVars( $out );
+		$this->addUserInfoCardForInterfaceMessages( $out );
 		$this->addTemporaryAccountsOnboardingDialog( $out );
 		$this->addIPRevealButtons( $out );
 		$this->instrumentSuggestedInvestigations( $out );
@@ -164,26 +172,61 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 			return;
 		}
 
-		if ( !$this->hasEnabledUserInfoCard( $outputPage ) ) {
+		$this->enableUserInfoCardForTargets(
+			$outputPage,
+			array_map( 'strval', array_keys( $targets ) )
+		);
+	}
+
+	/**
+	 * Support {{#uic:}} in interface messages. They are outside the main ParserOutput, so we need to process
+	 * them separately from the in-content buttons.
+	 */
+	private function addUserInfoCardForInterfaceMessages( OutputPage $out ): void {
+		$targets = ParserFunctionsHandler::getRecordedUserInfoCardTargets();
+		if ( $targets === [] ) {
+			return;
+		}
+
+		// Every viewer needs the styles, not only the ones who enabled the card
+		$out->addModuleStyles( 'ext.checkUser.styles' );
+		$this->enableUserInfoCardForTargets( $out, $targets );
+
+		// The list of cached targets is no longer needed
+		ParserFunctionsHandler::clearRecordedUserInfoCardTargets();
+	}
+
+	/**
+	 * Load what the UserInfoCard trigger buttons on the page need, if the viewer wants the card.
+	 *
+	 * Safe to call more than once per request: a page can be built from more than one parser
+	 * output, and the same target can be reported by more than one caller.
+	 *
+	 * @param OutputPage $outputPage
+	 * @param list<string> $targetNames Users for whom a button was rendered
+	 */
+	private function enableUserInfoCardForTargets( OutputPage $outputPage, array $targetNames ): void {
+		$newTargets = array_values( array_diff( $targetNames, $this->userInfoCardTargetsHandled ) );
+		if ( $newTargets === [] || !$this->hasEnabledUserInfoCard( $outputPage ) ) {
 			return;
 		}
 
 		$outputPage->addModules( 'ext.checkUser.userInfoCard' );
 		$outputPage->addModuleStyles( 'ext.checkUser.styles' );
-		$outputPage->addBodyClasses( 'ext-checkuser-userinfocard-enabled' );
+		if ( $this->userInfoCardTargetsHandled === [] ) {
+			$outputPage->addBodyClasses( 'ext-checkuser-userinfocard-enabled' );
+		}
+		$this->userInfoCardTargetsHandled = array_merge( $this->userInfoCardTargetsHandled, $newTargets );
 
 		// The icon baked into the parser output cannot reflect the block status, as that changes
 		// without the page being reparsed. Tell the client which of this page's targets are
 		// blocked, so that it can swap the icon at run time.
-		$blockedTargets = $this->blockStatusCache->getIndefinitelyBlockedOrLockedUsers(
-			array_map( 'strval', array_keys( $targets ) )
-		);
+		$blockedTargets = $this->blockStatusCache->getIndefinitelyBlockedOrLockedUsers( $newTargets );
 		if ( $blockedTargets === [] ) {
 			return;
 		}
 
-		// A page can be built from more than one parser output, so add to whatever an earlier one
-		// already reported rather than replacing it.
+		// Add to whatever an earlier call already reported rather than replacing it.
 		$customAccountIcons = $outputPage->getJsConfigVars()['wgCheckUserUserInfoCardCustomIcons'] ?? [];
 		foreach ( $blockedTargets as $target ) {
 			$customAccountIcons[$target] = 'userBlocked';
