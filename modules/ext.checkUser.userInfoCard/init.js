@@ -195,11 +195,10 @@ if ( enabled ) {
 		$content.find( BUTTON_SELECTOR ).each( function () {
 			attachInfoCardButtonHandler( this );
 
-			// Buttons emitted into page content by {{#uic:}} are part of the parser output that
-			// every viewer shares, and they are marked hidden so that consumers of that HTML
-			// which load no CheckUser CSS don't show a button that cannot work.
-			// Now, given that we know UIC is wanted, we can remove the hidden attribute.
-			// It should have no impact (the button is shown with CSS), but let's do it just in case.
+			// Buttons emitted by {{#uic:}} are part of the parser output that every viewer
+			// shares, and they are marked hidden, so that viewers who did not enable the card
+			// don't get a button which cannot work. Given that we know the card is wanted,
+			// the attribute can go.
 			this.removeAttribute( 'hidden' );
 
 			const customIcon = customAccountIcons[ this.getAttribute( 'data-username' ) ];
@@ -236,9 +235,10 @@ if ( enabled ) {
 
 		mw.hook( 'wikipage.content' ).add( prepareInfoCardButtons );
 
-		// T402196 - user link on permalink pages is outside #mw-content-text,
-		// so it's not covered by the hook above
-		prepareInfoCardButtons( $( '#contentSub' ) );
+		// The hook above only covers the content area, but buttons can be outside of it: in an
+		// interface message which holds {{#uic:}} (T436153), or in the user link on permalink
+		// pages (T402196).
+		prepareInfoCardButtons( $( document.body ) );
 		attachNavigationHandlers();
 
 		// Create and append the popover container to the DOM

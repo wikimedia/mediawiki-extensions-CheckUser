@@ -322,6 +322,19 @@ describe( 'ext.checkUser.userInfoCard init', () => {
 			expect( global.popoverApp.setUserInfo ).toHaveBeenCalledWith( 'Blocked user' );
 		} );
 
+		it( 'are prepared outside the content area, where an interface message can hold one (T436153)', () => {
+			const container = makeButton( { username: 'Blocked user' } );
+
+			loadInit( { 'Blocked user': 'userBlocked' } );
+			click( buttonOf( container ) );
+
+			expect( buttonOf( container ).hasAttribute( 'hidden' ) ).toBe( false );
+			expect(
+				iconOf( container ).classList.contains( `${ ICON_BASE }--userBlocked` )
+			).toBe( true );
+			expect( global.popoverApp.setUserInfo ).toHaveBeenCalledWith( 'Blocked user' );
+		} );
+
 		it( 'do not fail the handler when the page holds none', () => {
 			loadInit( {} );
 

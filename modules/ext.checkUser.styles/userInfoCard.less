@@ -24,6 +24,9 @@
 		margin-top: -8px;
 		margin-bottom: -6px;
 		margin-right: @spacing-12;
+		// Repeating the .cdx-button rule, to ensure we don't shift elements on content pages in skins
+		// that don't load Codex Button styles by default.
+		display: inline-flex;
 	}
 
 	&__icon {
@@ -60,14 +63,16 @@
 	margin-right: @spacing-25;
 }
 
-// Styles for UserInfoCard trigger buttons emitted into page content by the {{#uic:}} parser
-// function.
+// Styles for UserInfoCard trigger buttons emitted by the {{#uic:}} parser function.
 //
 // The button markup is the same for every viewer, so that the parser cache is not split on
 // whether the viewer has the UserInfoCard preference enabled. Emitting the full button rather
-// than an empty placeholder avoids a flash of unstyled content, so the button has to be hidden
-// here and revealed for viewers who have the preference on, via a body class that PageDisplay
-// adds at request time.
-body:not( .ext-checkuser-userinfocard-enabled ) .mw-parser-output .ext-checkuser-userinfocard-button {
+// than an empty placeholder avoids a flash of unstyled content, so the parser function marks
+// the button with the 'hidden' attribute, and PageDisplay reveals it with a body class for
+// viewers who have the preference on.
+//
+// The rule below is necessary because '.cdx-button { display: inline-flex }' takes precedence
+// over the 'hidden' attribute rule of the browser.
+body:not( .ext-checkuser-userinfocard-enabled ) .ext-checkuser-userinfocard-button[ hidden ] {
 	display: none;
 }
