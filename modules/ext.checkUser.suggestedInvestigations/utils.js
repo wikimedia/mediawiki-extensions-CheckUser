@@ -56,7 +56,6 @@ function updateCaseStatusOnPage( caseId, status, reason ) {
 	const $chipIcon = $( statusElement.querySelector( '.cdx-info-chip' ) );
 	$chipIcon.removeClass( [ 'cdx-info-chip--notice', 'cdx-info-chip--success', 'cdx-info-chip--warning' ] );
 	// Classes are defined in the switch above
-	// eslint-disable-next-line mediawiki/class-doc
 	$chipIcon.addClass( newIconClass );
 
 	// Update the status text to reflect the new status
