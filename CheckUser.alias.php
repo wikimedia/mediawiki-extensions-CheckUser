@@ -551,7 +551,11 @@ $specialPageAliases['vep'] = [
 $specialPageAliases['vi'] = [
 	'CheckUser' => [ 'Kiểm_tra_người_dùng' ],
 	'CheckUserLog' => [ 'Nhật_trình_kiểm_tra_người_dùng' ],
-	'IPContributions' => [ 'Đóng_góp_IP' ],
+	'IPContributions' => [ 'Đóng_góp_IP', 'Đóng_góp_của_IP', 'Đóng_góp_của_địa_chỉ_IP' ],
+	'Investigate' => [ 'Điều_tra' ],
+	'InvestigateBlock' => [ 'Điều_tra_và_cấm' ],
+	'SuggestedInvestigations' => [ 'Gợi_ý_điều_tra', 'Điều_tra_gợi_ý' ],
+	'RangeCalculator' => [ 'Tính_toán_dải_IP', 'Tính_dải_IP', 'Tính_dãy_IP', 'Tính_toán_dãy_IP' ],
 ];
 
 /** Chinese (中文) */
