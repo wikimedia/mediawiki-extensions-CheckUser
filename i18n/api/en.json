@@ -58,6 +58,7 @@
 	"rest-module-checkuser.v0-title": "CheckUser API",
 	"rest-module-checkuser.v0-desc": "REST API for CheckUser tools. See [CheckUser extension documentation](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Username to retrieve details for",
+	"checkuser-rest-param-desc-source-page": "Prefixed title of the page which the UserInfoCard is opened from",
 	"checkuser-rest-request-desc-userinfo": "Request body to retrieve information for the UserInfoCard",
 	"checkuser-rest-response-desc-userinfo": "Response containing detailed public and restricted user activity data",
 	"checkuser-rest-property-desc-username": "Username of the user",
