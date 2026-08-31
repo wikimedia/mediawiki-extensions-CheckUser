@@ -384,6 +384,8 @@
 	"checkuser-uic-invalid-username-category-desc": "הדף משתמש ב־<code><nowiki>{{#uic:}}</nowiki></code> עם משהו שאינו יכול להיות משתמש רשום, כגון כתובת IP, אז לא נוסף כפתור כרטיס פרטי משתמש.",
 	"checkuser-userinfocard-toggle-button-aria-label": "פתיחת כרטיס פרטי {{GENDER:$1|המשתמש|המשתמשת}}",
 	"checkuser-userinfocard-close-button-aria-label": "סגירה",
+	"checkuser-userinfocard-copy-username-button-aria-label": "העתקת שם המשתמש",
+	"checkuser-userinfocard-copy-username-copied": "הועתק",
 	"checkuser-userinfocard-open-menu-aria-label": "פתיחת תפריט כרטיס פרטי {{GENDER:$1|המשתמש|המשתמשת}}",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|הצטרף|הצטרפה}}: $1 ($2)",
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|הצטרף|הצטרפה}}: בשנת 2005 או לפניה",
