@@ -9,6 +9,7 @@ use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Extension\EventLogging\MetricsPlatform\MetricsClientFactory;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\WikiMap\WikiMap;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Stats\StatsFactory;
 
 /**
@@ -24,12 +25,34 @@ class UserInfoCardInstrumentation {
 		'CheckUserEnableUserInfoCardInstrumentation',
 	];
 
+	/**
+	 * Places from which the card can be opened.
+	 *
+	 * Keep in sync with getOpenContext() in modules/ext.checkUser.userInfoCard/util.js.
+	 */
+	private const OPENED_FROM_VALUES = [
+		'user-page-toolbar',
+		'log',
+		'checkuser',
+		'suggested-investigations',
+		'blocklist',
+		'rc',
+		'special',
+		'history',
+		'diff',
+		'page',
+		'other',
+	];
+
+	private ?string $openedFrom = null;
+
 	public function __construct(
 		private readonly DerivativeContext $context,
 		private readonly StatsFactory $statsFactory,
 		private readonly ServiceOptions $config,
 		private readonly ?MetricsClientFactory $metricsClientFactory,
 		private readonly TitleFactory $titleFactory,
+		private readonly LoggerInterface $logger,
 	) {
 		$this->config->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -51,6 +74,27 @@ class UserInfoCardInstrumentation {
 			return;
 		}
 		$this->context->setTitle( $title );
+	}
+
+	/**
+	 * Set the place from which the UserInfoCard was opened, which is reported as the page
+	 * field of the action context.
+	 *
+	 * Values outside of self::OPENED_FROM_VALUES are ignored.
+	 *
+	 * @param ?string $openedFrom The place, or null if it is not known
+	 */
+	public function setOpenedFrom( ?string $openedFrom ): void {
+		if ( in_array( $openedFrom, self::OPENED_FROM_VALUES, true ) ) {
+			$this->openedFrom = $openedFrom;
+		} elseif ( $openedFrom !== null ) {
+			$this->logger->warning(
+				'Invalid string provided for openedFrom in userinfo API: {provided}',
+				[
+					'provided' => $openedFrom,
+				]
+			);
+		}
 	}
 
 	/**
@@ -94,6 +138,9 @@ class UserInfoCardInstrumentation {
 			!$this->config->get( 'CheckUserEnableUserInfoCardInstrumentation' )
 		) {
 			return;
+		}
+		if ( $this->openedFrom !== null ) {
+			$actionContext = [ 'page' => $this->openedFrom ] + $actionContext;
 		}
 		$client = $this->metricsClientFactory->newMetricsClient( $this->context );
 		$client->submitInteraction(

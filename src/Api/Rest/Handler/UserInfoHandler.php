@@ -26,6 +26,7 @@ class UserInfoHandler extends SimpleHandler {
 
 	private const USERNAME_PARAM_NAME = 'username';
 	private const SOURCE_PAGE_PARAM_NAME = 'sourcePage';
+	private const OPENED_FROM_PARAM_NAME = 'openedFrom';
 
 	public function __construct(
 		private readonly CheckUserUserInfoCardService $userInfoCardService,
@@ -43,6 +44,7 @@ class UserInfoHandler extends SimpleHandler {
 
 		$body = $this->getValidatedBody() ?? [];
 		$this->instrumentation->setSourcePage( $body[ self::SOURCE_PAGE_PARAM_NAME ] ?? null );
+		$this->instrumentation->setOpenedFrom( $body[ self::OPENED_FROM_PARAM_NAME ] ?? null );
 
 		$username = $body[ self::USERNAME_PARAM_NAME ];
 		$user = $this->userFactory->newFromName( $username );
@@ -250,6 +252,12 @@ class UserInfoHandler extends SimpleHandler {
 				ParamValidator::PARAM_TYPE => 'string',
 				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-source-page' ),
 				self::PARAM_EXAMPLE => 'Special:RecentChanges',
+			],
+			self::OPENED_FROM_PARAM_NAME => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'string',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-opened-from' ),
+				self::PARAM_EXAMPLE => 'rc',
 			],
 		];
 	}

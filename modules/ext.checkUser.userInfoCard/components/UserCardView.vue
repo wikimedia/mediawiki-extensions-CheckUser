@@ -89,6 +89,10 @@ module.exports = exports = {
 			type: [ String ],
 			required: true
 		},
+		openedFrom: {
+			type: [ String ],
+			default: ''
+		},
 		headerContainer: {
 			type: [ Object, HTMLElement ],
 			default: null
@@ -152,7 +156,7 @@ module.exports = exports = {
 			loading.value = true;
 			error.value = null;
 
-			getUserInfo( props.username )
+			getUserInfo( props.username, props.openedFrom )
 				.then( ( userInfo ) => {
 					if ( !userInfo ) {
 						throw new Error( mw.msg( 'checkuser-userinfocard-error-no-data' ) );

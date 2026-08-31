@@ -12,6 +12,8 @@ use MediaWiki\Extension\EventLogging\MetricsPlatform\MetricsClientFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\Title\TitleFactory;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Wikimedia\MetricsPlatform\MetricsClient;
 use Wikimedia\Stats\StatsFactory;
 
@@ -25,7 +27,8 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 		bool $instrumentationEnabled = true,
 		?StatsFactory $statsFactory = null,
 		?DerivativeContext $context = null,
-		?TitleFactory $titleFactory = null
+		?TitleFactory $titleFactory = null,
+		?LoggerInterface $logger = null
 	): UserInfoCardInstrumentation {
 		return new UserInfoCardInstrumentation(
 			$context ?? new DerivativeContext( RequestContext::getMain() ),
@@ -37,7 +40,8 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 				]
 			),
 			$metricsClientFactory,
-			$titleFactory ?? $this->getServiceContainer()->getTitleFactory()
+			$titleFactory ?? $this->getServiceContainer()->getTitleFactory(),
+			$logger ?? new NullLogger()
 		);
 	}
 
@@ -155,6 +159,50 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 			->setSourcePage( 'testwiki:Main Page' );
 
 		$this->assertSame( 'Page without a source page', $context->getTitle()->getPrefixedText() );
+	}
+
+	/** @dataProvider provideSetOpenedFrom */
+	public function testSetOpenedFrom( ?string $openedFrom, array $expectedContext, int $expectedLogs ) {
+		$this->markTestSkippedIfExtensionNotLoaded( 'EventLogging' );
+
+		$mockClient = $this->createMock( MetricsClient::class );
+		$mockClient->expects( $this->once() )
+			->method( 'submitInteraction' )
+			->with(
+				'mediawiki.product_metrics.user_info_card_interaction',
+				'/analytics/product_metrics/web/base/2.0.0',
+				'api_request',
+				[ 'action_context' => json_encode( $expectedContext ) ]
+			);
+
+		$mockFactory = $this->createMock( MetricsClientFactory::class );
+		$mockFactory->method( 'newMetricsClient' )->willReturn( $mockClient );
+
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $this->exactly( $expectedLogs ) )
+			->method( 'warning' );
+
+		$instrumentation = $this->newInstrumentation( $mockFactory, logger: $logger );
+		$instrumentation->setOpenedFrom( $openedFrom );
+		$instrumentation->onApiSuccess( 'User123' );
+	}
+
+	public static function provideSetOpenedFrom(): iterable {
+		yield 'known place' => [
+			'openedFrom' => 'rc',
+			'expectedContext' => [ 'page' => 'rc', 'username' => 'User123' ],
+			'expectedLogs' => 0,
+		];
+		yield 'no place' => [
+			'openedFrom' => null,
+			'expectedContext' => [ 'username' => 'User123' ],
+			'expectedLogs' => 0,
+		];
+		yield 'unknown place' => [
+			'openedFrom' => 'some-other-place',
+			'expectedContext' => [ 'username' => 'User123' ],
+			'expectedLogs' => 1,
+		];
 	}
 
 	public static function provideFunctionEmitsEvent(): iterable {

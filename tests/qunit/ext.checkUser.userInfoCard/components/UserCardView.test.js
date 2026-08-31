@@ -224,6 +224,30 @@ QUnit.test( 'renders card view when API call succeeds', ( assert ) => {
 	} );
 } );
 
+QUnit.test( 'sends the openedFrom prop with the API call (T435585)', ( assert ) => {
+	let requestBody = null;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			requestBody = JSON.parse( request.requestBody );
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( sampleUserData )
+			);
+		}
+	} );
+
+	mountComponent( { openedFrom: 'rc' } );
+
+	return waitFor( () => requestBody !== null ).then( () => {
+		assert.strictEqual(
+			requestBody.openedFrom,
+			'rc',
+			'Request body should contain the type of the place which the card is opened from'
+		);
+	} );
+} );
+
 QUnit.test( 'sets suggestedInvestigationsCaseCount from API response', ( assert ) => {
 	let userInfoCardApiCalled = false;
 	server.respond( ( request ) => {
