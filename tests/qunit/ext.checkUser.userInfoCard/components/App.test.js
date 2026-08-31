@@ -52,6 +52,25 @@ QUnit.test( 'open method opens the popover with the correct trigger', ( assert )
 	} );
 } );
 
+QUnit.test( 'open method passes the place of the trigger to the card (T435585)', ( assert ) => {
+	const wrapper = mountComponent();
+	const navigationItem = document.createElement( 'div' );
+	navigationItem.className = 'ext-checkuser-userinfocard-navigation-item';
+	const triggerElement = document.createElement( 'a' );
+	navigationItem.appendChild( triggerElement );
+
+	wrapper.vm.open( triggerElement );
+
+	return nextTick().then( () => {
+		const userCard = wrapper.findComponent( { name: 'UserCardView' } );
+		assert.strictEqual(
+			userCard.props( 'openedFrom' ),
+			'other',
+			'UserCardView receives the place which the card is opened from'
+		);
+	} );
+} );
+
 QUnit.test( 'setUserInfo method sets the user ID and wiki ID', ( assert ) => {
 	const wrapper = mountComponent();
 

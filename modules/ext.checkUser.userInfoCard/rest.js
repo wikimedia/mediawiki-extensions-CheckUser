@@ -2,10 +2,12 @@
  * Gets UserInfoCard data for a given username
  *
  * @param {string} username
+ * @param {string} [openedFrom] Type of the place which the card is opened from, as returned
+ *   by getOpenContext() in util.js
  * @param {boolean} [retryOnTokenMismatch=true]
  * @return {Promise<{caseId: number, status: string, reason: string, formattedReason: string}>}
  */
-function getUserInfo( username, retryOnTokenMismatch ) {
+function getUserInfo( username, openedFrom, retryOnTokenMismatch ) {
 	const restApi = new mw.Rest();
 	const api = new mw.Api();
 	const deferred = $.Deferred();
@@ -31,6 +33,10 @@ function getUserInfo( username, retryOnTokenMismatch ) {
 			body.sourcePage = sourcePage;
 		}
 
+		if ( openedFrom ) {
+			body.openedFrom = openedFrom;
+		}
+
 		restApi.post(
 			'/checkuser/v0/userinfo?uselang=' + language,
 			body
@@ -42,7 +48,7 @@ function getUserInfo( username, retryOnTokenMismatch ) {
 				if ( retryOnTokenMismatch && isBadTokenError( errObject ) ) {
 					// The CSRF token has expired. Retry the POST with a new token.
 					api.badToken( 'csrf' );
-					getUserInfo( username, false ).then(
+					getUserInfo( username, openedFrom, false ).then(
 						( data ) => {
 							deferred.resolve( data );
 						},

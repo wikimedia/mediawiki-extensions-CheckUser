@@ -679,7 +679,8 @@ return [
 				$services->getMainConfig(),
 			),
 			$metricsClientFactory,
-			$services->getTitleFactory()
+			$services->getTitleFactory(),
+			$services->get( 'CheckUserLogger' ),
 		);
 	},
 	'CheckUserUserInfoCardService' => static function (

@@ -47,6 +47,7 @@
 			v-if="isOpen"
 			:key="componentKey"
 			:username="username"
+			:opened-from="openedFrom"
 			:header-container="headerContainer"
 			:body-container="bodyContainer"
 			@close="close"
@@ -72,6 +73,7 @@ module.exports = exports = {
 		const isOpen = ref( false );
 		const currentTrigger = ref( null );
 		const username = ref( null );
+		const openedFrom = ref( '' );
 		const headerContainer = ref( null );
 		const bodyContainer = ref( null );
 		const popoverRef = ref( null );
@@ -81,11 +83,13 @@ module.exports = exports = {
 		const logEvent = useInstrument();
 
 		function open( target ) {
+			const openContext = getOpenContext( target );
+			openedFrom.value = openContext.page;
 			currentTrigger.value = target;
 			isOpen.value = true;
 			const context = Object.assign(
 				{},
-				getOpenContext( target ),
+				openContext,
 				{
 					username: username.value
 				} );
@@ -142,6 +146,7 @@ module.exports = exports = {
 			isOpen,
 			currentTrigger,
 			username,
+			openedFrom,
 			headerContainer,
 			bodyContainer,
 			popoverRef,
