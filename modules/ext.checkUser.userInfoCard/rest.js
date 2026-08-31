@@ -18,13 +18,22 @@ function getUserInfo( username, retryOnTokenMismatch ) {
 	// T404682
 	const language = mw.config.get( 'wgUserLanguage' );
 
+	// T435585
+	const sourcePage = mw.config.get( 'wgPageName' );
+
 	api.getToken( 'csrf' ).then( ( token ) => {
+		const body = {
+			token: token,
+			username: username
+		};
+
+		if ( sourcePage ) {
+			body.sourcePage = sourcePage;
+		}
+
 		restApi.post(
 			'/checkuser/v0/userinfo?uselang=' + language,
-			{
-				token: token,
-				username: username
-			}
+			body
 		).then(
 			( data ) => {
 				deferred.resolve( data );

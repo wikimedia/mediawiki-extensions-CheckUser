@@ -174,6 +174,39 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	/** @dataProvider provideSourcePage */
+	public function testApiCallPassesSourcePageToInstrumentation( ?string $sourcePage ) {
+		$user = $this->getTestUser()->getUser();
+
+		$instrumentation = $this->createMock( UserInfoCardInstrumentation::class );
+		$instrumentation->expects( $this->once() )
+			->method( 'setSourcePage' )
+			->with( $sourcePage );
+		$this->setService( 'CheckUserUserInfoCardInstrumentation', $instrumentation );
+
+		$bodyContents = [ 'username' => $user->getName() ];
+		if ( $sourcePage !== null ) {
+			$bodyContents['sourcePage'] = $sourcePage;
+		}
+
+		$this->executeHandler(
+			$this->getObjectUnderTest(),
+			new RequestData( self::$postRequestParams + [
+				'bodyContents' => json_encode( $bodyContents ),
+			] ),
+			[],
+			[],
+			[],
+			[],
+			$user
+		);
+	}
+
+	public static function provideSourcePage(): iterable {
+		yield 'source page provided' => [ 'Special:RecentChanges' ];
+		yield 'no source page provided' => [ null ];
+	}
+
 	public function testRateLimitEmitsEventLoggingEvent() {
 		$this->overrideConfigValue( 'CheckUserEnableUserInfoCardInstrumentation', true );
 		$this->mergeMwGlobalArrayValue( 'wgRateLimits', [ 'checkuser-userinfo' => [

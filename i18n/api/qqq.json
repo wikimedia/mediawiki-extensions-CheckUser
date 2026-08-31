@@ -59,6 +59,7 @@
 	"rest-module-checkuser.v0-title": "The name of the CheckUser REST API module",
 	"rest-module-checkuser.v0-desc": "The description of the CheckUser REST API module",
 	"checkuser-rest-param-desc-username": "Description of the username parameter in the /checkuser/v0/userinfo REST API.",
+	"checkuser-rest-param-desc-source-page": "Description of the sourcePage parameter in the /checkuser/v0/userinfo REST API.",
 	"checkuser-rest-request-desc-userinfo": "Description of the request specification for the /checkuser/v0/userinfo REST API.",
 	"checkuser-rest-response-desc-userinfo": "Description of the response schema for the /checkuser/v0/userinfo REST API.",
 	"checkuser-rest-property-desc-username": "Description of the user name property in the response schema of the REST API.",
