@@ -174,19 +174,25 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/** @dataProvider provideSourcePage */
-	public function testApiCallPassesSourcePageToInstrumentation( ?string $sourcePage ) {
+	/** @dataProvider provideSourcePageAndOpenedFrom */
+	public function testApiCallPassesSourceToInstrumentation( ?string $sourcePage, ?string $openedFrom ) {
 		$user = $this->getTestUser()->getUser();
 
 		$instrumentation = $this->createMock( UserInfoCardInstrumentation::class );
 		$instrumentation->expects( $this->once() )
 			->method( 'setSourcePage' )
 			->with( $sourcePage );
+		$instrumentation->expects( $this->once() )
+			->method( 'setOpenedFrom' )
+			->with( $openedFrom );
 		$this->setService( 'CheckUserUserInfoCardInstrumentation', $instrumentation );
 
 		$bodyContents = [ 'username' => $user->getName() ];
 		if ( $sourcePage !== null ) {
 			$bodyContents['sourcePage'] = $sourcePage;
+		}
+		if ( $openedFrom !== null ) {
+			$bodyContents['openedFrom'] = $openedFrom;
 		}
 
 		$this->executeHandler(
@@ -202,9 +208,19 @@ class UserInfoHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public static function provideSourcePage(): iterable {
-		yield 'source page provided' => [ 'Special:RecentChanges' ];
-		yield 'no source page provided' => [ null ];
+	public static function provideSourcePageAndOpenedFrom(): iterable {
+		yield 'source provided' => [
+			'sourcePage' => 'Special:RecentChanges',
+			'openedFrom' => 'rc',
+		];
+		yield 'only source page provided' => [
+			'sourcePage' => 'Special:RecentChanges',
+			'openedFrom' => null,
+		];
+		yield 'no source provided' => [
+			'sourcePage' => null,
+			'openedFrom' => null,
+		];
 	}
 
 	public function testRateLimitEmitsEventLoggingEvent() {

@@ -43,11 +43,16 @@ QUnit.test( 'Test getUserInfo sends the current page (T435585)', ( assert ) => {
 		}
 	} );
 
-	return rest.getUserInfo( 'TestUser1' ).then( () => {
+	return rest.getUserInfo( 'TestUser1', 'rc' ).then( () => {
 		assert.strictEqual(
 			requestBody.sourcePage,
 			'Special:RecentChanges',
 			'Request body should contain the page which the card is opened from'
+		);
+		assert.strictEqual(
+			requestBody.openedFrom,
+			'rc',
+			'Request body should contain the type of the place which the card is opened from'
 		);
 	} );
 } );
@@ -56,11 +61,13 @@ QUnit.test( 'Test getUserInfo sends the current page (T435585)', ( assert ) => {
 // so no need to repeat those tests here
 QUnit.test( 'Test getUserInfo on bad CSRF token for first attempt', ( assert ) => {
 	let csrfTokenUpdated = false;
+	let retryBody = null;
 	server.respond( ( request ) => {
 		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
 			// If the CSRF token has been updated, then return a valid response. Otherwise, return a
 			// response indicating that the CSRF token is invalid.
 			if ( csrfTokenUpdated ) {
+				retryBody = JSON.parse( request.requestBody );
 				request.respond(
 					200,
 					{ 'Content-Type': 'application/json' },
@@ -91,7 +98,7 @@ QUnit.test( 'Test getUserInfo on bad CSRF token for first attempt', ( assert ) =
 	} );
 
 	// Call the method under test
-	return rest.getUserInfo( 'TestUser1' ).then( ( data ) => {
+	return rest.getUserInfo( 'TestUser1', 'rc' ).then( ( data ) => {
 		assert.deepEqual(
 			data,
 			{ name: 'TestUser1' },
@@ -101,6 +108,11 @@ QUnit.test( 'Test getUserInfo on bad CSRF token for first attempt', ( assert ) =
 			csrfTokenUpdated,
 			true,
 			'CSRF token should have been refreshed'
+		);
+		assert.strictEqual(
+			retryBody.openedFrom,
+			'rc',
+			'Retried request should keep the place which the card is opened from'
 		);
 	} );
 } );
