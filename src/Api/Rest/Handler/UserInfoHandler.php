@@ -25,6 +25,7 @@ class UserInfoHandler extends SimpleHandler {
 	use TokenAwareHandlerTrait;
 
 	private const USERNAME_PARAM_NAME = 'username';
+	private const SOURCE_PAGE_PARAM_NAME = 'sourcePage';
 
 	public function __construct(
 		private readonly CheckUserUserInfoCardService $userInfoCardService,
@@ -41,6 +42,8 @@ class UserInfoHandler extends SimpleHandler {
 		$this->assertHasAccess();
 
 		$body = $this->getValidatedBody() ?? [];
+		$this->instrumentation->setSourcePage( $body[ self::SOURCE_PAGE_PARAM_NAME ] ?? null );
+
 		$username = $body[ self::USERNAME_PARAM_NAME ];
 		$user = $this->userFactory->newFromName( $username );
 
@@ -241,6 +244,12 @@ class UserInfoHandler extends SimpleHandler {
 				ParamValidator::PARAM_REQUIRED => true,
 				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-username' ),
 				self::PARAM_EXAMPLE => 'ExampleUser',
+			],
+			self::SOURCE_PAGE_PARAM_NAME => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'string',
+				self::PARAM_DESCRIPTION => new MessageValue( 'checkuser-rest-param-desc-source-page' ),
+				self::PARAM_EXAMPLE => 'Special:RecentChanges',
 			],
 		];
 	}

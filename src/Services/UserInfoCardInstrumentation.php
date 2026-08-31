@@ -5,8 +5,9 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Services;
 
 use MediaWiki\Config\ServiceOptions;
-use MediaWiki\Context\IContextSource;
+use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Extension\EventLogging\MetricsPlatform\MetricsClientFactory;
+use MediaWiki\Title\TitleFactory;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\Stats\StatsFactory;
 
@@ -24,12 +25,32 @@ class UserInfoCardInstrumentation {
 	];
 
 	public function __construct(
-		private readonly IContextSource $context,
+		private readonly DerivativeContext $context,
 		private readonly StatsFactory $statsFactory,
 		private readonly ServiceOptions $config,
 		private readonly ?MetricsClientFactory $metricsClientFactory,
+		private readonly TitleFactory $titleFactory,
 	) {
 		$this->config->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+	}
+
+	/**
+	 * Set the page which the UserInfoCard was opened from, so that the page fields of the
+	 * events point to that page.
+	 *
+	 * Titles which cannot be parsed, and titles on other wikis, are ignored.
+	 *
+	 * @param ?string $prefixedTitle Prefixed title of the page, or null if it is not known
+	 */
+	public function setSourcePage( ?string $prefixedTitle ): void {
+		if ( $prefixedTitle === null ) {
+			return;
+		}
+		$title = $this->titleFactory->newFromText( $prefixedTitle );
+		if ( $title === null || $title->isExternal() ) {
+			return;
+		}
+		$this->context->setTitle( $title );
 	}
 
 	/**

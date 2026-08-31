@@ -5,9 +5,12 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardInstrumentation;
 use MediaWiki\Extension\EventLogging\MetricsPlatform\MetricsClientFactory;
+use MediaWiki\Title\Title;
+use MediaWiki\Title\TitleFactory;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\MetricsPlatform\MetricsClient;
 use Wikimedia\Stats\StatsFactory;
@@ -20,10 +23,12 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 	private function newInstrumentation(
 		?MetricsClientFactory $metricsClientFactory,
 		bool $instrumentationEnabled = true,
-		?StatsFactory $statsFactory = null
+		?StatsFactory $statsFactory = null,
+		?DerivativeContext $context = null,
+		?TitleFactory $titleFactory = null
 	): UserInfoCardInstrumentation {
 		return new UserInfoCardInstrumentation(
-			RequestContext::getMain(),
+			$context ?? new DerivativeContext( RequestContext::getMain() ),
 			$statsFactory ?? StatsFactory::newNull(),
 			new ServiceOptions(
 				UserInfoCardInstrumentation::CONSTRUCTOR_OPTIONS,
@@ -31,7 +36,8 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 					'CheckUserEnableUserInfoCardInstrumentation' => $instrumentationEnabled,
 				]
 			),
-			$metricsClientFactory
+			$metricsClientFactory,
+			$titleFactory ?? $this->getServiceContainer()->getTitleFactory()
 		);
 	}
 
@@ -111,6 +117,44 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 
 		$instrumentation = $this->newInstrumentation( $mockFactory, false );
 		$instrumentation->$functionName( ...$functionArgs );
+	}
+
+	/** @dataProvider provideSetSourcePage */
+	public function testSetSourcePage( ?string $prefixedTitle, ?string $expectedTitle ) {
+		$parentContext = new RequestContext();
+		$parentContext->setTitle( Title::makeTitle( NS_MAIN, 'Page without a source page' ) );
+		$context = new DerivativeContext( $parentContext );
+
+		$this->newInstrumentation( null, true, null, $context )
+			->setSourcePage( $prefixedTitle );
+
+		$this->assertSame(
+			$expectedTitle ?? 'Page without a source page',
+			$context->getTitle()->getPrefixedText()
+		);
+	}
+
+	public static function provideSetSourcePage(): iterable {
+		yield 'article page' => [ 'Main Page', 'Main Page' ];
+		yield 'title with underscores' => [ 'Project:Sandbox_page', 'Project:Sandbox page' ];
+		yield 'special page' => [ 'Special:RecentChanges', 'Special:RecentChanges' ];
+		yield 'no source page' => [ null, null ];
+		yield 'title which cannot be parsed' => [ '<invalid>', null ];
+	}
+
+	public function testSetSourcePageForTitleOnAnotherWiki() {
+		$parentContext = new RequestContext();
+		$parentContext->setTitle( Title::makeTitle( NS_MAIN, 'Page without a source page' ) );
+		$context = new DerivativeContext( $parentContext );
+
+		$titleFactory = $this->createMock( TitleFactory::class );
+		$titleFactory->method( 'newFromText' )
+			->willReturn( Title::makeTitle( NS_MAIN, 'Main Page', '', 'testwiki' ) );
+
+		$this->newInstrumentation( null, true, null, $context, $titleFactory )
+			->setSourcePage( 'testwiki:Main Page' );
+
+		$this->assertSame( 'Page without a source page', $context->getTitle()->getPrefixedText() );
 	}
 
 	public static function provideFunctionEmitsEvent(): iterable {

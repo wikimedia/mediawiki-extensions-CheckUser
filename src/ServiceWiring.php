@@ -678,7 +678,8 @@ return [
 				UserInfoCardInstrumentation::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig(),
 			),
-			$metricsClientFactory
+			$metricsClientFactory,
+			$services->getTitleFactory()
 		);
 	},
 	'CheckUserUserInfoCardService' => static function (
