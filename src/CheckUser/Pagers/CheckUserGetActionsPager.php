@@ -9,7 +9,6 @@ use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Context\IContextSource;
-use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
@@ -31,6 +30,7 @@ use MediaWiki\Logging\LogFormatterFactory;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Page\LinkBatchFactory;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -106,6 +106,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 		UserOptionsLookup $userOptionsLookup,
 		DatabaseBlockStore $blockStore,
 		TempUserConfig $tempUserConfig,
+		ExtensionRegistry $extensionRegistry,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
@@ -126,11 +127,11 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 			$userOptionsLookup,
 			$blockStore,
 			$tempUserConfig,
+			$extensionRegistry,
 			$context,
 			$linkRenderer,
 			$limit
 		);
-		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
 		$this->preCacheMessages();

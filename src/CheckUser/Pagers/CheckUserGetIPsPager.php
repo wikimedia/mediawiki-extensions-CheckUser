@@ -6,73 +6,12 @@ namespace MediaWiki\Extension\CheckUser\CheckUser\Pagers;
 
 use LogicException;
 use MediaWiki\Block\DatabaseBlock;
-use MediaWiki\Block\DatabaseBlockStore;
-use MediaWiki\Context\IContextSource;
-use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
-use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
-use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
-use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\TorBlock\TorExitNodes;
-use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
-use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\SpecialPage\SpecialPageFactory;
-use MediaWiki\User\CentralId\CentralIdLookup;
-use MediaWiki\User\Options\UserOptionsLookup;
-use MediaWiki\User\TempUser\TempUserConfig;
-use MediaWiki\User\UserFactory;
-use MediaWiki\User\UserGroupManager;
-use MediaWiki\User\UserIdentity;
-use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\IConnectionProvider;
 
 class CheckUserGetIPsPager extends AbstractCheckUserPager {
-
-	public function __construct(
-		FormOptions $opts,
-		UserIdentity $target,
-		string $logType,
-		TokenQueryManager $tokenQueryManager,
-		UserGroupManager $userGroupManager,
-		CentralIdLookup $centralIdLookup,
-		IConnectionProvider $dbProvider,
-		SpecialPageFactory $specialPageFactory,
-		UserIdentityLookup $userIdentityLookup,
-		CheckUserLogService $checkUserLogService,
-		UserFactory $userFactory,
-		CheckUserLookupUtils $checkUserLookupUtils,
-		UserOptionsLookup $userOptionsLookup,
-		DatabaseBlockStore $blockStore,
-		TempUserConfig $tempUserConfig,
-		?IContextSource $context = null,
-		?LinkRenderer $linkRenderer = null,
-		?int $limit = null,
-	) {
-		parent::__construct(
-			$opts,
-			$target,
-			$logType,
-			$tokenQueryManager,
-			$userGroupManager,
-			$centralIdLookup,
-			$dbProvider,
-			$specialPageFactory,
-			$userIdentityLookup,
-			$checkUserLogService,
-			$userFactory,
-			$checkUserLookupUtils,
-			$userOptionsLookup,
-			$blockStore,
-			$tempUserConfig,
-			$context,
-			$linkRenderer,
-			$limit
-		);
-		$this->checkType = SpecialCheckUser::SUBTYPE_GET_IPS;
-	}
 
 	/** @inheritDoc */
 	public function formatRow( $row ): string {
@@ -135,7 +74,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		if ( $block instanceof DatabaseBlock ) {
 			return $this->getBlockFlag( $block );
 		} elseif (
-			ExtensionRegistry::getInstance()->isLoaded( 'TorBlock' ) &&
+			$this->extensionRegistry->isLoaded( 'TorBlock' ) &&
 			TorExitNodes::isExitNode( $ip )
 		) {
 			return Html::rawElement( 'strong', [], '(' . $this->msg( 'checkuser-torexitnode' )->escaped() . ')' );

@@ -85,33 +85,12 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 */
 	protected ?bool $xfor = null;
 
-	/**
-	 * @var string one of the SpecialCheckUser::SUBTYPE_... constants used by this abstract pager
-	 *  to know what the current checktype is.
-	 */
-	protected string $checkType;
-
 	protected TemplateParser $templateParser;
 
 	/**
 	 * @param FormOptions $opts The submitted form data in a helper class
-	 * @param UserIdentity $target
+	 * @param UserIdentity $target The user or IP address to check
 	 * @param string $logType The type of CheckUserLog entry this check should generate.
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param UserGroupManager $userGroupManager
-	 * @param CentralIdLookup $centralIdLookup
-	 * @param IConnectionProvider $dbProvider
-	 * @param SpecialPageFactory $specialPageFactory
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param UserFactory $userFactory
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param UserOptionsLookup $userOptionsLookup
-	 * @param DatabaseBlockStore $blockStore
-	 * @param TempUserConfig $tempUserConfig
-	 * @param IContextSource|null $context
-	 * @param LinkRenderer|null $linkRenderer
-	 * @param int|null $limit
 	 */
 	public function __construct(
 		protected FormOptions $opts,
@@ -129,6 +108,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		private readonly UserOptionsLookup $userOptionsLookup,
 		protected readonly DatabaseBlockStore $blockStore,
 		protected readonly TempUserConfig $tempUserConfig,
+		protected readonly ExtensionRegistry $extensionRegistry,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
@@ -375,7 +355,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		if ( $block instanceof DatabaseBlock ) {
 			// Locally blocked
 			$flags[] = $this->getBlockFlag( $block );
-		} elseif ( ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' ) ) {
+		} elseif ( $this->extensionRegistry->isLoaded( 'GlobalBlocking' ) ) {
 			$globalBlockLookup = GlobalBlockingServices::wrap( MediaWikiServices::getInstance() )
 				->getGlobalBlockLookup();
 			$globalBlock = $globalBlockLookup->getGlobalBlockingBlock(
@@ -391,7 +371,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		if (
 			!count( $flags ) &&
 			$ip == $user->getName() &&
-			ExtensionRegistry::getInstance()->isLoaded( 'TorBlock' ) &&
+			$this->extensionRegistry->isLoaded( 'TorBlock' ) &&
 			TorExitNodes::isExitNode( $ip )
 		) {
 			// Tor exit node

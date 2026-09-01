@@ -68,6 +68,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserOptionsLookup(),
 			$services->getDatabaseBlockStore(),
 			$services->getTempUserConfig(),
+			$services->getExtensionRegistry(),
 		];
 	}
 

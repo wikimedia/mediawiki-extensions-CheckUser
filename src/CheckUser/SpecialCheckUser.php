@@ -30,6 +30,7 @@ use MediaWiki\Logging\LogFormatterFactory;
 use MediaWiki\Message\Message;
 use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -94,6 +95,7 @@ class SpecialCheckUser extends SpecialPage {
 		private readonly SuggestedInvestigationsMessageRenderer $suggestedInvestigationsMessageRenderer,
 		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
 		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
+		private readonly ExtensionRegistry $extensionRegistry,
 	) {
 		parent::__construct( 'CheckUser' );
 
@@ -491,7 +493,8 @@ class SpecialCheckUser extends SpecialPage {
 				$this->checkUserLookupUtils,
 				$this->userOptionsLookup,
 				$this->blockStore,
-				$this->tempUserConfig
+				$this->tempUserConfig,
+				$this->extensionRegistry,
 			),
 			self::SUBTYPE_GET_USERS => new CheckUserGetUsersPager(
 				$this->opts,
@@ -517,7 +520,8 @@ class SpecialCheckUser extends SpecialPage {
 				$this->linkBatchFactory,
 				$this->tempUserConfig,
 				$this->siCaseLookupService,
-				$this->multiLockUrlLookup
+				$this->multiLockUrlLookup,
+				$this->extensionRegistry,
 			),
 			self::SUBTYPE_GET_ACTIONS => new CheckUserGetActionsPager(
 				$this->opts,
@@ -544,7 +548,8 @@ class SpecialCheckUser extends SpecialPage {
 				$this->logFormatterFactory,
 				$this->userOptionsLookup,
 				$this->blockStore,
-				$this->tempUserConfig
+				$this->tempUserConfig,
+				$this->extensionRegistry,
 			),
 			default => null
 		};

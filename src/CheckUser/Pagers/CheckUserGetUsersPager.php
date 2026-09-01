@@ -9,7 +9,6 @@ use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
-use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Extension\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
@@ -87,8 +86,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 
 	private ClientHintsLookupResults $clientHintsLookupResults;
 
-	private ExtensionRegistry $extensionRegistry;
-
 	public function __construct(
 		FormOptions $opts,
 		UserIdentity $target,
@@ -114,6 +111,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		TempUserConfig $tempUserConfig,
 		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
 		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
+		ExtensionRegistry $extensionRegistry,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
@@ -134,20 +132,19 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			$userOptionsLookup,
 			$blockStore,
 			$tempUserConfig,
+			$extensionRegistry,
 			$context,
 			$linkRenderer,
 			$limit
 		);
-		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )
 			&& !$this->getUser()->getBlock();
-		$this->centralAuthToollink = ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' )
+		$this->centralAuthToollink = $this->extensionRegistry->isLoaded( 'CentralAuth' )
 			? $this->getConfig()->get( 'CheckUserCAtoollink' ) : false;
-		$this->globalBlockingToollink = ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' )
+		$this->globalBlockingToollink = $this->extensionRegistry->isLoaded( 'GlobalBlocking' )
 			? $this->getConfig()->get( 'CheckUserGBtoollink' ) : false;
 		$this->aliases = $this->getLanguage()->getSpecialPageAliases();
-		$this->extensionRegistry = ExtensionRegistry::getInstance();
 	}
 
 	/**

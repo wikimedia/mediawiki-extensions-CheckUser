@@ -1270,7 +1270,8 @@
 				"TempUserConfig",
 				"CheckUserSuggestedInvestigationsMessageRenderer",
 				"CheckUserSuggestedInvestigationsCaseLookup",
-				"CheckUserMultiLockUrlLookup"
+				"CheckUserMultiLockUrlLookup",
+				"ExtensionRegistry"
 			]
 		},
 		"CheckUserLog": {
