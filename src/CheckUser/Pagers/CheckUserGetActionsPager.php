@@ -35,6 +35,7 @@ use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
+use MediaWiki\Title\TitleFormatter;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
@@ -107,6 +108,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 		DatabaseBlockStore $blockStore,
 		TempUserConfig $tempUserConfig,
 		ExtensionRegistry $extensionRegistry,
+		TitleFormatter $titleFormatter,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
@@ -128,6 +130,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 			$blockStore,
 			$tempUserConfig,
 			$extensionRegistry,
+			$titleFormatter,
 			$context,
 			$linkRenderer,
 			$limit

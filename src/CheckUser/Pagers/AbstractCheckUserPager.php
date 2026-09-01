@@ -25,11 +25,13 @@ use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Navigation\PagerNavigationBuilder;
+use MediaWiki\Page\PageReferenceValue;
 use MediaWiki\Pager\RangeChronologicalPager;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
+use MediaWiki\Title\TitleFormatter;
 use MediaWiki\Title\TitleValue;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
@@ -109,6 +111,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		protected readonly DatabaseBlockStore $blockStore,
 		protected readonly TempUserConfig $tempUserConfig,
 		protected readonly ExtensionRegistry $extensionRegistry,
+		private readonly TitleFormatter $titleFormatter,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
@@ -209,14 +212,15 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 				[ 'wpTarget' => "#{$block->getId()}" ]
 			);
 		} else {
-			$userPage = Title::makeTitle( NS_USER, $block->getTargetName() );
 			$ret = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
 				$this->msg( 'checkuser-blocked' )->text(),
 				[],
 				[
 					'type' => 'block',
-					'page' => $userPage->getPrefixedText(),
+					'page' => $this->titleFormatter->getPrefixedText(
+						PageReferenceValue::localReference( NS_USER, $block->getTargetName() )
+					),
 				]
 			);
 
@@ -384,8 +388,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 				[],
 				[
 					'type' => 'block',
-					// @todo Use TitleFormatter and PageReference to avoid the global state
-					'page' => Title::makeTitle( NS_USER, $user->getName() )->getPrefixedText(),
+					'page' => $this->titleFormatter->getPrefixedText(
+						PageReferenceValue::localReference( NS_USER, $user->getName() )
+					),
 				]
 			);
 			$flags[] = Html::rawElement( 'strong', [ 'class' => 'mw-changeslist-links' ], $blocklog );

@@ -1271,7 +1271,8 @@
 				"CheckUserSuggestedInvestigationsMessageRenderer",
 				"CheckUserSuggestedInvestigationsCaseLookup",
 				"CheckUserMultiLockUrlLookup",
-				"ExtensionRegistry"
+				"ExtensionRegistry",
+				"TitleFormatter"
 			]
 		},
 		"CheckUserLog": {

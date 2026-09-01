@@ -33,6 +33,7 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
+use MediaWiki\Title\TitleFormatter;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\Options\UserOptionsLookup;
@@ -96,6 +97,7 @@ class SpecialCheckUser extends SpecialPage {
 		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
 		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
 		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly TitleFormatter $titleFormatter,
 	) {
 		parent::__construct( 'CheckUser' );
 
@@ -495,6 +497,7 @@ class SpecialCheckUser extends SpecialPage {
 				$this->blockStore,
 				$this->tempUserConfig,
 				$this->extensionRegistry,
+				$this->titleFormatter,
 			),
 			self::SUBTYPE_GET_USERS => new CheckUserGetUsersPager(
 				$this->opts,
@@ -522,6 +525,7 @@ class SpecialCheckUser extends SpecialPage {
 				$this->siCaseLookupService,
 				$this->multiLockUrlLookup,
 				$this->extensionRegistry,
+				$this->titleFormatter,
 			),
 			self::SUBTYPE_GET_ACTIONS => new CheckUserGetActionsPager(
 				$this->opts,
@@ -550,6 +554,7 @@ class SpecialCheckUser extends SpecialPage {
 				$this->blockStore,
 				$this->tempUserConfig,
 				$this->extensionRegistry,
+				$this->titleFormatter,
 			),
 			default => null
 		};

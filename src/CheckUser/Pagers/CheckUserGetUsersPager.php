@@ -31,6 +31,7 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\Title\TitleFormatter;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
@@ -112,6 +113,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
 		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
 		ExtensionRegistry $extensionRegistry,
+		TitleFormatter $titleFormatter,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
@@ -133,6 +135,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 			$blockStore,
 			$tempUserConfig,
 			$extensionRegistry,
+			$titleFormatter,
 			$context,
 			$linkRenderer,
 			$limit
