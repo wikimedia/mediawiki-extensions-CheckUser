@@ -7,6 +7,9 @@
 		]
 	},
 	"checkuser": "Kontrolero di adresi IP",
+	"checkuserlog": "Registro por kontrolo di uzeri",
+	"checkuser-contribs": "verifikar IP-adresi dil uzero",
+	"checkuser-contribs-log": "verifikar uzeri",
 	"group-checkuser": "Kontroleri dil uzeri",
 	"group-checkuser-member": "{{GENDER:$1|kontrolero di IP-adresi}}",
 	"grant-checkuser": "Acesar informi por verifikar uzeri",
