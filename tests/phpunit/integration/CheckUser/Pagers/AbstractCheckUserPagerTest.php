@@ -4,15 +4,19 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers;
 
+use CentralAuthTestUser;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\Services\TokenManager;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\MainConfigNames;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
+use MediaWiki\User\UserGroupMembership;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Parsoid\Core\DOMCompat;
@@ -33,6 +37,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 	use MockAuthorityTrait;
 	use TempUserTestTrait;
+	use HtmlAssertionHelperTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -78,6 +83,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	 */
 	protected function setUpObject( $params = [] ) {
 		RequestContext::getMain()->setUser( $this->getTestUser( 'checkuser' )->getUser() );
+		RequestContext::getMain()->setLanguage( 'qqx' );
 		$object = new DeAbstractedCheckUserPager(
 			...$this->setUpObjectArguments( $params )
 		);
@@ -136,6 +142,122 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testUserBlockFlagsForLocallyBlockedSingleIP(): void {
+		$blockStore = $this->getServiceContainer()->getDatabaseBlockStore();
+		$block = $blockStore->newUnsaved( [
+			'address' => '1.2.3.4',
+			'expiry' => $this->getDb()->getInfinity(),
+		] );
+		$block->setBlocker( $this->getTestSysop()->getUser() );
+		$blockStore->insertBlock( $block );
+
+		$actualBlockFlags = $this->setUpObject()->userBlockFlags(
+			'1.2.3.4',
+			UserIdentityValue::newAnonymous( '1.2.3.4' )
+		);
+
+		$this->verifyBlockFlag(
+			$actualBlockFlags,
+			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Log' ),
+				'(checkuser-blocked)',
+				[],
+				[ 'type' => 'block', 'page' => 'User:1.2.3.4' ]
+			)
+		);
+	}
+
+	private function verifyBlockFlag( array $blockFlags, string $expectedBlockFlag ): void {
+		$this->assertCount(
+			1,
+			$blockFlags,
+			'Only expected one block flag to exist'
+		);
+
+		$blockFlagNode = $this->assertSelectorMatchesOneElementInNode(
+			DOMUtils::parseHTML( $blockFlags[0] ),
+			'.mw-changeslist-links'
+		);
+		$this->assertSame(
+			$expectedBlockFlag,
+			DOMCompat::getInnerHTML( $blockFlagNode ),
+			'The block flag was not as expected'
+		);
+	}
+
+	public function testUserBlockFlagsForLocallyBlockedIPRange(): void {
+		$blockStore = $this->getServiceContainer()->getDatabaseBlockStore();
+		$block = $blockStore->newUnsaved( [
+			'address' => '1.2.3.5/20',
+			'expiry' => $this->getDb()->getInfinity(),
+		] );
+		$block->setBlocker( $this->getTestSysop()->getUser() );
+		$blockStore->insertBlock( $block );
+
+		$actualBlockFlags = $this->setUpObject()->userBlockFlags(
+			'1.2.3.4',
+			UserIdentityValue::newAnonymous( '1.2.3.4' )
+		);
+		$this->verifyBlockFlag(
+			$actualBlockFlags,
+			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Log' ),
+				'(checkuser-blocked)',
+				[],
+				[ 'type' => 'block', 'page' => 'User:1.2.0.0/20' ]
+			) . ' - 1.2.0.0/20',
+		);
+	}
+
+	public function testUserBlockFlagsForAutoblockedIP(): void {
+		$blockStore = $this->getServiceContainer()->getDatabaseBlockStore();
+		$block = $blockStore->newUnsaved( [
+			'targetUser' => $this->getTestUser()->getUserIdentity(),
+			'expiry' => '1 hour',
+			'enableAutoblock' => true,
+		] );
+		$block->setBlocker( $this->getTestSysop()->getUser() );
+		$blockStore->insertBlock( $block );
+
+		$autoBlockId = $blockStore->doAutoblock( $block, '1.2.3.4' );
+		$this->assertNotFalse( $autoBlockId );
+
+		$actualBlockFlags = $this->setUpObject()->userBlockFlags(
+			'1.2.3.4',
+			UserIdentityValue::newAnonymous( '1.2.3.4' )
+		);
+		$this->verifyBlockFlag(
+			$actualBlockFlags,
+			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'BlockList' ),
+				'(checkuser-blocked)',
+				[],
+				[ 'wpTarget' => "#$autoBlockId" ]
+			)
+		);
+	}
+
+	public function testUserBlockFlagsForLocallyBlockedUser(): void {
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+
+		$testUser = $this->getTestUser()->getUser();
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser( $testUser, $this->getTestSysop()->getAuthority(), '1 hour' )
+			->placeBlock();
+		$this->assertStatusGood( $blockStatus );
+
+		$actualBlockFlags = $this->setUpObject()->userBlockFlags( '', $testUser );
+		$this->verifyBlockFlag(
+			$actualBlockFlags,
+			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Log' ),
+				'(checkuser-blocked)',
+				[],
+				[ 'type' => 'block', 'page' => $testUser->getUserPage()->getPrefixedText() ]
+			)
+		);
+	}
+
 	public function testUserBlockFlagsForGloballyBlockedIP() {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
 		$object = $this->setUpObject();
@@ -187,6 +309,67 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			[ '<strong>(' . wfMessage( 'checkuser-torexitnode' )->escaped() . ')</strong>' ],
 			$object->userBlockFlags( $ip, $user ),
 			'The checkuser-torexitnode message should have been returned; the IP was not detected as an exit node'
+		);
+	}
+
+	public function testUserBlockFlagsForPreviouslyBlockedUser(): void {
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+
+		$testUser = $this->getTestUser()->getUser();
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$testUser,
+				$this->getTestSysop()->getAuthority(),
+				'1 hour'
+			)
+			->placeBlock();
+		$this->assertStatusGood( $blockStatus );
+
+		$this->getServiceContainer()->getDatabaseBlockStore()->deleteBlock( $blockStatus->getValue() );
+
+		$actualBlockFlags = $this->setUpObject()->userBlockFlags( '', $testUser );
+		$this->verifyBlockFlag(
+			$actualBlockFlags,
+			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Log' ),
+				'(checkuser-wasblocked)',
+				[],
+				[ 'type' => 'block', 'page' => $testUser->getUserPage()->getPrefixedText() ]
+			)
+		);
+	}
+
+	public function testUserBlockFlagsForUserWithNoCentralAccount(): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+
+		$actualBlockFlags = $this->setUpObject()->userBlockFlags( '', $this->getTestUser()->getUserIdentity() );
+		$this->verifyBlockFlag( $actualBlockFlags, '(checkuser-localonly)' );
+	}
+
+	public function testUserBlockFlagsForUserWhichIsLocked(): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+
+		$centralAuthUser = CentralAuthTestUser::newFromTestUser( $this->getTestUser() )
+			->save( $this->getDb() )
+			->getCentralUser();
+		$this->assertStatusGood( $centralAuthUser->adminLock() );
+
+		$actualBlockFlags = $this->setUpObject()->userBlockFlags( '', $this->getTestUser()->getUserIdentity() );
+		$this->verifyBlockFlag( $actualBlockFlags, '(checkuser-locked)' );
+	}
+
+	public function testUserBlockFlagsForUserWithUserGroups(): void {
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+		$actualBlockFlags = $this->setUpObject()->userBlockFlags(
+			'',
+			$this->getTestUser( [ 'suppress', 'sysop' ] )->getUserIdentity()
+		);
+		$this->verifyBlockFlag(
+			$actualBlockFlags,
+			$this->getServiceContainer()->getLanguageFactory()->getLanguage( 'qqx' )->commaList( [
+				UserGroupMembership::getLinkHTML( 'suppress', RequestContext::getMain() ),
+				UserGroupMembership::getLinkHTML( 'sysop', RequestContext::getMain() ),
+			] )
 		);
 	}
 
