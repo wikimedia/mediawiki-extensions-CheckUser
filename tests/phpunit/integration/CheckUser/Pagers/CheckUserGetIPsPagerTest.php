@@ -96,6 +96,34 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 		];
 	}
 
+	public function testFormatRowForLocallyBlockedIP(): void {
+		$blockStore = $this->getServiceContainer()->getDatabaseBlockStore();
+		$this->assertNotFalse(
+			$blockStore->insertBlock( $blockStore->newUnsaved( [
+				'address' => '127.0.0.1',
+				'by' => $this->getTestSysop()->getUser(),
+			] ) ),
+			'The block on 127.0.0.1 could not be inserted.'
+		);
+		$object = $this->setUpObject();
+		$object->templateParser = new MockTemplateParser();
+
+		$object->formatRow( (object)$this->getDefaultRowFieldValues() );
+
+		$flags = $object->templateParser->lastCalledWith[1]['flags'];
+		$this->assertCount( 1, $flags, 'A locally blocked IP should have exactly one flag.' );
+		$this->assertStringContainsString(
+			wfMessage( 'checkuser-blocked' )->escaped(),
+			$flags[0],
+			'The flag of a locally blocked IP should be the "blocked" label.'
+		);
+		$this->assertStringContainsString(
+			'page=' . urlencode( 'User:127.0.0.1' ),
+			$flags[0],
+			'The "blocked" flag should link to the block log of the row IP.'
+		);
+	}
+
 	/** @inheritDoc */
 	public function getDefaultRowFieldValues(): array {
 		return [
@@ -105,18 +133,6 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 			'first' => $this->getDb()->timestamp(),
 			'last' => $this->getDb()->timestamp(),
 		];
-	}
-
-	public function testUserBlockFlagsTorExitNode() {
-		$this->markTestSkippedIfExtensionNotLoaded( 'TorBlock' );
-		$object = $this->setUpObject();
-		// TEST-NET-1
-		$ip = '192.0.2.111';
-		$this->assertSame(
-			'<strong>(' . wfMessage( 'checkuser-torexitnode' )->escaped() . ')</strong>',
-			$object->getIPBlockInfo( $ip ),
-			'The checkuser-torexitnode message should have been returned; the IP was not detected as an exit node'
-		);
 	}
 
 	/** @dataProvider provideGetQueryInfo */

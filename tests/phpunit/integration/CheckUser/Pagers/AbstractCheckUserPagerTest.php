@@ -143,7 +143,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testUserBlockFlagsForLocallyBlockedSingleIP(): void {
+	public function testGetTargetFlagsForLocallyBlockedSingleIP(): void {
 		$blockStore = $this->getServiceContainer()->getDatabaseBlockStore();
 		$block = $blockStore->newUnsaved( [
 			'address' => '1.2.3.4',
@@ -152,10 +152,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		$block->setBlocker( $this->getTestSysop()->getUser() );
 		$blockStore->insertBlock( $block );
 
-		$actualBlockFlags = $this->setUpObject()->userBlockFlags(
-			'1.2.3.4',
-			UserIdentityValue::newAnonymous( '1.2.3.4' )
-		);
+		$actualBlockFlags = $this->setUpObject()->getTargetFlags( UserIdentityValue::newAnonymous( '1.2.3.4' ) );
 
 		$this->verifyBlockFlag(
 			$actualBlockFlags,
@@ -186,7 +183,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testUserBlockFlagsForLocallyBlockedIPRange(): void {
+	public function testGetTargetFlagsForLocallyBlockedIPRange(): void {
 		$blockStore = $this->getServiceContainer()->getDatabaseBlockStore();
 		$block = $blockStore->newUnsaved( [
 			'address' => '1.2.3.5/20',
@@ -195,10 +192,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		$block->setBlocker( $this->getTestSysop()->getUser() );
 		$blockStore->insertBlock( $block );
 
-		$actualBlockFlags = $this->setUpObject()->userBlockFlags(
-			'1.2.3.4',
-			UserIdentityValue::newAnonymous( '1.2.3.4' )
-		);
+		$actualBlockFlags = $this->setUpObject()->getTargetFlags( UserIdentityValue::newAnonymous( '1.2.3.4' ) );
 		$this->verifyBlockFlag(
 			$actualBlockFlags,
 			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
@@ -210,7 +204,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testUserBlockFlagsForAutoblockedIP(): void {
+	public function testGetTargetFlagsForAutoblockedIP(): void {
 		$blockStore = $this->getServiceContainer()->getDatabaseBlockStore();
 		$block = $blockStore->newUnsaved( [
 			'targetUser' => $this->getTestUser()->getUserIdentity(),
@@ -223,10 +217,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		$autoBlockId = $blockStore->doAutoblock( $block, '1.2.3.4' );
 		$this->assertNotFalse( $autoBlockId );
 
-		$actualBlockFlags = $this->setUpObject()->userBlockFlags(
-			'1.2.3.4',
-			UserIdentityValue::newAnonymous( '1.2.3.4' )
-		);
+		$actualBlockFlags = $this->setUpObject()->getTargetFlags( UserIdentityValue::newAnonymous( '1.2.3.4' ) );
 		$this->verifyBlockFlag(
 			$actualBlockFlags,
 			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
@@ -238,7 +229,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testUserBlockFlagsForLocallyBlockedUser(): void {
+	public function testGetTargetFlagsForLocallyBlockedUser(): void {
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
 
 		$testUser = $this->getTestUser()->getUser();
@@ -247,7 +238,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			->placeBlock();
 		$this->assertStatusGood( $blockStatus );
 
-		$actualBlockFlags = $this->setUpObject()->userBlockFlags( '', $testUser );
+		$actualBlockFlags = $this->setUpObject()->getTargetFlags( $testUser );
 		$this->verifyBlockFlag(
 			$actualBlockFlags,
 			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
@@ -259,7 +250,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testUserBlockFlagsForGloballyBlockedIP() {
+	public function testGetTargetFlagsForGloballyBlockedIP() {
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
 		$object = $this->setUpObject();
 		$ip = '1.2.3.4';
@@ -273,18 +264,17 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 		$this->assertSame(
 			[ '<strong>(' . wfMessage( 'checkuser-gblocked' )->escaped() . ')</strong>' ],
-			$object->userBlockFlags( $ip, $user ),
+			$object->getTargetFlags( $user ),
 			'The checkuser-gblocked flag should have been returned as the IP is globally blocked.'
 		);
 	}
 
-	public function testUserBlockFlagsForGloballyBlockedUser() {
+	public function testGetTargetFlagsForGloballyBlockedUser() {
 		// We don't want to test specifically the CentralAuth implementation of the CentralIdLookup. As such, force it
 		// to be the local provider.
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
 		$object = $this->setUpObject();
-		$ip = '1.2.3.4';
 		$user = $this->getMutableTestUser()->getUserIdentity();
 		// Globally block the test user
 		GlobalBlockingServices::wrap( $this->getServiceContainer() )->getGlobalBlockManager()->block(
@@ -295,25 +285,24 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 		$this->assertContains(
 			'<strong>(' . wfMessage( 'checkuser-gblocked' )->escaped() . ')</strong>',
-			$object->userBlockFlags( $ip, $user ),
+			$object->getTargetFlags( $user ),
 			'The checkuser-gblocked flag should have been returned as the IP is globally blocked.'
 		);
 	}
 
-	public function testUserBlockFlagsTorExitNode() {
+	public function testGetTargetFlagsForTorExitNode() {
 		$this->markTestSkippedIfExtensionNotLoaded( 'TorBlock' );
 		$object = $this->setUpObject();
 		// TEST-NET-1
-		$ip = '192.0.2.111';
-		$user = UserIdentityValue::newAnonymous( $ip );
+		$user = UserIdentityValue::newAnonymous( '192.0.2.111' );
 		$this->assertSame(
 			[ '<strong>(' . wfMessage( 'checkuser-torexitnode' )->escaped() . ')</strong>' ],
-			$object->userBlockFlags( $ip, $user ),
+			$object->getTargetFlags( $user ),
 			'The checkuser-torexitnode message should have been returned; the IP was not detected as an exit node'
 		);
 	}
 
-	public function testUserBlockFlagsForPreviouslyBlockedUser(): void {
+	public function testGetTargetFlagsForPreviouslyBlockedUser(): void {
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
 
 		$testUser = $this->getTestUser()->getUser();
@@ -328,7 +317,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 		$this->getServiceContainer()->getDatabaseBlockStore()->deleteBlock( $blockStatus->getValue() );
 
-		$actualBlockFlags = $this->setUpObject()->userBlockFlags( '', $testUser );
+		$actualBlockFlags = $this->setUpObject()->getTargetFlags( $testUser );
 		$this->verifyBlockFlag(
 			$actualBlockFlags,
 			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
@@ -340,14 +329,14 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testUserBlockFlagsForUserWithNoCentralAccount(): void {
+	public function testGetTargetFlagsForUserWithNoCentralAccount(): void {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 
-		$actualBlockFlags = $this->setUpObject()->userBlockFlags( '', $this->getTestUser()->getUserIdentity() );
+		$actualBlockFlags = $this->setUpObject()->getTargetFlags( $this->getTestUser()->getUserIdentity() );
 		$this->verifyBlockFlag( $actualBlockFlags, '(checkuser-localonly)' );
 	}
 
-	public function testUserBlockFlagsForUserWhichIsLocked(): void {
+	public function testGetTargetFlagsForUserWhichIsLocked(): void {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 
 		$centralAuthUser = CentralAuthTestUser::newFromTestUser( $this->getTestUser() )
@@ -355,14 +344,13 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			->getCentralUser();
 		$this->assertStatusGood( $centralAuthUser->adminLock() );
 
-		$actualBlockFlags = $this->setUpObject()->userBlockFlags( '', $this->getTestUser()->getUserIdentity() );
+		$actualBlockFlags = $this->setUpObject()->getTargetFlags( $this->getTestUser()->getUserIdentity() );
 		$this->verifyBlockFlag( $actualBlockFlags, '(checkuser-locked)' );
 	}
 
-	public function testUserBlockFlagsForUserWithUserGroups(): void {
+	public function testGetTargetFlagsForUserWithUserGroups(): void {
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
-		$actualBlockFlags = $this->setUpObject()->userBlockFlags(
-			'',
+		$actualBlockFlags = $this->setUpObject()->getTargetFlags(
 			$this->getTestUser( [ 'suppress', 'sysop' ] )->getUserIdentity()
 		);
 		$this->verifyBlockFlag(

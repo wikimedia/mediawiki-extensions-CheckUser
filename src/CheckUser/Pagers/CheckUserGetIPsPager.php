@@ -5,10 +5,8 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\CheckUser\Pagers;
 
 use LogicException;
-use MediaWiki\Block\DatabaseBlock;
-use MediaWiki\Extension\TorBlock\TorExitNodes;
-use MediaWiki\Html\Html;
 use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 
 class CheckUserGetIPsPager extends AbstractCheckUserPager {
@@ -58,28 +56,9 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		$templateParams['editCount'] = $lang->formatNum( $row->count );
 
 		// If this IP is blocked, give a link to the block log
-		$templateParams['blockInfo'] = $this->getIPBlockInfo( $ip );
+		$templateParams['flags'] = $this->getTargetFlags( UserIdentityValue::newAnonymous( $ip ) );
 		$templateParams['toolLinks'] = $this->msg( 'checkuser-toollinks', urlencode( $ip ) )->parse();
 		return $this->templateParser->processTemplate( 'GetIPsLine', $templateParams );
-	}
-
-	/**
-	 * Get information about any active blocks on a IP.
-	 *
-	 * @param string $ip the IP to get block info on.
-	 * @return string
-	 */
-	protected function getIPBlockInfo( string $ip ): string {
-		$block = $this->blockStore->newFromTarget( null, $ip );
-		if ( $block instanceof DatabaseBlock ) {
-			return $this->getBlockFlag( $block );
-		} elseif (
-			$this->extensionRegistry->isLoaded( 'TorBlock' ) &&
-			TorExitNodes::isExitNode( $ip )
-		) {
-			return Html::rawElement( 'strong', [], '(' . $this->msg( 'checkuser-torexitnode' )->escaped() . ')' );
-		}
-		return '';
 	}
 
 	/**

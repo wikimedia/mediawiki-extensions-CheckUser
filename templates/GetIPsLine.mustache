@@ -11,6 +11,8 @@
 			class="mw-checkuser-actions-from-all-users mw-checkuser-edits-from-all-users">{{ipEditCount}}</span>{{/ipEditCount}}{{#ip64EditCount}}<span
 			class="mw-checkuser-actions-from-all-users-64 mw-checkuser-edits-from-all-users-64">{{ip64EditCount}}</span>{{/ip64EditCount}}</i>
 	{{/showIpCounts}}
-	{{{blockInfo}}}
+	{{#flags}}
+		{{{ . }}}
+	{{/flags}}
 	<div class="mw-checkuser-indented"><small>{{{toolLinks}}}</small></div>
 </li>

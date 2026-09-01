@@ -198,12 +198,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	}
 
 	/**
-	 * Get a link to block information about the passed block for displaying to the user.
-	 *
-	 * @param DatabaseBlock $block
-	 * @return string
+	 * Get a link to block information about the passed {@link DatabaseBlock} for displaying to the user.
 	 */
-	protected function getBlockFlag( DatabaseBlock $block ): string {
+	private function getDatabaseBlockFlag( DatabaseBlock $block ): string {
 		if ( $block->getType() === DatabaseBlock::TYPE_AUTO ) {
 			$ret = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'BlockList' ),
@@ -346,25 +343,31 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	}
 
 	/**
-	 * @param string $ip
+	 * Returns an array of HTML that displays information about the block status of an IP or user,
+	 * and user group information if the target is a registered user.
+	 *
 	 * @param UserIdentity $user
 	 * @return string[]
 	 */
-	protected function userBlockFlags( string $ip, UserIdentity $user ): array {
+	protected function getTargetFlags( UserIdentity $user ): array {
 		$flags = [];
 
 		// Generate the block flag. Only one will be displayed, with the order of priority being local block, then
 		// global block, then tor exit node block, and finally the account having been previously blocked.
-		$block = $this->blockStore->newFromTarget( $user, $ip );
+		$targetIsIp = IPUtils::isIPAddress( $user->getName() );
+		$block = $this->blockStore->newFromTarget(
+			$user,
+			$targetIsIp ? $user->getName() : null
+		);
 		if ( $block instanceof DatabaseBlock ) {
 			// Locally blocked
-			$flags[] = $this->getBlockFlag( $block );
+			$flags[] = $this->getDatabaseBlockFlag( $block );
 		} elseif ( $this->extensionRegistry->isLoaded( 'GlobalBlocking' ) ) {
 			$globalBlockLookup = GlobalBlockingServices::wrap( MediaWikiServices::getInstance() )
 				->getGlobalBlockLookup();
 			$globalBlock = $globalBlockLookup->getGlobalBlockingBlock(
-				$ip ?: null,
-				$this->centralIdLookup->centralIdFromLocalUser( $user )
+				$targetIsIp ? $user->getName() : null,
+				$targetIsIp ? 0 : $this->centralIdLookup->centralIdFromLocalUser( $user )
 			);
 			if ( $globalBlock !== null ) {
 				// Globally blocked IP or user
@@ -374,9 +377,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 
 		if (
 			!count( $flags ) &&
-			$ip == $user->getName() &&
+			$targetIsIp &&
 			$this->extensionRegistry->isLoaded( 'TorBlock' ) &&
-			TorExitNodes::isExitNode( $ip )
+			TorExitNodes::isExitNode( $user->getName() )
 		) {
 			// Tor exit node
 			$flags[] = Html::rawElement( 'strong', [], '(' . $this->msg( 'checkuser-torexitnode' )->escaped() . ')' );
@@ -396,19 +399,17 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 			$flags[] = Html::rawElement( 'strong', [ 'class' => 'mw-changeslist-links' ], $blocklog );
 		}
 
-		// Show if account is local only
-		if ( $user->getId() &&
-			$this->centralIdLookup
-				->centralIdFromLocalUser( $user, CentralIdLookup::AUDIENCE_RAW ) === 0
-		) {
-			$flags[] = Html::rawElement(
-				'strong',
-				[ 'class' => 'mw-changeslist-links' ],
-				$this->msg( 'checkuser-localonly' )->escaped()
-			);
-		}
-		// Check for extra user rights...
+		// If a registered account, show if account is not centrally attached, is locked,
+		// and all the groups the user is in.
 		if ( $user->getId() ) {
+			if ( $this->centralIdLookup->centralIdFromLocalUser( $user, CentralIdLookup::AUDIENCE_RAW ) === 0 ) {
+				$flags[] = Html::rawElement(
+					'strong',
+					[ 'class' => 'mw-changeslist-links' ],
+					$this->msg( 'checkuser-localonly' )->escaped()
+				);
+			}
+
 			if ( $this->userFactory->newFromUserIdentity( $user )->isLocked() ) {
 				$flags[] = Html::rawElement(
 					'strong',
@@ -416,11 +417,12 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 					$this->msg( 'checkuser-locked' )->escaped()
 				);
 			}
-			$list = [];
+
+			$groupsList = [];
 			foreach ( $this->userGroupManager->getUserGroups( $user ) as $group ) {
-				$list[] = self::buildGroupLink( $group );
+				$groupsList[] = self::buildGroupLink( $group );
 			}
-			$groups = $this->getLanguage()->commaList( $list );
+			$groups = $this->getLanguage()->commaList( $groupsList );
 			if ( $groups ) {
 				$flags[] = Html::rawElement( 'i', [ 'class' => 'mw-changeslist-links' ], $groups );
 			}
@@ -450,7 +452,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @return bool whether the user with that username has ever been blocked
 	 */
 	protected function userWasBlocked( string $name ): bool {
-		$userpage = Title::makeTitle( NS_USER, $name );
+		$userpage = Title::makeTitle( NS_USER, IPUtils::isIPAddress( $name ) ? IPUtils::sanitizeIP( $name ) : $name );
 
 		return (bool)$this->mDb->newSelectQueryBuilder()
 			->table( 'logging' )

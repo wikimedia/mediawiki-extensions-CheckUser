@@ -60,7 +60,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 	protected array $message = [];
 
 	/**
-	 * @var array The cached results of AbstractCheckUserPager::userBlockFlags with the key as
+	 * @var array The cached results of {@link AbstractCheckUserPager::getTargetFlags} with the key as
 	 *  the row's user_text.
 	 */
 	private array $flagCache = [];
@@ -719,8 +719,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager implements CheckUs
 
 			// Add the row to the flag cache
 			if ( !isset( $this->flagCache[$row->user_text] ) ) {
-				$ip = IPUtils::isIPAddress( $row->user_text ) ? $row->user_text : '';
-				$flags = $this->userBlockFlags( $ip, $user );
+				$flags = $this->getTargetFlags( $user );
 				$this->flagCache[$row->user_text] = $flags;
 			}
 

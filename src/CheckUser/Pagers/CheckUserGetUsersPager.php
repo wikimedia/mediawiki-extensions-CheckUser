@@ -324,7 +324,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 				}
 			}
 			// Check if this user or IP is blocked. If so, give a link to the block log...
-			$templateParams['flags'] = $this->userBlockFlags( $userIsIP ? $user->getName() : '', $user );
+			$templateParams['flags'] = $this->getTargetFlags( $user );
 		}
 		// Show edit time range
 		$templateParams['timeRange'] = $this->getTimeRangeString(
