@@ -301,7 +301,7 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 			$this->assertStringContainsString( 'mw-usertoollinks-suggestedinvestigations-cases', $html );
 			$this->assertStringContainsString( 'Special:SuggestedInvestigations', $html );
 			$this->assertStringContainsString( 'username=' . urlencode( $user->getName() ), $html );
-			$this->assertStringContainsString( 'hideCasesWithNoUserEdits=0', $html );
+			$this->assertStringContainsString( 'editAndBlockFilter=none', $html );
 			$this->assertStringContainsString(
 				"(checkuser-suggestedinvestigations-user-si-cases-count: $numCases)",
 				$html

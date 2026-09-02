@@ -252,7 +252,7 @@ class ToolLinksHandler implements
 					// We want to show all cases the user is in, even if the current user has no edits
 					// The default of this filter is to exclude zero-edit users, so we need to
 					// explicitly disable it here
-					'hideCasesWithNoUserEdits' => 0,
+					'editAndBlockFilter' => 'none',
 				]
 			);
 		}

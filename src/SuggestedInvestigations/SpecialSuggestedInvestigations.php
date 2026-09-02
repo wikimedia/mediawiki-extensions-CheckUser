@@ -101,10 +101,11 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 		// wants snake case
 		$appliedFiltersForInstrumentation = [];
 		foreach ( $pager->appliedFilters as $filterName => $filterValue ) {
-			if ( $filterName === 'hideCasesWithNoUserEdits' ) {
-				$filterName = 'hide_cases_with_no_user_edits';
-			} elseif ( $filterName === 'hideCasesWithNoBlockedUsers' ) {
-				$filterName = 'hide_cases_with_no_blocked_users';
+			if ( $filterName === 'editAndBlockFilter' ) {
+				$filterName = 'edit_and_block_filter';
+				if ( $filterValue === null ) {
+					continue;
+				}
 			} elseif ( $filterName === 'showCasesWithEditsOnSharedPages' ) {
 				$filterName = 'show_cases_with_edits_on_shared_pages';
 			} elseif ( $filterName === 'lastUpdated' ) {

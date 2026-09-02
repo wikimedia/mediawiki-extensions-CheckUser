@@ -65,6 +65,23 @@
 			</cdx-radio>
 		</cdx-field>
 		<cdx-field
+			class="ext-checkuser-suggestedinvestigations-filter-dialog-distinct-filters"
+		>
+			<template #label>
+				{{ $i18n( 'checkuser-suggestedinvestigations-filter-dialog-edits-and-blocks-filter-header' ).text() }}
+			</template>
+			<cdx-radio
+				v-for="option in editAndBlockFilterOptions"
+				:key="option.value"
+				v-model="editAndBlockFilter"
+				:input-value="option.value"
+				name="filter-edit-block"
+			>
+				<!-- eslint-disable-next-line vue/no-v-html-->
+				<span v-html="option.label"></span>
+			</cdx-radio>
+		</cdx-field>
+		<cdx-field
 			class="ext-checkuser-suggestedinvestigations-filter-dialog-account-activity-filter"
 		>
 			<template #label>
@@ -72,20 +89,6 @@
 					'checkuser-suggestedinvestigations-filter-dialog-account-activity-header'
 				).text() }}
 			</template>
-			<cdx-checkbox
-				v-model="showCasesWithNoUserEditsCheckboxValue"
-				name="filter-show-cases-with-no-user-edits"
-			>
-				{{ showCasesWithNoUserEditsCheckboxLabel }}
-			</cdx-checkbox>
-			<cdx-checkbox
-				v-model="hideCasesWithNoBlockedUsersCheckboxValue"
-				name="filter-hide-cases-with-no-blocked-users"
-			>
-				{{ $i18n(
-					'checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users'
-				).text() }}
-			</cdx-checkbox>
 			<cdx-checkbox
 				v-model="showCasesWithEditsOnSharedPagesCheckboxValue"
 				name="filter-show-cases-with-edits-shared-pages"
@@ -127,15 +130,12 @@ module.exports = exports = {
 		 * Requires the following keys:
 		 *  - status: An array of statuses that are being filtered for on the page
 		 *  - username: An array of usernames that are being filtered for
-		 *  - hideCasesWithNoUserEdits: Boolean. If true (server default), cases where no account
-		 *      has made an edit are hidden. The checkbox inverts this: checked means the user
-		 *      opts in to seeing those cases (i.e. hideCasesWithNoUserEdits=false on the server).
-		 *  - hideCasesWithNoBlockedUsers: Boolean. If true, only show cases where at least one
-		 *      of the accounts has been blocked
 		 *  - showCasesWithEditsOnSharedPages: Boolean. If true, only show cases where accounts have
 		 *      edited on the same page(s)
 		 *  - signal: An array of signals that are being filtered for on the page
 		 *  - lastUpdated: number|null. A positive integer (number of days), or null/undefined for all time.
+		 *  - editAndBlockFilter: string|null. A string denoting the active filter or null for no active filter.
+		 *      See Constants.editAndBlockFilterOptions for valid options. The server default is 'edits-only'.
 		 */
 		initialFilters: {
 			type: Object,
@@ -196,25 +196,6 @@ module.exports = exports = {
 
 		const selectedUsernames = ref( props.initialFilters.username );
 
-		let noUserEditsCheckboxLabelMsgKey =
-			'checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits';
-		if ( mw.config.get( 'wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed' ) ) {
-			noUserEditsCheckboxLabelMsgKey += '-globally';
-		}
-
-		// Uses:
-		// * checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits
-		// * checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally
-		const showCasesWithNoUserEditsCheckboxLabel = mw.msg( noUserEditsCheckboxLabelMsgKey );
-
-		const showCasesWithNoUserEditsCheckboxValue = ref(
-			!props.initialFilters.hideCasesWithNoUserEdits
-		);
-
-		const hideCasesWithNoBlockedUsersCheckboxValue = ref(
-			props.initialFilters.hideCasesWithNoBlockedUsers
-		);
-
 		const showCasesWithEditsOnSharedPagesCheckboxValue = ref(
 			props.initialFilters.showCasesWithEditsOnSharedPages
 		);
@@ -230,6 +211,32 @@ module.exports = exports = {
 			value: option.value,
 			label: mw.msg( option.labelMsg )
 		} ) );
+
+		const editAndBlockFilter = ref( '' );
+		if (
+			props.initialFilters.editAndBlockFilter &&
+			Constants.editAndBlockFilterOptions.some( ( opt ) => opt.value === props.initialFilters.editAndBlockFilter )
+		) {
+			editAndBlockFilter.value = props.initialFilters.editAndBlockFilter;
+		}
+
+		const editAndBlockFilterOptions = Constants.editAndBlockFilterOptions.map( ( option ) => {
+			// Filter messages:
+			// * checkuser-suggestedinvestigations-filter-dialog-edits-and-blocks-filter
+			// * checkuser-suggestedinvestigations-filter-dialog-global-edits-and-blocks-filter
+			// * checkuser-suggestedinvestigations-filter-dialog-edits-or-blocks-filter
+			// * checkuser-suggestedinvestigations-filter-dialog-global-edits-or-blocks-filter
+			// * checkuser-suggestedinvestigations-filter-dialog-edits-only-filter
+			// * checkuser-suggestedinvestigations-filter-dialog-global-edits-only-filter
+			// * checkuser-suggestedinvestigations-filter-dialog-blocks-only-filter
+			// * checkuser-suggestedinvestigations-filter-dialog-no-edit-block-filter
+			const msgKey = mw.config.get( 'wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed' ) ?
+				option.useGlobalEditsLabelMsg || option.labelMsg : option.labelMsg;
+			return {
+				value: option.value,
+				label: mw.message( msgKey ).parse()
+			};
+		} );
 
 		function onCloseButtonClick() {
 			open.value = false;
@@ -251,19 +258,9 @@ module.exports = exports = {
 			const filters = {
 				status: selectedStatuses.map( ( statusData ) => statusData.value ),
 				username: selectedUsernames.value,
-				signal: selectedSignals.map( ( signalData ) => signalData.urlName )
+				signal: selectedSignals.map( ( signalData ) => signalData.urlName ),
+				editAndBlockFilter: editAndBlockFilter.value
 			};
-
-			// When the "show cases with no user edits" checkbox is checked, explicitly
-			// set hideCasesWithNoUserEdits=0. When unchecked, we omit the param entirely
-			// and let the server apply its default (hideCasesWithNoUserEdits=true).
-			if ( showCasesWithNoUserEditsCheckboxValue.value ) {
-				filters.hideCasesWithNoUserEdits = 0;
-			}
-
-			if ( hideCasesWithNoBlockedUsersCheckboxValue.value ) {
-				filters.hideCasesWithNoBlockedUsers = 1;
-			}
 
 			if ( showCasesWithEditsOnSharedPagesCheckboxValue.value ) {
 				filters.showCasesWithEditsOnSharedPages = 1;
@@ -292,12 +289,11 @@ module.exports = exports = {
 			selectedUsernames,
 			statusCheckboxes,
 			signalCheckboxes,
-			showCasesWithNoUserEditsCheckboxLabel,
-			showCasesWithNoUserEditsCheckboxValue,
-			hideCasesWithNoBlockedUsersCheckboxValue,
 			showCasesWithEditsOnSharedPagesCheckboxValue,
 			lastUpdated,
 			lastUpdatedOptions,
+			editAndBlockFilter,
+			editAndBlockFilterOptions,
 			onCloseButtonClick,
 			onShowResultsButtonClick
 		};
