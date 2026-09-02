@@ -44,9 +44,45 @@ class CompositeBlockCheckerTest extends MediaWikiUnitTestCase {
 		$this->assertSame( [ 2 ], $checker->getUserIdsNotBlocked( [ 1, 2 ] ) );
 	}
 
-	public function testNoChecksReturnsAllUsersAsUnblocked(): void {
+	public function testGetUserIdsNotBlockedNoChecksReturnsAllUsersAsUnblocked(): void {
 		$checker = new CompositeBlockChecker( [] );
 
 		$this->assertSame( [ 1, 2 ], $checker->getUserIdsNotBlocked( [ 1, 2 ] ) );
+	}
+
+	public function testGetUserIdsBlockedBlockedAcrossMultipleChecks(): void {
+		$localCheck = $this->createMock( BlockCheckInterface::class );
+		$localCheck->expects( $this->once() )
+			->method( 'getBlockedUserIds' )
+			->with( [ 1, 2 ] )
+			->willReturn( [ 1 ] );
+
+		$globalCheck = $this->createMock( BlockCheckInterface::class );
+		$globalCheck->expects( $this->once() )
+			->method( 'getBlockedUserIds' )
+			->with( [ 2 ] )
+			->willReturn( [ 2 ] );
+
+		$checker = new CompositeBlockChecker( [ $localCheck, $globalCheck ] );
+
+		$this->assertSame( [ 1, 2 ], $checker->getUserIdsBlocked( [ 1, 2 ] ) );
+	}
+
+	public function testGetUserIdsBlockedNoChecksReturnsNoUsersAsBlocked(): void {
+		$checker = new CompositeBlockChecker( [] );
+
+		$this->assertSame( [], $checker->getUserIdsBlocked( [ 1, 2 ] ) );
+	}
+
+	public function testGetUserIdsBlockedReturnsBlockedUsers(): void {
+		$check = $this->createMock( BlockCheckInterface::class );
+		$check->expects( $this->once() )
+			->method( 'getBlockedUserIds' )
+			->with( [ 1, 2 ] )
+			->willReturn( [ 1 ] );
+
+		$checker = new CompositeBlockChecker( [ $check ] );
+
+		$this->assertSame( [ 1 ], $checker->getUserIdsBlocked( [ 1, 2 ] ) );
 	}
 }

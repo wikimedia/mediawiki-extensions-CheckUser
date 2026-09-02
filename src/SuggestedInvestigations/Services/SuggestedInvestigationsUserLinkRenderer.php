@@ -253,7 +253,7 @@ class SuggestedInvestigationsUserLinkRenderer {
 				->numParams( $siCaseCount )
 				->text(),
 			[ 'class' => 'mw-usertoollinks-suggestedinvestigations-cases' ],
-			[ 'username' => $user->getName(), 'hideCasesWithNoUserEdits' => '0' ]
+			[ 'username' => $user->getName(), 'editAndBlockFilter' => 'none' ]
 		);
 	}
 

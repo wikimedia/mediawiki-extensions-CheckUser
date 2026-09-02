@@ -240,7 +240,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 					SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
 					$this->msg( 'checkuser-si-cases-link' )->text(),
 					[ 'class' => 'mw-checkuser-si-cases-link' ],
-					[ 'username' => $user->getName(), 'hideCasesWithNoUserEdits' => '0' ]
+					[ 'username' => $user->getName(), 'editAndBlockFilter' => 'none' ]
 				);
 			}
 			// don't render parentheses in HTML markup (CSS will provide)

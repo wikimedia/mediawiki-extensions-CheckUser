@@ -580,7 +580,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		// Test that only the case ID filter is applied when using the case ID filter (T421312)
 		$context->getRequest()->setVal( 'status', 'invalid' );
-		$context->getRequest()->setVal( 'hideCasesWithNoBlockedUsers', 1 );
+		$context->getRequest()->setVal( 'editAndBlockFilter', 'blocks-only' );
 
 		$pager = $this->getPager( $context, [], $firstCaseId );
 
@@ -969,7 +969,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	/** @dataProvider provideLimitValues */
-	public function testWhenHideCasesWithNoUserEditsFilterIsSetForLocalEditCounts( int $limit ) {
+	public function testWhenEditAndBlockFilterIsSetForLocalEditsOnly( int $limit ) {
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
 
 		// Create two cases each with a different user
@@ -988,9 +988,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
 		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
 
-		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
 		$context = $this->makeQqxContext();
-		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
+		$context->getRequest()->setVal( 'editAndBlockFilter', 'edits-only' );
 		$context->getRequest()->setVal( 'limit', $limit );
 
 		$parserOutput = $this->getPager( $context )->getFullOutput();
@@ -1001,7 +1000,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// has users with edits in it.
 		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
-		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoUserEdits' => true ], $parserOutput );
+		$this->assertActiveFiltersJsConfigVar( [ 'editAndBlockFilter' => 'edits-only' ], $parserOutput );
 		$this->assertFalse(
 			$jsConfigVars['wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed'],
 			'Value of JS config var wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed ' .
@@ -1009,7 +1008,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testWhenNoFiltersSetHideCasesWithNoUserEditsDefaultsToTrue(): void {
+	public function testWhenNoFiltersSetEditAndBlockFilterDefaultsToEditsOnly(): void {
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
 
 		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
@@ -1033,7 +1032,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$html = $parserOutput->getContentHolder()->getAsHtmlString();
 
 		// Expect that the table pager only shows the first case, as only the first case
-		// has users with edits in it (hideCasesWithNoUserEdits defaults to true).
+		// has users with edits in it (editAndBlockFilter defaults to 'edits-only').
 		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
 		$this->assertActiveFiltersJsConfigVar( [], $parserOutput );
@@ -1048,7 +1047,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	/** @dataProvider provideLimitValues */
-	public function testWhenHideCasesWithNoUserEditsFilterIsSetForGlobalEditCounts( int $limit ) {
+	public function testWhenEditAndBlockFilterIsSetForGlobalEditsOnly( int $limit ) {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 
 		$isGlobalContributionsEnabled = $this->getServiceContainer()->getSpecialPageFactory()
@@ -1083,9 +1082,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			);
 		$this->setService( 'CentralAuth.CentralAuthEditCounter', $mockCentralAuthEditCounter );
 
-		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
+		// Load the pager with the 'editAndBlockFilter' query param set to 'edits-only'
 		$context = $this->makeQqxContext();
-		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
+		$context->getRequest()->setVal( 'editAndBlockFilter', 'edits-only' );
 		$context->getRequest()->setVal( 'limit', $limit );
 
 		$parserOutput = $this->getPager( $context )->getFullOutput();
@@ -1096,7 +1095,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// has users with edits in it.
 		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
-		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoUserEdits' => true ], $parserOutput );
+		$this->assertActiveFiltersJsConfigVar( [ 'editAndBlockFilter' => 'edits-only' ], $parserOutput );
 		$this->assertTrue(
 			$jsConfigVars['wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed'],
 			'Value of JS config var wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed ' .
@@ -1104,7 +1103,90 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
-	public function testWhenHideCasesWithNoUserEditsFilterIsSetForMultipleMainQueries(): void {
+	public static function provideEditAndBlockFilterValues(): array {
+		return [
+			[
+				'filterValue' => 'edits-only',
+				'expectedFilteredCases' => [ 2, 4 ],
+			], [
+				'filterValue' => 'blocks-only',
+				'expectedFilteredCases' => [ 3, 4 ],
+			], [
+				'filterValue' => 'edits-or-blocks',
+				'expectedFilteredCases' => [ 2, 3, 4 ],
+			], [
+				'filterValue' => 'edits-and-blocks',
+				'expectedFilteredCases' => [ 4 ],
+			], [
+				'filterValue' => 'none',
+				'expectedFilteredCases' => [ 1, 2, 3, 4 ],
+			],
+		];
+	}
+
+	/** @dataProvider provideEditAndBlockFilterValues */
+	public function testWhenEditAndBlockFilterValues( string $filterValue, array $expectedCases ): void {
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
+
+		$caseManager = $this->getCaseManager();
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL,
+			'Test value',
+			false
+		);
+
+		// Create the following cases:
+		// 1. A user with no edits or blocks
+		// 2. A user with edits but no blocks
+		// 3. A blocked user with no edits
+		// 4. A blocked user with edits
+		$firstUser = $this->getMutableTestUser()->getUserIdentity();
+		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+		$this->setUserEditCount( $secondUser, 2 );
+		$thirdUser = $this->getMutableTestUser()->getUserIdentity();
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$thirdUser,
+				$this->mockRegisteredUltimateAuthority(),
+				'indefinite'
+			)
+			->placeBlock();
+		$fourthUser = $this->getMutableTestUser()->getUserIdentity();
+		$this->setUserEditCount( $fourthUser, 2 );
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$fourthUser,
+				$this->mockRegisteredUltimateAuthority(),
+				'indefinite'
+			)
+			->placeBlock();
+
+		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
+		$thirdCaseId = $caseManager->createCase( [ $thirdUser ], [ $signal ] );
+		$fourthCaseId = $caseManager->createCase( [ $fourthUser ], [ $signal ] );
+
+		// Load the pager with the 'editAndBlockFilter' query param
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'editAndBlockFilter', $filterValue );
+
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// Expect that the table pager shows the filtered cases
+		$cases = [ $firstCaseId, $secondCaseId, $thirdCaseId, $fourthCaseId ];
+		foreach ( $cases as $caseIndex => $caseId ) {
+			// For legibility in data provider, expected index is index-1
+			if ( in_array( $caseIndex + 1, $expectedCases ) ) {
+				$this->assertStringContainsString( 'data-case-id="' . $caseId . '"', $html );
+			} else {
+				$this->assertStringNotContainsString( 'data-case-id="' . $caseId . '"', $html );
+			}
+		}
+		$this->assertActiveFiltersJsConfigVar( [ 'editAndBlockFilter' => $filterValue ], $parserOutput );
+	}
+
+	public function testWhenEditAndBlockFilterIsSetForMultipleMainQueries(): void {
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
 
 		// Create two cases each with a different user
@@ -1125,9 +1207,9 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$thirdCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
 		$fourthCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
 
-		// Load the pager with the 'hideCasesWithNoUserEdits' query param set to 1
+		// Load the pager with the 'editAndBlockFilter' query param set to 'edits-only'
 		$context = $this->makeQqxContext();
-		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 1 );
+		$context->getRequest()->setVal( 'editAndBlockFilter', 'edits-only' );
 		$context->getRequest()->setVal( 'limit', 2 );
 
 		$parserOutput = $this->getPager( $context )->getFullOutput();
@@ -1148,60 +1230,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'Case with ID of 1 should be before the case with ID of 3'
 		);
 
-		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoUserEdits' => true ], $parserOutput );
-	}
-
-	public function testWhenHideCasesWithNoBlockedUsersFilterIsSet(): void {
-		// Create three cases where:
-		// * The first case has a user that is not blocked
-		// * The second case has a user that is blocked with an indefinite block
-		// * The third case has a user that is blocked temporarily and an unblocked user
-		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL,
-			'Test value',
-			false
-		);
-		$firstUser = $this->getMutableTestUser()->getUserIdentity();
-		$secondUser = $this->getMutableTestUser()->getUserIdentity();
-		$thirdUser = $this->getMutableTestUser()->getUserIdentity();
-		$this->setUserEditCount( $secondUser, 1 );
-		$this->setUserEditCount( $thirdUser, 1 );
-
-		$caseManager = $this->getCaseManager();
-		$firstCaseId = $caseManager->createCase( [ $firstUser ], [ $signal ] );
-		$secondCaseId = $caseManager->createCase( [ $secondUser ], [ $signal ] );
-		$thirdCaseId = $caseManager->createCase( [ $thirdUser ], [ $signal ] );
-		$caseManager->updateCase( $thirdCaseId, [ $firstUser ], [] );
-
-		$this->getServiceContainer()->getBlockUserFactory()
-			->newBlockUser(
-				$secondUser,
-				$this->mockRegisteredUltimateAuthority(),
-				'indefinite'
-			)
-			->placeBlock();
-		$this->getServiceContainer()->getBlockUserFactory()
-			->newBlockUser(
-				$thirdUser,
-				$this->mockRegisteredUltimateAuthority(),
-				'3 months'
-			)
-			->placeBlock();
-
-		// Load the pager with the 'hideCasesWithNoBlockedUsers' query param set to 1
-		$context = $this->makeQqxContext();
-		$context->getRequest()->setVal( 'hideCasesWithNoBlockedUsers', 1 );
-
-		$parserOutput = $this->getPager( $context )->getFullOutput();
-		$html = $parserOutput->getContentHolder()->getAsHtmlString();
-
-		// Expect that the table pager shows the second and third case, as these contain at least one user
-		// with an active block
-		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
-		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
-		$this->assertStringContainsString( 'data-case-id="' . $thirdCaseId . '"', $html );
-
-		$this->assertActiveFiltersJsConfigVar( [ 'hideCasesWithNoBlockedUsers' => true ], $parserOutput );
+		$this->assertActiveFiltersJsConfigVar( [ 'editAndBlockFilter' => 'edits-only' ], $parserOutput );
 	}
 
 	public function testWhenShowCasesWithEditsOnSharedPagesFilterIsSet(): void {
@@ -1412,7 +1441,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->setCaseUpdatedTimestamp( $recentCaseId, $recentTimestamp );
 
 		$context = $this->makeQqxContext();
-		$context->getRequest()->setVal( 'hideCasesWithNoUserEdits', 0 );
+		$context->getRequest()->setVal( 'editAndBlockFilter', 'none' );
 		if ( $filterParam !== null ) {
 			$context->getRequest()->setVal( 'lastUpdated', $filterParam );
 		}
@@ -1498,6 +1527,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'lastUpdated', '7' );
+		$context->getRequest()->setVal( 'editAndBlockFilter', 'none' );
 
 		$pager = $this->getPager( $context );
 		$parserOutput = $pager->getFullOutput();
@@ -1510,7 +1540,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 
 		$this->assertActiveFiltersJsConfigVar(
-			[ 'lastUpdated' => 7 ],
+			[ 'lastUpdated' => 7, 'editAndBlockFilter' => 'none' ],
 			$parserOutput
 		);
 	}
@@ -1520,6 +1550,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'lastUpdated', '5' );
+		$context->getRequest()->setVal( 'editAndBlockFilter', 'none' );
 
 		$pager = $this->getPager( $context );
 		$parserOutput = $pager->getFullOutput();
@@ -1530,7 +1561,10 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$html,
 			'The info chip indicating filters were applied should not be present for an invalid filter'
 		);
-		$this->assertActiveFiltersJsConfigVar( [ 'lastUpdated' => null ], $parserOutput );
+		$this->assertActiveFiltersJsConfigVar(
+			[ 'lastUpdated' => null, 'editAndBlockFilter' => 'none' ],
+			$parserOutput
+		);
 	}
 
 	/**
@@ -1545,8 +1579,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			array_merge( [
 				'status' => [],
 				'username' => [],
-				'hideCasesWithNoUserEdits' => true,
-				'hideCasesWithNoBlockedUsers' => false,
+				'editAndBlockFilter' => 'edits-only',
 				'showCasesWithEditsOnSharedPages' => false,
 				'signal' => [],
 				'lastUpdated' => null,

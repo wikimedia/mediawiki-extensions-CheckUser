@@ -30,4 +30,23 @@ class CompositeBlockChecker {
 
 		return $unblockedUserIds;
 	}
+
+	/**
+	 * Return user IDs that are blocked by any of the registered block checks.
+	 *
+	 * @param int[] $localUserIds
+	 * @return int[] User IDs that are blocked
+	 */
+	public function getUserIdsBlocked( array $localUserIds ): array {
+		$unblockedUserIds = $localUserIds;
+		$allBlockedUserIds = [];
+		foreach ( $this->blockChecks as $check ) {
+			$blockedUserIds = $check->getBlockedUserIds( $unblockedUserIds );
+			$unblockedUserIds = array_values( array_diff( $unblockedUserIds, $blockedUserIds ) );
+
+			$allBlockedUserIds = array_merge( $allBlockedUserIds, $blockedUserIds );
+		}
+
+		return array_unique( $allBlockedUserIds );
+	}
 }

@@ -80,15 +80,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 */
 	private array $userNamesFilter = [];
 
-	/**
-	 * @var bool If true, hide cases where all of the accounts in the case have no edits
-	 */
-	private bool $hideCasesWithNoUserEdits = false;
-
-	/**
-	 * @var bool If true, hide cases where all of the accounts in the case are unblocked
-	 */
-	private bool $hideCasesWithNoBlockedUsers = false;
+	private ?string $editAndBlockFilter = null;
 
 	private bool $showCasesWithEditsOnSharedPages = false;
 
@@ -222,9 +214,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				$this->statusFilter
 			),
 			'username' => $this->userNamesFilter,
-			'hideCasesWithNoUserEdits' => $this->hideCasesWithNoUserEdits,
-			'hideCasesWithNoBlockedUsers' => $this->hideCasesWithNoBlockedUsers,
 			'showCasesWithEditsOnSharedPages' => $this->showCasesWithEditsOnSharedPages,
+			'editAndBlockFilter' => $this->editAndBlockFilter,
 			'signal' => $this->signalsFilter,
 			'lastUpdated' => $this->lastUpdatedDaysFilter,
 		];
@@ -248,16 +239,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied += count( $this->userNamesFilter );
 		}
 
-		// Default to true; the JS sends hideCasesWithNoUserEdits=0 to explicitly opt out
-		$this->hideCasesWithNoUserEdits = $this->mRequest->getBool( 'hideCasesWithNoUserEdits', true );
-
-		// Only count as an applied filter when set to non-default (i.e. =0)
-		if ( !$this->hideCasesWithNoUserEdits ) {
-			$this->numberOfFiltersApplied++;
-		}
-
-		$this->hideCasesWithNoBlockedUsers = $this->mRequest->getBool( 'hideCasesWithNoBlockedUsers' );
-		if ( $this->hideCasesWithNoBlockedUsers ) {
+		$this->editAndBlockFilter = $this->mRequest->getVal( 'editAndBlockFilter', 'edits-only' );
+		if ( $this->editAndBlockFilter !== 'none' ) {
 			$this->numberOfFiltersApplied++;
 		}
 
@@ -979,38 +962,53 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		// Preload the counts here, to save on DB queries.
 		$this->siUserLinkRenderer->preloadEditCounts( $userIdToUserIdentity );
 
-		$unblockedUserIds = [];
-		if ( $this->hideCasesWithNoBlockedUsers ) {
-			$unblockedUserIds = $this->compositeBlockChecker->getUserIdsNotBlocked(
+		$blockedUserIds = [];
+		if ( in_array( $this->editAndBlockFilter, [ 'edits-and-blocks', 'edits-or-blocks', 'blocks-only' ] ) ) {
+			$blockedUserIds = $this->compositeBlockChecker->getUserIdsBlocked(
 				array_keys( $userIdToUserIdentity )
 			);
 		}
 
-		// Group the UserIdentity objects by case IDs, while also excluding case IDs
-		// which do not meet the hideCasesWithNoUserEdits filter (if enabled)
+		// Group the UserIdentity objects by case IDs and indicate if a case ends up with no accounts with edits
 		$usersForCases = [];
 		foreach ( $caseIdsToUserIds as $caseId => $userIds ) {
-			if ( $this->hideCasesWithNoUserEdits ) {
-				$caseHasNoEdits = true;
+			$caseHasNoEdits = true;
 
-				foreach ( $userIds as $userId ) {
-					$userIdentity = $userIdToUserIdentity[$userId];
-
-					if ( $caseHasNoEdits ) {
-						$editCount = $this->siUserLinkRenderer->getUserEditCount( $userIdentity );
-						$caseHasNoEdits = $editCount === 0;
-					}
-				}
+			foreach ( $userIds as $userId ) {
+				$userIdentity = $userIdToUserIdentity[$userId];
 
 				if ( $caseHasNoEdits ) {
-					continue;
+					$editCount = $this->siUserLinkRenderer->getUserEditCount( $userIdentity );
+					$caseHasNoEdits = $editCount === 0;
 				}
-			}
 
-			if ( $this->hideCasesWithNoBlockedUsers ) {
-				if ( array_diff( $userIds, $unblockedUserIds ) === [] ) {
-					continue;
-				}
+			}
+			$caseHasEdits = !$caseHasNoEdits;
+			$caseHasBlockedAccounts = (bool)count( array_intersect( $userIds, $blockedUserIds ) );
+
+			switch ( $this->editAndBlockFilter ) {
+				// Only cases where any account has an edit, don't check block status
+				case 'edits-only':
+					if ( !$caseHasEdits ) {
+						continue 2;
+					}
+					break;
+				case 'edits-or-blocks':
+					if ( !$caseHasEdits && !$caseHasBlockedAccounts ) {
+						continue 2;
+					}
+					break;
+				case 'edits-and-blocks':
+					if ( !$caseHasEdits || !$caseHasBlockedAccounts ) {
+						continue 2;
+					}
+					break;
+				// Only cases where any account is blocked, don't check edit status
+				case 'blocks-only':
+					if ( !$caseHasBlockedAccounts ) {
+						continue 2;
+					}
+					break;
 			}
 
 			foreach ( $userIds as $userId ) {
