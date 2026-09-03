@@ -60,6 +60,8 @@
 	"rest-module-checkuser.v0-title": "CheckUser-API",
 	"rest-module-checkuser.v0-desc": "REST API voor CheckUser-hulpmiddelen. Zie [documentatie van de CheckUser-extensie](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Gebruikersnaam waarvoor details worden opgehaald",
+	"checkuser-rest-param-desc-source-page": "De titel die voorafgaat aan de pagina van waaruit de UserInfoCard wordt geopend",
+	"checkuser-rest-param-desc-opened-from": "Type locatie van waaruit de gebruikersinfokaart wordt geopend",
 	"checkuser-rest-request-desc-userinfo": "Verzoekinhoud voor het ophalen van informatie voor de UserInfoCard",
 	"checkuser-rest-response-desc-userinfo": "Antwoord met gedetailleerde openbare en beperkte gebruikersactiviteitsgegevens",
 	"checkuser-rest-property-desc-username": "Gebruikersnaam van de gebruiker",
