@@ -286,6 +286,7 @@
 	"prefs-checkuser-tempaccount": "Приказ IP адреса привремених налога",
 	"checkuser-tempaccount-enable-preference-description": "Коришћење ове алатке подлеже одређеним правилима.",
 	"checkuser-tempaccount-enable-preference": "Прикажи IP адресе привремених налога",
+	"checkuser-tempaccount-no-ip-results": "Нема IP података за овог привременог корисника за последњих $1 {{PLURAL:$1|дана}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
 	"checkuser-tempaccount-reveal-ip-missing": "недоступно",
 	"checkuser-tempaccount-reveal-ip-expired": "није више доступно",
