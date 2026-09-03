@@ -212,12 +212,14 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 				'type' => 'checkuser-private-event',
 				'action' => 'login-success',
 				'user_text' => $targetUser->getName(),
+				'actor' => $targetUser->getActorId(),
 				'params' => [
 					'4::target' => $targetUser->getName(),
 				],
 			],
 			false
 		);
+		$row['user_id'] = $targetUser->getId();
 		$formatter = $this->getServiceContainer()->getLogFormatterFactory()->newFromRow( $row );
 		$formatter->context->setAuthority( $logViewUser );
 		$this->assertEquals(
