@@ -58,7 +58,7 @@ const generateStatusElement = ( caseId, status ) => {
 	chipElement.setAttribute( 'class', 'cdx-info-chip ' + mapStatusToChipType( status ) );
 
 	const chipTextElement = document.createElement( 'span' );
-	chipTextElement.setAttribute( 'class', 'cdx-info-chip--text' );
+	chipTextElement.setAttribute( 'class', 'cdx-info-chip__text' );
 	chipTextElement.textContent = '(checkuser-suggestedinvestigations-status-' + status + ')';
 
 	chipElement.append( chipTextElement );
@@ -142,7 +142,7 @@ QUnit.test.each( 'Test updateCaseStatusOnPage', {
 		'New status reason is correct'
 	);
 	assert.strictEqual(
-		statusElement.querySelector( '.cdx-info-chip--text' ).textContent,
+		statusElement.querySelector( '.cdx-info-chip__text' ).textContent,
 		'(checkuser-suggestedinvestigations-status-' + newStatus + ')',
 		'New status reason is correct'
 	);

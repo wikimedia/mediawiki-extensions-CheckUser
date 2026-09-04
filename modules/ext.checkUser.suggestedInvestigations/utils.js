@@ -43,7 +43,7 @@ function updateCaseStatusOnPage( caseId, status, reason, formattedReason ) {
 	$chipIcon.addClass( 'cdx-info-chip--' + caseStatusToChipStatus( status ) );
 
 	// Update the status text to reflect the new status
-	const chipText = statusElement.querySelector( '.cdx-info-chip--text' );
+	const chipText = statusElement.querySelector( '.cdx-info-chip__text' );
 	// Uses:
 	// * checkuser-suggestedinvestigations-status-open
 	// * checkuser-suggestedinvestigations-status-resolved
