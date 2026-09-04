@@ -26,9 +26,13 @@ namespace MediaWiki\Extension\CheckUser\Investigate\Pagers;
 
 use DateTime;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\Extension\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
@@ -78,6 +82,8 @@ class ComparePager extends TablePager {
 	/** @var string */
 	private $start;
 
+	private ClientHintsBatchFormatterResults $formattedClientHintsData;
+
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
@@ -86,6 +92,8 @@ class ComparePager extends TablePager {
 		private readonly CompareService $compareService,
 		private readonly UserFactory $userFactory,
 		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly UserAgentClientHintsLookup $clientHintsLookup,
+		private readonly UserAgentClientHintsFormatter $clientHintsFormatter,
 	) {
 		parent::__construct( $context, $linkRenderer );
 
@@ -99,6 +107,7 @@ class ComparePager extends TablePager {
 		);
 
 		$this->start = $durationManager->getTimestampFromRequest( $context->getRequest() );
+		$this->formattedClientHintsData = new ClientHintsBatchFormatterResults( [], [] );
 	}
 
 	/**
@@ -178,6 +187,23 @@ class ComparePager extends TablePager {
 				// as the sort value, since UI elements are added to the table cell.
 				$attributes['data-sort-value'] = $value;
 				break;
+			case 'client_hints':
+				$attributes['class'] .= ' ext-checkuser-compare-table-cell-client-hints';
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
+				$attributes['data-field'] = $field;
+				$formattedClientHints = $this->getFormattedClientHints(
+					$row->client_hints_references ?? null
+				);
+				if ( $formattedClientHints ) {
+					sort( $formattedClientHints );
+					$attributes['data-value'] = base64_encode( implode( "\n", $formattedClientHints ) );
+					$attributes['data-sort-value'] = implode( ' ', $formattedClientHints );
+				} else {
+					$attributes['data-value'] = '';
+					$attributes['data-sort-value'] = '';
+				}
+				break;
 			case 'activity':
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-activity';
 				$start = new DateTime( $row->first_action );
@@ -256,6 +282,9 @@ class ComparePager extends TablePager {
 			case 'agent':
 				$formatted = htmlspecialchars( $value ?? '' );
 				break;
+			case 'client_hints':
+				$formatted = $this->formatClientHintsValue( $row->client_hints_references ?? null );
+				break;
 			case 'activity':
 				$firstAction = $language->userDate( $row->first_action, $this->getUser() );
 				$lastAction = $language->userDate( $row->last_action, $this->getUser() );
@@ -284,6 +313,7 @@ class ComparePager extends TablePager {
 				'user_text' => 'checkuser-investigate-compare-table-header-username',
 				'ip_hex' => 'checkuser-investigate-compare-table-header-ip',
 				'agent' => 'checkuser-investigate-compare-table-header-useragent',
+				'client_hints' => 'checkuser-investigate-compare-table-header-clienthints',
 				'activity' => 'checkuser-investigate-compare-table-header-activity',
 			];
 			foreach ( $this->fieldNames as &$val ) {
@@ -315,6 +345,7 @@ class ComparePager extends TablePager {
 	protected function doBatchLookups() {
 		$lb = $this->linkBatchFactory->newLinkBatch();
 		$lb->setCaller( __METHOD__ );
+		$referenceIds = new ClientHintsReferenceIds();
 
 		foreach ( $this->mResult as $row ) {
 			$username = $row->user_text;
@@ -322,9 +353,69 @@ class ComparePager extends TablePager {
 				$username = IPUtils::formatHex( $row->ip_hex );
 			}
 			$lb->addUser( new UserIdentityValue( (int)( $row->user ?? 0 ), $username ?? '' ) );
+			$this->addClientHintsReferences( $referenceIds, $row->client_hints_references ?? null );
 		}
 
 		$lb->execute();
+		$clientHintsData = $this->clientHintsLookup->getClientHintsByReferenceIds( $referenceIds );
+		$this->formattedClientHintsData = $this->clientHintsFormatter
+			->batchFormatClientHintsData( $clientHintsData );
+		$this->mResult->seek( 0 );
+	}
+
+	private function formatClientHintsValue( ?string $clientHintsReferences ): string {
+		$formattedClientHints = $this->getFormattedClientHints( $clientHintsReferences );
+		if ( !$formattedClientHints ) {
+			return '';
+		}
+		return Html::rawElement(
+			'div',
+			[ 'class' => 'mw-checkuser-client-hints' ],
+			implode( Html::element( 'br' ), $formattedClientHints )
+		);
+	}
+
+	/**
+	 * @return string[]
+	 */
+	private function getFormattedClientHints( ?string $clientHintsReferences ): array {
+		$referenceIds = $this->getClientHintsReferenceIds( $clientHintsReferences );
+		$formattedClientHints = [];
+		foreach ( $referenceIds->getReferenceIds() as $referenceType => $referencesForType ) {
+			foreach ( $referencesForType as $referenceId ) {
+				$formattedClientHintsString = $this->formattedClientHintsData->getStringForReferenceId(
+					$referenceId,
+					$referenceType
+				);
+				if ( $formattedClientHintsString !== null && $formattedClientHintsString !== '' ) {
+					$formattedClientHints[] = $formattedClientHintsString;
+				}
+			}
+		}
+
+		return array_unique( $formattedClientHints );
+	}
+
+	private function addClientHintsReferences(
+		ClientHintsReferenceIds $referenceIds,
+		?string $clientHintsReferences
+	): void {
+		foreach ( $this->getClientHintsReferenceIds( $clientHintsReferences )->getReferenceIds() as $type => $ids ) {
+			$referenceIds->addReferenceIds( $ids, $type );
+		}
+	}
+
+	private function getClientHintsReferenceIds( ?string $clientHintsReferences ): ClientHintsReferenceIds {
+		$referenceIds = new ClientHintsReferenceIds();
+		foreach ( explode( '|', $clientHintsReferences ?? '' ) as $reference ) {
+			$referenceParts = explode( ':', $reference, 2 );
+			if ( count( $referenceParts ) !== 2 ) {
+				continue;
+			}
+			[ $referenceType, $referenceId ] = $referenceParts;
+			$referenceIds->addReferenceIds( (int)$referenceId, (int)$referenceType );
+		}
+		return $referenceIds;
 	}
 
 	/**

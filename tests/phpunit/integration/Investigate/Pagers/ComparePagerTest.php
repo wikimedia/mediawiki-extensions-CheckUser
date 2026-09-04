@@ -6,11 +6,14 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\Pagers;
 
 use LoggedServiceOptions;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\Extension\CheckUser\Investigate\Pagers\ComparePager;
 use MediaWiki\Extension\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\Extension\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\CompareTabTestDataTrait;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Page\LinkBatch;
 use MediaWiki\Page\LinkBatchFactory;
@@ -51,7 +54,9 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['durationManager'] ?? $services->get( 'CheckUserDurationManager' ),
 			$overrides['compareService'] ?? $services->get( 'CheckUserCompareService' ),
 			$overrides['userFactory'] ?? $services->getUserFactory(),
-			$overrides['linkBatchFactory'] ?? $services->getLinkBatchFactory()
+			$overrides['linkBatchFactory'] ?? $services->getLinkBatchFactory(),
+			$overrides['clientHintsLookup'] ?? $services->get( 'UserAgentClientHintsLookup' ),
+			$overrides['clientHintsFormatter'] ?? $services->get( 'UserAgentClientHintsFormatter' )
 		);
 	}
 
@@ -106,6 +111,9 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				'user_text',
 				'(checkuser-investigate-compare-table-cell-unregistered)',
 			],
+			'client_hints when no Client Hints data exists for the row' => [
+				[ 'client_hints_references' => null ], 'client_hints', '',
+			],
 		];
 	}
 
@@ -141,6 +149,81 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 			// This also means this cannot be in a data provider.
 			Linker::userLink( self::$hiddenUser->getId(), self::$hiddenUser->getName() )
 		);
+	}
+
+	/**
+	 * @dataProvider provideFormatValueForClientHints
+	 */
+	public function testFormatValueForClientHints(
+		array $referenceIdsToFormattedClientHintsIndex,
+		array $formattedClientHints,
+		?string $clientHintsReferences,
+		string $expectedFormattedValue
+	): void {
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $this->getObjectUnderTest() );
+		$objectUnderTest->formattedClientHintsData = new ClientHintsBatchFormatterResults(
+			$referenceIdsToFormattedClientHintsIndex,
+			$formattedClientHints
+		);
+		$objectUnderTest->mCurrentRow = (object)[ 'client_hints_references' => $clientHintsReferences ];
+		/** @var $objectUnderTest ComparePager */
+		$this->assertSame(
+			$expectedFormattedValue,
+			$objectUnderTest->formatValue( 'client_hints', $clientHintsReferences ),
+			'::formatValue did not return the expected HTML for the client_hints column'
+		);
+	}
+
+	public static function provideFormatValueForClientHints(): array {
+		return [
+			'Row with one Client Hints reference' => [
+				[ UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 5 => 0 ] ],
+				[ 'Chrome 120 on Windows' ],
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES . ':5',
+				Html::rawElement(
+					'div',
+					[ 'class' => 'mw-checkuser-client-hints' ],
+					'Chrome 120 on Windows'
+				),
+			],
+			'Row with multiple distinct Client Hints references' => [
+				[
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 5 => 0 ],
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [ 7 => 1 ],
+				],
+				[ 'Chrome 120 on Windows', 'Firefox 118 on Linux' ],
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES . ':5|' .
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT . ':7',
+				Html::rawElement(
+					'div',
+					[ 'class' => 'mw-checkuser-client-hints' ],
+					'Chrome 120 on Windows' . Html::element( 'br' ) . 'Firefox 118 on Linux'
+				),
+			],
+			'Row with duplicate Client Hints strings across references' => [
+				[
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 5 => 0 ],
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [ 7 => 0 ],
+				],
+				[ 'Chrome 120 on Windows' ],
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES . ':5|' .
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT . ':7',
+				Html::rawElement(
+					'div',
+					[ 'class' => 'mw-checkuser-client-hints' ],
+					'Chrome 120 on Windows'
+				),
+			],
+			'Row with a Client Hints reference that has no lookup result' => [
+				[],
+				[],
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES . ':5',
+				'',
+			],
+			'Row with no Client Hints references at all' => [
+				[], [], null, '',
+			],
+		];
 	}
 
 	/** @dataProvider provideGetCellAttrs */
@@ -260,7 +343,63 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				],
 				[ 'data-field' => 'agent', 'data-value' => 'test', 'data-sort-value' => 'test' ],
 			],
+			'$name as client_hints with no Client Hints data' => [
+				'row' => [ 'client_hints_references' => null ],
+				'filteredTargets' => [],
+				'ipTotalActions' => [],
+				'name' => 'client_hints',
+				'expectedClasses' => [
+					'ext-checkuser-compare-table-cell-client-hints',
+					'ext-checkuser-investigate-table-cell-pinnable',
+					'ext-checkuser-investigate-table-cell-interactive',
+				],
+				'otherExpectedAttributes' => [
+					'data-field' => 'client_hints',
+					'data-value' => '',
+					'data-sort-value' => '',
+				],
+			],
 		];
+	}
+
+	public function testGetCellAttrsWhenClientHintsSet(): void {
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $this->getObjectUnderTest() );
+		$objectUnderTest->formattedClientHintsData = new ClientHintsBatchFormatterResults(
+			[ UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 5 => 0 ] ],
+			[ 'Chrome 120 on Windows' ]
+		);
+		$clientHintsReferences = UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES . ':5';
+		$objectUnderTest->mCurrentRow = (object)[ 'client_hints_references' => $clientHintsReferences ];
+		/** @var $objectUnderTest ComparePager */
+		$actualCellAttrs = $objectUnderTest->getCellAttrs( 'client_hints', $clientHintsReferences );
+
+		$expectedClasses = [
+			'ext-checkuser-compare-table-cell-client-hints',
+			'ext-checkuser-investigate-table-cell-interactive',
+			'ext-checkuser-investigate-table-cell-pinnable',
+		];
+		foreach ( $expectedClasses as $class ) {
+			$this->assertStringContainsString(
+				$class,
+				$actualCellAttrs['class'],
+				"The class $class was not in the actual classes for the cell"
+			);
+		}
+		// Unset the 'class' so that we can test the other attributes using ::assertArrayEquals
+		unset( $actualCellAttrs['class'] );
+
+		$this->assertArrayEquals(
+			[
+				'data-field' => 'client_hints',
+				'data-value' => base64_encode( 'Chrome 120 on Windows' ),
+				'data-sort-value' => 'Chrome 120 on Windows',
+				'tabindex' => 0,
+			],
+			$actualCellAttrs,
+			false,
+			true,
+			'::getCellAttrs did not return the expected attributes'
+		);
 	}
 
 	public function testGetCellAttrsForHiddenUser() {

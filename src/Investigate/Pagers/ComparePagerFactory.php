@@ -8,6 +8,8 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\Extension\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\User\UserFactory;
@@ -20,6 +22,8 @@ class ComparePagerFactory implements PagerFactory {
 		private readonly CompareService $compare,
 		private readonly UserFactory $userFactory,
 		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly UserAgentClientHintsLookup $clientHintsLookup,
+		private readonly UserAgentClientHintsFormatter $clientHintsFormatter,
 	) {
 	}
 
@@ -34,7 +38,9 @@ class ComparePagerFactory implements PagerFactory {
 			$this->durationManager,
 			$this->compare,
 			$this->userFactory,
-			$this->linkBatchFactory
+			$this->linkBatchFactory,
+			$this->clientHintsLookup,
+			$this->clientHintsFormatter
 		);
 	}
 }

@@ -157,7 +157,9 @@ return [
 			$services->get( 'CheckUserDurationManager' ),
 			$services->get( 'CheckUserCompareService' ),
 			$services->getUserFactory(),
-			$services->getLinkBatchFactory()
+			$services->getLinkBatchFactory(),
+			$services->get( 'UserAgentClientHintsLookup' ),
+			$services->get( 'UserAgentClientHintsFormatter' )
 		);
 	},
 	'CheckUserCompareService' => static function ( MediaWikiServices $services ): CompareService {

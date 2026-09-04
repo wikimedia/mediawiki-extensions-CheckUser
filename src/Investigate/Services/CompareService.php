@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\CheckUser\Investigate\Services;
 use LogicException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
@@ -138,6 +139,7 @@ class CompareService extends ChangeService {
 				'first_action' => 'MIN(a.timestamp)',
 				'last_action' => 'MAX(a.timestamp)',
 				'total_actions' => 'count(*)',
+				'client_hints_references' => $dbr->buildGroupConcat( 'a.client_hints_reference', '|' ),
 			],
 			'options' => [
 				'GROUP BY' => [
@@ -170,10 +172,18 @@ class CompareService extends ChangeService {
 			return null;
 		}
 		$dbr = $this->dbProvider->getReplicaDatabase();
+		$clientHintsReference = $dbr->buildConcat( [
+			$dbr->addQuotes( (string)UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES ),
+			$dbr->addQuotes( ':' ),
+			UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+			],
+		] );
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cuc_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cuc_actor',
 				'ip_hex' => 'cuc_ip_hex', 'agent' => 'cuua_text', 'timestamp' => 'cuc_timestamp',
+				'client_hints_reference' => $clientHintsReference,
 			] )
 			->from( 'cu_changes' )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
@@ -207,10 +217,18 @@ class CompareService extends ChangeService {
 			return null;
 		}
 		$dbr = $this->dbProvider->getReplicaDatabase();
+		$clientHintsReference = $dbr->buildConcat( [
+			$dbr->addQuotes( (string)UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT ),
+			$dbr->addQuotes( ':' ),
+			UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+				UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
+			],
+		] );
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cule_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cule_actor',
 				'ip_hex' => 'cule_ip_hex', 'agent' => 'cuua_text', 'timestamp' => 'cule_timestamp',
+				'client_hints_reference' => $clientHintsReference,
 			] )
 			->from( 'cu_log_event' )
 			->join( 'actor', null, 'actor_id=cule_actor' )
@@ -249,10 +267,18 @@ class CompareService extends ChangeService {
 			return null;
 		}
 		$dbr = $this->dbProvider->getReplicaDatabase();
+		$clientHintsReference = $dbr->buildConcat( [
+			$dbr->addQuotes( (string)UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT ),
+			$dbr->addQuotes( ':' ),
+			UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+			],
+		] );
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
 				'id' => 'cupe_id', 'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cupe_actor',
 				'ip_hex' => 'cupe_ip_hex', 'agent' => 'cuua_text', 'timestamp' => 'cupe_timestamp',
+				'client_hints_reference' => $clientHintsReference,
 			] )
 			->from( 'cu_private_event' )
 			->leftJoin( 'cu_useragent', null, 'cuua_id = cupe_agent_id' )

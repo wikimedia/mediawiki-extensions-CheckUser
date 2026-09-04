@@ -293,6 +293,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Date range",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
+	"checkuser-investigate-compare-table-header-clienthints": "Client hints",
 	"checkuser-contributions-filters-related-temporary-accounts": "Show contributions from related temporary accounts",
 	"checkuser-ip-contributions": "Search for IP contributions",
 	"checkuser-ip-contributions-permission-error-title": "Permission error",

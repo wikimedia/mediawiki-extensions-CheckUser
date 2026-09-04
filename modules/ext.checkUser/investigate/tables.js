@@ -273,6 +273,13 @@ module.exports = function setupTables() {
 			} );
 		} );
 
+	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-client-hints' )
+		.each( function () {
+			appendButtons( $( this ), {
+				toggle: true
+			} );
+		} );
+
 	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-ip-target' )
 		.each( function () {
 			appendButtons( $( this ), {
