@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Investigate\Services;
 
 use LogicException;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
@@ -116,7 +117,7 @@ class TimelineService extends ChangeService {
 				'user' => 'a.user',
 				'user_text', 'actor', 'comment_text', 'comment_data', 'type',
 				'this_oldid', 'last_oldid', 'minor', 'log_type', 'log_action', 'log_params',
-				'log_deleted', 'log_id',
+				'log_deleted', 'log_id', 'client_hints_reference_id', 'client_hints_reference_type',
 			],
 		];
 	}
@@ -140,6 +141,8 @@ class TimelineService extends ChangeService {
 			'this_oldid' => $this->castValueToType( 'Null', 'int' ),
 			'last_oldid' => $this->castValueToType( 'Null', 'int' ),
 			'minor' => $this->castValueToType( 'Null', 'int' ),
+			'client_hints_reference_id' => $this->castValueToType( 'Null', 'int' ),
+			'client_hints_reference_type' => $this->castValueToType( 'Null', 'int' ),
 			// Fields relevant to cu_log_event and cu_private_event
 			'log_type' => $this->castValueToType( 'Null', 'varbinary' ),
 			'log_action' => $this->castValueToType( 'Null', 'varbinary' ),
@@ -243,6 +246,12 @@ class TimelineService extends ChangeService {
 		$fields += [
 			'this_oldid' => 'cuc_this_oldid', 'last_oldid' => 'cuc_last_oldid', 'minor' => 'cuc_minor',
 		];
+		$fields += [
+			'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+			],
+			'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+		];
 		// Fields relevant to cu_log_event and cu_private_event
 		$fields += $this->markUnusedFieldsAsNull( [ 'log_type', 'log_action', 'log_params' ] );
 		$fields += $this->markUnusedFieldsAsNull( [ 'log_deleted' ], 'smallint' );
@@ -290,6 +299,12 @@ class TimelineService extends ChangeService {
 		// Fields only specific to cu_changes
 		$fields += $this->markUnusedFieldsAsNull( [ 'this_oldid', 'last_oldid' ], 'int' );
 		$fields += $this->markUnusedFieldsAsNull( [ 'minor' ], 'smallint' );
+		$fields += [
+			'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+				UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
+			],
+			'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT,
+		];
 		// Fields relevant to cu_log_event and cu_private_event
 		$fields += [
 			'log_type' => 'log_type', 'log_action' => 'log_action', 'log_params' => 'log_params',
@@ -343,6 +358,12 @@ class TimelineService extends ChangeService {
 		// Fields only specific to cu_changes
 		$fields += $this->markUnusedFieldsAsNull( [ 'this_oldid', 'last_oldid' ], 'int' );
 		$fields += $this->markUnusedFieldsAsNull( [ 'minor' ], 'smallint' );
+		$fields += [
+			'client_hints_reference_id' => UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+			],
+			'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
+		];
 		// Fields relevant to cu_log_event and cu_private_event
 		$fields += [
 			'log_type' => 'cupe_log_type', 'log_action' => 'cupe_log_action', 'log_params' => 'cupe_params',

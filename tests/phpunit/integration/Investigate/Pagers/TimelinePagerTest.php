@@ -5,10 +5,16 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Investigate\Pagers;
 
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelinePager;
 use MediaWiki\Extension\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\Extension\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\ManualLogEntry;
@@ -51,24 +57,52 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					RequestContext::getMain()->getLanguage()
 				),
 			$overrides['linkBatchFactory'] ?? $this->getServiceContainer()->getLinkBatchFactory(),
+			$overrides['clientHintsLookup'] ?? $this->getServiceContainer()->get( 'UserAgentClientHintsLookup' ),
+			$overrides['clientHintsFormatter'] ?? $this->getServiceContainer()->get( 'UserAgentClientHintsFormatter' ),
 			$overrides['logger'] ?? LoggerFactory::getInstance( 'CheckUser' )
 		);
 		return TestingAccessWrapper::newFromObject( $pager );
 	}
 
 	/** @dataProvider provideFormatRow */
-	public function testFormatRow( $row, $formattedRowItems, $lastDateHeader, $expectedHtml ) {
+	public function testFormatRow(
+		$row,
+		$formattedRowItems,
+		$lastDateHeader,
+		$expectedHtml,
+		?string $expectedClientHints = null
+	) {
 		// Temporarily disable the ::onCheckUserFormatRow hook to avoid test failures due to other code defining items
 		// for display.
 		$this->clearHook( 'CheckUserFormatRow' );
 		$mockTimelineRowFormatter = $this->createMock( TimelineRowFormatter::class );
 		$mockTimelineRowFormatter->expects( $this->once() )
 			->method( 'getFormattedRowItems' )
+			->with( $this->callback( function ( \stdClass $actualRow ) use ( $expectedClientHints ) {
+				if ( $expectedClientHints !== null ) {
+					$this->assertSame(
+						$expectedClientHints,
+						$actualRow->client_hints,
+						'The row passed to TimelineRowFormatter should contain the formatted Client Hints data.'
+					);
+				}
+				return true;
+			} ) )
 			->willReturn( $formattedRowItems );
 		// Define a mock TimelineService that expects a call to ::formatRow
 		$objectUnderTest = $this->getObjectUnderTest();
 		$objectUnderTest->timelineRowFormatter = $mockTimelineRowFormatter;
 		$objectUnderTest->lastDateHeader = $lastDateHeader;
+		if ( $expectedClientHints !== null ) {
+			$objectUnderTest->formattedClientHintsData = new ClientHintsBatchFormatterResults(
+				[
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [
+						123 => 0,
+					],
+				],
+				[ $expectedClientHints ]
+			);
+		}
 		$this->assertSame(
 			$expectedHtml,
 			$objectUnderTest->formatRow( (object)$row ),
@@ -90,6 +124,17 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			],
 			'Row with no items and no date header' => [
 				[ 'timestamp' => '20240405060708' ], [ 'info' => [], 'links' => [] ], '5 April 2024', '<li></li>',
+			],
+			'Row with client hints reference' => [
+				[
+					'timestamp' => '20240405060708',
+					'client_hints_reference_id' => 123,
+					'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+				],
+				[ 'info' => [], 'links' => [] ],
+				'5 April 2024',
+				'<li></li>',
+				'Brand: Firefox',
 			],
 			'Row with items and different date header' => [
 				[ 'timestamp' => '20240405060708' ],
@@ -203,44 +248,50 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				[ 'InvestigateTestUser1' ],
 				// The expected rows returned by ::reallyDoQuery
 				[ (object)[
-					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-					'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
+					'timestamp' => '20230405060708', 'namespace' => (string)NS_MAIN, 'title' => 'CheckUserTestPage',
+					'minor' => '0', 'page_id' => '1', 'type' => (string)RC_NEW,
 					'this_oldid' => '0', 'last_oldid' => '0', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'xff' => '0',
 					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1', 'log_type' => null,
 					'log_action' => null, 'log_params' => null, 'log_deleted' => null,
+					'client_hints_reference_id' => '0', 'client_hints_reference_type' => '0',
 				] ],
 			],
 			'Offset set, limit 1, order DESC, InvestigateTestUser1 as target' => [
 				[ 'timestamp' => '20230405060710', 'id' => '1' ], 1, IndexPager::QUERY_DESCENDING,
 				[ 'InvestigateTestUser1' ],
 				[ (object)[
-					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-					'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
+					'timestamp' => '20230405060708', 'namespace' => (string)NS_MAIN, 'title' => 'CheckUserTestPage',
+					'minor' => '0', 'page_id' => '1', 'type' => (string)RC_NEW,
 					'this_oldid' => '0', 'last_oldid' => '0', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'xff' => '0',
 					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
 					'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
+					'client_hints_reference_id' => '0', 'client_hints_reference_type' => '0',
 				] ],
 			],
 			// Testing entries from cu_private_event, including the row where cupe_actor is null
 			'Limit 2, order DESC, 1.2.3.4 as target' => [
 				null, 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.4' ], [
 					(object)[
-						'timestamp' => '20230405060721', 'namespace' => NS_USER, 'title' => 'InvestigateTestUser1',
-						'minor' => null, 'page_id' => 0, 'type' => RC_LOG, 'this_oldid' => null,
+						'timestamp' => '20230405060721', 'namespace' => (string)NS_USER,
+						'title' => 'InvestigateTestUser1',
+						'minor' => null, 'page_id' => '0', 'type' => (string)RC_LOG, 'this_oldid' => null,
 						'last_oldid' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '2', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 						'comment_text' => '', 'comment_data' => null, 'actor' => '1',
-						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
+						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => '0',
+						'client_hints_reference_id' => '2', 'client_hints_reference_type' => '2',
 					],
 					(object)[
-						'timestamp' => '20230405060720', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'minor' => null, 'page_id' => 1, 'type' => RC_LOG,
+						'timestamp' => '20230405060720', 'namespace' => (string)NS_MAIN,
+						'title' => 'CheckUserTestPage',
+						'minor' => null, 'page_id' => '1', 'type' => (string)RC_LOG,
 						'this_oldid' => null, 'last_oldid' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.4' ),
 						'xff' => '0', 'agent' => 'foo user agent', 'id' => '1', 'user' => null, 'user_text' => null,
 						'comment_text' => '', 'comment_data' => null, 'actor' => null,
-						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
+						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => '0',
+						'client_hints_reference_id' => '1', 'client_hints_reference_type' => '2',
 					],
 				],
 			],
@@ -248,12 +299,14 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			'Limit 100, order DESC, InvestigateTestUser2 as target' => [
 				null, 100, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser2' ], [
 					(object)[
-						'timestamp' => '20230405060620', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'minor' => null, 'page_id' => '1', 'type' => RC_LOG, 'this_oldid' => null,
+						'timestamp' => '20230405060620', 'namespace' => (string)NS_MAIN,
+						'title' => 'CheckUserTestPage',
+						'minor' => null, 'page_id' => '1', 'type' => (string)RC_LOG, 'this_oldid' => null,
 						'last_oldid' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '3', 'user' => '2', 'user_text' => 'InvestigateTestUser2',
 						'comment_text' => 'Barfoo comment', 'comment_data' => null, 'actor' => '2',
-						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
+						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => '0',
+						'client_hints_reference_id' => '3', 'client_hints_reference_type' => '2',
 					],
 				],
 			],
@@ -261,20 +314,24 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			'Offset set, Limit 2, order DESC, 1.2.3.5 as target' => [
 				[ 'timestamp' => '20230405060719', 'id' => '10' ], 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.5' ], [
 					(object)[
-						'timestamp' => '20230405060718', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'minor' => null, 'page_id' => '1', 'type' => RC_LOG, 'this_oldid' => null,
+						'timestamp' => '20230405060718', 'namespace' => (string)NS_MAIN,
+						'title' => 'CheckUserTestPage',
+						'minor' => null, 'page_id' => '1', 'type' => (string)RC_LOG, 'this_oldid' => null,
 						'last_oldid' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.5' ), 'xff' => '0',
 						'agent' => 'bar user agent', 'id' => '2', 'user' => null, 'user_text' => '1.2.3.5',
 						'comment_text' => 'Testing', 'comment_data' => null, 'actor' => '5',
-						'log_type' => 'foo', 'log_action' => 'bar', 'log_params' => 'a:0:{}', 'log_deleted' => 0,
+						'log_type' => 'foo', 'log_action' => 'bar', 'log_params' => 'a:0:{}', 'log_deleted' => '0',
+						'client_hints_reference_id' => '3', 'client_hints_reference_type' => '1',
 					],
 					(object)[
-						'timestamp' => '20230405060716', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'minor' => '0', 'page_id' => '1', 'type' => RC_EDIT, 'this_oldid' => '0',
+						'timestamp' => '20230405060716', 'namespace' => (string)NS_MAIN,
+						'title' => 'CheckUserTestPage',
+						'minor' => '0', 'page_id' => '1', 'type' => (string)RC_EDIT, 'this_oldid' => '0',
 						'last_oldid' => '0', 'ip_hex' => IPUtils::toHex( '1.2.3.5' ), 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '5', 'user' => null, 'user_text' => '1.2.3.5',
 						'comment_text' => 'Bar comment', 'comment_data' => null, 'actor' => '5',
 						'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
+						'client_hints_reference_id' => '0', 'client_hints_reference_type' => '0',
 					],
 				],
 			],
@@ -291,14 +348,51 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 		$mockLinkBatchFactory = $this->createMock( LinkBatchFactory::class );
 		$mockLinkBatchFactory->method( 'newLinkBatch' )
 			->willReturn( $mockLinkBatch );
+		$clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
+
+		$mockClientHintsLookup = $this->createMock( UserAgentClientHintsLookup::class );
+		$mockClientHintsLookup->expects( $this->once() )
+			->method( 'getClientHintsByReferenceIds' )
+			->willReturnCallback( function (
+				ClientHintsReferenceIds $referenceIds
+			) use ( $clientHintsLookupResults ) {
+				$this->assertSame(
+					[ UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 5 ] ],
+					$referenceIds->getReferenceIds(),
+					'The Client Hints reference IDs were not collected from the result rows as expected.'
+				);
+				return $clientHintsLookupResults;
+			} );
+
+		$mockClientHintsFormatter = $this->createMock( UserAgentClientHintsFormatter::class );
+		$mockClientHintsFormatter->expects( $this->once() )
+			->method( 'batchFormatClientHintsData' )
+			->with( $clientHintsLookupResults )
+			->willReturn( new ClientHintsBatchFormatterResults( [], [] ) );
 
 		$objectUnderTest = $this->getObjectUnderTest( [
 			'linkBatchFactory' => $mockLinkBatchFactory,
+			'clientHintsLookup' => $mockClientHintsLookup,
+			'clientHintsFormatter' => $mockClientHintsFormatter,
 		] );
 		$objectUnderTest->mResult = new FakeResultWrapper( [
-			[ 'user_text' => null, 'ip_hex' => IPUtils::toHex( '1.2.3.67' ), 'user' => null ],
-			[ 'user_text' => '1.2.3.45', 'ip_hex' => IPUtils::toHex( '1.2.3.45' ), 'user' => 0 ],
-			[ 'user_text' => 'Testing', 'ip_hex' => IPUtils::toHex( '1.2.3.23' ), 'user' => 123 ],
+			[
+				'user_text' => null,
+				'ip_hex' => IPUtils::toHex( '1.2.3.67' ),
+				'user' => null,
+			],
+			[
+				'user_text' => '1.2.3.45',
+				'ip_hex' => IPUtils::toHex( '1.2.3.45' ),
+				'user' => 0,
+				'client_hints_reference_id' => 5,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
+			],
+			[
+				'user_text' => 'Testing',
+				'ip_hex' => IPUtils::toHex( '1.2.3.23' ),
+				'user' => 123,
+			],
 		] );
 
 		// Expect that the LinkBatch::addUser method is called for all the performers of the rows

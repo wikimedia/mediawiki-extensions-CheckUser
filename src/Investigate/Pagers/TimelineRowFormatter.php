@@ -88,6 +88,7 @@ class TimelineRowFormatter {
 				'actionText' => $this->getActionText( $logEntry ),
 				'ipInfo' => $this->getIpInfo( $row->ip_hex ),
 				'userAgent' => $this->getUserAgent( $row->agent ?? '' ),
+				'clientHints' => $this->getClientHints( $row->client_hints ?? null ),
 				'comment' => $this->getComment( $row, $revRecord, $logEntry ),
 			],
 		];
@@ -130,6 +131,17 @@ class TimelineRowFormatter {
 
 	private function getUserAgent( string $userAgent ): string {
 		return htmlspecialchars( $userAgent );
+	}
+
+	private function getClientHints( ?string $clientHints ): string {
+		if ( $clientHints === null || $clientHints === '' ) {
+			return '';
+		}
+		return Html::rawElement(
+			'span',
+			[ 'class' => 'ext-checkuser-investigate-timeline-row-client-hints' ],
+			$clientHints
+		);
 	}
 
 	/**

@@ -9,6 +9,8 @@ use MediaWiki\Extension\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\Extension\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\Extension\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
 use Psr\Log\LoggerInterface;
@@ -22,6 +24,8 @@ class TimelinePagerFactory implements PagerFactory {
 		private readonly TimelineService $service,
 		private readonly TimelineRowFormatterFactory $rowFormatterFactory,
 		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly UserAgentClientHintsLookup $clientHintsLookup,
+		private readonly UserAgentClientHintsFormatter $clientHintsFormatter,
 		private readonly LoggerInterface $logger,
 	) {
 	}
@@ -44,6 +48,8 @@ class TimelinePagerFactory implements PagerFactory {
 			$this->service,
 			$rowFormatter,
 			$this->linkBatchFactory,
+			$this->clientHintsLookup,
+			$this->clientHintsFormatter,
 			$this->logger
 		);
 	}

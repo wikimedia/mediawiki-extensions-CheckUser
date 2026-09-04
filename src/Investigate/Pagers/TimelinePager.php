@@ -5,10 +5,14 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Investigate\Pagers;
 
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\Extension\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\Extension\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
@@ -50,6 +54,8 @@ class TimelinePager extends ReverseChronologicalPager {
 	 */
 	private $filteredTargets;
 
+	private ClientHintsBatchFormatterResults $formattedClientHintsData;
+
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
@@ -59,6 +65,8 @@ class TimelinePager extends ReverseChronologicalPager {
 		private TimelineService $timelineService,
 		private TimelineRowFormatter $timelineRowFormatter,
 		private readonly LinkBatchFactory $linkBatchFactory,
+		private readonly UserAgentClientHintsLookup $clientHintsLookup,
+		private readonly UserAgentClientHintsFormatter $clientHintsFormatter,
 		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct( $context, $linkRenderer );
@@ -72,6 +80,7 @@ class TimelinePager extends ReverseChronologicalPager {
 			$this->excludeTargets
 		);
 		$this->start = $durationManager->getTimestampFromRequest( $context->getRequest() );
+		$this->formattedClientHintsData = new ClientHintsBatchFormatterResults( [], [] );
 	}
 
 	/**
@@ -106,6 +115,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	protected function doBatchLookups() {
 		$lb = $this->linkBatchFactory->newLinkBatch();
 		$lb->setCaller( __METHOD__ );
+		$referenceIds = new ClientHintsReferenceIds();
 
 		foreach ( $this->mResult as $row ) {
 			$username = $row->user_text;
@@ -113,9 +123,22 @@ class TimelinePager extends ReverseChronologicalPager {
 				$username = IPUtils::formatHex( $row->ip_hex );
 			}
 			$lb->addUser( new UserIdentityValue( (int)( $row->user ?? 0 ), $username ?? '' ) );
+			if (
+				isset( $row->client_hints_reference_id ) &&
+				isset( $row->client_hints_reference_type )
+			) {
+				$referenceIds->addReferenceIds(
+					$row->client_hints_reference_id,
+					(int)$row->client_hints_reference_type
+				);
+			}
 		}
 
 		$lb->execute();
+		$clientHintsData = $this->clientHintsLookup->getClientHintsByReferenceIds( $referenceIds );
+		$this->formattedClientHintsData = $this->clientHintsFormatter
+			->batchFormatClientHintsData( $clientHintsData );
+		$this->mResult->seek( 0 );
 	}
 
 	/**
@@ -144,6 +167,15 @@ class TimelinePager extends ReverseChronologicalPager {
 			$line .= Html::openElement( 'ul' );
 		}
 
+		if (
+			isset( $row->client_hints_reference_id ) &&
+			isset( $row->client_hints_reference_type )
+		) {
+			$row->client_hints = $this->formattedClientHintsData->getStringForReferenceId(
+				(int)$row->client_hints_reference_id,
+				(int)$row->client_hints_reference_type
+			);
+		}
 		$rowItems = $this->timelineRowFormatter->getFormattedRowItems( $row );
 
 		$this->formatRowHookRunner->onCheckUserFormatRow( $this->getContext(), $row, $rowItems );

@@ -599,6 +599,8 @@ return [
 			$services->get( 'CheckUserTimelineService' ),
 			$services->get( 'CheckUserTimelineRowFormatterFactory' ),
 			$services->getLinkBatchFactory(),
+			$services->get( 'UserAgentClientHintsLookup' ),
+			$services->get( 'UserAgentClientHintsFormatter' ),
 			$services->get( 'CheckUserLogger' )
 		);
 	},

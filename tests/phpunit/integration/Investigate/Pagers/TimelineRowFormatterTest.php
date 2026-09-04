@@ -67,6 +67,20 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 					],
 				],
 			],
+			'Edit with client hints' => [
+				[
+					'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
+					'agent' => 'Test',
+					'client_hints' => 'Brand: Firefox',
+				],
+				[
+					'info' => [
+						'userAgent' => 'Test',
+						'clientHints' => '<span class="ext-checkuser-investigate-timeline-row-client-hints">' .
+							'Brand: Firefox</span>',
+					],
+				],
+			],
 			'Log performed by IPv6' => [
 				[
 					'ip_hex' => IPUtils::toHex( '2001:DB8::1' ), 'log_action' => 'migrated-cu_changes-log-event',
