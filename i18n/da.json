@@ -164,6 +164,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Kunne}} ikke logge på {{SITENAME}} som $4, men havde den korrekte adgangskode",
 	"logentry-checkuser-private-event-user-logout": "{{GENDER:$2|Logget ud}} ved hjælp af API'en eller {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|sendte}} en e-mail til nulstilling af adgangskode for {{GENDER:$5|bruger}} $4",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|ændrede}} deres adgangskode",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|sendte}} en e-mail til brugeren \"$4\"",
 	"logentry-checkuser-private-event-autocreate-account": "blev oprettet automatisk",
 	"logentry-checkuser-private-event-create-account": "blev oprettet",

@@ -149,6 +149,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Ku guuldarraystay}} inuu galo {{SITENAME}} sida $4 laakiin wuxuu haystay furaha sirta ah ee saxda ah",
 	"logentry-checkuser-private-event-user-logout": "Si guul leh {{GENDER:$2|uga baxay}} isagoo isticmaalaya API-ga ama {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|diray}} iimayl dib u dejin furaha sirta ah oo loogu talagalay {{GENDER:$5|isticmaale}} $4",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|beddelay}} eraygooda sirta ah",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|u diray}} iimayl isticmaalaha \"$4\"",
 	"logentry-checkuser-private-event-autocreate-account": "si toos ah ayaa loo sameeyay",
 	"logentry-checkuser-private-event-create-account": "waa la sameeyay",

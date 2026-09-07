@@ -167,6 +167,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "Kon zich niet als $4 aanmelden op {{SITENAME}}, hoewel het wachtwoord juist was{{GENDER:$2|}}",
 	"logentry-checkuser-private-event-user-logout": "{{GENDER:$2|$2}} heeft zich afgemeld met behulp van de API of via {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|heeft}} een e-mail voor het opnieuw instellen van het wachtwoord verzonden voor {{GENDER:$5|gebruiker}} $4",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|heeft}} het eigen wachtwoord gewijzigd",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|heeft}} een e-mail verzonden naar gebruiker \"$4\"",
 	"logentry-checkuser-private-event-autocreate-account": "is automatisch aangemaakt",
 	"logentry-checkuser-private-event-create-account": "is aangemaakt",

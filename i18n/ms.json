@@ -153,6 +153,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Gagal}} log masuk ke {{SITENAME}} sebagai $4 tetapi mempunyai kata laluan yang betul",
 	"logentry-checkuser-private-event-user-logout": "Berjaya {{GENDER:$2|log keluar}} menggunakan API atau {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|menghantar}} e-mel tetapan semula kata laluan untuk {{GENDER:$5| pengguna}} $4",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|telah menukar}} kata laluannya",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|menghantar}} e-mel kepada pengguna \"$4\"",
 	"logentry-checkuser-private-event-autocreate-account": "dicipta secara automatik",
 	"logentry-checkuser-private-event-create-account": "telah dicipta",

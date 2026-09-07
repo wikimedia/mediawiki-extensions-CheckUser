@@ -156,6 +156,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Fallou}} o inicio de sesión en {{SITENAME}} como $4, mais o contrasinal era correcto",
 	"logentry-checkuser-private-event-user-logout": "{{GENDER:$2|Pechou}} correctamente a sesión mediante a API ou {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|envioulle}} un correo electrónico de restablecemento de contrasinal {{GENDER:$5|ao usuario|á usuaria}} $4",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|cambiou}} o seu contrasinal",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|envioulle}} un correo electrónico ao usuario «$4»",
 	"logentry-checkuser-private-event-autocreate-account": "foi creada automaticamente",
 	"logentry-checkuser-private-event-create-account": "foi creada",

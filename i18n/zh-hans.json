@@ -210,6 +210,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|无法}}以$4身份登录到{{SITENAME}}，但密码正确",
 	"logentry-checkuser-private-event-user-logout": "成功使用API或“{{#special:logout}}”{{GENDER:$2|退出登录}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "为{{GENDER:$5|用户}}“$4”{{GENDER:$2|发送}}重置密码的电子邮件",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|更改了}}自己的密码",
 	"logentry-checkuser-private-event-email-sent": "向用户“$4”{{GENDER:$2|发送}}电子邮件",
 	"logentry-checkuser-private-event-autocreate-account": "已自动创建",
 	"logentry-checkuser-private-event-create-account": "已创建",

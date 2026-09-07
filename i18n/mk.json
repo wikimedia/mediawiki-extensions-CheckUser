@@ -151,6 +151,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Не успеавте}} да се најавите на {{SITENAME}} како $4, но лозинката ви беше точна",
 	"logentry-checkuser-private-event-user-logout": "Успешно {{GENDER:$2|се одјавивте}} користејќи го приложникот или {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|испрати}} порака по е-пошта за промена на лозинка на {{GENDER:$5|корисникот|корисничката}} $4",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|ја смени}} својата лозинка",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|му испрати}} е-пошта на корисникот „$4“",
 	"logentry-checkuser-private-event-autocreate-account": "беше автоматски создадена",
 	"logentry-checkuser-private-event-create-account": "беше доздадена",

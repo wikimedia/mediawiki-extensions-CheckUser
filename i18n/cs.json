@@ -274,6 +274,7 @@
 	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Účet}} založen: v roce 2005 nebo dříve",
 	"checkuser-userinfocard-active-wikis-label": "Aktivní wiki",
 	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktivní blokování na všech wiki: $1",
+	"checkuser-userinfocard-active-blocks-from-all-wikis-with-local": "Aktivní blokování na všech wiki: $1 ($2 na této wiki)",
 	"checkuser-userinfocard-past-blocks": "Dřívější blokování: $1",
 	"checkuser-userinfocard-global-edits": "Globální editace: $1",
 	"checkuser-userinfocard-local-edits": "Místní editace: $1 (revertované: $2)",

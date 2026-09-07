@@ -163,6 +163,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Epäonnistui}} kirjautumaan sisään {{GRAMMAR:illative|{{SITENAME}}}} käyttäjänimellä $4, mutta salasana oli oikein",
 	"logentry-checkuser-private-event-user-logout": "{{GENDER:$2|Kirjautui}} ulos onnistuneesti käyttäen API:ta tai {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|lähetti}} salasanan vaihtopyynnön sähköpostitse {{GENDER:$5|käyttäjälle}} $4",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|vaihtoi}} salasanansa",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|lähetti}} sähköpostin käyttäjälle ”$4”",
 	"logentry-checkuser-private-event-autocreate-account": "luotiin automaattisesti",
 	"logentry-checkuser-private-event-create-account": "luotiin",

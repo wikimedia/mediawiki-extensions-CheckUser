@@ -174,6 +174,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Nie udało się}} zalogować do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $4 mimo posiadania poprawnego hasła",
 	"logentry-checkuser-private-event-user-logout": "Pomyślnie {{GENDER:$2|wylogowano}} za pomocą API lub {{#special:Logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|Wysłano}} wiadomość e-mail umożliwiającą zresetowanie hasła do {{GENDER:$5|użytkownika|użytkowniczki|konta}} $4",
+	"logentry-checkuser-private-event-password-changed": "{{GENDER:$2|zmienił|zmieniła|zmienił(a)}} swoje hasło",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|Wysłano}} wiadomość e-mail do użytkownika „$4”",
 	"logentry-checkuser-private-event-autocreate-account": "został utworzony automatycznie",
 	"logentry-checkuser-private-event-create-account": "utworzono",
