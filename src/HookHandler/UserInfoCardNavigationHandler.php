@@ -4,7 +4,6 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
-use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Skin\Hook\SkinTemplateNavigation__UniversalHook;
 use MediaWiki\Skin\SkinTemplate;
@@ -17,7 +16,6 @@ class UserInfoCardNavigationHandler implements SkinTemplateNavigation__Universal
 
 	public function __construct(
 		private readonly UserOptionsLookup $userOptionsLookup,
-		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 		private readonly UserInfoCardButtonRenderer $buttonRenderer,
 	) {
 	}
@@ -33,8 +31,7 @@ class UserInfoCardNavigationHandler implements SkinTemplateNavigation__Universal
 		$output->addModules( 'ext.checkUser.userInfoCard' );
 
 		$target = $sktemplate->getRelevantUser();
-		$isBlocked = $this->blockStatusCache->isIndefinitelyBlockedOrLocked( $target->getName() );
-		$iconName = $this->buttonRenderer->getIconName( $target->getName(), $isBlocked );
+		$iconName = $this->buttonRenderer->getIconName( $target->getName() );
 
 		// The username is not put into a data attribute, because the skins render this markup
 		// themselves; the JavaScript uses wgRelevantUserName instead.

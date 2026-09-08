@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\Services;
 
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Tests\Unit\FakeQqxMessageLocalizer;
 use MediaWiki\User\UserNameUtils;
@@ -15,15 +16,18 @@ use MediaWikiUnitTestCase;
  */
 class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 
-	private function getRenderer( bool $isTemp = false ): UserInfoCardButtonRenderer {
+	private function getRenderer( bool $isTemp = false, bool $isBlocked = false ): UserInfoCardButtonRenderer {
 		$userNameUtils = $this->createMock( UserNameUtils::class );
 		$userNameUtils->method( 'isTemp' )->willReturn( $isTemp );
-		return new UserInfoCardButtonRenderer( $userNameUtils );
+		$blockStatusCache = $this->createMock( UserInfoCardBlockStatusCache::class );
+		$blockStatusCache->method( 'getIndefinitelyBlockedOrLockedUsers' )
+			->willReturnCallback( static fn ( $users ) => $isBlocked ? $users : [] );
+		return new UserInfoCardButtonRenderer( $userNameUtils, $blockStatusCache );
 	}
 
 	public function testRenderProducesExpectedMarkup(): void {
 		$localizer = new FakeQqxMessageLocalizer();
-		$html = $this->getRenderer()->render( 'Foo', false, $localizer );
+		$html = $this->getRenderer()->render( 'Foo', 'userAvatar', $localizer );
 
 		$this->assertStringContainsString( '<button', $html );
 		$this->assertStringContainsString( 'data-username="Foo"', $html );
@@ -35,18 +39,26 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		$this->assertStringNotContainsString( 'hidden="', $html );
 	}
 
+	public static function provideIconVariants() {
+		return [
+			[ 'userAvatar' ],
+			[ 'userTemporary' ],
+			[ 'userBlocked' ],
+		];
+	}
+
 	/** @dataProvider provideIconVariants */
-	public function testIconVariant( bool $isBlocked, bool $isTemp, string $expectedIconClass ): void {
+	public function testAppliesPassedIcon( string $iconName ): void {
 		$localizer = new FakeQqxMessageLocalizer();
-		$html = $this->getRenderer( $isTemp )->render( 'Foo', $isBlocked, $localizer );
+		$html = $this->getRenderer()->render( 'Foo', $iconName, $localizer );
 
 		$this->assertStringContainsString(
-			"ext-checkuser-userinfocard-button__icon--$expectedIconClass",
+			"ext-checkuser-userinfocard-button__icon--$iconName",
 			$html
 		);
 	}
 
-	public static function provideIconVariants(): array {
+	public static function provideIconNames(): array {
 		return [
 			'named user' => [ false, false, 'userAvatar' ],
 			'temporary account' => [ false, true, 'userTemporary' ],
@@ -57,17 +69,17 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/** @dataProvider provideIconVariants */
+	/** @dataProvider provideIconNames */
 	public function testGetIconName( bool $isBlocked, bool $isTemp, string $expectedIconName ): void {
 		$this->assertSame(
 			$expectedIconName,
-			$this->getRenderer( $isTemp )->getIconName( 'Foo', $isBlocked )
+			$this->getRenderer( $isTemp, $isBlocked )->getIconName( 'Foo' )
 		);
 	}
 
 	public function testUsernameIsEscaped(): void {
 		$localizer = new FakeQqxMessageLocalizer();
-		$html = $this->getRenderer()->render( 'Foo "&"', false, $localizer );
+		$html = $this->getRenderer()->render( 'Foo "&"', 'userAvatar', $localizer );
 
 		$this->assertStringContainsString( 'data-username="Foo &quot;&amp;&quot;"', $html );
 		$this->assertStringNotContainsString( '<bar>', $html );
@@ -75,7 +87,14 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 
 	public function testHiddenByDefault(): void {
 		$localizer = new FakeQqxMessageLocalizer();
-		$html = $this->getRenderer()->render( 'Foo', false, $localizer, true );
+		$html = $this->getRenderer()->render( 'Foo', 'userAvatar', $localizer, true );
 		$this->assertStringContainsString( 'hidden="', $html );
+	}
+
+	public function testNoCustomIconsIgnoresBlock(): void {
+		$this->assertSame(
+			'userAvatar',
+			$this->getRenderer( false, true )->getIconName( 'Foo', [ 'customIcons' => false ] )
+		);
 	}
 }

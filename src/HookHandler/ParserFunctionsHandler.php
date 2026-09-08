@@ -83,9 +83,10 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 			return '';
 		}
 
+		$iconName = $this->buttonRenderer->getIconName( $canonicalUsername, [ 'customIcons' => false ] );
 		$html = $this->buttonRenderer->render(
 			$canonicalUsername,
-			false,
+			$iconName,
 			$parser,
 			true
 		);

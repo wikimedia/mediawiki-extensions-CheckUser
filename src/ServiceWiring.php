@@ -668,6 +668,7 @@ return [
 	): UserInfoCardButtonRenderer {
 		return new UserInfoCardButtonRenderer(
 			$services->getUserNameUtils(),
+			$services->get( 'CheckUserUserInfoCardBlockStatusCache' )
 		);
 	},
 	'CheckUserUserInfoCardInstrumentation' => static function (

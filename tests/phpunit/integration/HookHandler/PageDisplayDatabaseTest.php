@@ -60,7 +60,7 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
 			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$this->getServiceContainer()->get( 'CheckUserUserInfoCardBlockStatusCache' )
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 	}
 

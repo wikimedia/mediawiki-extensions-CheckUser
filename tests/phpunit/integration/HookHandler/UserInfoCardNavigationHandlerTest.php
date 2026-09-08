@@ -61,7 +61,6 @@ class UserInfoCardNavigationHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$handler = new UserInfoCardNavigationHandler(
 			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->get( 'CheckUserUserInfoCardBlockStatusCache' ),
 			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 
@@ -187,7 +186,8 @@ class UserInfoCardNavigationHandlerTest extends MediaWikiIntegrationTestCase {
 		$target = $this->getTestSysop()->getUser();
 
 		$blockStatusCache = $this->createMock( UserInfoCardBlockStatusCache::class );
-		$blockStatusCache->method( 'isIndefinitelyBlockedOrLocked' )->willReturn( true );
+		$blockStatusCache->method( 'getIndefinitelyBlockedOrLockedUsers' )
+			->willReturn( [ $target->getName() ] );
 		$this->setService( 'CheckUserUserInfoCardBlockStatusCache', $blockStatusCache );
 
 		[ $links ] = $this->runHook(

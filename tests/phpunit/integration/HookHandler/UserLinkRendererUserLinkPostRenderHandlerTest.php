@@ -118,7 +118,8 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 		$userOptionsManager->saveOptions( $targetUser );
 
 		$mockCache = $this->createMock( UserInfoCardBlockStatusCache::class );
-		$mockCache->method( 'isIndefinitelyBlockedOrLocked' )->willReturn( true );
+		$mockCache->method( 'getIndefinitelyBlockedOrLockedUsers' )
+			->willReturnCallback( static fn ( $targets ) => $targets );
 		$this->setService( 'CheckUserUserInfoCardBlockStatusCache', $mockCache );
 
 		$context = RequestContext::getMain();
@@ -201,7 +202,8 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 		$userOptionsManager->saveOptions( $targetUser );
 
 		$mockCache = $this->createMock( UserInfoCardBlockStatusCache::class );
-		$mockCache->method( 'isIndefinitelyBlockedOrLocked' )->willReturn( true );
+		$mockCache->method( 'getIndefinitelyBlockedOrLockedUsers' )
+			->willReturnCallback( static fn ( $targets ) => $targets );
 		$this->setService( 'CheckUserUserInfoCardBlockStatusCache', $mockCache );
 
 		$context = RequestContext::getMain();

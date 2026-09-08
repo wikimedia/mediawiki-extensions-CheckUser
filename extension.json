@@ -360,7 +360,7 @@
 				"PreferencesFactory",
 				"CheckUserSuggestedInvestigationsInstrumentationClient",
 				"CheckUserLogger",
-				"CheckUserUserInfoCardBlockStatusCache"
+				"CheckUserUserInfoCardButtonRenderer"
 			]
 		},
 		"CheckUserEvents": {
@@ -505,7 +505,6 @@
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserInfoCardNavigationHandler",
 			"services": [
 				"UserOptionsLookup",
-				"CheckUserUserInfoCardBlockStatusCache",
 				"CheckUserUserInfoCardButtonRenderer"
 			]
 		},
@@ -513,7 +512,6 @@
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserLinkRendererUserLinkPostRenderHandler",
 			"services": [
 				"UserOptionsLookup",
-				"CheckUserUserInfoCardBlockStatusCache",
 				"CheckUserUserInfoCardButtonRenderer"
 			]
 		},

@@ -8,7 +8,7 @@ use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\CheckUser\Services\CheckUserIPRevealManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
-use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
@@ -49,7 +49,7 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 		private readonly PreferencesFactory $preferencesFactory,
 		private readonly ISuggestedInvestigationsInstrumentationClient $siInstrumentationClient,
 		private readonly LoggerInterface $checkUserLogger,
-		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
+		private readonly UserInfoCardButtonRenderer $uicButtonRenderer,
 	) {
 	}
 
@@ -218,18 +218,23 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 		}
 		$this->userInfoCardTargetsHandled = array_merge( $this->userInfoCardTargetsHandled, $newTargets );
 
-		// The icon baked into the parser output cannot reflect the block status, as that changes
-		// without the page being reparsed. Tell the client which of this page's targets are
-		// blocked, so that it can swap the icon at run time.
-		$blockedTargets = $this->blockStatusCache->getIndefinitelyBlockedOrLockedUsers( $newTargets );
-		if ( $blockedTargets === [] ) {
+		// The icon baked into the parser output cannot reflect the uncacheable account status (e.g., is blocked),
+		// as that changes without the page being reparsed. Tell the client which of this page's targets need
+		// a custom icon, so that it can swap the icon at run time.
+		// Non-custom icons are userAvatar and userTemporary, as they can be determined at parse time.
+		$targetIcons = $this->uicButtonRenderer->getIconNamesForUsers( $newTargets );
+		$targetIcons = array_filter(
+			$targetIcons,
+			static fn ( $icon ) => !in_array( $icon, [ 'userAvatar', 'userTemporary' ] )
+		);
+		if ( $targetIcons === [] ) {
 			return;
 		}
 
 		// Add to whatever an earlier call already reported rather than replacing it.
 		$customAccountIcons = $outputPage->getJsConfigVars()['wgCheckUserUserInfoCardCustomIcons'] ?? [];
-		foreach ( $blockedTargets as $target ) {
-			$customAccountIcons[$target] = 'userBlocked';
+		foreach ( $targetIcons as $targetName => $targetIcon ) {
+			$customAccountIcons[$targetName] = $targetIcon;
 		}
 		$outputPage->addJsConfigVars( 'wgCheckUserUserInfoCardCustomIcons', $customAccountIcons );
 	}

@@ -29,6 +29,8 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 
 		$this->userNameUtils = $this->createMock( UserNameUtils::class );
 		$this->buttonRenderer = $this->createMock( UserInfoCardButtonRenderer::class );
+		$this->buttonRenderer->method( 'getIconName' )
+			->willReturn( 'userAvatar' );
 		$this->parserOutput = new ParserOutput();
 
 		$localizer = new FakeQqxMessageLocalizer();
@@ -63,7 +65,7 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 			->with(
 				'Foo',
 				// Never the blocked variant, and always hidden
-				false,
+				'userAvatar',
 				$this->anything(),
 				true
 			)
@@ -88,7 +90,7 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 			->method( 'render' )
 			->with(
 				'Foo bar',
-				false,
+				'userAvatar',
 				$this->anything(),
 				true
 			)

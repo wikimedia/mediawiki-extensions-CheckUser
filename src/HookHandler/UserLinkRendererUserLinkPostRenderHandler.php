@@ -5,7 +5,6 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Context\IContextSource;
-use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
@@ -16,7 +15,6 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 
 	public function __construct(
 		private readonly UserOptionsLookup $userOptionsLookup,
-		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 		private readonly UserInfoCardButtonRenderer $buttonRenderer,
 	) {
 	}
@@ -36,11 +34,10 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 			$output->addModuleStyles( 'ext.checkUser.styles' );
 			$output->addModules( 'ext.checkUser.userInfoCard' );
 
-			$isBlocked = $this->blockStatusCache->isIndefinitelyBlockedOrLocked( $targetUser->getName() );
-
+			$iconName = $this->buttonRenderer->getIconName( $targetUser->getName() );
 			$buttonHtml = $this->buttonRenderer->render(
 				$targetUser->getName(),
-				$isBlocked,
+				$iconName,
 				$context
 			);
 

@@ -172,7 +172,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
 			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$this->getBlockStatusCacheMock()
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -390,7 +390,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
 			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$this->getBlockStatusCacheMock()
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 		$pageDisplayHookHandler->onBeforePageDisplay(
 			$output,
@@ -440,6 +440,9 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		bool $expectRevealed
 	) {
 		$this->disableAutoCreateTempUser();
+
+		$blockStatusCache = $this->getBlockStatusCacheMock();
+		$this->setService( 'CheckUserUserInfoCardBlockStatusCache', $blockStatusCache );
 
 		$context = new DerivativeContext( RequestContext::getMain() );
 		$context->setAuthority(
@@ -519,9 +522,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		return $blockStatusCache;
 	}
 
-	private function getPageDisplayHookHandlerForUserInfoCard(
-		?UserInfoCardBlockStatusCache $blockStatusCache = null
-	): PageDisplay {
+	private function getPageDisplayHookHandlerForUserInfoCard(): PageDisplay {
 		return new PageDisplay(
 			new HashConfig( [
 				'CheckUserSuggestedInvestigationsEnabled' => false,
@@ -535,7 +536,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
 			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$blockStatusCache ?? $this->getBlockStatusCacheMock()
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 	}
 
@@ -576,9 +577,10 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	public function testExportsBlockedContentTargets(): void {
 		$output = $this->getOutputWithCardEnabled();
 
-		$this->getPageDisplayHookHandlerForUserInfoCard(
-			$this->getBlockStatusCacheMock( [ 'Blocked user' ] )
-		)->onOutputPageParserOutput(
+		$blockStatusCache = $this->getBlockStatusCacheMock( [ 'Blocked user' ] );
+		$this->setService( 'CheckUserUserInfoCardBlockStatusCache', $blockStatusCache );
+
+		$this->getPageDisplayHookHandlerForUserInfoCard()->onOutputPageParserOutput(
 			$output,
 			$this->makeParserOutputWithTargets( [ 'Blocked user', 'Other user' ] )
 		);
@@ -591,6 +593,9 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testDoesNotExportBlockedTargetsWhenNoneAreBlocked(): void {
+		$blockStatusCache = $this->getBlockStatusCacheMock();
+		$this->setService( 'CheckUserUserInfoCardBlockStatusCache', $blockStatusCache );
+
 		$output = $this->getOutputWithCardEnabled();
 
 		$this->getPageDisplayHookHandlerForUserInfoCard()->onOutputPageParserOutput(
@@ -606,12 +611,13 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testMergesBlockedTargetsAcrossParserOutputs(): void {
+		$blockStatusCache = $this->getBlockStatusCacheMock( [ 'First blocked', 'Second blocked' ] );
+		$this->setService( 'CheckUserUserInfoCardBlockStatusCache', $blockStatusCache );
+
 		// A page can be built from more than one parser output, and each one is reported on its
 		// own, so a later one must not drop what an earlier one already found.
 		$output = $this->getOutputWithCardEnabled();
-		$handler = $this->getPageDisplayHookHandlerForUserInfoCard(
-			$this->getBlockStatusCacheMock( [ 'First blocked', 'Second blocked' ] )
-		);
+		$handler = $this->getPageDisplayHookHandlerForUserInfoCard();
 
 		$handler->onOutputPageParserOutput(
 			$output,
@@ -657,7 +663,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
 			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$this->getBlockStatusCacheMock()
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 		$pageDisplayHookHandler->onBeforePageDisplay(
 			$output,
@@ -706,7 +712,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
 			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$this->getBlockStatusCacheMock()
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 		$pageDisplayHookHandler->onBeforePageDisplay(
 			$output,
@@ -816,7 +822,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsInstrumentationClient' ),
 			$this->getServiceContainer()->get( 'CheckUserLogger' ),
-			$this->getBlockStatusCacheMock()
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -1001,7 +1007,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getPreferencesFactory(),
 			$mockCheckUserSuggestedInvestigationsInstrumentationClient,
 			$mockCheckUserLogger,
-			$this->getBlockStatusCacheMock()
+			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
