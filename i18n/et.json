@@ -355,8 +355,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Riskimärgid",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Olek",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Konto tegevus",
-	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "Näita juhtumeid, mille puhul ühelgi kontol pole muudatusi",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Peida juhtumid, mille puhul ükski konto pole blokeeritud",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-header": "Näita viimati uuendatud juhtumeid",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Täna",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "Viimased 3 päeva",

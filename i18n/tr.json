@@ -450,9 +450,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risk sinyalleri",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Durum",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Hesap aktivitesi",
-	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "Hiçbir hesabın değişikliği olmadığı vakaları göster",
-	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally": "Hiçbir hesabın küresel değişikliği olmadığı vakaları göster",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "Hiçbir hesabın engelli olmadığı vakaları gizle",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-header": "Son güncellenen vakaları göster",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Bugün",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "Son 3 gün",
@@ -506,5 +503,7 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Hesap listesi kopyalandı",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Hesap listesi kopyalama başarısız oldu",
 	"checkuser-related-tas-specialblock-checkbox-label": "Tüm alakalı geçici hesapları engelle",
-	"checkuser-related-tas-specialblock-confirm": "Bu, engellemeyi $1 hesaba uygulayacaktır. Bu {{PLURAL:$1|hesabı|hesapları}} engellemeye devam etmeniz, {{PLURAL:$1|onu|onları}} incelediğinizi onaylar."
+	"checkuser-related-tas-specialblock-confirm": "Bu, engellemeyi $1 hesaba uygulayacaktır. Bu {{PLURAL:$1|hesabı|hesapları}} engellemeye devam etmeniz, {{PLURAL:$1|onu|onları}} incelediğinizi onaylar.",
+	"rangecalculator": "IP Aralığı Hesaplayıcı",
+	"rangecalculator-summary": "Bu araç, bir IP adresleri listesinin ortak aralığını hesaplamanızı sağlar. Araç şu anda yalnızca tek bir ortak aralık hesaplayabilmekte ve IPv4 ile IPv6 adreslerinin birlikte kullanılmasına izin vermemektedir."
 }

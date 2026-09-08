@@ -467,7 +467,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "風險訊號",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "狀態",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "帳號活動",
-	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "隱藏沒有任何帳號被封鎖的案件",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "今天",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "最近3天",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days": "最近7天",
