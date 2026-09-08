@@ -17,7 +17,6 @@ use MediaWiki\Message\TextFormatter;
 use MediaWiki\Rest\Handler;
 use MediaWiki\Rest\JsonLocalizer;
 use MediaWiki\Rest\Module\Module;
-use MediaWiki\Rest\ResponseFactory;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
 use Wikimedia\Message\MessageSpecifier;
@@ -100,26 +99,14 @@ class CheckUserHandlersMetadataTest extends MediaWikiUnitTestCase {
 			] ),
 		] );
 
-		// Inject mock responseFactory on base class Handler
-		// TODO: remove $responseFactory after I9901b2dceb is merged in core.
-		$responseFactory = $this->createMock( ResponseFactory::class );
-		$responseFactory->method( 'getFormattedMessage' )
-			->willReturnCallback( static function ( $messageValue ) {
-				return 'localized-' . $messageValue->getKey();
-			} );
-		TestingAccessWrapper::newFromObject( $instance )->responseFactory = $responseFactory;
-
-		// Needed for I9901b2dceb in core.
+		// Inject a mock Module, so the Handler has access to a JsonLocalizer
 		$formatter = $this->createNoOpMock( TextFormatter::class, [ 'format' ] );
 		$formatter->method( 'format' )->willReturnCallback(
 			static fn ( MessageSpecifier $message ) => 'localized-' . $message->getKey()
 		);
 
 		$module = $this->createNoOpMock( Module::class, [ 'getJsonLocalizer' ] );
-
-		if ( method_exists( Module::class, 'getJsonLocalizer' ) ) {
-			$module->method( 'getJsonLocalizer' )->willReturn( new JsonLocalizer( $formatter ) );
-		}
+		$module->method( 'getJsonLocalizer' )->willReturn( new JsonLocalizer( $formatter ) );
 
 		$instance->initContext( $module, '/test', [] );
 		return $instance;
