@@ -13,10 +13,14 @@ use MediaWiki\Extension\CheckUser\Api\Rest\Handler\TemporaryAccountIPHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoBlockedHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoHandler;
+use MediaWiki\Message\TextFormatter;
 use MediaWiki\Rest\Handler;
+use MediaWiki\Rest\JsonLocalizer;
+use MediaWiki\Rest\Module\Module;
 use MediaWiki\Rest\ResponseFactory;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
+use Wikimedia\Message\MessageSpecifier;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -86,6 +90,7 @@ class CheckUserHandlersMetadataTest extends MediaWikiUnitTestCase {
 	 * @return Handler
 	 */
 	private function createHandlerInstance( string $handlerClass ): Handler {
+		/** @var Handler $instance */
 		$instance = $this->newServiceInstance( $handlerClass, [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
@@ -96,6 +101,7 @@ class CheckUserHandlersMetadataTest extends MediaWikiUnitTestCase {
 		] );
 
 		// Inject mock responseFactory on base class Handler
+		// TODO: remove $responseFactory after I9901b2dceb is merged in core.
 		$responseFactory = $this->createMock( ResponseFactory::class );
 		$responseFactory->method( 'getFormattedMessage' )
 			->willReturnCallback( static function ( $messageValue ) {
@@ -103,6 +109,19 @@ class CheckUserHandlersMetadataTest extends MediaWikiUnitTestCase {
 			} );
 		TestingAccessWrapper::newFromObject( $instance )->responseFactory = $responseFactory;
 
+		// Needed for I9901b2dceb in core.
+		$formatter = $this->createNoOpMock( TextFormatter::class, [ 'format' ] );
+		$formatter->method( 'format' )->willReturnCallback(
+			static fn ( MessageSpecifier $message ) => 'localized-' . $message->getKey()
+		);
+
+		$module = $this->createNoOpMock( Module::class, [ 'getJsonLocalizer' ] );
+
+		if ( method_exists( Module::class, 'getJsonLocalizer' ) ) {
+			$module->method( 'getJsonLocalizer' )->willReturn( new JsonLocalizer( $formatter ) );
+		}
+
+		$instance->initContext( $module, '/test', [] );
 		return $instance;
 	}
 
