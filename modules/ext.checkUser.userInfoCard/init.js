@@ -80,7 +80,8 @@ const togglePopover = ( button, username ) => {
  * Does nothing if the button holds no icon element.
  *
  * @param {Element} button
- * @param {string} variant 'userAvatar', 'userBlocked' or 'userTemporary'
+ * @param {string} variant 'userAvatar', 'userBlocked', 'userTemporary'
+ *   or 'suggestedInvestigations'
  * @private
  */
 function setIconVariant( button, variant ) {
@@ -91,13 +92,15 @@ function setIconVariant( button, variant ) {
 	iconElem.classList.remove(
 		'ext-checkuser-userinfocard-button__icon--userAvatar',
 		'ext-checkuser-userinfocard-button__icon--userBlocked',
-		'ext-checkuser-userinfocard-button__icon--userTemporary'
+		'ext-checkuser-userinfocard-button__icon--userTemporary',
+		'ext-checkuser-userinfocard-button__icon--suggestedInvestigations'
 	);
 	// The variant comes from the server or from the caller, and can be any of the ones
 	// UserInfoCardButtonRenderer itself emits. The following CSS classes are used here:
 	// * ext-checkuser-userinfocard-button__icon--userAvatar
 	// * ext-checkuser-userinfocard-button__icon--userBlocked
 	// * ext-checkuser-userinfocard-button__icon--userTemporary
+	// * ext-checkuser-userinfocard-button__icon--suggestedInvestigations
 	iconElem.classList.add( ICON_CLASS_PREFIX + variant );
 }
 
@@ -105,7 +108,8 @@ function setIconVariant( button, variant ) {
  * Get the icon variant to use for a user, without asking the server.
  *
  * @param {string} username
- * @return {string} 'userAvatar', 'userBlocked' or 'userTemporary'
+ * @return {string} 'userAvatar', 'userBlocked', 'userTemporary'
+ *   or 'suggestedInvestigations'
  * @private
  */
 function defaultIconVariant( username ) {
@@ -125,9 +129,9 @@ function defaultIconVariant( username ) {
  *
  * @param {string} username Canonical name of the target user
  * @param {Object} [options] Optional configuration for the button
- * @param {string} [options.icon] Icon variant: 'userAvatar', 'userBlocked' or 'userTemporary'.
- *   Defaults to the variant that the server sent for this user, or else to the one that the
- *   name itself implies.
+ * @param {string} [options.icon] Icon variant: 'userAvatar', 'userBlocked', 'userTemporary'
+ *   or 'suggestedInvestigations'. Defaults to the variant that the server sent for this user,
+ *   or else to the one that the name itself implies.
  * @return {HTMLButtonElement|null} The button or null if the viewer turned the card off
  * @memberof module:ext.checkUser.userInfoCard
  * @stable for use in gadgets and user scripts

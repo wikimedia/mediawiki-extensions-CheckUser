@@ -45,6 +45,7 @@ class UserInfoCardNavigationHandler implements SkinTemplateNavigation__Universal
 		// * ext-checkuser-userinfocard-navigation-item--userAvatar
 		// * ext-checkuser-userinfocard-navigation-item--userTemporary
 		// * ext-checkuser-userinfocard-navigation-item--userBlocked
+		// * ext-checkuser-userinfocard-navigation-item--suggestedInvestigations
 		$links['views']['checkuser-userinfocard'] = [
 			'text' => $sktemplate->msg( 'checkuser-userinfocard-navigation-label', $target->getName() )->text(),
 			'href' => '#',

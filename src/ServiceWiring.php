@@ -46,6 +46,7 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardInstrumentation;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCache;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\CentralAuthLockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\GlobalBlockCheck;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\BlockChecks\LocalBlockCheck;
@@ -227,7 +228,7 @@ return [
 			$services->getMainConfig(),
 			$services->getRevisionStore(),
 			$services->get( 'CheckUserApiRequestAggregator' ),
-			$services->getMainWANObjectCache(),
+			$services->getWANObjectCache(),
 			$services->getStatsFactory()
 		);
 	},
@@ -656,7 +657,7 @@ return [
 			);
 		}
 		return new UserInfoCardBlockStatusCache(
-			$services->getMainWANObjectCache(),
+			$services->getWANObjectCache(),
 			new CompositeIndefiniteBlockChecker(
 				[ new LocalBlockCheck( $services->getDatabaseBlockStore() ) ]
 			),
@@ -671,7 +672,12 @@ return [
 		return new UserInfoCardButtonRenderer(
 			$services->getUserNameUtils(),
 			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
-			$services->getUserIdentityLookup()
+			$services->getUserIdentityLookup(),
+			$services->get( 'CheckUserUserInfoCardSuggestedInvestigationsCache' ),
+			new ServiceOptions(
+				UserInfoCardButtonRenderer::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig(),
+			)
 		);
 	},
 	'CheckUserUserInfoCardInstrumentation' => static function (
@@ -732,6 +738,16 @@ return [
 			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
 			$abuseLogLookup,
 			$services->getActorNormalization()
+		);
+	},
+	'CheckUserUserInfoCardSuggestedInvestigationsCache' => static function (
+		MediaWikiServices $services
+	): UserInfoCardSuggestedInvestigationsCache {
+		return new UserInfoCardSuggestedInvestigationsCache(
+			$services->getWANObjectCache(),
+			$services->get( 'CheckUserSuggestedInvestigationsCaseLookup' ),
+			$services->getUserIdentityLookup(),
+			$services->getStatsFactory()
 		);
 	},
 	'CheckUserUtilityService' => static function (

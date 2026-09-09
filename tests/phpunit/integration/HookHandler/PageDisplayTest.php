@@ -15,10 +15,12 @@ use MediaWiki\Extension\CheckUser\HookHandler\ParserFunctionsHandler;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCache;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Instrumentation\ISuggestedInvestigationsInstrumentationClient;
 use MediaWiki\IPInfo\HookHandler\AbstractPreferencesHandler;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Parser\ParserOutput;
+use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Skin\Skin;
@@ -41,6 +43,14 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
 	use MockAuthorityTrait;
 	use TempUserTestTrait;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		// Tests which need the feature enable it themselves. Other tests must not read from the
+		// database through the SuggestedInvestigations services.
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsEnabled', false );
+	}
 
 	/**
 	 * @dataProvider provideOnBeforePageDisplayCases
@@ -558,11 +568,11 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		return $parserOutput;
 	}
 
-	private function getOutputWithCardEnabled(): OutputPage {
+	private function getOutputWithCardEnabled( ?Authority $viewer = null ): OutputPage {
 		$this->disableAutoCreateTempUser();
 
 		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setAuthority( $this->mockRegisteredUltimateAuthority() );
+		$context->setAuthority( $viewer ?? $this->mockRegisteredUltimateAuthority() );
 		$output = $context->getOutput();
 		$output->setContext( $context );
 
@@ -607,6 +617,52 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			'wgCheckUserUserInfoCardCustomIcons',
 			$output->getJsConfigVars(),
 			'The variable should be omitted entirely rather than shipped empty'
+		);
+	}
+
+	public static function provideExportsSuggestedInvestigationsTargets(): array {
+		return [
+			'Viewer can see SI' => [
+				'canSee' => true,
+				'expectedCustomIcons' => [ 'SI user' => 'suggestedInvestigations' ],
+			],
+			'Viewer cannot see SI' => [
+				'canSee' => false,
+				'expectedCustomIcons' => null,
+			],
+		];
+	}
+
+	/** @dataProvider provideExportsSuggestedInvestigationsTargets */
+	public function testExportsSuggestedInvestigationsTargets( bool $canSee, ?array $expectedCustomIcons ): void {
+		$suggestedInvestigationsCache = $this->createMock( UserInfoCardSuggestedInvestigationsCache::class );
+		$suggestedInvestigationsCache->method( 'getUsersWithOpenCases' )
+			->willReturn( [ 'SI user' ] );
+
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsEnabled', true );
+		$this->setService(
+			'CheckUserUserInfoCardBlockStatusCache',
+			$this->getBlockStatusCacheMock()
+		);
+		$this->setService(
+			'CheckUserUserInfoCardSuggestedInvestigationsCache',
+			$suggestedInvestigationsCache
+		);
+
+		$output = $this->getOutputWithCardEnabled(
+			$canSee ?
+				$this->mockRegisteredUltimateAuthority() :
+				$this->mockRegisteredAuthorityWithoutPermissions( [ 'checkuser-suggested-investigations' ] )
+		);
+
+		$this->getPageDisplayHookHandlerForUserInfoCard()->onOutputPageParserOutput(
+			$output,
+			$this->makeParserOutputWithTargets( [ 'SI user', 'Other user' ] )
+		);
+
+		$this->assertSame(
+			$expectedCustomIcons,
+			$output->getJsConfigVars()['wgCheckUserUserInfoCardCustomIcons'] ?? null
 		);
 	}
 

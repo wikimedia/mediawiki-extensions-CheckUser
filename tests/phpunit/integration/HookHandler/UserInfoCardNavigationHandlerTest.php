@@ -8,6 +8,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\HookHandler\UserInfoCardNavigationHandler;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCache;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
@@ -216,6 +217,50 @@ class UserInfoCardNavigationHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 'userTemporary', $links['views'][self::ITEM_KEY]['icon'] );
 		$this->assertStringContainsString(
 			'ext-checkuser-userinfocard-navigation-item--userTemporary',
+			$links['views'][self::ITEM_KEY]['class']
+		);
+	}
+
+	public static function provideUsesSIIcon(): array {
+		return [
+			'Viewer can see SI' => [
+				'canSee' => true,
+				'expectedIcon' => 'suggestedInvestigations',
+			],
+			'Viewer cannot see SI' => [
+				'canSee' => false,
+				'expectedIcon' => 'userAvatar',
+			],
+		];
+	}
+
+	/** @dataProvider provideUsesSIIcon */
+	public function testUsesSIIcon( bool $canSee, string $expectedIcon ) {
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsEnabled', true );
+		$this->setGroupPermissions(
+			'user',
+			'checkuser-suggested-investigations',
+			$canSee
+		);
+
+		$target = $this->getTestSysop()->getUser();
+
+		$suggestedInvestigationsCache = $this->createMock( UserInfoCardSuggestedInvestigationsCache::class );
+		$suggestedInvestigationsCache->method( 'getUsersWithOpenCases' )
+			->willReturn( [ $target->getName() ] );
+		$this->setService(
+			'CheckUserUserInfoCardSuggestedInvestigationsCache',
+			$suggestedInvestigationsCache
+		);
+
+		[ $links ] = $this->runHook(
+			$target->getUserPage(),
+			$this->getViewer()
+		);
+
+		$this->assertSame( $expectedIcon, $links['views'][self::ITEM_KEY]['icon'] );
+		$this->assertStringContainsString(
+			"ext-checkuser-userinfocard-navigation-item--$expectedIcon",
 			$links['views'][self::ITEM_KEY]['class']
 		);
 	}

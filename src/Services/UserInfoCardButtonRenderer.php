@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Services;
 
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Permissions\Authority;
@@ -12,11 +13,19 @@ use MediaWiki\User\UserNameUtils;
 
 class UserInfoCardButtonRenderer {
 
+	/** @internal For use in ServiceWiring */
+	public const CONSTRUCTOR_OPTIONS = [
+		'CheckUserSuggestedInvestigationsEnabled',
+	];
+
 	public function __construct(
 		private readonly UserNameUtils $userNameUtils,
 		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly UserInfoCardSuggestedInvestigationsCache $suggestedInvestigationsCache,
+		private readonly ServiceOptions $config,
 	) {
+		$this->config->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
 
 	/**
@@ -113,7 +122,7 @@ class UserInfoCardButtonRenderer {
 
 		$result = [];
 		if ( $options['customIcons'] ) {
-			$result = $this->applyCustomIcons( $visibleTargetNames );
+			$result = $this->applyCustomIcons( $visibleTargetNames, $options );
 		}
 
 		// Fill out rest with the default icon, userAvatar/userTemporary
@@ -125,15 +134,24 @@ class UserInfoCardButtonRenderer {
 		return $result;
 	}
 
-	private function applyCustomIcons( array $targetNames ): array {
+	private function applyCustomIcons( array $targetNames, array $options ): array {
+		$viewer = $options['viewer'];
+
 		// The order in which the methods are listed here denotes the icon priority (top to bottom)
+		// Nulls are ignored
 		$customIconHandlers = [
 			$this->applyBlockedIcon( ... ),
+			$viewer?->isAllowed( 'checkuser-suggested-investigations' ) ?
+				$this->applySuggestedInvestigationsIcon( ... ) : null,
 		];
 
 		$result = [];
 
 		foreach ( $customIconHandlers as $customIconHandler ) {
+			if ( $customIconHandler === null ) {
+				continue;
+			}
+
 			$userIcons = $customIconHandler( $targetNames );
 			$result += $userIcons;
 
@@ -148,5 +166,14 @@ class UserInfoCardButtonRenderer {
 	private function applyBlockedIcon( array $targetNames ): array {
 		$blockedUsers = $this->blockStatusCache->getIndefinitelyBlockedOrLockedUsers( $targetNames );
 		return array_fill_keys( $blockedUsers, 'userBlocked' );
+	}
+
+	private function applySuggestedInvestigationsIcon( array $targetNames ): array {
+		if ( !$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+			return [];
+		}
+
+		$siUsers = $this->suggestedInvestigationsCache->getUsersWithOpenCases( $targetNames );
+		return array_fill_keys( $siUsers, 'suggestedInvestigations' );
 	}
 }

@@ -81,10 +81,10 @@ const {
 	cdxIconEdit,
 	cdxIconEditLock,
 	cdxIconArticles,
-	cdxIconArticlesSearch,
 	cdxIconHeart,
 	cdxIconRecentChanges,
 	cdxIconSearch,
+	cdxIconSuggestedInvestigations,
 	cdxIconUserTemporary,
 	cdxIconUserTemporaryLocation
 } = require( './icons.json' );
@@ -455,7 +455,7 @@ module.exports = exports = {
 					-1, 'SuggestedInvestigations'
 				).getUrl( { username: props.username, editAndBlockFilter: 'none', queueView: 'all' } );
 				rows.push( {
-					icon: cdxIconArticlesSearch,
+					icon: cdxIconSuggestedInvestigations,
 					iconClass: 'ext-checkuser-userinfocard-icon',
 					messageKey: 'checkuser-userinfocard-suggested-investigations',
 					mainValue: mw.language.convertNumber( props.suggestedInvestigationsCaseCount ),

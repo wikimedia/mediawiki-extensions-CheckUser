@@ -4,8 +4,10 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\Services;
 
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCache;
 use MediaWiki\Tests\Unit\FakeQqxMessageLocalizer;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityLookup;
@@ -25,11 +27,15 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 	 * @param string[] $tempUsers Users for whom UserNameUtils reports a temporary account
 	 * @param string[] $blockedUsers Users whom the block status cache reports as blocked or locked
 	 * @param string[] $hiddenUsers Users who were hidden
+	 * @param string[] $usersInOpenCase Users whom the SI cache reports as members of an open case
+	 * @param bool $siEnabled Value of $wgCheckUserSuggestedInvestigationsEnabled
 	 */
 	private function getRenderer(
 		array $tempUsers = [],
 		array $blockedUsers = [],
 		array $hiddenUsers = [],
+		array $usersInOpenCase = [],
+		bool $siEnabled = true
 	): UserInfoCardButtonRenderer {
 		$userNameUtils = $this->createMock( UserNameUtils::class );
 		$userNameUtils->method( 'isTemp' )
@@ -60,10 +66,21 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		$userIdentityLookup->method( 'newSelectQueryBuilder' )
 			->willReturn( $queryBuilder );
 
+		$siCache = $this->createMock( UserInfoCardSuggestedInvestigationsCache::class );
+		$siCache->method( 'getUsersWithOpenCases' )
+			->willReturnCallback(
+				static fn ( $names ) => array_values( array_intersect( $names, $usersInOpenCase ) )
+			);
+
 		return new UserInfoCardButtonRenderer(
 			$userNameUtils,
 			$blockStatusCache,
 			$userIdentityLookup,
+			$siCache,
+			new ServiceOptions(
+				[ 'CheckUserSuggestedInvestigationsEnabled' ],
+				[ 'CheckUserSuggestedInvestigationsEnabled' => $siEnabled ]
+			),
 		);
 	}
 
@@ -81,11 +98,12 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		$this->assertStringNotContainsString( 'hidden="', $html );
 	}
 
-	public static function provideIconVariants() {
+	public static function provideIconVariants(): array {
 		return [
-			[ 'userAvatar' ],
-			[ 'userTemporary' ],
-			[ 'userBlocked' ],
+			'userAvatar' => [ 'userAvatar' ],
+			'userTemporary' => [ 'userTemporary' ],
+			'userBlocked' => [ 'userBlocked' ],
+			'suggestedInvestigations' => [ 'suggestedInvestigations' ],
 		];
 	}
 
@@ -120,6 +138,7 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => false,
 				'isTemp' => false,
 				'isHidden' => false,
+				'isInOpenCase' => false,
 				'options' => [],
 				'expectedIconName' => 'userAvatar',
 			],
@@ -127,6 +146,7 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => false,
 				'isTemp' => true,
 				'isHidden' => false,
+				'isInOpenCase' => false,
 				'options' => [],
 				'expectedIconName' => 'userTemporary',
 			],
@@ -134,8 +154,19 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => true,
 				'isTemp' => false,
 				'isHidden' => false,
+				'isInOpenCase' => false,
 				'options' => [],
 				'expectedIconName' => 'userBlocked',
+			],
+			'User in SI case' => [
+				'isBlocked' => false,
+				'isTemp' => false,
+				'isHidden' => false,
+				'isInOpenCase' => true,
+				'options' => [
+					'viewer' => [ 'checkuser-suggested-investigations' ],
+				],
+				'expectedIconName' => 'suggestedInvestigations',
 			],
 
 			// Check priorities
@@ -143,7 +174,18 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => true,
 				'isTemp' => true,
 				'isHidden' => false,
+				'isInOpenCase' => false,
 				'options' => [],
+				'expectedIconName' => 'userBlocked',
+			],
+			'Blocked account that is in SI case - block wins over SI' => [
+				'isBlocked' => true,
+				'isTemp' => false,
+				'isHidden' => false,
+				'isInOpenCase' => true,
+				'options' => [
+					'viewer' => [ 'checkuser-suggested-investigations' ],
+				],
 				'expectedIconName' => 'userBlocked',
 			],
 
@@ -152,6 +194,7 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => false,
 				'isTemp' => true,
 				'isHidden' => false,
+				'isInOpenCase' => false,
 				'options' => [
 					'customIcons' => false,
 				],
@@ -161,6 +204,17 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => true,
 				'isTemp' => false,
 				'isHidden' => false,
+				'isInOpenCase' => false,
+				'options' => [
+					'customIcons' => false,
+				],
+				'expectedIconName' => 'userAvatar',
+			],
+			'User in SI case, but customIcons is false - case is ignored' => [
+				'isBlocked' => false,
+				'isTemp' => false,
+				'isHidden' => false,
+				'isInOpenCase' => true,
 				'options' => [
 					'customIcons' => false,
 				],
@@ -172,6 +226,7 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => true,
 				'isTemp' => false,
 				'isHidden' => true,
+				'isInOpenCase' => false,
 				'options' => [
 					'viewer' => [],
 				],
@@ -181,6 +236,7 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => true,
 				'isTemp' => false,
 				'isHidden' => true,
+				'isInOpenCase' => false,
 				'options' => [
 					'viewer' => [ 'hideuser' ],
 				],
@@ -190,6 +246,29 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				'isBlocked' => true,
 				'isTemp' => false,
 				'isHidden' => true,
+				'isInOpenCase' => false,
+				'options' => [
+					'viewer' => null,
+				],
+				'expectedIconName' => 'userAvatar',
+			],
+
+			// SI and viewer rights
+			'User in SI case, but viewer cannot see it' => [
+				'isBlocked' => false,
+				'isTemp' => false,
+				'isHidden' => false,
+				'isInOpenCase' => true,
+				'options' => [
+					'viewer' => [],
+				],
+				'expectedIconName' => 'userAvatar',
+			],
+			'User in SI case, but viewer is null' => [
+				'isBlocked' => false,
+				'isTemp' => false,
+				'isHidden' => false,
+				'isInOpenCase' => true,
 				'options' => [
 					'viewer' => null,
 				],
@@ -203,6 +282,7 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		bool $isBlocked,
 		bool $isTemp,
 		bool $isHidden,
+		bool $isInOpenCase,
 		array $options,
 		string $expectedIconName
 	): void {
@@ -216,7 +296,18 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				$isTemp ? [ 'Foo' ] : [],
 				$isBlocked ? [ 'Foo' ] : [],
 				$isHidden ? [ 'Foo' ] : [],
+				$isInOpenCase ? [ 'Foo' ] : [],
 			)->getIconName( 'Foo', $options )
+		);
+	}
+
+	public function testOpenCaseIsIgnoredWhenSuggestedInvestigationsAreDisabled(): void {
+		$renderer = $this->getRenderer( [], [], [], [ 'Foo' ], false );
+		$viewer = $this->mockAnonAuthorityWithPermissions( [ 'checkuser-suggested-investigations' ] );
+
+		$this->assertSame(
+			'userAvatar',
+			$renderer->getIconName( 'Foo', [ 'viewer' => $viewer ] )
 		);
 	}
 
@@ -224,13 +315,20 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		$renderer = $this->getRenderer(
 			[ '~2026-1' ],
 			[ 'BlockedUser' ],
+			[],
+			[ 'CaseUser', 'BlockedUser' ]
 		);
+		$viewer = $this->mockAnonAuthorityWithPermissions( [ 'checkuser-suggested-investigations' ] );
 
-		$actual = $renderer->getIconNamesForUsers( [ 'NamedUser', '~2026-1', 'BlockedUser' ] );
+		$actual = $renderer->getIconNamesForUsers(
+			[ 'NamedUser', '~2026-1', 'BlockedUser', 'CaseUser' ],
+			[ 'viewer' => $viewer ]
+		);
 		ksort( $actual );
 
 		$expected = [
 			'BlockedUser' => 'userBlocked',
+			'CaseUser' => 'suggestedInvestigations',
 			'NamedUser' => 'userAvatar',
 			'~2026-1' => 'userTemporary',
 		];

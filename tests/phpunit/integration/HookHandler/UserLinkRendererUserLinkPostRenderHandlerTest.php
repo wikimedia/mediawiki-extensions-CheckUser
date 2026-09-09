@@ -8,7 +8,9 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCache;
 use MediaWiki\Output\OutputPage;
+use MediaWiki\Tests\Unit\HtmlAssertionHelperTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -19,6 +21,7 @@ use MediaWikiIntegrationTestCase;
  */
 class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegrationTestCase {
 
+	use HtmlAssertionHelperTrait;
 	use TempUserTestTrait;
 
 	public function testRenderWithoutFeatureEnabled() {
@@ -128,10 +131,9 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 			$targetUser,
 			$context
 		);
-		$this->assertStringContainsString(
-			'ext-checkuser-userinfocard-button__icon--userBlocked',
+		$this->assertSelectorMatchesOneElement(
 			$html,
-			'Output does not contain blocked icon class'
+			'.ext-checkuser-userinfocard-button__icon--userBlocked',
 		);
 	}
 
@@ -155,10 +157,9 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 			$targetUser,
 			$context
 		);
-		$this->assertStringContainsString(
-			'ext-checkuser-userinfocard-button__icon--userAvatar',
+		$this->assertSelectorMatchesOneElement(
 			$html,
-			'Output does not contain avatar icon class'
+			'.ext-checkuser-userinfocard-button__icon--userAvatar',
 		);
 	}
 
@@ -184,10 +185,58 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 			$targetUser,
 			$context
 		);
-		$this->assertStringContainsString(
-			'ext-checkuser-userinfocard-button__icon--userTemporary',
+		$this->assertSelectorMatchesOneElement(
 			$html,
-			'Output does not contain temporary user icon class'
+			'.ext-checkuser-userinfocard-button__icon--userTemporary',
+		);
+	}
+
+	public static function provideUsesSIIcon(): array {
+		return [
+			'Viewer can see SI' => [
+				'canSee' => true,
+				'expectedIcon' => 'suggestedInvestigations',
+			],
+			'Viewer cannot see SI' => [
+				'canSee' => false,
+				'expectedIcon' => 'userAvatar',
+			],
+		];
+	}
+
+	/** @dataProvider provideUsesSIIcon */
+	public function testUsesSIIcon( bool $canSee, string $expectedIcon ) {
+		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsEnabled', true );
+		$this->setGroupPermissions(
+			'user',
+			'checkuser-suggested-investigations',
+			$canSee
+		);
+
+		$targetUser = $this->getTestUser()->getUser();
+
+		$mockCache = $this->createMock( UserInfoCardSuggestedInvestigationsCache::class );
+		$mockCache->method( 'getUsersWithOpenCases' )
+			->willReturn( [ $targetUser->getName() ] );
+		$this->setService( 'CheckUserUserInfoCardSuggestedInvestigationsCache', $mockCache );
+
+		$userOptionsManager = $this->getServiceContainer()->getUserOptionsManager();
+		$userOptionsManager->setOption(
+			$targetUser,
+			Preferences::ENABLE_USER_INFO_CARD,
+			true
+		);
+		$userOptionsManager->saveOptions( $targetUser );
+
+		$context = RequestContext::getMain();
+		$context->setUser( $targetUser );
+		$html = $this->getServiceContainer()->getUserLinkRenderer()->userLink(
+			$targetUser,
+			$context
+		);
+		$this->assertSelectorMatchesOneElement(
+			$html,
+			".ext-checkuser-userinfocard-button__icon--$expectedIcon"
 		);
 	}
 
