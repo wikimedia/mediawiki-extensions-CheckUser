@@ -58,7 +58,7 @@
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Die Funktion „Vorgeschlagene Untersuchungen“ ist nicht aktiviert",
 	"checkuser-suggestedinvestigations-not-enabled": "Die Funktion „Vorgeschlagene Untersuchungen“ ist nicht aktiviert",
 	"rest-module-checkuser.v0-title": "CheckUser-API",
-	"rest-module-checkuser.v0-desc": "REST-API für CheckUser-Tools. Siehe [Dokumentation zur CheckUser-Erweiterung] (https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
+	"rest-module-checkuser.v0-desc": "REST-API für CheckUser-Tools. *Alle diese REST-APIs sind instabil und einige davon sind intern; sie sollten daher nicht von Code außerhalb der CheckUser-Erweiterung aufgerufen werden.** Siehe [Dokumentation zur CheckUser-Erweiterung] (https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs).",
 	"checkuser-rest-param-desc-username": "Benutzername, für den Details abgerufen werden sollen",
 	"checkuser-rest-request-desc-userinfo": "Anfrageinhalt zum Abrufen von Informationen für die Benutzerinfokarte",
 	"checkuser-rest-response-desc-userinfo": "Antwort mit detaillierten Daten zur öffentlichen und eingeschränkten Benutzeraktivität",

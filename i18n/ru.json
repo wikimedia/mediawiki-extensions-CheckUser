@@ -348,6 +348,8 @@
 	"checkuser-ipinfo-global-contributions-url-text": "Посмотреть глобальный вклад",
 	"checkuser-uic-invalid-username-category": "Страницы с параметром в неправильном формате для карточки информации о пользователе",
 	"checkuser-userinfocard-toggle-button-aria-label": "Открыть информационную карточку {{GENDER:$1|участника|участницы}}",
+	"checkuser-userinfocard-navigation-label": "Информация об участнике",
+	"tooltip-ca-checkuser-userinfocard": "Показать информацию об {{GENDER:$1|этом участнике|этой участнице}}",
 	"checkuser-userinfocard-close-button-aria-label": "Закрыть",
 	"checkuser-userinfocard-open-menu-aria-label": "Открыть меню информационной карточки {{GENDER:$1|участника|участницы}}",
 	"checkuser-userinfocard-joined": "{{GENDER:$3|Присоединился|Присоединилась}}: $1 ($2)",

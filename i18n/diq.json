@@ -70,5 +70,7 @@
 	"checkuser-investigate-compare-table-cell-unregistered": "Bêqeydıni",
 	"checkuser-investigate-compare-table-header-username": "Namey karberi",
 	"checkuser-investigate-compare-table-header-activity": "Mabênê tarix",
-	"checkuser-investigate-compare-table-header-ip": "IP"
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-suggestedinvestigations-filter-dialog-edits-only-filter": "Vurnayışi",
+	"checkuser-suggestedinvestigations-filter-dialog-blocks-only-filter": "Kılitkerdışi"
 }
