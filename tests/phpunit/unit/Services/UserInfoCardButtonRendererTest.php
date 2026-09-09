@@ -16,13 +16,28 @@ use MediaWikiUnitTestCase;
  */
 class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 
-	private function getRenderer( bool $isTemp = false, bool $isBlocked = false ): UserInfoCardButtonRenderer {
+	/**
+	 * @param string[] $tempUsers Users for whom UserNameUtils reports a temporary account
+	 * @param string[] $blockedUsers Users whom the block status cache reports as blocked or locked
+	 */
+	private function getRenderer(
+		array $tempUsers = [],
+		array $blockedUsers = [],
+	): UserInfoCardButtonRenderer {
 		$userNameUtils = $this->createMock( UserNameUtils::class );
-		$userNameUtils->method( 'isTemp' )->willReturn( $isTemp );
+		$userNameUtils->method( 'isTemp' )
+			->willReturnCallback( static fn ( $name ) => in_array( $name, $tempUsers, true ) );
+
 		$blockStatusCache = $this->createMock( UserInfoCardBlockStatusCache::class );
 		$blockStatusCache->method( 'getIndefinitelyBlockedOrLockedUsers' )
-			->willReturnCallback( static fn ( $users ) => $isBlocked ? $users : [] );
-		return new UserInfoCardButtonRenderer( $userNameUtils, $blockStatusCache );
+			->willReturnCallback(
+				static fn ( $names ) => array_values( array_intersect( $names, $blockedUsers ) )
+			);
+
+		return new UserInfoCardButtonRenderer(
+			$userNameUtils,
+			$blockStatusCache,
+		);
 	}
 
 	public function testRenderProducesExpectedMarkup(): void {
@@ -58,25 +73,6 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	public static function provideIconNames(): array {
-		return [
-			'named user' => [ false, false, 'userAvatar' ],
-			'temporary account' => [ false, true, 'userTemporary' ],
-			'blocked user' => [ true, false, 'userBlocked' ],
-			// Blocked wins over temporary, so that an indefinitely blocked temporary account is
-			// not shown as merely temporary.
-			'blocked temporary account' => [ true, true, 'userBlocked' ],
-		];
-	}
-
-	/** @dataProvider provideIconNames */
-	public function testGetIconName( bool $isBlocked, bool $isTemp, string $expectedIconName ): void {
-		$this->assertSame(
-			$expectedIconName,
-			$this->getRenderer( $isTemp, $isBlocked )->getIconName( 'Foo' )
-		);
-	}
-
 	public function testUsernameIsEscaped(): void {
 		$localizer = new FakeQqxMessageLocalizer();
 		$html = $this->getRenderer()->render( 'Foo "&"', 'userAvatar', $localizer );
@@ -91,10 +87,94 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		$this->assertStringContainsString( 'hidden="', $html );
 	}
 
-	public function testNoCustomIconsIgnoresBlock(): void {
+	public static function provideIconNames(): array {
+		return [
+			'Named user' => [
+				'isBlocked' => false,
+				'isTemp' => false,
+				'options' => [],
+				'expectedIconName' => 'userAvatar',
+			],
+			'Temporary account' => [
+				'isBlocked' => false,
+				'isTemp' => true,
+				'options' => [],
+				'expectedIconName' => 'userTemporary',
+			],
+			'Blocked user' => [
+				'isBlocked' => true,
+				'isTemp' => false,
+				'options' => [],
+				'expectedIconName' => 'userBlocked',
+			],
+
+			// Check priorities
+			'Blocked temporary account - blocked wins over temporary' => [
+				'isBlocked' => true,
+				'isTemp' => true,
+				'options' => [],
+				'expectedIconName' => 'userBlocked',
+			],
+
+			// customIcons tests
+			'customIcons set to false does not skip temporary account icon' => [
+				'isBlocked' => false,
+				'isTemp' => true,
+				'options' => [
+					'customIcons' => false,
+				],
+				'expectedIconName' => 'userTemporary',
+			],
+			'Blocked user, but customIcons is false - block is ignored' => [
+				'isBlocked' => true,
+				'isTemp' => false,
+				'options' => [
+					'customIcons' => false,
+				],
+				'expectedIconName' => 'userAvatar',
+			],
+		];
+	}
+
+	/** @dataProvider provideIconNames */
+	public function testGetIconName(
+		bool $isBlocked,
+		bool $isTemp,
+		array $options,
+		string $expectedIconName
+	): void {
 		$this->assertSame(
-			'userAvatar',
-			$this->getRenderer( false, true )->getIconName( 'Foo', [ 'customIcons' => false ] )
+			$expectedIconName,
+			$this->getRenderer(
+				$isTemp ? [ 'Foo' ] : [],
+				$isBlocked ? [ 'Foo' ] : [],
+			)->getIconName( 'Foo', $options )
+		);
+	}
+
+	public function testGetIconNamesForUsersMapsEveryUser(): void {
+		$renderer = $this->getRenderer(
+			[ '~2026-1' ],
+			[ 'BlockedUser' ],
+		);
+
+		$actual = $renderer->getIconNamesForUsers( [ 'NamedUser', '~2026-1', 'BlockedUser' ] );
+		ksort( $actual );
+
+		$expected = [
+			'BlockedUser' => 'userBlocked',
+			'NamedUser' => 'userAvatar',
+			'~2026-1' => 'userTemporary',
+		];
+		ksort( $expected );
+
+		$this->assertSame( $expected, $actual );
+	}
+
+	public function testGetIconNamesForUsersWithNoUsers(): void {
+		$this->assertSame(
+			[],
+			$this->getRenderer()->getIconNamesForUsers( [] )
 		);
 	}
 }
