@@ -190,7 +190,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		);
 
 		[ $html ] = $this->executeSpecialPage(
-			'detail/abcdef12',
+			'detail/7bcdef12',
 			new FauxRequest(),
 			null,
 			null,
@@ -286,14 +286,14 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 	}
 
 	public function testDetailViewWithoutSharedPagesOmitsEditsSection(): void {
-		// The case created in addDBDataOnce (URL identifier 'abcdef12') has a single account and no
+		// The case created in addDBDataOnce (URL identifier '7bcdef12') has a single account and no
 		// shared-page edits, so the section must not be rendered.
 		$context = RequestContext::getMain();
 		$context->setUser( $this->getTestUser( [ 'checkuser', 'sysop' ] )->getUser() );
 		$context->setLanguage( 'qqx' );
 
 		[ $html ] = $this->executeSpecialPage(
-			'detail/abcdef12',
+			'detail/7bcdef12',
 			new FauxRequest(),
 			null,
 			null,
@@ -580,7 +580,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 				],
 			],
 			'Page load for detail subpage with a known URL identifier' => [
-				'subPage' => 'detail/abcdef12',
+				'subPage' => 'detail/7bcdef12',
 				'queryParameters' => [],
 				'expectedInstrumentationData' => [
 					'is_paging_results' => false, 'pager_limit' => 10, 'is_in_detail_view' => true,
@@ -603,7 +603,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		self::$user1 = $this->getMutableTestUser()->getUserIdentity();
 		self::$user2 = $this->getMutableTestUser()->getUserIdentity();
 
-		// Create a suggested investigations case and then set it's URL identifier to 'abcdef12' so we can
+		// Create a suggested investigations case and then set it's URL identifier to '7bcdef12' so we can
 		// test the detailed view by using a pre-defined stable URL identifier.
 		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
 		$caseManager = $this->getServiceContainer()->get( 'CheckUserSuggestedInvestigationsCaseManager' );
@@ -611,7 +611,7 @@ class SpecialSuggestedInvestigationsTest extends SpecialPageTestBase {
 		$caseId1 = $caseManager->createCase( [ self::$user1 ], [ $signal ] );
 		$this->getDb()->newUpdateQueryBuilder()
 			->update( 'cusi_case' )
-			->set( [ 'sic_url_identifier' => hexdec( 'abcdef12' ) ] )
+			->set( [ 'sic_url_identifier' => hexdec( '7bcdef12' ) ] )
 			->where( [ 'sic_id' => $caseId1 ] )
 			->caller( __METHOD__ )
 			->execute();
