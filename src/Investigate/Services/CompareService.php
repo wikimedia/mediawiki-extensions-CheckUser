@@ -141,7 +141,7 @@ class CompareService extends ChangeService {
 			],
 			'options' => [
 				'GROUP BY' => [
-					'user',
+					'a.user',
 					'user_text',
 					'ip_hex',
 					'agent',
