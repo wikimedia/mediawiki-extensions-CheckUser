@@ -105,33 +105,35 @@ function hashUsername( username ) {
 function getOpenContext( triggerElement ) {
 	const specialPageName = mw.config.get( 'wgCanonicalSpecialPageName' );
 	const action = mw.config.get( 'wgAction' );
-	let page;
+	let page = 'other';
 
-	if ( triggerElement.closest( '.ext-checkuser-userinfocard-navigation-item' ) ) {
-		page = 'user-page-toolbar';
-	} else if ( specialPageName === 'Log' ||
-		triggerElement.closest( '.mw-logevent-loglines' ) ) {
-		page = 'log';
-	} else if ( specialPageName === 'CheckUser' ||
-		specialPageName === 'Investigate' ) {
-		page = 'checkuser';
-	} else if ( specialPageName === 'SuggestedInvestigations' ) {
-		page = 'suggested-investigations';
-	} else if ( specialPageName === 'BlockList' ) {
-		page = 'blocklist';
-	} else if ( specialPageName === 'Recentchanges' ) {
-		page = 'rc';
-	} else if ( specialPageName ) {
-		page = 'special';
-	} else if ( action === 'history' || action === 'info' ) {
-		page = 'history';
-	} else if ( triggerElement.closest( '#mw-revision-info' ) ||
-		triggerElement.closest( '.diff-title' ) ) {
-		page = 'diff';
-	} else if ( triggerElement.closest( '.mw-parser-output' ) ) {
-		page = 'page';
-	} else {
-		page = 'other';
+	try {
+		if ( triggerElement.closest( '.ext-checkuser-userinfocard-navigation-item' ) ) {
+			page = 'user-page-toolbar';
+		} else if ( specialPageName === 'Log' ||
+			triggerElement.closest( '.mw-logevent-loglines' ) ) {
+			page = 'log';
+		} else if ( specialPageName === 'CheckUser' ||
+			specialPageName === 'Investigate' ) {
+			page = 'checkuser';
+		} else if ( specialPageName === 'SuggestedInvestigations' ) {
+			page = 'suggested-investigations';
+		} else if ( specialPageName === 'BlockList' ) {
+			page = 'blocklist';
+		} else if ( specialPageName === 'Recentchanges' ) {
+			page = 'rc';
+		} else if ( specialPageName ) {
+			page = 'special';
+		} else if ( action === 'history' || action === 'info' ) {
+			page = 'history';
+		} else if ( triggerElement.closest( '#mw-revision-info' ) ||
+			triggerElement.closest( '.diff-title' ) ) {
+			page = 'diff';
+		} else if ( triggerElement.closest( '.mw-parser-output' ) ) {
+			page = 'page';
+		}
+	} catch ( e ) {
+		mw.log.warn( 'Error determining open context for UserInfoCard: ' + e.message );
 	}
 
 	return { page };
