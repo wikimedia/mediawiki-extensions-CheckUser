@@ -13,6 +13,7 @@ use MediaWiki\Extension\CheckUser\Api\Rest\Handler\TemporaryAccountIPHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoBlockedHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoHandler;
+use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoIconsHandler;
 use MediaWiki\Message\TextFormatter;
 use MediaWiki\Rest\Handler;
 use MediaWiki\Rest\JsonLocalizer;
@@ -35,6 +36,7 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler
  * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoBlockedHandler
  * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoHandler
+ * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoIconsHandler
  */
 class CheckUserHandlersMetadataTest extends MediaWikiUnitTestCase {
 
@@ -58,6 +60,10 @@ class CheckUserHandlersMetadataTest extends MediaWikiUnitTestCase {
 			'UserInfoBlockedHandler' => [
 				UserInfoBlockedHandler::class,
 				'get',
+			],
+			'UserInfoIconHandler' => [
+				UserInfoIconsHandler::class,
+				'post',
 			],
 			'TemporaryAccountHandler' => [
 				TemporaryAccountHandler::class,

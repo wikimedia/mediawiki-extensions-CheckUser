@@ -54,6 +54,19 @@
 				}
 			}
 		},
+		"/userinfo/icons": {
+			"post": {
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-userinfo-icon",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-userinfo-icon",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoIconsHandler",
+					"services": [
+						"CheckUserUserInfoCardButtonRenderer",
+						"UserNameUtils"
+					]
+				}
+			}
+		},
 		"/temporaryaccount/{name}": {
 			"post": {
 				"x-i18n-summary": "checkuser-rest-endpoint-summary-temp-account",
