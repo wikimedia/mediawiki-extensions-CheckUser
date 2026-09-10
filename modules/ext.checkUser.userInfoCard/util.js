@@ -154,10 +154,62 @@ function isUserInfoCardEnabled() {
 		!!mw.user.options.get( 'checkuser-userinfocard-enable' );
 }
 
+/**
+ * Get the custom icon variant to use for a user, without asking the server.
+ * If there's no custom icon set in wgCheckUserUserInfoCardCustomIcons, returns null.
+ * In such case, the caller should assume the button keeps its current icon (or set the
+ * icon to the one returned by getDefaultIconVariant).
+ *
+ * @param {string} username
+ * @return {string|null}
+ */
+function getCustomIconVariant( username ) {
+	// Some users might need a custom icon in their UIC button (i.e., other than
+	// userAvatar/userTemporary). Because status designated by such icon can be temporary,
+	// it cannot be recorded in the parser cache, and the server sends it separately.
+	const customIcons = mw.config.get( 'wgCheckUserUserInfoCardCustomIcons' ) || {};
+
+	if ( username in customIcons ) {
+		return customIcons[ username ];
+	} else {
+		return null;
+	}
+}
+
+/**
+ * Records the icon variant for the specified user in wgCheckUserUserInfoCardCustomIcons,
+ * so that any button created in future can reuse it, without the need to ask the server again.
+ *
+ * @param {string} username
+ * @param {string} customIcon
+ */
+function setCustomIconVariant( username, customIcon ) {
+	const customIcons = mw.config.get( 'wgCheckUserUserInfoCardCustomIcons' ) || {};
+	customIcons[ username ] = customIcon;
+	mw.config.set( 'wgCheckUserUserInfoCardCustomIcons', customIcons );
+}
+
+/**
+ * Returns the default icon to be shown in the UIC button, in case there's no specific information
+ * recorded in wgCheckUserUserInfoCardCustomIcons.
+ *
+ * @param {string} username
+ * @return {string}
+ */
+function getDefaultIconVariant( username ) {
+	if ( mw.util.isTemporaryUser( username ) ) {
+		return 'userTemporary';
+	}
+	return 'userAvatar';
+}
+
 module.exports = {
 	processEditCountByDay,
 	parseMediaWikiTimestamp,
 	hashUsername,
 	getOpenContext,
-	isUserInfoCardEnabled
+	isUserInfoCardEnabled,
+	getCustomIconVariant,
+	setCustomIconVariant,
+	getDefaultIconVariant
 };

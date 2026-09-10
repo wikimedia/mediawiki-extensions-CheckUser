@@ -244,6 +244,22 @@ describe( 'ext.checkUser.userInfoCard init', () => {
 			expect( icon.classList.contains( `${ ICON_BASE }--userBlocked` ) ).toBe( false );
 		} );
 
+		it( 'keeps the icon of the parser output when the server named none', () => {
+			loadInit( { 'Blocked user': 'userBlocked' } );
+			const container = makeButton( {
+				username: 'Investigated user',
+				variant: 'suggestedInvestigations'
+			} );
+
+			contentHandler( jquery( container ) );
+
+			const icon = iconOf( container );
+			expect(
+				icon.classList.contains( `${ ICON_BASE }--suggestedInvestigations` )
+			).toBe( true );
+			expect( icon.classList.contains( `${ ICON_BASE }--userAvatar` ) ).toBe( false );
+		} );
+
 		it( 'leaves every icon alone when the server exported no custom icons', () => {
 			loadInit( undefined );
 			const container = makeButton( { username: 'Some user' } );

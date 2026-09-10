@@ -12,9 +12,26 @@
 
 <script>
 const { CdxButton, CdxIcon } = require( '../codex.js' );
-const { cdxIconUserAvatar, cdxIconUserBlocked, cdxIconUserTemporary } = require( './icons.json' );
-const { isUserInfoCardEnabled } = require( '../util.js' );
-const rest = new mw.Rest();
+const {
+	cdxIconSuggestedInvestigations,
+	cdxIconUserAvatar,
+	cdxIconUserBlocked,
+	cdxIconUserTemporary
+} = require( './icons.json' );
+const {
+	getCustomIconVariant,
+	getDefaultIconVariant,
+	isUserInfoCardEnabled,
+	setCustomIconVariant
+} = require( '../util.js' );
+const { getUserIconVariant } = require( '../rest.js' );
+
+const iconsByVariant = {
+	suggestedInvestigations: cdxIconSuggestedInvestigations,
+	userAvatar: cdxIconUserAvatar,
+	userBlocked: cdxIconUserBlocked,
+	userTemporary: cdxIconUserTemporary
+};
 
 // @vue/component
 module.exports = exports = {
@@ -29,7 +46,7 @@ module.exports = exports = {
 	data() {
 		return {
 			ready: false,
-			blocked: false
+			iconVariant: 'userAvatar'
 		};
 	},
 	computed: {
@@ -40,23 +57,50 @@ module.exports = exports = {
 			);
 		},
 		iconData() {
-			return this.blocked ? cdxIconUserBlocked :
-				mw.util.isTemporaryUser( this.username ) ? cdxIconUserTemporary :
-					cdxIconUserAvatar;
+			return iconsByVariant[ this.iconVariant ] || cdxIconUserAvatar;
 		}
 	},
 	methods: {
 		togglePopover() {}
 	},
-	async created() {
-		if ( !isUserInfoCardEnabled() ) {
-			return;
+	watch: {
+		username: {
+			immediate: true,
+			async handler( username ) {
+				// Until the server answers, show what the name itself tells us, so that the
+				// icon of the user before cannot stay on the button.
+				this.iconVariant = getDefaultIconVariant( username );
+
+				if ( !isUserInfoCardEnabled() ) {
+					return;
+				}
+
+				// If the icon for that user is already known, reuse it instead of asking
+				// the server again.
+				const customIconVariant = getCustomIconVariant( username );
+				if ( customIconVariant ) {
+					this.iconVariant = customIconVariant;
+				} else {
+					try {
+						const iconVariant = await getUserIconVariant( username );
+						// Record the icon for any future uses.
+						setCustomIconVariant( username, iconVariant );
+						// While the request is in progress, the username prop can theoretically change,
+						// only use response for the current user
+						if ( username === this.username ) {
+							this.iconVariant = iconVariant;
+						}
+					} catch ( e ) {
+						// The icon is only a hint, and the button works without it, so keep the
+						// icon which the name implies instead of hiding the button.
+					}
+				}
+
+				if ( username === this.username ) {
+					this.ready = true;
+				}
+			}
 		}
-
-		const response = await rest.get( `/checkuser/v0/userinfo/blocked/${ this.username }` );
-
-		this.blocked = response.shouldShowBlockedIcon;
-		this.ready = true;
 	}
 };
 </script>

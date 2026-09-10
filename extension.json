@@ -1153,6 +1153,7 @@
 				"name": "tests/qunit/ext.checkUser.userInfoCard/components/icons.json",
 				"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
 				"callbackParam": [
+					"cdxIconSuggestedInvestigations",
 					"cdxIconUserAvatar",
 					"cdxIconUserBlocked",
 					"cdxIconUserTemporary"

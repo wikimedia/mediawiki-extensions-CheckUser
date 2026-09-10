@@ -23,6 +23,7 @@ class UserInfoIconsHandler extends SimpleHandler {
 
 	private const USERS_PARAM_NAME = 'users';
 
+	// Keep in sync with MAX_ICON_USERS in modules/ext.checkUser.userInfoCard/rest.js
 	private const MAX_USERS = 500;
 
 	public function __construct(

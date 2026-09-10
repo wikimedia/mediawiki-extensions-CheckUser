@@ -1,8 +1,11 @@
 'use strict';
 
 const {
+	getCustomIconVariant,
+	getDefaultIconVariant,
 	getOpenContext,
-	isUserInfoCardEnabled
+	isUserInfoCardEnabled,
+	setCustomIconVariant
 } = require( '../../../modules/ext.checkUser.userInfoCard/util.js' );
 
 describe( 'getOpenContext', () => {
@@ -200,5 +203,83 @@ describe( 'isUserInfoCardEnabled', () => {
 	it( 'is off for a viewer who is not a named user', () => {
 		setViewer( false, '1' );
 		expect( isUserInfoCardEnabled() ).toBe( false );
+	} );
+} );
+
+describe( 'icon variants', () => {
+	let customIcons;
+
+	function setCustomIcons( icons ) {
+		customIcons = icons;
+		mw.config.get = jest.fn( ( key ) => (
+			key === 'wgCheckUserUserInfoCardCustomIcons' ? customIcons : undefined
+		) );
+		// The mock of mw.config has no set(), so record what the code under test stores.
+		mw.config.set = jest.fn( ( key, value ) => {
+			if ( key === 'wgCheckUserUserInfoCardCustomIcons' ) {
+				customIcons = value;
+			}
+		} );
+	}
+
+	beforeEach( () => {
+		setCustomIcons( {} );
+		mw.util.isTemporaryUser = jest.fn( ( username ) => username.startsWith( '~' ) );
+	} );
+
+	describe( 'getCustomIconVariant', () => {
+		it( 'returns the icon which the server sent for the user', () => {
+			setCustomIcons( { 'Example user': 'suggestedInvestigations' } );
+			expect( getCustomIconVariant( 'Example user' ) ).toBe( 'suggestedInvestigations' );
+		} );
+
+		it( 'returns the icon from the server even if the name implies another one', () => {
+			setCustomIcons( { '~2026-1': 'userBlocked' } );
+			expect( getCustomIconVariant( '~2026-1' ) ).toBe( 'userBlocked' );
+		} );
+
+		it( 'returns null for a user which the server said nothing about', () => {
+			setCustomIcons( { 'Other user': 'userBlocked' } );
+			expect( getCustomIconVariant( 'Example user' ) ).toBeNull();
+		} );
+
+		it( 'returns null when the server sent no icons', () => {
+			setCustomIcons( undefined );
+			expect( getCustomIconVariant( 'Example user' ) ).toBeNull();
+		} );
+	} );
+
+	describe( 'getDefaultIconVariant', () => {
+		it( 'returns userTemporary for a temporary account', () => {
+			expect( getDefaultIconVariant( '~2026-1' ) ).toBe( 'userTemporary' );
+		} );
+
+		it( 'returns userAvatar for any other user', () => {
+			expect( getDefaultIconVariant( 'Example user' ) ).toBe( 'userAvatar' );
+		} );
+
+		it( 'does not look at the icons which the server sent', () => {
+			setCustomIcons( { 'Example user': 'suggestedInvestigations' } );
+			expect( getDefaultIconVariant( 'Example user' ) ).toBe( 'userAvatar' );
+		} );
+	} );
+
+	describe( 'setCustomIconVariant', () => {
+		it( 'records an icon which getCustomIconVariant then returns', () => {
+			setCustomIconVariant( 'Example user', 'userBlocked' );
+			expect( getCustomIconVariant( 'Example user' ) ).toBe( 'userBlocked' );
+		} );
+
+		it( 'keeps the icons of the other users', () => {
+			setCustomIcons( { 'Other user': 'suggestedInvestigations' } );
+			setCustomIconVariant( 'Example user', 'userBlocked' );
+			expect( getCustomIconVariant( 'Other user' ) ).toBe( 'suggestedInvestigations' );
+		} );
+
+		it( 'works when the server sent no icons', () => {
+			setCustomIcons( undefined );
+			setCustomIconVariant( 'Example user', 'userBlocked' );
+			expect( getCustomIconVariant( 'Example user' ) ).toBe( 'userBlocked' );
+		} );
 	} );
 } );

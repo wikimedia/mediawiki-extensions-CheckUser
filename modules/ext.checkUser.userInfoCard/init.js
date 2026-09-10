@@ -23,7 +23,11 @@
 
 const Vue = require( 'vue' );
 const App = require( './components/App.vue' );
-const { isUserInfoCardEnabled } = require( './util.js' );
+const {
+	getCustomIconVariant,
+	getDefaultIconVariant,
+	isUserInfoCardEnabled
+} = require( './util.js' );
 const UserCardButton = require( './components/UserCardButton.vue' );
 
 const BUTTON_SELECTOR = '.ext-checkuser-userinfocard-button';
@@ -32,11 +36,6 @@ const ICON_CLASS_PREFIX = 'ext-checkuser-userinfocard-button__icon--';
 // Code outside CheckUser can load this module for any viewer, including one who turned the
 // card off. Such a viewer must see nothing of it.
 const enabled = isUserInfoCardEnabled();
-
-// Some users might need a custom icon in their UIC button (i.e., other than userAvatar/userTemporary).
-// Because status designated by such icon can be temporary, it cannot be recorded in the parser cache,
-// and we have to apply it here instead.
-const customAccountIcons = mw.config.get( 'wgCheckUserUserInfoCardCustomIcons', {} );
 
 // Buttons which already hold a handler. Buttons can come from code outside CheckUser, which owns
 // their markup, so keep the record here instead of in an attribute on the element.
@@ -105,21 +104,6 @@ function setIconVariant( button, variant ) {
 }
 
 /**
- * Get the icon variant to use for a user, without asking the server.
- *
- * @param {string} username
- * @return {string} 'userAvatar', 'userBlocked', 'userTemporary'
- *   or 'suggestedInvestigations'
- * @private
- */
-function defaultIconVariant( username ) {
-	if ( customAccountIcons[ username ] ) {
-		return customAccountIcons[ username ];
-	}
-	return mw.util.isTemporaryUser( username ) ? 'userTemporary' : 'userAvatar';
-}
-
-/**
  * Create a user info card button.
  *
  * The result is a plain DOM element, with the same appearance as the default UIC buttons.
@@ -162,8 +146,12 @@ function createButton( username, options = {} ) {
 	button.setAttribute( 'data-username', username );
 	button.appendChild( icon );
 
+	const iconVariant = options.icon ||
+		getCustomIconVariant( username ) ||
+		getDefaultIconVariant( username );
+
 	attachInfoCardButtonHandler( button );
-	setIconVariant( button, options.icon || defaultIconVariant( username ) );
+	setIconVariant( button, iconVariant );
 
 	return button;
 }
@@ -234,7 +222,8 @@ if ( enabled ) {
 			// the attribute can go.
 			this.removeAttribute( 'hidden' );
 
-			const customIcon = customAccountIcons[ this.getAttribute( 'data-username' ) ];
+			const username = this.getAttribute( 'data-username' );
+			const customIcon = getCustomIconVariant( username );
 			if ( customIcon ) {
 				setIconVariant( this, customIcon );
 			}

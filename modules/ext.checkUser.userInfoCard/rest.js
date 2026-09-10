@@ -1,3 +1,10 @@
+// Keep in sync with UserInfoIconsHandler::MAX_USERS.
+const MAX_ICON_USERS = 500;
+
+// Users which wait for the next icon request, each mapped to the promise that its callers
+// wait on. Null when no request is due.
+let pendingIconUsers = null;
+
 /**
  * Gets UserInfoCard data for a given username
  *
@@ -80,6 +87,103 @@ function isBadTokenError( errObject ) {
 		errObject.xhr.responseJSON.errorKey === 'rest-badtoken';
 }
 
+/**
+ * Gets the icon variants to show on the UserInfoCard buttons for the given users.
+ *
+ * Callers which ask about a single user should use getUserIconVariant() instead, because it
+ * puts the requests of all the buttons in the same tick together.
+ *
+ * @param {string[]} usernames Names of the users, at most 500. The names do not have to be
+ *   canonical, and the response uses them as given here.
+ * @return {Promise<Object<string,string>>} Map of the given names to the icon variant for
+ *   each of them: 'userAvatar', 'userTemporary', 'userBlocked' or 'suggestedInvestigations'.
+ *   Every requested name is present in the map. Rejects with the error details of the
+ *   request if it fails.
+ */
+function getUserIconVariants( usernames ) {
+	return new Promise( ( resolve, reject ) => {
+		const request = new mw.Rest()
+			.post( '/checkuser/v0/userinfo/icons', { users: usernames } );
+
+		request.then(
+			( data ) => resolve( data.icons ),
+			( code, error ) => {
+				const loggedError = new Error( 'Failed to load icon variants for UIC button' );
+				/* eslint-disable camelcase */
+				loggedError.error_context = {
+					code,
+					status: error.xhr && error.xhr.status,
+					usernames
+				};
+				/* eslint-enable camelcase */
+				mw.errorLogger.logError( loggedError, 'error.checkuser' );
+				return reject( error );
+			}
+		);
+	} );
+}
+
+/**
+ * Gets the icon variant to show on the UserInfoCard button for a user.
+ *
+ * Calls which happen in the same tick go to the server in one request that
+ * deduplicates users.
+ *
+ * @param {string} username Name of the user, which does not have to be canonical
+ * @return {Promise<string>} 'userAvatar', 'userTemporary', 'userBlocked'
+ *   or 'suggestedInvestigations'. Rejects if the server named no icon for the user.
+ */
+function getUserIconVariant( username ) {
+	if ( !pendingIconUsers ) {
+		pendingIconUsers = new Map();
+		// Let the rest of the current tick add its users before the request goes out.
+		Promise.resolve().then( flushUserIconVariants );
+	}
+
+	if ( !pendingIconUsers.has( username ) ) {
+		let resolve, reject;
+		const promise = new Promise( ( promiseResolve, promiseReject ) => {
+			resolve = promiseResolve;
+			reject = promiseReject;
+		} );
+		pendingIconUsers.set( username, { promise, resolve, reject } );
+	}
+
+	return pendingIconUsers.get( username ).promise;
+}
+
+/**
+ * Requests the icon variants for the users which asked since the last request, and settles
+ * what their callers wait on.
+ */
+function flushUserIconVariants() {
+	const pending = pendingIconUsers;
+	pendingIconUsers = null;
+
+	const usernames = Array.from( pending.keys() );
+	for ( let i = 0; i < usernames.length; i += MAX_ICON_USERS ) {
+		const chunk = usernames.slice( i, i + MAX_ICON_USERS );
+		getUserIconVariants( chunk ).then(
+			( icons ) => {
+				chunk.forEach( ( username ) => {
+					if ( username in icons ) {
+						pending.get( username ).resolve( icons[ username ] );
+					} else {
+						pending.get( username ).reject( 'missing-icon' );
+					}
+				} );
+			},
+			( error ) => {
+				chunk.forEach( ( username ) => {
+					pending.get( username ).reject( error );
+				} );
+			}
+		);
+	}
+}
+
 module.exports = {
-	getUserInfo: getUserInfo
+	getUserInfo: getUserInfo,
+	getUserIconVariants: getUserIconVariants,
+	getUserIconVariant: getUserIconVariant
 };
