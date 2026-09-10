@@ -262,13 +262,18 @@ module.exports = exports = {
 				editAndBlockFilter: editAndBlockFilter.value
 			};
 
-			if ( showCasesWithEditsOnSharedPagesCheckboxValue.value ) {
-				filters.showCasesWithEditsOnSharedPages = 1;
-			}
+			// Set signal to 0 to explicitly clear all signals. This is needed to
+			// distinguish it from the unset default a queue view would provide.
+			filters.status = filters.status.length ? filters.status : 0;
+			filters.signal = filters.signal.length ? filters.signal : 0;
 
-			if ( lastUpdated.value !== '' ) {
-				filters.lastUpdated = lastUpdated.value;
-			}
+			// 0 is used to distinguish it from a null default that would be overriden by a queue view
+			filters.lastUpdated = lastUpdated.value !== '' ? lastUpdated.value : 0;
+			filters.showCasesWithEditsOnSharedPages = showCasesWithEditsOnSharedPagesCheckboxValue.value ?
+				1 : 0;
+
+			// Preserve the current queue view, which is set by default and can be set elsewhere independently.
+			filters.queueView = mw.config.get( 'wgCheckUserSuggestedInvestigationsQueueView' );
 
 			updateFiltersOnPage( filters, window );
 		}

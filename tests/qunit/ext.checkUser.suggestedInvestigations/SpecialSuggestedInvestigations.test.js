@@ -17,6 +17,8 @@ const commonDismissableWarningTest = ( assert, messageClass ) => {
 	const $warningDismissButton = $( '<button>' )
 		.addClass( 'ext-checkuser-suggestedinvestigations-warning-dismiss' );
 
+	// * ext-checkuser-suggestedinvestigations-private-data-warning
+	// * ext-checkuser-suggestedinvestigations-warning
 	const $warningMessage = $( '<div>' )
 		.addClass( 'cdx-message--user-dismissable' )
 		.addClass( messageClass )

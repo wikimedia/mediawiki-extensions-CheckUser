@@ -113,6 +113,11 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 					continue;
 				}
 				$filterName = 'last_updated';
+			} elseif ( $filterName === 'queueView' ) {
+				if ( $filterValue === null ) {
+					continue;
+				}
+				$filterName = 'queue_view';
 			}
 			$appliedFiltersForInstrumentation[$filterName] = $filterValue;
 		}

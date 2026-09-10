@@ -1583,6 +1583,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 				'showCasesWithEditsOnSharedPages' => false,
 				'signal' => [],
 				'lastUpdated' => null,
+				'queueView' => 'all',
 			], $expected ),
 			$parserOutput->getJsConfigVars()['wgCheckUserSuggestedInvestigationsActiveFilters'],
 			false,

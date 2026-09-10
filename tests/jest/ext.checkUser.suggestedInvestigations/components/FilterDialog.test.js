@@ -50,7 +50,9 @@ const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
 const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, signals = [] ) => {
 	mockJSConfig( {
 		wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed: globalEditCountsUsed,
-		wgCheckUserSuggestedInvestigationsSignals: signals
+		wgCheckUserSuggestedInvestigationsSignals: signals,
+		wgCheckUserSuggestedInvestigationsDefaultQueueView: 'all',
+		wgCheckUserSuggestedInvestigationsQueueView: 'all'
 	} );
 
 	// Render the component and wait for CdxDialog to run some code
@@ -338,7 +340,15 @@ describe( 'Suggested Investigations change status dialog', () => {
 		// (the dialog is left open so that it's kept open until the page has reloaded)
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ status: [ 'open', 'resolved' ], username: [ 'TestUser1' ], signal: [], editAndBlockFilter: 'edits-only' }, window
+			{
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: 0,
+				status: [ 'open', 'resolved' ],
+				username: [ 'TestUser1' ]
+			}, window
 		);
 	} );
 
@@ -357,7 +367,15 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ status: [], username: [], signal: [ 'signal-1a' ], editAndBlockFilter: 'edits-only' }, window
+			{
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: [ 'signal-1a' ],
+				status: 0,
+				username: []
+			}, window
 		);
 	} );
 
@@ -377,7 +395,15 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ status: [], username: [], signal: [], editAndBlockFilter: 'none' }, window
+			{
+				editAndBlockFilter: 'none',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: 0,
+				status: 0,
+				username: []
+			}, window
 		);
 	} );
 
@@ -434,7 +460,15 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ editAndBlockFilter: 'edits-only', showCasesWithEditsOnSharedPages: 1, status: [], username: [], signal: [] },
+			{
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 1,
+				signal: 0,
+				status: 0,
+				username: []
+			},
 			window
 		);
 	} );
@@ -456,10 +490,12 @@ describe( 'Suggested Investigations change status dialog', () => {
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{
 				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
 				showCasesWithEditsOnSharedPages: 1,
-				status: [],
-				username: [],
-				signal: [ 'signal-1a' ]
+				signal: [ 'signal-1a' ],
+				status: 0,
+				username: []
 			}, window
 		);
 	} );
@@ -490,17 +526,41 @@ describe( 'Suggested Investigations change status dialog', () => {
 		{
 			description: 'includes lastUpdated when a non-default radio is selected',
 			radioValueToSelect: '7',
-			expectedFilters: { lastUpdated: '7', status: [], username: [], signal: [], editAndBlockFilter: 'edits-only' }
+			expectedFilters: {
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: '7',
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: 0,
+				status: 0,
+				username: []
+			}
 		},
 		{
 			description: 'does not include lastUpdated when no filter is set (default state)',
 			radioValueToSelect: null,
-			expectedFilters: { status: [], username: [], signal: [], editAndBlockFilter: 'edits-only' }
+			expectedFilters: {
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: 0,
+				status: 0,
+				username: []
+			}
 		},
 		{
 			description: 'does not include lastUpdated when "All time" radio is explicitly selected',
 			radioValueToSelect: '',
-			expectedFilters: { status: [], username: [], signal: [], editAndBlockFilter: 'edits-only' }
+			expectedFilters: {
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				status: 0,
+				signal: 0,
+				username: []
+			}
 		}
 	] )( '`Show results` button press $description', async ( { radioValueToSelect, expectedFilters } ) => {
 		const { dialog, wrapper } = await commonComponentTest();

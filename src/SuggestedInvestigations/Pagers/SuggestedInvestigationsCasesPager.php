@@ -80,6 +80,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 */
 	private array $userNamesFilter = [];
 
+	private ?string $queueView = null;
+
 	private ?string $editAndBlockFilter = null;
 
 	private bool $showCasesWithEditsOnSharedPages = false;
@@ -107,6 +109,14 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 *   returned only partial results
 	 */
 	private bool $phpFiltersLimitReached = false;
+
+	/**
+	 * The default filters set for each queue type.
+	 * Derived from the CheckUserSuggestedInvestigationsQueueViews config.
+	 *
+	 * @var array<string,array{editAndBlockFilter?:string,lastUpdatedDays?:int,showCasesWithEditsOnSharedPages?:bool,filteredSignals?:array<string>,statusFilter?:array<string>}>
+	 */
+	private array $queueViewFilters = [];
 
 	/**
 	 * Allowed values for the lastUpdated URL param, in days.
@@ -173,6 +183,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$this->localDb = $this->connectionProvider->getReplicaDatabase();
 
+		$this->setUpQueueViewConfigs();
+
 		$urlNamesToSignals = [];
 		foreach ( $signals as $signal ) {
 			if ( is_array( $signal ) ) {
@@ -200,6 +212,21 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	}
 
 	/**
+	 * Pull and transform queue view schemas from config values
+	 */
+	private function setUpQueueViewConfigs(): void {
+		$config = $this->getConfig();
+		$enabledQueueViews = $config->get( 'CheckUserSuggestedInvestigationsEnabledQueueViews' );
+		$queueViewData = $config->get( 'CheckUserSuggestedInvestigationsQueueViews' );
+
+		foreach ( $enabledQueueViews as $queueView ) {
+			if ( isset( $queueViewData[ $queueView ][ 'filters' ] ) ) {
+				$this->queueViewFilters[ $queueView ] = $queueViewData[ $queueView ][ 'filters' ];
+			}
+		}
+	}
+
+	/**
 	 * Parses the filters set in the request and applies them to the pager.
 	 * Intended for calling during execution of {@link self::__construct}
 	 */
@@ -214,6 +241,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				$this->statusFilter
 			),
 			'username' => $this->userNamesFilter,
+			'queueView' => $this->queueView,
 			'showCasesWithEditsOnSharedPages' => $this->showCasesWithEditsOnSharedPages,
 			'editAndBlockFilter' => $this->editAndBlockFilter,
 			'signal' => $this->signalsFilter,
@@ -226,9 +254,25 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * table view of the special page (i.e. not the detail view).
 	 */
 	private function parseFiltersForMainView( array $urlNamesToSignals ): void {
+		// Prefer the parameter value and default to the config value if not passed
+		$config = $this->getConfig();
+		$queueView = $this->mRequest->getVal( 'queueView' );
+		if ( in_array( $queueView, $config->get( 'CheckUserSuggestedInvestigationsEnabledQueueViews' ) ) ) {
+			$this->queueView = $queueView;
+		} else {
+			$this->queueView = $config->get( 'CheckUserSuggestedInvestigationsDefaultQueueView' );
+		}
+
+		$defaultStatusFilter = $this->queueViewFilters[ $this->queueView ][ 'statusFilter' ] ?? [];
+		$statusFilter = $this->mRequest->getArray( 'status', $defaultStatusFilter );
+		// If a 0 was passed, set it to an empty filter set. This distinguishes
+		// it from an empty array that should be overriden by a queue default.
+		if ( $statusFilter === [ '0' ] || !is_array( $statusFilter ) ) {
+			$statusFilter = [];
+		}
 		$this->statusFilter = array_filter( array_map(
 			CaseStatus::newFromStringName( ... ),
-			$this->mRequest->getArray( 'status', [] )
+			$statusFilter
 		) );
 		if ( count( $this->statusFilter ) !== 0 ) {
 			$this->numberOfFiltersApplied += count( $this->statusFilter );
@@ -239,17 +283,38 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied += count( $this->userNamesFilter );
 		}
 
-		$this->editAndBlockFilter = $this->mRequest->getVal( 'editAndBlockFilter', 'edits-only' );
+		$defaultEditAndBlockFilter = $this->queueViewFilters[ $this->queueView ][ 'editAndBlockFilter' ]
+			?? 'edits-only';
+		$this->editAndBlockFilter = $this->mRequest->getVal(
+			'editAndBlockFilter',
+			$defaultEditAndBlockFilter
+		);
 		if ( $this->editAndBlockFilter !== 'none' ) {
 			$this->numberOfFiltersApplied++;
 		}
 
-		$this->showCasesWithEditsOnSharedPages = $this->mRequest->getBool( 'showCasesWithEditsOnSharedPages' );
+		$showCasesWithEditsOnSharedPages = $this->mRequest->getIntOrNull( 'showCasesWithEditsOnSharedPages' );
+		if ( $showCasesWithEditsOnSharedPages === null ) {
+			$showCasesWithEditsOnSharedPages = $this->queueViewFilters
+				[ $this->queueView ]
+				[ 'showCasesWithEditsOnSharedPages' ]
+			?? false;
+		} else {
+			$showCasesWithEditsOnSharedPages = (bool)$showCasesWithEditsOnSharedPages;
+		}
+
+		$this->showCasesWithEditsOnSharedPages = $showCasesWithEditsOnSharedPages;
 		if ( $this->showCasesWithEditsOnSharedPages ) {
 			$this->numberOfFiltersApplied++;
 		}
 
-		$filteredSignals = $this->mRequest->getArray( 'signal', [] );
+		$defaultFilteredSignals = $this->queueViewFilters[ $this->queueView ][ 'filteredSignals' ] ?? [];
+		$filteredSignals = $this->mRequest->getArray( 'signal', $defaultFilteredSignals );
+		// If a 0 was passed, set it to an empty filter set. This distinguishes
+		// it from an empty array that should be overriden by a queue default.
+		if ( $filteredSignals === [ '0' ] ) {
+			$filteredSignals = [];
+		}
 		foreach ( $filteredSignals as $signal ) {
 			// Decode the URL name into the database name for the signal,
 			// treating it as the signal database name if no matching
@@ -265,6 +330,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		$lastUpdatedDays = $this->mRequest->getIntOrNull( 'lastUpdated' );
+		if ( $lastUpdatedDays === null ) {
+			$lastUpdatedDays = $this->queueViewFilters[ $this->queueView ][ 'lastUpdatedDays' ] ?? null;
+		} elseif ( $lastUpdatedDays === 0 ) {
+			// If 0 was passed, it's used to prevent queue view overrides and should be treated like a null value.
+			$lastUpdatedDays = null;
+		}
 		$this->lastUpdatedDaysFilter = in_array( $lastUpdatedDays, self::ALLOWED_LAST_UPDATED_DAYS, true )
 			? $lastUpdatedDays : null;
 		if ( $this->lastUpdatedDaysFilter !== null ) {
@@ -1103,6 +1174,14 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$pout->setJsConfigVar(
 			'wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed',
 			$this->siUserLinkRenderer->useGlobalContribs
+		);
+		$pout->setJsConfigVar(
+			'wgCheckUserSuggestedInvestigationsDefaultQueueView',
+			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsDefaultQueueView' )
+		);
+		$pout->setJsConfigVar(
+			'wgCheckUserSuggestedInvestigationsQueueView',
+			$this->queueView
 		);
 		return $pout;
 	}

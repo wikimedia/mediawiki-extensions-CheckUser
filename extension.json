@@ -251,6 +251,25 @@
 		"CheckUserLogMaxRangeToShowInLog": {
 			"value": false,
 			"description": "When set, this limits the results of the Special:CheckUserLog or associated API to hide range checks above a specified limit (unless directly searched for). This is intended to hide very old invalid checks which used a /1 or similar CIDR, as these entries often confuse scripts which show some visual indicator based on whether a given IP address has been checked before. When set the format should be similar to $wgCheckUserCIDRLimit."
+		},
+		"CheckUserSuggestedInvestigationsDefaultQueueView": {
+			"value": "all",
+			"description": "Default queue view to use on Special:SuggestedInvestigations"
+		},
+		"CheckUserSuggestedInvestigationsQueueViews": {
+			"value": {
+				"all": {
+					"filters": {
+						"editAndBlockFilter": "edits-only"
+					}
+				}
+			},
+			"description": "All the data needed to generate all queue views for Special:SuggestedInvestigations. See SuggestedInvestigationsCasesPager for details on schema formatting. Setting this config will merge the defined queues into this default."
+		},
+		"CheckUserSuggestedInvestigationsEnabledQueueViews": {
+			"value": [ "all" ],
+			"description": "Queues that are enabled for Special:SuggestedInvestigations in the order they should be displayed. Setting this config will override this default.",
+			"merge_strategy": "provide_default"
 		}
 	},
 	"DefaultUserOptions": {
