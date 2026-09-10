@@ -80,6 +80,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 */
 	private array $userNamesFilter = [];
 
+	private ?string $queueView = null;
+
 	private ?string $editAndBlockFilter = null;
 
 	private bool $showCasesWithEditsOnSharedPages = false;
@@ -107,6 +109,19 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 *   returned only partial results
 	 */
 	private bool $phpFiltersLimitReached = false;
+
+	/**
+	 * The default filters set for each queue type.
+	 * Derived from the CheckUserSuggestedInvestigationsQueueViews config.
+	 *
+	 * @var array<string,array{editAndBlockFilter?:string,lastUpdatedDays?:int,showCasesWithEditsOnSharedPages?:bool,filteredSignals?:array<string>,statusFilter?:array<string>}>
+	 */
+	private array $queueViewFilters = [];
+
+	/**
+	 * All the data needed for the front-end to render the queue view feature
+	 */
+	private array $queueViewData = [];
 
 	/**
 	 * Allowed values for the lastUpdated URL param, in days.
@@ -173,6 +188,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$this->localDb = $this->connectionProvider->getReplicaDatabase();
 
+		$this->setUpQueueViewConfigs();
+
 		$urlNamesToSignals = [];
 		foreach ( $signals as $signal ) {
 			if ( is_array( $signal ) ) {
@@ -200,6 +217,25 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	}
 
 	/**
+	 * Pull and transform queue view schemas from config values
+	 */
+	private function setUpQueueViewConfigs(): void {
+		$config = $this->getConfig();
+		$enabledQueueViews = $config->get( 'CheckUserSuggestedInvestigationsEnabledQueueViews' );
+		$queueViewData = $config->get( 'CheckUserSuggestedInvestigationsQueueViews' );
+
+		foreach ( $enabledQueueViews as $queueView ) {
+			if (
+				isset( $queueViewData[ $queueView ][ 'filters' ] ) &&
+				isset( $queueViewData[ $queueView ][ 'msgKeys' ] )
+			) {
+				$this->queueViewFilters[ $queueView ] = $queueViewData[ $queueView ][ 'filters' ];
+				$this->queueViewData[ $queueView ] = $queueViewData[ $queueView ];
+			}
+		}
+	}
+
+	/**
 	 * Parses the filters set in the request and applies them to the pager.
 	 * Intended for calling during execution of {@link self::__construct}
 	 */
@@ -214,6 +250,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				$this->statusFilter
 			),
 			'username' => $this->userNamesFilter,
+			'queueView' => $this->queueView,
 			'showCasesWithEditsOnSharedPages' => $this->showCasesWithEditsOnSharedPages,
 			'editAndBlockFilter' => $this->editAndBlockFilter,
 			'signal' => $this->signalsFilter,
@@ -226,9 +263,25 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * table view of the special page (i.e. not the detail view).
 	 */
 	private function parseFiltersForMainView( array $urlNamesToSignals ): void {
+		// Prefer the parameter value and default to the config value if not passed
+		$config = $this->getConfig();
+		$queueView = $this->mRequest->getVal( 'queueView' );
+		if ( in_array( $queueView, $config->get( 'CheckUserSuggestedInvestigationsEnabledQueueViews' ) ) ) {
+			$this->queueView = $queueView;
+		} else {
+			$this->queueView = $config->get( 'CheckUserSuggestedInvestigationsDefaultQueueView' );
+		}
+
+		$defaultStatusFilter = $this->queueViewFilters[ $this->queueView ][ 'status' ] ?? [];
+		$statusFilter = $this->mRequest->getArray( 'status', $defaultStatusFilter );
+		// If a 0 was passed, set it to an empty filter set. This distinguishes
+		// it from an empty array that should be overriden by a queue default.
+		if ( $statusFilter === [ '0' ] || !is_array( $statusFilter ) ) {
+			$statusFilter = [];
+		}
 		$this->statusFilter = array_filter( array_map(
 			CaseStatus::newFromStringName( ... ),
-			$this->mRequest->getArray( 'status', [] )
+			$statusFilter
 		) );
 		if ( count( $this->statusFilter ) !== 0 ) {
 			$this->numberOfFiltersApplied += count( $this->statusFilter );
@@ -239,17 +292,38 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied += count( $this->userNamesFilter );
 		}
 
-		$this->editAndBlockFilter = $this->mRequest->getVal( 'editAndBlockFilter', 'edits-only' );
+		$defaultEditAndBlockFilter = $this->queueViewFilters[ $this->queueView ][ 'editAndBlockFilter' ]
+			?? 'edits-only';
+		$this->editAndBlockFilter = $this->mRequest->getVal(
+			'editAndBlockFilter',
+			$defaultEditAndBlockFilter
+		);
 		if ( $this->editAndBlockFilter !== 'none' ) {
 			$this->numberOfFiltersApplied++;
 		}
 
-		$this->showCasesWithEditsOnSharedPages = $this->mRequest->getBool( 'showCasesWithEditsOnSharedPages' );
+		$showCasesWithEditsOnSharedPages = $this->mRequest->getIntOrNull( 'showCasesWithEditsOnSharedPages' );
+		if ( $showCasesWithEditsOnSharedPages === null ) {
+			$showCasesWithEditsOnSharedPages = $this->queueViewFilters
+				[ $this->queueView ]
+				[ 'showCasesWithEditsOnSharedPages' ]
+			?? false;
+		} else {
+			$showCasesWithEditsOnSharedPages = (bool)$showCasesWithEditsOnSharedPages;
+		}
+
+		$this->showCasesWithEditsOnSharedPages = $showCasesWithEditsOnSharedPages;
 		if ( $this->showCasesWithEditsOnSharedPages ) {
 			$this->numberOfFiltersApplied++;
 		}
 
-		$filteredSignals = $this->mRequest->getArray( 'signal', [] );
+		$defaultFilteredSignals = $this->queueViewFilters[ $this->queueView ][ 'signal' ] ?? [];
+		$filteredSignals = $this->mRequest->getArray( 'signal', $defaultFilteredSignals );
+		// If a 0 was passed, set it to an empty filter set. This distinguishes
+		// it from an empty array that should be overriden by a queue default.
+		if ( $filteredSignals === [ '0' ] ) {
+			$filteredSignals = [];
+		}
 		foreach ( $filteredSignals as $signal ) {
 			// Decode the URL name into the database name for the signal,
 			// treating it as the signal database name if no matching
@@ -265,6 +339,12 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		$lastUpdatedDays = $this->mRequest->getIntOrNull( 'lastUpdated' );
+		if ( $lastUpdatedDays === null ) {
+			$lastUpdatedDays = $this->queueViewFilters[ $this->queueView ][ 'lastUpdatedDays' ] ?? null;
+		} elseif ( $lastUpdatedDays === 0 ) {
+			// If 0 was passed, it's used to prevent queue view overrides and should be treated like a null value.
+			$lastUpdatedDays = null;
+		}
 		$this->lastUpdatedDaysFilter = in_array( $lastUpdatedDays, self::ALLOWED_LAST_UPDATED_DAYS, true )
 			? $lastUpdatedDays : null;
 		if ( $this->lastUpdatedDaysFilter !== null ) {
@@ -1063,10 +1143,16 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->mCaption
 		);
 
+		$queueViewsButtonGroup = Html::rawElement(
+			'div',
+			[ 'class' => 'mw-checkuser-suggestedinvestigations-queue-views-button-group' ],
+			$this->getQueueViewButtonsHtml()
+		);
+
 		return Html::rawElement(
 			'div',
 			[ 'class' => 'cdx-table__header' ],
-			$tableCaption . $this->getNavigationBuilder()->getFilterButton()
+			$tableCaption . $queueViewsButtonGroup . $this->getNavigationBuilder()->getFilterButton()
 		);
 	}
 
@@ -1103,6 +1189,22 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		$pout->setJsConfigVar(
 			'wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed',
 			$this->siUserLinkRenderer->useGlobalContribs
+		);
+		$pout->setJsConfigVar(
+			'wgCheckUserSuggestedInvestigationsDefaultQueueView',
+			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsDefaultQueueView' )
+		);
+		$pout->setJsConfigVar(
+			'wgCheckUserSuggestedInvestigationsQueueView',
+			$this->queueView
+		);
+		$pout->setJsConfigVar(
+			'wgCheckUserSuggestedInvestigationsEnabledQueueViews',
+			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabledQueueViews' )
+		);
+		$pout->setJsConfigVar(
+			'wgCheckUserSuggestedInvestigationsQueueViewData',
+			$this->queueViewData
 		);
 		return $pout;
 	}
@@ -1194,5 +1296,69 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	public function getNavigationBuilder(): SuggestedInvestigationsPagerNavigationBuilder {
 		// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
 		return parent::getNavigationBuilder();
+	}
+
+	private function getQueueViewButtonsHtml(): string {
+		$queueViewButtonsHtml = '';
+		$codex = new Codex( new MediaWikiLocalization( $this->getContext() ) );
+		foreach ( $this->queueViewData as $queueViewName => $queueView ) {
+			$isActive = $queueViewName === $this->queueView;
+			// If the filter view has been modified from the default,
+			// the button text representing the active view should reflect that
+			$isModified = false;
+			if ( $isActive ) {
+				$defaultFilters = $queueView[ 'filters' ];
+				$currentFilters = $this->appliedFilters;
+
+				foreach ( $queueView[ 'filters' ] as $filter => $defaultFilterValue ) {
+					if ( !array_key_exists( $filter, $this->appliedFilters ) ) {
+						$isModified = true;
+						break;
+					}
+					$currentFilterValue = $this->appliedFilters[ $filter ];
+
+					// Expected filters: signal, status
+					$arrayValueFilters = [ 'signal', 'status' ];
+					if ( in_array( $filter, $arrayValueFilters ) ) {
+						// Length mismatch is guaranteed to be a modified view
+						if ( count( $defaultFilterValue ) !== count( $currentFilterValue ) ) {
+							$isModified = true;
+							break;
+						}
+
+						// Re-retrieve the signal value from the request as the applied filter's
+						// signal value has already been converted into the signal name and otherwise
+						// check if string values match each other.
+						$arrayFilterValueToCompare = $currentFilterValue;
+						if ( $filter === 'signal' ) {
+							$defaultFilteredSignals = $this->queueViewFilters[ $this->queueView ][ 'signal' ] ?? [];
+							$arrayFilterValueToCompare =
+								$this->mRequest->getArray( 'signal', $defaultFilteredSignals ) ?? [];
+						}
+						if ( count( array_diff( $defaultFilterValue, $arrayFilterValueToCompare ) ) ) {
+							$isModified = true;
+							break;
+						}
+					} elseif ( $defaultFilterValue !== $currentFilterValue ) {
+						// Expected filters: editAndBlockFilter, lastUpdated, showCasesWithEditsOnSharedPages
+						$isModified = true;
+						break;
+					}
+				}
+			}
+
+			$msgKey = $isModified ? $queueView[ 'msgKeys' ][ 'editedName' ] : $queueView[ 'msgKeys' ][ 'defaultName' ];
+			$queueViewButtonsHtml .= $codex->button()
+				->setAttributes( [
+					'title' => $this->msg( $msgKey )->text(),
+					'class' => 'mw-checkuser-suggestedinvestigations-queue-view-button',
+					'data-queue-view' => $queueViewName,
+				] )
+				->setLabel( $this->msg( $msgKey )->text() )
+				->setAction( $isActive ? 'progressive' : 'default' )
+				->setWeight( 'primary' )
+				->getHtml();
+		}
+		return $queueViewButtonsHtml;
 	}
 }

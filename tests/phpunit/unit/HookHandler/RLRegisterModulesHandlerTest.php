@@ -26,7 +26,10 @@ class RLRegisterModulesHandlerTest extends MediaWikiUnitTestCase {
 		$handler = new RLRegisterModulesHandler(
 			$mockExtensionRegistry,
 			$this->createMock( HookRunner::class ),
-			new HashConfig( [ 'CheckUserSuggestedInvestigationsEnabled' => false ] )
+			new HashConfig( [
+				'CheckUserSuggestedInvestigationsEnabled' => false,
+				'CheckUserSuggestedInvestigationsQueueViews' => [],
+			] )
 		);
 
 		// Run hook and save modules loaded to an array to check against in the assertion

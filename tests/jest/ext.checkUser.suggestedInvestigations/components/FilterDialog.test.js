@@ -50,7 +50,25 @@ const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
 const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, signals = [] ) => {
 	mockJSConfig( {
 		wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed: globalEditCountsUsed,
-		wgCheckUserSuggestedInvestigationsSignals: signals
+		wgCheckUserSuggestedInvestigationsSignals: signals,
+		wgCheckUserSuggestedInvestigationsDefaultQueueView: 'all',
+		wgCheckUserSuggestedInvestigationsQueueView: 'all',
+		wgCheckUserSuggestedInvestigationsQueueViewData: {
+			all: {
+				filters: {
+					editAndBlockFilter: 'edits-only',
+					lastUpdated: null,
+					showCasesWithEditsOnSharedPages: false,
+					signal: [],
+					status: []
+				},
+				msgKeys: {
+					defaultName: 'checkuser-suggestedinvestigations-queue-view-all',
+					editedName: 'checkuser-suggestedinvestigations-queue-view-all-edited',
+					filterDialogTitle: 'checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title'
+				}
+			}
+		}
 	} );
 
 	// Render the component and wait for CdxDialog to run some code
@@ -85,7 +103,7 @@ const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, si
 	expect( footer.exists() ).toEqual( true );
 
 	const closeButton = footer.find(
-		'.cdx-dialog__footer__default-action'
+		'.mw-checkuser-suggestedinvestigations-filter-dialog__button--close'
 	);
 	expect( closeButton.exists() ).toEqual( true );
 	expect( closeButton.text() ).toEqual(
@@ -93,7 +111,7 @@ const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, si
 	);
 
 	const showResultsButton = footer.find(
-		'.cdx-dialog__footer__primary-action'
+		'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 	);
 	expect( showResultsButton.exists() ).toEqual( true );
 	expect( showResultsButton.text() ).toEqual(
@@ -308,7 +326,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Press the close button
 		const closeButton = dialog.find(
-			'.cdx-dialog__footer__default-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--close'
 		);
 		await closeButton.trigger( 'click' );
 
@@ -330,7 +348,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Press the "Show results" button
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 
@@ -338,7 +356,15 @@ describe( 'Suggested Investigations change status dialog', () => {
 		// (the dialog is left open so that it's kept open until the page has reloaded)
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ status: [ 'open', 'resolved' ], username: [ 'TestUser1' ], signal: [], editAndBlockFilter: 'edits-only' }, window
+			{
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: 0,
+				status: [ 'open', 'resolved' ],
+				username: [ 'TestUser1' ]
+			}, window
 		);
 	} );
 
@@ -351,13 +377,21 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Press the "Show results" button
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ status: [], username: [], signal: [ 'signal-1a' ], editAndBlockFilter: 'edits-only' }, window
+			{
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: [ 'signal-1a' ],
+				status: 0,
+				username: []
+			}, window
 		);
 	} );
 
@@ -372,12 +406,20 @@ describe( 'Suggested Investigations change status dialog', () => {
 		await nextTick();
 
 		// Press the "Show results" button
-		const showResultsButton = dialog.find( '.cdx-dialog__footer__primary-action' );
+		const showResultsButton = dialog.find( '.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results' );
 		await showResultsButton.trigger( 'click' );
 
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ status: [], username: [], signal: [], editAndBlockFilter: 'none' }, window
+			{
+				editAndBlockFilter: 'none',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: 0,
+				status: 0,
+				username: []
+			}, window
 		);
 	} );
 
@@ -428,13 +470,21 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 
 		expect( wrapper.vm.open ).toEqual( true );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
-			{ editAndBlockFilter: 'edits-only', showCasesWithEditsOnSharedPages: 1, status: [], username: [], signal: [] },
+			{
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 1,
+				signal: 0,
+				status: 0,
+				username: []
+			},
 			window
 		);
 	} );
@@ -448,7 +498,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Press the "Show results" button
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 
@@ -456,10 +506,12 @@ describe( 'Suggested Investigations change status dialog', () => {
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{
 				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
 				showCasesWithEditsOnSharedPages: 1,
-				status: [],
-				username: [],
-				signal: [ 'signal-1a' ]
+				signal: [ 'signal-1a' ],
+				status: 0,
+				username: []
 			}, window
 		);
 	} );
@@ -490,17 +542,41 @@ describe( 'Suggested Investigations change status dialog', () => {
 		{
 			description: 'includes lastUpdated when a non-default radio is selected',
 			radioValueToSelect: '7',
-			expectedFilters: { lastUpdated: '7', status: [], username: [], signal: [], editAndBlockFilter: 'edits-only' }
+			expectedFilters: {
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: '7',
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: 0,
+				status: 0,
+				username: []
+			}
 		},
 		{
 			description: 'does not include lastUpdated when no filter is set (default state)',
 			radioValueToSelect: null,
-			expectedFilters: { status: [], username: [], signal: [], editAndBlockFilter: 'edits-only' }
+			expectedFilters: {
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				signal: 0,
+				status: 0,
+				username: []
+			}
 		},
 		{
 			description: 'does not include lastUpdated when "All time" radio is explicitly selected',
 			radioValueToSelect: '',
-			expectedFilters: { status: [], username: [], signal: [], editAndBlockFilter: 'edits-only' }
+			expectedFilters: {
+				editAndBlockFilter: 'edits-only',
+				lastUpdated: 0,
+				queueView: 'all',
+				showCasesWithEditsOnSharedPages: 0,
+				status: 0,
+				signal: 0,
+				username: []
+			}
 		}
 	] )( '`Show results` button press $description', async ( { radioValueToSelect, expectedFilters } ) => {
 		const { dialog, wrapper } = await commonComponentTest();
@@ -512,7 +588,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		}
 
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 

@@ -33,7 +33,7 @@ QUnit.test( 'returned function logs events with correct data', ( assert ) => {
 	assert.strictEqual( setSchemaStub.callCount, 1, 'Schema is set' );
 	assert.strictEqual(
 		setSchemaStub.firstCall.args[ 0 ],
-		'/analytics/mediawiki/suggested_investigations/interaction/1.1.6',
+		'/analytics/mediawiki/suggested_investigations/interaction/1.1.7',
 		'SI interaction schema is set'
 	);
 
