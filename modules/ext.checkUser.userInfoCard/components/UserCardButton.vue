@@ -4,7 +4,7 @@
 		weight="quiet"
 		size="small"
 		:aria-label="ariaLabel"
-		@click.prevent="togglePopover( this, username )"
+		@click.prevent="togglePopover( $el, username )"
 		@mousedown.prevent>
 		<cdx-icon :icon="iconData" size="small"></cdx-icon>
 	</cdx-button>
