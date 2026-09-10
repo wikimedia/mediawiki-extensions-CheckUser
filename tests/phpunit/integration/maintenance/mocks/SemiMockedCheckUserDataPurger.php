@@ -44,7 +44,7 @@ class SemiMockedCheckUserDataPurger extends CheckUserDataPurger {
 		$this->seenTables[$table]++;
 		// Check that the arguments are as expected. The arguments with object types are tested because the
 		// type is specified.
-		Assert::assertSame( '20230405060638', $cutoff, 'The cutoff value is not as expected' );
+		Assert::assertSame( $dbw->timestamp( '20230405060638' ), $cutoff, 'The cutoff value is not as expected' );
 		Assert::assertSame( 200, $totalRowsToPurge );
 		return $returnValue;
 	}

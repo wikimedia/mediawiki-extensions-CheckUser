@@ -691,7 +691,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	private function updateCheckUserData( array $rcAttribs, string $table, array $fields, array $expectedRow ): void {
 		$this->commonTestsUpdateCheckUserData( $rcAttribs );
-		$this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
+		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->newSelectQueryBuilder()
 			->select( $fields )
 			->from( $table )
@@ -795,7 +795,6 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$rcAttribs['rc_logid'] = $logId;
 		$fields[] = 'cule_log_id';
 		$expectedRow[] = $logId;
-		$this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->updateCheckUserData( $rcAttribs, $table, $fields, $expectedRow );
 	}
 

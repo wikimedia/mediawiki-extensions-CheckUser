@@ -171,12 +171,15 @@ class SuggestedInvestigationsSharedPagesLookup {
 				// Record for use when generating return values
 				$pagesById[$userId][$pageId] = $page;
 
+				// Normalise to TS_MW from the raw column value and type.
+				$revTimestamp = ConvertibleTimestamp::convert( TS_MW, $row->rev_timestamp );
+
 				// Given that the result is ordered by rev_timestamp, we don't need to check for current timestamp
 				// being less/greater than already recorded ones - it will be less or equal.
 				if ( !isset( $maxTimestamps[$userId][$pageId] ) ) {
-					$maxTimestamps[$userId][$pageId] = $row->rev_timestamp;
+					$maxTimestamps[$userId][$pageId] = $revTimestamp;
 				}
-				$minTimestamps[$userId][$pageId] = $row->rev_timestamp;
+				$minTimestamps[$userId][$pageId] = $revTimestamp;
 			}
 
 			// Yield the per-user data
