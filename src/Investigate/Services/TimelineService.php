@@ -112,7 +112,9 @@ class TimelineService extends ChangeService {
 			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
 			'fields' => [
 				'namespace', 'title', 'timestamp', 'page_id', 'ip_hex', 'xff', 'agent', 'id',
-				'user', 'user_text', 'actor', 'comment_text', 'comment_data', 'type',
+				// 'user' is a reserved word in Postgres
+				'user' => 'a.user',
+				'user_text', 'actor', 'comment_text', 'comment_data', 'type',
 				'this_oldid', 'last_oldid', 'minor', 'log_type', 'log_action', 'log_params',
 				'log_deleted', 'log_id',
 			],
