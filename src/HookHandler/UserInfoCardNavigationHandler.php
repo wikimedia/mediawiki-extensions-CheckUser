@@ -31,7 +31,10 @@ class UserInfoCardNavigationHandler implements SkinTemplateNavigation__Universal
 		$output->addModules( 'ext.checkUser.userInfoCard' );
 
 		$target = $sktemplate->getRelevantUser();
-		$iconName = $this->buttonRenderer->getIconName( $target->getName() );
+		$iconName = $this->buttonRenderer->getIconName(
+			$target->getName(),
+			[ 'viewer' => $sktemplate->getAuthority() ],
+		);
 
 		// The username is not put into a data attribute, because the skins render this markup
 		// themselves; the JavaScript uses wgRelevantUserName instead.

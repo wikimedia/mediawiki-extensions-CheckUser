@@ -6,6 +6,8 @@ namespace MediaWiki\Extension\CheckUser\Services;
 
 use MediaWiki\Html\Html;
 use MediaWiki\Language\MessageLocalizer;
+use MediaWiki\Permissions\Authority;
+use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNameUtils;
 
 class UserInfoCardButtonRenderer {
@@ -13,6 +15,7 @@ class UserInfoCardButtonRenderer {
 	public function __construct(
 		private readonly UserNameUtils $userNameUtils,
 		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
+		private readonly UserIdentityLookup $userIdentityLookup,
 	) {
 	}
 
@@ -84,16 +87,33 @@ class UserInfoCardButtonRenderer {
 	 * * 'customIcons' (default: true) - if true, icons such as "is blocked" or similar, which denote the current
 	 *    account status, will be available. Set to false if you need to cache the result for a long term
 	 *    (e.g., in parser cache).
+	 * * 'viewer' (default: null) - if an icon should be displayed only to users with certain rights, this is the
+	 *     authority for whom to check the rights. If null, it will be assumed that the viewer has no rights.
 	 * @return array A map of usernames to their corresponding icons. Every username will be present in the result.
 	 */
 	public function getIconNamesForUsers( array $targetNames, array $options = [] ): array {
 		$options += [
 			'customIcons' => true,
+			'viewer' => null,
 		];
+
+		if ( !( $options['viewer'] instanceof Authority ) ) {
+			$options['viewer'] = null;
+		}
+
+		if ( $options['viewer']?->isAllowed( 'hideuser' ) ) {
+			$visibleTargetNames = $targetNames;
+		} else {
+			$visibleTargetNames = $this->userIdentityLookup->newSelectQueryBuilder()
+				->whereUserNames( $targetNames )
+				->hidden( false )
+				->caller( __METHOD__ )
+				->fetchUserNames();
+		}
 
 		$result = [];
 		if ( $options['customIcons'] ) {
-			$result = $this->applyCustomIcons( $targetNames );
+			$result = $this->applyCustomIcons( $visibleTargetNames );
 		}
 
 		// Fill out rest with the default icon, userAvatar/userTemporary

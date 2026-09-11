@@ -34,7 +34,10 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 			$output->addModuleStyles( 'ext.checkUser.styles' );
 			$output->addModules( 'ext.checkUser.userInfoCard' );
 
-			$iconName = $this->buttonRenderer->getIconName( $targetUser->getName() );
+			$iconName = $this->buttonRenderer->getIconName(
+				$targetUser->getName(),
+				[ 'viewer' => $context->getAuthority() ]
+			);
 			$buttonHtml = $this->buttonRenderer->render(
 				$targetUser->getName(),
 				$iconName,

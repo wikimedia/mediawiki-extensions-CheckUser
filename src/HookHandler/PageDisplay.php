@@ -222,7 +222,10 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 		// as that changes without the page being reparsed. Tell the client which of this page's targets need
 		// a custom icon, so that it can swap the icon at run time.
 		// Non-custom icons are userAvatar and userTemporary, as they can be determined at parse time.
-		$targetIcons = $this->uicButtonRenderer->getIconNamesForUsers( $newTargets );
+		$targetIcons = $this->uicButtonRenderer->getIconNamesForUsers(
+			$newTargets,
+			[ 'viewer' => $outputPage->getAuthority() ]
+		);
 		$targetIcons = array_filter(
 			$targetIcons,
 			static fn ( $icon ) => !in_array( $icon, [ 'userAvatar', 'userTemporary' ] )
