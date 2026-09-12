@@ -1,16 +1,12 @@
 <template>
 	<cdx-dialog
 		v-model:open="open"
-		:title="$i18n( 'checkuser-suggestedinvestigations-filter-dialog-title' ).text()"
+		:title="filterDialogTitle"
 		:close-button-label="$i18n(
 			'checkuser-suggestedinvestigations-filter-dialog-close-button'
 		).text()"
 		:use-close-button="true"
 		class="ext-checkuser-suggestedinvestigations-filter-dialog"
-		:primary-action="primaryAction"
-		:default-action="defaultAction"
-		@primary="onShowResultsButtonClick"
-		@default="onCloseButtonClick"
 	>
 		<cdx-field
 			class="ext-checkuser-suggestedinvestigations-filter-dialog-signal-filter"
@@ -100,12 +96,54 @@
 		</cdx-field>
 		<filter-dialog-username-filter v-model:selected-usernames="selectedUsernames">
 		</filter-dialog-username-filter>
+		<template #footer>
+			<cdx-button
+				weight="normal"
+				action="default"
+				class="mw-checkuser-suggestedinvestigations-filter-dialog__button--close"
+				:aria-label="$i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-close-button'
+				).text()"
+				@click="onCloseButtonClick"
+			>
+				{{ $i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-close-button'
+				).text() }}
+			</cdx-button>
+			<cdx-button
+				weight="normal"
+				action="default"
+				class="mw-checkuser-suggestedinvestigations-filter-dialog__button--revert"
+				:aria-label="$i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-revert-button'
+				).text()"
+				@click="onRevertButtonClick"
+			>
+				<span class="mw-checkuser-suggestedinvestigations-icon--undo cdx-button__icon"></span>
+				{{ $i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-revert-button'
+				).text() }}
+			</cdx-button>
+			<cdx-button
+				weight="primary"
+				action="progressive"
+				class="mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results"
+				:aria-label="$i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-show-results-button'
+				).text()"
+				@click="onShowResultsButtonClick"
+			>
+				{{ $i18n(
+					'checkuser-suggestedinvestigations-filter-dialog-show-results-button'
+				).text() }}
+			</cdx-button>
+		</template>
 	</cdx-dialog>
 </template>
 
 <script>
 const { ref } = require( 'vue' ),
-	{ CdxDialog, CdxField, CdxCheckbox, CdxInfoChip, CdxRadio } = require( '@wikimedia/codex' ),
+	{ CdxButton, CdxDialog, CdxField, CdxCheckbox, CdxInfoChip, CdxRadio } = require( '@wikimedia/codex' ),
 	Constants = require( '../Constants.js' ),
 	{ caseStatusToChipStatus, updateFiltersOnPage } = require( '../utils.js' ),
 	FilterDialogUsernameFilter = require( './FilterDialogUsernameFilter.vue' );
@@ -114,6 +152,7 @@ const { ref } = require( 'vue' ),
 module.exports = exports = {
 	name: 'FilterDialog',
 	components: {
+		CdxButton,
 		CdxDialog,
 		CdxField,
 		CdxCheckbox,
@@ -144,6 +183,14 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const open = ref( true );
+
+		const queueViewData = mw.config.get( 'wgCheckUserSuggestedInvestigationsQueueViewData' );
+		const currentQueueViewName = mw.config.get( 'wgCheckUserSuggestedInvestigationsQueueView' );
+		const currentQueueView = queueViewData[ currentQueueViewName ];
+
+		// * checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title
+		// * TODO: eslint complains with only one message. Implement second queue with message.
+		const filterDialogTitle = mw.msg( currentQueueView.msgKeys.filterDialogTitle );
 
 		const signals = mw.config.get( 'wgCheckUserSuggestedInvestigationsSignals' );
 		const signalCheckboxes = ref( signals.map( ( signal ) => {
@@ -242,6 +289,20 @@ module.exports = exports = {
 			open.value = false;
 		}
 
+		function onRevertButtonClick() {
+			const currentQueueFilters = currentQueueView.filters;
+
+			signalCheckboxes.value.forEach( ( signalCheckbox ) => {
+				signalCheckbox.isChecked = currentQueueFilters.signal.includes( signalCheckbox.urlName );
+			} );
+			statusCheckboxes.value.forEach( ( statusCheckbox ) => {
+				statusCheckbox.isChecked = currentQueueFilters.status.includes( statusCheckbox.value );
+			} );
+			lastUpdated.value = currentQueueFilters.lastUpdated || '';
+			editAndBlockFilter.value = currentQueueFilters.editAndBlockFilter;
+			showCasesWithEditsOnSharedPagesCheckboxValue.value = currentQueueFilters.showCasesWithEditsOnSharedPages;
+		}
+
 		/**
 		 * Handles a click of the "Show results" button which
 		 * causes the page to be reloaded with the selected filters applied
@@ -278,19 +339,9 @@ module.exports = exports = {
 			updateFiltersOnPage( filters, window );
 		}
 
-		const primaryAction = {
-			label: mw.msg( 'checkuser-suggestedinvestigations-filter-dialog-show-results-button' ),
-			actionType: 'progressive'
-		};
-
-		const defaultAction = {
-			label: mw.msg( 'checkuser-suggestedinvestigations-filter-dialog-close-button' )
-		};
-
 		return {
 			open,
-			primaryAction,
-			defaultAction,
+			filterDialogTitle,
 			selectedUsernames,
 			statusCheckboxes,
 			signalCheckboxes,
@@ -300,6 +351,7 @@ module.exports = exports = {
 			editAndBlockFilter,
 			editAndBlockFilterOptions,
 			onCloseButtonClick,
+			onRevertButtonClick,
 			onShowResultsButtonClick
 		};
 	}

@@ -260,7 +260,16 @@
 			"value": {
 				"all": {
 					"filters": {
-						"editAndBlockFilter": "edits-only"
+						"editAndBlockFilter": "edits-only",
+						"lastUpdated": null,
+						"showCasesWithEditsOnSharedPages": false,
+						"signal": [],
+						"status": []
+					},
+					"msgKeys": {
+						"defaultName": "checkuser-suggestedinvestigations-queue-view-all",
+						"editedName": "checkuser-suggestedinvestigations-queue-view-all-edited",
+						"filterDialogTitle": "checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title"
 					}
 				}
 			},

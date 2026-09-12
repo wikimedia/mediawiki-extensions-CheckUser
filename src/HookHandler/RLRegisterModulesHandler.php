@@ -133,8 +133,8 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 			'checkuser-suggestedinvestigations-change-status-dialog-reason-description-invalid',
 			'checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-resolved',
 			'checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid',
-			'checkuser-suggestedinvestigations-filter-dialog-title',
 			'checkuser-suggestedinvestigations-filter-dialog-close-button',
+			'checkuser-suggestedinvestigations-filter-dialog-revert-button',
 			'checkuser-suggestedinvestigations-filter-dialog-show-results-button',
 			'checkuser-suggestedinvestigations-filter-dialog-signal-filter-header',
 			'checkuser-suggestedinvestigations-filter-dialog-status-filter-header',
@@ -187,6 +187,14 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 
 				$messages[] = 'checkuser-suggestedinvestigations-risk-signals-popover-body-' . $signal;
 				$messages[] = 'checkuser-suggestedinvestigations-signal-' . $signal;
+			}
+		}
+
+		// All messages for queue views should be defined in config. Load messages dynamically here to
+		// support custom queues. By default, this will at least load the 'all' queue messages.
+		foreach ( $this->config->get( 'CheckUserSuggestedInvestigationsQueueViews' ) as $queueView ) {
+			foreach ( $queueView[ 'msgKeys' ] as $msgKey ) {
+				$messages[] = $msgKey;
 			}
 		}
 

@@ -52,7 +52,23 @@ const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, si
 		wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed: globalEditCountsUsed,
 		wgCheckUserSuggestedInvestigationsSignals: signals,
 		wgCheckUserSuggestedInvestigationsDefaultQueueView: 'all',
-		wgCheckUserSuggestedInvestigationsQueueView: 'all'
+		wgCheckUserSuggestedInvestigationsQueueView: 'all',
+		wgCheckUserSuggestedInvestigationsQueueViewData: {
+			all: {
+				filters: {
+					editAndBlockFilter: 'edits-only',
+					lastUpdated: null,
+					showCasesWithEditsOnSharedPages: false,
+					signal: [],
+					status: []
+				},
+				msgKeys: {
+					defaultName: 'checkuser-suggestedinvestigations-queue-view-all',
+					editedName: 'checkuser-suggestedinvestigations-queue-view-all-edited',
+					filterDialogTitle: 'checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title'
+				}
+			}
+		}
 	} );
 
 	// Render the component and wait for CdxDialog to run some code
@@ -87,7 +103,7 @@ const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, si
 	expect( footer.exists() ).toEqual( true );
 
 	const closeButton = footer.find(
-		'.cdx-dialog__footer__default-action'
+		'.mw-checkuser-suggestedinvestigations-filter-dialog__button--close'
 	);
 	expect( closeButton.exists() ).toEqual( true );
 	expect( closeButton.text() ).toEqual(
@@ -95,7 +111,7 @@ const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, si
 	);
 
 	const showResultsButton = footer.find(
-		'.cdx-dialog__footer__primary-action'
+		'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 	);
 	expect( showResultsButton.exists() ).toEqual( true );
 	expect( showResultsButton.text() ).toEqual(
@@ -310,7 +326,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Press the close button
 		const closeButton = dialog.find(
-			'.cdx-dialog__footer__default-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--close'
 		);
 		await closeButton.trigger( 'click' );
 
@@ -332,7 +348,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Press the "Show results" button
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 
@@ -361,7 +377,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Press the "Show results" button
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 
@@ -390,7 +406,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		await nextTick();
 
 		// Press the "Show results" button
-		const showResultsButton = dialog.find( '.cdx-dialog__footer__primary-action' );
+		const showResultsButton = dialog.find( '.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results' );
 		await showResultsButton.trigger( 'click' );
 
 		expect( wrapper.vm.open ).toEqual( true );
@@ -454,7 +470,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 
@@ -482,7 +498,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Press the "Show results" button
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 
@@ -572,7 +588,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		}
 
 		const showResultsButton = dialog.find(
-			'.cdx-dialog__footer__primary-action'
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results'
 		);
 		await showResultsButton.trigger( 'click' );
 

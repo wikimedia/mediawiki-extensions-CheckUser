@@ -43,6 +43,10 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 	&--close {
 		.cdx-mixin-css-icon( @cdx-icon-close );
 	}
+
+	&--undo {
+		.cdx-mixin-css-icon( @cdx-icon-undo );
+	}
 }
 
 // Make the "Filter" button info chip look more like a progressive button to match the design spec
@@ -70,6 +74,10 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 	}
 }
 
+.cdx-table__header__caption {
+	flex: 0 0 100%;
+}
+
 // Hide the mobile "Filter" button when screen is wide enough and hide the desktop
 // "Filter" button when showing the mobile button
 // Additionally, hide the table caption when on mobile to reduce vertical space before
@@ -87,7 +95,10 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 
 	@media all and ( max-width: @max-width-breakpoint-mobile ) {
 		.cdx-table__header {
-			display: none;
+			.cdx-table__header__caption,
+			.mw-checkuser-suggestedinvestigations-filter-button {
+				display: none;
+			}
 		}
 
 		.cdx-table-pager__start {
@@ -105,12 +116,22 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 		}
 
 		.cdx-table__header {
-			display: block;
-		}
-
-		.mw-checkuser-suggestedinvestigations-filter-button {
-			float: right;
+			display: flex;
+			flex: auto;
+			justify-content: space-between;
 		}
 	}
+}
+
+.ext-checkuser-suggestedinvestigations-filter-dialog {
+	.cdx-dialog__footer {
+		display: flex;
+		gap: @spacing-horizontal-button;
+		justify-content: end;
+	}
+}
+
+.mw-checkuser-suggestedinvestigations-queue-views-button-group {
+	display: flex;
 }
 /* stylelint-enable selector-class-pattern */

@@ -1,5 +1,6 @@
 'use strict';
 
+const utils = require( './utils.js' );
 /**
  * Runs the JavaScript for the Special:SuggestedInvestigations page, called from the dispatcher.
  *
@@ -85,6 +86,14 @@ module.exports = function ( win ) {
 			} else {
 				suggestedInvestigationsSignalsPopover.openPopover();
 			}
+		}
+	} );
+
+	$( '.mw-checkuser-suggestedinvestigations-queue-view-button' ).on( 'click', function () {
+		const newQueueView = $( this ).attr( 'data-queue-view' );
+		const currentQueueView = mw.config.get( 'wgCheckUserSuggestedInvestigationsQueueView' );
+		if ( newQueueView !== currentQueueView ) {
+			utils.updateFiltersOnPage( { queueView: newQueueView }, win );
 		}
 	} );
 
