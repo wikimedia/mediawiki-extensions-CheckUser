@@ -444,7 +444,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 	public function testSuccessfulInsertOfMapRowsOnPreExistingDataRows(): void {
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_useragent_clienthints' )
-			->row( [ 'uach_id' => 2, 'uach_name' => 'mobile', 'uach_value' => false ] )
+			->row( [ 'uach_name' => 'mobile', 'uach_value' => false ] )
 			->caller( __METHOD__ )
 			->execute();
 		$preExistingEntryId = $this->getDb()->insertId();
