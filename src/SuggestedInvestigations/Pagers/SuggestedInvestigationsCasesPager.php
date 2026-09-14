@@ -298,7 +298,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			'editAndBlockFilter',
 			$defaultEditAndBlockFilter
 		);
-		if ( $this->editAndBlockFilter !== 'none' ) {
+		if ( $this->editAndBlockFilter !== $defaultEditAndBlockFilter ) {
 			$this->numberOfFiltersApplied++;
 		}
 

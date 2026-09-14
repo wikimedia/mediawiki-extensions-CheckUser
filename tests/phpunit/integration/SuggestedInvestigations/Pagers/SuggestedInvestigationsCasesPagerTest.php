@@ -1258,6 +1258,11 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		// has users with edits in it (editAndBlockFilter defaults to 'edits-only').
 		$this->assertStringContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
 		$this->assertStringNotContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+		$this->assertStringNotContainsString(
+			'mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip',
+			$html,
+			'The info chip indicating filters were applied should not be present for default filters'
+		);
 		$this->assertActiveFiltersJsConfigVar( [], $parserOutput );
 	}
 
@@ -1773,7 +1778,6 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 
 		$context = $this->makeQqxContext();
 		$context->getRequest()->setVal( 'lastUpdated', '5' );
-		$context->getRequest()->setVal( 'editAndBlockFilter', 'none' );
 
 		$pager = $this->getPager( $context );
 		$parserOutput = $pager->getFullOutput();
@@ -1785,7 +1789,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'The info chip indicating filters were applied should not be present for an invalid filter'
 		);
 		$this->assertActiveFiltersJsConfigVar(
-			[ 'lastUpdated' => null, 'editAndBlockFilter' => 'none' ],
+			[ 'lastUpdated' => null ],
 			$parserOutput
 		);
 	}
