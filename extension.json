@@ -1103,6 +1103,7 @@
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/createTable.test.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/createTableText.test.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/generateData.test.js",
+			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/addCopyElement.test.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/cases/buildUserElement.json",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/cases/calculateIPNumber.json",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/cases/compareIPs.json",
