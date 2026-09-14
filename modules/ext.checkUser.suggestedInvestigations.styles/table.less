@@ -46,15 +46,18 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 }
 
 // Make the "Filter" button info chip look more like a progressive button to match the design spec
+/* stylelint-disable selector-class-pattern */
 .mw-checkuser-suggestedinvestigations-filter-button {
 	.mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip {
 		background-color: @background-color-progressive;
 		border: 0;
-		color: @color-inverted-fixed;
+
+		.cdx-info-chip__text {
+			color: @color-inverted-fixed;
+		}
 	}
 }
 
-/* stylelint-disable selector-class-pattern */
 .cdx-message--user-dismissable.ext-checkuser-suggestedinvestigations-dismissable-warning {
 	transition: opacity 400ms;
 
