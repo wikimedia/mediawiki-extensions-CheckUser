@@ -45,22 +45,6 @@
 			</cdx-checkbox>
 		</cdx-field>
 		<cdx-field
-			class="ext-checkuser-suggestedinvestigations-filter-dialog-last-updated-filter"
-		>
-			<template #label>
-				{{ $i18n( 'checkuser-suggestedinvestigations-filter-dialog-last-updated-header' ).text() }}
-			</template>
-			<cdx-radio
-				v-for="option in lastUpdatedOptions"
-				:key="option.value"
-				v-model="lastUpdated"
-				:input-value="option.value"
-				name="filter-last-updated"
-			>
-				{{ option.label }}
-			</cdx-radio>
-		</cdx-field>
-		<cdx-field
 			class="ext-checkuser-suggestedinvestigations-filter-dialog-distinct-filters"
 		>
 			<template #label>
@@ -96,6 +80,22 @@
 		</cdx-field>
 		<filter-dialog-username-filter v-model:selected-usernames="selectedUsernames">
 		</filter-dialog-username-filter>
+		<cdx-field
+			class="ext-checkuser-suggestedinvestigations-filter-dialog-last-updated-filter"
+		>
+			<template #label>
+				{{ $i18n( 'checkuser-suggestedinvestigations-filter-dialog-last-updated-header' ).text() }}
+			</template>
+			<cdx-radio
+				v-for="option in lastUpdatedOptions"
+				:key="option.value"
+				v-model="lastUpdated"
+				:input-value="option.value"
+				name="filter-last-updated"
+			>
+				{{ option.label }}
+			</cdx-radio>
+		</cdx-field>
 		<template #footer>
 			<cdx-button
 				weight="normal"
