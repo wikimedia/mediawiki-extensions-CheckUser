@@ -65,4 +65,47 @@ class RLRegisterModulesHandlerTest extends MediaWikiUnitTestCase {
 			],
 		];
 	}
+
+	public function testSuggestedInvestigationsQueueViewMessageRegistration(): void {
+		$mockExtensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$handler = new RLRegisterModulesHandler(
+			$mockExtensionRegistry,
+			$this->createMock( HookRunner::class ),
+			new HashConfig( [
+				'CheckUserSuggestedInvestigationsEnabled' => true,
+				'CheckUserSuggestedInvestigationsQueueViews' => [
+					'foo' => [
+						'msgKeys' => [
+							'defaultName' => 'foo-1',
+							'editedName' => 'foo-2',
+							'filterDialogTitle' => 'foo-3',
+						],
+					],
+					'bar' => [
+						'msgKeys' => [
+							'defaultName' => 'bar-1',
+							'editedName' => 'bar-2',
+							'filterDialogTitle' => 'bar-3',
+						],
+					],
+				],
+			] )
+		);
+
+		// Run hook and save modules loaded to an array to check against in the assertion
+		$rlModules = [];
+		$rl = $this->createMock( ResourceLoader::class );
+		$rl->method( 'register' )
+			->willReturnCallback( static function ( array $modules ) use ( &$rlModules ) {
+				$rlModules = array_merge( $rlModules, $modules );
+			} );
+		$handler->onResourceLoaderRegisterModules( $rl );
+
+		// Assert all messages defined in CheckUserSuggestedInvestigationsQueueViews are loaded
+		$this->assertTrue( isset( $rlModules[ 'ext.checkUser.suggestedInvestigations' ][ 'messages' ] ) );
+		$this->assertArrayContains(
+			[ 'foo-1', 'foo-2', 'foo-3', 'bar-1', 'bar-2', 'bar-3' ],
+			$rlModules[ 'ext.checkUser.suggestedInvestigations' ][ 'messages' ]
+		);
+	}
 }

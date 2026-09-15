@@ -797,6 +797,229 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		);
 	}
 
+	/** @dataProvider provideTestQueueViewSetsDefaultFilters */
+	public function testQueueViewSetsDefaultFilters( array $filterChanges ): void {
+		$queueViewFilters = array_merge( [
+			'editAndBlockFilter' => 'edits-only',
+			'lastUpdated' => null,
+			'showCasesWithEditsOnSharedPages' => false,
+			'signal' => [],
+			'status' => [],
+		], $filterChanges );
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsEnabledQueueViews' => [ 'all' ],
+			'CheckUserSuggestedInvestigationsDefaultQueueView' => 'all',
+			'CheckUserSuggestedInvestigationsQueueViews' => [
+				'all' => [
+					'filters' => $queueViewFilters,
+					'msgKeys' => [
+						'defaultName' => 'defaultName',
+						'editedName' => 'editedName',
+						'filterDialogTitle' => 'filterDialogTitle',
+					],
+				],
+			],
+		] );
+
+		$context = $this->makeQqxContext();
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// Assert the filter is applied
+		$this->assertActiveFiltersJsConfigVar(
+			$filterChanges,
+			$parserOutput
+		);
+	}
+
+	public static function provideTestQueueViewSetsDefaultFilters(): array {
+		return [
+			'update editAndBlockFilter' => [ [ 'editAndBlockFilter' => 'none' ] ],
+			'update lastUpdated' => [ [ 'lastUpdated' => 7 ] ],
+			'update showCasesWithEditsOnSharedPages' => [ [ 'showCasesWithEditsOnSharedPages' => true ] ],
+			'update signal' => [ [ 'signal' => [ 'dev-signal-1' ] ] ],
+			'update status' => [ [ 'status' => [ 'resolved' ] ] ],
+		];
+	}
+
+	/** @dataProvider provideTestQueueViewButtonState */
+	public function testQueueViewButtonState( array $activeFilters, array $expectedButtonState ): void {
+		// Set 2 default queues to test active/edited states against
+		$queueViews = [
+			'foo' => [
+				'filters' => [
+					'editAndBlockFilter' => 'edits-only',
+					'lastUpdated' => null,
+					'showCasesWithEditsOnSharedPages' => false,
+					'signal' => [],
+					'status' => [],
+				],
+				'msgKeys' => [
+					'defaultName' => 'foo-defaultName',
+					'editedName' => 'foo-editedName',
+					'filterDialogTitle' => 'foo-filterDialogTitle',
+				],
+			],
+			'bar' => [
+				'filters' => [
+					'editAndBlockFilter' => 'edits-only',
+					'lastUpdated' => null,
+					'showCasesWithEditsOnSharedPages' => false,
+					'signal' => [],
+					'status' => [],
+				],
+				'msgKeys' => [
+					'defaultName' => 'bar-defaultName',
+					'editedName' => 'bar-editedName',
+					'filterDialogTitle' => 'bar-filterDialogTitle',
+				],
+			],
+		];
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsEnabledQueueViews' => [ 'foo', 'bar' ],
+			'CheckUserSuggestedInvestigationsDefaultQueueView' => 'foo',
+			'CheckUserSuggestedInvestigationsQueueViews' => $queueViews,
+		] );
+
+		$context = $this->makeQqxContext();
+		foreach ( $activeFilters as $filterName => $filterValue ) {
+			$context->getRequest()->setVal( $filterName, $filterValue );
+		}
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+		$htmlDoc = DOMUtils::parseHTML( $html );
+
+		foreach ( [ 'foo', 'bar' ] as $queueView ) {
+			$isEdited = $expectedButtonState[ 'edited' ] === $queueView;
+			$editedMsgKey = $isEdited ? 'editedName' : 'defaultName';
+			$this->assertStringContainsString(
+				$queueViews[ $queueView ][ 'msgKeys' ][ $editedMsgKey ],
+				$html,
+				'Queue view button reflects whether or not filters have been edited'
+			);
+
+			$buttonTitle = $isEdited ? "$queueView-editedName" : "$queueView-defaultName";
+			$classSelector = $expectedButtonState[ 'active' ] === $queueView ?
+				'.mw-checkuser-suggestedinvestigations-queue-view-button.cdx-button--action-progressive' :
+				'.mw-checkuser-suggestedinvestigations-queue-view-button:not(\'.cdx-button--action-progressive\')';
+			$queueViewButtonUnderTest = $this->assertSelectorMatchesOneElementInNode(
+				$htmlDoc,
+				$classSelector,
+				false
+			);
+			$this->assertEquals( $queueView, DomCompat::getAttribute( $queueViewButtonUnderTest, 'data-queue-view' ) );
+			$this->assertEquals( "($buttonTitle)", DomCompat::getAttribute( $queueViewButtonUnderTest, 'title' ) );
+		}
+	}
+
+	public static function provideTestQueueViewButtonState(): array {
+		return [
+			'default (foo), no changes to filter' => [
+				'activeFilters' => [],
+				'expectedButtonState' => [
+					'active' => 'foo',
+					'edited' => null,
+				],
+			],
+			'default (foo), changes to filter' => [
+				'activeFilters' => [ 'editAndBlockFilter' => 'none' ],
+				'expectedButtonState' => [
+					'active' => 'foo',
+					'edited' => 'foo',
+				],
+			],
+			'manually set same as default, no changes to filter' => [
+				'activeFilters' => [ 'queueView' => 'foo' ],
+				'expectedButtonState' => [
+					'active' => 'foo',
+					'edited' => null,
+				],
+			],
+			'manually set same as default, changes to filter' => [
+				'activeFilters' => [ 'editAndBlockFilter' => 'none', 'queueView' => 'foo' ],
+				'expectedButtonState' => [
+					'active' => 'foo',
+					'edited' => 'foo',
+				],
+			],
+			'set to non-default, no changes to filter' => [
+				'activeFilters' => [ 'queueView' => 'bar' ],
+				'expectedButtonState' => [
+					'active' => 'bar',
+					'edited' => null,
+				],
+			],
+			'set to non-default, changes to filter' => [
+				'activeFilters' => [ 'editAndBlockFilter' => 'none', 'queueView' => 'bar' ],
+				'expectedButtonState' => [
+					'active' => 'bar',
+					'edited' => 'bar',
+				],
+			],
+		];
+	}
+
+	public function testDefaultQueueViewFiltersApplied(): void {
+		// Set a default queue view which shows only open cases
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsEnabledQueueViews' => [ 'open' ],
+			'CheckUserSuggestedInvestigationsDefaultQueueView' => 'open',
+			'CheckUserSuggestedInvestigationsQueueViews' => [
+				'open' => [
+					'filters' => [
+						'editAndBlockFilter' => 'none',
+						'lastUpdated' => null,
+						'showCasesWithEditsOnSharedPages' => false,
+						'signal' => [],
+						'status' => [ 'open' ],
+					],
+					'msgKeys' => [
+						'defaultName' => 'defaultName',
+						'editedName' => 'editedName',
+						'filterDialogTitle' => 'filterDialogTitle',
+					],
+				],
+			],
+		] );
+
+		// Create two cases, where one is then closed
+		$caseManager = $this->getCaseManager();
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL,
+			'Test value',
+			false
+		);
+		$firstCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+		$secondCaseId = $caseManager->createCase( [ $this->getTestUser()->getUserIdentity() ], [ $signal ] );
+
+		// First case is closed
+		$caseManager->setCaseStatus( $firstCaseId, CaseStatus::Resolved );
+
+		$context = $this->makeQqxContext();
+		$parserOutput = $this->getPager( $context )->getFullOutput();
+		$html = $parserOutput->getContentHolder()->getAsHtmlString();
+
+		// Expect that the table pager only shows the open case by checking
+		// only the second case ID is present as a data attribute
+		$this->assertStringNotContainsString( 'data-case-id="' . $firstCaseId . '"', $html );
+		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
+
+		$this->assertStringContainsString(
+			'(checkuser-suggestedinvestigations-filter-button)',
+			$html,
+			'Filter button is not present in the page or has an unexpected label'
+		);
+		$this->assertStringContainsString(
+			'mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip',
+			$html,
+			'The info chip indicating how many filters were applied was not present'
+		);
+		$this->assertActiveFiltersJsConfigVar(
+			[ 'editAndBlockFilter' => 'none', 'queueView' => 'open', 'status' => [ 'open' ] ],
+			$parserOutput
+		);
+	}
+
 	public function testWhenStatusFilterIsSet(): void {
 		$caseManager = $this->getCaseManager();
 

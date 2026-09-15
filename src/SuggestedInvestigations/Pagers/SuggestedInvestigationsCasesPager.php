@@ -340,7 +340,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$lastUpdatedDays = $this->mRequest->getIntOrNull( 'lastUpdated' );
 		if ( $lastUpdatedDays === null ) {
-			$lastUpdatedDays = $this->queueViewFilters[ $this->queueView ][ 'lastUpdatedDays' ] ?? null;
+			$lastUpdatedDays = $this->queueViewFilters[ $this->queueView ][ 'lastUpdated' ] ?? null;
 		} elseif ( $lastUpdatedDays === 0 ) {
 			// If 0 was passed, it's used to prevent queue view overrides and should be treated like a null value.
 			$lastUpdatedDays = null;

@@ -31,6 +31,37 @@ const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
 	) }
 } );
 
+const queueViews = {
+	all: {
+		filters: {
+			editAndBlockFilter: 'edits-only',
+			lastUpdated: null,
+			showCasesWithEditsOnSharedPages: false,
+			signal: [],
+			status: []
+		},
+		msgKeys: {
+			defaultName: 'checkuser-suggestedinvestigations-queue-view-all',
+			editedName: 'checkuser-suggestedinvestigations-queue-view-all-edited',
+			filterDialogTitle: 'checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title'
+		}
+	},
+	foo: {
+		filters: {
+			editAndBlockFilter: 'blocks-only',
+			lastUpdated: 7,
+			showCasesWithEditsOnSharedPages: true,
+			signal: [ 'dev-signal-1' ],
+			status: [ 'open' ]
+		},
+		msgKeys: {
+			defaultName: 'checkuser-suggestedinvestigations-queue-view-foo',
+			editedName: 'checkuser-suggestedinvestigations-queue-view-foo-edited',
+			filterDialogTitle: 'checkuser-suggestedinvestigations-queue-view-foo-filter-dialog-title'
+		}
+	}
+};
+
 /**
  * Perform tests common to all tests of the suggested investigations filter dialog
  * and then return the dialog component
@@ -45,30 +76,25 @@ const renderComponent = ( initialFilters ) => utils.mount( FilterDialog, {
  *    for the test
  * @param {string[]|Object[]} signals The value of wgCheckUserSuggestedInvestigationsSignals
  *    from mw.config.get for the test
+ * @param {string} defaultQueueView The value of wgCheckUserSuggestedInvestigationsDefaultQueueView
+ *    from mw.config.get for the test
+ * @param {string} currentQueueView The value of wgCheckUserSuggestedInvestigationsDefaultQueueView
+ *    from mw.config.get for the test
  * @return {{ wrapper, dialog }} The dialog component and wrapper
  */
-const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, signals = [] ) => {
+const commonComponentTest = async (
+	props = {},
+	globalEditCountsUsed = false,
+	signals = [],
+	defaultQueueView = 'all',
+	currentQueueView = 'all'
+) => {
 	mockJSConfig( {
 		wgCheckUserSuggestedInvestigationsGlobalEditCountsUsed: globalEditCountsUsed,
 		wgCheckUserSuggestedInvestigationsSignals: signals,
-		wgCheckUserSuggestedInvestigationsDefaultQueueView: 'all',
-		wgCheckUserSuggestedInvestigationsQueueView: 'all',
-		wgCheckUserSuggestedInvestigationsQueueViewData: {
-			all: {
-				filters: {
-					editAndBlockFilter: 'edits-only',
-					lastUpdated: null,
-					showCasesWithEditsOnSharedPages: false,
-					signal: [],
-					status: []
-				},
-				msgKeys: {
-					defaultName: 'checkuser-suggestedinvestigations-queue-view-all',
-					editedName: 'checkuser-suggestedinvestigations-queue-view-all-edited',
-					filterDialogTitle: 'checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title'
-				}
-			}
-		}
+		wgCheckUserSuggestedInvestigationsDefaultQueueView: defaultQueueView,
+		wgCheckUserSuggestedInvestigationsQueueView: currentQueueView,
+		wgCheckUserSuggestedInvestigationsQueueViewData: queueViews
 	} );
 
 	// Render the component and wait for CdxDialog to run some code
@@ -82,6 +108,15 @@ const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, si
 		'.ext-checkuser-suggestedinvestigations-filter-dialog'
 	);
 	expect( dialog.exists() ).toEqual( true );
+
+	// Expect that the active queue is reflected in the dialog title
+	const dialogTitle = dialog.find(
+		'.cdx-dialog__header__title'
+	);
+	expect( dialogTitle.exists() ).toEqual( true );
+	expect( dialogTitle.text() ).toContain(
+		`(${ queueViews[ currentQueueView ].msgKeys.filterDialogTitle })`
+	);
 
 	// Expect that the username multi-select component exists (separate tests
 	// will check other parts of the component)
@@ -108,6 +143,14 @@ const commonComponentTest = async ( props = {}, globalEditCountsUsed = false, si
 	expect( closeButton.exists() ).toEqual( true );
 	expect( closeButton.text() ).toEqual(
 		'(checkuser-suggestedinvestigations-filter-dialog-close-button)'
+	);
+
+	const revertButton = footer.find(
+		'.mw-checkuser-suggestedinvestigations-filter-dialog__button--revert'
+	);
+	expect( revertButton.exists() ).toEqual( true );
+	expect( revertButton.text() ).toEqual(
+		'(checkuser-suggestedinvestigations-filter-dialog-revert-button)'
 	);
 
 	const showResultsButton = footer.find(
@@ -321,6 +364,16 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 	} );
 
+	it( 'Renders dialog title correctly when queue view is not default', async () => {
+		await commonComponentTest(
+			{},
+			false,
+			[],
+			'all',
+			'foo'
+		);
+	} );
+
 	it( 'Closes dialog if "Close" button pressed', async () => {
 		const { dialog, wrapper } = await commonComponentTest();
 
@@ -332,6 +385,69 @@ describe( 'Suggested Investigations change status dialog', () => {
 
 		// Expect the dialog has been closed
 		expect( wrapper.vm.open ).toEqual( false );
+	} );
+
+	it( 'Reverts changes to the applied filters when "Revert" button pressed', async () => {
+		const defaultQueueViewFilters = queueViews.all.filters;
+		const { dialog } = await commonComponentTest(
+			{
+				status: [ 'resolved' ],
+				editAndBlockFilter: 'blocks-only',
+				showCasesWithEditsOnSharedPages: true,
+				signal: [ 'dev-signal-2' ],
+				lastUpdated: '7',
+				username: [ 'TestUser1' ]
+			},
+			false,
+			[ 'dev-signal-1', 'dev-signal-2' ]
+		);
+
+		await commonStatusFilterCheckboxTest( dialog, { open: false, resolved: true, invalid: false } );
+		await commonShowCasesWithEditAndBlockFilterRadioTest( dialog, 'blocks-only', false );
+		await commonShowCasesWithEditsOnSharedPagesCheckboxTest( dialog, true );
+		await commonSignalFilterCheckboxTest(
+			dialog,
+			[
+				'(checkuser-suggestedinvestigations-signal-dev-signal-1)',
+				'(checkuser-suggestedinvestigations-signal-dev-signal-2)'
+			],
+			{ 'dev-signal-1': false, 'dev-signal-2': true }
+		);
+		await commonLastUpdatedFilterRadioTest( dialog, '7' );
+
+		const revertButton = dialog.find(
+			'.mw-checkuser-suggestedinvestigations-filter-dialog__button--revert'
+		);
+		await revertButton.trigger( 'click' );
+		await commonStatusFilterCheckboxTest( dialog,
+			{
+				open: defaultQueueViewFilters.status.includes( 'open' ),
+				resolved: defaultQueueViewFilters.status.includes( 'resolved' ),
+				invalid: defaultQueueViewFilters.status.includes( 'invalid' )
+			}
+		);
+		await commonShowCasesWithEditAndBlockFilterRadioTest(
+			dialog,
+			defaultQueueViewFilters.editAndBlockFilter,
+			false
+		);
+		await commonShowCasesWithEditsOnSharedPagesCheckboxTest(
+			dialog,
+			defaultQueueViewFilters.showCasesWithEditsOnSharedPages
+		);
+		await commonSignalFilterCheckboxTest(
+			dialog,
+			[
+				'(checkuser-suggestedinvestigations-signal-dev-signal-1)',
+				'(checkuser-suggestedinvestigations-signal-dev-signal-2)'
+			],
+			{
+				'dev-signal-1': defaultQueueViewFilters.signal.includes( 'dev-signal-1' ),
+				'dev-signal-2': defaultQueueViewFilters.signal.includes( 'dev-signal-2' )
+			}
+		);
+
+		await commonLastUpdatedFilterRadioTest( dialog, defaultQueueViewFilters.lastUpdated ?? '' );
 	} );
 
 	it( 'Redirects to filtered view when "Show results" button pressed', async () => {
