@@ -464,8 +464,8 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Diese Informationen sind nur für Benutzer mit Checkuser-Zugriff bestimmt. Gib Fallzahlen oder Informationen über Signalarten nicht an Benutzer ohne Checkuser-Zugriff weiter.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Die von {{#FORMAL:dir|Ihnen}} angewendeten Filter sind zu weit gefasst. Bitte {{#FORMAL:grenze deine|grenzen Sie Ihre}} Suche ein, um bessere Ergebnisse zu erzielen.",
 	"checkuser-suggestedinvestigations-filter-button": "Filter",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Filter",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Schließen",
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "Zurücksetzen",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Ergebnisse anzeigen",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risikosignale",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
@@ -559,5 +559,8 @@
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Es gibt zu viele verknüpfte temporäre Konten, um sie dieser Sperre hinzuzufügen. Wir erlauben maximal $1 {{PLURAL:$1|Konto|Konten}} gleichzeitig zu sperren.",
 	"rangecalculator": "IP-Range-Rechner",
 	"rangecalculator-summary": "Mit diesem Tool kannst du den gemeinsamen Bereich einer Liste von IP-Adressen berechnen. Dieses Tool berechnet derzeit nur einen gemeinsamen Bereich, und du kannst keine IPv4- und IPv6-Adressen mischen.",
-	"checkuser-si-related-cases-info": "Das Zielkonto ist mit {{PLURAL:$1|$1 Konto|$1 Konten}} über [$3 {{PLURAL:$2|$2 vorgeschlagene Untersuchung|$2 vorgeschlagene Untersuchungen}}] verknüpft."
+	"checkuser-si-related-cases-info": "Das Zielkonto ist mit {{PLURAL:$1|$1 Konto|$1 Konten}} über [$3 {{PLURAL:$2|$2 vorgeschlagene Untersuchung|$2 vorgeschlagene Untersuchungen}}] verknüpft.",
+	"checkuser-suggestedinvestigations-queue-view-all": "Alle",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "Alle (bearbeitet)",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filter"
 }

@@ -468,7 +468,6 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Te informacje są przeznaczone wyłącznie dla użytkowników z uprawnieniami Checkuser. Nie udostępniaj liczby zgłoszeń ani informacji o typach sygnałów użytkownikom bez uprawnień Checkuser.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Zastosowane filtry są zbyt szerokie. Aby uzyskać lepsze wyniki, zawęź zakres wyszukiwania.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtruj",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtry",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Zamknij",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Pokaż wyniki",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Sygnały ryzyka",
@@ -559,5 +558,6 @@
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Jest zbyt wiele powiązanych kont tymczasowych, aby dodać je do tej blokady. Maksymalna liczba kont, które można zablokować jednocześnie, {{PLURAL:$1|to}} $1.",
 	"rangecalculator": "Kalkulator zakresów IP",
 	"rangecalculator-summary": "To narzędzie pozwala obliczyć wspólny zakres dla listy adresów IP. Obecnie narzędzie oblicza tylko jeden wspólny zakres i nie można mieszać adresów IPv4 i IPv6.",
-	"checkuser-si-related-cases-info": "Konto docelowe jest powiązane z {{PLURAL:$1|$1 kontem|$1 kontami}} w ramach [$3 {{PLURAL:$2|$2 sugestii sprawdzeń}}]"
+	"checkuser-si-related-cases-info": "Konto docelowe jest powiązane z {{PLURAL:$1|$1 kontem|$1 kontami}} w ramach [$3 {{PLURAL:$2|$2 sugestii sprawdzeń}}]",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtry"
 }

@@ -430,7 +430,6 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Iste information es solmente pro le usatores con accesso Checkuser (verificator de usatores). Non condivide le numero de casos o information sur typos de signales con usatores non Checkuser.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Le filtros que tu ha applicate es troppo general; per favor restringe tu recerca pro melior resultatos.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtro",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtros",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Clauder",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Monstrar resultatos",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Signales de risco",
@@ -504,5 +503,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Isto applicara le blocada a $1 conto{{PLURAL:$1||s}}. Continuar a blocar iste conto{{PLURAL:$1||s}} confirma que tu lo{{PLURAL:$1||s}} ha investigate.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Il ha troppo de contos temporari associate pro adder a iste blocada. Solmente $1 conto{{PLURAL:$1||s}} pote esser blocate al mesme tempore.",
 	"rangecalculator": "Calculator de intervallos IP",
-	"rangecalculator-summary": "Iste instrumento permitte calcular le intervallo commun inter un lista de adresses IP. Iste instrumento actualmente calcula solmente un sol intervallo commun. Non es possibile miscer adresses IPv4 e IPv6."
+	"rangecalculator-summary": "Iste instrumento permitte calcular le intervallo commun inter un lista de adresses IP. Iste instrumento actualmente calcula solmente un sol intervallo commun. Non es possibile miscer adresses IPv4 e IPv6.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtros"
 }

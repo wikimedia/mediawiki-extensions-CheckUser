@@ -66,7 +66,7 @@
 	"checkuser-tempaccount-enable-preference": "عارضي کاتن جي آئپي پتن کي ظاھر ڪرڻ کي فعال ڪريو",
 	"checkuser-ipinfo-global-contributions-label": "عالمي ڀاڱيداريون",
 	"checkuser-suggestedinvestigations-filter-button": "ڇاڻي",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "ڇاڻيون",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "بند ڪريو",
-	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "کاتو"
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "کاتو",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "ڇاڻيون"
 }

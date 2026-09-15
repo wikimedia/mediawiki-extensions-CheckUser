@@ -436,7 +436,6 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Denne informasjonen er kun for brukere med IP-kontrollørtilgang. Ikke del antall saker eller informasjon om typen signaler med brukere som ikke har IP-kontrollørtilgang.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Filtrene du har tatt i bruk er for brede. Avgrens søket for å få bedre resultater.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtrer",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtre",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Lukk",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Vis resultater",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risikosignaler",
@@ -510,5 +509,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Dette vil gjelde blokkeringen av {{PLURAL:$1|én konto|$1 kontoer}}. Ved å fortsette å blokkere {{PLURAL:$1|denne kontoen|disse kontoene}} bekrefter du at du har undersøkt {{PLURAL:$1|den|dem}}.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Det er for mange tilknyttede midlertidige kontoer til å legge dem til i denne blokkeringen. Vi tillater kun blokkering av opptil {{PLURAL:$1|én konto|$1 kontoer}} av gangen.",
 	"rangecalculator": "Kalkulator for IP-intervaller",
-	"rangecalculator-summary": "Dette verktøyet lar deg regne ut intervallet for ei liste over IP-adresser. Verktøyet regner ut ett felles intervall, så man kan ikke blande IPv4- og IPv6-adresser."
+	"rangecalculator-summary": "Dette verktøyet lar deg regne ut intervallet for ei liste over IP-adresser. Verktøyet regner ut ett felles intervall, så man kan ikke blande IPv4- og IPv6-adresser.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtre"
 }

@@ -364,6 +364,7 @@
 	"checkuser-userinfocard-thanks": "Получено благодарностей: $1 (поблагодарено: $2)",
 	"checkuser-userinfocard-checks": "Проверок: $1 (последняя проверка: $2 )",
 	"checkuser-userinfocard-checks-empty": "Проверок: $1",
+	"checkuser-userinfocard-abusefilter-hits": "Срабатываний фильтра злоупотреблений: $1",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Глобально {{GENDER:$1|заблокирован|заблокирована}}]] с $3",
 	"checkuser-userinfocard-menu-view-contributions": "Просмотреть вклад {{GENDER:$1|участника|участницы}}",
 	"checkuser-userinfocard-menu-view-global-account": "Посмотреть данные глобальной {{GENDER:$1|учётной записи}}",

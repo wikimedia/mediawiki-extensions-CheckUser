@@ -500,7 +500,6 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Cette information est réservée aux utilisateurs disposant d’un accès Checkuser. Ne partagez pas les décomptes des cas, ni les informations sur les types de signaux avec des utilisateurs n’ayant un accès Checkuser.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Les filtres que vous avez appliqués sont trop larges, veuillez affiner votre recherche pour obtenir de meilleurs résultats.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtrer",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtres",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Fermer",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Afficher les résultats",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Signaux de risque",
@@ -586,5 +585,6 @@
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Il y a trop de comptes temporaires associés pour être ajoutés à ce blocage. Nous n’autorisons le blocage que d’un maximum de $1 {{PLURAL:$1|compte|comptes}} à la fois.",
 	"rangecalculator": "Calculateur de plage d'IP",
 	"rangecalculator-summary": "Cet outil vous permet de déterminer la plage commune parmi une liste d'adresses IP. Actuellement, cet outil ne détermine qu'une seule plage commune et vous ne pouvez pas mélanger des adresses IPv4 et IPv6.",
-	"checkuser-si-related-cases-info": "Le compte cible est lié à {{PLURAL:$1|$1 compte|$1 comptes}} dans [$3 {{PLURAL:$2|$2 investigation suggérée|$2 investigations suggérées}}]"
+	"checkuser-si-related-cases-info": "Le compte cible est lié à {{PLURAL:$1|$1 compte|$1 comptes}} dans [$3 {{PLURAL:$2|$2 investigation suggérée|$2 investigations suggérées}}]",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtres"
 }

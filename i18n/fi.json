@@ -455,7 +455,6 @@
 	"checkuser-suggestedinvestigations-summary-detail-view": "Tämä sivu sisältää yksityiskohtaisia tietoja '''tapauksesta #$1''' vain osoitepaljastimen käyttäjiä varten.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Käyttämäsi suodattimet ovat liian laajoja. Rajaa hakuasi parempien tulosten saamiseksi.",
 	"checkuser-suggestedinvestigations-filter-button": "Suodatin",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Suodattimet",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Sulje",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Näytä tulokset",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Riskisignaalit",
@@ -541,5 +540,6 @@
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Liian monta liittyvää tilapäistä tunnusta estettäväksi. Enintään $1 {{PLURAL:$1|tunnus|tunnusta}} voidaan estää kerralla.",
 	"rangecalculator": "IP-aluelaskin",
 	"rangecalculator-summary": "Tällä työkalulla voi laskea IP-osoitteiden listan perusteella niiden yhteisen IP-osoiteavaruuden. Tällä hetkellä työkalu laskee vain yhden yhteisen osoiteavaruuden, eikä siinä voi sekoittaa IPv4- ja IPv6-osoitteita.",
-	"checkuser-si-related-cases-info": "Kohdetunnus liittyy $1 {{PLURAL:$1|tunnukseen}} [$3 $2 {{PLURAL:$2|ehdotetussa tutkinnassa}}]"
+	"checkuser-si-related-cases-info": "Kohdetunnus liittyy $1 {{PLURAL:$1|tunnukseen}} [$3 $2 {{PLURAL:$2|ehdotetussa tutkinnassa}}]",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Suodattimet"
 }

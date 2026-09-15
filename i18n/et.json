@@ -349,7 +349,6 @@
 	"checkuser-suggestedinvestigations-summary": "Siin leheküljel on kontrollkasutajatele kontrollimiseks ära toodud kontod, mis on märgitud automaatselt kahlaseks.",
 	"checkuser-suggestedinvestigations-private-data-warning": "See teave on ainult kasutajatele, kellel on kontrollkasutaja õigused. Ära jaga mittekontrollkasutajatega juhtumite koguarvusid ega teavet märkide tüüpide kohta.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtreeri",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtrid",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Sule",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Näita tulemusi",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Riskimärgid",
@@ -396,5 +395,6 @@
 	"checkuser-related-tas-specialblock-confirm": "Sellega blokeeritakse $1 {{PLURAL:$1|konto|kontot}}. Jätkates {{PLURAL:$1|selle konto|nende kontode}} blokeerimist, kinnitad, et oled {{PLURAL:$1|seda|neid}} uurinud.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Seotud ajutisi kontosid on sellele blokeeringule lisamiseks liiga palju. Lubame blokeerida ühe korraga kuni $1 {{PLURAL:$1|konto|kontot}}.",
 	"rangecalculator": "IP-vahemiku kalkulaator",
-	"rangecalculator-summary": "See tööriist võimaldab leida loetletud IP-aadresside ühise IP-vahemiku. Praegu leiab see tööriist ainult ühe ühise vahemiku ning korraga ei saa lisada IPv4- ja IPv6-aadresse."
+	"rangecalculator-summary": "See tööriist võimaldab leida loetletud IP-aadresside ühise IP-vahemiku. Praegu leiab see tööriist ainult ühe ühise vahemiku ning korraga ei saa lisada IPv4- ja IPv6-aadresse.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtrid"
 }

@@ -280,7 +280,6 @@
 	"checkuser-userinfocard-ip-revealed-never": "IPoù diskuliet ː $1",
 	"checkuser-suggestedinvestigations": "Enklaskoù kinniget",
 	"checkuser-suggestedinvestigations-filter-button": "Sil",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Siloù",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Serriñ",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Diskouez an disoc'hoù",
 	"checkuser-userinfocard-temporary-account-bucketcount": "Kontoù berrbad eus an holl IPoù a glot : $1",
@@ -300,5 +299,6 @@
 	"checkuser-related-tas-specialblock-accounts-list-error": "Ur fazi ez eus bet o klask kavout ar c'hontoù berrbad a zo graet gant chomlec'hioù IP stag ouzh $1. Gallout a {{GENDER:$2|rit}} kenderc'hel gant ho stankadenn war $1 pe klask kontoù stag adarre.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Re a gontoù stag zo da ouzhpennañ d'ar stankadenn-mañ. $1 {{PLURAL:$1|gont|kont}} a c'hall bezañ stanket er memes mare.",
 	"rangecalculator": "Jeder Lijorennoù IP",
-	"rangecalculator-summary": "Gant ar benveg-mañ e c'hallit jediñ al lijorenn voutin etre ur roll chomlec'hioù IP. Ne jed ar benveg-mañ nemet ul lijorenn voutin evit poent ha n'hallit ket meskañ chomlec'hioù IPv4 hag IPv6."
+	"rangecalculator-summary": "Gant ar benveg-mañ e c'hallit jediñ al lijorenn voutin etre ur roll chomlec'hioù IP. Ne jed ar benveg-mañ nemet ul lijorenn voutin evit poent ha n'hallit ket meskañ chomlec'hioù IPv4 hag IPv6.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Siloù"
 }

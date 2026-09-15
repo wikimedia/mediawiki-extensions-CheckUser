@@ -447,8 +447,8 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Maklumat ini hanya untuk pengguna yang mempunyai akses Pemeriksa. Jangan kongsikan kiraan kes atau maklumat tentang jenis isyarat dengan pengguna bukan Pemeriksa.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Penapis yang anda gunakan terlalu luas, sila persempitkan carian anda untuk hasil yang lebih baik.",
 	"checkuser-suggestedinvestigations-filter-button": "Penapis",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Penapis",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Tutup",
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "Balikkan",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Tunjukkan hasil",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Isyarat risiko",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
@@ -542,5 +542,8 @@
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Terdapat terlalu banyak akaun sementara yang berkaitan untuk ditambah pada sekatan ini. Kami hanya membenarkan sehingga $1 {{PLURAL:$1|akaun}} disekat pada satu masa.",
 	"rangecalculator": "Kalkulator Julat IP",
 	"rangecalculator-summary": "Alat ini membolehkan anda mengira julat sepunya antara senarai alamat IP. Alat ini hanya mengira satu julat sepunya pada masa ini dan anda tidak boleh mencampurkan alamat IPv4 dan IPv6.",
-	"checkuser-si-related-cases-info": "Akaun sasaran dipautkan ke {{PLURAL:$1|$1 akaun}} yang merentasi [$3 {{PLURAL:$2|$2 siasatan yang dicadangkan}}]"
+	"checkuser-si-related-cases-info": "Akaun sasaran dipautkan ke {{PLURAL:$1|$1 akaun}} yang merentasi [$3 {{PLURAL:$2|$2 siasatan yang dicadangkan}}]",
+	"checkuser-suggestedinvestigations-queue-view-all": "Semua",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "Semua (telah disunting)",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Penapis"
 }

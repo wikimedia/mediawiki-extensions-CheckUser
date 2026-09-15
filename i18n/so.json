@@ -445,8 +445,8 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Xogtan waxaa loogu talagalay oo keliya isticmaalayaasha leh gelitaanka CheckUser. Ha la wadaagin tirada kiisaska ama macluumaadka ku saabsan noocyada calaamadaha isticmaalayaasha aan CheckUser ahayn.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Shaandhaynta aad isticmaashay waa mid aad u ballaaran, fadlan yaree ama cidhiidhi geli raadintaada si aad u hesho natiijooyin ka wanaagsan.",
 	"checkuser-suggestedinvestigations-filter-button": "Shaandheeye",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Shaandho",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Xir",
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "Dib u celi",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Muuji natiijooyinka",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Calaamadaha khatarta",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Xaaladda",
@@ -544,5 +544,8 @@
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Waxaa jira xisaabaad ku-meelgaar ah oo aad u badan oo lagu darayo xannibaaddan. Waxaan kaliya oggol nahay in la xannibo ilaa $1 {{PLURAL:$1|xisaab|xisaabo}} hal mar.",
 	"rangecalculator": "Xisaabiyaha baaxadda IP-ga",
 	"rangecalculator-summary": "Qalabkani wuxuu kuu oggolaanayaa inaad xisaabiso baaxadda guud ee u dhexeysa liiska cinwaanada IP-ga. Qalabkani hadda wuxuu xisaabiyaa hal baaxad guud oo keliya, mana isku dari kartid cinwaanada IPv4 iyo IPv6.",
-	"checkuser-si-related-cases-info": "Akoonka bartilmaameedka ah wuxuu ku xiran yahay {{PLURAL:$1|$1 akoon|$1 akoonnada}} ee ku kala baahsan [$3 {{PLURAL:$2|$2 baaritaan la soo jeediyay|$2 baaritaanno la soo jeediyay}}]"
+	"checkuser-si-related-cases-info": "Akoonka bartilmaameedka ah wuxuu ku xiran yahay {{PLURAL:$1|$1 akoon|$1 akoonnada}} ee ku kala baahsan [$3 {{PLURAL:$2|$2 baaritaan la soo jeediyay|$2 baaritaanno la soo jeediyay}}]",
+	"checkuser-suggestedinvestigations-queue-view-all": "Dhammaan",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "Dhammaan (tafatiray)",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Shaandho"
 }

@@ -343,7 +343,6 @@
 	"checkuser-suggestedinvestigations-autoclose-reason": "د ټولو بنديز لگېدلي يا تړل شوي گڼونونو په توگه په خپلکاري ډول وتړل شو",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: مورد #$1",
 	"checkuser-suggestedinvestigations-filter-button": "چاڼگر",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "چاڼگرونه",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "تړل",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "پايلې ښودل",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "گواښ نښې",
@@ -415,5 +414,6 @@
 	"checkuser-related-tas-specialblock-confirm": "دا به په $1 {{PLURAL:$1|گڼون|گڼونونو}} بنديز ولگوي. د دې {{PLURAL:$1|گڼون|گڼونو}} د بنديز لگولو بهير تاييدوي چې تاسو {{PLURAL:$1|د دې|د دوی}} پلټنه کړې ده.",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "دې بنديز کې د ورگډولو لپاره ډېری اړوند لنډمهاله گڼونونه شتون لري. موږ يوازې يو وخت کې تر $1 {{PLURAL:$1|گڼون|گڼونونو}} پورې د بنديز لگولو اجازه ورکوو.",
 	"rangecalculator": "وېبتې حد شمېرگر",
-	"rangecalculator-summary": "دا کارتوکی تاسو ته اجازه درکوي، چې د وېب پتې د لړليک ترمنځ ټولگړی حد محاسبه کړئ. دا کارتوکی وسمهال يوازې ټولگړی ټک محاسبه کوي او تاسو نشئ کولی IPv4 او IPv6 پتې سره گډې کړئ."
+	"rangecalculator-summary": "دا کارتوکی تاسو ته اجازه درکوي، چې د وېب پتې د لړليک ترمنځ ټولگړی حد محاسبه کړئ. دا کارتوکی وسمهال يوازې ټولگړی ټک محاسبه کوي او تاسو نشئ کولی IPv4 او IPv6 پتې سره گډې کړئ.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "چاڼگرونه"
 }

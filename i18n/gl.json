@@ -451,7 +451,6 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Esta información é só para usuarios con acceso de verificador de usuarios. Non compartas o número de casos nin información sobre os tipos de sinais con usuarios que non sexan verificadores de usuarios.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Os filtros que aplicaches son demasiado amplos. Reduce a túa busca para obter mellores resultados.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtro",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtros",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Pechar",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Mostrar os resultados",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Sinais de risco",
@@ -546,5 +545,6 @@
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "Hai demasiadas contas temporais asociadas para engadir a este bloqueo. Só permitimos bloquear {{PLURAL:$1|unha conta|ata $1 contas}} de cada vez.",
 	"rangecalculator": "Calculadora de rango IP",
 	"rangecalculator-summary": "Esta ferramenta permíteche calcular o rango común entre unha lista de enderezos IP. Actualmente, esta ferramenta só calcula un rango común e non podes mesturar enderezos IPv4 e IPv6.",
-	"checkuser-si-related-cases-info": "A conta obxectivo está ligada a {{PLURAL:$1|unha conta|$1 contas}} a través [$3 {{PLURAL:$2|dunha investigación suxerida|de $2 investigacións suxeridas}}]"
+	"checkuser-si-related-cases-info": "A conta obxectivo está ligada a {{PLURAL:$1|unha conta|$1 contas}} a través [$3 {{PLURAL:$2|dunha investigación suxerida|de $2 investigacións suxeridas}}]",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtros"
 }

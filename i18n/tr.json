@@ -444,7 +444,6 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "Buradaki bilgiler yalnızca denetçilerin erişimine özeldir. Buradaki vaka sayısını ya da buradan erişilen herhangi bir bilgiyi denetçi olmayanlarla paylaşmayın.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Uyguladığınız süzgeçler fazla geniş, lütfen daha iyi sonuçlar için daraltın",
 	"checkuser-suggestedinvestigations-filter-button": "Süzgeç",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Süzgeçler",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Kapat",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Sonuçları göster",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risk sinyalleri",
@@ -505,5 +504,6 @@
 	"checkuser-related-tas-specialblock-checkbox-label": "Tüm alakalı geçici hesapları engelle",
 	"checkuser-related-tas-specialblock-confirm": "Bu, engellemeyi $1 hesaba uygulayacaktır. Bu {{PLURAL:$1|hesabı|hesapları}} engellemeye devam etmeniz, {{PLURAL:$1|onu|onları}} incelediğinizi onaylar.",
 	"rangecalculator": "IP Aralığı Hesaplayıcı",
-	"rangecalculator-summary": "Bu araç, bir IP adresleri listesinin ortak aralığını hesaplamanızı sağlar. Araç şu anda yalnızca tek bir ortak aralık hesaplayabilmekte ve IPv4 ile IPv6 adreslerinin birlikte kullanılmasına izin vermemektedir."
+	"rangecalculator-summary": "Bu araç, bir IP adresleri listesinin ortak aralığını hesaplamanızı sağlar. Araç şu anda yalnızca tek bir ortak aralık hesaplayabilmekte ve IPv4 ile IPv6 adreslerinin birlikte kullanılmasına izin vermemektedir.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Süzgeçler"
 }

@@ -417,7 +417,6 @@
 	"checkuser-suggestedinvestigations-subpage-not-found-page-text": "La sottopagina indicata non esiste.",
 	"checkuser-suggestedinvestigations-private-data-warning": "Queste informazioni sono destinate esclusivamente agli utenti con accesso Checkuser. Non condividere il numero di casi o informazioni sui tipi di segnali con utenti privi dell'accesso Checkuser.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtro",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Filtri",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Chiudi",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Mostra risultati",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Segnali di rischio",
@@ -488,5 +487,6 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Elenco utenze copiato negli appunti",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Impossibile copiare l'elenco delle utenze",
 	"checkuser-related-tas-specialblock-checkbox-label": "Blocca tutte le utenze temporanee associate",
-	"rangecalculator-summary": "Questo strumento consente di calcolare l'intervallo comune di un elenco di indirizzi IP. Al momento lo strumento calcola un solo intervallo comune e non è possibile combinare indirizzi IPv4 e IPv6."
+	"rangecalculator-summary": "Questo strumento consente di calcolare l'intervallo comune di un elenco di indirizzi IP. Al momento lo strumento calcola un solo intervallo comune e non è possibile combinare indirizzi IPv4 e IPv6.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtri"
 }

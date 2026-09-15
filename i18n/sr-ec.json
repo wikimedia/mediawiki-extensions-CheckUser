@@ -370,7 +370,6 @@
 	"checkuser-suggestedinvestigations-summary": "Ова страница садржи налоге аутоматски означене сумњивим и за чекјузере да испитају.",
 	"checkuser-suggestedinvestigations-private-data-warning": "Ове информације су искључиво за чекјузере. Немојте делити информације као што су број случајева и врстама ризика са другима.",
 	"checkuser-suggestedinvestigations-filter-button": "Филтер",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "Филтери",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Затвори",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Прикажи резултате",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Знаци упозорења",
@@ -417,5 +416,6 @@
 	"checkuser-related-tas-specialblock-checkbox-label": "Блокирај све повезане привремене налоге",
 	"checkuser-related-tas-specialblock-accounts-list": "$1 {{PLURAL:$1|привремени налог|привремених налога}} је {{PLURAL:$1|индентификован|индентификовано}} да {{PLURAL:$2|користи}} $2 {{PLURAL:$2|IP адресу|IP адресе}} {{PLURAL:$2|повезану|повезаних}} са $3 у последњих $4 дана: $5.",
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Сви доприноси са ових налога]",
-	"checkuser-related-tas-specialblock-confirm": "Биће {{PLURAL:$1|блокиран|блокирано}} $1 {{PLURAL:$1|налог|налога}}. Блокирањем потврђујете да сте предходно обавили истрагу."
+	"checkuser-related-tas-specialblock-confirm": "Биће {{PLURAL:$1|блокиран|блокирано}} $1 {{PLURAL:$1|налог|налога}}. Блокирањем потврђујете да сте предходно обавили истрагу.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Филтери"
 }

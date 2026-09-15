@@ -342,7 +342,6 @@
 	"checkuser-userinfocard-ip-revealed-never": "আইপি প্রকাশ: $1 বার",
 	"checkuser-suggestedinvestigations-subpage-not-found": "{{int:checkuser-suggestedinvestigations}}: উপপাতা পাওয়া যায়নি",
 	"checkuser-suggestedinvestigations-filter-button": "ছাঁকনি",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "ছাঁকনি",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "বন্ধ করুন",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "ফলাফল দেখাও",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "স্থিতি",
@@ -372,5 +371,6 @@
 	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "সমস্ত অ্যাকাউন্ট দেখান",
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/ $1 |showRelatedTemporaryAccounts=1}} এই অ্যাকাউন্টগুলো থেকে করা সকল অবদান দেখুন]",
 	"rangecalculator": "আইপি পরিসর গণনাকারী",
-	"rangecalculator-summary": "এই সরঞ্জামটি আপনাকে একাধিক আইপি ঠিকানার একটি তালিকা থেকে সাধারণ পরিসর নির্ণয় করতে সাহায্য করবে। বর্তমানে এই সরঞ্জামটি শুধু একটি সাধারণ পরিসর গণনা করতে পারে এবং আপনি একসঙ্গে IPv4 ও IPv6 ঠিকানা ব্যবহার করতে পারবেন না।"
+	"rangecalculator-summary": "এই সরঞ্জামটি আপনাকে একাধিক আইপি ঠিকানার একটি তালিকা থেকে সাধারণ পরিসর নির্ণয় করতে সাহায্য করবে। বর্তমানে এই সরঞ্জামটি শুধু একটি সাধারণ পরিসর গণনা করতে পারে এবং আপনি একসঙ্গে IPv4 ও IPv6 ঠিকানা ব্যবহার করতে পারবেন না।",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "ছাঁকনি"
 }

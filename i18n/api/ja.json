@@ -51,8 +51,8 @@
 	"checkuser-rest-request-desc-update-case": "推奨調査ケースの状態更新用のリクエストボディ",
 	"checkuser-rest-response-desc-update-case": "更新された推奨調査ケースの詳細を含むレスポンス",
 	"checkuser-rest-param-desc-case-id-input": "推奨調査ケースの識別子",
-	"checkuser-rest-endpoint-summary-update-case": "推奨調査ケースの状態と理由を更新",
-	"checkuser-rest-endpoint-desc-update-case": "特定の推奨調査ケースの状態と理由を更新します。",
+	"checkuser-rest-endpoint-summary-update-case": "内部API: 推奨調査ケースの状態と理由を更新",
+	"checkuser-rest-endpoint-desc-update-case": "**注意: これは内部APIであり不安定です。CheckUser拡張機能の内部コード以外からは使用しないでください。**\n\n特定の推奨調査ケースの状態と理由を更新します。",
 	"checkuser-rest-endpoint-summary-suggestedinvestigationsusersummary": "この利用者に関連する推奨調査ケースの概要を取得",
 	"checkuser-rest-endpoint-desc-suggestedinvestigationsusersummary": "推奨調査で特定利用者に紐づけられたアカウント数とケース数を取得"
 }

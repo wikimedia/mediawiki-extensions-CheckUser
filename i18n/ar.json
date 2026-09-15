@@ -462,7 +462,6 @@
 	"checkuser-suggestedinvestigations-private-data-warning": "هذه المعلومات للمستخدمين الذين لديهم إمكانية الوصول فقط إلى Checkuser. لا تشارك حسابات الحالات أو معلومات عن أنواع الإشارات مع مستخدمين غير المستخدمين في Checkuser.",
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "الفلترات التي قمت بتطبيقها واسعة جداً، يرجى تقليص بحثك عن نتائج أفضل.",
 	"checkuser-suggestedinvestigations-filter-button": "مرشح",
-	"checkuser-suggestedinvestigations-filter-dialog-title": "مرشحات",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "إغلاق",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "إظهار النتائج",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "إشارات المخاطر",
@@ -533,5 +532,6 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "فشل في نسخ قائمة الحسابات",
 	"checkuser-related-tas-specialblock-checkbox-label": "إغلاق جميع الحسابات المؤقتة المرتبطة",
 	"rangecalculator": "حاسبة نطاق IP",
-	"rangecalculator-summary": "تتيح لك هذه الأداة حساب النطاق المشترك بين قائمة عناوين IP. وتحسب هذه الأداة حاليًا نطاقًا مشتركًا واحدًا فقط، ولا يمكنك استخدام عناوين IPv4 وIPv6 معًا."
+	"rangecalculator-summary": "تتيح لك هذه الأداة حساب النطاق المشترك بين قائمة عناوين IP. وتحسب هذه الأداة حاليًا نطاقًا مشتركًا واحدًا فقط، ولا يمكنك استخدام عناوين IPv4 وIPv6 معًا.",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "مرشحات"
 }
