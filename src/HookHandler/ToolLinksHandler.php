@@ -253,6 +253,7 @@ class ToolLinksHandler implements
 					// The default of this filter is to exclude zero-edit users, so we need to
 					// explicitly disable it here
 					'editAndBlockFilter' => 'none',
+					'queueView' => 'all',
 				]
 			);
 		}

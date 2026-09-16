@@ -81,7 +81,12 @@ class SuggestedInvestigationsMessageRenderer {
 		$label = $context->msg( 'checkuser-ip-results-suggestedinvestigations-notice-link' )->text();
 
 		if ( strlen( $title->getLocalURL( [ 'username' => $userNames ] ) ) <= self::MAX_GET_URL_LENGTH ) {
-			return $linkRenderer->makeKnownLink( $title, $label, [], [ 'username' => $userNames ] );
+			return $linkRenderer->makeKnownLink(
+				$title,
+				$label,
+				[],
+				[ 'username' => $userNames, 'editAndBlockFilter' => 'none', 'queueView' => 'all' ]
+			);
 		}
 
 		return $this->buildForm( $title, $label, $userNames, $context );
