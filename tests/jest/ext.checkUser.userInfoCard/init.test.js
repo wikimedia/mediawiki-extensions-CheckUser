@@ -7,6 +7,10 @@ jest.mock( '../../../modules/ext.checkUser.userInfoCard/components/App.vue', () 
 jest.mock( '../../../modules/ext.checkUser.userInfoCard/components/UserCardButton.vue', () => ( {
 	methods: {}
 } ) );
+jest.mock( '../../../modules/ext.checkUser.userInfoCard/rest.js', () => ( {
+	getUserIconVariants: jest.fn(),
+	getUserIconVariant: jest.fn()
+} ) );
 jest.mock( 'vue', () => ( {
 	createMwApp: () => ( {
 		mount: () => {
@@ -29,6 +33,10 @@ jest.mock( 'vue', () => ( {
 } ) );
 
 const jquery = require( 'jquery' );
+const {
+	getUserIconVariants,
+	getUserIconVariant
+} = require( '../../../modules/ext.checkUser.userInfoCard/rest.js' );
 
 const ICON_BASE = 'ext-checkuser-userinfocard-button__icon';
 const ARIA_LABEL_KEY = 'checkuser-userinfocard-toggle-button-aria-label';
@@ -78,14 +86,15 @@ function setPreference( wanted ) {
  * @return {Object} The module exports
  */
 function loadInit( customIcons, relevantUserName ) {
-	mw.config.get = jest.fn( ( key, fallback ) => {
-		if ( key === 'wgCheckUserUserInfoCardCustomIcons' && customIcons !== undefined ) {
-			return customIcons;
-		}
-		if ( key === 'wgRelevantUserName' ) {
-			return relevantUserName;
-		}
-		return fallback;
+	const configValues = { wgRelevantUserName: relevantUserName };
+	if ( customIcons !== undefined ) {
+		configValues.wgCheckUserUserInfoCardCustomIcons = customIcons;
+	}
+	mw.config.get = jest.fn( ( key, fallback ) => (
+		key in configValues ? configValues[ key ] : fallback
+	) );
+	mw.config.set = jest.fn( ( key, value ) => {
+		configValues[ key ] = value;
 	} );
 
 	contentHandler = undefined;
@@ -197,6 +206,7 @@ describe( 'ext.checkUser.userInfoCard init', () => {
 		deferReady = false;
 		global.popoverApp = null;
 		setPreference( true );
+		getUserIconVariant.mockResolvedValue( 'userAvatar' );
 	} );
 
 	describe( 'blocked target icons', () => {
@@ -490,6 +500,63 @@ describe( 'ext.checkUser.userInfoCard init', () => {
 		} );
 	} );
 
+	describe( 'loadIconVariants', () => {
+		/**
+		 * Answer the request which the module makes.
+		 *
+		 * @param {Object<string,string>} iconsByUser Variant to answer for a user. Requested
+		 *   users which are absent from this map get 'userAvatar'.
+		 */
+		function answerRequest( iconsByUser ) {
+			getUserIconVariants.mockImplementation( ( usernames ) => {
+				const icons = {};
+				usernames.forEach( ( username ) => {
+					icons[ username ] = iconsByUser[ username ] || 'userAvatar';
+				} );
+				return Promise.resolve( icons );
+			} );
+		}
+
+		it( 'resolves a variant for every requested user', async () => {
+			const { loadIconVariants } = loadInit( {} );
+			answerRequest( { 'Blocked user': 'userBlocked' } );
+
+			const variants = await loadIconVariants( [ 'Blocked user', 'Some user' ] );
+
+			expect( variants ).toEqual( {
+				'Blocked user': 'userBlocked',
+				'Some user': 'userAvatar'
+			} );
+			expect( getUserIconVariants.mock.calls ).toEqual( [
+				[ [ 'Blocked user', 'Some user' ] ]
+			] );
+		} );
+
+		it( 'only asks about the users the module does not know the icon of', async () => {
+			const { loadIconVariants } = loadInit( { 'Blocked user': 'userBlocked' } );
+			answerRequest( { 'Investigated user': 'suggestedInvestigations' } );
+
+			const variants = await loadIconVariants( [ 'Blocked user', 'Investigated user' ] );
+
+			expect( variants ).toEqual( {
+				'Blocked user': 'userBlocked',
+				'Investigated user': 'suggestedInvestigations'
+			} );
+			expect( getUserIconVariants.mock.calls ).toEqual( [ [ [ 'Investigated user' ] ] ] );
+			expect( mw.config.get( 'wgCheckUserUserInfoCardCustomIcons' ) ).toEqual( {
+				'Blocked user': 'userBlocked',
+				'Investigated user': 'suggestedInvestigations'
+			} );
+		} );
+
+		it( 'makes no request when no user is asked about', async () => {
+			const { loadIconVariants } = loadInit( {} );
+
+			expect( await loadIconVariants( [] ) ).toEqual( {} );
+			expect( getUserIconVariants ).not.toHaveBeenCalled();
+		} );
+	} );
+
 	// A gadget can load the module and use its API at once, which can be before the document is
 	// ready. The card is not there yet at that point, because it needs document.body to mount into.
 	describe( 'before the card mounts', () => {
@@ -540,6 +607,13 @@ describe( 'ext.checkUser.userInfoCard init', () => {
 			setPreference( false );
 
 			expect( loadInit( {} ).createButton( 'Some user' ) ).toBe( null );
+		} );
+
+		it( 'gets no icon variants, and no request is made', async () => {
+			setPreference( false );
+
+			expect( await loadInit( {} ).loadIconVariants( [ 'Some user' ] ) ).toEqual( {} );
+			expect( getUserIconVariants ).not.toHaveBeenCalled();
 		} );
 	} );
 

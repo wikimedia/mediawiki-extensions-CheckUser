@@ -15,7 +15,28 @@
  *     if ( !uic.isEnabled() ) {
  *         return;
  *     }
+ *     // If needed, a call to API will be made to determine the button's icon
  *     myUserLinkWrapper.append( uic.createButton( 'Example user' ) );
+ * } );
+ *
+ * @example
+ * // Some icons depend on the status of the account, which only the server knows.
+ * // If you have existing buttons that require setting their icon, use the code below.
+ * // loadIconVariants can also be used for preloading data (which is not needed, unless
+ * // the buttons are created over multiple JavaScript ticks).
+ * mw.loader.using( 'ext.checkUser.userInfoCard' ).then( async ( require ) => {
+ *     const uic = require( 'ext.checkUser.userInfoCard' );
+ *     if ( !uic.isEnabled() ) {
+ *         return;
+ *     }
+ *
+ *     const usernames = [ ... ];
+ *     const buttons = {}; // e.g. from document.querySelectorAll( ... )
+ *
+ *     const icons = await uic.loadIconVariants( usernames );
+ *     for ( const [ user, icon ] of Object.entries( icons ) ) {
+ *         uic.setIconVariant( buttons[user], icon );
+ *     }
  * } );
  *
  * @module ext.checkUser.userInfoCard
@@ -26,8 +47,10 @@ const App = require( './components/App.vue' );
 const {
 	getCustomIconVariant,
 	getDefaultIconVariant,
-	isUserInfoCardEnabled
+	isUserInfoCardEnabled,
+	setCustomIconVariant
 } = require( './util.js' );
+const { getUserIconVariants, getUserIconVariant } = require( './rest.js' );
 const UserCardButton = require( './components/UserCardButton.vue' );
 
 const BUTTON_SELECTOR = '.ext-checkuser-userinfocard-button';
@@ -81,7 +104,9 @@ const togglePopover = ( button, username ) => {
  * @param {Element} button
  * @param {string} variant 'userAvatar', 'userBlocked', 'userTemporary'
  *   or 'suggestedInvestigations'
- * @private
+ * @memberof module:ext.checkUser.userInfoCard
+ * @stable for use in gadgets and user scripts
+ * @since 1.47
  */
 function setIconVariant( button, variant ) {
 	const iconElem = button.querySelector( '.cdx-button__icon' );
@@ -109,7 +134,9 @@ function setIconVariant( button, variant ) {
  * The result is a plain DOM element, with the same appearance as the default UIC buttons.
  * It will respond to events once added to the DOM, there's no need to add listeners separately.
  *
- * This function does not perform API queries to determine the proper icon for the target user.
+ * If the icon for the target user is not yet loaded (and not passed as an option), the function
+ * will trigger an API request to determine the icon. Calls in the same tick are grouped into
+ * a single API request for performance reasons.
  *
  * @param {string} username Canonical name of the target user
  * @param {Object} [options] Optional configuration for the button
@@ -147,13 +174,69 @@ function createButton( username, options = {} ) {
 	button.appendChild( icon );
 
 	const iconVariant = options.icon ||
-		getCustomIconVariant( username ) ||
-		getDefaultIconVariant( username );
+		getCustomIconVariant( username );
 
 	attachInfoCardButtonHandler( button );
-	setIconVariant( button, iconVariant );
+
+	if ( iconVariant ) {
+		setIconVariant( button, iconVariant );
+	} else {
+		// Set the default variant, it'll be the one to keep displaying if anything goes wrong
+		setIconVariant( button, getDefaultIconVariant( username ) );
+		getUserIconVariant( username ).then( ( receivedIcon ) => {
+			setIconVariant( button, receivedIcon );
+			setCustomIconVariant( username, receivedIcon );
+		} ).catch( () => {} );
+	}
 
 	return button;
+}
+
+/**
+ * Get the icon variant which the button of each of the given users needs.
+ *
+ * Except for the temporary and "standard" user icons, all other icon variants on the UIC button
+ * depend on a state known at the server side. In order to reflect it in the button, this function
+ * loads all the necessary information from the API.
+ *
+ * If this function is invoked with a user, for whom an icon is already known, it's loaded without
+ * asking the server. All icons received from the server are also stored in the
+ * `wgCheckUserUserInfoCardCustomIcons` config, so that they are applied to any button created
+ * in future with the `createButton` function.
+ *
+ * @param {string[]} usernames Names of the target users.
+ * @return {Promise<Object>} Map of the given names to the icon variant of each of them, such as
+ *   'userAvatar', 'userBlocked', 'userTemporary' or 'suggestedInvestigations'. Every username
+ *   is present in the map, except for a viewer who turned the card off, who gets an empty map.
+ * @memberof module:ext.checkUser.userInfoCard
+ * @stable for use in gadgets and user scripts
+ * @since 1.47
+ */
+async function loadIconVariants( usernames ) {
+	if ( !enabled ) {
+		return {};
+	}
+
+	const variants = {};
+	const unknownUsernames = new Set();
+	usernames.forEach( ( username ) => {
+		const knownVariant = getCustomIconVariant( username );
+		if ( knownVariant ) {
+			variants[ username ] = knownVariant;
+		} else {
+			unknownUsernames.add( username );
+		}
+	} );
+
+	if ( unknownUsernames.size > 0 ) {
+		const downloadedIcons = await getUserIconVariants( [ ...unknownUsernames ] );
+		for ( const [ username, icon ] of Object.entries( downloadedIcons ) ) {
+			setCustomIconVariant( username, icon );
+			variants[ username ] = icon;
+		}
+	}
+
+	return variants;
 }
 
 /**
@@ -274,4 +357,11 @@ if ( enabled ) {
 }
 
 UserCardButton.methods.togglePopover = togglePopover;
-module.exports = { UserCardButton, createButton, attachInfoCardButtonHandler, isEnabled };
+module.exports = {
+	UserCardButton,
+	createButton,
+	loadIconVariants,
+	setIconVariant,
+	attachInfoCardButtonHandler,
+	isEnabled
+};

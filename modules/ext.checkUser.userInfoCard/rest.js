@@ -93,14 +93,35 @@ function isBadTokenError( errObject ) {
  * Callers which ask about a single user should use getUserIconVariant() instead, because it
  * puts the requests of all the buttons in the same tick together.
  *
- * @param {string[]} usernames Names of the users, at most 500. The names do not have to be
- *   canonical, and the response uses them as given here.
+ * If more users are asked for than supported by the server in a single request, the function
+ * will perform a few requests sequentially and resolve the promise after the last response
+ * comes in.
+ *
+ * @param {string[]} usernames Names of the users. The names do not have to be canonical,
+ *   and the response uses them as given here.
  * @return {Promise<Object<string,string>>} Map of the given names to the icon variant for
  *   each of them: 'userAvatar', 'userTemporary', 'userBlocked' or 'suggestedInvestigations'.
- *   Every requested name is present in the map. Rejects with the error details of the
- *   request if it fails.
+ *   Every requested name is present in the map. Rejects with the error details of the first
+ *   request which fails, and makes no request after it.
  */
-function getUserIconVariants( usernames ) {
+async function getUserIconVariants( usernames ) {
+	const icons = {};
+	for ( let i = 0; i < usernames.length; i += MAX_ICON_USERS ) {
+		const chunk = usernames.slice( i, i + MAX_ICON_USERS );
+		Object.assign( icons, await requestUserIconVariants( chunk ) );
+	}
+
+	return icons;
+}
+
+/**
+ * Makes one request for the icon variants of the given users.
+ *
+ * @param {string[]} usernames Names of the users, at most MAX_ICON_USERS
+ * @return {Promise<Object<string,string>>} Map of the given names to the icon variant for
+ *   each of them. Rejects with the error details of the request if it fails.
+ */
+function requestUserIconVariants( usernames ) {
 	return new Promise( ( resolve, reject ) => {
 		const request = new mw.Rest()
 			.post( '/checkuser/v0/userinfo/icons', { users: usernames } );
@@ -161,25 +182,22 @@ function flushUserIconVariants() {
 	pendingIconUsers = null;
 
 	const usernames = Array.from( pending.keys() );
-	for ( let i = 0; i < usernames.length; i += MAX_ICON_USERS ) {
-		const chunk = usernames.slice( i, i + MAX_ICON_USERS );
-		getUserIconVariants( chunk ).then(
-			( icons ) => {
-				chunk.forEach( ( username ) => {
-					if ( username in icons ) {
-						pending.get( username ).resolve( icons[ username ] );
-					} else {
-						pending.get( username ).reject( 'missing-icon' );
-					}
-				} );
-			},
-			( error ) => {
-				chunk.forEach( ( username ) => {
-					pending.get( username ).reject( error );
-				} );
-			}
-		);
-	}
+	getUserIconVariants( usernames ).then(
+		( icons ) => {
+			usernames.forEach( ( username ) => {
+				if ( username in icons ) {
+					pending.get( username ).resolve( icons[ username ] );
+				} else {
+					pending.get( username ).reject( 'missing-icon' );
+				}
+			} );
+		},
+		( error ) => {
+			usernames.forEach( ( username ) => {
+				pending.get( username ).reject( error );
+			} );
+		}
+	);
 }
 
 module.exports = {
