@@ -559,5 +559,7 @@
 	"rangecalculator": "Kalkulator zakresów IP",
 	"rangecalculator-summary": "To narzędzie pozwala obliczyć wspólny zakres dla listy adresów IP. Obecnie narzędzie oblicza tylko jeden wspólny zakres i nie można mieszać adresów IPv4 i IPv6.",
 	"checkuser-si-related-cases-info": "Konto docelowe jest powiązane z {{PLURAL:$1|$1 kontem|$1 kontami}} w ramach [$3 {{PLURAL:$2|$2 sugestii sprawdzeń}}]",
+	"checkuser-suggestedinvestigations-queue-view-all": "Wszystkie",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "Wszystkie (edytowane)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtry"
 }

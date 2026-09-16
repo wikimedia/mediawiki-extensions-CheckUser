@@ -488,6 +488,7 @@
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "絞り込み設定の範囲が広すぎます。より良い結果を表示するには、検索条件の範囲を狭めてください。",
 	"checkuser-suggestedinvestigations-filter-button": "絞り込み",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "閉じる",
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "既定値",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "結果を表示",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "リスクシグナル",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "ケースの状態",
@@ -582,5 +583,7 @@
 	"rangecalculator": "IPレンジ計算ツール",
 	"rangecalculator-summary": "このツールを使用すると、IPアドレスのリスト間で共通するレンジを計算できます。ただし、このツールは現在、共通レンジを1つしか計算できず、IPv4アドレスとIPv6アドレスを混在させることはできません。",
 	"checkuser-si-related-cases-info": "対象のアカウントは [$3 {{PLURAL:$2|$2 件の推奨調査}}]から {{PLURAL:$1|$1 アカウント}}にリンクしています",
+	"checkuser-suggestedinvestigations-queue-view-all": "全て",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "全て（絞り込みあり）",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "絞り込み設定"
 }

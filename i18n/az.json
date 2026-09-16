@@ -455,6 +455,7 @@
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Tətbiq etdiyiniz filtrlər çox genişdir, daha yaxşı nəticələr üçün axtarışınızı daraldın.",
 	"checkuser-suggestedinvestigations-filter-button": "Filtr",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Bağla",
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "Geri qaytar",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Nəticələri göstər",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Risk siqnalları",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Status",
@@ -549,5 +550,7 @@
 	"rangecalculator": "IP diapazonu kalkulyatoru",
 	"rangecalculator-summary": "Bu alət sizə IP ünvanlarının siyahısı arasındakı ortaq diapazonu hesablamağa imkan verir. Bu alət hazırda yalnız bir ortaq diapazonu hesablayır və IPv4 və IPv6 ünvanlarını qarışdıra bilməzsiniz.",
 	"checkuser-si-related-cases-info": "Hədəf hesabı [$3 {{PLURAL:$2|$2 təklif olunan araşdırma}}] üzrə {{PLURAL:$1|$1 hesabla}} əlaqələndirilib.",
+	"checkuser-suggestedinvestigations-queue-view-all": "Hamısı",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "Hamısı (redaktə olunmuş)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtrlər"
 }

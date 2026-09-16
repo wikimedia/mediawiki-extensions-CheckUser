@@ -505,6 +505,7 @@
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "您使用的筛选条件过于宽泛，请缩小搜索范围以获得更佳结果。",
 	"checkuser-suggestedinvestigations-filter-button": "过滤器",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "关闭",
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "回退",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "显示结果",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "风险信号",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "状态",
@@ -599,5 +600,7 @@
 	"rangecalculator": "IP范围计算器",
 	"rangecalculator-summary": "此工具可计算一组IP地址间的共同范围。此工具目前仅支持计算一个共同范围，且不能混用IPv4和IPv6地址。",
 	"checkuser-si-related-cases-info": "目标账号与涉及[$3 {{PLURAL:$2|$2项调查建议}}]的{{PLURAL:$1|$1个账号}}关联",
+	"checkuser-suggestedinvestigations-queue-view-all": "全部",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "全部（已编辑）",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "过滤器"
 }
