@@ -777,7 +777,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
 				wfMessage( 'checkuser-suggestedinvestigations-contributions-tool-link' )->text(),
 				[ 'class' => 'mw-contributions-link-suggested-investigations' ],
-				[ 'username' => $userPageTitle, 'editAndBlockFilter' => 'none' ]
+				[ 'username' => $userPageTitle, 'editAndBlockFilter' => 'none', 'queueView' => 'all' ]
 			)
 			->willReturn( 'Suggested Investigations mocked link' );
 

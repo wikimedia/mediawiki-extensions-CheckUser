@@ -632,7 +632,7 @@ QUnit.test( 'renders suggested investigations row when permission is granted and
 	);
 	assert.strictEqual(
 		row.props( 'mainLink' ),
-		'/-1/SuggestedInvestigations?username=TestUser&editAndBlockFilter=none',
+		'/-1/SuggestedInvestigations?username=TestUser&editAndBlockFilter=none&queueView=all',
 		'Suggested investigations row has correct link'
 	);
 	assert.strictEqual(
