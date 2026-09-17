@@ -134,12 +134,11 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
 		$mockPermissionManager->method( 'userHasRight' )
-			->willReturnMap( [
-				[ $user, 'checkuser-temporary-account-no-preference', $hasNoPreferenceRight ],
-				[ $user, 'checkuser-temporary-account', $hasBasicRight ],
-				[ $user, 'checkuser', false ],
-				[ $user, 'checkuser-log', false ],
-			] );
+			->willReturnCallback( static fn ( $user, $right ) => match ( $right ) {
+				'checkuser-temporary-account-no-preference' => $hasNoPreferenceRight,
+				'checkuser-temporary-account' => $hasBasicRight,
+				default => false,
+			} );
 
 		$mockUserOptionsLookup = $this->createMock( UserOptionsLookup::class );
 		$mockUserOptionsLookup->method( 'getOption' )
