@@ -89,11 +89,16 @@ module.exports = function ( win ) {
 		}
 	} );
 
+	const activeFilters = mw.config.get( 'wgCheckUserSuggestedInvestigationsActiveFilters' );
+
 	$( '.mw-checkuser-suggestedinvestigations-queue-view-button' ).on( 'click', function () {
 		const newQueueView = $( this ).attr( 'data-queue-view' );
 		const currentQueueView = mw.config.get( 'wgCheckUserSuggestedInvestigationsQueueView' );
 		if ( newQueueView !== currentQueueView ) {
-			utils.updateFiltersOnPage( { queueView: newQueueView }, win );
+			utils.updateFiltersOnPage( {
+				queueView: newQueueView,
+				username: activeFilters.username || [] // T438308
+			}, win );
 		}
 	} );
 
@@ -101,7 +106,6 @@ module.exports = function ( win ) {
 	const FilterDialog = require( './components/FilterDialog.vue' );
 
 	let suggestedInvestigationsFilterApp = null;
-	const activeFilters = mw.config.get( 'wgCheckUserSuggestedInvestigationsActiveFilters' );
 
 	$( '.mw-checkuser-suggestedinvestigations-filter-button' ).on( 'click', ( event ) => {
 		event.preventDefault();

@@ -100,6 +100,7 @@ QUnit.test( 'Test queue view button clicks', function ( assert ) {
 	const updateFiltersOnPageStub = this.sandbox.stub( utils, 'updateFiltersOnPage' );
 
 	mw.config.set( 'wgCheckUserSuggestedInvestigationsQueueView', 'foo' );
+	mw.config.set( 'wgCheckUserSuggestedInvestigationsActiveFilters', { username: [ 'User' ] } );
 	const $queueButtonActive = $( '<button>' )
 		.addClass( 'mw-checkuser-suggestedinvestigations-queue-view-button' )
 		.attr( 'data-queue-view', 'foo' );
@@ -127,5 +128,12 @@ QUnit.test( 'Test queue view button clicks', function ( assert ) {
 		updateFiltersOnPageStub.callCount,
 		1,
 		'updateFiltersOnPage is called once'
+	);
+	assert.deepEqual(
+		updateFiltersOnPageStub.firstCall.args[ 0 ],
+		{
+			queueView: 'bar',
+			username: [ 'User' ]
+		}
 	);
 } );
