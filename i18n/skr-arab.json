@@ -75,5 +75,6 @@
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-all-time": "سارے ویلے",
 	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "کھاتہ",
 	"checkuser-suggestedinvestigations-header-status": "حیثیت",
-	"checkuser-suggestedinvestigations-header-notes": "نوٹس"
+	"checkuser-suggestedinvestigations-header-notes": "نوٹس",
+	"checkuser-suggestedinvestigations-queue-view-all": "سارے"
 }

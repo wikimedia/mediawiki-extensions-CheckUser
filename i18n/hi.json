@@ -510,5 +510,6 @@
 	"checkuser-related-tas-specialblock-accounts-list-error": "$1 से संबद्ध IP पतों का उपयोग करने वाले अस्थायी खातों की पहचान करते समय त्रुटि हुई। {{GENDER:$2|आप}} $1 को अवरोधित करना जारी रख सकते हैं, या फिर संबद्ध खातों की पहचान करने के लिए पुनः खोजने का प्रयास कर सकते हैं।",
 	"checkuser-related-tas-specialblock-confirm": "इससे अवरोध $1 {{PLURAL:$1|खाते|खातों}} पर लागू होगा। {{PLURAL:$1|इस खाते|इन खातों}} को अवरोधित करना जारी रखके आप पुष्ट करते हैं कि आपने {{PLURAL:$1|इसकी|इनकी}} जाँच कर ली है।",
 	"checkuser-related-tas-specialblock-limit-exceeded-error": "इस अवरोध में जोड़ने के लिए कुछ ज़्यादा ही संबद्ध अस्थायी खाते हैं। हम एक साथ केवल $1 {{PLURAL:$1|खाते|खातों}} को अवरोधित करने की अनुमति देते हैं।",
+	"checkuser-suggestedinvestigations-queue-view-all": "सभी",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "फ़िल्टर्स"
 }
