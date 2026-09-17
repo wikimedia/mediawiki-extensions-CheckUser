@@ -1,6 +1,7 @@
 'use strict';
 
 const specialSuggestedInvestigations = require( 'ext.checkUser.suggestedInvestigations/SpecialSuggestedInvestigations.js' );
+const utils = require( 'ext.checkUser.suggestedInvestigations/utils.js' );
 
 QUnit.module( 'ext.checkUser.suggestedInvestigations.SpecialSuggestedInvestigations', QUnit.newMwEnvironment() );
 
@@ -91,5 +92,48 @@ QUnit.test( 'General warning does not attempt to update the user options', funct
 		saveOptionStub.callCount,
 		0,
 		'mw.Api().saveOption is never called'
+	);
+} );
+
+QUnit.test( 'Test queue view button clicks', function ( assert ) {
+	// Stub out the function that's expected to be called
+	const updateFiltersOnPageStub = this.sandbox.stub( utils, 'updateFiltersOnPage' );
+
+	mw.config.set( 'wgCheckUserSuggestedInvestigationsQueueView', 'foo' );
+	mw.config.set( 'wgCheckUserSuggestedInvestigationsActiveFilters', { username: [ 'User' ] } );
+	const $queueButtonActive = $( '<button>' )
+		.addClass( 'mw-checkuser-suggestedinvestigations-queue-view-button' )
+		.attr( 'data-queue-view', 'foo' );
+	const $queueButtonOther = $( '<button>' )
+		.addClass( 'mw-checkuser-suggestedinvestigations-queue-view-button' )
+		.attr( 'data-queue-view', 'bar' );
+	const $queueButtons = $( '<div>' );
+	$queueButtons.append( $queueButtonActive );
+	$queueButtons.append( $queueButtonOther );
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	$qunitFixture.append( $queueButtons );
+
+	specialSuggestedInvestigations( window );
+
+	$queueButtonActive.trigger( 'click' );
+	assert.deepEqual(
+		updateFiltersOnPageStub.callCount,
+		0,
+		'updateFiltersOnPage is not called because the view is already active'
+	);
+
+	$queueButtonOther.trigger( 'click' );
+	assert.deepEqual(
+		updateFiltersOnPageStub.callCount,
+		1,
+		'updateFiltersOnPage is called once'
+	);
+	assert.deepEqual(
+		updateFiltersOnPageStub.firstCall.args[ 0 ],
+		{
+			queueView: 'bar',
+			username: [ 'User' ]
+		}
 	);
 } );
