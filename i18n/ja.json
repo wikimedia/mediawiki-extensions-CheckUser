@@ -216,6 +216,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences": "IP開示をグローバルに有効化",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title": "IP開示を有効化",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text-with-global-preferences": "「{{int:checkuser-tempaccount-reveal-ip-button-label}}」ボタンを有効化し、アクセス要件を満たす全てのウィキにおいて仮アカウントのIP開示機能を使用可能にします。",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-autoreveal-preference-checkbox-text": "仮アカウントのIPアドレスを自動的に表示する「{{int:checkuser-ip-auto-reveal-link-sidebar}}」モードをオンにしてください。利用者は、意図せず他人にIPアドレスを開示しないよう注意してください。",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled": "仮アカウントのIP開示機能をこのウィキで有効化しました。",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-globally-enabled": "あなたがアクセス要件を満たす全てのウィキにおいて仮アカウントのIP開示機能をグローバルに有効化しました。",
 	"checkuser-rest-access-denied": "あなたにはこの操作を実行する権限がありません",
