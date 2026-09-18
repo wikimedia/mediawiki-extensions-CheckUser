@@ -224,6 +224,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title-with-global-preferences": "IP開示をグローバルに有効化",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-title": "IP開示を有効化",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-checkbox-text-with-global-preferences": "「{{int:checkuser-tempaccount-reveal-ip-button-label}}」ボタンを有効化し、アクセス要件を満たす全てのウィキにおいて仮アカウントのIP開示機能を使用可能にします。",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-autoreveal-preference-checkbox-text": "仮アカウントのIPアドレスを自動的に表示する「{{int:checkuser-ip-auto-reveal-link-sidebar}}」モードをオンにしてください。利用者は、意図せず他人にIPアドレスを開示しないよう注意してください。",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-locally-enabled": "仮アカウントのIP開示機能をこのウィキで有効化しました。",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-preference-globally-enabled": "あなたがアクセス要件を満たす全てのウィキにおいて仮アカウントのIP開示機能をグローバルに有効化しました。",
 	"checkuser-rest-access-denied": "あなたにはこの操作を実行する権限がありません",
@@ -475,12 +476,12 @@
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "閉じる",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "結果を表示",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "リスクシグナル",
-	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "状態",
+	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "ケースの状態",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "アカウントの活動状況",
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits": "アカウントに編集履歴がないケースを表示",
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-no-user-edits-globally": "アカウントにグローバル編集履歴がないケースを表示",
 	"checkuser-suggestedinvestigations-filter-dialog-hide-cases-with-no-blocked-users": "ブロック済みアカウントがないケースを除外",
-	"checkuser-suggestedinvestigations-filter-dialog-last-updated-header": "最終更新",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-header": "最終更新日",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "本日",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "直近 3 日間",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days": "直近 7 日間",
@@ -542,5 +543,8 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "アカウント一覧をクリップボードにコピーしました",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "アカウント一覧のコピーに失敗しました",
 	"checkuser-related-tas-specialblock-checkbox-label": "関連する全ての仮アカウントをブロック",
-	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} 関連する全ての仮アカウントによる投稿を閲覧]"
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} 関連する全ての仮アカウントによる投稿を閲覧]",
+	"checkuser-related-tas-specialblock-accounts-list-error": "$1に関連付けられたIPアドレスを使用した仮アカウントを特定しようとした際にエラーが発生しました。$1のブロックを{{GENDER:$2|続行する}}か、再度検索して関連付けられたアカウントを特定することができます。",
+	"checkuser-related-tas-specialblock-confirm": "これにより、$1{{PLURAL:$1|アカウント}}にブロックが適用されます。{{PLURAL:$1|このアカウント|これらのアカウント}}をブロックすることで、{{PLURAL:$1|それ|それら}}を調査したことが確認されます。",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "このブロックに追加できる関連仮アカウントが多すぎます。一度にブロックできるアカウントは最大$1{{PLURAL:$1|アカウント}}までです。"
 }
