@@ -552,6 +552,13 @@
 				"CheckUserUserInfoCardButtonRenderer"
 			]
 		},
+		"DiscussionToolsSignatureHandler": {
+			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\DiscussionToolsSignatureHandler",
+			"services": [
+				"UserNameUtils",
+				"CheckUserUserInfoCardButtonRenderer"
+			]
+		},
 		"IPInfoHandler": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\IPInfoHandler",
 			"services": [
@@ -648,6 +655,7 @@
 		"ChangeAuthenticationDataAudit": "CheckUserEvents",
 		"ChangesListInsertLogEntry": "LogDisplayHandler",
 		"ContributionsToolLinks": "ToolLinks",
+		"DiscussionToolsAddSignatureUserInfoMarkup": "DiscussionToolsSignatureHandler",
 		"EmailUser": "CheckUserEvents",
 		"GetPreferences": "preferences",
 		"GetSecurityLogContext": "clienthints",

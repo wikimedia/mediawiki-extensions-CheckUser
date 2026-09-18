@@ -20,6 +20,7 @@ class CheckUserExtensionJsonTest extends ExtensionJsonTestBase {
 		$extHookHandlers = [
 			'AbuseFilterHandler' => 'Abuse Filter',
 			'CentralAuthHandler' => 'CentralAuth',
+			'DiscussionToolsSignatureHandler' => 'DiscussionTools',
 			'GlobalPreferencesHandler' => 'GlobalPreferences',
 			'GlobalBlockingHandler' => 'GlobalBlocking',
 			'IPInfoHandler' => 'IPInfo',

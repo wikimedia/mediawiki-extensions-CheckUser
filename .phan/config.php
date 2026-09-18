@@ -9,6 +9,7 @@ $cfg['directory_list'] = array_merge(
 	[
 		'../../extensions/AbuseFilter',
 		'../../extensions/CentralAuth',
+		'../../extensions/DiscussionTools',
 		'../../extensions/EventBus',
 		'../../extensions/EventLogging',
 		'../../extensions/GlobalBlocking',
@@ -28,6 +29,7 @@ $cfg['exclude_analysis_directory_list'] = array_merge(
 	[
 		'../../extensions/AbuseFilter',
 		'../../extensions/CentralAuth',
+		'../../extensions/DiscussionTools',
 		'../../extensions/EventBus',
 		'../../extensions/EventLogging',
 		'../../extensions/GlobalBlocking',
