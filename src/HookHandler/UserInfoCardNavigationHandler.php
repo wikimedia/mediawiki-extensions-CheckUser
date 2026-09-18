@@ -7,7 +7,6 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Skin\Hook\SkinTemplateNavigation__UniversalHook;
 use MediaWiki\Skin\SkinTemplate;
-use MediaWiki\User\Options\UserOptionsLookup;
 
 /**
  * Adds a UserInfoCard trigger to the page navigation of user pages and user talk pages.
@@ -15,7 +14,6 @@ use MediaWiki\User\Options\UserOptionsLookup;
 class UserInfoCardNavigationHandler implements SkinTemplateNavigation__UniversalHook {
 
 	public function __construct(
-		private readonly UserOptionsLookup $userOptionsLookup,
 		private readonly UserInfoCardButtonRenderer $buttonRenderer,
 	) {
 	}
@@ -66,14 +64,6 @@ class UserInfoCardNavigationHandler implements SkinTemplateNavigation__Universal
 			return false;
 		}
 
-		$performer = $skinTemplate->getUser();
-		if ( !$performer->isNamed() ) {
-			return false;
-		}
-
-		return $this->userOptionsLookup->getBoolOption(
-			$performer,
-			Preferences::ENABLE_USER_INFO_CARD
-		);
+		return $this->buttonRenderer->isUicEnabledForUser( $skinTemplate->getUser() );
 	}
 }

@@ -6,8 +6,8 @@ namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Extension\CheckUser\HookHandler\UserInfoCardVariablesHandler;
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Output\OutputPage;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\User;
 use MediaWikiUnitTestCase;
 
@@ -16,7 +16,7 @@ use MediaWikiUnitTestCase;
  * @covers \MediaWiki\Extension\CheckUser\HookHandler\UserInfoCardVariablesHandler
  */
 class UserInfoCardVariablesHandlerTest extends MediaWikiUnitTestCase {
-	private UserOptionsLookup $optionsMock;
+	private UserInfoCardButtonRenderer $buttonRendererMock;
 	private HashConfig $configMock;
 	private OutputPage $outputMock;
 
@@ -25,7 +25,7 @@ class UserInfoCardVariablesHandlerTest extends MediaWikiUnitTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->optionsMock = $this->createMock( UserOptionsLookup::class );
+		$this->buttonRendererMock = $this->createMock( UserInfoCardButtonRenderer::class );
 
 		$this->configMock = new HashConfig();
 		$this->configMock->set( 'CheckUserEnableUserInfoCardInstrumentation', true );
@@ -37,12 +37,12 @@ class UserInfoCardVariablesHandlerTest extends MediaWikiUnitTestCase {
 		$this->outputMock->method( 'getConfig' )->willReturn( $this->configMock );
 		$this->outputMock->method( 'getUser' )->willReturn( $userMock );
 
-		$this->handler = new UserInfoCardVariablesHandler( $this->optionsMock );
+		$this->handler = new UserInfoCardVariablesHandler( $this->buttonRendererMock );
 	}
 
 	public function testSkipIfDisabled() {
-		$this->optionsMock->expects( $this->once() )
-			->method( 'getBoolOption' )
+		$this->buttonRendererMock->expects( $this->once() )
+			->method( 'isUicEnabledForUser' )
 			->willReturn( false );
 
 		$vars = [];
@@ -52,8 +52,8 @@ class UserInfoCardVariablesHandlerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testCheckUser() {
-		$this->optionsMock->expects( $this->once() )
-			->method( 'getBoolOption' )
+		$this->buttonRendererMock->expects( $this->once() )
+			->method( 'isUicEnabledForUser' )
 			->willReturn( true );
 
 		$vars = [];
@@ -66,8 +66,8 @@ class UserInfoCardVariablesHandlerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testGrowthExperiments() {
-		$this->optionsMock->expects( $this->once() )
-			->method( 'getBoolOption' )
+		$this->buttonRendererMock->expects( $this->once() )
+			->method( 'isUicEnabledForUser' )
 			->willReturn( true );
 
 		$this->configMock->set( 'GEUserImpactMaxEdits', 1234 );

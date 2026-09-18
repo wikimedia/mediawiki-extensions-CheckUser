@@ -11,7 +11,9 @@ use MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCa
 use MediaWiki\Tests\Unit\FakeQqxMessageLocalizer;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
+use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MediaWiki\User\UserSelectQueryBuilder;
 use MediaWikiUnitTestCase;
@@ -30,13 +32,15 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 	 * @param string[] $hiddenUsers Users who were hidden
 	 * @param string[] $usersInOpenCase Users whom the SI cache reports as members of an open case
 	 * @param bool $siEnabled Value of $wgCheckUserSuggestedInvestigationsEnabled
+	 * @param bool $isCardEnabled Whether the current viewer has UIC enabled in preferences
 	 */
 	private function getRenderer(
 		array $tempUsers = [],
 		array $blockedUsers = [],
 		array $hiddenUsers = [],
 		array $usersInOpenCase = [],
-		bool $siEnabled = true
+		bool $siEnabled = true,
+		bool $isCardEnabled = true,
 	): UserInfoCardButtonRenderer {
 		$userNameUtils = $this->createMock( UserNameUtils::class );
 		$userNameUtils->method( 'isTemp' )
@@ -73,16 +77,65 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				static fn ( $names ) => array_values( array_intersect( $names, $usersInOpenCase ) )
 			);
 
+		$userOptionsLookup = $this->createMock( UserOptionsLookup::class );
+		$userOptionsLookup->method( 'getBoolOption' )
+			->willReturn( $isCardEnabled );
+
 		return new UserInfoCardButtonRenderer(
 			$userNameUtils,
 			$blockStatusCache,
 			$userIdentityLookup,
+			$userOptionsLookup,
 			$siCache,
 			new ServiceOptions(
 				[ 'CheckUserSuggestedInvestigationsEnabled' ],
 				[ 'CheckUserSuggestedInvestigationsEnabled' => $siEnabled ]
 			),
 		);
+	}
+
+	public static function provideIsUicEnabledForUser(): array {
+		return [
+			'Named user with the preference enabled' => [
+				'viewer' => new UserIdentityValue( 1, 'Foo' ),
+				'isTemp' => false,
+				'preferenceEnabled' => true,
+				'expected' => true,
+			],
+			'Named user with the preference disabled' => [
+				'viewer' => new UserIdentityValue( 1, 'Foo' ),
+				'isTemp' => false,
+				'preferenceEnabled' => false,
+				'expected' => false,
+			],
+			'Temporary account with the preference enabled' => [
+				'viewer' => new UserIdentityValue( 1, '~2026-1' ),
+				'isTemp' => true,
+				'preferenceEnabled' => true,
+				'expected' => false,
+			],
+			'Anonymous user with the preference enabled' => [
+				'viewer' => new UserIdentityValue( 0, '1.2.3.4' ),
+				'isTemp' => false,
+				'preferenceEnabled' => true,
+				'expected' => false,
+			],
+		];
+	}
+
+	/** @dataProvider provideIsUicEnabledForUser */
+	public function testIsUicEnabledForUser(
+		UserIdentityValue $viewer,
+		bool $isTemp,
+		bool $preferenceEnabled,
+		bool $expected
+	): void {
+		$renderer = $this->getRenderer(
+			$isTemp ? [ $viewer->getName() ] : [],
+			isCardEnabled: $preferenceEnabled,
+		);
+
+		$this->assertSame( $expected, $renderer->isUicEnabledForUser( $viewer ) );
 	}
 
 	public function testRenderProducesExpectedMarkup(): void {

@@ -688,6 +688,7 @@ return [
 			$services->getUserNameUtils(),
 			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
 			$services->getUserIdentityLookup(),
+			$services->getUserOptionsLookup(),
 			$services->get( 'CheckUserUserInfoCardSuggestedInvestigationsCache' ),
 			new ServiceOptions(
 				UserInfoCardButtonRenderer::CONSTRUCTOR_OPTIONS,

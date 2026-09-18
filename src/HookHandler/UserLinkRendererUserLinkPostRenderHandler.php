@@ -8,13 +8,11 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Hook\UserLinkRendererUserLinkPostRenderHook;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentity;
 
 class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserLinkPostRenderHook {
 
 	public function __construct(
-		private readonly UserOptionsLookup $userOptionsLookup,
 		private readonly UserInfoCardButtonRenderer $buttonRenderer,
 	) {
 	}
@@ -29,7 +27,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 		if ( !$targetUser->isRegistered() ) {
 			return;
 		}
-		if ( $this->userOptionsLookup->getBoolOption( $context->getUser(), Preferences::ENABLE_USER_INFO_CARD ) ) {
+		if ( $this->buttonRenderer->isUicEnabledForUser( $context->getUser() ) ) {
 			$output = $context->getOutput();
 			$output->addModuleStyles( 'ext.checkUser.styles' );
 			$output->addModules( 'ext.checkUser.userInfoCard' );

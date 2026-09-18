@@ -136,7 +136,7 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 	 * @return void
 	 */
 	private function addUserInfoCardConfigVars( OutputPage $out ) {
-		if ( !$this->hasEnabledUserInfoCard( $out ) ) {
+		if ( !$this->uicButtonRenderer->isUicEnabledForUser( $out->getUser() ) ) {
 			return;
 		}
 
@@ -207,7 +207,7 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 	 */
 	private function enableUserInfoCardForTargets( OutputPage $outputPage, array $targetNames ): void {
 		$newTargets = array_values( array_diff( $targetNames, $this->userInfoCardTargetsHandled ) );
-		if ( $newTargets === [] || !$this->hasEnabledUserInfoCard( $outputPage ) ) {
+		if ( $newTargets === [] || !$this->uicButtonRenderer->isUicEnabledForUser( $outputPage->getUser() ) ) {
 			return;
 		}
 
@@ -240,18 +240,6 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 			$customAccountIcons[$targetName] = $targetIcon;
 		}
 		$outputPage->addJsConfigVars( 'wgCheckUserUserInfoCardCustomIcons', $customAccountIcons );
-	}
-
-	/**
-	 * Whether the viewer has the UserInfoCard preference enabled.
-	 */
-	private function hasEnabledUserInfoCard( OutputPage $out ): bool {
-		$performer = $out->getUser();
-
-		return $performer->isNamed() && $this->userOptionsLookup->getBoolOption(
-			$performer,
-			Preferences::ENABLE_USER_INFO_CARD
-		);
 	}
 
 	/**

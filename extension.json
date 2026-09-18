@@ -512,20 +512,18 @@
 		"UserInfoCardVariablesHandler": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserInfoCardVariablesHandler",
 			"services": [
-				"UserOptionsLookup"
+				"CheckUserUserInfoCardButtonRenderer"
 			]
 		},
 		"UserInfoCardNavigationHandler": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserInfoCardNavigationHandler",
 			"services": [
-				"UserOptionsLookup",
 				"CheckUserUserInfoCardButtonRenderer"
 			]
 		},
 		"UserLinkRendererUserLinkPostRenderHandler": {
 			"class": "MediaWiki\\Extension\\CheckUser\\HookHandler\\UserLinkRendererUserLinkPostRenderHandler",
 			"services": [
-				"UserOptionsLookup",
 				"CheckUserUserInfoCardButtonRenderer"
 			]
 		},

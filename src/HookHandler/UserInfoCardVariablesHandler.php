@@ -4,11 +4,11 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
+use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Output\Hook\MakeGlobalVariablesScriptHook;
-use MediaWiki\User\Options\UserOptionsLookup;
 
 readonly class UserInfoCardVariablesHandler implements MakeGlobalVariablesScriptHook {
-	public function __construct( private UserOptionsLookup $options ) {
+	public function __construct( private UserInfoCardButtonRenderer $buttonRenderer ) {
 	}
 
 	/**
@@ -16,10 +16,7 @@ readonly class UserInfoCardVariablesHandler implements MakeGlobalVariablesScript
 	 * @inheritDoc
 	 */
 	public function onMakeGlobalVariablesScript( &$vars, $out ): void {
-		if ( !$this->options->getBoolOption(
-			$out->getUser(),
-			Preferences::ENABLE_USER_INFO_CARD
-		) ) {
+		if ( !$this->buttonRenderer->isUicEnabledForUser( $out->getUser() ) ) {
 			return;
 		}
 

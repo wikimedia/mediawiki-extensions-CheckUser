@@ -5,10 +5,13 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Services;
 
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Html\Html;
 use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Title\Title;
+use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNameUtils;
 
@@ -23,10 +26,25 @@ class UserInfoCardButtonRenderer {
 		private readonly UserNameUtils $userNameUtils,
 		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 		private readonly UserIdentityLookup $userIdentityLookup,
+		private readonly UserOptionsLookup $userOptionsLookup,
 		private readonly UserInfoCardSuggestedInvestigationsCache $suggestedInvestigationsCache,
 		private readonly ServiceOptions $config,
 	) {
 		$this->config->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+	}
+
+	/**
+	 * Returns whether the given user should have the UserInfoCard rendered.
+	 */
+	public function isUicEnabledForUser( UserIdentity $viewer ): bool {
+		if ( !$viewer->isRegistered() || $this->userNameUtils->isTemp( $viewer->getName() ) ) {
+			return false;
+		}
+
+		return $this->userOptionsLookup->getBoolOption(
+			$viewer,
+			Preferences::ENABLE_USER_INFO_CARD
+		);
 	}
 
 	/**

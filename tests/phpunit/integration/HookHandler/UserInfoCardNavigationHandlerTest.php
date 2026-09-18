@@ -61,7 +61,6 @@ class UserInfoCardNavigationHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 
 		$handler = new UserInfoCardNavigationHandler(
-			$this->getServiceContainer()->getUserOptionsLookup(),
 			$this->getServiceContainer()->get( 'CheckUserUserInfoCardButtonRenderer' )
 		);
 
