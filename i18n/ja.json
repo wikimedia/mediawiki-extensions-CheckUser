@@ -421,7 +421,7 @@
 	"checkuser-uic-ip-target-category": "利用者情報カードの対象にIPが使用されているページ",
 	"checkuser-uic-ip-target-category-desc": "このページでは <code><nowiki>{{#uic:}}</nowiki></code> のターゲットとしてIPアドレスまたはIPアドレス範囲が使用されていますが、これはサポートされていないため、利用者情報カードボタンは追加されませんでした。",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|利用者}}情報カードを開く",
-	"checkuser-userinfocard-navigation-label": "利用者情報",
+	"checkuser-userinfocard-navigation-label": "{{GENDER:$1|利用者}}情報",
 	"tooltip-ca-checkuser-userinfocard": "{{GENDER:$1|この利用者}}の情報を表示",
 	"checkuser-userinfocard-close-button-aria-label": "閉じる",
 	"checkuser-userinfocard-copy-username-button-aria-label": "利用者名をコピー",

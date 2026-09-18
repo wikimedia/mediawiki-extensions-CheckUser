@@ -388,7 +388,7 @@
 	"checkuser-uic-ip-target-category": "İstifadəçi məlumatı kartı hədəfi IP ünvanı olan səhifələr",
 	"checkuser-uic-ip-target-category-desc": "Səhifədə hədəf kimi IP ünvanı və ya IP diapazonundan istifadə edən <code><nowiki>{{#uic:}}</nowiki></code> funksiyası tətbiq edilib. Bu dəstəklənmədiyinə görə istifadəçi məlumatı kartı düyməsi əlavə edilməyib.",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|İstifadəçi}} məlumat kartını aç",
-	"checkuser-userinfocard-navigation-label": "İstifadəçi məlumatı",
+	"checkuser-userinfocard-navigation-label": "{{GENDER:$1|İstifadəçi}} məlumatı",
 	"tooltip-ca-checkuser-userinfocard": "{{GENDER:$1|Bu istifadəçi}} haqqında məlumat göstər",
 	"checkuser-userinfocard-close-button-aria-label": "Bağla",
 	"checkuser-userinfocard-copy-username-button-aria-label": "İstifadəçi adını kopiyala",

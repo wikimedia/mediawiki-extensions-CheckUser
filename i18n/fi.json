@@ -389,7 +389,7 @@
 	"checkuser-uic-ip-target-category": "Sivut, joissa käyttäjätietokortin kohteena on IP",
 	"checkuser-uic-ip-target-category-desc": "Sivu käyttää <code><nowiki>{{#uic:}}</nowiki></code>-koodia, jossa on arvona IP-osoite tai -alue. Niitä ei tueta, minkä vuoksi käyttäjätietokorttipainiketta ei näytetä.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Avaa {{GENDER:$1|käyttäjätietokortti}}",
-	"checkuser-userinfocard-navigation-label": "Käyttäjätiedot",
+	"checkuser-userinfocard-navigation-label": "{{GENDER:$1|Käyttäjätiedot}}",
 	"tooltip-ca-checkuser-userinfocard": "Näytä tietoja {{GENDER:$1|tästä käyttäjästä}}",
 	"checkuser-userinfocard-close-button-aria-label": "Sulje",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Kopioi käyttäjänimi",
