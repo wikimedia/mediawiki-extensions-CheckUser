@@ -8,6 +8,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Html\Html;
 use MediaWiki\Language\MessageLocalizer;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Options\UserOptionsLookup;
@@ -45,6 +46,16 @@ class UserInfoCardButtonRenderer {
 			$viewer,
 			Preferences::ENABLE_USER_INFO_CARD
 		);
+	}
+
+	/**
+	 * Adds the ResourceLoader modules which the UserInfoCard needs.
+	 *
+	 * Call this only for viewers who have the card enabled, see {@see isUicEnabledForUser}.
+	 */
+	public function addModules( OutputPage $out ): void {
+		$out->addModuleStyles( 'ext.checkUser.styles' );
+		$out->addModules( 'ext.checkUser.userInfoCard' );
 	}
 
 	/**

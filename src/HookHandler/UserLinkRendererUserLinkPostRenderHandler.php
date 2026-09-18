@@ -29,8 +29,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 		}
 		if ( $this->buttonRenderer->isUicEnabledForUser( $context->getUser() ) ) {
 			$output = $context->getOutput();
-			$output->addModuleStyles( 'ext.checkUser.styles' );
-			$output->addModules( 'ext.checkUser.userInfoCard' );
+			$this->buttonRenderer->addModules( $output );
 
 			$iconName = $this->buttonRenderer->getIconName(
 				$targetUser->getName(),

@@ -8,6 +8,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardBlockStatusCache;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCache;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Tests\Unit\FakeQqxMessageLocalizer;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
@@ -136,6 +137,18 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		);
 
 		$this->assertSame( $expected, $renderer->isUicEnabledForUser( $viewer ) );
+	}
+
+	public function testAddModules(): void {
+		$out = $this->createMock( OutputPage::class );
+		$out->expects( $this->once() )
+			->method( 'addModuleStyles' )
+			->with( 'ext.checkUser.styles' );
+		$out->expects( $this->once() )
+			->method( 'addModules' )
+			->with( 'ext.checkUser.userInfoCard' );
+
+		$this->getRenderer()->addModules( $out );
 	}
 
 	public function testRenderProducesExpectedMarkup(): void {

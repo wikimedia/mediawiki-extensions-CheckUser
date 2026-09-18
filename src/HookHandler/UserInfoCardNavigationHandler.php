@@ -24,9 +24,7 @@ class UserInfoCardNavigationHandler implements SkinTemplateNavigation__Universal
 			return;
 		}
 
-		$output = $sktemplate->getOutput();
-		$output->addModuleStyles( 'ext.checkUser.styles' );
-		$output->addModules( 'ext.checkUser.userInfoCard' );
+		$this->buttonRenderer->addModules( $sktemplate->getOutput() );
 
 		$target = $sktemplate->getRelevantUser();
 		$iconName = $this->buttonRenderer->getIconName(

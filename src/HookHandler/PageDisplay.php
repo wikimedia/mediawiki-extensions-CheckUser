@@ -211,8 +211,7 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 			return;
 		}
 
-		$outputPage->addModules( 'ext.checkUser.userInfoCard' );
-		$outputPage->addModuleStyles( 'ext.checkUser.styles' );
+		$this->uicButtonRenderer->addModules( $outputPage );
 		if ( $this->userInfoCardTargetsHandled === [] ) {
 			$outputPage->addBodyClasses( 'ext-checkuser-userinfocard-enabled' );
 		}
