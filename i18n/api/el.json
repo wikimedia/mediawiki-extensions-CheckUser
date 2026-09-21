@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"PrinceAzuka134"
+		]
+	},
+	"checkuser-rest-property-desc-global-restrictions": "Καθολική κατάσταση περιορισμού (π.χ., κλειδωμένο, αποκλεισμένο)",
+	"checkuser-rest-property-desc-should-show-blocked-icon": "Εάν ο χρήστης είναι αποκλεισμένος επ' αόριστον τοπικά ή καθολικά ή κλειδωμένος"
+}

@@ -379,7 +379,7 @@
 	"checkuser-uic-ip-target-category": "Страници со IP-адреса како цел на корисничка инфокартичка",
 	"checkuser-uic-ip-target-category-desc": "Страницата користи <code><nowiki>{{#uic:}}</nowiki></code> со IP-адреса или опсег како цел, што не е поддржано, па затоа не беше ставено копче за корисничка инфокартичка.",
 	"checkuser-userinfocard-toggle-button-aria-label": "Отвори инфокартичка за {{GENDER:$1|корисникот}}",
-	"checkuser-userinfocard-navigation-label": "Кориснички информации",
+	"checkuser-userinfocard-navigation-label": "{{GENDER:$1|Кориснички}} информации",
 	"tooltip-ca-checkuser-userinfocard": "Прикажи информации за {{GENDER:$1|овој корисник}}",
 	"checkuser-userinfocard-close-button-aria-label": "Затвори",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Ископирај корисничко име",
@@ -446,6 +446,7 @@
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Филтрите што ги применивте се прошироки. Уточнете ги за подобар исход.",
 	"checkuser-suggestedinvestigations-filter-button": "Филтрирај",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Затвори",
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "Врати",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Прикажи исход",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Сигнали на ризик",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Статус",
@@ -540,5 +541,7 @@
 	"rangecalculator": "Пресметувач на IP-опсези",
 	"rangecalculator-summary": "Оваа алатка ви овозможува да го пресметате заедничкиот опсег помеѓу список на IP-адреси. Тековно пресметува само по еден заеднички опсег и не можете да мешате IPv4 и IPv6 адреси.",
 	"checkuser-si-related-cases-info": "Целната сметка е поврзана со {{PLURAL:$1|$1 сметка|$1 сметки}} на [$3 {{PLURAL:$2|$2 предложено иследување|$2 предложени иследувања}}]",
+	"checkuser-suggestedinvestigations-queue-view-all": "Сите",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "Сите (изменето)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Филтри"
 }

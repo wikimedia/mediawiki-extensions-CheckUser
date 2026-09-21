@@ -457,7 +457,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "결과 표시",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "위험 신호",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "상태",
-	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "계정 활동",
+	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "다음 활동 중 하나라도 포함된 사례를 표시",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-header": "최근 업데이트된 사안 보기",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "오늘",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "지난 3일",
