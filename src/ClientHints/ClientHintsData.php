@@ -14,6 +14,9 @@ use TypeError;
  * Value object for modeling user agent client hints data.
  */
 class ClientHintsData implements JsonSerializable {
+	/** Request field that client side code puts the data in. */
+	public const REQUEST_FIELD = 'checkuserclienthints';
+
 	public const HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME = [
 		"Sec-CH-UA" => "brands",
 		"Sec-CH-UA-Arch" => "architecture",
@@ -111,7 +114,7 @@ class ClientHintsData implements JsonSerializable {
 				!count( $data['fullVersionList'] )
 			)
 		) {
-			if ( !array_key_exists( 'fullVersionList', $data ) ) {
+			if ( !is_array( $data['fullVersionList'] ?? null ) ) {
 				$data['fullVersionList'] = [];
 			}
 			$data['fullVersionList'][] = $data['uaFullVersion'];
@@ -131,6 +134,29 @@ class ClientHintsData implements JsonSerializable {
 			null,
 			null
 		);
+	}
+
+	/**
+	 * Get a {@link ClientHintsData} object from the data that client side code sent with the
+	 * request. Returns null, rather than throwing, for anything we can't use, so that the
+	 * action the request performs still goes through.
+	 */
+	public static function newFromRequestField( WebRequest $request ): ?self {
+		$rawValue = $request->getVal( self::REQUEST_FIELD );
+		if ( $rawValue === null || $rawValue === '' ) {
+			return null;
+		}
+
+		$data = json_decode( $rawValue, true );
+		if ( !is_array( $data ) ) {
+			return null;
+		}
+
+		try {
+			return self::newFromJsApi( $data );
+		} catch ( TypeError ) {
+			return null;
+		}
 	}
 
 	/**

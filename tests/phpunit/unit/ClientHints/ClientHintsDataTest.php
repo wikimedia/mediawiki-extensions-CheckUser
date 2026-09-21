@@ -271,6 +271,24 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'ja4h' => null,
 				],
 			],
+			'Client Hints data contains deprecated uaFullVersion and a fullVersionList that is not a list' => [
+				[ 'uaFullVersion' => '1.2.3.4', 'fullVersionList' => 'x' ],
+				[
+					'fullVersionList' => [ '1.2.3.4' ],
+					'architecture' => null,
+					'bitness' => null,
+					'brands' => null,
+					'formFactor' => null,
+					'mobile' => null,
+					'model' => null,
+					'platform' => null,
+					'platformVersion' => null,
+					'woW64' => null,
+					'isBrowser' => null,
+					'ja3n' => null,
+					'ja4h' => null,
+				],
+			],
 		];
 	}
 
@@ -778,5 +796,41 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 		$jsonSerialised = $initialClientHintsData->jsonSerialize();
 		$otherClientHintsData = ClientHintsData::newFromSerialisedJsonArray( $jsonSerialised );
 		$this->assertClientHintsDataObjectsEqual( $initialClientHintsData, $otherClientHintsData );
+	}
+
+	public function testNewFromRequestField(): void {
+		// A device model can use characters outside ASCII.
+		$value = json_encode( [ 'architecture' => 'arm', 'model' => '红米' ] );
+		$request = new FauxRequest( [ ClientHintsData::REQUEST_FIELD => $value ], true );
+
+		$data = ClientHintsData::newFromRequestField( $request );
+
+		$this->assertNotNull( $data );
+		$serialised = $data->jsonSerialize();
+		$this->assertSame( 'arm', $serialised['architecture'] );
+		$this->assertSame( '红米', $serialised['model'] );
+	}
+
+	/**
+	 * Anything the client sends that we can't use gives null, so that an edit
+	 * still goes through.
+	 *
+	 * @dataProvider provideUnusableRequestFieldData
+	 */
+	public function testNewFromRequestFieldWithUnusableData( ?string $fieldValue ): void {
+		$params = $fieldValue === null ? [] : [ ClientHintsData::REQUEST_FIELD => $fieldValue ];
+
+		$this->assertNull( ClientHintsData::newFromRequestField( new FauxRequest( $params, true ) ) );
+	}
+
+	public static function provideUnusableRequestFieldData() {
+		return [
+			'Nothing sent' => [ null ],
+			'Empty string' => [ '' ],
+			'Not JSON' => [ 'not json' ],
+			'JSON scalar' => [ '"a string"' ],
+			'JSON null' => [ 'null' ],
+			'Wrong value type' => [ '{"platformVersion":["an","array"]}' ],
+		];
 	}
 }
