@@ -4,12 +4,17 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\HookHandler;
 
+use MediaWiki\Api\ApiBase;
+use MediaWiki\Api\ApiEditPage;
 use MediaWiki\Api\ApiLogout;
 use MediaWiki\Api\Hook\APIGetAllowedParamsHook;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
@@ -36,6 +41,7 @@ class ClientHints implements
 		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
 		private readonly JobQueueGroup $jobQueueGroup,
 		private readonly LoggerInterface $logger,
+		private readonly SuggestedInvestigationsTrigger $suggestedInvestigationsTrigger,
 	) {
 	}
 
@@ -129,16 +135,30 @@ class ClientHints implements
 			'wgCheckUserClientHintsHeadersJsApi' => array_values( array_filter(
 				$this->config->get( 'CheckUserClientHintsHeaders' )
 			) ),
+			'wgCheckUserClientHintsInEditRequest' => $this->config->get(
+				'CheckUserClientHintsInEditRequest'
+			),
 		] );
 		$out->addModules( 'ext.checkUser.clientHints' );
 	}
 
 	/** @inheritDoc */
 	public function onAPIGetAllowedParams( $module, &$params, $flags ) {
-		if ( $module instanceof ApiLogout && $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
-			$params['checkuserclienthints'] = [
+		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			return;
+		}
+		$acceptsClientHints = $module instanceof ApiLogout || (
+			$this->config->get( 'CheckUserClientHintsInEditRequest' ) && (
+				$module instanceof ApiEditPage ||
+				// CheckUser cannot depend on these extensions, so match by name
+				in_array( $module->getModuleName(), [ 'visualeditoredit', 'discussiontoolsedit' ], true )
+			)
+		);
+		if ( $acceptsClientHints ) {
+			$params[ClientHintsData::REQUEST_FIELD] = [
 				ParamValidator::PARAM_TYPE => 'string',
 				ParamValidator::PARAM_SENSITIVE => true,
+				ApiBase::PARAM_HELP_MSG => 'checkuser-apihelp-param-checkuserclienthints',
 			];
 		}
 	}
@@ -151,11 +171,37 @@ class ClientHints implements
 			return;
 		}
 
-		$this->storeHeaderOnlyClientHintsData(
-			$revisionRecord->getId(),
-			'revision',
-			RequestContext::getMain()->getRequest()
-		);
+		$context = RequestContext::getMain();
+		$request = $context->getRequest();
+		$revisionId = $revisionRecord->getId();
+
+		// These values can only be set via the HTTP headers, not by client side code.
+		$this->storeHeaderOnlyClientHintsData( $revisionId, 'revision', $request );
+
+		if (
+			!$this->config->get( 'CheckUserClientHintsEnabled' ) ||
+			!$this->config->get( 'CheckUserClientHintsInEditRequest' )
+		) {
+			return;
+		}
+
+		// Only use the field if the performer of the edit made the request that carries it.
+		if ( !$user->equals( $context->getUser() ) ) {
+			return;
+		}
+
+		$requestFieldData = $this->storeClientHintsDataFromRequestField( $revisionId, 'revision', $request );
+		if ( !$requestFieldData ) {
+			return;
+		}
+
+		if ( $user->isRegistered() ) {
+			$this->suggestedInvestigationsTrigger->matchSignalsAgainstUserInJob(
+				$user,
+				SuggestedInvestigationsSignalMatchService::EVENT_CLIENT_HINTS_SAVED,
+				[ 'clientHints' => $requestFieldData->jsonSerialize(), 'revId' => $revisionId ]
+			);
+		}
 	}
 
 	/**

@@ -110,6 +110,10 @@
 			"value": true,
 			"description": "General on/off switch for User-Agent Client Hints functionality. When set to true, CheckUser will request Client Hints headers specified in the CheckUserClientHintsHeaders config variable."
 		},
+		"CheckUserClientHintsInEditRequest": {
+			"value": false,
+			"description": "If set to true, editors send high entropy Client Hints data with the edit request itself, so that server side code can read the data before the edit is saved. Needs CheckUserClientHintsEnabled."
+		},
 		"CheckUserClientHintsRestApiMaxTimeLag": {
 			"value": 1800,
 			"description": "The amount of time in seconds that a user has to submit a request to /checkuser/v0/useragent-clienthints/{type}/{id} to store client hints data."
@@ -328,7 +332,8 @@
 				"SpecialPageFactory",
 				"UserAgentClientHintsManager",
 				"JobQueueGroup",
-				"CheckUserLogger"
+				"CheckUserLogger",
+				"SuggestedInvestigationsTrigger"
 			]
 		},
 		"preferences": {

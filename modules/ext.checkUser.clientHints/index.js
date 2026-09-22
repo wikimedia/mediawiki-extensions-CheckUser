@@ -1,4 +1,91 @@
 ( function () {
+	const REQUEST_FIELD = 'checkuserclienthints';
+	let collectedClientHints = null;
+	let collectionPromise = null;
+
+	/**
+	 * @param {jQuery} $editForm
+	 */
+	function addClientHintsToEditForm( $editForm ) {
+		if (
+			collectedClientHints === null ||
+			!$editForm.length ||
+			$editForm[ 0 ].elements[ REQUEST_FIELD ]
+		) {
+			return;
+		}
+		$editForm.append( $( '<input>' )
+			.attr( { type: 'hidden', name: REQUEST_FIELD } )
+			.val( collectedClientHints ) );
+	}
+
+	/**
+	 * Ask the browser for the data
+	 *
+	 * @param {Function} collect Returns a Promise of the Client Hints data
+	 * @return {Promise} Never rejects
+	 */
+	function startCollection( collect ) {
+		if ( collectionPromise ) {
+			return collectionPromise;
+		}
+
+		collectionPromise = collect()
+			.then( ( clientHintData ) => {
+				collectedClientHints = JSON.stringify( clientHintData );
+			} )
+			// This must never reject, because a rejected step in the save options
+			// process would abort the save in VisualEditor
+			.catch( () => {} );
+
+		return collectionPromise;
+	}
+
+	/**
+	 * @param {Function} collect Returns a Promise of the Client Hints data
+	 */
+	function listenForEditIntent( collect ) {
+		mw.hook( 've.newTarget' ).add( ( target ) => {
+			// Only a target that saves through getSaveOptions() reads saveFields
+			if ( typeof target.getSaveOptionsProcess !== 'function' ) {
+				return;
+			}
+			target.getSaveOptionsProcess().next(
+				() => startCollection( collect ).then( () => {
+					if ( collectedClientHints !== null ) {
+						target.saveFields[ REQUEST_FIELD ] = () => collectedClientHints;
+					}
+				} )
+			);
+		} );
+
+		// The MobileFrontend source editor can't delay its save, so collect when it renders
+		mw.hook( 'mobileFrontend.sourceEditor.preRenderFinished' )
+			.add( () => startCollection( collect ) );
+		mw.hook( 'mobileFrontend.sourceEditor.saveBegin' ).add( ( payload ) => {
+			if ( collectedClientHints !== null ) {
+				payload.options[ REQUEST_FIELD ] = collectedClientHints;
+			}
+		} );
+
+		mw.hook( 'wikipage.editform' ).add( ( $editForm ) => {
+			startCollection( collect ).then( () => addClientHintsToEditForm( $editForm ) );
+		} );
+
+		// Editors that build their save with mw.Api#prepareExtensibleApiRequest
+		const addToExtensibleRequest = ( data ) => {
+			data.promise = data.promise.then(
+				() => startCollection( collect ).then( () => {
+					if ( collectedClientHints !== null ) {
+						data.params[ REQUEST_FIELD ] = collectedClientHints;
+					}
+				} )
+			);
+		};
+		mw.hook( 'discussionToolsExtendSave' ).add( addToExtensibleRequest );
+		mw.hook( 'ext.proofreadpage.editinsequence-extend-save' ).add( addToExtensibleRequest );
+	}
+
 	/**
 	 * Set up the listener for the postEdit hook, if client hints are supported by the browser.
 	 *
@@ -16,6 +103,8 @@
 		}
 
 		const wgCheckUserClientHintsHeadersJsApi = mw.config.get( 'wgCheckUserClientHintsHeadersJsApi' );
+
+		let highEntropyValuesPromise = null;
 
 		/**
 		 * POST an object with user-agent client hint data to a CheckUser REST endpoint.
@@ -108,10 +197,14 @@
 		 * @return {Promise<Object>}
 		 */
 		function collectClientHintsData() {
+			if ( highEntropyValuesPromise ) {
+				return highEntropyValuesPromise;
+			}
 			try {
-				return navigatorData.userAgentData.getHighEntropyValues(
+				highEntropyValuesPromise = navigatorData.userAgentData.getHighEntropyValues(
 					wgCheckUserClientHintsHeadersJsApi
 				);
+				return highEntropyValuesPromise;
 			} catch ( err ) {
 				// Handle NotAllowedError, if the browser throws it.
 				mw.log.error( err );
@@ -141,13 +234,22 @@
 			collectAndSendClientHintsData( privateEventId, 'privatelog' );
 		}
 
+		const inEditRequest = mw.config.get( 'wgCheckUserClientHintsInEditRequest' );
+		if ( inEditRequest ) {
+			listenForEditIntent( () => collectClientHintsData() );
+		}
+
 		/**
-		 * Respond to postEdit hook, fired by MediaWiki core, VisualEditor and DiscussionTools.
+		 * Respond to postEdit hook, fired by MediaWiki core, VisualEditor, DiscussionTools,
+		 * and other interfaces.
 		 *
-		 * Note that CheckUser only adds this code to article page views if
-		 * CheckUserClientHintsEnabled is set to true.
+		 * Used to collect Client Hints data when not collected via the edit request.
 		 */
 		mw.hook( 'postEdit' ).add( () => {
+			// Rollback cannot send the field with its request, so send the data after the save
+			if ( inEditRequest && !mw.config.get( 'wgRollbackSuccess' ) ) {
+				return;
+			}
 			collectAndSendClientHintsData( mw.config.get( 'wgCurRevisionId' ), 'revision' );
 		} );
 
@@ -169,7 +271,15 @@
 
 	init( navigator );
 
-	module.exports = {
-		init: init
-	};
+	if ( window.QUnit ) {
+		module.exports = {
+			init: init,
+			addClientHintsToEditForm: addClientHintsToEditForm,
+			startCollection: startCollection,
+			setCollectedClientHints: function ( value ) {
+				collectedClientHints = value;
+				collectionPromise = null;
+			}
+		};
+	}
 }() );

@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\Api\ApiBase;
+use MediaWiki\Api\ApiEditPage;
 use MediaWiki\Api\ApiLogout;
 use MediaWiki\Api\ApiQuery;
 use MediaWiki\Config\HashConfig;
@@ -12,6 +13,8 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\HookHandler\ClientHints;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
+use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Page\WikiPage;
@@ -49,6 +52,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => false,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 			] ),
@@ -71,6 +75,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -91,6 +96,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -116,6 +122,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' => 'header' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -149,6 +156,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' => 'js' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -192,6 +200,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' => [ 'js', 'header' ] ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -226,6 +235,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' => [ 'js' ] ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -261,6 +271,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' => [ 'js', 'header' ] ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -278,6 +289,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => false,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] ),
@@ -304,6 +316,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -335,6 +348,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -366,6 +380,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -395,6 +410,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => false,
@@ -418,19 +434,23 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 	}
 
 	/** @dataProvider provideApiGetAllowedParams */
-	public function testApiGetAllowedParamsForApiLogout(
-		$apiModuleClass,
-		$clientHintsEnabled,
-		$shouldAddClientHintsParam
+	public function testApiGetAllowedParams(
+		string $apiModuleClass,
+		string $moduleName,
+		bool $clientHintsEnabled,
+		bool $clientHintsInEditRequest,
+		bool $shouldAddClientHintsParam
 	) {
 		$special = $this->createMock( SpecialPage::class );
 		$specialPageFactoryMock = $this->createMock( SpecialPageFactory::class );
 		$specialPageFactoryMock->method( 'getPage' )->willReturn( $special );
 		/** @var ApiBase|MockObject $module */
 		$module = $this->createMock( $apiModuleClass );
+		$module->method( 'getModuleName' )->willReturn( $moduleName );
 		$hookHandler = $this->getObjectUnderTest( [
 			'config' => new HashConfig( [
 				'CheckUserClientHintsEnabled' => $clientHintsEnabled,
+				'CheckUserClientHintsInEditRequest' => $clientHintsInEditRequest,
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -444,6 +464,74 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		} else {
 			$this->assertSame( [], $params );
 		}
+	}
+
+	public static function provideApiGetAllowedParams(): array {
+		return [
+			'ApiLogout module with Client Hints enabled' => [
+				'apiModuleClass' => ApiLogout::class,
+				'moduleName' => 'logout',
+				'clientHintsEnabled' => true,
+				'clientHintsInEditRequest' => true,
+				'shouldAddClientHintsParam' => true,
+			],
+			'ApiLogout module without Client Hints enabled' => [
+				'apiModuleClass' => ApiLogout::class,
+				'moduleName' => 'logout',
+				'clientHintsEnabled' => false,
+				'clientHintsInEditRequest' => false,
+				'shouldAddClientHintsParam' => false,
+			],
+			'ApiQuery module' => [
+				'apiModuleClass' => ApiQuery::class,
+				'moduleName' => 'query',
+				'clientHintsEnabled' => true,
+				'clientHintsInEditRequest' => true,
+				'shouldAddClientHintsParam' => false,
+			],
+			'Edit module' => [
+				'apiModuleClass' => ApiEditPage::class,
+				'moduleName' => 'edit',
+				'clientHintsEnabled' => true,
+				'clientHintsInEditRequest' => true,
+				'shouldAddClientHintsParam' => true,
+			],
+			'VisualEditor save module' => [
+				'apiModuleClass' => ApiBase::class,
+				'moduleName' => 'visualeditoredit',
+				'clientHintsEnabled' => true,
+				'clientHintsInEditRequest' => true,
+				'shouldAddClientHintsParam' => true,
+			],
+			'DiscussionTools save module' => [
+				'apiModuleClass' => ApiBase::class,
+				'moduleName' => 'discussiontoolsedit',
+				'clientHintsEnabled' => true,
+				'clientHintsInEditRequest' => true,
+				'shouldAddClientHintsParam' => true,
+			],
+			'Edit module, without Client Hints enabled' => [
+				'apiModuleClass' => ApiEditPage::class,
+				'moduleName' => 'edit',
+				'clientHintsEnabled' => false,
+				'clientHintsInEditRequest' => false,
+				'shouldAddClientHintsParam' => false,
+			],
+			'Edit module, without the edit request flag' => [
+				'apiModuleClass' => ApiEditPage::class,
+				'moduleName' => 'edit',
+				'clientHintsEnabled' => true,
+				'clientHintsInEditRequest' => false,
+				'shouldAddClientHintsParam' => false,
+			],
+			'Another write module' => [
+				'apiModuleClass' => ApiBase::class,
+				'moduleName' => 'delete',
+				'clientHintsEnabled' => true,
+				'clientHintsInEditRequest' => true,
+				'shouldAddClientHintsParam' => false,
+			],
+		];
 	}
 
 	public function testPageSaveCompleteForSuccessfulHeaderStorage(): void {
@@ -566,6 +654,143 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		);
 	}
 
+	/** @dataProvider provideScriptSuppliedDataOnSave */
+	public function testPageSaveCompleteStoresRequestFieldData(
+		bool $scriptSentData,
+		array $expectedStoredArchitectures,
+		bool $expectsSignal,
+		bool $clientHintsEnabled = true,
+		bool $inEditRequest = true,
+		?string $rawField = null,
+		bool $savedByRequestUser = true
+	): void {
+		$editResult = $this->createMock( EditResult::class );
+		$editResult->method( 'isNullEdit' )->willReturn( false );
+		$revisionRecord = $this->createMock( RevisionRecord::class );
+		$revisionRecord->method( 'getId' )->willReturn( 123 );
+		$storedValues = [];
+		$storedReferences = [];
+
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$userAgentClientHintsManager->method( 'insertClientHintValues' )
+			->willReturnCallback( static function (
+				ClientHintsData $data,
+				int $referenceId,
+				string $type
+			) use ( &$storedValues, &$storedReferences ) {
+				$storedValues[] = $data->jsonSerialize();
+				$storedReferences[] = [ $referenceId, $type ];
+				return StatusValue::newGood();
+			} );
+
+		$user = $this->createMock( User::class );
+		$user->method( 'isRegistered' )->willReturn( true );
+		$user->method( 'equals' )->willReturn( $savedByRequestUser );
+
+		$suggestedInvestigationsTrigger = $this->createMock( SuggestedInvestigationsTrigger::class );
+		$suggestedInvestigationsTrigger->expects( $expectsSignal ? $this->once() : $this->never() )
+			->method( 'matchSignalsAgainstUserInJob' )
+			->with(
+				$user,
+				SuggestedInvestigationsSignalMatchService::EVENT_CLIENT_HINTS_SAVED,
+				$this->callback( static fn ( array $data ) => $data['revId'] === 123 &&
+					$data['clientHints']['architecture'] === 'arm' )
+			);
+
+		$params = [];
+		if ( $scriptSentData ) {
+			$params[ClientHintsData::REQUEST_FIELD] = $rawField ?? json_encode( [ 'architecture' => 'arm' ] );
+		}
+		// This value can only arrive in the headers.
+		$request = new FauxRequest( $params, true );
+		$request->setHeaders( [ 'x-ja3n' => 'abc' ] );
+		RequestContext::getMain()->setRequest( $request );
+
+		$this->getObjectUnderTest( [
+			'config' => new HashConfig( [
+				'CheckUserClientHintsEnabled' => $clientHintsEnabled,
+				'CheckUserClientHintsInEditRequest' => $inEditRequest,
+			] ),
+			'userAgentClientHintsManager' => $userAgentClientHintsManager,
+			'suggestedInvestigationsTrigger' => $suggestedInvestigationsTrigger,
+		] )->onPageSaveComplete(
+			$this->createMock( WikiPage::class ),
+			$user,
+			'test',
+			0,
+			$revisionRecord,
+			$editResult
+		);
+
+		$this->assertSame(
+			$expectedStoredArchitectures,
+			array_column( $storedValues, 'architecture' )
+		);
+		// The header-only value is stored either way.
+		$this->assertSame( [ 'ja3n' ], array_keys( array_filter( $storedValues[0] ) ) );
+		$this->assertSame(
+			array_fill( 0, count( $expectedStoredArchitectures ), [ 123, 'revision' ] ),
+			$storedReferences,
+			'Everything is stored against the revision the hook reports'
+		);
+	}
+
+	public static function provideScriptSuppliedDataOnSave() {
+		// The first stored value always comes from the headers, which hold no
+		// architecture. A second value means the request field was stored too.
+		return [
+			'Client side code sent Client Hints' => [
+				'scriptSentData' => true,
+				'expectedStoredArchitectures' => [ null, 'arm' ],
+				'expectsSignal' => true,
+			],
+			'Client side code sent nothing' => [
+				'scriptSentData' => false,
+				'expectedStoredArchitectures' => [ null ],
+				'expectsSignal' => false,
+			],
+			'Client side code sent Client Hints, feature off' => [
+				'scriptSentData' => true,
+				'expectedStoredArchitectures' => [ null ],
+				'expectsSignal' => false,
+				'clientHintsEnabled' => false,
+			],
+			'Client side code sent Client Hints, edit request flag off' => [
+				'scriptSentData' => true,
+				'expectedStoredArchitectures' => [ null ],
+				'expectsSignal' => false,
+				'clientHintsEnabled' => true,
+				'inEditRequest' => false,
+			],
+			// A client can send a shape that has no rows, or one that can't make rows.
+			'Client side code sent an empty object' => [
+				'scriptSentData' => true,
+				'expectedStoredArchitectures' => [ null ],
+				'expectsSignal' => false,
+				'clientHintsEnabled' => true,
+				'inEditRequest' => true,
+				'rawField' => '{}',
+			],
+			'Client side code sent a shape that cannot be stored' => [
+				'scriptSentData' => true,
+				'expectedStoredArchitectures' => [ null ],
+				'expectsSignal' => false,
+				'clientHintsEnabled' => true,
+				'inEditRequest' => true,
+				'rawField' => '{"brands":[[["x"]]]}',
+			],
+			'A second save in the request, by another user' => [
+				'scriptSentData' => true,
+				'expectedStoredArchitectures' => [ null ],
+				'expectsSignal' => false,
+				'clientHintsEnabled' => true,
+				'inEditRequest' => true,
+				'rawField' => null,
+				'savedByRequestUser' => false,
+			],
+		];
+	}
+
 	public function testPageSaveCompleteForNullEdit(): void {
 		$editResult = $this->createMock( EditResult::class );
 		$editResult->method( 'isNullEdit' )
@@ -587,20 +812,17 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 
 	private function getObjectUnderTest( array $overrides = [] ): ClientHints {
 		return new ClientHints(
-			$overrides['config'] ?? new HashConfig( [] ),
+			$overrides['config'] ?? new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsInEditRequest' => true,
+			] ),
 			$overrides['specialPageFactory'] ?? $this->createMock( SpecialPageFactory::class ),
 			$overrides['userAgentClientHintsManager'] ?? $this->createMock( UserAgentClientHintsManager::class ),
 			$overrides['jobQueueGroup'] ?? $this->createMock( JobQueueGroup::class ),
-			$overrides['logger'] ?? new NullLogger()
+			$overrides['logger'] ?? new NullLogger(),
+			$overrides['suggestedInvestigationsTrigger']
+				?? $this->createMock( SuggestedInvestigationsTrigger::class )
 		);
-	}
-
-	public static function provideApiGetAllowedParams() {
-		return [
-			'ApiLogout module with Client Hints enabled' => [ ApiLogout::class, true, true ],
-			'ApiLogout module without Client Hints enabled' => [ ApiLogout::class, false, false ],
-			'ApiQuery module' => [ ApiQuery::class, true, false ],
-		];
 	}
 
 	private function getDefaultClientHintHeaders(): array {
