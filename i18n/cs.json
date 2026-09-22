@@ -215,6 +215,7 @@
 	"checkuser-ip-contributions-contributions-link": "příspěvky",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Editace dočasných účtů z IP",
 	"checkuser-ip-contributions-special-contributions-button": "Starší editace z IP",
+	"checkuser-global-contributions": "Hledání globálních příspěvků",
 	"checkuser-global-contributions-search-form-wrapper": "Hledání globálních příspěvků",
 	"checkuser-tempaccount-reveal-ip-button-label": "zobrazit IP",
 	"checkuser-tempaccount-reveal-ip-missing": "nedostupné",

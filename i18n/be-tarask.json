@@ -26,7 +26,7 @@
 	"right-checkuser": "Праверка ІР-адрасоў ды іншай інфармацыі ўдзельніка",
 	"right-checkuser-log": "Прагляд журнала праверкі ўдзельнікаў",
 	"right-checkuser-temporary-account": "Прагляд IP-адрэсаў, ужытых часовымі рахункамі",
-	"right-checkuser-temporary-account-log": "Прагляд журналу доступу да IP-адрэсаў часовых рахункаў",
+	"right-checkuser-temporary-account-log": "Прагляд журналу доступу да IP-адрэсаў часовых уліковых запісаў",
 	"action-checkuser": "праверку ІР-адрасоў і іншай інфармацыі ўдзельніка",
 	"action-checkuser-log": "прагляд журнала праверкі ўдзельнікаў",
 	"grouppage-checkuser": "{{ns:project}}:Праверка ўдзельнікаў",
