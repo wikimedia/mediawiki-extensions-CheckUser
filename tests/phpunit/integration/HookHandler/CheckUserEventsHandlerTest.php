@@ -760,47 +760,44 @@ class CheckUserEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 1, $rowCount );
 	}
 
-	public function testClientHintsDataCollectedOnApiUserLogout() {
-		RequestContext::getMain()->getRequest()->setVal(
-			'checkuserclienthints',
-			json_encode( [ 'architecture' => 'foo' ] )
-		);
-		$this->overrideConfigValues( [
-			'CheckUserLogLogins' => true,
-			'CheckUserClientHintsEnabled' => true,
-		] );
-		$testUser = $this->getTestUser()->getUser();
-		$ipUser = $this->getServiceContainer()->getUserFactory()->newAnonymous( '127.0.0.1' );
-		$this->getObjectUnderTest( 'api' )->onUserLogoutComplete(
-			$ipUser,
-			$html,
-			$testUser->getName()
-		);
-		$referenceID = $this->newSelectQueryBuilder()
-			->select( 'cupe_id' )
-			->from( 'cu_private_event' )
-			->where( [
-				'cupe_actor' => $this->getServiceContainer()->getActorNormalization()->findActorId(
-					$testUser,
-					$this->getDb()
-				),
-				'cupe_log_action' => 'user-logout',
-			] )
-			->caller( __METHOD__ )
-			->fetchField();
-		$this->newSelectQueryBuilder()
-			->select( 'COUNT(*)' )
-			->from( 'cu_useragent_clienthints_map' )
-			->where( [
-				'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
-				'uachm_reference_id' => $referenceID,
-			] )
-			->caller( __METHOD__ )
-			->assertFieldValue( 1 );
+	public function testClientHintsDataCollectedOnApiUserLogout(): void {
+		$this->assertClientHintsRowsForApiLogout( json_encode( [ 'architecture' => 'foo' ] ), 1 );
 	}
 
-	public function testClientHintsDataNotCollectedOnApiUserLogoutIfNotInPostRequest() {
-		RequestContext::getMain()->getRequest()->setHeader( 'Sec-Ch-Ua', ';v=abc' );
+	/**
+	 * A client controls the field, so the data can be missing, of the wrong type, empty,
+	 * or a shape that makes no rows. None of these stop the logout.
+	 *
+	 * @dataProvider provideUnusableClientHintsFieldsOnApiUserLogout
+	 */
+	public function testClientHintsDataNotCollectedOnApiUserLogout(
+		?string $fieldValue,
+		?string $expectedLog
+	): void {
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $expectedLog === null ? $this->never() : $this->once() )
+			->method( 'info' )
+			->with( $this->stringContains( $expectedLog ?? '' ) );
+		$this->setLogger( 'CheckUser', $logger );
+
+		$this->assertClientHintsRowsForApiLogout( $fieldValue, 0 );
+	}
+
+	public static function provideUnusableClientHintsFieldsOnApiUserLogout() {
+		return [
+			'Nothing sent' => [ null, null ],
+			'Value of the wrong type' => [ '{"platformVersion":["bar"]}', 'cannot be read' ],
+			'No values to store' => [ '{}', null ],
+			'Shape that cannot make rows' => [ '{"brands":[[["x"]]]}', 'cannot be stored' ],
+		];
+	}
+
+	private function assertClientHintsRowsForApiLogout( ?string $fieldValue, int $expectedRows ): void {
+		if ( $fieldValue !== null ) {
+			RequestContext::getMain()->getRequest()->setVal( 'checkuserclienthints', $fieldValue );
+		} else {
+			RequestContext::getMain()->getRequest()->setHeader( 'Sec-Ch-Ua', ';v=abc' );
+		}
 		$this->overrideConfigValues( [
 			'CheckUserLogLogins' => true,
 			'CheckUserClientHintsEnabled' => true,
@@ -826,53 +823,14 @@ class CheckUserEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->caller( __METHOD__ )
 			->fetchField();
 		$this->newSelectQueryBuilder()
-			->select( 'uachm_reference_id' )
+			->select( 'COUNT(*)' )
 			->from( 'cu_useragent_clienthints_map' )
 			->where( [
 				'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
 				'uachm_reference_id' => $referenceID,
 			] )
 			->caller( __METHOD__ )
-			->assertEmptyResult();
-	}
-
-	public function testClientHintsDataNotCollectedOnApiUserLogoutIfPostDataMalformed() {
-		RequestContext::getMain()->getRequest()->setVal(
-			'checkuserclienthints',
-			json_encode( [ 'platformVersion' => [ 'bar' ] ] )
-		);
-		$this->overrideConfigValues( [
-			'CheckUserLogLogins' => true,
-			'CheckUserClientHintsEnabled' => true,
-		] );
-		$testUser = $this->getTestUser()->getUser();
-		$ipUser = $this->getServiceContainer()->getUserFactory()->newAnonymous( '127.0.0.1' );
-		$this->getObjectUnderTest( 'api' )->onUserLogoutComplete(
-			$ipUser,
-			$html,
-			$testUser->getName()
-		);
-		$referenceID = $this->newSelectQueryBuilder()
-			->select( 'cupe_id' )
-			->from( 'cu_private_event' )
-			->where( [
-				'cupe_actor' => $this->getServiceContainer()->getActorNormalization()->findActorId(
-					$testUser,
-					$this->getDb()
-				),
-				'cupe_log_action' => 'user-logout',
-			] )
-			->caller( __METHOD__ )
-			->fetchField();
-		$this->newSelectQueryBuilder()
-			->select( 'uachm_reference_id' )
-			->from( 'cu_useragent_clienthints_map' )
-			->where( [
-				'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
-				'uachm_reference_id' => $referenceID,
-			] )
-			->caller( __METHOD__ )
-			->assertEmptyResult();
+			->assertFieldValue( $expectedRows );
 	}
 
 	public function testStoreClientHintsDataFromHeadersForPostRequest() {

@@ -11,7 +11,6 @@ use MediaWiki\Auth\PasswordAuthenticationRequest;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
-use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
 use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
@@ -35,7 +34,6 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use Psr\Log\LoggerInterface;
-use TypeError;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\ReadOnlyMode;
@@ -478,33 +476,9 @@ class CheckUserEventsHandler implements
 			} elseif ( $this->mediawikiEntryPoint === 'api' ) {
 				// Otherwise, we are here via a call to ApiLogout, most
 				// likely from a user click to a logout link in the personal tools menu
-				try {
-					$this->storeHeaderOnlyClientHintsData(
-						$insertedId,
-						'privatelog',
-						RequestContext::getMain()->getRequest()
-					);
-
-					$values = RequestContext::getMain()->getRequest()->getValues();
-					$data = json_decode( $values['checkuserclienthints'] ?? '', true );
-					if ( !is_array( $data ) ) {
-						// The browser may not support Client Hints, no need to log anything here.
-						return;
-					}
-					// ::newFromJsApi with the $data may raise a TypeError, as we have no guarantees
-					// about the POST values here.
-					$clientHints = ClientHintsData::newFromJsApi( $data );
-					$this->userAgentClientHintsManager->insertClientHintValues(
-						$clientHints,
-						$insertedId,
-						'privatelog'
-					);
-				} catch ( TypeError $e ) {
-					$this->logger->info(
-						'Malformed client hint data supplied in JS API logout flow.',
-						[ 'exception' => $e ]
-					);
-				}
+				$request = RequestContext::getMain()->getRequest();
+				$this->storeHeaderOnlyClientHintsData( $insertedId, 'privatelog', $request );
+				$this->storeClientHintsDataFromRequestField( $insertedId, 'privatelog', $request );
 			}
 		}
 	}

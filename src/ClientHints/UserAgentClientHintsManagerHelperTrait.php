@@ -88,6 +88,54 @@ trait UserAgentClientHintsManagerHelperTrait {
 	}
 
 	/**
+	 * Stores Client Hints data that client side code sent with the request.
+	 *
+	 * @param int $eventId The identifier of the event (e.g. revision ID)
+	 * @param string $eventType The type of event to associate with the data (e.g. "revision")
+	 * @param WebRequest $request Request from which to read the data.
+	 * @return ClientHintsData|null The data stored, or null if nothing was stored
+	 */
+	private function storeClientHintsDataFromRequestField(
+		int $eventId,
+		string $eventType,
+		WebRequest $request
+	): ?ClientHintsData {
+		$clientHintsData = ClientHintsData::newFromRequestField( $request );
+		if ( !$clientHintsData ) {
+			if ( $request->getVal( ClientHintsData::REQUEST_FIELD, '' ) !== '' ) {
+				$this->logger->info(
+					'Client side code sent Client Hints data that cannot be read for ' .
+					'{event_type} ID {event_id}. Not storing this data.',
+					[
+						'event_type' => $eventType,
+						'event_id' => $eventId,
+					]
+				);
+			}
+			return null;
+		}
+		try {
+			// A client controls these values, so they can be shapes that make no rows.
+			if ( !$clientHintsData->toDatabaseRows() ) {
+				return null;
+			}
+			$this->commonStoreClientHintsData( $clientHintsData, $eventId, $eventType );
+		} catch ( TypeError $e ) {
+			$this->logger->info(
+				'Client side code sent Client Hints data that cannot be stored for ' .
+				'{event_type} ID {event_id}. Not storing this data.',
+				[
+					'event_type' => $eventType,
+					'event_id' => $eventId,
+					'exception' => $e,
+				]
+			);
+			return null;
+		}
+		return $clientHintsData;
+	}
+
+	/**
 	 * @internal Not for use outside of {@link UserAgentClientHintsManagerHelperTrait}
 	 */
 	private function commonStoreClientHintsData(
