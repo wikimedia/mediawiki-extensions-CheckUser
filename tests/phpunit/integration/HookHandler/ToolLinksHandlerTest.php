@@ -272,10 +272,11 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
 		$mockPermissionManager->method( 'userHasRight' )
-			->willReturnMap( [
-				[ $mockPerformingUser, 'checkuser-temporary-account-no-preference', true ],
-				[ $mockPerformingUser, 'deletedhistory', $canSeeDeleted ],
-			] );
+			->willReturnCallback( static fn ( $user, $right ) => match ( $right ) {
+				'checkuser-temporary-account-no-preference' => true,
+				'deletedhistory' => $canSeeDeleted,
+				default => false,
+			} );
 
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
@@ -581,7 +582,10 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
 		$mockPermissionManager->method( 'userHasRight' )
-			->willReturnMap( [ [ $user, 'checkuser-temporary-account-no-preference', true ] ] );
+			->willReturnCallback( static fn ( $user, $right ) => match ( $right ) {
+				'checkuser-temporary-account-no-preference' => true,
+				'default' => false,
+			} );
 
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
