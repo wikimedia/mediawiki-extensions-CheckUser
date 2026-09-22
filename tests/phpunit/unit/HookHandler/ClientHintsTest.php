@@ -608,7 +608,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			'Sec-CH-UA' => '',
 			'Sec-CH-UA-Arch' => 'architecture',
 			'Sec-CH-UA-Bitness' => 'bitness',
-			'Sec-CH-UA-Form-Factor' => '',
+			'Sec-CH-UA-Form-Factors' => '',
 			'Sec-CH-UA-Full-Version-List' => 'fullVersionList',
 			'Sec-CH-UA-Mobile' => 'mobile',
 			'Sec-CH-UA-Model' => 'model',

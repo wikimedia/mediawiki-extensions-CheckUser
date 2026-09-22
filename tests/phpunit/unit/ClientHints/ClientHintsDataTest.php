@@ -318,6 +318,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'SEC-CH-UA' => '"Chromium";v="114", "Google Chrome";v="114", "Not.A/Brand";v="8"',
 					'SEC-CH-UA-ARCH' => '"x86"',
 					'SEC-CH-UA-BITNESS' => '"64"',
+					'SEC-CH-UA-FORM-FACTORS' => '"Desktop"',
 					'SEC-CH-UA-FULL-VERSION-LIST' =>
 						'"Chromium";v="114.0.5735.199", "Google Chrome";v="114.0.5735.199", "Not.A/Brand";v="8.0.0.0"',
 					'SEC-CH-UA-MOBILE' => '?0',
@@ -347,7 +348,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 							"version" => "8",
 						],
 					],
-					'formFactor' => null,
+					'formFactor' => [ 'Desktop' ],
 					'fullVersionList' => [
 						[
 							"brand" => "Chromium",
@@ -377,6 +378,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'SEC-CH-UA' => '"Chromium";v="114", "Google Chrome";v="114", "Not.A/Brand";v="99"',
 					'SEC-CH-UA-ARCH' => '""',
 					'SEC-CH-UA-BITNESS' => '"64"',
+					'SEC-CH-UA-FORM-FACTORS' => '"Mobile"',
 					'SEC-CH-UA-FULL-VERSION-LIST' =>
 						'"Chromium";v="114.0.5735.199", "Google Chrome";v="114.0.5735.199", "Not.A/Brand";v="99.0.0.0"',
 					'SEC-CH-UA-MOBILE' => '?1',
@@ -404,7 +406,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 							"version" => "99",
 						],
 					],
-					'formFactor' => null,
+					'formFactor' => [ 'Mobile' ],
 					'fullVersionList' => [
 						[
 							"brand" => "Chromium",
@@ -429,11 +431,33 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'ja4h' => null,
 				],
 			],
+			'Example device sending more than one form factor' => [
+				'requestHeaders' => [
+					'SEC-CH-UA-FORM-FACTORS' => '"Tablet", "XR"',
+				],
+				'collectOnly' => [ 'formFactor' ],
+				'expectedJsonArray' => [
+					'architecture' => null,
+					'bitness' => null,
+					'brands' => null,
+					'formFactor' => [ 'Tablet', 'XR' ],
+					'fullVersionList' => null,
+					'mobile' => null,
+					'model' => null,
+					'platform' => null,
+					'platformVersion' => null,
+					'woW64' => null,
+					'isBrowser' => null,
+					'ja3n' => null,
+					'ja4h' => null,
+				],
+			],
 			'Example Windows device using Chrome when only collecting some headers' => [
 				'requestHeaders' => [
 					'SEC-CH-UA' => '"Chromium";v="114", "Google Chrome";v="114", "Not.A/Brand";v="8"',
 					'SEC-CH-UA-ARCH' => '"x86"',
 					'SEC-CH-UA-BITNESS' => '"64"',
+					'SEC-CH-UA-FORM-FACTORS' => '"Desktop"',
 					'SEC-CH-UA-FULL-VERSION-LIST' =>
 						'"Chromium";v="114.0.5735.199", "Google Chrome";v="114.0.5735.199", "Not.A/Brand";v="8.0.0.0"',
 					'SEC-CH-UA-MOBILE' => '?0',
@@ -624,6 +648,101 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					[ 'uach_name' => 'fullVersionList', 'uach_value' => 'testvalue' ],
 				],
 			],
+		];
+	}
+
+	/** @dataProvider provideFormFactorsHeader */
+	public function testFormFactorsHeaderToDatabaseRowsLoop(
+		string $headerValue,
+		array $expectedFormFactor,
+		array $expectedDatabaseRows,
+		?array $expectedFormFactorFromRows
+	): void {
+		$request = new FauxRequest();
+		$request->setHeader( 'SEC-CH-UA-FORM-FACTORS', $headerValue );
+		$objectToTest = ClientHintsData::newFromRequestHeaders( $request, [ 'formFactor' ] );
+		$this->assertSame(
+			$expectedFormFactor,
+			$objectToTest->jsonSerialize()['formFactor'],
+			'Form factors should be parsed from the header as expected.'
+		);
+		$databaseRows = $objectToTest->toDatabaseRows();
+		$this->assertArrayEquals(
+			$expectedDatabaseRows,
+			$databaseRows,
+			true,
+			true,
+			'Form factors should be converted to database rows as expected.'
+		);
+		// Each form factor is stored in its own row, so check that reading those rows
+		// back produces the same list again. A form factor that stored no rows reads
+		// back as null, in the same way as any other client hint with no data.
+		$this->assertSame(
+			$expectedFormFactorFromRows,
+			ClientHintsData::newFromDatabaseRows( $databaseRows )->jsonSerialize()['formFactor'],
+			'Form factors should be read back from the database rows as expected.'
+		);
+	}
+
+	public static function provideFormFactorsHeader(): array {
+		return [
+			'One form factor' => [
+				'"Desktop"',
+				[ 'Desktop' ],
+				[ [ 'uach_name' => 'formFactor', 'uach_value' => 'Desktop' ] ],
+				[ 'Desktop' ],
+			],
+			'Two form factors' => [
+				'"Tablet", "XR"',
+				[ 'Tablet', 'XR' ],
+				[
+					[ 'uach_name' => 'formFactor', 'uach_value' => 'Tablet' ],
+					[ 'uach_name' => 'formFactor', 'uach_value' => 'XR' ],
+				],
+				[ 'Tablet', 'XR' ],
+			],
+			'Form factors without a space after the comma' => [
+				'"Tablet","XR"',
+				[ 'Tablet', 'XR' ],
+				[
+					[ 'uach_name' => 'formFactor', 'uach_value' => 'Tablet' ],
+					[ 'uach_name' => 'formFactor', 'uach_value' => 'XR' ],
+				],
+				[ 'Tablet', 'XR' ],
+			],
+			'Empty form factor' => [
+				'""',
+				[],
+				[],
+				null,
+			],
+		];
+	}
+
+	public function testNewFromSerialisedJsonArrayOnStringFormFactor(): void {
+		// A job enqueued before the form factor became a list holds it as a string.
+		$objectToTest = ClientHintsData::newFromSerialisedJsonArray(
+			[ 'formFactor' => 'Desktop' ] + self::getEmptySerialisedJsonArray()
+		);
+		$this->assertSame(
+			[ 'Desktop' ],
+			$objectToTest->jsonSerialize()['formFactor'],
+			'A string form factor should be normalised to a list.'
+		);
+	}
+
+	private static function getEmptySerialisedJsonArray(): array {
+		return [
+			'architecture' => null,
+			'bitness' => null,
+			'brands' => null,
+			'formFactor' => null,
+			'fullVersionList' => null,
+			'mobile' => null,
+			'model' => null,
+			'platform' => null,
+			'platformVersion' => null,
+			'woW64' => null,
 		];
 	}
 

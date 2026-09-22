@@ -86,6 +86,24 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 				'Brand: Not.A/Brand 99.0.0.0, Brand: Google Chrome 115.0.5790.171, Brand: Chromium 115.0.5790.171, ' .
 				'Platform: Windows 15.0.0, Mobile: No',
 			],
+			'Client Hints data object with more than one form factor' => [
+				new ClientHintsData(
+					null,
+					null,
+					null,
+					[ "Tablet", "XR" ],
+					null,
+					null,
+					null,
+					"Android",
+					"14.0.0",
+					null,
+					null,
+					null,
+					null
+				),
+				'Platform: Android 14.0.0, Form factor: Tablet, Form factor: XR',
+			],
 			'Example Client Hints data object for Mobile using Chrome with other headers' => [
 				new ClientHintsData(
 					"",

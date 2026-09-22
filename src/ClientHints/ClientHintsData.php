@@ -18,7 +18,7 @@ class ClientHintsData implements JsonSerializable {
 		"Sec-CH-UA" => "brands",
 		"Sec-CH-UA-Arch" => "architecture",
 		"Sec-CH-UA-Bitness" => "bitness",
-		"Sec-CH-UA-Form-Factor" => "formFactor",
+		"Sec-CH-UA-Form-Factors" => "formFactor",
 		"Sec-CH-UA-Full-Version-List" => "fullVersionList",
 		"Sec-CH-UA-Mobile" => "mobile",
 		"Sec-CH-UA-Model" => "model",
@@ -34,7 +34,7 @@ class ClientHintsData implements JsonSerializable {
 	 * @param string|null $architecture
 	 * @param string|null $bitness
 	 * @param string[][]|null $brands
-	 * @param string|null $formFactor
+	 * @param string[]|null $formFactor
 	 * @param string[][]|null $fullVersionList
 	 * @param bool|null $mobile
 	 * @param string|null $model
@@ -49,7 +49,7 @@ class ClientHintsData implements JsonSerializable {
 		private readonly ?string $architecture,
 		private readonly ?string $bitness,
 		private readonly ?array $brands,
-		private readonly ?string $formFactor,
+		private readonly ?array $formFactor,
 		private readonly ?array $fullVersionList,
 		private readonly ?bool $mobile,
 		private readonly ?string $model,
@@ -67,11 +67,18 @@ class ClientHintsData implements JsonSerializable {
 	 * object with the same data.
 	 */
 	public static function newFromSerialisedJsonArray( array $data ): self {
+		// The form factor was a string before it became a list (T438844). Normalise a string
+		// value so that a job which was enqueued before that change, and which therefore
+		// serialised the form factor as a string, does not fail with a TypeError when it runs.
+		$formFactor = $data['formFactor'];
+		if ( $formFactor !== null && !is_array( $formFactor ) ) {
+			$formFactor = [ $formFactor ];
+		}
 		return new self(
 			$data['architecture'],
 			$data['bitness'],
 			$data['brands'],
-			$data['formFactor'],
+			$formFactor,
 			$data['fullVersionList'],
 			$data['mobile'],
 			$data['model'],
@@ -178,6 +185,16 @@ class ClientHintsData implements JsonSerializable {
 						throw new TypeError( "Invalid header $header" );
 					}
 				}, $headerValue );
+			} elseif ( $headerValue && $propertyName === 'formFactor' ) {
+				// Sec-CH-UA-Form-Factors is a list, so it can hold more than one value, such as
+				// '"Tablet", "XR"'. Split it up so that each form factor is stored separately.
+				$headerValue = array_values( array_filter(
+					array_map(
+						static fn ( $value ) => trim( $value, " \n\r\t\v\0\"" ),
+						explode( ',', $headerValue )
+					),
+					static fn ( $value ) => $value !== ''
+				) );
 			} elseif ( $headerValue ) {
 				// The header value needs to be trimmed, along with removing the quotation marks that wrap the value.
 				$headerValue = trim( $headerValue, " \n\r\t\v\0\"" );
@@ -215,7 +232,14 @@ class ClientHintsData implements JsonSerializable {
 	public static function newFromDatabaseRows( array $rows ): self {
 		$data = [];
 		foreach ( $rows as $row ) {
-			if ( in_array( $row['uach_name'], [ 'brands', 'fullVersionList' ] ) ) {
+			if ( $row['uach_name'] === 'formFactor' ) {
+				// There can be multiple form factor values for one reference ID, and unlike
+				// brands they are plain strings with no version number to separate out.
+				if ( !array_key_exists( $row['uach_name'], $data ) ) {
+					$data[$row['uach_name']] = [];
+				}
+				$data[$row['uach_name']][] = $row['uach_value'];
+			} elseif ( in_array( $row['uach_name'], [ 'brands', 'fullVersionList' ] ) ) {
 				// There can be multiple client hint values with this name
 				// for brands and fullVersionList
 				if ( !array_key_exists( $row['uach_name'], $data ) ) {

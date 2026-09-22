@@ -110,6 +110,17 @@ class UserAgentClientHintsFormatter {
 							}
 						}
 					}
+				} elseif ( $clientHintName === 'formFactor' ) {
+					// The form factor can also have more than one value (T438844), but unlike
+					// 'brands' the values are plain strings that need no further parsing.
+					if ( $dataAsArray[$clientHintName] !== null ) {
+						foreach ( $dataAsArray[$clientHintName] as $key => $formFactor ) {
+							$dataAsStringArray[$clientHintName . '-' . $key] = $this->generateClientHintsListItem(
+								$clientHintName,
+								$formFactor
+							);
+						}
+					}
 				} else {
 					$clientHintValue = $dataAsArray[$clientHintName];
 
