@@ -294,6 +294,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Datumsbereich",
 	"checkuser-investigate-compare-table-header-ip": "IP-Adresse",
 	"checkuser-investigate-compare-table-header-useragent": "User-Agent",
+	"checkuser-investigate-compare-table-header-clienthints": "Hinweise zum Browser",
 	"checkuser-contributions-filters-related-temporary-accounts": "Beiträge aus zugehörigen temporären Konten anzeigen",
 	"checkuser-ip-contributions": "Suche nach IP-Beiträgen",
 	"checkuser-ip-contributions-permission-error-title": "Berechtigungsfehler",

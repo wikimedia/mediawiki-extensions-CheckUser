@@ -274,6 +274,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Xilliga taariikhda",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Wakiilka isticmaalaha:",
+	"checkuser-investigate-compare-table-header-clienthints": "Tilmaamaha macmiilka",
 	"checkuser-contributions-filters-related-temporary-accounts": "Muuji wax ku darsiyada xisaabaadka ku-meelgaarka ah ee la xiriira",
 	"checkuser-ip-contributions": "Raadi wax ku darsiyada IP",
 	"checkuser-ip-contributions-permission-error-title": "Khalad oggolaansho",
