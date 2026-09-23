@@ -25,9 +25,11 @@ module.exports = function addCopyFeature() {
 				} );
 
 			$table.find( '[class]' ).addBack( '[class]' ).removeAttr( 'class' );
-			$table.addClass( 'mw-datatable' );
+			$table.addClass( 'wikitable sortable' );
 
-			$table.find( 'tr, td' ).each( ( i, element ) => {
+			$table.find( '[title], [role], [tabindex]' ).addBack( '[title], [role], [tabindex]' )
+				.removeAttr( 'title role tabindex' );
+			$table.find( 'tr, th, td' ).each( ( i, element ) => {
 				Object.keys( element.dataset ).forEach( ( key ) => {
 					element.removeAttribute( 'data-' + key );
 				} );
