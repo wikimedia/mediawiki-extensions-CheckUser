@@ -9,6 +9,7 @@
 			"MacOS Weed",
 			"Mahabarata",
 			"McDutchie",
+			"NClara",
 			"Thibaut120094",
 			"Verdy p",
 			"Wladek92"
@@ -62,5 +63,7 @@
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "L'ID de cas fourni n'existe pas",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "La fonctionnalité Investigations suggérées n'est pas activée",
 	"checkuser-rest-property-desc-connected-accounts": "Liste des noms de comptes temporaires associés",
-	"checkuser-rest-property-desc-ips-used-count": "Nombre d'adresses IP utilisées par le compte temporaire cible"
+	"checkuser-rest-property-desc-ips-used-count": "Nombre d'adresses IP utilisées par le compte temporaire cible",
+	"checkuser-rest-endpoint-summary-userinfo-icon": "API interne : Récupérer les icônes à afficher aux utilisateurs",
+	"checkuser-rest-endpoint-desc-userinfo-icon": "**REMARQUE : Cette API est interne et instable, ne l'appelez pas depuis l'API sauf dans le code de l'extension CheckUser.** \n\nRenvoie le nom de l'icône qui représente le statut de chacun des utilisateurs donnés."
 }

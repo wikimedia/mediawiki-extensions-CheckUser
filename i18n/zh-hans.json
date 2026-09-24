@@ -334,6 +334,7 @@
 	"checkuser-investigate-compare-table-header-activity": "日期范围",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "用户代理",
+	"checkuser-investigate-compare-table-header-clienthints": "客户端提示",
 	"checkuser-contributions-filters-related-temporary-accounts": "显示来自相关临时账号的贡献",
 	"checkuser-ip-contributions": "搜索IP贡献",
 	"checkuser-ip-contributions-permission-error-title": "权限错误",

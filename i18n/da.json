@@ -288,6 +288,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Datointerval",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Brugeragent",
+	"checkuser-investigate-compare-table-header-clienthints": "Klienttips",
 	"checkuser-contributions-filters-related-temporary-accounts": "Vis bidrag fra relateret midlertidige konti",
 	"checkuser-ip-contributions": "Søg efter IP-bidrag",
 	"checkuser-ip-contributions-permission-error-title": "Rettighedsfejl",

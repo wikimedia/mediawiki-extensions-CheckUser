@@ -284,6 +284,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Tarix aralığı",
 	"checkuser-investigate-compare-table-header-ip": "IP ünvan",
 	"checkuser-investigate-compare-table-header-useragent": "İstifadəçi agenti",
+	"checkuser-investigate-compare-table-header-clienthints": "Client hints",
 	"checkuser-contributions-filters-related-temporary-accounts": "Əlaqəli müvəqqəti hesablardan töhfələri göstər",
 	"checkuser-ip-contributions": "IP töhfələrində axtar",
 	"checkuser-ip-contributions-permission-error-title": "İcazə xətası",
