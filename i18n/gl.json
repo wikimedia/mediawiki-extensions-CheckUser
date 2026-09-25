@@ -280,6 +280,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Intervalo de datas",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Axente de usuario",
+	"checkuser-investigate-compare-table-header-clienthints": "Detalles do cliente",
 	"checkuser-contributions-filters-related-temporary-accounts": "Mostrar as contribucións das contas temporais relacionadas",
 	"checkuser-ip-contributions": "Procura de contribucións de enderezos IP",
 	"checkuser-ip-contributions-permission-error-title": "Erro de permisos",
