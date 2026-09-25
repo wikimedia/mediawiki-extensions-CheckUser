@@ -90,7 +90,7 @@
 	"action-checkuser-log": "查看用户查核日志",
 	"action-checkuser-temporary-account": "查看临时账号使用的IP地址",
 	"action-checkuser-temporary-account-no-preference": "查看临时账号使用的IP地址",
-	"action-checkuser-temporary-account-log": "查看临时账户使用IP地址的日志",
+	"action-checkuser-temporary-account-log": "查看临时账号使用IP地址的日志",
 	"action-checkuser-temporary-account-auto-reveal": "自动显示临时账号使用的IP地址",
 	"action-checkuser-suggested-investigations": "执行用户查核所建议的调查",
 	"grouppage-checkuser": "{{ns:project}}:用户查核员",
