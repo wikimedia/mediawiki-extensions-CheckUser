@@ -277,6 +277,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Julat tarikh",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Agen pengguna",
+	"checkuser-investigate-compare-table-header-clienthints": "Petunjuk pelanggan",
 	"checkuser-contributions-filters-related-temporary-accounts": "Tunjukkan sumbangan daripada akaun sementara yang berkaitan",
 	"checkuser-ip-contributions": "Cari sumbangan IP",
 	"checkuser-ip-contributions-permission-error-title": "Ralat kebenaran",
