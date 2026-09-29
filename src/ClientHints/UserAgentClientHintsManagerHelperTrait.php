@@ -114,24 +114,10 @@ trait UserAgentClientHintsManagerHelperTrait {
 			}
 			return null;
 		}
-		try {
-			// A client controls these values, so they can be shapes that make no rows.
-			if ( !$clientHintsData->toDatabaseRows() ) {
-				return null;
-			}
-			$this->commonStoreClientHintsData( $clientHintsData, $eventId, $eventType );
-		} catch ( TypeError $e ) {
-			$this->logger->info(
-				'Client side code sent Client Hints data that cannot be stored for ' .
-				'{event_type} ID {event_id}. Not storing this data.',
-				[
-					'event_type' => $eventType,
-					'event_id' => $eventId,
-					'exception' => $e,
-				]
-			);
+		if ( !$clientHintsData->toDatabaseRows() ) {
 			return null;
 		}
+		$this->commonStoreClientHintsData( $clientHintsData, $eventId, $eventType );
 		return $clientHintsData;
 	}
 

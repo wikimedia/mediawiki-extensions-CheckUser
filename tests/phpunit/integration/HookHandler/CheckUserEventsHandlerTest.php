@@ -788,7 +788,7 @@ class CheckUserEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			'Nothing sent' => [ null, null ],
 			'Value of the wrong type' => [ '{"platformVersion":["bar"]}', 'cannot be read' ],
 			'No values to store' => [ '{}', null ],
-			'Shape that cannot make rows' => [ '{"brands":[[["x"]]]}', 'cannot be stored' ],
+			'List item that holds an array' => [ '{"brands":[[["x"]]]}', 'cannot be read' ],
 		];
 	}
 

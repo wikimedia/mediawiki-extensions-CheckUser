@@ -831,6 +831,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 			'JSON scalar' => [ '"a string"' ],
 			'JSON null' => [ 'null' ],
 			'Wrong value type' => [ '{"platformVersion":["an","array"]}' ],
+			'List item that holds an array' => [ '{"brands":[[["x"]]]}' ],
 		];
 	}
 }

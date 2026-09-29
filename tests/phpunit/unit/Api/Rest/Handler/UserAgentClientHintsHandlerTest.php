@@ -114,7 +114,8 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	public function testBodyFailedValidationBecauseOfIncorrectType() {
+	/** @dataProvider provideBodiesWithIncorrectTypes */
+	public function testBodyFailedValidationBecauseOfIncorrectType( array $body ): void {
 		$config = new HashConfig( [
 			'CheckUserClientHintsEnabled' => true,
 			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
@@ -131,7 +132,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 			->onlyMethods( [ 'getValidatedBody' ] )
 			->getMock();
 		$handler->method( 'getValidatedBody' )
-			->willReturn( [ 'platformVersion' => [ [ 'test' => 'test' ], [ 'testing' => 1234 ] ] ] );
+			->willReturn( $body );
 		$this->expectExceptionObject(
 			new LocalizedHttpException( new MessageValue( 'rest-bad-json-body' ), 400 )
 		);
@@ -142,6 +143,13 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 			[],
 			[ 'type' => 'revision', 'id' => 1 ]
 		);
+	}
+
+	public static function provideBodiesWithIncorrectTypes(): array {
+		return [
+			'Array for a string value' => [ [ 'platformVersion' => [ [ 'test' => 'test' ], [ 'testing' => 1234 ] ] ] ],
+			'Nested array in a list value' => [ [ 'brands' => [ [ [ 'x' ] ] ] ] ],
+		];
 	}
 
 	public function testUnsupportedType() {

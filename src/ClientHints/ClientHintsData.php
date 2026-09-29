@@ -119,6 +119,14 @@ class ClientHintsData implements JsonSerializable {
 			}
 			$data['fullVersionList'][] = $data['uaFullVersion'];
 		}
+		// PHP types do not check the items in a list, and ::toDatabaseRows fails on nested arrays.
+		foreach ( [ 'brands', 'fullVersionList' ] as $key ) {
+			foreach ( is_array( $data[$key] ?? null ) ? $data[$key] : [] as $item ) {
+				if ( is_array( $item ) && array_filter( $item, is_array( ... ) ) ) {
+					throw new TypeError( "The items in $key must not hold arrays" );
+				}
+			}
+		}
 		return new self(
 			$data['architecture'] ?? null,
 			$data['bitness'] ?? null,
