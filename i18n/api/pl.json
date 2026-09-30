@@ -52,7 +52,6 @@
 	"checkuser-api-useragent-clienthints-called-too-late": "Obiekt „$1” o identyfikatorze $2 jest zbyt stary, aby zapisać dla niego wskazówki klienta",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "Obiekt „$1” o identyfikatorze $2 nie istnieje",
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} zbiera wskazówki klienta, udostępniane przez przeglądarkę, aby wspierać społeczność w zwalczaniu wandalizmów i nadużyć. Odwiedź https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints, aby dowiedzieć się więcej.",
-	"apihelp-logout-param-checkuserclienthints": "Wskazówki klienta przesłane razem z żądaniami do ApiLogout. Wyłącznie do użytku wewnętrznego.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Podany czas wygaśnięcia automatycznego ujawniania jest nieprawidłowy.",
 	"checkuser-ip-auto-reveal-missing-permission": "Nie masz uprawnień wymaganych do korzystania z automatycznego ujawniania adresów IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Podany identyfikator sprawy nie istnieje",

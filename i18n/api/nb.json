@@ -47,7 +47,6 @@
 	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 er for gammel til å registrere klienthintdata",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "$1-ID-en $2 finnes ikke",
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} samler inn klienthintdata om brukeragent for å hjelpe til med å begrense hærverk og misbruk. Se https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints for flere detaljer.",
-	"apihelp-logout-param-checkuserclienthints": "Klienthintdata levert sammen med forespørsler til ApiLogout. Kun til intern bruk.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Den gitte utløpstiden for automatisk avsløring er ugyldig.",
 	"checkuser-ip-auto-reveal-missing-permission": "Du har ikke tillatelse til å bruke automatisk avsløring av IP-adresser.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Den angitte saks-ID-en finnes ikke.",

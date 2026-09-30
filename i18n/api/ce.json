@@ -46,7 +46,6 @@
 	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 тӀех шира ду, клиентийн хьехамийн хаамаш дӀайазбан бакъо луш",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "$1 идентификатор $2 йац",
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} гулйо лелоран агентийн клиентийн хьехамийн хаамаш, вандализм а, зедар а нисдарехь гӀо дан. Хьажа https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints.",
-	"apihelp-logout-param-checkuserclienthints": "Клиенто хьехам бо ApiLogout-на дехаршца цхьаьна дӀакхачийна хаамаш. Чоьхьарчу декъашхочун бен.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Авто гучудаккхаран хан чекхйалар нийса дац.",
 	"checkuser-ip-auto-reveal-missing-permission": "IP-адрес авто гучудаккхар функци лело оьшуш йолу бакъо йац хьан.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Билгалдаьккхина гӀуллакхан идентификатор йац",

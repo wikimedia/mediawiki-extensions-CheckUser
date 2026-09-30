@@ -46,7 +46,7 @@
 	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 aad buu u duugoobay si loogu oggolaado in la diiwaangeliyo xogta tilmaamaha macmiilka",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "Aqoonsiga $1 $2 ma jiro",
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} waxay ururisaa xogta tilmaamaha macmiilka ee user-agent si ay uga caawiso la socodka burburinta iyo xadgudubka. Faahfaahin dheeraad ah ka eeg https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints",
-	"apihelp-logout-param-checkuserclienthints": "Xogta tilmaamaha macmiilka ee la socda codsiyada ApiLogout. Kaliya isticmaal gudaha nidaamka.",
+	"checkuser-apihelp-param-checkuserclienthints": "Xogta Talooyinka Macmiilka ee koodhka dhinaca macmiilku ku diro codsiga. Isticmaal gudaha ah oo keliya.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Mudada auto-reveal ee la bixiyay waa khalad.",
 	"checkuser-ip-auto-reveal-missing-permission": "Ma lihid oggolaanshaha loo baahan yahay si aad u isticmaasho muujinta IP-ga si toos ah.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "Aqoonsiga kiiska ee la bixiyay ma jiro.",

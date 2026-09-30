@@ -57,7 +57,6 @@
 	"checkuser-api-useragent-clienthints-called-too-late": "$1$2太舊，無法記錄客戶端提示資料",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "不存在為「$2」的$1ID",
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}}收集使用者代理客戶端提示資料，以協助處理破壞和濫用。有關更多詳細內容，請參閱 https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints 。",
-	"apihelp-logout-param-checkuserclienthints": "隨 ApiLogout 請求提供的客戶端提示資料。僅供內部使用。",
 	"checkuser-ip-auto-reveal-expiry-invalid": "提供的自動顯示逾期時間無效。",
 	"checkuser-ip-auto-reveal-missing-permission": "您沒有權限使用 IP 自動顯示功能。",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "提供的案例 ID 不存在",

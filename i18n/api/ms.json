@@ -47,7 +47,6 @@
 	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 terlalu lama untuk membenarkan perekodan data pembayang pelanggan",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "ID $1 $2 tidak wujud",
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} mengumpul data petunjuk pelanggan ejen pengguna untuk membantu dalam mengurus vandalisme dan penyalahgunaan. Lihat https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints untuk butiran lanjut.",
-	"apihelp-logout-param-checkuserclienthints": "Pelanggan membayangkan data yang dibekalkan bersama permintaan kepada ApiLogout. Untuk kegunaan dalaman sahaja.",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Tempoh lupus pendedahan automatik yang diberikan adalah tidak sah.",
 	"checkuser-ip-auto-reveal-missing-permission": "Anda tidak mempunyai kebenaran yang diperlukan untuk menggunakan pendedahan automatik IP.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "ID kes yang disediakan tidak wujud",
