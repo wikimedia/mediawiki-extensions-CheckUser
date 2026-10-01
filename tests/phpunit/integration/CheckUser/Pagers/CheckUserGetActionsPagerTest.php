@@ -9,13 +9,16 @@ use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\LogFormatter;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Page\PageReferenceValue;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\HtmlArmor\HtmlArmor;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
@@ -116,6 +119,18 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
 		$deleteLogEntry->setTarget( PageReferenceValue::localReference( NS_MAIN, 'Testing page' ) );
+
+		$expectedLogsLinkHtml = Html::rawElement(
+			'span',
+			[],
+			$this->getServiceContainer()->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Log' ),
+				new HtmlArmor( wfMessage( 'checkuser-logs-link-text' ) ),
+				[],
+				[ 'page' => $deleteLogEntry->getTarget()->getPrefixedText() ]
+			)
+		);
+
 		$this->testFormatRow(
 			[
 				'log_type' => $deleteLogEntry->getType(),
@@ -137,6 +152,11 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'actionText' => $this->getServiceContainer()->getLogFormatterFactory()
 					->newFromEntry( $deleteLogEntry )->getActionText(),
 				'clientHints' => 'Test Client Hints data', 'userAgent' => 'Test',
+				'links' => Html::rawElement(
+					'span',
+					[ 'class' => 'mw-changeslist-links' ],
+					$expectedLogsLinkHtml
+				),
 			]
 		);
 	}
@@ -192,7 +212,11 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
 			[],
 			new ClientHintsBatchFormatterResults( [], [] ),
-			[ 'actionText' => $logFormatter->getActionText() ]
+			[
+				'actionText' => $logFormatter->getActionText(),
+				// No links should be shown if user cannot see the log target
+				'links' => '',
+			]
 		);
 	}
 
