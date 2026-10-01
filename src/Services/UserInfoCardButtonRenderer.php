@@ -18,6 +18,8 @@ use MediaWiki\User\UserNameUtils;
 
 class UserInfoCardButtonRenderer {
 
+	private const LOOKUP_BATCH_SIZE = 500;
+
 	/** @internal For use in ServiceWiring */
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserSuggestedInvestigationsEnabled',
@@ -149,11 +151,7 @@ class UserInfoCardButtonRenderer {
 		if ( $options['viewer']?->isAllowed( 'hideuser' ) ) {
 			$visibleTargetNames = $targetNames;
 		} else {
-			$visibleTargetNames = $this->userIdentityLookup->newSelectQueryBuilder()
-				->whereUserNames( $targetNames )
-				->hidden( false )
-				->caller( __METHOD__ )
-				->fetchUserNames();
+			$visibleTargetNames = $this->filterOutHiddenUsers( $targetNames );
 		}
 
 		$result = [];
@@ -167,6 +165,19 @@ class UserInfoCardButtonRenderer {
 			$result[$targetName] = $this->userNameUtils->isTemp( $targetName ) ? 'userTemporary' : 'userAvatar';
 		}
 
+		return $result;
+	}
+
+	private function filterOutHiddenUsers( array $userNames ): array {
+		$result = [];
+		foreach ( array_chunk( $userNames, self::LOOKUP_BATCH_SIZE ) as $userNameChunk ) {
+			$resultChunk = $this->userIdentityLookup->newSelectQueryBuilder()
+				->whereUserNames( $userNameChunk )
+				->hidden( false )
+				->caller( __METHOD__ )
+				->fetchUserNames();
+			$result = array_merge( $result, $resultChunk );
+		}
 		return $result;
 	}
 

@@ -439,4 +439,18 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 			$this->getRenderer()->getIconNamesForUsers( [] )
 		);
 	}
+
+	public function testBatchingWorksProperly(): void {
+		$userNames = [];
+		for ( $i = 0; $i < 501; $i++ ) {
+			$userNames[] = 'User' . $i;
+		}
+
+		$this->assertSame(
+			'userBlocked',
+			$this->getRenderer(
+				blockedUsers: [ 'User500' ],
+			)->getIconNamesForUsers( $userNames )['User500']
+		);
+	}
 }
