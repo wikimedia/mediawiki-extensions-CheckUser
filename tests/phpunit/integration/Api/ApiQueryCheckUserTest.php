@@ -397,7 +397,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 			[
 				[
 					'timestamp' => '2023-04-05T06:07:12Z',
-					'ns' => 2,
+					'ns' => null,
 					'title' => wfMessage( 'rev-deleted-user' )->text(),
 					'user' => wfMessage( 'rev-deleted-user' )->text(),
 					'ip' => '1.2.3.4',
