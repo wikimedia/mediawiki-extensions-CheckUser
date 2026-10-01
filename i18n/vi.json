@@ -378,7 +378,7 @@
 	"checkuser-uic-ip-target-category": "Trang có địa chỉ IP là mục tiêu thẻ thông tin người dùng",
 	"checkuser-uic-ip-target-category-desc": "Trang này dùng <code><nowiki>{{#uic:}}</nowiki></code> trỏ đến một địa chỉ hoặc dải IP. Do tính năng không hỗ trợ đối tượng này, nút thẻ thông tin người dùng đã không được thêm vào.",
 	"checkuser-userinfocard-toggle-button-aria-label": "{{GENDER:$1|}}Mở thẻ thông tin người dùng",
-	"checkuser-userinfocard-navigation-label": "Thông tin thành viên",
+	"checkuser-userinfocard-navigation-label": "Thông tin {{GENDER:$1|thành viên}}",
 	"tooltip-ca-checkuser-userinfocard": "Hiển thị thông tin về {{GENDER:$1|thành viên này}}",
 	"checkuser-userinfocard-close-button-aria-label": "Đóng",
 	"checkuser-userinfocard-copy-username-button-aria-label": "Sao chép tên người dùng",
