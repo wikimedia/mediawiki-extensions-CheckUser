@@ -111,15 +111,19 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	private bool $phpFiltersLimitReached = false;
 
 	/**
-	 * The default filters set for each queue type.
-	 * Derived from the CheckUserSuggestedInvestigationsQueueViews config.
+	 * All the data needed for the front-end to render the queue view feature. It requires:
+	 * - filters: the following filters are supported
+	 *   + editAndBlockFilter
+	 *   + lastUpdated
+	 *   + showCasesWithEditsOnSharedPages
+	 *   + signal
+	 *   + status
+	 * - msgKeys: the key is the where the message is intended to be used and the value is the key itself
+	 *   and the following message types are used
+	 *   + defaultName
+	 *   + editedName
 	 *
-	 * @var array<string,array{editAndBlockFilter?:string,lastUpdatedDays?:int,showCasesWithEditsOnSharedPages?:bool,filteredSignals?:array<string>,statusFilter?:array<string>}>
-	 */
-	private array $queueViewFilters = [];
-
-	/**
-	 * All the data needed for the front-end to render the queue view feature
+	 * @var array<string,array{filters:array<string,array{editAndBlockFilter?:string,lastUpdated?:int,showCasesWithEditsOnSharedPages?:bool,signal?:array<string>,status?:array<string>}>,msgKeys:array{defaultName:string,editedName:string}}>
 	 */
 	private array $queueViewData = [];
 
@@ -229,7 +233,6 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 				isset( $queueViewData[ $queueView ][ 'filters' ] ) &&
 				isset( $queueViewData[ $queueView ][ 'msgKeys' ] )
 			) {
-				$this->queueViewFilters[ $queueView ] = $queueViewData[ $queueView ][ 'filters' ];
 				$this->queueViewData[ $queueView ] = $queueViewData[ $queueView ];
 			}
 		}
@@ -259,20 +262,44 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	}
 
 	/**
+	 * Return the default value of a filter for a queue type with fallbacks if the queue doesn't define it
+	 */
+	private function getDefaultFilterValueForQueueType( string $queueName, string $filterName ): mixed {
+		switch ( $filterName ) {
+			case 'status':
+				return $this->queueViewData[ $queueName ][ 'filters' ][ 'status' ] ?? [];
+			case 'editAndBlockFilter':
+				return $this->queueViewData[ $queueName ][ 'filters' ][ 'editAndBlockFilter' ] ?? 'edits-only';
+			case 'showCasesWithEditsOnSharedPages':
+				return $this->queueViewData[ $queueName ][ 'filters' ][ 'showCasesWithEditsOnSharedPages' ] ?? false;
+			case 'signal':
+				return $this->queueViewData[ $queueName ][ 'filters' ][ 'signal' ] ?? [];
+			case 'lastUpdated':
+				return $this->queueViewData[ $queueName ][ 'filters' ][ 'lastUpdated' ] ?? null;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Parses the filters in the request when the request is for the main
 	 * table view of the special page (i.e. not the detail view).
 	 */
 	private function parseFiltersForMainView( array $urlNamesToSignals ): void {
 		// Prefer the parameter value and default to the config value if not passed
+		// and ensure that the queue to be used is actually enabled
 		$config = $this->getConfig();
 		$queueView = $this->mRequest->getVal( 'queueView' );
-		if ( in_array( $queueView, $config->get( 'CheckUserSuggestedInvestigationsEnabledQueueViews' ) ) ) {
-			$this->queueView = $queueView;
-		} else {
-			$this->queueView = $config->get( 'CheckUserSuggestedInvestigationsDefaultQueueView' );
+		$enabledQueueViews = $config->get( 'CheckUserSuggestedInvestigationsEnabledQueueViews' );
+		if ( !in_array( $queueView, $enabledQueueViews ) ) {
+			$queueView = $config->get( 'CheckUserSuggestedInvestigationsDefaultQueueView' );
 		}
+		if ( !in_array( $queueView, $enabledQueueViews ) ) {
+			throw new InvalidArgumentException( "No enabled queue matches requested queue, $queueView" );
+		}
+		$this->queueView = $queueView;
 
-		$defaultStatusFilter = $this->queueViewFilters[ $this->queueView ][ 'status' ] ?? [];
+		$defaultStatusFilter = $this->getDefaultFilterValueForQueueType( $this->queueView, 'status' );
 		$statusFilter = $this->mRequest->getArray( 'status', $defaultStatusFilter );
 		// If a 0 was passed, set it to an empty filter set. This distinguishes
 		// it from an empty array that should be overriden by a queue default.
@@ -292,22 +319,26 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied += count( $this->userNamesFilter );
 		}
 
-		$defaultEditAndBlockFilter = $this->queueViewFilters[ $this->queueView ][ 'editAndBlockFilter' ]
-			?? 'edits-only';
+		$defaultEditAndBlockFilter = $this
+			->getDefaultFilterValueForQueueType( $this->queueView, 'editAndBlockFilter' );
 		$this->editAndBlockFilter = $this->mRequest->getVal(
 			'editAndBlockFilter',
 			$defaultEditAndBlockFilter
 		);
-		if ( $this->editAndBlockFilter !== $defaultEditAndBlockFilter ) {
+		if (
+			$this->editAndBlockFilter !==
+			$this->getDefaultFilterValueForQueueType(
+				$config->get( 'CheckUserSuggestedInvestigationsDefaultQueueView' ),
+				'editAndBlockFilter'
+			)
+		) {
 			$this->numberOfFiltersApplied++;
 		}
 
 		$showCasesWithEditsOnSharedPages = $this->mRequest->getIntOrNull( 'showCasesWithEditsOnSharedPages' );
 		if ( $showCasesWithEditsOnSharedPages === null ) {
-			$showCasesWithEditsOnSharedPages = $this->queueViewFilters
-				[ $this->queueView ]
-				[ 'showCasesWithEditsOnSharedPages' ]
-			?? false;
+			$showCasesWithEditsOnSharedPages = $this
+				->getDefaultFilterValueForQueueType( $this->queueView, 'showCasesWithEditsOnSharedPages' );
 		} else {
 			$showCasesWithEditsOnSharedPages = (bool)$showCasesWithEditsOnSharedPages;
 		}
@@ -317,7 +348,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			$this->numberOfFiltersApplied++;
 		}
 
-		$defaultFilteredSignals = $this->queueViewFilters[ $this->queueView ][ 'signal' ] ?? [];
+		$defaultFilteredSignals = $this->getDefaultFilterValueForQueueType( $this->queueView, 'signal' );
 		$filteredSignals = $this->mRequest->getArray( 'signal', $defaultFilteredSignals );
 		// If a 0 was passed, set it to an empty filter set. This distinguishes
 		// it from an empty array that should be overriden by a queue default.
@@ -340,7 +371,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$lastUpdatedDays = $this->mRequest->getIntOrNull( 'lastUpdated' );
 		if ( $lastUpdatedDays === null ) {
-			$lastUpdatedDays = $this->queueViewFilters[ $this->queueView ][ 'lastUpdated' ] ?? null;
+			$lastUpdatedDays = $this->getDefaultFilterValueForQueueType( $this->queueView, 'lastUpdated' );
 		} elseif ( $lastUpdatedDays === 0 ) {
 			// If 0 was passed, it's used to prevent queue view overrides and should be treated like a null value.
 			$lastUpdatedDays = null;
@@ -1331,7 +1362,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 						// check if string values match each other.
 						$arrayFilterValueToCompare = $currentFilterValue;
 						if ( $filter === 'signal' ) {
-							$defaultFilteredSignals = $this->queueViewFilters[ $this->queueView ][ 'signal' ] ?? [];
+							$defaultFilteredSignals = is_string( $this->queueView ) ?
+								$this->getDefaultFilterValueForQueueType( $this->queueView, 'signal' ) : [];
 							$arrayFilterValueToCompare =
 								$this->mRequest->getArray( 'signal', $defaultFilteredSignals ) ?? [];
 						}

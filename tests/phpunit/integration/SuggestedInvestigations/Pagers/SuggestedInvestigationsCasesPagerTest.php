@@ -23,6 +23,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Pagers;
 
+use InvalidArgumentException;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
@@ -795,6 +796,17 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$wikitextReason,
 			$this->getServiceContainer()->getCommentFormatter()->format( $wikitextReason )
 		);
+	}
+
+	public function testInvalidEnabledQueueViewsConfigThrowsException(): void {
+		$this->expectException( InvalidArgumentException::class );
+
+		$this->overrideConfigValues( [
+			'CheckUserSuggestedInvestigationsEnabledQueueViews' => [ 'foo' ],
+			'CheckUserSuggestedInvestigationsDefaultQueueView' => 'all',
+		] );
+		$context = $this->makeQqxContext();
+		$parserOutput = $this->getPager( $context )->getFullOutput();
 	}
 
 	/** @dataProvider provideTestQueueViewSetsDefaultFilters */
