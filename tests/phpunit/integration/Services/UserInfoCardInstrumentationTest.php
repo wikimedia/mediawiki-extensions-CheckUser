@@ -79,6 +79,11 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 			'counterName' => 'userinfocard_api_rate_limit',
 			'functionArgs' => [],
 		];
+		yield 'onSharedBlockedAccountsSuccess' => [
+			'functionName' => 'onSharedBlockedAccountsSuccess',
+			'counterName' => 'userinfocard_sharedblocked_success',
+			'functionArgs' => [],
+		];
 	}
 
 	/** @dataProvider provideFunctionEmitsEvent */
@@ -221,6 +226,12 @@ class UserInfoCardInstrumentationTest extends MediaWikiIntegrationTestCase {
 		yield 'onRateLimited' => [
 			'functionName' => 'onRateLimited',
 			'eventName' => 'rate_limit_exceeded',
+			'functionArgs' => [],
+			'expectedContext' => [],
+		];
+		yield 'onSharedBlockedAccountsSuccess' => [
+			'functionName' => 'onSharedBlockedAccountsSuccess',
+			'eventName' => 'sharedblocked_success',
 			'functionArgs' => [],
 			'expectedContext' => [],
 		];

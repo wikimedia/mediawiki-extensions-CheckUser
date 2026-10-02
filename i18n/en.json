@@ -204,6 +204,7 @@
 	"checkuser-rest-access-denied": "You do not have permission to perform the action",
 	"checkuser-rest-access-denied-blocked-user": "You do not have permission to perform the action because your account is blocked",
 	"checkuser-rest-userinfo-user-not-found": "Invalid user ID provided.",
+	"checkuser-rest-userinfo-sharedblocked-too-many-edits": "This data is only available for users with fewer than $1 {{PLURAL:$1|edit|edits}}.",
 	"checkuser-link-investigate-label": "Try out {{#special:investigate}}",
 	"checkuser-investigateblock": "Block users",
 	"checkuser-investigateblock-target": "Usernames and IP addresses",

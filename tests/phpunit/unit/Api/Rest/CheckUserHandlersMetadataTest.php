@@ -14,6 +14,7 @@ use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoBlockedHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoHandler;
 use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoIconsHandler;
+use MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoSharedBlockedAccountsHandler;
 use MediaWiki\Message\TextFormatter;
 use MediaWiki\Rest\Handler;
 use MediaWiki\Rest\JsonLocalizer;
@@ -37,6 +38,7 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoBlockedHandler
  * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoHandler
  * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoIconsHandler
+ * @covers \MediaWiki\Extension\CheckUser\Api\Rest\Handler\UserInfoSharedBlockedAccountsHandler
  */
 class CheckUserHandlersMetadataTest extends MediaWikiUnitTestCase {
 
@@ -63,6 +65,10 @@ class CheckUserHandlersMetadataTest extends MediaWikiUnitTestCase {
 			],
 			'UserInfoIconHandler' => [
 				UserInfoIconsHandler::class,
+				'post',
+			],
+			'UserInfoSharedBlockedAccountsHandler' => [
+				UserInfoSharedBlockedAccountsHandler::class,
 				'post',
 			],
 			'TemporaryAccountHandler' => [

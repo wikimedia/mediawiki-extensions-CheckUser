@@ -54,6 +54,25 @@
 				}
 			}
 		},
+		"/userinfo/sharedblocked/{name}": {
+			"post": {
+				"x-i18n-summary": "checkuser-rest-endpoint-summary-userinfo-sharedblocked",
+				"x-i18n-description": "checkuser-rest-endpoint-desc-userinfo-sharedblocked",
+				"handler": {
+					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoSharedBlockedAccountsHandler",
+					"services": [
+						"UserFactory",
+						"UserEditTracker",
+						"UserIdentityLookup",
+						"CheckUserSharedIPAccountsLookup",
+						"CheckUserSharedBrowserVersionAccountsLookup",
+						"CheckUserCompositeBlockChecker",
+						"MainWANObjectCache",
+						"CheckUserUserInfoCardInstrumentation"
+					]
+				}
+			}
+		},
 		"/userinfo/icons": {
 			"post": {
 				"x-i18n-summary": "checkuser-rest-endpoint-summary-userinfo-icon",

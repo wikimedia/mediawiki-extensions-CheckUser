@@ -132,6 +132,17 @@ class UserInfoCardInstrumentation {
 		$this->emitInteractionEvent( 'rate_limit_exceeded' );
 	}
 
+	/**
+	 * Record a successful request to the shared blocked accounts module in UIC API
+	 */
+	public function onSharedBlockedAccountsSuccess(): void {
+		$this->statsFactory->withComponent( 'CheckUser' )
+			->getCounter( 'userinfocard_sharedblocked_success' )
+			->setLabel( 'wiki', WikiMap::getCurrentWikiId() )
+			->increment();
+		$this->emitInteractionEvent( 'sharedblocked_success' );
+	}
+
 	private function emitInteractionEvent( string $action, array $actionContext = [] ): void {
 		if (
 			$this->metricsClientFactory === null ||
