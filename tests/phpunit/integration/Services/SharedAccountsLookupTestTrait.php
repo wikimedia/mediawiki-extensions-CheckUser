@@ -22,12 +22,13 @@ trait SharedAccountsLookupTestTrait {
 	/**
 	 * @return int The cuc_id of the new row
 	 */
-	private function insertCuChangesRow( ?int $actorId, ?string $ip, int $timestamp = 0 ): int {
+	private function insertCuChangesRow( ?int $actorId, ?string $ip, int $timestamp = 0, int $revId = 0 ): int {
 		return $this->insertCheckUserRow( 'cu_changes', [
 			'cuc_comment_id' => 0,
 			'cuc_timestamp' => $this->getDb()->timestamp( $timestamp ),
 			'cuc_actor' => $actorId,
 			'cuc_ip_hex' => $ip ? IPUtils::toHex( $ip ) : null,
+			'cuc_this_oldid' => $revId,
 		] );
 	}
 
