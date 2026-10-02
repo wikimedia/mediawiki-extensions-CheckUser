@@ -35,6 +35,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Extension\CheckUser\Services\CheckUserSharedIPAccountsLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserUserInfoCardService;
@@ -401,6 +402,16 @@ return [
 			$services->getUserGroupManagerFactory(),
 			$services->getDatabaseBlockStoreFactory(),
 			WikiMap::getCurrentWikiDbDomain()->getId()
+		);
+	},
+	'CheckUserSharedIPAccountsLookup' => static function (
+		MediaWikiServices $services
+	): CheckUserSharedIPAccountsLookup {
+		return new CheckUserSharedIPAccountsLookup(
+			$services->getConnectionProvider(),
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getActorNormalization(),
+			$services->getUserIdentityLookup()
 		);
 	},
 	'CheckUserStatusReasonFormatter' => static function (
