@@ -31,6 +31,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	public function execute() {
 		$this->checkUserRightsAny( 'checkuser' );
 
+		$block = $this->getAuthority()->getBlock();
+		if ( $block && $block->isSitewide() ) {
+			$this->dieBlocked( $block );
+		}
+
 		$response = $this->responseFactory->newFromRequest( $this );
 		$result = $this->getResult();
 
