@@ -10,6 +10,7 @@ use MediaWiki\Extension\CheckUser\Services\UserInfoCardButtonRenderer;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCache;
 use MediaWiki\Tests\Unit\FakeQqxMessageLocalizer;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNameUtils;
 use MediaWiki\User\UserSelectQueryBuilder;
@@ -168,6 +169,28 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 				],
 				'expectedIconName' => 'suggestedInvestigations',
 			],
+			'User in SI case and UIC is being viewed on Special:SuggestedInvestigations' => [
+				'isBlocked' => false,
+				'isTemp' => false,
+				'isHidden' => false,
+				'isInOpenCase' => true,
+				'options' => [
+					'viewer' => [ 'checkuser-suggested-investigations' ],
+					'pageTitle' => 'SuggestedInvestigations',
+				],
+				'expectedIconName' => 'userAvatar',
+			],
+			'User in SI case and UIC is being viewed on an arbitrary page' => [
+				'isBlocked' => false,
+				'isTemp' => false,
+				'isHidden' => false,
+				'isInOpenCase' => true,
+				'options' => [
+					'viewer' => [ 'checkuser-suggested-investigations' ],
+					'pageTitle' => 'Foo',
+				],
+				'expectedIconName' => 'suggestedInvestigations',
+			],
 
 			// Check priorities
 			'Blocked temporary account - blocked wins over temporary' => [
@@ -288,6 +311,13 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 	): void {
 		if ( is_array( $options['viewer'] ?? null ) ) {
 			$options['viewer'] = $this->mockAnonAuthorityWithPermissions( $options['viewer'] );
+		}
+
+		if ( is_string( $options['pageTitle'] ?? null ) ) {
+			// Mock the title, as it depends on a db call and comparison
+			$mockTitle = $this->createMock( Title::class );
+			$mockTitle->method( 'isSpecial' )->willReturn( $options['pageTitle'] === 'SuggestedInvestigations' );
+			$options['pageTitle'] = $mockTitle;
 		}
 
 		$this->assertSame(

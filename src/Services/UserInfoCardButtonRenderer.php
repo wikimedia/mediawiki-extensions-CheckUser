@@ -8,6 +8,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNameUtils;
 
@@ -98,16 +99,22 @@ class UserInfoCardButtonRenderer {
 	 *    (e.g., in parser cache).
 	 * * 'viewer' (default: null) - if an icon should be displayed only to users with certain rights, this is the
 	 *     authority for whom to check the rights. If null, it will be assumed that the viewer has no rights.
+	 * * 'pageTitle' (default: null) - context of what page UIC is being loaded on may affect what icon is returned.
+	 *     This should be a Title.
 	 * @return array A map of usernames to their corresponding icons. Every username will be present in the result.
 	 */
 	public function getIconNamesForUsers( array $targetNames, array $options = [] ): array {
 		$options += [
 			'customIcons' => true,
 			'viewer' => null,
+			'pageTitle' => null,
 		];
 
 		if ( !( $options['viewer'] instanceof Authority ) ) {
 			$options['viewer'] = null;
+		}
+		if ( !( $options['pageTitle'] instanceof Title ) ) {
+			$options['pageTitle'] = null;
 		}
 
 		if ( $options['viewer']?->isAllowed( 'hideuser' ) ) {
@@ -136,12 +143,14 @@ class UserInfoCardButtonRenderer {
 
 	private function applyCustomIcons( array $targetNames, array $options ): array {
 		$viewer = $options['viewer'];
+		$pageTitle = $options['pageTitle'];
 
 		// The order in which the methods are listed here denotes the icon priority (top to bottom)
 		// Nulls are ignored
 		$customIconHandlers = [
 			$this->applyBlockedIcon( ... ),
-			$viewer?->isAllowed( 'checkuser-suggested-investigations' ) ?
+			$viewer?->isAllowed( 'checkuser-suggested-investigations' ) &&
+			!$pageTitle?->isSpecial( 'SuggestedInvestigations' ) ?
 				$this->applySuggestedInvestigationsIcon( ... ) : null,
 		];
 

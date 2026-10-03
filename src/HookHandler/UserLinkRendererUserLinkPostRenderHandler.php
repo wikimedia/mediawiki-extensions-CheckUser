@@ -36,7 +36,7 @@ class UserLinkRendererUserLinkPostRenderHandler implements UserLinkRendererUserL
 
 			$iconName = $this->buttonRenderer->getIconName(
 				$targetUser->getName(),
-				[ 'viewer' => $context->getAuthority() ]
+				[ 'viewer' => $context->getAuthority(), 'pageTitle' => $output->getTitle() ]
 			);
 			$buttonHtml = $this->buttonRenderer->render(
 				$targetUser->getName(),
