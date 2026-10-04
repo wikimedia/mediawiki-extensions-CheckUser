@@ -51,7 +51,7 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 
 	/** @inheritDoc */
 	public function onParserFirstCallInit( $parser ) {
-		$parser->setFunctionHook( 'uic', [ $this, 'renderUserInfoCardButton' ] );
+		$parser->setFunctionHook( 'uic', $this->renderUserInfoCardButton( ... ) );
 	}
 
 	/**
