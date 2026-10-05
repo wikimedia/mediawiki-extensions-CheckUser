@@ -98,36 +98,28 @@ class SuggestedInvestigationsCaseManagerService {
 
 		$dbw = $this->getPrimaryDatabase();
 
-		try {
-			$dbw->startAtomic( __METHOD__, IDatabase::ATOMIC_CANCELABLE );
+		$dbw->startAtomic( __METHOD__, IDatabase::ATOMIC_CANCELABLE );
+		$caseUrlIdentifier = $this->generateUniqueUrlIdentifier();
 
-			$caseUrlIdentifier = $this->generateUniqueUrlIdentifier();
+		$dbw->newInsertQueryBuilder()
+			->insert( 'cusi_case' )
+			->row( [
+				'sic_url_identifier' => $caseUrlIdentifier,
+				'sic_created_timestamp' => $dbw->timestamp(),
+				'sic_updated_timestamp' => $dbw->timestamp(),
+			] )
+			->caller( __METHOD__ )
+			->execute();
+		$caseId = $dbw->insertId();
 
-			$dbw->newInsertQueryBuilder()
-				->insert( 'cusi_case' )
-				->row( [
-					'sic_url_identifier' => $caseUrlIdentifier,
-					'sic_created_timestamp' => $dbw->timestamp(),
-					'sic_updated_timestamp' => $dbw->timestamp(),
-				] )
-				->caller( __METHOD__ )
-				->execute();
-			$caseId = $dbw->insertId();
+		// We don't need to check if the case exists, so let's just use the internal versions of methods
+		$this->addUsersToCaseInternal( $caseId, $this->convertUsersToCaseUsers( $users ) );
+		$this->addSignalsToCaseInternal( $caseId, $signals );
 
-			// We don't need to check if the case exists, so let's just use the internal versions of methods
-			$this->addUsersToCaseInternal( $caseId, $this->convertUsersToCaseUsers( $users ) );
-			$this->addSignalsToCaseInternal( $caseId, $signals );
-
-			$dbw->onTransactionCommitOrIdle( function () use ( $caseId ) {
-				$this->casePropertyManagerService->updateEditRelatedPropertiesForCases( [ $caseId ] );
-			}, __METHOD__ );
-
-			$dbw->endAtomic( __METHOD__ );
-		} catch ( \Exception $e ) {
-			// Ensure we cancel the atomic block if an exception is thrown
-			$dbw->cancelAtomic( __METHOD__ );
-			throw $e;
-		}
+		$dbw->onTransactionCommitOrIdle( function () use ( $caseId ) {
+			$this->casePropertyManagerService->updateEditRelatedPropertiesForCases( [ $caseId ] );
+		}, __METHOD__ );
+		$dbw->endAtomic( __METHOD__ );
 
 		$this->instrumentationClient->submitInteraction(
 			RequestContext::getMain(),
