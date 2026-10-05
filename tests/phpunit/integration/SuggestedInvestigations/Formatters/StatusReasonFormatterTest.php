@@ -2,22 +2,23 @@
 
 declare( strict_types=1 );
 
-namespace MediaWiki\Extension\CheckUser\Tests\Unit\SuggestedInvestigations\Formatters;
+namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Formatters;
 
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\Tests\Unit\FakeQqxMessageLocalizer;
 use MediaWiki\Title\Title;
 use MediaWiki\Title\TitleFactory;
-use MediaWikiUnitTestCase;
+use MediaWikiIntegrationTestCase;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter
+ * @group CheckUser
  */
-class StatusReasonFormatterTest extends MediaWikiUnitTestCase {
+class StatusReasonFormatterTest extends MediaWikiIntegrationTestCase {
 
 	private LinkRenderer $linkRenderer;
 	private MessageLocalizer $messageLocalizer;
@@ -36,7 +37,10 @@ class StatusReasonFormatterTest extends MediaWikiUnitTestCase {
 		$titleFactory->method( 'makeTitle' )
 			->willReturn( $this->createMock( Title::class ) );
 
-		$this->messageLocalizer = new FakeQqxMessageLocalizer();
+		// The formatter parses messages, which needs the services of an integration test
+		$context = new RequestContext();
+		$context->setLanguage( 'qqx' );
+		$this->messageLocalizer = $context;
 
 		$this->formatter = new StatusReasonFormatter(
 			$commentFormatter,
