@@ -114,6 +114,13 @@ class CheckUserInsert {
 		}
 
 		$attribs = $rc->getAttributes();
+		$transactionProfiler = Profiler::instance()->getTransactionProfiler();
+		$transactionProfilerScope = null;
+		if ( $silenceReplicaWarnings ) {
+			$transactionProfilerScope = $transactionProfiler->silenceForScope(
+				TransactionProfiler::EXPECTATION_REPLICAS_ONLY
+			);
+		}
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
 
 		if ( $rc->getAttribute( 'rc_source' ) === RecentChange::SRC_LOG ) {
@@ -158,6 +165,7 @@ class CheckUserInsert {
 				if ( isset( $attribs['rc_cur_id'] ) ) {
 					$rcRow['cupe_page'] = $attribs['rc_cur_id'];
 				}
+				ScopedCallback::consume( $transactionProfilerScope );
 
 				$this->insertIntoCuPrivateEventTable(
 					$rcRow,
@@ -167,6 +175,8 @@ class CheckUserInsert {
 					$silenceReplicaWarnings
 				);
 			} else {
+				ScopedCallback::consume( $transactionProfilerScope );
+
 				$this->insertIntoCuLogEventTable(
 					$logEntry,
 					__METHOD__,
@@ -195,6 +205,7 @@ class CheckUserInsert {
 				'cuc_type'       => self::getTypeFromRCSource( $attribs['rc_source'] ),
 				'cuc_timestamp'  => $dbw->timestamp( $attribs['rc_timestamp'] ),
 			];
+			ScopedCallback::consume( $transactionProfilerScope );
 
 			// On PG, MW unsets cur_id due to schema incompatibilities. So it may not be set!
 			if ( isset( $attribs['rc_cur_id'] ) ) {
