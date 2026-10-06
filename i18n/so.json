@@ -432,7 +432,7 @@
 	"checkuser-userinfocard-global-groups": "<strong>Kooxo caalami ah</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 wax ka beddel|$2 wax ka beddelo|0=Wax ka-beddel ma jiro}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Wuxuu oggolaaday inuu arko IP-yada akoonnada ku meelgaarka ah",
-	"checkuser-userinfocard-ip-revealed-count": "IP-yada la muujiyay: $1 (ugu dambeyn la hubiyay $2)",
+	"checkuser-userinfocard-ip-revealed-count": "IP-yada la muujiyay: $1 (ugu dambeyn la shaaciyay $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Muujinta IP: $1",
 	"checkuser-suggestedinvestigations": "Baaritaanno la soo jeediyay",
 	"checkuser-suggestedinvestigations-autoclose-reason": "Si otomaatig ah ayaa loo xiray maadaama dhammaan xisaabaadka la xannibay ama la qufulay",
