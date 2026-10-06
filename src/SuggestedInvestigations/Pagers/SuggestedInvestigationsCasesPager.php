@@ -24,7 +24,9 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
+use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\IContextSource;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
@@ -45,12 +47,14 @@ use MediaWiki\Navigation\CodexPagerNavigationBuilder;
 use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Pager\CodexTablePager;
 use MediaWiki\Parser\ParserOutput;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\WikiMap\WikiMap;
 use Psr\Log\LoggerInterface;
 use stdClass;
 use Wikimedia\Codex\Localization\MediaWikiLocalization;
@@ -151,6 +155,9 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 */
 	private ?array $detailViewMetadata = null;
 
+	/** @var string|false|null */
+	private string|false|null $multiLockUrl = null;
+
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
 		private readonly UserIdentityLookup $userIdentityLookup,
@@ -165,6 +172,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsUserLinkRenderer $siUserLinkRenderer,
+		private readonly ExtensionRegistry $extensionRegistry,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals,
@@ -636,6 +644,11 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		] );
 		$actionsHtml .= Html::closeElement( 'a' );
 
+		$multiLockUrl = $this->getMultiLockUrl();
+		if ( $multiLockUrl !== null ) {
+			$actionsHtml .= $this->getMultiLockActionHtml( $multiLockUrl, $users );
+		}
+
 		$codex = new Codex( new MediaWikiLocalization( $this->getContext() ) );
 		$actionsHtml .= $codex->button()
 			->setIconOnly( true )
@@ -654,6 +667,99 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$actionsHtml .= Html::closeElement( 'div' );
 		return $actionsHtml;
+	}
+
+	/**
+	 * Returns the Special:MultiLock URL if the user can use it.
+	 */
+	private function getMultiLockUrl(): ?string {
+		if ( $this->multiLockUrl !== null ) {
+			return $this->multiLockUrl ?: null;
+		}
+
+		$checkUserCAMultiLock = $this->getConfig()->get( 'CheckUserCAMultiLock' );
+		if ( $checkUserCAMultiLock !== false ) {
+			if ( !$this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+				// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
+				throw new ConfigException( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
+			}
+
+			$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
+			// Only show the links for users in the configured global group(s)
+			if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
+				$centralMLUrl = WikiMap::getForeignURL(
+					$checkUserCAMultiLock['centralDB'],
+					// Use canonical name instead of local name so that it works
+					// even if the local language is different from central wiki
+					'Special:MultiLock'
+				);
+				if ( $centralMLUrl === false ) {
+					// If no central URL could be generated, then use the local version of the special page.
+					$centralMLUrl = SpecialPage::getTitleFor( 'MultiLock' )->getLinkURL();
+				}
+				$this->multiLockUrl = $centralMLUrl;
+				return $this->multiLockUrl;
+			}
+		}
+
+		$this->multiLockUrl = false;
+		return null;
+	}
+
+	/**
+	 * @param string $multiLockUrl
+	 * @param UserIdentity[] $users
+	 * @return string
+	 */
+	private function getMultiLockActionHtml( string $multiLockUrl, array $users ): string {
+		$urls = [];
+		$targets = [];
+		$baseUrlLength = strlen( wfAppendQuery( $multiLockUrl, [ 'wpTarget' => '' ] ) );
+		$urlLength = $baseUrlLength;
+		$separatorLength = strlen( urlencode( "\n" ) );
+		foreach ( $users as $user ) {
+			$name = $user->getName();
+			$nameLength = strlen( urlencode( $name ) );
+			$nextUrlLength = $urlLength + $nameLength + ( $targets !== [] ? $separatorLength : 0 );
+			// Match CU's batching limit, but always accept at least one account per batch.
+			if ( $nextUrlLength >= 2000 && $targets !== [] ) {
+				$urls[] = wfAppendQuery( $multiLockUrl, [ 'wpTarget' => implode( "\n", $targets ) ] );
+				$targets = [];
+				$nextUrlLength = $baseUrlLength + $nameLength;
+			}
+			$targets[] = $name;
+			$urlLength = $nextUrlLength;
+		}
+		if ( $targets !== [] ) {
+			$urls[] = wfAppendQuery( $multiLockUrl, [ 'wpTarget' => implode( "\n", $targets ) ] );
+		}
+		if ( $urls === [] ) {
+			$urls[] = null;
+		}
+
+		$html = '';
+		foreach ( $urls as $index => $url ) {
+			$label = count( $urls ) > 1 ?
+				$this->msg( 'checkuser-centralauth-multilock-list-item', $index + 1 )->text() :
+				$this->msg( 'checkuser-suggestedinvestigations-action-multilock' )->text();
+			$html .= Html::rawElement( 'a', [
+				'role' => 'button',
+				'href' => $url,
+				'title' => $label,
+				'aria-label' => $label,
+				'class' => [
+					'cdx-button',
+					'cdx-button--fake-button',
+					$url !== null ? 'cdx-button--fake-button--enabled' : 'cdx-button--fake-button--disabled',
+					'cdx-button--weight-quiet',
+					'cdx-button--icon-only',
+					'mw-checkuser-suggestedinvestigations-multilock-action',
+				],
+			], Html::element( 'span', [
+				'class' => 'cdx-button__icon mw-checkuser-suggestedinvestigations-icon--multilock',
+			] ) );
+		}
+		return $html;
 	}
 
 	/** @inheritDoc */

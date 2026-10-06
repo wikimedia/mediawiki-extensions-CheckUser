@@ -492,6 +492,7 @@ return [
 			$services->get( 'CheckUserSuggestedInvestigationsUserRevisionLookup' ),
 			$services->get( 'CheckUserHookRunner' ),
 			$services->get( 'CheckUserSuggestedInvestigationsUserLinkRenderer' ),
+			$services->getExtensionRegistry(),
 		);
 	},
 	'CheckUserSuggestedInvestigationsRelatedCasesLookup' => static function (

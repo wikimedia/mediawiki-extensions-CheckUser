@@ -526,6 +526,7 @@
 	"checkuser-suggestedinvestigations-status-reason-with-performer": "$1<br>$2",
 	"checkuser-suggestedinvestigations-action-investigate": "Investigate users",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Can only investigate up to $1 {{PLURAL:$1|accounts}}",
+	"checkuser-suggestedinvestigations-action-multilock": "Lock accounts",
 	"checkuser-suggestedinvestigations-action-change-status": "Change status",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Close",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Cancel",

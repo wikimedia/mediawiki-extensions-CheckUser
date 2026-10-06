@@ -563,6 +563,7 @@
 	"checkuser-suggestedinvestigations-status-reason-with-performer": "{{optional}} Used to format the status reason cell when both a reason and a performer link are present. $1 is the formatted reason HTML, $2 is the performer link HTML. The order of $1 and $2 can be swapped for RTL languages.",
 	"checkuser-suggestedinvestigations-action-investigate": "Label for a button that opens the [[Special:Investigate]] page for all users in the case",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Label for a disabled button that would normally open the [[Special:Investigate]] page for all users in the case. The button is disabled because there are more users than the Investigate special page can handle at once.\n\nParameters:\n* $1 - The maximum number of users that can be handled at once by the Investigate special page",
+	"checkuser-suggestedinvestigations-action-multilock": "Label for a button that opens [[Special:MultiLock]] for all visible accounts in a Suggested Investigations case.",
 	"checkuser-suggestedinvestigations-action-change-status": "Label for a button that opens a dialog to change the status of the case",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "{{Identical|Close}}\nLabel used for a button that allows the suggested investigations change status dialog to be closed",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Label for a button in the change status dialog for canceling the operation and closing the suggested investigations change status dialog.",

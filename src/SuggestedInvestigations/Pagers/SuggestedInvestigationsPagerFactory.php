@@ -18,6 +18,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\UserFactory;
@@ -54,6 +55,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsUserLinkRenderer $siUserLinkRenderer,
+		private readonly ExtensionRegistry $extensionRegistry,
 	) {
 	}
 
@@ -118,6 +120,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->userRevisionLookup,
 			$this->hookRunner,
 			$this->siUserLinkRenderer,
+			$this->extensionRegistry,
 			$this->linkRenderer,
 			$context,
 			$signals,
