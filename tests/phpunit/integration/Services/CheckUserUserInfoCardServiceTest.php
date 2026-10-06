@@ -31,7 +31,6 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
-use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\WikiMap\WikiMap;
@@ -998,7 +997,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		bool $expected
 	) {
 		// T399252
-		$this->clearHook( 'TitleIsAlwaysKnown' );
+		$this->clearHook( 'LinkTargetIsAlwaysKnownBatch' );
 
 		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
 		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
@@ -1008,8 +1007,14 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		// (T396304).
 		if ( $knownViaHook ) {
 			$this->setTemporaryHook(
-				'TitleIsAlwaysKnown',
-				static fn ( Title $title, ?bool &$isKnown ) => $isKnown = $title->equals( $user->getUserPage() ),
+				'LinkTargetIsAlwaysKnownBatch',
+				static function ( array $links, array &$isAlwaysKnown ) use ( $user ) {
+					foreach ( $links as $i => $link ) {
+						if ( $link->isSameLinkAs( $user->getUserPage() ) ) {
+							$isAlwaysKnown[$i] = true;
+						}
+					}
+				}
 			);
 		}
 
