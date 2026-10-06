@@ -76,6 +76,7 @@
 				"
 				:placeholder="statusReasonPlaceholder"
 				@change="onFormFieldChange"
+				@keydown.enter="onStatusReasonEnterKeydown"
 			>
 			</character-limited-text-input>
 		</cdx-field>
@@ -250,6 +251,15 @@ module.exports = exports = {
 			open.value = false;
 		}
 
+		function onStatusReasonEnterKeydown( event ) {
+			if ( !event.ctrlKey && !event.metaKey ) {
+				return;
+			}
+
+			event.preventDefault();
+			onSubmitButtonClick();
+		}
+
 		/**
 		 * Handles a click of the submit button which includes making a REST API request
 		 * to update the status of the investigation and displaying any errors if they occur.
@@ -309,6 +319,7 @@ module.exports = exports = {
 			invalidStatusWarningMessage,
 			onFormFieldChange,
 			onCancelButtonClick,
+			onStatusReasonEnterKeydown,
 			onSubmitButtonClick
 		};
 	}
