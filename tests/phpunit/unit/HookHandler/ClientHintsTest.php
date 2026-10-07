@@ -810,6 +810,113 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		);
 	}
 
+	/** @dataProvider provideGetSecurityLogContext */
+	public function testGetSecurityLogContext(
+		array $headers,
+		array $mainRequestParams,
+		array $expectedContext,
+		bool $clientHintsEnabled = true,
+		bool $wasPosted = true
+	): void {
+		$request = new FauxRequest();
+		$request->setHeaders( $headers );
+		RequestContext::getMain()->setRequest( new FauxRequest( $mainRequestParams, $wasPosted ) );
+		$context = [ 'ua' => 'Foo' ];
+
+		$this->getObjectUnderTest( [
+			'config' => new HashConfig( [ 'CheckUserClientHintsEnabled' => $clientHintsEnabled ] ),
+		] )->onGetSecurityLogContext( [ 'request' => $request, 'user' => null ], $context );
+
+		$this->assertSame( [ 'ua' => 'Foo' ] + $expectedContext, $context );
+	}
+
+	public static function provideGetSecurityLogContext(): array {
+		$headers = [
+			'Sec-CH-UA' => '"Chromium";v="141"',
+			'Sec-CH-UA-Model' => '"Pixel 7"',
+			'Sec-CH-UA-Mobile' => '?1',
+			'x-ja3n' => 'abc',
+		];
+		$requestField = [ ClientHintsData::REQUEST_FIELD => json_encode( [
+			'brands' => [ [ 'brand' => 'Chromium', 'version' => '141' ] ],
+			'model' => 'Pixel 8',
+		] ) ];
+		$brands = [ [ 'brand' => 'Chromium', 'version' => '141' ] ];
+		$expectedHeaderValues = [ 'brands' => $brands, 'mobile' => true, 'model' => 'Pixel 7' ];
+		$expectedRequestFieldValues = [ 'brands' => $brands, 'model' => 'Pixel 8' ];
+		return [
+			'Headers and request field' => [
+				'headers' => $headers,
+				'mainRequestParams' => $requestField,
+				'expectedContext' => [
+					'client_hints_headers' => $expectedHeaderValues,
+					'client_hints_request_field' => $expectedRequestFieldValues,
+				],
+			],
+			'No client hints' => [
+				'headers' => [],
+				'mainRequestParams' => [],
+				'expectedContext' => [],
+			],
+			'Header that cannot be read' => [
+				'headers' => [ 'Sec-CH-UA' => 'invalid' ],
+				'mainRequestParams' => $requestField,
+				'expectedContext' => [ 'client_hints_request_field' => $expectedRequestFieldValues ],
+			],
+			'Request field that cannot be read' => [
+				'headers' => $headers,
+				'mainRequestParams' => [ ClientHintsData::REQUEST_FIELD => 'invalid' ],
+				'expectedContext' => [ 'client_hints_headers' => $expectedHeaderValues ],
+			],
+			'Request field with list items in a different shape' => [
+				'headers' => [],
+				'mainRequestParams' => [
+					ClientHintsData::REQUEST_FIELD => json_encode( [
+						'brands' => [ 'Chromium', [ 'brand' => 'Chromium', 'version' => 141 ] ],
+						'fullVersionList' => [ [ 'brand' => 'Chromium', 'version' => '141.0', 'extra' => 'x' ] ],
+						'model' => 'Pixel 8',
+					] ),
+				],
+				'expectedContext' => [ 'client_hints_request_field' => [ 'model' => 'Pixel 8' ] ],
+			],
+			'Request field with only some list items in the expected shape' => [
+				'headers' => [],
+				'mainRequestParams' => [
+					ClientHintsData::REQUEST_FIELD => json_encode( [
+						'brands' => [
+							'Chromium',
+							[ 'brand' => 'Chromium', 'version' => '141' ],
+							[ 'brand' => 141, 'version' => '141' ],
+						],
+					] ),
+				],
+				'expectedContext' => [ 'client_hints_request_field' => [
+					'brands' => [ [ 'brand' => 'Chromium', 'version' => '141' ] ],
+				] ],
+			],
+			'Request field that is too long' => [
+				'headers' => [],
+				'mainRequestParams' => [
+					ClientHintsData::REQUEST_FIELD => json_encode( [ 'model' => str_repeat( 'A', 3000 ) ] ),
+				],
+				'expectedContext' => [],
+			],
+			'Request field in a GET request' => [
+				'headers' => [],
+				'mainRequestParams' => $requestField,
+				'expectedContext' => [],
+				'clientHintsEnabled' => true,
+				'wasPosted' => false,
+			],
+			'Feature off' => [
+				'headers' => $headers,
+				'mainRequestParams' => $requestField,
+				'expectedContext' => [],
+				'clientHintsEnabled' => false,
+			],
+		];
+	}
+
 	private function getObjectUnderTest( array $overrides = [] ): ClientHints {
 		return new ClientHints(
 			$overrides['config'] ?? new HashConfig( [

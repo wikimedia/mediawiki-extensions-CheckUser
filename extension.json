@@ -631,6 +631,7 @@
 		"ContributionsToolLinks": "ToolLinks",
 		"EmailUser": "CheckUserEvents",
 		"GetPreferences": "preferences",
+		"GetSecurityLogContext": "clienthints",
 		"GlobalBlockingGetRetroactiveAutoblockIPs": "GlobalBlockingHandler",
 		"GlobalPreferencesSetGlobalPreferences": "GlobalPreferencesHandler",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",

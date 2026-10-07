@@ -15,6 +15,7 @@ use MediaWiki\Extension\CheckUser\ClientHints\UserAgentClientHintsManagerHelperT
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsTrigger;
+use MediaWiki\Hook\GetSecurityLogContextHook;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
@@ -22,6 +23,7 @@ use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Storage\Hook\PageSaveCompleteHook;
 use Psr\Log\LoggerInterface;
+use TypeError;
 use Wikimedia\ParamValidator\ParamValidator;
 
 /**
@@ -31,9 +33,12 @@ class ClientHints implements
 	SpecialPageBeforeExecuteHook,
 	BeforePageDisplayHook,
 	APIGetAllowedParamsHook,
-	PageSaveCompleteHook
+	PageSaveCompleteHook,
+	GetSecurityLogContextHook
 {
 	use UserAgentClientHintsManagerHelperTrait;
+
+	private const int MAX_REQUEST_FIELD_BYTES = 2048;
 
 	public function __construct(
 		private readonly Config $config,
@@ -201,6 +206,55 @@ class ClientHints implements
 				SuggestedInvestigationsSignalMatchService::EVENT_CLIENT_HINTS_SAVED,
 				[ 'clientHints' => $requestFieldData->jsonSerialize(), 'revId' => $revisionId ]
 			);
+		}
+	}
+
+	/** @inheritDoc */
+	public function onGetSecurityLogContext( array $info, array &$context ): void {
+		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			return;
+		}
+
+		try {
+			$this->addClientHintsToLogContext(
+				$context,
+				'client_hints_headers',
+				ClientHintsData::newFromRequestHeaders(
+					$info['request'],
+					array_diff(
+						ClientHintsData::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME,
+						UserAgentClientHintsManager::HEADER_ONLY_CLIENT_HINTS_DATA
+					)
+				)->jsonSerialize()
+			);
+		} catch ( TypeError ) {
+		}
+
+		// An API edit can pass a derivative request without the field
+		$mainRequest = RequestContext::getMain()->getRequest();
+		if (
+			$mainRequest->wasPosted() &&
+			strlen( $mainRequest->getRawVal( ClientHintsData::REQUEST_FIELD ) ?? '' ) <= self::MAX_REQUEST_FIELD_BYTES
+		) {
+			$values = ClientHintsData::newFromRequestField( $mainRequest )?->jsonSerialize() ?? [];
+			// A client can send items in other shapes, which can make Logstash reject other log events
+			foreach ( [ 'brands', 'fullVersionList' ] as $listKey ) {
+				if ( isset( $values[$listKey] ) ) {
+					$values[$listKey] = array_values( array_filter(
+						$values[$listKey],
+						static fn ( $item ) => is_array( $item ) && array_keys( $item ) === [ 'brand', 'version' ] &&
+							is_string( $item['brand'] ) && is_string( $item['version'] )
+					) ) ?: null;
+				}
+			}
+			$this->addClientHintsToLogContext( $context, 'client_hints_request_field', $values );
+		}
+	}
+
+	private function addClientHintsToLogContext( array &$context, string $key, array $values ): void {
+		$values = array_filter( $values, static fn ( $value ) => $value !== null );
+		if ( $values ) {
+			$context[$key] = $values;
 		}
 	}
 
