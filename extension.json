@@ -628,6 +628,7 @@
 		"AbuseFilterCustomProtectedVariables": "AbuseFilterHandler",
 		"AbuseFilterGenerateAccountCreationVars": "AbuseFilterHandler",
 		"AbuseFilterLogProtectedVariableValueAccess": "AbuseFilterHandler",
+		"AbuseFilterProtectedVariablesDeleteLogEntries": "AbuseFilterHandler",
 		"AbuseFilterCanViewProtectedVariables": "AbuseFilterHandler",
 		"AuthManagerLoginAuthenticateAudit": "CheckUserEvents",
 		"BeforePageDisplay": [

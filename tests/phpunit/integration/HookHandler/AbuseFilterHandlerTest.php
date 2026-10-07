@@ -101,6 +101,18 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testDeletesLogEntriesForCheckUserProtectedVariables(): void {
+		// Tests that the hook is called by AbuseFilter and that user_unnamed_ip is not included,
+		// as log entries for that variable should be kept
+		$this->assertArrayEquals(
+			self::CHECKUSER_VARIABLES,
+			AbuseFilterServices::getProtectedVariablesLookup()->getProtectedVariablesThatDeleteLogEntries(),
+			false,
+			false,
+			'Log entries should be deleted for all CheckUser protected variables'
+		);
+	}
+
 	public function testProtectedVarsLogGoesToAbuseFilterLogIfVariablesMissingUserUnnamedIp() {
 		$performer = $this->getTestSysop();
 		$protectedVarsAccessLogger = AbuseFilterServices::getAbuseLoggerFactory()->getProtectedVarsAccessLogger();

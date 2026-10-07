@@ -13,6 +13,7 @@ use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterCustomProtectedVariablesHoo
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterGenerateAccountCreationVarsHook;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterGenerateUserVarsHook;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterInterceptVariableHook;
+use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterProtectedVariablesDeleteLogEntriesHook;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterProtectedVarsAccessLoggerHook;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
@@ -37,7 +38,8 @@ class AbuseFilterHandler implements
 	AbuseFilterBuilderHook,
 	AbuseFilterGenerateUserVarsHook,
 	AbuseFilterGenerateAccountCreationVarsHook,
-	AbuseFilterInterceptVariableHook
+	AbuseFilterInterceptVariableHook,
+	AbuseFilterProtectedVariablesDeleteLogEntriesHook
 	{
 
 	/**
@@ -83,6 +85,16 @@ class AbuseFilterHandler implements
 	 */
 	public function onAbuseFilterCustomProtectedVariables( array &$variables ) {
 		$variables[] = 'user_unnamed_ip';
+		$variables = array_merge( $variables, $this->getVariables() );
+	}
+
+	/**
+	 * A filter match for a CheckUser protected variable can reveal private data about the user, so
+	 * the abuse_filter_log rows for these matches should be deleted when the variable values are purged.
+	 *
+	 * @inheritDoc
+	 */
+	public function onAbuseFilterProtectedVariablesDeleteLogEntries( array &$variables ): void {
 		$variables = array_merge( $variables, $this->getVariables() );
 	}
 
