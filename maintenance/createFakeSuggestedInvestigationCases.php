@@ -90,7 +90,7 @@ class CreateFakeSuggestedInvestigationCases extends Maintenance {
 			$signalData = self::VALID_SIGNALS[$randomSignalIndex];
 
 			$signalValue = match ( $signalData['valueType'] ) {
-				'boolean' => true,
+				'boolean' => '1',
 				'string' => 'abc',
 				default => throw new LogicException( "Unknown value type provided for signal {$signalData['name']}" )
 			};
