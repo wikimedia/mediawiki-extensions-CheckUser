@@ -75,6 +75,26 @@ class CheckUserPermissionManager {
 	}
 
 	/**
+	 * Check whether the given Authority is allowed to use and view the CheckUser AbuseFilter protected variables
+	 * (such as checkuser_user_ip and checkuser_user_agent).
+	 *
+	 * @param Authority $authority The user attempting to use or view the protected variables
+	 * @return CheckUserPermissionStatus
+	 */
+	public function canAccessCheckUserAbuseFilterVariables( Authority $authority ): CheckUserPermissionStatus {
+		if ( !$authority->isAllowed( 'checkuser' ) ) {
+			return CheckUserPermissionStatus::newPermissionError( 'checkuser' );
+		}
+
+		$block = $authority->getBlock();
+		if ( $block !== null && $block->isSitewide() ) {
+			return CheckUserPermissionStatus::newBlockedError( $block );
+		}
+
+		return CheckUserPermissionStatus::newGood();
+	}
+
+	/**
 	 * Checks whether the given Authority is allowed to view the Global
 	 * Contributions page for a given user.
 	 *

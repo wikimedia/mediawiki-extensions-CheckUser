@@ -10,6 +10,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\User;
@@ -22,6 +23,8 @@ use MediaWikiUnitTestCase;
  * @covers \MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager
  */
 class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
+	use MockAuthorityTrait;
+
 	private UserOptionsLookup $userOptionsLookup;
 
 	private SpecialPageFactory $specialPageFactory;
@@ -175,6 +178,74 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 		return [
 			'user is sitewide blocked' => [ true ],
 			'user is not sitewide blocked' => [ false ],
+		];
+	}
+
+	/** @dataProvider provideCanAccessCheckUserAbuseFilterVariables */
+	public function testCanAccessCheckUserAbuseFilterVariables(
+		array $authorityRights,
+		?Block $authorityBlock,
+		CheckUserPermissionStatus $expected
+	): void {
+		$authority = $this->mockAuthority(
+			UserIdentityValue::newRegistered( 1, 'Test' ),
+			static fn ( $permission ) => in_array( $permission, $authorityRights ),
+			$authorityBlock
+		);
+
+		$permStatus = $this->checkUserPermissionsManager->canAccessCheckUserAbuseFilterVariables( $authority );
+
+		$this->assertEquals( $expected, $permStatus );
+	}
+
+	public static function provideCanAccessCheckUserAbuseFilterVariables(): array {
+		return [
+			'Missing checkuser right' => [
+				'authorityRights' => [],
+				'authorityBlock' => null,
+				'expected' => CheckUserPermissionStatus::newPermissionError( 'checkuser' ),
+			],
+			'Has checkuser right and is not blocked' => [
+				'authorityRights' => [ 'checkuser' ],
+				'authorityBlock' => null,
+				'expected' => CheckUserPermissionStatus::newGood(),
+			],
+		];
+	}
+
+	/** @dataProvider provideCanAccessCheckUserAbuseFilterVariablesWhenBlocked */
+	public function testCanAccessCheckUserAbuseFilterVariablesWhenBlocked(
+		array $authorityRights,
+		bool $isSitewide,
+		?CheckUserPermissionStatus $expectedStatus = null
+	): void {
+		$block = $this->createMock( Block::class );
+		$block->method( 'isSitewide' )
+			->willReturn( $isSitewide );
+
+		// null means autofill using the expected status for a sitewide block
+		$expectedStatus ??= CheckUserPermissionStatus::newBlockedError( $block );
+
+		$this->testCanAccessCheckUserAbuseFilterVariables( $authorityRights, $block, $expectedStatus );
+	}
+
+	public static function provideCanAccessCheckUserAbuseFilterVariablesWhenBlocked(): array {
+		return [
+			'User lacks checkuser right and is sitewide blocked' => [
+				'authorityRights' => [],
+				'isSitewide' => true,
+				'expectedStatus' => CheckUserPermissionStatus::newPermissionError( 'checkuser' ),
+			],
+			'User has checkuser right and is sitewide blocked' => [
+				'authorityRights' => [ 'checkuser' ],
+				'isSitewide' => true,
+				'expectedStatus' => null,
+			],
+			'User has checkuser right and is partially blocked' => [
+				'authorityRights' => [ 'checkuser' ],
+				'isSitewide' => false,
+				'expectedStatus' => CheckUserPermissionStatus::newGood(),
+			],
 		];
 	}
 
