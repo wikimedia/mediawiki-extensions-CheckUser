@@ -396,6 +396,7 @@
 	"checkuser-suggestedinvestigations-header-notes": "Примечания",
 	"checkuser-suggestedinvestigations-header-actions": "Действия",
 	"checkuser-suggestedinvestigations-status-open": "Открыть",
+	"checkuser-suggestedinvestigations-status-resolved": "Закрыто",
 	"checkuser-suggestedinvestigations-action-change-status": "Сменить статус",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Закрыть",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Отмена",
