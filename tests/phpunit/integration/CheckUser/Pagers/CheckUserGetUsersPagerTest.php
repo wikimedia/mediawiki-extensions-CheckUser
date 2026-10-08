@@ -4,13 +4,13 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\CheckUser\Pagers;
 
-use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUsernameResultInterface;
 use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
@@ -621,19 +621,33 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		];
 	}
 
-	public function testGetEndBodyThrowsIfCentralAuthMissingButCheckUserCAMultiLockSet() {
-		// Define $wgCheckUserCAMultiLockSet to anything other than false
-		$this->overrideConfigValue( 'CheckUserCAMultiLock', [] );
-		// Get the object under test and set the extensionRegistry to return false for 'CentralAuth'.
+	public function testGetEndBodyWhenMultiLockUrlLookupReturnsUrl(): void {
+		$mockMultiLockUrlLookup = $this->createMock( CheckUserMultiLockUrlLookup::class );
+		$mockMultiLockUrlLookup->method( 'getMultiLockUrl' )
+			->willReturn( 'https://example.com/wiki/Special:MultiLock' );
+		$this->setService( 'CheckUserMultiLockUrlLookup', $mockMultiLockUrlLookup );
+
 		$objectUnderTest = $this->setUpObject();
-		$mockExtensionRegistry = $this->createMock( ExtensionRegistry::class );
-		$mockExtensionRegistry->method( 'isLoaded' )->with( 'CentralAuth' )->willReturn( false );
-		$objectUnderTest->extensionRegistry = $mockExtensionRegistry;
 		$objectUnderTest->mQueryDone = true;
 		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
-		// Call ::shouldShowBlockFieldset and expect an exception.
-		$this->expectException( ConfigException::class );
-		$objectUnderTest->getEndBody();
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+		$this->setUserLang( 'qqx' );
+
+		$html = $objectUnderTest->getEndBody();
+		/** @var OutputPage $output */
+		$output = $objectUnderTest->getOutput();
+
+		$this->assertSelectorMatchesOneElement( $html, '.mw-checkuser-massblock' );
+		$this->assertContains(
+			'ext.checkUser',
+			$output->getModules(),
+			'The ext.checkUser module should be added when the user can use Special:MultiLock'
+		);
+		$this->assertArrayContains(
+			[ 'wgCUCAMultiLockCentral' => 'https://example.com/wiki/Special:MultiLock' ],
+			$output->getJsConfigVars(),
+			'The Special:MultiLock URL should be added as a JS config variable'
+		);
 	}
 
 	/** @dataProvider provideGetEndBodyForBlockFieldset */

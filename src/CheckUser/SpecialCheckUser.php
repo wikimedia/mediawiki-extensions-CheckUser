@@ -16,6 +16,7 @@ use MediaWiki\Extension\CheckUser\CheckUser\Widgets\CIDRCalculator;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
@@ -92,6 +93,7 @@ class SpecialCheckUser extends SpecialPage {
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly SuggestedInvestigationsMessageRenderer $suggestedInvestigationsMessageRenderer,
 		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
+		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
 	) {
 		parent::__construct( 'CheckUser' );
 
@@ -514,7 +516,8 @@ class SpecialCheckUser extends SpecialPage {
 				$this->blockStore,
 				$this->linkBatchFactory,
 				$this->tempUserConfig,
-				$this->siCaseLookupService
+				$this->siCaseLookupService,
+				$this->multiLockUrlLookup
 			),
 			self::SUBTYPE_GET_ACTIONS => new CheckUserGetActionsPager(
 				$this->opts,

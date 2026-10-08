@@ -15,6 +15,7 @@ use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\Extension\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsFormatter;
@@ -112,6 +113,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		private readonly LinkBatchFactory $linkBatchFactory,
 		TempUserConfig $tempUserConfig,
 		private readonly SuggestedInvestigationsCaseLookupService $siCaseLookupService,
+		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null,
@@ -677,31 +679,12 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager implements CheckUser
 		$this->shouldShowBlockFieldset = false;
 
 		// Add links to the MultiLock tool if the user can use it.
-		$checkUserCAMultiLock = $this->getConfig()->get( 'CheckUserCAMultiLock' );
-		if ( $checkUserCAMultiLock !== false ) {
-			if ( !$this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
-				// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
-				throw new ConfigException( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
-			}
-
-			$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
-			// Only load the script for users in the configured global group(s)
-			if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
-				$centralMLUrl = WikiMap::getForeignURL(
-					$checkUserCAMultiLock['centralDB'],
-					// Use canonical name instead of local name so that it works
-					// even if the local language is different from central wiki
-					'Special:MultiLock'
-				);
-				if ( $centralMLUrl === false ) {
-					// If no central URL could be generated, then use the local version of the special page.
-					$centralMLUrl = SpecialPage::getTitleFor( 'MultiLock' )->getLinkURL();
-				}
-				$this->getOutput()->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
-				$this->getOutput()->addModules( 'ext.checkUser' );
-				// Always show the block form if links to Special:MultiLock are going to be added to the page.
-				$this->shouldShowBlockFieldset = true;
-			}
+		$centralMLUrl = $this->multiLockUrlLookup->getMultiLockUrl( $this->getUser() );
+		if ( $centralMLUrl !== null ) {
+			$this->getOutput()->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
+			$this->getOutput()->addModules( 'ext.checkUser' );
+			// Always show the block form if links to Special:MultiLock are going to be added to the page.
+			$this->shouldShowBlockFieldset = true;
 		}
 
 		// Add links to the GlobalBlocking Special:MassGlobalBlock page if the user can use it.

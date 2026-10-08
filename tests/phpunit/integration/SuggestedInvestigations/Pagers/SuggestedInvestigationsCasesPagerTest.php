@@ -29,6 +29,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
+use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseMetadata;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsSharedPagesSummary;
@@ -752,6 +753,54 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			'.mw-checkuser-suggestedinvestigations-change-status-button'
 		);
 		$this->assertEquals( $caseId, $changeStatusButton->getAttribute( 'data-case-id' ) );
+	}
+
+	public function testMultiLockActionNotShownWhenUserCannotUseMultiLock(): void {
+		$this->mockMultiLockUrlLookup( null );
+		$this->addCaseWithTwoUsers();
+
+		$html = $this->getPager( $this->makeQqxContext() )->getBody();
+
+		$this->assertNull(
+			DOMCompat::querySelector(
+				DOMUtils::parseHTML( $html ),
+				'.mw-checkuser-suggestedinvestigations-multilock-action'
+			),
+			'The MultiLock action should not be shown when the user cannot use Special:MultiLock'
+		);
+	}
+
+	public function testMultiLockActionShownForCaseUsers(): void {
+		$this->mockMultiLockUrlLookup( 'https://example.com/wiki/Special:MultiLock' );
+		$this->addCaseWithTwoUsers();
+
+		$html = $this->getPager( $this->makeQqxContext() )->getBody();
+
+		$buttons = DOMCompat::querySelectorAll(
+			DOMUtils::parseHTML( $html ),
+			'.mw-checkuser-suggestedinvestigations-multilock-action'
+		);
+		$this->assertCount( 1, $buttons, 'There should be one MultiLock action for the case' );
+		$button = array_pop( $buttons );
+		$this->assertSame(
+			'(checkuser-suggestedinvestigations-action-multilock)',
+			$button->getAttribute( 'title' ),
+			'The MultiLock action has an unexpected title'
+		);
+		$this->assertSame(
+			wfAppendQuery(
+				'https://example.com/wiki/Special:MultiLock',
+				[ 'wpTarget' => self::$testUser2->getName() . "\n" . self::$testUser1->getName() ]
+			),
+			$button->getAttribute( 'href' ),
+			'The MultiLock action should link to the URL from CheckUserMultiLockUrlLookup'
+		);
+	}
+
+	private function mockMultiLockUrlLookup( ?string $multiLockUrl ): void {
+		$multiLockUrlLookup = $this->createMock( CheckUserMultiLockUrlLookup::class );
+		$multiLockUrlLookup->method( 'getMultiLockUrl' )->willReturn( $multiLockUrl );
+		$this->setService( 'CheckUserMultiLockUrlLookup', $multiLockUrlLookup );
 	}
 
 	/** @dataProvider provideStatusReasonDisplayedInPager */

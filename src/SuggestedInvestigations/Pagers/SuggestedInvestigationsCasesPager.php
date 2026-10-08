@@ -24,12 +24,11 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Pagers;
 
 use InvalidArgumentException;
-use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\IContextSource;
-use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Extension\CheckUser\Investigate\SpecialInvestigate;
+use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\CaseStatus;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Model\SuggestedInvestigationsCaseMetadata;
@@ -47,14 +46,12 @@ use MediaWiki\Navigation\CodexPagerNavigationBuilder;
 use MediaWiki\Page\LinkBatchFactory;
 use MediaWiki\Pager\CodexTablePager;
 use MediaWiki\Parser\ParserOutput;
-use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
-use MediaWiki\WikiMap\WikiMap;
 use Psr\Log\LoggerInterface;
 use stdClass;
 use Wikimedia\Codex\Localization\MediaWikiLocalization;
@@ -155,8 +152,8 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 */
 	private ?array $detailViewMetadata = null;
 
-	/** @var string|false|null */
-	private string|false|null $multiLockUrl = null;
+	/** Cached result of {@link CheckUserMultiLockUrlLookup::getMultiLockUrl}, or false if not yet fetched */
+	private string|false|null $multiLockUrl = false;
 
 	public function __construct(
 		private readonly IConnectionProvider $connectionProvider,
@@ -172,7 +169,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsUserLinkRenderer $siUserLinkRenderer,
-		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
 		LinkRenderer $linkRenderer,
 		IContextSource $context,
 		array $signals,
@@ -673,37 +670,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	 * Returns the Special:MultiLock URL if the user can use it.
 	 */
 	private function getMultiLockUrl(): ?string {
-		if ( $this->multiLockUrl !== null ) {
-			return $this->multiLockUrl ?: null;
+		if ( $this->multiLockUrl === false ) {
+			$this->multiLockUrl = $this->multiLockUrlLookup->getMultiLockUrl( $this->getUser() );
 		}
-
-		$checkUserCAMultiLock = $this->getConfig()->get( 'CheckUserCAMultiLock' );
-		if ( $checkUserCAMultiLock !== false ) {
-			if ( !$this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
-				// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
-				throw new ConfigException( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
-			}
-
-			$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
-			// Only show the links for users in the configured global group(s)
-			if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
-				$centralMLUrl = WikiMap::getForeignURL(
-					$checkUserCAMultiLock['centralDB'],
-					// Use canonical name instead of local name so that it works
-					// even if the local language is different from central wiki
-					'Special:MultiLock'
-				);
-				if ( $centralMLUrl === false ) {
-					// If no central URL could be generated, then use the local version of the special page.
-					$centralMLUrl = SpecialPage::getTitleFor( 'MultiLock' )->getLinkURL();
-				}
-				$this->multiLockUrl = $centralMLUrl;
-				return $this->multiLockUrl;
-			}
-		}
-
-		$this->multiLockUrl = false;
-		return null;
+		return $this->multiLockUrl;
 	}
 
 	/**

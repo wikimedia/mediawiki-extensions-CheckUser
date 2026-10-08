@@ -33,6 +33,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\Services\CheckUserIPRevealManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
@@ -360,6 +361,17 @@ return [
 			$services->get( 'CheckUserLogger' )
 		);
 	},
+	'CheckUserMultiLockUrlLookup' => static function (
+		MediaWikiServices $services
+	): CheckUserMultiLockUrlLookup {
+		return new CheckUserMultiLockUrlLookup(
+			new ServiceOptions(
+				CheckUserMultiLockUrlLookup::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
+			$services->getExtensionRegistry()
+		);
+	},
 	'CheckUserPermissionManager' => static function ( MediaWikiServices $services ): CheckUserPermissionManager {
 		return new CheckUserPermissionManager(
 			$services->getUserOptionsLookup(),
@@ -492,7 +504,7 @@ return [
 			$services->get( 'CheckUserSuggestedInvestigationsUserRevisionLookup' ),
 			$services->get( 'CheckUserHookRunner' ),
 			$services->get( 'CheckUserSuggestedInvestigationsUserLinkRenderer' ),
-			$services->getExtensionRegistry(),
+			$services->get( 'CheckUserMultiLockUrlLookup' ),
 		);
 	},
 	'CheckUserSuggestedInvestigationsRelatedCasesLookup' => static function (

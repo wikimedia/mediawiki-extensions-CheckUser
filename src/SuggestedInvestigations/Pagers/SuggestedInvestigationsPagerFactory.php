@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
+use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Formatters\StatusReasonFormatter;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\CompositeBlockChecker;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsMessageRenderer;
@@ -18,7 +19,6 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Page\LinkBatchFactory;
-use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\UserFactory;
@@ -55,7 +55,7 @@ class SuggestedInvestigationsPagerFactory {
 		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
 		private readonly HookRunner $hookRunner,
 		private readonly SuggestedInvestigationsUserLinkRenderer $siUserLinkRenderer,
-		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
 	) {
 	}
 
@@ -120,7 +120,7 @@ class SuggestedInvestigationsPagerFactory {
 			$this->userRevisionLookup,
 			$this->hookRunner,
 			$this->siUserLinkRenderer,
-			$this->extensionRegistry,
+			$this->multiLockUrlLookup,
 			$this->linkRenderer,
 			$context,
 			$signals,
