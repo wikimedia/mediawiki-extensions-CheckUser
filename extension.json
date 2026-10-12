@@ -674,6 +674,7 @@
 			"UserInfoCardCacheInvalidationOnGlobalBlockHandler"
 		],
 		"GlobalBlockingGlobalUnblockAudit": "UserInfoCardCacheInvalidationOnGlobalBlockHandler",
+		"GlobalBlockingGlobalBlockLocalStatusChangeAudit": "UserInfoCardCacheInvalidationOnGlobalBlockHandler",
 		"CentralAuthGlobalUserLockStatusChanged": [
 			"SuggestedInvestigationsAutoCloseOnGlobalLockHandler",
 			"UserInfoCardCacheInvalidationOnGlobalLockHandler"

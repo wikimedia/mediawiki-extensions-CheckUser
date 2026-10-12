@@ -75,4 +75,43 @@ class UserInfoCardCacheInvalidationOnGlobalBlockHandlerTest extends MediaWikiInt
 
 		$this->getHandler()->onGlobalBlockingGlobalUnblockAudit( $globalBlock );
 	}
+
+	/** @dataProvider provideLocalStatusChanges */
+	public function testOnGlobalBlockingGlobalBlockLocalStatusChangeAuditForUserBlock(
+		bool $isLocallyDisabled,
+		string|false $wikiId
+	): void {
+		$globalBlock = $this->createMock( GlobalBlock::class );
+		$globalBlock->method( 'getTargetUserIdentity' )
+			->willReturn( new UserIdentityValue( 42, 'TestUser' ) );
+
+		$this->blockStatusCache->expects( $this->once() )
+			->method( 'invalidateGlobalBlock' )
+			->with( 'TestUser' );
+
+		$this->getHandler()->onGlobalBlockingGlobalBlockLocalStatusChangeAudit(
+			$globalBlock,
+			$isLocallyDisabled,
+			$wikiId
+		);
+	}
+
+	public static function provideLocalStatusChanges(): array {
+		return [
+			'Locally disabled on the local wiki' => [ true, false ],
+			'Locally enabled on the local wiki' => [ false, false ],
+			'Locally disabled on another wiki' => [ true, 'otherwiki' ],
+		];
+	}
+
+	public function testOnGlobalBlockingGlobalBlockLocalStatusChangeAuditForNonRegisteredTarget(): void {
+		$globalBlock = $this->createMock( GlobalBlock::class );
+		$globalBlock->method( 'getTargetUserIdentity' )
+			->willReturn( new UserIdentityValue( 0, '127.0.0.1' ) );
+
+		$this->blockStatusCache->expects( $this->never() )
+			->method( 'invalidateGlobalBlock' );
+
+		$this->getHandler()->onGlobalBlockingGlobalBlockLocalStatusChangeAudit( $globalBlock, true, false );
+	}
 }
