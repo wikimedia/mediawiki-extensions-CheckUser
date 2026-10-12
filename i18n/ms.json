@@ -434,7 +434,7 @@
 	"checkuser-userinfocard-global-groups": "<strong>Kumpulan sejagat</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 suntingan|0=Tiada suntingan}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Ikut serta untuk melihat IP akaun sementara",
-	"checkuser-userinfocard-ip-revealed-count": "Pendedahan IP: $1 (pemeriksaan terkini $2)",
+	"checkuser-userinfocard-ip-revealed-count": "Pendedahan IP: $1 (pendedahan terdahulu $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Pendedahan IP: $1",
 	"checkuser-suggestedinvestigations": "Siasatan cadangan",
 	"checkuser-suggestedinvestigations-autoclose-reason": "Ditutup secara automatik kerana semua akaun disekat atau dikunci",
