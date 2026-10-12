@@ -25,7 +25,7 @@ readonly class UserInfoCardCacheInvalidationOnGlobalBlockHandler implements
 		if ( $targetUser === null || !$targetUser->isRegistered() ) {
 			return;
 		}
-		$this->blockStatusCache->invalidateGlobal( $targetUser->getName() );
+		$this->blockStatusCache->invalidateGlobalBlock( $targetUser->getName() );
 	}
 
 	/** @inheritDoc */
@@ -34,6 +34,6 @@ readonly class UserInfoCardCacheInvalidationOnGlobalBlockHandler implements
 		if ( $targetUser === null || !$targetUser->isRegistered() ) {
 			return;
 		}
-		$this->blockStatusCache->invalidateGlobal( $targetUser->getName() );
+		$this->blockStatusCache->invalidateGlobalBlock( $targetUser->getName() );
 	}
 }

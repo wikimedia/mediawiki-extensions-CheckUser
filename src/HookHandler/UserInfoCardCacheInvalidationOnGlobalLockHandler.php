@@ -22,6 +22,6 @@ readonly class UserInfoCardCacheInvalidationOnGlobalLockHandler implements
 		CentralAuthUser $centralAuthUser,
 		bool $isLocked
 	): void {
-		$this->blockStatusCache->invalidateGlobal( $centralAuthUser->getName() );
+		$this->blockStatusCache->invalidateLock( $centralAuthUser->getName() );
 	}
 }

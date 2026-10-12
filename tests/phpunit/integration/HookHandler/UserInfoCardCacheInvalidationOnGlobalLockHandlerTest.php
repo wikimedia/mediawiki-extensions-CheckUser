@@ -34,7 +34,7 @@ class UserInfoCardCacheInvalidationOnGlobalLockHandlerTest extends MediaWikiInte
 		$centralAuthUser->method( 'getName' )->willReturn( 'TestUser' );
 
 		$this->blockStatusCache->expects( $this->once() )
-			->method( 'invalidateGlobal' )
+			->method( 'invalidateLock' )
 			->with( 'TestUser' );
 
 		$this->getHandler()->onCentralAuthGlobalUserLockStatusChanged( $centralAuthUser, true );
@@ -45,7 +45,7 @@ class UserInfoCardCacheInvalidationOnGlobalLockHandlerTest extends MediaWikiInte
 		$centralAuthUser->method( 'getName' )->willReturn( 'TestUser' );
 
 		$this->blockStatusCache->expects( $this->once() )
-			->method( 'invalidateGlobal' )
+			->method( 'invalidateLock' )
 			->with( 'TestUser' );
 
 		$this->getHandler()->onCentralAuthGlobalUserLockStatusChanged( $centralAuthUser, false );

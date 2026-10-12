@@ -36,7 +36,7 @@ class UserInfoCardCacheInvalidationOnGlobalBlockHandlerTest extends MediaWikiInt
 			->willReturn( new UserIdentityValue( 42, 'TestUser' ) );
 
 		$this->blockStatusCache->expects( $this->once() )
-			->method( 'invalidateGlobal' )
+			->method( 'invalidateGlobalBlock' )
 			->with( 'TestUser' );
 
 		$this->getHandler()->onGlobalBlockingGlobalBlockAudit( $globalBlock );
@@ -48,7 +48,7 @@ class UserInfoCardCacheInvalidationOnGlobalBlockHandlerTest extends MediaWikiInt
 			->willReturn( new UserIdentityValue( 0, '127.0.0.1' ) );
 
 		$this->blockStatusCache->expects( $this->never() )
-			->method( 'invalidateGlobal' );
+			->method( 'invalidateGlobalBlock' );
 
 		$this->getHandler()->onGlobalBlockingGlobalBlockAudit( $globalBlock );
 	}
@@ -59,7 +59,7 @@ class UserInfoCardCacheInvalidationOnGlobalBlockHandlerTest extends MediaWikiInt
 			->willReturn( new UserIdentityValue( 42, 'TestUser' ) );
 
 		$this->blockStatusCache->expects( $this->once() )
-			->method( 'invalidateGlobal' )
+			->method( 'invalidateGlobalBlock' )
 			->with( 'TestUser' );
 
 		$this->getHandler()->onGlobalBlockingGlobalUnblockAudit( $globalBlock );
@@ -71,7 +71,7 @@ class UserInfoCardCacheInvalidationOnGlobalBlockHandlerTest extends MediaWikiInt
 			->willReturn( new UserIdentityValue( 0, '127.0.0.1' ) );
 
 		$this->blockStatusCache->expects( $this->never() )
-			->method( 'invalidateGlobal' );
+			->method( 'invalidateGlobalBlock' );
 
 		$this->getHandler()->onGlobalBlockingGlobalUnblockAudit( $globalBlock );
 	}

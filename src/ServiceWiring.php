@@ -655,28 +655,36 @@ return [
 	'CheckUserUserInfoCardBlockStatusCache' => static function (
 		MediaWikiServices $services
 	): UserInfoCardBlockStatusCache {
-		$globalBlockChecks = [];
-		if ( $services->getExtensionRegistry()->isLoaded( 'GlobalBlocking' ) ) {
-			$globalBlockingServices = GlobalBlockingServices::wrap( $services );
-			$globalBlockChecks[] = new GlobalBlockCheck(
-				$globalBlockingServices->getGlobalBlockLookup(),
-				$services->getCentralIdLookup(),
-				$services->getUserIdentityLookup(),
-				$services->getMainConfig()->get( 'ApplyGlobalBlocks' )
-			);
+		$globalBlockChecker = null;
+		if (
+			$services->getExtensionRegistry()->isLoaded( 'GlobalBlocking' ) &&
+			$services->getMainConfig()->get( 'ApplyGlobalBlocks' )
+		) {
+			$globalBlockChecker = new CompositeIndefiniteBlockChecker( [
+				new GlobalBlockCheck(
+					GlobalBlockingServices::wrap( $services )->getGlobalBlockLookup(),
+					$services->getCentralIdLookup(),
+					$services->getUserIdentityLookup(),
+					true
+				),
+			] );
 		}
+		$lockChecker = null;
 		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
-			$globalBlockChecks[] = new CentralAuthLockCheck(
-				CentralAuthServices::getGlobalUserSelectQueryBuilderFactory( $services ),
-				$services->getUserIdentityLookup()
-			);
+			$lockChecker = new CompositeIndefiniteBlockChecker( [
+				new CentralAuthLockCheck(
+					CentralAuthServices::getGlobalUserSelectQueryBuilderFactory( $services ),
+					$services->getUserIdentityLookup()
+				),
+			] );
 		}
 		return new UserInfoCardBlockStatusCache(
 			$services->getWANObjectCache(),
 			new CompositeIndefiniteBlockChecker(
 				[ new LocalBlockCheck( $services->getDatabaseBlockStore() ) ]
 			),
-			new CompositeIndefiniteBlockChecker( $globalBlockChecks ),
+			$globalBlockChecker,
+			$lockChecker,
 			$services->getUserIdentityLookup(),
 			$services->getStatsFactory()
 		);

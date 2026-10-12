@@ -26,12 +26,16 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 	private WANObjectCache $wanCache;
 	private CompositeIndefiniteBlockChecker $localBlockChecker;
 	private CompositeIndefiniteBlockChecker $globalBlockChecker;
+	private CompositeIndefiniteBlockChecker $lockChecker;
 
 	/** @var int[][] Arguments of every getUserIdsNotIndefinitelyBlocked() call on the local checker */
 	private array $localCalls = [];
 
-	/** @var int[][] Arguments of every getUserIdsNotIndefinitelyBlocked() call on the global checker */
+	/** @var int[][] Arguments of every getUserIdsNotIndefinitelyBlocked() call on the global block checker */
 	private array $globalCalls = [];
+
+	/** @var int[][] Arguments of every getUserIdsNotIndefinitelyBlocked() call on the lock checker */
+	private array $lockCalls = [];
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,8 +43,10 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		$this->wanCache = new WANObjectCache( [ 'cache' => new HashBagOStuff() ] );
 		$this->localBlockChecker = $this->createMock( CompositeIndefiniteBlockChecker::class );
 		$this->globalBlockChecker = $this->createMock( CompositeIndefiniteBlockChecker::class );
+		$this->lockChecker = $this->createMock( CompositeIndefiniteBlockChecker::class );
 		$this->localCalls = [];
 		$this->globalCalls = [];
+		$this->lockCalls = [];
 	}
 
 	/**
@@ -49,8 +55,13 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 	 *
 	 * @param int[] $locallyBlockedIds
 	 * @param int[] $globallyBlockedIds
+	 * @param int[] $lockedIds
 	 */
-	private function setBlockedIds( array $locallyBlockedIds, array $globallyBlockedIds = [] ): void {
+	private function setBlockedIds(
+		array $locallyBlockedIds,
+		array $globallyBlockedIds = [],
+		array $lockedIds = []
+	): void {
 		$this->localBlockChecker->method( 'getUserIdsNotIndefinitelyBlocked' )
 			->willReturnCallback( function ( array $ids ) use ( $locallyBlockedIds ) {
 				$this->localCalls[] = $ids;
@@ -61,13 +72,22 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 				$this->globalCalls[] = $ids;
 				return array_values( array_diff( $ids, $globallyBlockedIds ) );
 			} );
+		$this->lockChecker->method( 'getUserIdsNotIndefinitelyBlocked' )
+			->willReturnCallback( function ( array $ids ) use ( $lockedIds ) {
+				$this->lockCalls[] = $ids;
+				return array_values( array_diff( $ids, $lockedIds ) );
+			} );
 	}
 
-	private function newService(): UserInfoCardBlockStatusCache {
+	private function newService(
+		bool $globalBlocksEnabled = true,
+		bool $locksEnabled = true
+	): UserInfoCardBlockStatusCache {
 		return new UserInfoCardBlockStatusCache(
 			$this->wanCache,
 			$this->localBlockChecker,
-			$this->globalBlockChecker,
+			$globalBlocksEnabled ? $this->globalBlockChecker : null,
+			$locksEnabled ? $this->lockChecker : null,
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			StatsFactory::newNull()
 		);
@@ -77,8 +97,30 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		return $this->wanCache->makeKey( 'checkuser-userinfocard-local-blocked', $username );
 	}
 
+	private function getLockCacheKey( string $username ): string {
+		return $this->wanCache->makeGlobalKey( 'checkuser-userinfocard-locked', $username );
+	}
+
 	private function getGlobalCacheKey( string $username ): string {
-		return $this->wanCache->makeGlobalKey( 'checkuser-userinfocard-global-blocked', $username );
+		return $this->wanCache->makeKey( 'checkuser-userinfocard-global-blocked', $username );
+	}
+
+	private function getGlobalCheckKey( string $username ): string {
+		return $this->wanCache->makeGlobalKey( 'checkuser-userinfocard-global-blocked-check', $username );
+	}
+
+	private function assertGlobalCacheValuePurged( string $username ): void {
+		$curTTL = null;
+		$this->wanCache->get(
+			$this->getGlobalCacheKey( $username ),
+			$curTTL,
+			[ $this->getGlobalCheckKey( $username ) ]
+		);
+		$this->assertLessThan(
+			0,
+			$curTTL,
+			'Global block status cache value should be purged after invalidateGlobalBlock()'
+		);
 	}
 
 	public function testReturnsOnlyBlockedUsers(): void {
@@ -103,20 +145,34 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $names, $this->newService()->getIndefinitelyBlockedOrLockedUsers( $names ) );
 	}
 
-	public function testCombinesLocalAndGlobalBlocks(): void {
+	public function testCombinesLocalAndGlobalBlocksAndLocks(): void {
 		$locallyBlocked = $this->getMutableTestUser()->getUser();
 		$globallyBlocked = $this->getMutableTestUser()->getUser();
+		$locked = $this->getMutableTestUser()->getUser();
 		$unblocked = $this->getMutableTestUser()->getUser();
-		$this->setBlockedIds( [ $locallyBlocked->getId() ], [ $globallyBlocked->getId() ] );
+		$this->setBlockedIds( [ $locallyBlocked->getId() ], [ $globallyBlocked->getId() ], [ $locked->getId() ] );
 
 		$this->assertSame(
-			[ $locallyBlocked->getName(), $globallyBlocked->getName() ],
+			[ $locallyBlocked->getName(), $globallyBlocked->getName(), $locked->getName() ],
 			$this->newService()->getIndefinitelyBlockedOrLockedUsers( [
 				$locallyBlocked->getName(),
 				$globallyBlocked->getName(),
+				$locked->getName(),
 				$unblocked->getName(),
 			] )
 		);
+	}
+
+	public function testSkipsGlobalBlockCheckAndCacheWhenGlobalBlocksDisabled(): void {
+		$globallyBlocked = $this->getMutableTestUser()->getUser();
+		$this->setBlockedIds( [], [ $globallyBlocked->getId() ] );
+
+		$this->assertFalse(
+			$this->newService( false )->isIndefinitelyBlockedOrLocked( $globallyBlocked->getName() )
+		);
+		$this->assertSame( [], $this->globalCalls );
+		$this->assertFalse( $this->wanCache->get( $this->getGlobalCacheKey( $globallyBlocked->getName() ) ) );
+		$this->assertCount( 1, $this->lockCalls );
 	}
 
 	public function testResolvesEveryUserInOneCheckerCall(): void {
@@ -134,6 +190,7 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		// The point of the batched path: one check for all users, not one per user.
 		$this->assertCount( 1, $this->localCalls );
 		$this->assertCount( 1, $this->globalCalls );
+		$this->assertCount( 1, $this->lockCalls );
 		sort( $userIds );
 		$actualIds = $this->localCalls[0];
 		sort( $actualIds );
@@ -151,6 +208,7 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 
 		// The global checkers are the expensive ones, so a local block must short-circuit them.
 		$this->assertSame( [ [ $other->getId() ] ], $this->globalCalls );
+		$this->assertSame( [ [ $other->getId() ] ], $this->lockCalls );
 	}
 
 	public function testStoresResultUnderTheKeysInvalidationUses(): void {
@@ -177,6 +235,7 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		// 0 rather than false, because WANObjectCache treats false as "do not cache".
 		$this->assertSame( 0, $this->wanCache->get( $this->getLocalCacheKey( $unblocked->getName() ) ) );
 		$this->assertSame( 0, $this->wanCache->get( $this->getGlobalCacheKey( $unblocked->getName() ) ) );
+		$this->assertSame( 0, $this->wanCache->get( $this->getLockCacheKey( $unblocked->getName() ) ) );
 	}
 
 	public function testDoesNotRequeryOnSecondCall(): void {
@@ -218,6 +277,7 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		$this->assertTrue( $this->newService()->isIndefinitelyBlockedOrLocked( $blocked->getName() ) );
 		// A local block must short-circuit the global checkers
 		$this->assertSame( [], $this->globalCalls );
+		$this->assertSame( [], $this->lockCalls );
 	}
 
 	public function testSingleUserIsGloballyBlocked(): void {
@@ -225,6 +285,13 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		$this->setBlockedIds( [], [ $blocked->getId() ] );
 
 		$this->assertTrue( $this->newService()->isIndefinitelyBlockedOrLocked( $blocked->getName() ) );
+	}
+
+	public function testSingleUserIsLocked(): void {
+		$locked = $this->getMutableTestUser()->getUser();
+		$this->setBlockedIds( [], [], [ $locked->getId() ] );
+
+		$this->assertTrue( $this->newService()->isIndefinitelyBlockedOrLocked( $locked->getName() ) );
 	}
 
 	public function testSingleUserIsNotBlocked(): void {
@@ -235,6 +302,7 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		// 0 rather than false, because WANObjectCache treats false as "do not cache".
 		$this->assertSame( 0, $this->wanCache->get( $this->getLocalCacheKey( $unblocked->getName() ) ) );
 		$this->assertSame( 0, $this->wanCache->get( $this->getGlobalCacheKey( $unblocked->getName() ) ) );
+		$this->assertSame( 0, $this->wanCache->get( $this->getLockCacheKey( $unblocked->getName() ) ) );
 	}
 
 	public function testSingleUserDoesNotRequeryOnSecondCall(): void {
@@ -247,6 +315,7 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 
 		$this->assertCount( 1, $this->localCalls );
 		$this->assertCount( 1, $this->globalCalls );
+		$this->assertCount( 1, $this->lockCalls );
 	}
 
 	public function testSingleUnknownUserIsNotBlocked(): void {
@@ -255,6 +324,7 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		$this->assertFalse( $this->newService()->isIndefinitelyBlockedOrLocked( 'This user does not exist' ) );
 		$this->assertSame( [], $this->localCalls );
 		$this->assertSame( [], $this->globalCalls );
+		$this->assertSame( [], $this->lockCalls );
 	}
 
 	public function testInvalidateLocalAfterSingleUserQuery(): void {
@@ -269,7 +339,19 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		$this->assertFalse( $this->wanCache->get( $this->getLocalCacheKey( $blocked->getName() ) ) );
 	}
 
-	public function testInvalidateGlobalAfterSingleUserQuery(): void {
+	public function testInvalidateLockAfterSingleUserQuery(): void {
+		$locked = $this->getMutableTestUser()->getUser();
+		$this->setBlockedIds( [], [], [ $locked->getId() ] );
+		$service = $this->newService();
+
+		$this->assertTrue( $service->isIndefinitelyBlockedOrLocked( $locked->getName() ) );
+		$this->assertSame( 1, $this->wanCache->get( $this->getLockCacheKey( $locked->getName() ) ) );
+
+		$service->invalidateLock( $locked->getName() );
+		$this->assertFalse( $this->wanCache->get( $this->getLockCacheKey( $locked->getName() ) ) );
+	}
+
+	public function testInvalidateGlobalBlockAfterSingleUserQuery(): void {
 		$blocked = $this->getMutableTestUser()->getUser();
 		$this->setBlockedIds( [], [ $blocked->getId() ] );
 		$service = $this->newService();
@@ -277,8 +359,8 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		$this->assertTrue( $service->isIndefinitelyBlockedOrLocked( $blocked->getName() ) );
 		$this->assertSame( 1, $this->wanCache->get( $this->getGlobalCacheKey( $blocked->getName() ) ) );
 
-		$service->invalidateGlobal( $blocked->getName() );
-		$this->assertFalse( $this->wanCache->get( $this->getGlobalCacheKey( $blocked->getName() ) ) );
+		$service->invalidateGlobalBlock( $blocked->getName() );
+		$this->assertGlobalCacheValuePurged( $blocked->getName() );
 	}
 
 	public function testReturnsStringsForNumericUsernames(): void {
@@ -301,12 +383,31 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testDoesNotCacheStatusOfUnknownUsers(): void {
+		$known = $this->getMutableTestUser()->getUser();
+		$this->setBlockedIds( [] );
+
+		$this->newService()->getIndefinitelyBlockedOrLockedUsers( [ $known->getName(), 'This user does not exist' ] );
+
+		// The account can be created later (for example by CentralAuth auto-creation), and the
+		// lock key is shared across wikis, so the status of unknown users must not be cached.
+		foreach ( [
+			$this->getLocalCacheKey( 'This user does not exist' ),
+			$this->getGlobalCacheKey( 'This user does not exist' ),
+			$this->getLockCacheKey( 'This user does not exist' ),
+		] as $key ) {
+			$this->assertFalse( $this->wanCache->get( $key ), $key );
+		}
+		$this->assertSame( 0, $this->wanCache->get( $this->getLockCacheKey( $known->getName() ) ) );
+	}
+
 	public function testReturnsEmptyArrayForNoUsernames(): void {
 		$this->setBlockedIds( [] );
 
 		$this->assertSame( [], $this->newService()->getIndefinitelyBlockedOrLockedUsers( [] ) );
 		$this->assertSame( [], $this->localCalls );
 		$this->assertSame( [], $this->globalCalls );
+		$this->assertSame( [], $this->lockCalls );
 	}
 
 	public function testInvalidateLocal(): void {
@@ -320,14 +421,22 @@ class UserInfoCardBlockStatusCacheTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testInvalidateGlobal(): void {
-		$this->wanCache->set( $this->getGlobalCacheKey( 'TestUser' ), 1 );
+	public function testInvalidateLock(): void {
+		$this->wanCache->set( $this->getLockCacheKey( 'TestUser' ), 1 );
 		$service = $this->newService();
-		$service->invalidateGlobal( 'TestUser' );
+		$service->invalidateLock( 'TestUser' );
 
 		$this->assertFalse(
-			$this->wanCache->get( $this->getGlobalCacheKey( 'TestUser' ) ),
-			'Global WANObjectCache entry should be deleted after invalidateGlobal()'
+			$this->wanCache->get( $this->getLockCacheKey( 'TestUser' ) ),
+			'Lock WANObjectCache entry should be deleted after invalidateLock()'
 		);
+	}
+
+	public function testInvalidateGlobalBlock(): void {
+		$this->wanCache->set( $this->getGlobalCacheKey( 'TestUser' ), 1 );
+		$service = $this->newService();
+		$service->invalidateGlobalBlock( 'TestUser' );
+
+		$this->assertGlobalCacheValuePurged( 'TestUser' );
 	}
 }

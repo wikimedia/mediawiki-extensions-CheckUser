@@ -12,13 +12,22 @@ use Wikimedia\Stats\StatsFactory;
 /**
  * Centralizes cache logic for the user info card's "indefinitely blocked" status.
  *
- * Uses two cache keys per user:
- * - A local key (makeKey) for local blocks, scoped to the current wiki.
- * - A global key (makeGlobalKey) for global blocks and CentralAuth locks,
- *   shared across all wikis in the same memcached cluster.
+ * Uses three cache keys per user:
+ * - A local key (makeKey) for local blocks.
+ * - A local key (makeKey) for global blocks. The result depends on local settings
+ *   (for example locally disabled global blocks), thus the key must not be shared
+ *   across wikis. A global "check" key (makeGlobalKey) lets invalidateGlobalBlock()
+ *   purge this key on all wikis in the same memcached cluster.
+ * - A global key (makeGlobalKey) for CentralAuth locks, shared across all wikis
+ *   in the same memcached cluster.
+ *
+ * If the global block checker or the lock checker is null, the related check is
+ * skipped and the cache is not used for it. Thus a change of
+ * $wgApplyGlobalBlocks does not cause incorrect cached values.
  *
  * Hook handlers that react to block/unblock events call invalidateLocal();
- * hook handlers for global blocks/locks call invalidateGlobal();
+ * hook handlers for global blocks call invalidateGlobalBlock();
+ * hook handlers for locks call invalidateLock();
  * the render handler calls isIndefinitelyBlockedOrLocked().
  */
 class UserInfoCardBlockStatusCache {
@@ -29,10 +38,15 @@ class UserInfoCardBlockStatusCache {
 	 */
 	private const LOOKUP_BATCH_SIZE = 500;
 
+	private const TYPE_LOCAL_BLOCK = 'local';
+	private const TYPE_GLOBAL_BLOCK = 'global_block';
+	private const TYPE_LOCK = 'lock';
+
 	public function __construct(
 		private readonly WANObjectCache $wanCache,
 		private readonly CompositeIndefiniteBlockChecker $localBlockChecker,
-		private readonly CompositeIndefiniteBlockChecker $globalBlockChecker,
+		private readonly ?CompositeIndefiniteBlockChecker $globalBlockChecker,
+		private readonly ?CompositeIndefiniteBlockChecker $lockChecker,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly StatsFactory $statsFactory,
 	) {
@@ -43,16 +57,25 @@ class UserInfoCardBlockStatusCache {
 	 * re-queried on next access.
 	 */
 	public function invalidateLocal( string $username ): void {
-		$this->wanCache->delete( $this->makeLocalCacheKey( $username ) );
+		$this->wanCache->delete( $this->makeLocalBlockCacheKey( $username ) );
 	}
 
 	/**
-	 * Invalidate the cached global blocked/locked status for a user so it will be
-	 * re-queried on next access. Because this uses a global cache key, the
+	 * Invalidate the cached global blocked status for a user so it will be
+	 * re-queried on next access. Because this touches a global "check" key, the
 	 * invalidation is visible to all wikis sharing the same memcached cluster.
 	 */
-	public function invalidateGlobal( string $username ): void {
-		$this->wanCache->delete( $this->makeGlobalCacheKey( $username ) );
+	public function invalidateGlobalBlock( string $username ): void {
+		$this->wanCache->touchCheckKey( $this->makeGlobalBlockCheckKey( $username ) );
+	}
+
+	/**
+	 * Invalidate the cached locked status for a user so it will be re-queried on
+	 * next access. Because this uses a global cache key, the invalidation is
+	 * visible to all wikis sharing the same memcached cluster.
+	 */
+	public function invalidateLock( string $username ): void {
+		$this->wanCache->delete( $this->makeLockCacheKey( $username ) );
 	}
 
 	/**
@@ -60,10 +83,10 @@ class UserInfoCardBlockStatusCache {
 	 * or locked, using both a process-level cache and WANObjectCache
 	 * with lazy population.
 	 *
-	 * Note: the global cache key assumes the local user is attached to a
-	 * global account. For unattached accounts, global blocks and CentralAuth
-	 * locks would not actually apply, but this edge case is rare on WMF
-	 * wikis and is deliberately ignored.
+	 * Note: the lock cache key assumes the local user is attached to a
+	 * global account. For unattached accounts, CentralAuth locks would not
+	 * actually apply, but this edge case is rare on WMF wikis and is
+	 * deliberately ignored.
 	 */
 	public function isIndefinitelyBlockedOrLocked( string $username ): bool {
 		return $this->getIndefinitelyBlockedOrLockedUsers( [ $username ] ) !== [];
@@ -79,32 +102,44 @@ class UserInfoCardBlockStatusCache {
 	 * @return string[] Those of $usernames that are indefinitely blocked or locked
 	 */
 	public function getIndefinitelyBlockedOrLockedUsers( array $usernames ): array {
-		if ( $usernames === [] ) {
-			return [];
+		$blocked = [];
+		// Do each lookup only for users that the previous lookups did not find as blocked
+		$remaining = $usernames;
+		foreach ( [ self::TYPE_LOCAL_BLOCK, self::TYPE_GLOBAL_BLOCK, self::TYPE_LOCK ] as $type ) {
+			if ( $remaining === [] ) {
+				break;
+			}
+			foreach ( $this->checkCache( $remaining, $type ) as $username => $isBlocked ) {
+				if ( $isBlocked ) {
+					$blocked[$username] = true;
+				}
+			}
+			$remaining = array_values( array_filter(
+				$remaining,
+				static fn ( string $username ) => !isset( $blocked[$username] )
+			) );
 		}
-
-		$localStatus = $this->checkCache( $usernames, true );
-		// Do the global lookup only for users unblocked locally
-		$globalStatus = $this->checkCache(
-			array_values( array_filter(
-				$usernames,
-				static fn ( string $username ) => !$localStatus[$username]
-			) ),
-			false
-		);
 
 		return array_values( array_filter(
 			$usernames,
-			static fn ( string $username ) => $localStatus[$username] || ( $globalStatus[$username] ?? false )
+			static fn ( string $username ) => isset( $blocked[$username] )
 		) );
 	}
 
-	private function makeLocalCacheKey( string $username ): string {
+	private function makeLocalBlockCacheKey( string $username ): string {
 		return $this->wanCache->makeKey( 'checkuser-userinfocard-local-blocked', $username );
 	}
 
-	private function makeGlobalCacheKey( string $username ): string {
-		return $this->wanCache->makeGlobalKey( 'checkuser-userinfocard-global-blocked', $username );
+	private function makeGlobalBlockCacheKey( string $username ): string {
+		return $this->wanCache->makeKey( 'checkuser-userinfocard-global-blocked', $username );
+	}
+
+	private function makeGlobalBlockCheckKey( string $username ): string {
+		return $this->wanCache->makeGlobalKey( 'checkuser-userinfocard-global-blocked-check', $username );
+	}
+
+	private function makeLockCacheKey( string $username ): string {
+		return $this->wanCache->makeGlobalKey( 'checkuser-userinfocard-locked', $username );
 	}
 
 	/**
@@ -112,35 +147,50 @@ class UserInfoCardBlockStatusCache {
 	 * miss in a single batch.
 	 *
 	 * @param string[] $usernames
-	 * @param bool $isLocal Whether checking for local or global blocks
+	 * @param string $type One of the TYPE_* constants
 	 * @return array<int|string,bool> Map of username to blocked status. Numeric usernames appear
-	 *   as integer keys, per PHP array key coercion.
+	 *   as integer keys, per PHP array key coercion. Empty if the check does not apply on
+	 *   this wiki.
 	 */
-	private function checkCache( array $usernames, bool $isLocal ): array {
-		if ( $usernames === [] ) {
+	private function checkCache( array $usernames, string $type ): array {
+		$checker = match ( $type ) {
+			self::TYPE_LOCAL_BLOCK => $this->localBlockChecker,
+			self::TYPE_GLOBAL_BLOCK => $this->globalBlockChecker,
+			self::TYPE_LOCK => $this->lockChecker,
+		};
+		if ( $checker === null ) {
 			return [];
 		}
 
-		$checker = $isLocal ? $this->localBlockChecker : $this->globalBlockChecker;
 		$keyedIds = $this->wanCache->makeMultiKeys(
 			$usernames,
-			fn ( string $username ) => $isLocal
-				? $this->makeLocalCacheKey( $username )
-				: $this->makeGlobalCacheKey( $username )
+			fn ( string $username ) => match ( $type ) {
+				self::TYPE_LOCAL_BLOCK => $this->makeLocalBlockCacheKey( $username ),
+				self::TYPE_GLOBAL_BLOCK => $this->makeGlobalBlockCacheKey( $username ),
+				self::TYPE_LOCK => $this->makeLockCacheKey( $username ),
+			}
 		);
+
+		$checkKeys = [];
+		if ( $type === self::TYPE_GLOBAL_BLOCK ) {
+			foreach ( $keyedIds as $cacheKey => $username ) {
+				$checkKeys[$cacheKey] = $this->makeGlobalBlockCheckKey( (string)$username );
+			}
+		}
 
 		$values = $this->wanCache->getMultiWithUnionSetCallback(
 			$keyedIds,
 			$this->wanCache::TTL_INDEFINITE,
-			function ( array $missingUsernames ) use ( $checker, $isLocal ) {
+			function ( array $missingUsernames, array &$ttls ) use ( $checker, $type ) {
 				$this->statsFactory->withComponent( 'CheckUser' )
 					->getCounter( 'userinfocard_block_status_cache_miss' )
-					->setLabel( 'type', $isLocal ? 'local' : 'global' )
+					->setLabel( 'type', $type )
 					->incrementBy( count( $missingUsernames ) );
-				return $this->computeIndefiniteBlockStatus( $missingUsernames, $checker );
+				return $this->computeIndefiniteBlockStatus( $missingUsernames, $checker, $ttls );
 			},
 			[
 				'pcTTL' => $this->wanCache::TTL_PROC_LONG,
+				'checkKeys' => $checkKeys,
 			]
 		);
 
@@ -158,12 +208,16 @@ class UserInfoCardBlockStatusCache {
 	 * @param int[]|string[] $usernames Usernames to check. WANObjectCache round-trips these
 	 *   through array keys, so numeric usernames arrive as integers.
 	 * @param CompositeIndefiniteBlockChecker $checker
+	 * @param array<int|string,int> &$ttls Map of the given usernames to cache TTL. Set to
+	 *   TTL_UNCACHEABLE for users that are not registered on this wiki, because the result
+	 *   can change when the account is created (for example by CentralAuth auto-creation).
 	 * @return array<int|string,int> Map of the given usernames to 1 if blocked and 0 if not. Uses
 	 *   1/0 rather than true/false because WANObjectCache treats false as "do not cache".
 	 */
 	private function computeIndefiniteBlockStatus(
 		array $usernames,
-		CompositeIndefiniteBlockChecker $checker
+		CompositeIndefiniteBlockChecker $checker,
+		array &$ttls
 	): array {
 		// Assume all users are unblocked, then set to 1 if checker says so
 		$result = array_fill_keys( $usernames, 0 );
@@ -177,6 +231,12 @@ class UserInfoCardBlockStatusCache {
 				->fetchUserIdentities();
 			foreach ( $userIdentities as $user ) {
 				$usersById[$user->getId()] = $user->getName();
+			}
+			$registeredNames = array_flip( $usersById );
+			foreach ( $usernameChunk as $username ) {
+				if ( !isset( $registeredNames[$username] ) ) {
+					$ttls[$username] = $this->wanCache::TTL_UNCACHEABLE;
+				}
 			}
 			if ( $usersById === [] ) {
 				continue;
