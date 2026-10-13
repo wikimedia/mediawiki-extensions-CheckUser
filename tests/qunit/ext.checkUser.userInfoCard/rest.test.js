@@ -117,6 +117,88 @@ QUnit.test( 'Test getUserInfo on bad CSRF token for first attempt', ( assert ) =
 	} );
 } );
 
+QUnit.test( 'Test getSharedBlockedAccounts sends a token and returns the counts', ( assert ) => {
+	const response = {
+		ip: { count: 3, complete: true },
+		browserVersion: { count: 1, complete: false }
+	};
+	let requestBody = null;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo/sharedblocked/Test%2FUser?uselang=en' ) ) {
+			requestBody = JSON.parse( request.requestBody );
+			request.respond( 200, { 'Content-Type': 'application/json' }, JSON.stringify( response ) );
+		} else if ( request.url.includes( 'type=csrf' ) ) {
+			request.respond( 200, { 'Content-Type': 'application/json' }, JSON.stringify( {
+				query: { tokens: { csrftoken: 'token' } }
+			} ) );
+		} else {
+			assert.true( false, 'Unexpected API request to ' + request.url );
+		}
+	} );
+
+	return rest.getSharedBlockedAccounts( 'Test/User' ).then( ( data ) => {
+		assert.deepEqual( data, response, 'Response body is returned' );
+		assert.true( typeof requestBody.token === 'string', 'Request body has a token' );
+	} );
+} );
+
+QUnit.test( 'Test getSharedBlockedAccounts on bad CSRF token for first attempt', ( assert ) => {
+	let csrfTokenUpdated = false;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo/sharedblocked/TestUser1?uselang=en' ) ) {
+			if ( csrfTokenUpdated ) {
+				request.respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify( { ip: { count: 0, complete: true } } )
+				);
+			} else {
+				request.respond(
+					400,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify( { errorKey: 'rest-badtoken' } )
+				);
+			}
+		} else if (
+			request.url.includes( 'type=csrf' ) &&
+			request.url.includes( 'meta=tokens' ) &&
+			!csrfTokenUpdated
+		) {
+			request.respond( 200, { 'Content-Type': 'application/json' }, JSON.stringify( {
+				query: { tokens: { csrftoken: 'newtoken' } }
+			} ) );
+			csrfTokenUpdated = true;
+		} else {
+			assert.true( false, 'Unexpected API request to ' + request.url );
+		}
+	} );
+
+	return rest.getSharedBlockedAccounts( 'TestUser1' ).then( ( data ) => {
+		assert.deepEqual(
+			data,
+			{ ip: { count: 0, complete: true } },
+			'getSharedBlockedAccounts should return good data after second API call'
+		);
+		assert.true( csrfTokenUpdated, 'CSRF token should have been refreshed' );
+	} );
+} );
+
+QUnit.test( 'Test getSharedBlockedAccounts rejects if the CSRF token request fails', function ( assert ) {
+	this.sandbox.stub( mw.Api.prototype, 'getToken' ).returns( $.Deferred().reject( 'http', {} ).promise() );
+	server.respond( ( request ) => {
+		assert.true( false, 'Unexpected API request to ' + request.url );
+	} );
+
+	return rest.getSharedBlockedAccounts( 'TestUser1' ).then(
+		() => {
+			assert.true( false, 'Promise should be rejected' );
+		},
+		( code ) => {
+			assert.strictEqual( code, 'http', 'Promise is rejected with the token error' );
+		}
+	);
+} );
+
 /**
  * Answers icon requests with the variant of an icon for each requested user, and records the
  * bodies of the requests which were made.

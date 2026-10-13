@@ -131,7 +131,7 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 	}
 
 	/**
-	 * Export JS config variables for UserInfoCard to determine permissions.
+	 * Export JS config variables for UserInfoCard to determine permissions and configuration.
 	 *
 	 * @param OutputPage $out
 	 * @return void
@@ -162,6 +162,8 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 				$authority->isAllowed( 'checkuser-temporary-account-log' ),
 			'wgCheckUserCanViewSuggestedInvestigations' =>
 				$this->canViewSuggestedInvestigations,
+			'wgCheckUserUserInfoCardSharedBlockedMaxEdits' =>
+				$this->config->get( 'CheckUserUserInfoCardSharedBlockedMaxEdits' ),
 		] );
 	}
 

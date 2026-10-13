@@ -236,6 +236,10 @@
 			"value": true,
 			"description": "Enable instrumentation for the CheckUser UserInfoCard feature. When enabled, user interactions with the UserInfoCard will be logged to the metrics platform."
 		},
+		"CheckUserUserInfoCardSharedBlockedMaxEdits": {
+			"value": 100,
+			"description": "In UserInfoCard, the statistics \"Blocked users on the same IPs\" and similar will only be offered for target users that have this many edits or less."
+		},
 		"CheckUserSuggestedInvestigationsEnabled": {
 			"value": false,
 			"description": "Enable the Suggested Investigations feature."
@@ -728,6 +732,7 @@
 				"components/App.vue",
 				"components/InfoRow.vue",
 				"components/InfoRowWithLinks.vue",
+				"components/SharedBlockedAccounts.vue",
 				"components/UserActivityChart.vue",
 				"components/UserCardBody.vue",
 				"components/UserCardButton.vue",
@@ -819,7 +824,12 @@
 				"checkuser-temporary-account-bucketcount-max",
 				"checkuser-userinfocard-suggested-investigations",
 				"checkuser-userinfocard-abusefilter-hits",
-				"checkuser-userinfocard-has-checkuser-data"
+				"checkuser-userinfocard-has-checkuser-data",
+				"checkuser-userinfocard-sharedblocked-button",
+				"checkuser-userinfocard-sharedblocked-button-tooltip",
+				"checkuser-userinfocard-sharedblocked-ip",
+				"checkuser-userinfocard-sharedblocked-browser-version",
+				"checkuser-userinfocard-sharedblocked-count-incomplete"
 			],
 			"dependencies": [
 				"mediawiki.api",
@@ -1129,6 +1139,7 @@
 			"tests/qunit/ext.checkUser.userInfoCard/components/App.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/InfoRow.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/InfoRowWithLinks.test.js",
+			"tests/qunit/ext.checkUser.userInfoCard/components/SharedBlockedAccounts.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/UserActivityChart.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/UserCardBody.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/UserCardButton.test.js",

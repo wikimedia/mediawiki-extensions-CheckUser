@@ -390,6 +390,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			new HashConfig( [
 				'CheckUserSuggestedInvestigationsEnabled' => false,
 				'CUDMaxAge' => 7776000,
+				'CheckUserUserInfoCardSharedBlockedMaxEdits' => 100,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),
@@ -427,6 +428,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 					'wgCheckUserCanPerformCheckUser' => true,
 					'wgCheckUserCanViewCheckUserLog' => true,
 					'wgCheckUserCanViewSuggestedInvestigations' => false,
+					'wgCheckUserUserInfoCardSharedBlockedMaxEdits' => 100,
 				],
 			],
 			'UserInfoCard is enabled, performer is a temp user' => [
@@ -710,6 +712,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
 				'CheckUserAutoRevealMaximumExpiry' => 1,
+				'CheckUserUserInfoCardSharedBlockedMaxEdits' => 100,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),

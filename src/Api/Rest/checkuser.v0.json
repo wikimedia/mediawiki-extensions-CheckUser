@@ -61,6 +61,7 @@
 				"handler": {
 					"class": "MediaWiki\\Extension\\CheckUser\\Api\\Rest\\Handler\\UserInfoSharedBlockedAccountsHandler",
 					"services": [
+						"MainConfig",
 						"UserFactory",
 						"UserEditTracker",
 						"UserIdentityLookup",

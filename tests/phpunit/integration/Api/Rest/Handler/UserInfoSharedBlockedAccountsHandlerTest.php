@@ -70,6 +70,7 @@ class UserInfoSharedBlockedAccountsHandlerTest extends MediaWikiIntegrationTestC
 
 		$services = $this->getServiceContainer();
 		return new UserInfoSharedBlockedAccountsHandler(
+			$services->getMainConfig(),
 			$services->getUserFactory(),
 			$userEditTracker,
 			$services->getUserIdentityLookup(),
@@ -202,7 +203,7 @@ class UserInfoSharedBlockedAccountsHandlerTest extends MediaWikiIntegrationTestC
 		);
 
 		$this->executeWithTarget(
-			$this->getObjectUnderTest( [], [], true, true, 100 ),
+			$this->getObjectUnderTest( [], [], true, true, 101 ),
 			$this->getTestUser()->getUser()->getName(),
 			$this->getCheckUserAuthority()
 		);
@@ -290,6 +291,7 @@ class UserInfoSharedBlockedAccountsHandlerTest extends MediaWikiIntegrationTestC
 
 		$services = $this->getServiceContainer();
 		$newHandler = fn () => new UserInfoSharedBlockedAccountsHandler(
+			$services->getMainConfig(),
 			$services->getUserFactory(),
 			$services->getUserEditTracker(),
 			$services->getUserIdentityLookup(),

@@ -6,48 +6,20 @@ const MAX_ICON_USERS = 500;
 let pendingIconUsers = null;
 
 /**
- * Gets UserInfoCard data for a given username
+ * Sends a POST request with a CSRF token to a REST endpoint.
  *
- * @param {string} username
- * @param {string} [openedFrom] Type of the place which the card is opened from, as returned
- *   by getOpenContext() in util.js
- * @param {boolean} [retryOnTokenMismatch=true]
- * @return {Promise<{caseId: number, status: string, reason: string, formattedReason: string}>}
+ * @param {string} path Path of the endpoint, with the query string
+ * @param {Object} body Request body, without the token
+ * @param {boolean} retryOnTokenMismatch Get a new token and send the request again if the
+ *   token is not valid
+ * @return {jQuery.Promise}
  */
-function getUserInfo( username, openedFrom, retryOnTokenMismatch ) {
-	const restApi = new mw.Rest();
+function postWithCsrfToken( path, body, retryOnTokenMismatch ) {
 	const api = new mw.Api();
 	const deferred = $.Deferred();
 
-	if ( retryOnTokenMismatch === undefined ) {
-		// Default value for the argument is true.
-		retryOnTokenMismatch = true;
-	}
-
-	// T404682
-	const language = mw.config.get( 'wgUserLanguage' );
-
-	// T435585
-	const sourcePage = mw.config.get( 'wgPageName' );
-
 	api.getToken( 'csrf' ).then( ( token ) => {
-		const body = {
-			token: token,
-			username: username
-		};
-
-		if ( sourcePage ) {
-			body.sourcePage = sourcePage;
-		}
-
-		if ( openedFrom ) {
-			body.openedFrom = openedFrom;
-		}
-
-		restApi.post(
-			'/checkuser/v0/userinfo?uselang=' + language,
-			body
-		).then(
+		new mw.Rest().post( path, Object.assign( { token: token }, body ) ).then(
 			( data ) => {
 				deferred.resolve( data );
 			},
@@ -55,7 +27,7 @@ function getUserInfo( username, openedFrom, retryOnTokenMismatch ) {
 				if ( retryOnTokenMismatch && isBadTokenError( errObject ) ) {
 					// The CSRF token has expired. Retry the POST with a new token.
 					api.badToken( 'csrf' );
-					getUserInfo( username, openedFrom, false ).then(
+					postWithCsrfToken( path, body, false ).then(
 						( data ) => {
 							deferred.resolve( data );
 						},
@@ -68,9 +40,53 @@ function getUserInfo( username, openedFrom, retryOnTokenMismatch ) {
 				}
 			}
 		);
+	}, ( err, errObject ) => {
+		deferred.reject( err, errObject );
 	} );
 
 	return deferred.promise();
+}
+
+/**
+ * Gets UserInfoCard data for a given username
+ *
+ * @param {string} username
+ * @param {string} [openedFrom] Type of the place which the card is opened from, as returned
+ *   by getOpenContext() in util.js
+ * @return {jQuery.Promise}
+ */
+function getUserInfo( username, openedFrom ) {
+	// T404682
+	const language = mw.config.get( 'wgUserLanguage' );
+
+	// T435585
+	const sourcePage = mw.config.get( 'wgPageName' );
+
+	const body = { username: username };
+	if ( sourcePage ) {
+		body.sourcePage = sourcePage;
+	}
+	if ( openedFrom ) {
+		body.openedFrom = openedFrom;
+	}
+
+	return postWithCsrfToken( '/checkuser/v0/userinfo?uselang=' + language, body, true );
+}
+
+/**
+ * Gets the number of blocked accounts that share IP addresses or browser versions with a user.
+ *
+ * @param {string} username
+ * @return {jQuery.Promise<{ip: {count: number, complete: boolean},
+ *   browserVersion: {count: number, complete: boolean}}>}
+ */
+function getSharedBlockedAccounts( username ) {
+	return postWithCsrfToken(
+		'/checkuser/v0/userinfo/sharedblocked/' + encodeURIComponent( username ) +
+			'?uselang=' + mw.config.get( 'wgUserLanguage' ),
+		{},
+		true
+	);
 }
 
 /**
@@ -202,6 +218,7 @@ function flushUserIconVariants() {
 
 module.exports = {
 	getUserInfo: getUserInfo,
+	getSharedBlockedAccounts: getSharedBlockedAccounts,
 	getUserIconVariants: getUserIconVariants,
 	getUserIconVariant: getUserIconVariant
 };

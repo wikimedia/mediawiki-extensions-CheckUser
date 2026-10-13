@@ -32,6 +32,10 @@
 			:suffix-link-log-id="row.suffixLinkLogId"
 			:username="username"
 		></info-row-with-links>
+		<shared-blocked-accounts
+			v-if="canViewSharedBlockedAccounts"
+			:username="username"
+		></shared-blocked-accounts>
 		<!-- HTML derived from message parsed on server-side -->
 		<!-- eslint-disable vue/no-v-html -->
 		<p
@@ -91,12 +95,13 @@ const {
 const InfoRow = require( './InfoRow.vue' );
 const InfoRowWithLinks = require( './InfoRowWithLinks.vue' );
 const UserActivityChart = require( './UserActivityChart.vue' );
+const SharedBlockedAccounts = require( './SharedBlockedAccounts.vue' );
 const useInstrument = require( '../composables/useInstrument.js' );
 
 // @vue/component
 module.exports = exports = {
 	name: 'UserCard',
-	components: { InfoRow, InfoRowWithLinks, UserActivityChart },
+	components: { InfoRow, InfoRowWithLinks, SharedBlockedAccounts, UserActivityChart },
 	props: {
 		username: {
 			type: String,
@@ -317,6 +322,11 @@ module.exports = exports = {
 		const canAccessTemporaryAccountLog = mw.config.get( 'wgCheckUserCanAccessTemporaryAccountLog' );
 		const canAccessTemporaryAccountIpAddresses = computed(
 			() => props.canAccessTemporaryAccountIpAddresses
+		);
+
+		const canViewSharedBlockedAccounts = computed(
+			() => !!mw.config.get( 'wgCheckUserCanPerformCheckUser' ) &&
+				props.localEdits <= mw.config.get( 'wgCheckUserUserInfoCardSharedBlockedMaxEdits' )
 		);
 
 		function formatCount( count, max ) {
@@ -569,6 +579,7 @@ module.exports = exports = {
 			activeWikisList,
 			globalRestrictionsLabel,
 			infoRows,
+			canViewSharedBlockedAccounts,
 			onWikiLinkClick,
 			cdxIconAlert
 		};

@@ -742,3 +742,25 @@ QUnit.test.skip( 'logs an event when onWikiLinkClick is called', function ( asse
 		'Includes correct action_context (wiki ID and username) in interaction data'
 	);
 } );
+
+QUnit.test( 'shows the shared blocked accounts button only to checkusers for users with fewer than X edits', ( assert ) => {
+	const cases = [
+		{ canCheck: true, localEdits: 10, expected: true },
+		{ canCheck: true, localEdits: 11, expected: false },
+		{ canCheck: false, localEdits: 5, expected: false }
+	];
+	cases.forEach( ( { canCheck, localEdits, expected } ) => {
+		mw.config.set( 'wgCheckUserUserInfoCardSharedBlockedMaxEdits', 10 );
+		mw.config.set( 'wgCheckUserCanPerformCheckUser', canCheck );
+		const wrapper = mountComponent( { localEdits } );
+		const component = wrapper.findComponent( { name: 'SharedBlockedAccounts' } );
+		assert.strictEqual(
+			component.exists(),
+			expected,
+			`Component visibility is correct for canCheck=${ canCheck }, localEdits=${ localEdits }`
+		);
+		if ( expected ) {
+			assert.strictEqual( component.props( 'username' ), 'TestUser', 'Username is passed' );
+		}
+	} );
+} );

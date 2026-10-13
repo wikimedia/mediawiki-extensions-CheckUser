@@ -111,6 +111,8 @@ module.exports = exports = {
 				// * checkuser-userinfocard-new-articles
 				// * checkuser-userinfocard-suggested-investigations
 				// * checkuser-userinfocard-abusefilter-hits
+				// * checkuser-userinfocard-sharedblocked-ip
+				// * checkuser-userinfocard-sharedblocked-browser-version
 				return mw.message( props.messageKey, mainAnchor, ...props.messageParams ).parse();
 			}
 		} );

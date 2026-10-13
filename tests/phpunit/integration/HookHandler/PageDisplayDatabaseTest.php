@@ -50,6 +50,7 @@ class PageDisplayDatabaseTest extends MediaWikiIntegrationTestCase {
 				'CUDMaxAge' => 12345,
 				'CheckUserAutoRevealMaximumExpiry' => 1,
 				'CheckUserSuggestedInvestigationsEnabled' => false,
+				'CheckUserUserInfoCardSharedBlockedMaxEdits' => 100,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),

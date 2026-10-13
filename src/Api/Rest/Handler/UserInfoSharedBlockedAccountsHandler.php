@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Api\Rest\Handler;
 
+use MediaWiki\Config\Config;
 use MediaWiki\Extension\CheckUser\Services\CheckUserSharedBrowserVersionAccountsLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserSharedIPAccountsLookup;
 use MediaWiki\Extension\CheckUser\Services\UserInfoCardInstrumentation;
@@ -30,12 +31,10 @@ class UserInfoSharedBlockedAccountsHandler extends SimpleHandler {
 
 	use TokenAwareHandlerTrait;
 
-	/** The handler gives data only for targets that have fewer edits than this number. */
-	private const int MAX_TARGET_EDIT_COUNT = 100;
-
 	private const int CACHE_TTL = WANObjectCache::TTL_MINUTE * 15;
 
 	public function __construct(
+		private readonly Config $config,
 		private readonly UserFactory $userFactory,
 		private readonly UserEditTracker $userEditTracker,
 		private readonly UserIdentityLookup $userIdentityLookup,
@@ -66,11 +65,12 @@ class UserInfoSharedBlockedAccountsHandler extends SimpleHandler {
 			);
 		}
 
-		if ( $this->userEditTracker->getUserEditCount( $user ) >= self::MAX_TARGET_EDIT_COUNT ) {
+		$maxTargetEditCount = $this->config->get( 'CheckUserUserInfoCardSharedBlockedMaxEdits' );
+		if ( $this->userEditTracker->getUserEditCount( $user ) > $maxTargetEditCount ) {
 			throw new LocalizedHttpException(
 				new MessageValue(
 					'checkuser-rest-userinfo-sharedblocked-too-many-edits',
-					[ self::MAX_TARGET_EDIT_COUNT ]
+					[ $maxTargetEditCount ]
 				),
 				403
 			);
