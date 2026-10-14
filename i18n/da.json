@@ -513,6 +513,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Falsk positiv",
 	"checkuser-suggestedinvestigations-action-investigate": "Undersøg brugere",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Kan kun undersøge op til $1 {{PLURAL:$1|konti}}",
+	"checkuser-suggestedinvestigations-action-multilock": "Lås konti",
 	"checkuser-suggestedinvestigations-action-change-status": "Ændr status",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Luk",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Annullér",

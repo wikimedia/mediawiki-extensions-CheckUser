@@ -517,6 +517,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Fałszywy alarm",
 	"checkuser-suggestedinvestigations-action-investigate": "Zbadaj konta",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Można zbadać maksymalnie $1 {{PLURAL:$1|konto|konta|kont}}",
+	"checkuser-suggestedinvestigations-action-multilock": "Zablokuj konta",
 	"checkuser-suggestedinvestigations-action-change-status": "Zmień status",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Zamknij",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Anuluj",

@@ -505,6 +505,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Falso positivo",
 	"checkuser-suggestedinvestigations-action-investigate": "Investigar os usuarios",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Só se {{PLURAL:$1|pode investigar unha conta|poden investigar ata $1 contas}}",
+	"checkuser-suggestedinvestigations-action-multilock": "Bloquear as contas",
 	"checkuser-suggestedinvestigations-action-change-status": "Cambiar o estado",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Pechar",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Cancelar",

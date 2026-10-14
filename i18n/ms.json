@@ -501,6 +501,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Positif palsu",
 	"checkuser-suggestedinvestigations-action-investigate": "Menyiasat pengguna",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Hanya boleh menyiasat sehingga $1 {{PLURAL:$1|akaun}}",
+	"checkuser-suggestedinvestigations-action-multilock": "Kunci akaun",
 	"checkuser-suggestedinvestigations-action-change-status": "Tukar status",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Tutup",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Batalkan",

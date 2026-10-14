@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Dreamy Jazz",
+			"Girmitya",
 			"Karthi.dr",
 			"Thakurji"
 		]
@@ -34,5 +35,6 @@
 	"checkuser-massblock": "Select karaa gais sadasya ke block karo",
 	"checkuser-search": "Khojo",
 	"checkuser-search-submit": "Khojo",
-	"logentry-checkuser-private-event-create-account": "banae dewa gais rahaa"
+	"logentry-checkuser-private-event-create-account": "banae dewa gais rahaa",
+	"checkuser-suggestedinvestigations-action-multilock": "Accounts ke lock karo"
 }

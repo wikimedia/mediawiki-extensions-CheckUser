@@ -500,6 +500,7 @@
 	"checkuser-suggestedinvestigations-status-reason-with-performer": "$1<br>$2",
 	"checkuser-suggestedinvestigations-action-investigate": "Baar isticmaalayaasha",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Kaliya waxaa la baarayaa ilaa $1 {{PLURAL:$1|xisaabo}}",
+	"checkuser-suggestedinvestigations-action-multilock": "Quful akoonnada",
 	"checkuser-suggestedinvestigations-action-change-status": "Beddel xaaladda",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Xir",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Jooji",

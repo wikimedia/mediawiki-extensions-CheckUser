@@ -508,6 +508,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Yalan müsbət",
 	"checkuser-suggestedinvestigations-action-investigate": "İstifadəçiləri araşdır",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Maksimum {{PLURAL:$1|$1 hesabı}} araşdıra bilərsiniz",
+	"checkuser-suggestedinvestigations-action-multilock": "Hesabları kilidlə",
 	"checkuser-suggestedinvestigations-action-change-status": "Statusu dəyişdir",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Bağla",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "İmtina",

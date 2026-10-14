@@ -358,6 +358,7 @@
 	"checkuser-suggestedinvestigations-header-status": "স্থিতি",
 	"checkuser-suggestedinvestigations-header-notes": "টীকা",
 	"checkuser-suggestedinvestigations-header-actions": "কার্য",
+	"checkuser-suggestedinvestigations-action-multilock": "অ্যাকাউন্ট তালাবদ্ধ করুন",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "বন্ধ করুন",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "বাতিল",
 	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "জমা দিন",
