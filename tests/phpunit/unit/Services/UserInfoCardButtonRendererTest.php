@@ -33,6 +33,7 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 	 * @param string[] $hiddenUsers Users who were hidden
 	 * @param string[] $usersInOpenCase Users whom the SI cache reports as members of an open case
 	 * @param bool $siEnabled Value of $wgCheckUserSuggestedInvestigationsEnabled
+	 * @param bool $siHidden Value of $wgCheckUserSuggestedInvestigationsHidden
 	 * @param bool $isCardEnabled Whether the current viewer has UIC enabled in preferences
 	 */
 	private function getRenderer(
@@ -41,6 +42,7 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		array $hiddenUsers = [],
 		array $usersInOpenCase = [],
 		bool $siEnabled = true,
+		bool $siHidden = false,
 		bool $isCardEnabled = true,
 	): UserInfoCardButtonRenderer {
 		$userNameUtils = $this->createMock( UserNameUtils::class );
@@ -89,8 +91,11 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 			$userOptionsLookup,
 			$siCache,
 			new ServiceOptions(
-				[ 'CheckUserSuggestedInvestigationsEnabled' ],
-				[ 'CheckUserSuggestedInvestigationsEnabled' => $siEnabled ]
+				[ 'CheckUserSuggestedInvestigationsEnabled', 'CheckUserSuggestedInvestigationsHidden' ],
+				[
+					'CheckUserSuggestedInvestigationsEnabled' => $siEnabled,
+					'CheckUserSuggestedInvestigationsHidden' => $siHidden,
+				]
 			),
 		);
 	}
@@ -397,14 +402,31 @@ class UserInfoCardButtonRendererTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	public function testOpenCaseIsIgnoredWhenSuggestedInvestigationsAreDisabled(): void {
-		$renderer = $this->getRenderer( [], [], [], [ 'Foo' ], false );
+	/** @dataProvider provideSuggestedInvestigationsNotEnabled */
+	public function testOpenCaseIsIgnoredWhenSuggestedInvestigationsAreDisabled(
+		bool $siEnabled,
+		bool $siHidden
+	): void {
+		$renderer = $this->getRenderer( [], [], [], [ 'Foo' ], $siEnabled, $siHidden );
 		$viewer = $this->mockAnonAuthorityWithPermissions( [ 'checkuser-suggested-investigations' ] );
 
 		$this->assertSame(
 			'userAvatar',
 			$renderer->getIconName( 'Foo', [ 'viewer' => $viewer ] )
 		);
+	}
+
+	public function provideSuggestedInvestigationsNotEnabled(): array {
+		return [
+			'SI disabled' => [
+				'siEnabled' => false,
+				'siHidden' => false,
+			],
+			'SI enabled but hidden' => [
+				'siEnabled' => true,
+				'siHidden' => true,
+			],
+		];
 	}
 
 	public function testGetIconNamesForUsersMapsEveryUser(): void {

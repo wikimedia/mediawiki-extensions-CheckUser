@@ -51,7 +51,10 @@ class UserSummaryHandler extends SimpleHandler {
 		// We cannot easily conditionally enable REST API routes (unlike Special pages), so we should instead
 		// return a 404. If it becomes possible to conditionally enable REST API routes based on config, that
 		// method should be used instead.
-		if ( !$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+		if (
+			!$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' )
+			|| $this->config->get( 'CheckUserSuggestedInvestigationsHidden' )
+		) {
 			throw new LocalizedHttpException(
 				MessageValue::new( 'checkuser-suggestedinvestigations-not-enabled' ),
 				404

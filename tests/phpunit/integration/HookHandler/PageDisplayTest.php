@@ -706,6 +706,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			new HashConfig( [
 				'CUDMaxAge' => 7776000,
 				'CheckUserSuggestedInvestigationsEnabled' => true,
+				'CheckUserSuggestedInvestigationsHidden' => false,
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
 				'CheckUserAutoRevealMaximumExpiry' => 1,
@@ -758,6 +759,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
 				'CheckUserSuggestedInvestigationsEnabled' => $isFeatureEnabled,
+				'CheckUserSuggestedInvestigationsHidden' => false,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->get( 'CheckUserIPRevealManager' ),

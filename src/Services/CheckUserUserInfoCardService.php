@@ -50,6 +50,7 @@ class CheckUserUserInfoCardService {
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserUserInfoCardCentralWikiId',
 		'CheckUserSuggestedInvestigationsEnabled',
+		'CheckUserSuggestedInvestigationsHidden',
 		'CUDMaxAge',
 	];
 
@@ -359,7 +360,8 @@ class CheckUserUserInfoCardService {
 
 		if (
 			$authority->isAllowed( 'checkuser-suggested-investigations' ) &&
-			$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' )
+			$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+			!$this->options->get( 'CheckUserSuggestedInvestigationsHidden' )
 		) {
 			$cusiDbr = $this->dbProvider->getReplicaDatabase(
 				CheckUserQueryInterface::VIRTUAL_DB_DOMAIN

@@ -23,6 +23,7 @@ class UserInfoCardButtonRenderer {
 	/** @internal For use in ServiceWiring */
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserSuggestedInvestigationsEnabled',
+		'CheckUserSuggestedInvestigationsHidden',
 	];
 
 	public function __construct(
@@ -218,7 +219,10 @@ class UserInfoCardButtonRenderer {
 	}
 
 	private function applySuggestedInvestigationsIcon( array $targetNames ): array {
-		if ( !$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+		if (
+			!$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ||
+			$this->config->get( 'CheckUserSuggestedInvestigationsHidden' )
+		) {
 			return [];
 		}
 

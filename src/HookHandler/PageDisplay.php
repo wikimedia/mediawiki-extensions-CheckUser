@@ -72,7 +72,8 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 		if ( !$title->isSpecial( 'Block' ) ) {
 			return;
 		}
-		$siEnabled = $this->config->get( 'CheckUserSuggestedInvestigationsEnabled' );
+		$siEnabled = $this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+			!$this->config->get( 'CheckUserSuggestedInvestigationsHidden' );
 		if ( !is_bool( $this->canViewSuggestedInvestigations ) ) {
 			$this->canViewSuggestedInvestigations = $siEnabled &&
 				$out->getAuthority()->isAllowed( 'checkuser-suggested-investigations' );
@@ -145,7 +146,8 @@ class PageDisplay implements BeforePageDisplayHook, OutputPageParserOutputHook {
 		if ( !is_bool( $this->canViewSuggestedInvestigations ) ) {
 			$this->canViewSuggestedInvestigations = $authority
 				->isAllowed( 'checkuser-suggested-investigations' ) &&
-				$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' );
+				$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+				!$this->config->get( 'CheckUserSuggestedInvestigationsHidden' );
 		}
 
 		$out->addJsConfigVars( [

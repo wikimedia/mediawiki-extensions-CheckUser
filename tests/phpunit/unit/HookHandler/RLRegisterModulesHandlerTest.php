@@ -73,6 +73,7 @@ class RLRegisterModulesHandlerTest extends MediaWikiUnitTestCase {
 			$this->createMock( HookRunner::class ),
 			new HashConfig( [
 				'CheckUserSuggestedInvestigationsEnabled' => true,
+				'CheckUserSuggestedInvestigationsHidden' => false,
 				'CheckUserSuggestedInvestigationsQueueViews' => [
 					'foo' => [
 						'msgKeys' => [

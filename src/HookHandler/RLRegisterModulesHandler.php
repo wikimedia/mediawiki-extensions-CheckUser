@@ -171,7 +171,10 @@ class RLRegisterModulesHandler implements ResourceLoaderRegisterModulesHook {
 			'checkuser-si-related-cases-info',
 		];
 
-		if ( $this->config->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+		if (
+			$this->config->get( 'CheckUserSuggestedInvestigationsEnabled' )
+			&& !$this->config->get( 'CheckUserSuggestedInvestigationsHidden' )
+		) {
 			$signals = [];
 			$this->hookRunner->onCheckUserSuggestedInvestigationsGetSignals( $signals );
 			foreach ( $signals as $signal ) {
