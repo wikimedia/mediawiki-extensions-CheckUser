@@ -87,7 +87,7 @@ function updateFiltersOnPage( filters, win ) {
 
 	let newUrl = mw.config.get( 'wgServer' );
 	newUrl += mw.util.getUrl( mw.config.get( 'wgPageName' ), filters );
-	win.location.replace( newUrl );
+	win.location.assign( newUrl );
 }
 
 module.exports = {

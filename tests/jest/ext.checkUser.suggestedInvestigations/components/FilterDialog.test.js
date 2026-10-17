@@ -468,9 +468,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 		await showResultsButton.trigger( 'click' );
 
-		// Expect that a call to redirect to another page has been made without closing the dialog
-		// (the dialog is left open so that it's kept open until the page has reloaded)
-		expect( wrapper.vm.open ).toEqual( true );
+		expect( wrapper.vm.open ).toEqual( false );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{
 				editAndBlockFilter: 'edits-only',
@@ -497,7 +495,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 		await showResultsButton.trigger( 'click' );
 
-		expect( wrapper.vm.open ).toEqual( true );
+		expect( wrapper.vm.open ).toEqual( false );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{
 				editAndBlockFilter: 'edits-only',
@@ -525,7 +523,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		const showResultsButton = dialog.find( '.mw-checkuser-suggestedinvestigations-filter-dialog__button--show-results' );
 		await showResultsButton.trigger( 'click' );
 
-		expect( wrapper.vm.open ).toEqual( true );
+		expect( wrapper.vm.open ).toEqual( false );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{
 				editAndBlockFilter: 'none',
@@ -590,7 +588,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 		await showResultsButton.trigger( 'click' );
 
-		expect( wrapper.vm.open ).toEqual( true );
+		expect( wrapper.vm.open ).toEqual( false );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{
 				editAndBlockFilter: 'edits-only',
@@ -618,7 +616,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 		await showResultsButton.trigger( 'click' );
 
-		expect( wrapper.vm.open ).toEqual( true );
+		expect( wrapper.vm.open ).toEqual( false );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith(
 			{
 				editAndBlockFilter: 'edits-only',
@@ -708,7 +706,7 @@ describe( 'Suggested Investigations change status dialog', () => {
 		);
 		await showResultsButton.trigger( 'click' );
 
-		expect( wrapper.vm.open ).toEqual( true );
+		expect( wrapper.vm.open ).toEqual( false );
 		expect( mockUpdateFiltersOnPage ).toHaveBeenCalledWith( expectedFilters, window );
 	} );
 } );

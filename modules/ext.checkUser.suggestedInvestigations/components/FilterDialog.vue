@@ -336,6 +336,9 @@ module.exports = exports = {
 			// Preserve the current queue view, which is set by default and can be set elsewhere independently.
 			filters.queueView = mw.config.get( 'wgCheckUserSuggestedInvestigationsQueueView' );
 
+			// Ensure the filter dialog is closed
+			open.value = false;
+
 			updateFiltersOnPage( filters, window );
 		}
 

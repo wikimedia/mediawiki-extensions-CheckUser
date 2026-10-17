@@ -160,7 +160,7 @@ QUnit.test( 'updateFiltersOnPage correctly reloads the page with the applied fil
 	let actualUrl = '';
 	const mockWindow = {
 		location: {
-			replace: function ( providedUrl ) {
+			assign: function ( providedUrl ) {
 				actualUrl = providedUrl;
 			}
 		}
