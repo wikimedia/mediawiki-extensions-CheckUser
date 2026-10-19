@@ -250,6 +250,7 @@
 	"checkuser-rest-access-denied": "您没有权限来执行此操作",
 	"checkuser-rest-access-denied-blocked-user": "您没有权限来执行此操作，因为您的账号已被封禁",
 	"checkuser-rest-userinfo-user-not-found": "提供的用户ID无效。",
+	"checkuser-rest-userinfo-sharedblocked-too-many-edits": "此数据仅适用于编辑数少于$1{{PLURAL:$1|次}}的用户。",
 	"checkuser-link-investigate-label": "尝试{{#special:investigate}}",
 	"checkuser-investigateblock": "封禁用户",
 	"checkuser-investigateblock-target": "用户名和IP地址",

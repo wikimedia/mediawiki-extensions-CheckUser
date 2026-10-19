@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"KormiSK"
+		]
+	},
+	"checkuser-rest-property-desc-sharedblocked-ip": "Blokované účty, ktoré používali rovnaké IP adresy ako používateľ",
+	"checkuser-rest-property-desc-sharedblocked-complete": "Či boli preskúmané všetky dostupné údaje. Ak je hodnota nepravdivá, skutočný počet blokovaných účtov môže byť vyšší"
+}

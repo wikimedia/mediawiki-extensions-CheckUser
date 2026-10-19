@@ -204,6 +204,7 @@
 	"checkuser-rest-access-denied": "Du har ikke rettigheder til at udføre denne handling.",
 	"checkuser-rest-access-denied-blocked-user": "Du har ikke tilladelse til at udføre denne handling, fordi din konto er blokeret",
 	"checkuser-rest-userinfo-user-not-found": "Ugyldigt bruger-ID angivet.",
+	"checkuser-rest-userinfo-sharedblocked-too-many-edits": "Disse data er kun tilgængelige for brugere med færre end $1 {{PLURAL:$1|redigering|redigeringer}}.",
 	"checkuser-link-investigate-label": "Prøv {{#special:investigate}}",
 	"checkuser-investigateblock": "Bloker brugere",
 	"checkuser-investigateblock-target": "Brugernavne og IP-adresser",
