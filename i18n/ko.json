@@ -410,6 +410,7 @@
 	"checkuser-userinfocard-checks": "검사: $1 (마지막 검사: $2)",
 	"checkuser-userinfocard-checks-empty": "검사: $1",
 	"checkuser-userinfocard-suggested-investigations": "제안된 조사 사안: $1",
+	"checkuser-userinfocard-sharedblocked-count-incomplete": "$1+",
 	"checkuser-userinfocard-global-restrictions-locked": "$3 이후부터 [[$2|전역 {{GENDER:$1|잠김}}]]",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|전역 {{GENDER:$1|잠김}}]]",
 	"checkuser-userinfocard-global-restrictions-blocked": "$3 이후부터 [[$2|전역 {{GENDER:$1|차단됨}}]]",
