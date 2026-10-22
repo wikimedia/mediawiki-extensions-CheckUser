@@ -240,7 +240,7 @@ QUnit.test( 'Test onLoad for an existing temporary account with IP data', async 
 		}
 	} );
 	await performOnLoadTestWhenButtonClicked(
-		'<label class="oo-ui-widget oo-ui-widget-enabled oo-ui-labelElement oo-ui-labelElement-label oo-ui-labelWidget">(checkuser-tempaccount-specialblock-ips: 2, <a href="https://www.example.com/wiki/Special:IPContributions/172.20.0.1">172.20.0.1</a>(and)(word-separator)<a href="https://www.example.com/wiki/Special:IPContributions/1.2.3.4">1.2.3.4</a>)</label>',
+		'<label class="oo-ui-widget oo-ui-widget-enabled oo-ui-labelElement oo-ui-labelElement-label oo-ui-labelWidget">(checkuser-tempaccount-specialblock-ips: 2, <a href="https://www.example.com/wiki/Special:IPContributions/172.20.0.1" dir="ltr">172.20.0.1</a>(and)(word-separator)<a href="https://www.example.com/wiki/Special:IPContributions/1.2.3.4" dir="ltr">1.2.3.4</a>)</label>',
 		assert, done
 	);
 	// Check that the IPs in the element that replaced the button are

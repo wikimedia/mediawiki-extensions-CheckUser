@@ -115,6 +115,9 @@ module.exports = exports = defineComponent( {
 						const ipLinks = ips.map( ( ip ) => {
 							const a = document.createElement( 'a' );
 							a.href = mw.util.getUrl( `Special:IPContributions/${ ip }` );
+							// IP addresses are always left-to-right, so isolate each one to
+							// keep them and the list separators in order on RTL pages.
+							a.dir = 'ltr';
 							a.textContent = ip;
 							return a.outerHTML;
 						} );

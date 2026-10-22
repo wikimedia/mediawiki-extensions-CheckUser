@@ -86,9 +86,12 @@ function handleTemporaryUserTarget( blockTarget ) {
 					let message;
 					if ( response.ips.length ) {
 						// Wrap each IP in a link to Special:IPContributions
-						// to allow further investigation.
+						// to allow further investigation. IP addresses are always
+						// left-to-right, so isolate each one to keep them and the
+						// list separators in order on RTL pages.
 						const ips = response.ips.map( ( ip ) => $( '<a>' )
 							.attr( 'href', new mw.Title( 'Special:IPContributions/' + ip ).getUrl() )
+							.attr( 'dir', 'ltr' )
 							.text( ip )
 							.prop( 'outerHTML' )
 						);
