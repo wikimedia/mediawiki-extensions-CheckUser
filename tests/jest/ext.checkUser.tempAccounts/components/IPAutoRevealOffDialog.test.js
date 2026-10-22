@@ -6,7 +6,10 @@ const mockNowInSeconds = 1741604813;
 const mockExpiryInSeconds = mockNowInSeconds + 3600;
 const mockSetAutoRevealStatus = jest.fn().mockResolvedValue();
 jest.mock( '../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () => ( {
-	setAutoRevealStatus: mockSetAutoRevealStatus
+	setAutoRevealStatus: mockSetAutoRevealStatus,
+	INVALID_EXPIRY_ERROR: jest.requireActual(
+		'../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js'
+	).INVALID_EXPIRY_ERROR
 } ) );
 jest.mock( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
 
@@ -22,9 +25,11 @@ jest.mock( '../../../../modules/ext.checkUser.tempAccounts/maxDurationError.json
 
 const IPAutoRevealOffDialog = require( '../../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOffDialog.vue' );
 const useInstrument = require( '../../../../modules/ext.checkUser.tempAccounts/useInstrument.js' );
+const { INVALID_EXPIRY_ERROR } = require( '../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 const { nextTick } = require( 'vue' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog } = require( '@wikimedia/codex' );
+const $ = require( 'jquery' );
 
 const mockSetText = jest.fn();
 const renderComponent = ( props ) => {
@@ -118,7 +123,9 @@ describe( 'IP auto-reveal Off dialog', () => {
 	} );
 
 	it( 'shows error on default action if new expiry is greater than the maximum allowed', async () => {
-		require( '../../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' ).setAutoRevealStatus.mockRejectedValue();
+		mockSetAutoRevealStatus.mockReturnValueOnce(
+			$.Deferred().reject( INVALID_EXPIRY_ERROR ).promise()
+		);
 
 		// Set expiry to maximum allowed
 		const expiry = mockNowInSeconds + 86400;
@@ -126,11 +133,35 @@ describe( 'IP auto-reveal Off dialog', () => {
 		await nextTick();
 
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'default' );
+		// jQuery runs the rejection handlers in a timeout
+		jest.advanceTimersByTime( 0 );
 		await nextTick();
 
 		// Check that error message is shown
 		expect( mockSetAutoRevealStatus ).toHaveBeenCalledTimes( 1 );
-		expect( wrapper.find( '.cdx-message' ).exists() ).toBe( true );
+		expect( wrapper.find( '.cdx-message' ).text() ).toBe( 'Duration error message' );
+		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( true );
+		expect( logEvent ).toHaveBeenCalledTimes( 0 );
+	} );
+
+	it( 'shows the API error on default action if saving the new expiry fails', async () => {
+		const errorData = { error: { code: 'readonly', info: 'The wiki is currently in read-only mode.' } };
+		mockSetAutoRevealStatus.mockReturnValueOnce(
+			$.Deferred().reject( 'readonly', errorData ).promise()
+		);
+		const getErrorMessage = jest.fn( ( data ) => $( '<div>' ).text( data.error.info ) );
+		jest.spyOn( mw, 'Api' ).mockImplementation( () => ( { getErrorMessage } ) );
+
+		const wrapper = renderComponent();
+		await nextTick();
+
+		await wrapper.findComponent( CdxDialog ).vm.$emit( 'default' );
+		jest.advanceTimersByTime( 0 );
+		await nextTick();
+
+		expect( mockSetAutoRevealStatus ).toHaveBeenCalledTimes( 1 );
+		expect( getErrorMessage ).toHaveBeenCalledWith( errorData );
+		expect( wrapper.find( '.cdx-message' ).text() ).toBe( 'The wiki is currently in read-only mode.' );
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( true );
 		expect( logEvent ).toHaveBeenCalledTimes( 0 );
 	} );

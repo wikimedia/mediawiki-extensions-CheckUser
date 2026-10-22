@@ -1,4 +1,9 @@
 /**
+ * Error code that setAutoRevealStatus() rejects with when the expiry is over the maximum.
+ */
+const INVALID_EXPIRY_ERROR = 'Expiry is invalid';
+
+/**
  * Gets the revealed status key for a user.
  *
  * @param {string} user The username of the temporary account.
@@ -122,7 +127,7 @@ function setAutoRevealStatus( relativeExpiry ) {
 		undefined;
 
 	if ( absoluteExpiry && !isExpiryValid( absoluteExpiry ) ) {
-		return $.Deferred().reject( 'Expiry is invalid' ).promise();
+		return $.Deferred().reject( INVALID_EXPIRY_ERROR ).promise();
 	}
 
 	const preferenceName = getAutoRevealStatusPreferenceName();
@@ -197,5 +202,6 @@ module.exports = {
 	setRevealedStatus: setRevealedStatus,
 	getAutoRevealStatus: getAutoRevealStatus,
 	setAutoRevealStatus: setAutoRevealStatus,
-	getUserNameFromUrl: getUserNameFromUrl
+	getUserNameFromUrl: getUserNameFromUrl,
+	INVALID_EXPIRY_ERROR: INVALID_EXPIRY_ERROR
 };
