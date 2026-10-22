@@ -34,7 +34,7 @@
 <script>
 const { ref } = require( 'vue' );
 const { CdxDialog, CdxMessage } = require( '@wikimedia/codex' );
-const { setAutoRevealStatus } = require( './../ipRevealUtils.js' );
+const { setAutoRevealStatus, INVALID_EXPIRY_ERROR } = require( './../ipRevealUtils.js' );
 const { disableAutoReveal } = require( './../ipReveal.js' );
 const useInstrument = require( '../useInstrument.js' );
 
@@ -90,8 +90,12 @@ module.exports = exports = {
 					open.value = false;
 					logEvent( 'session_extend' );
 				},
-				() => {
-					extendError.value = maxDurationError.translation;
+				( code, data ) => {
+					if ( code === INVALID_EXPIRY_ERROR ) {
+						extendError.value = maxDurationError.translation;
+					} else {
+						extendError.value = new mw.Api().getErrorMessage( data ).text();
+					}
 				}
 			);
 		}
