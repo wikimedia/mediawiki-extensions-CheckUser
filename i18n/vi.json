@@ -430,7 +430,7 @@
 	"checkuser-userinfocard-global-groups": "<strong>Nhóm toàn cục</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2 sửa đổi|0=Không có sửa đổi}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "Đã kích hoạt khả năng xem địa chỉ IP tài khoản tạm thời",
-	"checkuser-userinfocard-ip-revealed-count": "Lần hiển thị IP: $1 (lần kiểm tra cuối: $2)",
+	"checkuser-userinfocard-ip-revealed-count": "Lần hiển thị IP: $1 (lần hiển thị cuối: $2)",
 	"checkuser-userinfocard-ip-revealed-never": "Lần hiển thị IP: $1",
 	"checkuser-suggestedinvestigations": "Kiểm tra được gợi ý",
 	"checkuser-suggestedinvestigations-summary": "Trang này chứa các tài khoản được tự động đánh dấu là có thể khả nghi để các kiểm định viên điều tra.",
