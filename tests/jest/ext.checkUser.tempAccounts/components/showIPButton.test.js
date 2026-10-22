@@ -193,6 +193,23 @@ describe( 'ShowIPButton', () => {
 		} );
 	}
 
+	it( 'should mark each revealed IP as left-to-right', async () => {
+		mockPerformFullRevealRequest.mockResolvedValue( { ips: [ '1.2.3.4', '2001:db8::1' ] } );
+		global.mw.message.mockClear();
+
+		const wrapper = renderComponent( { targetUser: '~2025' } );
+		await wrapper.find( '.ext-checkuser-tempaccount-specialblock-ips-link' ).trigger( 'click' );
+
+		const [ , , ipList ] = global.mw.message.mock.calls.find(
+			( [ key ] ) => key === 'checkuser-tempaccount-specialblock-ips'
+		);
+		const links = ipList.querySelectorAll( 'a' );
+		expect( links ).toHaveLength( 2 );
+		for ( const link of links ) {
+			expect( link.getAttribute( 'dir' ) ).toStrictEqual( 'ltr' );
+		}
+	} );
+
 	it( 'should clear the message and show the button when the target changes', async () => {
 		const wrapper = renderComponent( { targetUser: '~2025' } );
 		wrapper.vm.message = 'foo';
