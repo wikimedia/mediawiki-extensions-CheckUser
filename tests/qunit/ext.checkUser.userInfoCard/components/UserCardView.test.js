@@ -31,7 +31,7 @@ const mockComponents = {
 			'localEdits', 'localEditsReverted', 'newArticles', 'checks',
 			'lastChecked', 'activeWikis', 'recentLocalEdits', 'totalLocalEdits',
 			'ipRevealCount', 'hasIpRevealInfo', 'suggestedInvestigationsCaseCount',
-			'abuseFilterHits', 'hasCheckUserData'
+			'abuseFilterHits', 'abuseReviewFlaggedEdits', 'hasCheckUserData'
 		]
 	}
 };
@@ -64,6 +64,12 @@ const sampleUserData = {
 	},
 	suggestedInvestigationsCaseCount: 3,
 	abuseFilterHitCount: 12,
+	abuseReviewFlaggedEdits: {
+		maxAgeDays: 90,
+		flags: [
+			{ flag: 'mw-private-vandalism', label: 'Vandalism', count: 2 }
+		]
+	},
 	hasCheckUserData: true
 };
 
@@ -410,6 +416,62 @@ QUnit.test( 'defaults abuseFilterHits to 0 when not in API response', ( assert )
 			wrapper.vm.userCard.abuseFilterHits,
 			0,
 			'abuseFilterHits defaults to 0 when not in response'
+		);
+	} );
+} );
+
+QUnit.test( 'sets abuseReviewFlaggedEdits from API response', ( assert ) => {
+	let userInfoCardApiCalled = false;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( sampleUserData )
+			);
+			userInfoCardApiCalled = true;
+		}
+	} );
+
+	const wrapper = mountComponent();
+
+	return waitFor( () => {
+		const loadingView = wrapper.findComponent( mockComponents.UserCardLoadingView );
+		return userInfoCardApiCalled && !loadingView.exists();
+	} ).then( () => {
+		assert.deepEqual(
+			wrapper.vm.userCard.abuseReviewFlaggedEdits,
+			sampleUserData.abuseReviewFlaggedEdits,
+			'abuseReviewFlaggedEdits is set from API response'
+		);
+	} );
+} );
+
+QUnit.test( 'defaults abuseReviewFlaggedEdits to null when not in API response', ( assert ) => {
+	let userInfoCardApiCalled = false;
+	const dataWithoutFlags = Object.assign( {}, sampleUserData );
+	delete dataWithoutFlags.abuseReviewFlaggedEdits;
+	server.respond( ( request ) => {
+		if ( request.url.endsWith( '/checkuser/v0/userinfo?uselang=en' ) ) {
+			request.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify( dataWithoutFlags )
+			);
+			userInfoCardApiCalled = true;
+		}
+	} );
+
+	const wrapper = mountComponent();
+
+	return waitFor( () => {
+		const loadingView = wrapper.findComponent( mockComponents.UserCardLoadingView );
+		return userInfoCardApiCalled && !loadingView.exists();
+	} ).then( () => {
+		assert.strictEqual(
+			wrapper.vm.userCard.abuseReviewFlaggedEdits,
+			null,
+			'abuseReviewFlaggedEdits defaults to null when not in response'
 		);
 	} );
 } );

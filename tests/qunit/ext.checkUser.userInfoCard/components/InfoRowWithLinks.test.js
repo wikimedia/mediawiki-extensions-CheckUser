@@ -140,6 +140,28 @@ QUnit.test( 'passes message parameters for a label without a value', ( assert ) 
 	);
 } );
 
+QUnit.test( 'creates a comma-separated list of links for main items', function ( assert ) {
+	this.sandbox.stub( mw, 'msg' ).withArgs( 'comma-separator' ).returns( ', ' );
+	const wrapper = mountComponent( {
+		messageKey: 'checkuser-userinfocard-abusereview-flags',
+		mainValue: '',
+		messageParams: [ '90' ],
+		mainItems: [
+			{ value: 'First (1)', link: 'https://example.com/1', logId: 'test_items' },
+			{ value: 'Second (2)', link: 'https://example.com/2', logId: 'test_items' }
+		]
+	} );
+
+	assert.strictEqual(
+		wrapper.vm.formattedMessage,
+		'checkuser-userinfocard-abusereview-flags with <span>' +
+			'<a id="info-row-test_items-0" href="https://example.com/1">First (1)</a>, ' +
+			'<a id="info-row-test_items-1" href="https://example.com/2">Second (2)</a>' +
+			'</span>, 90',
+		'Formatted message includes a link for each item and the message parameters'
+	);
+} );
+
 QUnit.test( 'handles numeric values correctly', ( assert ) => {
 	const wrapper = mountComponent( {
 		messageKey: 'checkuser-userinfocard-active-blocks',
@@ -235,6 +257,23 @@ QUnit.test( 'logs an event when the main link is clicked', function ( assert ) {
 		wrapper.find( '#info-row-main_link_id' ).trigger( 'click' );
 
 		assertLinkClickEvent( assert, sendStub, 'main_link_id' );
+		wrapper.unmount();
+	} );
+} );
+
+QUnit.test( 'logs an event when a main item link is clicked', function ( assert ) {
+	this.sandbox.stub( mw, 'msg' ).withArgs( 'comma-separator' ).returns( ', ' );
+	const sendStub = stubInstrument( this.sandbox );
+
+	return mountComponentInDocument( {
+		mainItems: [
+			{ value: 'First (1)', link: 'https://example.com/1', logId: 'test_items' },
+			{ value: 'Second (2)', link: 'https://example.com/2', logId: 'test_items' }
+		]
+	} ).then( ( wrapper ) => {
+		wrapper.find( '#info-row-test_items-1' ).trigger( 'click' );
+
+		assertLinkClickEvent( assert, sendStub, 'test_items' );
 		wrapper.unmount();
 	} );
 } );

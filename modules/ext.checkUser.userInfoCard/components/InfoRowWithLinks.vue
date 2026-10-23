@@ -40,6 +40,9 @@ module.exports = exports = {
 		mainValue: { type: [ String, Number ], default: '' },
 		mainLink: { type: String, default: '' },
 		mainLinkLogId: { type: String, default: '' },
+		// List of { value, link, logId } objects. When not empty, it replaces mainValue and
+		// mainLink with a comma-separated list of links.
+		mainItems: { type: Array, default: () => [] },
 		suffixValue: { type: [ String, Number ], default: '' },
 		suffixLink: { type: String, default: '' },
 		suffixLinkLogId: { type: String, default: '' },
@@ -61,11 +64,11 @@ module.exports = exports = {
 		// handler can be attached afterwards), otherwise a plain span. We could
 		// build the link in the i18n message itself, but we need to log the
 		// event on click, hence the manually instrumented node.
-		function createValueNode( link, logId, value ) {
+		function createValueNode( link, logId, value, idSuffix = '' ) {
 			let node;
 			if ( link ) {
 				node = document.createElement( 'a' );
-				node.id = `info-row-${ logId }`;
+				node.id = `info-row-${ logId }${ idSuffix }`;
 				node.href = link;
 			} else {
 				node = document.createElement( 'span' );
@@ -75,7 +78,28 @@ module.exports = exports = {
 			return node;
 		}
 
+		// Similar to createValueNode, but for lists of links
+		function createItemListNode( items ) {
+			const node = document.createElement( 'span' );
+			items.forEach( ( item, index ) => {
+				if ( index > 0 ) {
+					node.appendChild( document.createTextNode( mw.msg( 'comma-separator' ) ) );
+				}
+				node.appendChild( createValueNode( item.link, item.logId, item.value, `-${ index }` ) );
+			} );
+			return node;
+		}
+
 		const formattedMessage = computed( () => {
+			if ( props.mainItems.length ) {
+				// Possible messages here
+				// * checkuser-userinfocard-abusereview-flags
+				return mw.message(
+					props.messageKey,
+					createItemListNode( props.mainItems ),
+					...props.messageParams
+				).parse();
+			}
 			// If no main anchor or main value, this is just a label, return early
 			if ( !props.mainLink && !props.mainValue ) {
 				// Possible messages here
@@ -141,8 +165,8 @@ module.exports = exports = {
 			attachedHandlers = [];
 		}
 
-		function attachClickHandler( logId ) {
-			const element = document.getElementById( `info-row-${ logId }` );
+		function attachClickHandler( logId, idSuffix = '' ) {
+			const element = document.getElementById( `info-row-${ logId }${ idSuffix }` );
 			if ( !element ) {
 				return;
 			}
@@ -159,6 +183,11 @@ module.exports = exports = {
 			if ( props.suffixLink && props.suffixLinkLogId ) {
 				attachClickHandler( props.suffixLinkLogId );
 			}
+			props.mainItems.forEach( ( item, index ) => {
+				if ( item.link && item.logId ) {
+					attachClickHandler( item.logId, `-${ index }` );
+				}
+			} );
 		}
 
 		onMounted( () => {

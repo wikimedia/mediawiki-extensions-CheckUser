@@ -695,6 +695,54 @@ QUnit.test( 'does not render abuse filter hits row when the count is absent', ( 
 	assert.strictEqual( row, undefined, 'Abuse filter hits row does not exist when count is not provided' );
 } );
 
+QUnit.test( 'renders AbuseReview flags row with one item for each flag', ( assert ) => {
+	const wrapper = mountComponent( {
+		abuseReviewFlaggedEdits: {
+			maxAgeDays: 90,
+			flags: [
+				{ flag: 'mw-private-vandalism', label: 'Likely vandalism', count: 3 },
+				{ flag: 'mw-private-personal-info', label: 'Likely contains personal information', count: 1 }
+			]
+		}
+	} );
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-abusereview-flags' );
+	assert.true( row !== undefined, 'AbuseReview flags row exists' );
+	assert.deepEqual( row.props( 'messageParams' ), [ '90' ], 'Row has the number of days as a parameter' );
+	assert.deepEqual(
+		row.props( 'mainItems' ),
+		[
+			{
+				value: '(checkuser-userinfocard-abusereview-flag-count: Likely vandalism, 3)',
+				link: '/-1/AbuseReview?tab=mw-private-vandalism&username=TestUser' +
+					'&wpShowHandledRevisions=1&showRecentEdits=1',
+				logId: 'abusereview_flags'
+			},
+			{
+				value: '(checkuser-userinfocard-abusereview-flag-count: Likely contains personal information, 1)',
+				link: '/-1/AbuseReview?tab=mw-private-personal-info&username=TestUser' +
+					'&wpShowHandledRevisions=1&showRecentEdits=1',
+				logId: 'abusereview_flags'
+			}
+		],
+		'Each flag links to Special:AbuseReview for that flag and user'
+	);
+} );
+
+QUnit.test( 'does not render AbuseReview flags row when there are no flagged edits', ( assert ) => {
+	const wrapper = mountComponent( { abuseReviewFlaggedEdits: { maxAgeDays: 90, flags: [] } } );
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-abusereview-flags' );
+	assert.strictEqual( row, undefined, 'AbuseReview flags row does not exist when no flag has edits' );
+} );
+
+QUnit.test( 'does not render AbuseReview flags row when the data is absent', ( assert ) => {
+	const wrapper = mountComponent();
+
+	const row = findRowByLabel( wrapper, 'checkuser-userinfocard-abusereview-flags' );
+	assert.strictEqual( row, undefined, 'AbuseReview flags row does not exist when data is not provided' );
+} );
+
 QUnit.test( 'logs an event when onWikiLinkClick is called', function ( assert ) {
 	const sendStub = stubInstrument( this.sandbox );
 

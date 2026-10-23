@@ -27,6 +27,7 @@
 			:main-value="row.mainValue"
 			:main-link="row.mainLink"
 			:main-link-log-id="row.mainLinkLogId"
+			:main-items="row.mainItems"
 			:suffix-value="row.suffixValue"
 			:suffix-link="row.suffixLink"
 			:suffix-link-log-id="row.suffixLinkLogId"
@@ -85,6 +86,7 @@ const {
 	cdxIconEdit,
 	cdxIconEditLock,
 	cdxIconArticles,
+	cdxIconFlag,
 	cdxIconHeart,
 	cdxIconRecentChanges,
 	cdxIconSearch,
@@ -237,6 +239,10 @@ module.exports = exports = {
 		abuseFilterHits: {
 			type: Number,
 			default: 0
+		},
+		abuseReviewFlaggedEdits: {
+			type: Object,
+			default: null
 		},
 		hasCheckUserData: {
 			type: Boolean,
@@ -484,6 +490,32 @@ module.exports = exports = {
 					mainValue: mw.language.convertNumber( props.abuseFilterHits ),
 					mainLink: abuseLogLink,
 					mainLinkLogId: 'abusefilter_hits'
+				} );
+			}
+
+			if ( props.abuseReviewFlaggedEdits && props.abuseReviewFlaggedEdits.flags.length > 0 ) {
+				const abuseReviewTitle = mw.Title.makeTitle( -1, 'AbuseReview' );
+				rows.push( {
+					icon: cdxIconFlag,
+					iconClass: 'ext-checkuser-userinfocard-icon',
+					messageKey: 'checkuser-userinfocard-abusereview-flags',
+					messageParams: [
+						mw.language.convertNumber( props.abuseReviewFlaggedEdits.maxAgeDays )
+					],
+					mainItems: props.abuseReviewFlaggedEdits.flags.map( ( { flag, label, count } ) => ( {
+						value: mw.msg(
+							'checkuser-userinfocard-abusereview-flag-count',
+							label,
+							mw.language.convertNumber( count )
+						),
+						link: abuseReviewTitle.getUrl( {
+							tab: flag,
+							username: [ props.username ],
+							wpShowHandledRevisions: 1,
+							showRecentEdits: 1
+						} ),
+						logId: 'abusereview_flags'
+					} ) )
 				} );
 			}
 

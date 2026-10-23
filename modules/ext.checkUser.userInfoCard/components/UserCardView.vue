@@ -59,6 +59,7 @@
 				:temp-accounts-on-ip-count="userCard.tempAccountsOnIPCount"
 				:suggested-investigations-case-count="userCard.suggestedInvestigationsCaseCount"
 				:abuse-filter-hits="userCard.abuseFilterHits"
+				:abuse-review-flagged-edits="userCard.abuseReviewFlaggedEdits"
 				:has-check-user-data="userCard.hasCheckUserData"
 			></user-card-body>
 			<!--eslint-enable-->
@@ -143,6 +144,7 @@ module.exports = exports = {
 			tempAccountsOnIPCount: [],
 			suggestedInvestigationsCaseCount: 0,
 			abuseFilterHits: 0,
+			abuseReviewFlaggedEdits: null,
 			hasLocalBlockGlobalBlockOrLock: false,
 			hasCheckUserData: false
 		} );
@@ -193,6 +195,7 @@ module.exports = exports = {
 						tempAccountsOnIPCount,
 						suggestedInvestigationsCaseCount,
 						abuseFilterHitCount,
+						abuseReviewFlaggedEdits,
 						hasLocalBlockGlobalBlockOrLock,
 						hasCheckUserData
 					} = userInfo;
@@ -249,6 +252,7 @@ module.exports = exports = {
 					userCard.suggestedInvestigationsCaseCount =
 						suggestedInvestigationsCaseCount || 0;
 					userCard.abuseFilterHits = abuseFilterHitCount || 0;
+					userCard.abuseReviewFlaggedEdits = abuseReviewFlaggedEdits || null;
 
 					// Parse and format checkUserLastCheck date
 					const lastCheckDate = parseMediaWikiTimestamp( checkUserLastCheck );

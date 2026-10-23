@@ -425,6 +425,8 @@
 	"checkuser-userinfocard-checks-empty": "Checks: $1",
 	"checkuser-userinfocard-suggested-investigations": "Suggested investigations cases: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Abuse filter hits: $1",
+	"checkuser-userinfocard-abusereview-flags": "AbuseReview flags (latest edits, up to $2 {{PLURAL:$2|day|days}} old): $1",
+	"checkuser-userinfocard-abusereview-flag-count": "$1 ($2)",
 	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Has}} been active in the last $1 {{PLURAL:$1|day|days}}",
 	"checkuser-userinfocard-sharedblocked-button": "Check for connected blocked accounts",
 	"checkuser-userinfocard-sharedblocked-button-tooltip": "Display how many blocked accounts used the same IP addresses or the same browser versions.",
