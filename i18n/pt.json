@@ -251,6 +251,7 @@
 	"checkuser-userinfocard-past-blocks": "Bloqueios anteriores: $1",
 	"checkuser-userinfocard-global-edits": "Edições globais: $1",
 	"checkuser-userinfocard-local-edits": "Edições locais: $1 (revertidas: $2 )",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Edições locais: $1",
 	"checkuser-userinfocard-new-articles": "Novos artigos: $1",
 	"checkuser-userinfocard-thanks": "Agradecimentos recebidos: $1 (dados: $2)",
 	"checkuser-userinfocard-checks": "Verificações: $1 (última verificação: $2)",
