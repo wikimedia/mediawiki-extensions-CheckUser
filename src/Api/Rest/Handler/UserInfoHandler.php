@@ -159,6 +159,24 @@ class UserInfoHandler extends SimpleHandler {
 					'type' => 'integer',
 					'x-i18n-description' => 'checkuser-rest-property-desc-abusefilter-hit-count',
 				],
+				'abuseReviewFlaggedEdits' => [
+					'type' => 'object',
+					'x-i18n-description' => 'checkuser-rest-property-desc-abusereview-flagged-edits',
+					'properties' => [
+						'maxAgeDays' => [ 'type' => 'integer' ],
+						'flags' => [
+							'type' => 'array',
+							'items' => [
+								'type' => 'object',
+								'properties' => [
+									'flag' => [ 'type' => 'string' ],
+									'label' => [ 'type' => 'string' ],
+									'count' => [ 'type' => 'integer' ],
+								],
+							],
+						],
+					],
+				],
 				'hasCheckUserData' => [
 					'type' => 'boolean',
 					'x-i18n-description' => 'checkuser-rest-property-desc-has-checkuser-data',
@@ -223,6 +241,12 @@ class UserInfoHandler extends SimpleHandler {
 				'checkUserLastCheck' => '20260610000000',
 				'suggestedInvestigationsCaseCount' => 2,
 				'abuseFilterHitCount' => 3,
+				'abuseReviewFlaggedEdits' => [
+					'maxAgeDays' => 90,
+					'flags' => [
+						[ 'flag' => 'mw-private-vandalism', 'label' => 'Likely vandalism', 'count' => 2 ],
+					],
+				],
 				'hasCheckUserData' => true,
 				'canAccessTemporaryAccountIpAddresses' => false,
 				'activeBlocksOnLocalWiki' => 0,

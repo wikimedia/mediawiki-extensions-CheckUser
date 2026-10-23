@@ -79,6 +79,7 @@
 	"checkuser-rest-property-desc-checkuser-last-check": "Timestamp of the most recent CheckUser check performed on this user",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "Number of suggested investigation cases associated with this user",
 	"checkuser-rest-property-desc-abusefilter-hit-count": "Number of abuse filter log entries triggered by this user. Only present for temporary accounts and accounts that are not autoconfirmed",
+	"checkuser-rest-property-desc-abusereview-flagged-edits": "Number of recent edits of this user for each AbuseReview flag that the performer can see. False positives are not counted. Only present if the WikimediaAntiAbuse extension is installed and the performer can see at least one flag",
 	"checkuser-rest-property-desc-has-checkuser-data": "Whether the user has any activity recorded in the CheckUser tables on this wiki. Only present if the performer has the checkuser right",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "Whether the performer can access temporary account IP addresses for the user",
 	"checkuser-rest-property-desc-active-blocks-local": "Number of active blocks on the local wiki",

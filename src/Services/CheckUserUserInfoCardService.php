@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\CheckUser\Services;
 use GrowthExperiments\UserImpact\UserImpactLookup;
 use InvalidArgumentException;
 use MediaWiki\Cache\GenderCache;
+use MediaWiki\ChangeTags\ChangeTagsStore;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\AbuseFilter\AbuseLogLookup;
@@ -18,10 +19,13 @@ use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributio
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Extension\GlobalBlocking\Services\GlobalBlockLookup;
+use MediaWiki\Extension\WikimediaAntiAbuse\Services\AbuseReviewEnabledTagsProvider;
+use MediaWiki\Extension\WikimediaAntiAbuse\Services\FlaggedEditCounter;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Message\Message;
+use MediaWiki\Parser\Sanitizer;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\SimpleAuthority;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -79,6 +83,9 @@ class CheckUserUserInfoCardService {
 		private readonly UserInfoCardBlockStatusCache $blockStatusCache,
 		private readonly ?AbuseLogLookup $abuseLogLookup,
 		private readonly ActorNormalization $actorNormalization,
+		private readonly ChangeTagsStore $changeTagsStore,
+		private readonly ?AbuseReviewEnabledTagsProvider $abuseReviewEnabledTagsProvider,
+		private readonly ?FlaggedEditCounter $flaggedEditCounter,
 	) {
 		$this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -155,6 +162,45 @@ class CheckUserUserInfoCardService {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Gets the number of recent edits of the user for each AbuseReview flag that the authority can see.
+	 *
+	 * @param Authority $authority
+	 * @param UserIdentity $user
+	 * @return array|null Null if WikimediaAntiAbuse is not loaded or the authority cannot see any flag
+	 */
+	private function getAbuseReviewFlaggedEdits( Authority $authority, UserIdentity $user ): ?array {
+		if ( !$this->abuseReviewEnabledTagsProvider || !$this->flaggedEditCounter ) {
+			return null;
+		}
+
+		$flags = $this->changeTagsStore->filterViewableTags(
+			$this->abuseReviewEnabledTagsProvider->getEnabledReviewableTags(),
+			$authority
+		);
+		if ( !$flags ) {
+			return null;
+		}
+
+		$flaggedEdits = [];
+		foreach ( $this->flaggedEditCounter->getFlaggedEditCounts( $authority, $user, $flags ) as $flag => $count ) {
+			if ( $count === 0 ) {
+				continue;
+			}
+			$labelMessage = $this->context->msg( "tag-$flag" );
+			$flaggedEdits[] = [
+				'flag' => $flag,
+				'label' => $labelMessage->isDisabled() ? $flag : Sanitizer::stripAllTags( $labelMessage->parse() ),
+				'count' => $count,
+			];
+		}
+
+		return [
+			'maxAgeDays' => FlaggedEditCounter::MAX_AGE_DAYS,
+			'flags' => $flaggedEdits,
+		];
 	}
 
 	/**
@@ -380,6 +426,11 @@ class CheckUserUserInfoCardService {
 			// view the abuse log at all, so fall back to zero in that case.
 			$hitCounts = $this->abuseLogLookup->getHitCountsForUsers( $authority, [ $user ] );
 			$userInfo['abuseFilterHitCount'] = $hitCounts[$user->getName()] ?? 0;
+		}
+
+		$abuseReviewFlaggedEdits = $this->getAbuseReviewFlaggedEdits( $authority, $user );
+		if ( $abuseReviewFlaggedEdits !== null ) {
+			$userInfo['abuseReviewFlaggedEdits'] = $abuseReviewFlaggedEdits;
 		}
 
 		$blocks = [];

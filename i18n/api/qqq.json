@@ -80,6 +80,7 @@
 	"checkuser-rest-property-desc-checkuser-last-check": "Description of the user last CheckUser check timestamp property in the response schema of the REST API.",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "Description of the user suggested investigations cases count property in the response schema of the REST API.",
 	"checkuser-rest-property-desc-abusefilter-hit-count": "Description of the AbuseFilter hit count property in the response schema of the REST API.",
+	"checkuser-rest-property-desc-abusereview-flagged-edits": "Description of the AbuseReview flagged edits property in the response schema of the REST API.",
 	"checkuser-rest-property-desc-has-checkuser-data": "Description of the property which tells if the user has activity recorded in the CheckUser tables on this wiki, in the response schema of the REST API.",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "Description of the permission status to access temporary account IP addresses property in the response schema of the REST API.",
 	"checkuser-rest-property-desc-active-blocks-local": "Description of the user active blocks count on local wiki property in the response schema of the REST API.",

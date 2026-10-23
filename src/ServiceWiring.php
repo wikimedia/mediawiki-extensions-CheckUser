@@ -760,6 +760,12 @@ return [
 		if ( $extensionRegistry->isLoaded( 'Abuse Filter' ) ) {
 			$abuseLogLookup = AbuseFilterServices::getAbuseLogLookup( $services );
 		}
+		$abuseReviewEnabledTagsProvider = null;
+		$flaggedEditCounter = null;
+		if ( $extensionRegistry->isLoaded( 'WikimediaAntiAbuse' ) ) {
+			$abuseReviewEnabledTagsProvider = $services->get( 'WikimediaAntiAbuseAbuseReviewEnabledTagsProvider' );
+			$flaggedEditCounter = $services->get( 'WikimediaAntiAbuseFlaggedEditCounter' );
+		}
 		return new CheckUserUserInfoCardService(
 			$userImpactLookup,
 			$extensionRegistry,
@@ -783,7 +789,10 @@ return [
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
 			$abuseLogLookup,
-			$services->getActorNormalization()
+			$services->getActorNormalization(),
+			$services->getChangeTagsStore(),
+			$abuseReviewEnabledTagsProvider,
+			$flaggedEditCounter
 		);
 	},
 	'CheckUserUserInfoCardSuggestedInvestigationsCache' => static function (

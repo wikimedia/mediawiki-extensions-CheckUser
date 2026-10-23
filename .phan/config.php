@@ -19,6 +19,7 @@ $cfg['directory_list'] = array_merge(
 		'../../extensions/TestKitchen',
 		'../../extensions/TorBlock',
 		'../../extensions/UserMerge',
+		'../../extensions/WikimediaAntiAbuse',
 	]
 );
 
@@ -37,6 +38,7 @@ $cfg['exclude_analysis_directory_list'] = array_merge(
 		'../../extensions/TestKitchen',
 		'../../extensions/TorBlock',
 		'../../extensions/UserMerge',
+		'../../extensions/WikimediaAntiAbuse',
 	]
 );
 

@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 use CentralAuthTestUser;
 use GrowthExperiments\UserImpact\ComputedUserImpactLookup;
 use GrowthExperiments\UserImpact\UserImpact;
+use MediaWiki\ChangeTags\ChangeTagsStore;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Context\RequestContext;
@@ -25,6 +26,8 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInves
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
+use MediaWiki\Extension\WikimediaAntiAbuse\Services\AbuseReviewEnabledTagsProvider;
+use MediaWiki\Extension\WikimediaAntiAbuse\Services\FlaggedEditCounter;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Logging\LogPage;
 use MediaWiki\MainConfigNames;
@@ -49,6 +52,9 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 	use CheckUserTempUserTestTrait;
 	use MockAuthorityTrait;
 	use SuggestedInvestigationsTestTrait;
+
+	private const string ABUSE_REVIEW_TAG_NAME = 'mw-private-test-tag';
+	private const string ABUSE_REVIEW_OTHER_TAG_NAME = 'mw-private-other-test-tag';
 
 	private static User $tempUser1;
 	private static User $tempUser2;
@@ -142,6 +148,13 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$abuseLogLookup = null;
 		}
+		if ( $services->getExtensionRegistry()->isLoaded( 'WikimediaAntiAbuse' ) ) {
+			$abuseReviewEnabledTagsProvider = $services->get( 'WikimediaAntiAbuseAbuseReviewEnabledTagsProvider' );
+			$flaggedEditCounter = $services->get( 'WikimediaAntiAbuseFlaggedEditCounter' );
+		} else {
+			$abuseReviewEnabledTagsProvider = null;
+			$flaggedEditCounter = null;
+		}
 		if ( $services->getExtensionRegistry()->isLoaded( 'GrowthExperiments' ) ) {
 			$userImpactLookup = $services->getService( 'GrowthExperimentsUserImpactLookup' );
 		} else {
@@ -174,7 +187,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$overrides[ 'UserInfoCardBlockStatusCache' ] ??
 				$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
 			$abuseLogLookup,
-			$services->getActorNormalization()
+			$services->getActorNormalization(),
+			$overrides['ChangeTagsStore'] ?? $services->getChangeTagsStore(),
+			$overrides['AbuseReviewEnabledTagsProvider'] ?? $abuseReviewEnabledTagsProvider,
+			$overrides['FlaggedEditCounter'] ?? $flaggedEditCounter
 		);
 	}
 
@@ -458,7 +474,10 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserUserInfoCardBlockStatusCache' ),
 			null,
-			$services->getActorNormalization()
+			$services->getActorNormalization(),
+			$services->getChangeTagsStore(),
+			null,
+			null
 		);
 		$targetUser = $this->getTestUser()->getUser();
 		$userInfo = $infoCardService->getUserInfo(
@@ -476,6 +495,7 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayContains( [ 'activeBlocksOnLocalWiki' => 0 ], $userInfo );
 		$this->assertArrayNotHasKey( 'thanksGiven', $userInfo );
 		$this->assertArrayNotHasKey( 'abuseFilterHitCount', $userInfo );
+		$this->assertArrayNotHasKey( 'abuseReviewFlaggedEdits', $userInfo );
 	}
 
 	public function testGetUserInfoHasLocalBlockGlobalBlockOrLockWhenBlocked(): void {
@@ -773,6 +793,104 @@ class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
 		$result = $this->getObjectUnderTest()
 			->getUserInfo( $this->mockRegisteredAuthorityWithPermissions( [] ), $user );
 		$this->assertArrayNotHasKey( 'abuseFilterHitCount', $result );
+	}
+
+	/**
+	 * @param string[] $enabledFlags
+	 * @param string[] $viewableFlags
+	 * @param FlaggedEditCounter $flaggedEditCounter
+	 * @return CheckUserUserInfoCardService
+	 */
+	private function getObjectUnderTestWithAbuseReviewFlags(
+		array $enabledFlags,
+		array $viewableFlags,
+		FlaggedEditCounter $flaggedEditCounter
+	): CheckUserUserInfoCardService {
+		$abuseReviewEnabledTagsProvider = $this->createMock( AbuseReviewEnabledTagsProvider::class );
+		$abuseReviewEnabledTagsProvider->method( 'getEnabledReviewableTags' )
+			->willReturn( $enabledFlags );
+
+		$changeTagsStore = $this->createMock( ChangeTagsStore::class );
+		$changeTagsStore->method( 'filterViewableTags' )
+			->with( $enabledFlags, $this->anything() )
+			->willReturn( $viewableFlags );
+
+		return $this->getObjectUnderTest( [
+			'ChangeTagsStore' => $changeTagsStore,
+			'AbuseReviewEnabledTagsProvider' => $abuseReviewEnabledTagsProvider,
+			'FlaggedEditCounter' => $flaggedEditCounter,
+		] );
+	}
+
+	/** @dataProvider provideAbuseReviewFlaggedEdits */
+	public function testAbuseReviewFlaggedEdits( array $flagCounts, array $expectedFlags ): void {
+		RequestContext::getMain()->setLanguage( 'qqx' );
+		$this->markTestSkippedIfExtensionNotLoaded( 'WikimediaAntiAbuse' );
+		$authority = $this->mockRegisteredUltimateAuthority();
+		$user = self::$testUser;
+		$flags = array_keys( $flagCounts );
+
+		$flaggedEditCounter = $this->createMock( FlaggedEditCounter::class );
+		$flaggedEditCounter->expects( $this->once() )
+			->method( 'getFlaggedEditCounts' )
+			->with( $authority, $user, $flags )
+			->willReturn( $flagCounts );
+
+		$result = $this->getObjectUnderTestWithAbuseReviewFlags( $flags, $flags, $flaggedEditCounter )
+			->getUserInfo( $authority, $user );
+
+		$this->assertSame( [
+			'maxAgeDays' => FlaggedEditCounter::MAX_AGE_DAYS,
+			'flags' => $expectedFlags,
+		], $result['abuseReviewFlaggedEdits'] );
+	}
+
+	public static function provideAbuseReviewFlaggedEdits(): array {
+		return [
+			'There are flagged edits' => [
+				'flagCounts' => [ self::ABUSE_REVIEW_TAG_NAME => 3 ],
+				'expectedFlags' => [
+					[
+						'flag' => self::ABUSE_REVIEW_TAG_NAME,
+						'label' => '(tag-' . self::ABUSE_REVIEW_TAG_NAME . ')',
+						'count' => 3,
+					],
+				],
+			],
+			'There are no flagged edits' => [
+				'flagCounts' => [ self::ABUSE_REVIEW_TAG_NAME => 0 ],
+				'expectedFlags' => [],
+			],
+			'Flag with no edits is followed by flag with edits' => [
+				'flagCounts' => [
+					self::ABUSE_REVIEW_TAG_NAME => 0,
+					self::ABUSE_REVIEW_OTHER_TAG_NAME => 2,
+				],
+				'expectedFlags' => [
+					[
+						'flag' => self::ABUSE_REVIEW_OTHER_TAG_NAME,
+						'label' => '(tag-' . self::ABUSE_REVIEW_OTHER_TAG_NAME . ')',
+						'count' => 2,
+					],
+				],
+			],
+		];
+	}
+
+	public function testAbuseReviewFlaggedEditsWhenAuthorityCannotViewFlags(): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'WikimediaAntiAbuse' );
+
+		$flaggedEditCounter = $this->createMock( FlaggedEditCounter::class );
+		$flaggedEditCounter->expects( $this->never() )->method( 'getFlaggedEditCounts' );
+
+		$result = $this->getObjectUnderTestWithAbuseReviewFlags(
+			[ self::ABUSE_REVIEW_TAG_NAME ],
+			[],
+			$flaggedEditCounter
+		)
+			->getUserInfo( $this->mockRegisteredUltimateAuthority(), self::$testUser );
+
+		$this->assertArrayNotHasKey( 'abuseReviewFlaggedEdits', $result );
 	}
 
 	/** @dataProvider provideBlockLogDelete */
