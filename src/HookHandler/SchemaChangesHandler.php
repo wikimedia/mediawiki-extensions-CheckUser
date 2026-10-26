@@ -8,7 +8,6 @@ use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
 use MediaWiki\Extension\CheckUser\Maintenance\FixTrailingSpacesInLogs;
 use MediaWiki\Extension\CheckUser\Maintenance\MigrateTemporaryAccountIPViewerGroup;
-use MediaWiki\Extension\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTable;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateSicUpdatedTimestamp;
@@ -51,13 +50,6 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		// 1.41
 		$updater->addExtensionTable( 'cu_useragent_clienthints', "$base/$dbType/cu_useragent_clienthints.sql" );
 		$updater->addExtensionTable( 'cu_useragent_clienthints_map', "$base/$dbType/cu_useragent_clienthints_map.sql" );
-		// Must be run before deleteReadOldEntriesInCuChanges.php is run or the cuc_only_for_read_old column is
-		// removed, as the script needs the column to be present and needs to be allowed to set the value of the
-		// column to 1.
-		$updater->addExtensionUpdate( [
-			'runMaintenance',
-			MoveLogEntriesFromCuChanges::class,
-		] );
 
 		// 1.42
 		$updater->addExtensionField(
