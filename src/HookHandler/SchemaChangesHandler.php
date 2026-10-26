@@ -47,10 +47,6 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			"$base/$dbType/cuci_user.sql", true,
 		] );
 
-		// 1.41
-		$updater->addExtensionTable( 'cu_useragent_clienthints', "$base/$dbType/cu_useragent_clienthints.sql" );
-		$updater->addExtensionTable( 'cu_useragent_clienthints_map', "$base/$dbType/cu_useragent_clienthints_map.sql" );
-
 		// 1.42
 		$updater->addExtensionField(
 			'cu_log',
