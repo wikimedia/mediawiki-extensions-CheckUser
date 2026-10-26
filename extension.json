@@ -1454,7 +1454,6 @@
 		"MediaWiki\\CheckUser\\SuggestedInvestigations\\Signals\\SuggestedInvestigationsSignalMatchResult": "src/SuggestedInvestigations/Signals/SuggestedInvestigationsSignalMatchResult.php",
 		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",
 		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PurgeOldData": "maintenance/purgeOldData.php",
-		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateCucComment": "maintenance/populateCucComment.php",
 		"MediaWiki\\Extension\\CheckUser\\Maintenance\\MoveLogEntriesFromCuChanges": "maintenance/moveLogEntriesFromCuChanges.php",
 		"MediaWiki\\Extension\\CheckUser\\Maintenance\\PopulateCheckUserTablesWithSimulatedData": "maintenance/populateCheckUserTablesWithSimulatedData.php",
 		"MediaWiki\\Extension\\CheckUser\\Maintenance\\GenerateStatsAboutClientHintsData": "maintenance/generateStatsAboutClientHintsData.php",
