@@ -12,7 +12,6 @@ use MediaWiki\Extension\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCheckUserTable;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateCucComment;
-use MediaWiki\Extension\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateSicUpdatedTimestamp;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateSicUrlIdentifier;
 use MediaWiki\Extension\CheckUser\Maintenance\PopulateUserAgentTable;
@@ -51,10 +50,6 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		] );
 
 		// 1.40
-		$updater->addExtensionUpdate( [
-			'runMaintenance',
-			PopulateCulComment::class,
-		] );
 		$updater->addExtensionUpdate( [
 			'runMaintenance',
 			PopulateCucComment::class,
