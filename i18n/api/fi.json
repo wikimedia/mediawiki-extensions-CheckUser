@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Samoasambia"
+			"Samoasambia",
+			"Wikipeedikko"
 		]
 	},
 	"apierror-checkuser-nosuchuser": "Tämän nimistä käyttäjää ei ole",
@@ -9,5 +10,6 @@
 	"checkuser-api-useragent-clienthints-nonexistent-id": "$1-tunnistetta $2 ei ole olemassa",
 	"checkuser-ip-auto-reveal-expiry-invalid": "Annettu autopaljastuksen aikaraja on virheellinen.",
 	"checkuser-ip-auto-reveal-missing-permission": "Sinulla ei ole oikeutta käyttää IP-osoitteiden autopaljastusta.",
-	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Ehdotetut tutkimukset -ominaisuus ei ole käytössä"
+	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "Ehdotetut tutkimukset -ominaisuus ei ole käytössä",
+	"checkuser-rest-property-desc-sharedblocked-ip": "Estetyt tilit, joilla oli samat IP-osoitteet kuin käyttäjällä"
 }
