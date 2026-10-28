@@ -226,7 +226,7 @@ class UserInfoCardButtonRenderer {
 			return [];
 		}
 
-		$siUsers = $this->suggestedInvestigationsCache->getUsersWithOpenCases( $targetNames );
+		$siUsers = $this->suggestedInvestigationsCache->getUsersWithRecentCases( $targetNames );
 		return array_fill_keys( $siUsers, 'suggestedInvestigations' );
 	}
 }

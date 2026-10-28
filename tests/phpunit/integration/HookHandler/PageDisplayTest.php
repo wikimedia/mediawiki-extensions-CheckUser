@@ -638,7 +638,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideExportsSuggestedInvestigationsTargets */
 	public function testExportsSuggestedInvestigationsTargets( bool $canSee, ?array $expectedCustomIcons ): void {
 		$suggestedInvestigationsCache = $this->createMock( UserInfoCardSuggestedInvestigationsCache::class );
-		$suggestedInvestigationsCache->method( 'getUsersWithOpenCases' )
+		$suggestedInvestigationsCache->method( 'getUsersWithRecentCases' )
 			->willReturn( [ 'SI user' ] );
 
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsEnabled', true );

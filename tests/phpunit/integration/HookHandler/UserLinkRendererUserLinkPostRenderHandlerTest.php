@@ -216,7 +216,7 @@ class UserLinkRendererUserLinkPostRenderHandlerTest extends MediaWikiIntegration
 		$targetUser = $this->getTestUser()->getUser();
 
 		$mockCache = $this->createMock( UserInfoCardSuggestedInvestigationsCache::class );
-		$mockCache->method( 'getUsersWithOpenCases' )
+		$mockCache->method( 'getUsersWithRecentCases' )
 			->willReturn( [ $targetUser->getName() ] );
 		$this->setService( 'CheckUserUserInfoCardSuggestedInvestigationsCache', $mockCache );
 

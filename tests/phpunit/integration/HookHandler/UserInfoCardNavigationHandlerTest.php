@@ -245,7 +245,7 @@ class UserInfoCardNavigationHandlerTest extends MediaWikiIntegrationTestCase {
 		$target = $this->getTestSysop()->getUser();
 
 		$suggestedInvestigationsCache = $this->createMock( UserInfoCardSuggestedInvestigationsCache::class );
-		$suggestedInvestigationsCache->method( 'getUsersWithOpenCases' )
+		$suggestedInvestigationsCache->method( 'getUsersWithRecentCases' )
 			->willReturn( [ $target->getName() ] );
 		$this->setService(
 			'CheckUserUserInfoCardSuggestedInvestigationsCache',

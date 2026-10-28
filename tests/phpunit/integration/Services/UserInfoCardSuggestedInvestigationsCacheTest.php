@@ -68,14 +68,14 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 		$user = $this->getTestUser()->getUser();
 		$this->createCaseFor( $user, 'open' );
 
-		$this->assertTrue( $this->newService()->hasOpenCase( $user->getName() ) );
+		$this->assertTrue( $this->newService()->hasRecentCase( $user->getName() ) );
 		$this->assertSame( 1, $this->wanCache->get( $this->getCacheKey( $user->getName() ) ) );
 	}
 
 	public function testUserWithoutCase(): void {
 		$user = $this->getTestUser()->getUser();
 
-		$this->assertFalse( $this->newService()->hasOpenCase( $user->getName() ) );
+		$this->assertFalse( $this->newService()->hasRecentCase( $user->getName() ) );
 		$this->assertSame( 0, $this->wanCache->get( $this->getCacheKey( $user->getName() ) ) );
 	}
 
@@ -84,7 +84,7 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 		$user = $this->getTestUser()->getUser();
 		$this->setCaseStatus( $this->createCaseFor( $user, 'closed' ), $status );
 
-		$this->assertFalse( $this->newService()->hasOpenCase( $user->getName() ) );
+		$this->assertFalse( $this->newService()->hasRecentCase( $user->getName() ) );
 	}
 
 	public static function provideClosedStatuses(): array {
@@ -99,17 +99,17 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 		$this->setCaseStatus( $this->createCaseFor( $user, 'closed' ), CaseStatus::Resolved );
 		$this->createCaseFor( $user, 'open' );
 
-		$this->assertTrue( $this->newService()->hasOpenCase( $user->getName() ) );
+		$this->assertTrue( $this->newService()->hasRecentCase( $user->getName() ) );
 	}
 
-	public function testReturnsOnlyUsersWithOpenCases(): void {
+	public function testReturnsOnlyUsersWithRecentCases(): void {
 		$withCase = $this->getMutableTestUser()->getUser();
 		$withoutCase = $this->getMutableTestUser()->getUser();
 		$this->createCaseFor( $withCase, 'open' );
 
 		$this->assertSame(
 			[ $withCase->getName() ],
-			$this->newService()->getUsersWithOpenCases(
+			$this->newService()->getUsersWithRecentCases(
 				[ $withoutCase->getName(), $withCase->getName() ]
 			)
 		);
@@ -119,18 +119,18 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 		$numericUser = ( new TestUser( '12345' ) )->getUser();
 		$this->createCaseFor( $numericUser, 'numeric' );
 
-		$this->assertSame( [ '12345' ], $this->newService()->getUsersWithOpenCases( [ '12345' ] ) );
+		$this->assertSame( [ '12345' ], $this->newService()->getUsersWithRecentCases( [ '12345' ] ) );
 	}
 
 	public function testIgnoresUnknownUsers(): void {
 		$this->assertSame(
 			[],
-			$this->newService()->getUsersWithOpenCases( [ 'This user does not exist' ] )
+			$this->newService()->getUsersWithRecentCases( [ 'This user does not exist' ] )
 		);
 	}
 
 	public function testReturnsEmptyArrayForNoUsernames(): void {
-		$this->assertSame( [], $this->newService()->getUsersWithOpenCases( [] ) );
+		$this->assertSame( [], $this->newService()->getUsersWithRecentCases( [] ) );
 	}
 
 	public function testDoesNotQueryWhenSuggestedInvestigationsAreDisabled(): void {
@@ -139,7 +139,7 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 		$this->disableSuggestedInvestigations();
 
 		// The lookup service throws when the feature is off, so a query here would fail the test.
-		$this->assertFalse( $this->newService()->hasOpenCase( $user->getName() ) );
+		$this->assertFalse( $this->newService()->hasRecentCase( $user->getName() ) );
 		$this->assertFalse( $this->wanCache->get( $this->getCacheKey( $user->getName() ) ) );
 	}
 
@@ -148,10 +148,10 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 		$caseId = $this->createCaseFor( $user, 'open' );
 		$service = $this->newService();
 
-		$this->assertTrue( $service->hasOpenCase( $user->getName() ) );
+		$this->assertTrue( $service->hasRecentCase( $user->getName() ) );
 
 		// The status is only refreshed when the entry expires, so a change made now is not seen.
 		$this->setCaseStatus( $caseId, CaseStatus::Resolved );
-		$this->assertTrue( $service->hasOpenCase( $user->getName() ) );
+		$this->assertTrue( $service->hasRecentCase( $user->getName() ) );
 	}
 }

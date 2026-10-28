@@ -11,7 +11,7 @@ use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Stats\StatsFactory;
 
 /**
- * Centralizes cache logic for the user info card's "user is in an open Suggested
+ * Centralizes cache logic for the user info card's "user is in a recent Suggested
  * Investigations case" status.
  *
  * The trigger button is rendered once per user link, so a page can ask about hundreds of
@@ -34,7 +34,7 @@ class UserInfoCardSuggestedInvestigationsCache {
 
 	/**
 	 * Maximum number of users whose status is resolved in a single set of queries by
-	 * computeOpenCaseStatus(), to keep the IN() lists bounded.
+	 * computeRecentCaseStatus(), to keep the IN() lists bounded.
 	 */
 	private const LOOKUP_BATCH_SIZE = 500;
 
@@ -47,22 +47,22 @@ class UserInfoCardSuggestedInvestigationsCache {
 	}
 
 	/**
-	 * Check whether a user is in at least one open Suggested Investigations case.
+	 * Check whether a user is in at least one recent Suggested Investigations case.
 	 */
-	public function hasOpenCase( string $username ): bool {
-		return $this->getUsersWithOpenCases( [ $username ] ) !== [];
+	public function hasRecentCase( string $username ): bool {
+		return $this->getUsersWithRecentCases( [ $username ] ) !== [];
 	}
 
 	/**
-	 * Filter a list of usernames down to those that are in at least one open Suggested
+	 * Filter a list of usernames down to those that are in at least one recent Suggested
 	 * Investigations case.
 	 *
-	 * Callers that only care about a single user can use {@see self::hasOpenCase()}.
+	 * Callers that only care about a single user can use {@see self::hasRecentCase()}.
 	 *
 	 * @param string[] $usernames Names of the users to check
-	 * @return list<string> Those of $usernames that are in an open case
+	 * @return list<string> Those of $usernames that are in a recent case
 	 */
-	public function getUsersWithOpenCases( array $usernames ): array {
+	public function getUsersWithRecentCases( array $usernames ): array {
 		if ( $usernames === [] || !$this->caseLookupService->areSuggestedInvestigationsEnabled() ) {
 			return [];
 		}
@@ -82,33 +82,33 @@ class UserInfoCardSuggestedInvestigationsCache {
 				$this->statsFactory->withComponent( 'CheckUser' )
 					->getCounter( 'userinfocard_suggested_investigations_cache_miss_total' )
 					->incrementBy( count( $missingUsernames ) );
-				return $this->computeOpenCaseStatus( $missingUsernames );
+				return $this->computeRecentCaseStatus( $missingUsernames );
 			},
 			[
 				'pcTTL' => $this->wanCache::TTL_PROC_LONG,
 			]
 		);
 
-		$usersWithOpenCases = [];
+		$usersWithRecentCases = [];
 		foreach ( $keyedIds as $cacheKey => $username ) {
 			if ( $values[$cacheKey] ) {
-				$usersWithOpenCases[] = (string)$username;
+				$usersWithRecentCases[] = (string)$username;
 			}
 		}
-		return $usersWithOpenCases;
+		return $usersWithRecentCases;
 	}
 
 	/**
 	 * Resolve the given usernames to local user IDs in one query and determine which of them
-	 * are in at least one open case.
+	 * are in at least one recent case.
 	 *
 	 * @param int[]|string[] $usernames Usernames to check. WANObjectCache round-trips these
 	 *   through array keys, so numeric usernames arrive as integers.
-	 * @return array<int|string,int> Map of the given usernames to 1 if the user is in an open
+	 * @return array<int|string,int> Map of the given usernames to 1 if the user is in a recent
 	 *   case and 0 if not. Uses 1/0 rather than true/false because WANObjectCache treats false
 	 *   as "do not cache".
 	 */
-	private function computeOpenCaseStatus( array $usernames ): array {
+	private function computeRecentCaseStatus( array $usernames ): array {
 		// Assume no user is in a case, then set to 1 for those who are
 		$result = array_fill_keys( $usernames, 0 );
 
