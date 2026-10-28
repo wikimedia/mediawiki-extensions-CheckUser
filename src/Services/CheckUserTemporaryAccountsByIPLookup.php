@@ -455,23 +455,28 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 
 		$ipsFromTempAccount = $this->getDistinctIPsFromTempAccount( $user );
 
+		$ipsChecked = [];
+
 		$uniqueAccountNames = [];
 		foreach ( $ipsFromTempAccount as $ip ) {
+			// If IPv6, we want to look up the entire /64 range (and so de-duplicate the lookups
+			// if we've already checked the range)
+			if ( IPUtils::isIPv6( $ip ) ) {
+				$ip = IPUtils::sanitizeRange( "$ip/64" );
+			}
+			if ( in_array( $ip, $ipsChecked, true ) ) {
+				continue;
+			}
+
 			if ( $limit && count( $uniqueAccountNames ) >= $limit ) {
 				break;
 			}
 
-			if ( IPUtils::isIPv6( $ip ) ) {
-				// If IPv6, we want to look up the entire /64 range
-				// To de-dupe IPv6 lookups, the IP passed through is converted into the
-				// beginning of the range before returning the CIDR reprsentation
-				[ $ipHex ] = IPUtils::parseRange( $ip );
-				$ip = IPUtils::formatHex( $ipHex ) . '/64';
-			}
 			$accountsOnIp = $this->getTempAccountsFromIPAddress( $ip, $limit );
 			foreach ( $accountsOnIp as $account ) {
 				$uniqueAccountNames[ $account ] = true;
 			}
+			$ipsChecked[] = $ip;
 		}
 
 		return $uniqueAccountNames;
