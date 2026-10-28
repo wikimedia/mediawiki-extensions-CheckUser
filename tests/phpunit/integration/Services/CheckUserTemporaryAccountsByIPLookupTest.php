@@ -106,7 +106,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 
 		// This temp account edits from a different IPv6 IP
 		// but in the same 64 range as the second temp user as well and
-		// repeatedly from an IPv6 IP on a different range
+		// repeatedly from two IPv6 IPs on a different, shared, 64 range
 		ConvertibleTimestamp::setFakeTime( '20230405060710' );
 		RequestContext::getMain()->getRequest()->setIP( '1:1:1:1:1:1:1:2' );
 		$tempUser3 = $this->getServiceContainer()
@@ -127,6 +127,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 			NS_MAIN,
 			$tempUser3
 		);
+		RequestContext::getMain()->getRequest()->setIP( '2:2:2:2:2:2:2:3' );
 		$this->editPage(
 			'Test page',
 			'Test Content 3C',
@@ -397,6 +398,11 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'limit' => null,
 				'expectedCount' => 1,
 			],
+			'Count uses IPv6 addresses in same /64 range' => [
+				'userName' => '~check-user-test-03',
+				'limit' => null,
+				'expectedCount' => 2,
+			],
 			'Don\'t exceed limit' => [
 				'userName' => '~check-user-test-02',
 				'limit' => 1,
@@ -608,6 +614,7 @@ class CheckUserTemporaryAccountsByIPLookupTest extends MediaWikiIntegrationTestC
 				'expectedResult' => [
 					'1:1:1:1:1:1:1:2',
 					'2:2:2:2:2:2:2:2',
+					'2:2:2:2:2:2:2:3',
 				],
 			],
 			'Don\'t exceed limit' => [
