@@ -310,10 +310,16 @@ class SuggestedInvestigationsCaseLookupService {
 	 * @param int[] $userIds Local wiki user IDs to check
 	 * @param CaseStatus[] $statusesFilter If non-empty, only users in cases with these statuses are returned.
 	 * If empty, users in cases of any status are returned.
+	 * @param string|null $updatedAfter If set, only users in cases last updated at or after this
+	 * timestamp are returned.
 	 * @return int[] The user IDs (from the input) that appear in at least one case
 	 * @throws RuntimeException if Suggested Investigations is not enabled
 	 */
-	public function getUserIdsWithCases( array $userIds, array $statusesFilter = [] ): array {
+	public function getUserIdsWithCases(
+		array $userIds,
+		array $statusesFilter = [],
+		?string $updatedAfter = null
+	): array {
 		$this->assertSuggestedInvestigationsEnabled();
 
 		if ( !$userIds ) {
@@ -329,17 +335,27 @@ class SuggestedInvestigationsCaseLookupService {
 			->groupBy( 'siu_user_id' )
 			->caller( __METHOD__ );
 
-		if ( $statusesFilter !== [] ) {
-			$caseSubquery = $dbr->newSelectQueryBuilder()
+		if ( $statusesFilter !== [] || $updatedAfter !== null ) {
+			$caseSubqueryBuilder = $dbr->newSelectQueryBuilder()
 				->select( '1' )
 				->from( 'cusi_case' )
-				->where( [
-					'sic_id = siu_sic_id',
-					'sic_status' => array_map( static fn ( $s ) => $s->value, $statusesFilter ),
-				] )
-				->getSQL();
+				->where( 'sic_id = siu_sic_id' );
 
-			$queryBuilder->where( [ new RawSQLExpression( 'EXISTS(' . $caseSubquery . ')' ) ] );
+			if ( $statusesFilter !== [] ) {
+				$caseSubqueryBuilder->where( [
+					'sic_status' => array_map( static fn ( $s ) => $s->value, $statusesFilter ),
+				] );
+			}
+
+			if ( $updatedAfter !== null ) {
+				$caseSubqueryBuilder->where(
+					$dbr->expr( 'sic_updated_timestamp', '>=', $dbr->timestamp( $updatedAfter ) )
+				);
+			}
+
+			$queryBuilder->where( [
+				new RawSQLExpression( 'EXISTS(' . $caseSubqueryBuilder->getSQL() . ')' ),
+			] );
 		}
 
 		return array_map( 'intval', $queryBuilder->fetchFieldValues() );

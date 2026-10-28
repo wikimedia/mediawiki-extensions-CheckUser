@@ -15,6 +15,7 @@ use TestUser;
 use Wikimedia\ObjectCache\HashBagOStuff;
 use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Stats\StatsFactory;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\Services\UserInfoCardSuggestedInvestigationsCache
@@ -44,7 +45,7 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 	}
 
 	private function getCacheKey( string $username ): string {
-		return $this->wanCache->makeKey( 'checkuser-userinfocard-open-si-case', $username );
+		return $this->wanCache->makeKey( 'checkuser-userinfocard-recent-si-case', $username );
 	}
 
 	/**
@@ -79,24 +80,37 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 		$this->assertSame( 0, $this->wanCache->get( $this->getCacheKey( $user->getName() ) ) );
 	}
 
-	/** @dataProvider provideClosedStatuses */
-	public function testUserOnlyInClosedCase( CaseStatus $status ): void {
+	/** @dataProvider provideCaseStatusesAndAges */
+	public function testUserInCaseWithStatusAndAge(
+		CaseStatus $status,
+		int $daysSinceLastUpdate,
+		bool $expectedHasRecentCase
+	): void {
 		$user = $this->getTestUser()->getUser();
-		$this->setCaseStatus( $this->createCaseFor( $user, 'closed' ), $status );
 
-		$this->assertFalse( $this->newService()->hasRecentCase( $user->getName() ) );
+		ConvertibleTimestamp::setFakeTime( '20260101000000' );
+		$this->setCaseStatus( $this->createCaseFor( $user, 'test' ), $status );
+		ConvertibleTimestamp::setFakeTime(
+			ConvertibleTimestamp::time() + $daysSinceLastUpdate * WANObjectCache::TTL_DAY
+		);
+
+		$this->assertSame( $expectedHasRecentCase, $this->newService()->hasRecentCase( $user->getName() ) );
 	}
 
-	public static function provideClosedStatuses(): array {
+	public static function provideCaseStatusesAndAges(): array {
 		return [
-			'resolved' => [ CaseStatus::Resolved ],
-			'invalid' => [ CaseStatus::Invalid ],
+			'open, updated 22 days ago' => [ CaseStatus::Open, 22, true ],
+			'resolved, updated 1 day ago' => [ CaseStatus::Resolved, 1, true ],
+			'resolved, updated 21 days ago' => [ CaseStatus::Resolved, 21, true ],
+			'resolved, updated 22 days ago' => [ CaseStatus::Resolved, 22, false ],
+			'invalid, updated 1 day ago' => [ CaseStatus::Invalid, 1, false ],
+			'invalid, updated 22 days ago' => [ CaseStatus::Invalid, 22, false ],
 		];
 	}
 
 	public function testUserInBothOpenAndClosedCases(): void {
 		$user = $this->getTestUser()->getUser();
-		$this->setCaseStatus( $this->createCaseFor( $user, 'closed' ), CaseStatus::Resolved );
+		$this->setCaseStatus( $this->createCaseFor( $user, 'closed' ), CaseStatus::Invalid );
 		$this->createCaseFor( $user, 'open' );
 
 		$this->assertTrue( $this->newService()->hasRecentCase( $user->getName() ) );
@@ -151,7 +165,7 @@ class UserInfoCardSuggestedInvestigationsCacheTest extends MediaWikiIntegrationT
 		$this->assertTrue( $service->hasRecentCase( $user->getName() ) );
 
 		// The status is only refreshed when the entry expires, so a change made now is not seen.
-		$this->setCaseStatus( $caseId, CaseStatus::Resolved );
+		$this->setCaseStatus( $caseId, CaseStatus::Invalid );
 		$this->assertTrue( $service->hasRecentCase( $user->getName() ) );
 	}
 }

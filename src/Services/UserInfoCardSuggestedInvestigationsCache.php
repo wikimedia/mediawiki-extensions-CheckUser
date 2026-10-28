@@ -9,10 +9,14 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\Stats\StatsFactory;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Centralizes cache logic for the user info card's "user is in a recent Suggested
  * Investigations case" status.
+ *
+ * A recent case is a case that is open, or a case that is resolved and was last updated
+ * in the last {@see self::RESOLVED_CASE_MAX_AGE_DAYS} days. Invalid cases are not recent cases.
  *
  * The trigger button is rendered once per user link, so a page can ask about hundreds of
  * users. The values are therefore cached, with a process cache in front of the shared one.
@@ -37,6 +41,11 @@ class UserInfoCardSuggestedInvestigationsCache {
 	 * computeRecentCaseStatus(), to keep the IN() lists bounded.
 	 */
 	private const LOOKUP_BATCH_SIZE = 500;
+
+	/**
+	 * Resolved cases last updated more recently than this number of days are recent cases.
+	 */
+	private const RESOLVED_CASE_MAX_AGE_DAYS = 21;
 
 	public function __construct(
 		private readonly WANObjectCache $wanCache,
@@ -70,7 +79,7 @@ class UserInfoCardSuggestedInvestigationsCache {
 		$keyedIds = $this->wanCache->makeMultiKeys(
 			$usernames,
 			fn ( string $username ) => $this->wanCache->makeKey(
-				'checkuser-userinfocard-open-si-case',
+				'checkuser-userinfocard-recent-si-case',
 				$username
 			)
 		);
@@ -111,6 +120,10 @@ class UserInfoCardSuggestedInvestigationsCache {
 	private function computeRecentCaseStatus( array $usernames ): array {
 		// Assume no user is in a case, then set to 1 for those who are
 		$result = array_fill_keys( $usernames, 0 );
+		$resolvedCasesCutoff = ConvertibleTimestamp::convert(
+			TS_MW,
+			ConvertibleTimestamp::time() - self::RESOLVED_CASE_MAX_AGE_DAYS * WANObjectCache::TTL_DAY
+		);
 
 		foreach ( array_chunk( $usernames, self::LOOKUP_BATCH_SIZE ) as $usernameChunk ) {
 			$usersById = [];
@@ -126,11 +139,16 @@ class UserInfoCardSuggestedInvestigationsCache {
 				continue;
 			}
 
-			$userIdsWithOpenCases = $this->caseLookupService->getUserIdsWithCases(
-				array_keys( $usersById ),
-				[ CaseStatus::Open ]
+			$userIds = array_keys( $usersById );
+			$userIdsWithRecentCases = array_merge(
+				$this->caseLookupService->getUserIdsWithCases( $userIds, [ CaseStatus::Open ] ),
+				$this->caseLookupService->getUserIdsWithCases(
+					$userIds,
+					[ CaseStatus::Resolved ],
+					$resolvedCasesCutoff
+				)
 			);
-			foreach ( $userIdsWithOpenCases as $userId ) {
+			foreach ( $userIdsWithRecentCases as $userId ) {
 				$result[$usersById[$userId]] = 1;
 			}
 		}

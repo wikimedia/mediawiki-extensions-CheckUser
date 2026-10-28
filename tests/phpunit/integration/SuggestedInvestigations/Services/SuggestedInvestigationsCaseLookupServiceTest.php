@@ -36,6 +36,7 @@ use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Wikimedia\LockManager\ILockManager;
 use Wikimedia\ScopedCallback;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseLookupService
@@ -327,6 +328,64 @@ class SuggestedInvestigationsCaseLookupServiceTest extends MediaWikiIntegrationT
 				'inputUserIds' => [ 1, 2, 999 ],
 				'statusesFilter' => [ CaseStatus::Resolved ],
 				'expectedUserIds' => [ 1 ],
+			],
+		];
+	}
+
+	/** @dataProvider provideGetUserIdsWithCasesUpdatedAfter */
+	public function testGetUserIdsWithCasesUpdatedAfter(
+		array $statusesFilter,
+		?string $updatedAfter,
+		array $expectedUserIds
+	): void {
+		/** @var SuggestedInvestigationsCaseManagerService $caseManager */
+		$caseManager = $this->getServiceContainer()->getService( 'CheckUserSuggestedInvestigationsCaseManager' );
+
+		ConvertibleTimestamp::setFakeTime( '20260101000000' );
+		$caseManager->createCase(
+			[ UserIdentityValue::newRegistered( 10, 'Test user 10' ) ],
+			[ SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Updated', 'earlier', false ) ]
+		);
+
+		ConvertibleTimestamp::setFakeTime( '20260201000000' );
+		$resolvedCase = $caseManager->createCase(
+			[ UserIdentityValue::newRegistered( 11, 'Test user 11' ) ],
+			[ SuggestedInvestigationsSignalMatchResult::newPositiveResult( 'Updated', 'later', false ) ]
+		);
+		$caseManager->setCaseStatus( $resolvedCase, CaseStatus::Resolved );
+
+		$this->assertEqualsCanonicalizing(
+			$expectedUserIds,
+			$this->createService()->getUserIdsWithCases( [ 10, 11 ], $statusesFilter, $updatedAfter )
+		);
+	}
+
+	public static function provideGetUserIdsWithCasesUpdatedAfter(): array {
+		return [
+			'no timestamp filter returns users in cases of any age' => [
+				'statusesFilter' => [],
+				'updatedAfter' => null,
+				'expectedUserIds' => [ 10, 11 ],
+			],
+			'timestamp filter returns only users in cases updated at or after it' => [
+				'statusesFilter' => [],
+				'updatedAfter' => '20260201000000',
+				'expectedUserIds' => [ 11 ],
+			],
+			'timestamp filter after all updates returns no users' => [
+				'statusesFilter' => [],
+				'updatedAfter' => '20260201000001',
+				'expectedUserIds' => [],
+			],
+			'timestamp filter is combined with the statuses filter' => [
+				'statusesFilter' => [ CaseStatus::Open ],
+				'updatedAfter' => '20251201000000',
+				'expectedUserIds' => [ 10 ],
+			],
+			'timestamp and statuses filters that match no case return no users' => [
+				'statusesFilter' => [ CaseStatus::Open ],
+				'updatedAfter' => '20260115000000',
+				'expectedUserIds' => [],
 			],
 		];
 	}
