@@ -456,6 +456,7 @@
 	"checkuser-suggestedinvestigations-filter-too-many-results-filtered-in-php": "Käyttämäsi suodattimet ovat liian laajoja. Rajaa hakuasi parempien tulosten saamiseksi.",
 	"checkuser-suggestedinvestigations-filter-button": "Suodatin",
 	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Sulje",
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "Palauta",
 	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Näytä tulokset",
 	"checkuser-suggestedinvestigations-filter-dialog-signal-filter-header": "Riskisignaalit",
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Tila",
@@ -498,6 +499,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Väärä positiivinen",
 	"checkuser-suggestedinvestigations-action-investigate": "Tutki käyttäjiä",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Voi tutkia enintään $1 {{PLURAL:$1|tunnusta}}",
+	"checkuser-suggestedinvestigations-action-multilock": "Lukitse tunnukset",
 	"checkuser-suggestedinvestigations-action-change-status": "Vaihda tilaa",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Sulje",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Peruuta",
@@ -541,5 +543,7 @@
 	"rangecalculator": "IP-aluelaskin",
 	"rangecalculator-summary": "Tällä työkalulla voi laskea IP-osoitteiden listan perusteella niiden yhteisen IP-osoiteavaruuden. Tällä hetkellä työkalu laskee vain yhden yhteisen osoiteavaruuden, eikä siinä voi sekoittaa IPv4- ja IPv6-osoitteita.",
 	"checkuser-si-related-cases-info": "Kohdetunnus liittyy $1 {{PLURAL:$1|tunnukseen}} [$3 $2 {{PLURAL:$2|ehdotetussa tutkinnassa}}]",
+	"checkuser-suggestedinvestigations-queue-view-all": "Kaikki",
+	"checkuser-suggestedinvestigations-queue-view-all-edited": "Kaikki (muokattu)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Suodattimet"
 }

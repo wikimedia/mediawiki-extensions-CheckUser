@@ -499,6 +499,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Лажен погодок",
 	"checkuser-suggestedinvestigations-action-investigate": "Иследи корисници",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Можете да иследувате највеќе {{PLURAL:$1|една сметка|$1 сметки}}",
+	"checkuser-suggestedinvestigations-action-multilock": "Заклучи сметки",
 	"checkuser-suggestedinvestigations-action-change-status": "Смени статус",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Затвори",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Откажи",

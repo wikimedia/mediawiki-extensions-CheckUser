@@ -126,6 +126,7 @@
 	"checkuser-global-contributions-link-sidebar": "Globálne príspevky",
 	"checkuser-tempaccount-reveal-ip-button-label": "zobraziť IP",
 	"checkuser-ipinfo-global-contributions-url-text": "Zobraziť globálne príspevky",
+	"checkuser-suggestedinvestigations-action-multilock": "Zamknúť účty",
 	"checkuser-contributions-temporary-accounts-show-related": "Zobraziť všetky príspevky z týchto účtov",
 	"checkuser-contributions-temporary-account-bucketcount": "Počet dočasných účtov zo všetkých priradených IP adries: $1.",
 	"checkuser-contributions-temporary-accounts-on-ip": "Počet dočasných účtov na tejto IP adrese: $1.",

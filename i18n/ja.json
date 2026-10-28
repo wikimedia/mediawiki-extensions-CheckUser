@@ -542,6 +542,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "偽陽性",
 	"checkuser-suggestedinvestigations-action-investigate": "利用者を調査",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "{{PLURAL:$1|アカウント}}調査の上限値 $1 を超過",
+	"checkuser-suggestedinvestigations-action-multilock": "アカウントをロック",
 	"checkuser-suggestedinvestigations-action-change-status": "状態を変更",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "閉じる",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "キャンセル",

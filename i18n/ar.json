@@ -509,6 +509,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "إيجابية كاذبة",
 	"checkuser-suggestedinvestigations-action-investigate": "التحقيق مع المستخدمين",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "لا يمكن التحقيق إلا في ما يصل إلى $1 {{PLURAL:$1|حسابات}}",
+	"checkuser-suggestedinvestigations-action-multilock": "قفل الحسابات",
 	"checkuser-suggestedinvestigations-action-change-status": "تغيير الحالة",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "أغلق",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "إلغاء",

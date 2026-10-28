@@ -382,6 +382,8 @@
 	"checkuser-userinfocard-checks-empty": "Проверок: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Срабатываний фильтра злоупотреблений: $1",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Глобально {{GENDER:$1|заблокирован|заблокирована}}]] с $3",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Глобальн{{GENDER:$1|о заблокирован|о заблокирована|ая блокировка}}]] с $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Глобальн{{GENDER:$1|о заблокирован|о заблокирована|ая блокировка}}]] с $3 (блокировка снята локально)",
 	"checkuser-userinfocard-menu-view-contributions": "Просмотреть вклад {{GENDER:$1|участника|участницы}}",
 	"checkuser-userinfocard-menu-view-global-account": "Посмотреть данные глобальной {{GENDER:$1|учётной записи}}",
 	"checkuser-userinfocard-menu-add-to-watchlist": "Добавить страницу {{GENDER:$1|участника|участницы}} в список наблюдения",

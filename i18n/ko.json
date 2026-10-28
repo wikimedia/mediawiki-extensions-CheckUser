@@ -439,7 +439,7 @@
 	"checkuser-userinfocard-global-groups": "<strong>전역 그룹</strong>: $1",
 	"checkuser-userinfocard-chart-tooltip-label": "$1 ({{PLURAL:$2|$2회 편집|0=편집 없음}})",
 	"checkuser-userinfocard-temporary-account-viewer-opted-in": "임시 계정 IP 정보를 볼 수 있음",
-	"checkuser-userinfocard-ip-revealed-count": "IP 조회: $1 ($2에 마지막 조회)",
+	"checkuser-userinfocard-ip-revealed-count": "IP 조회: $1 ($2에 마지막 확인)",
 	"checkuser-userinfocard-ip-revealed-never": "IP 조회: $1",
 	"checkuser-suggestedinvestigations": "제안된 조사",
 	"checkuser-suggestedinvestigations-autoclose-reason": "모든 계정이 차단 혹은 잠겼기 때문에 자동으로 잠김",

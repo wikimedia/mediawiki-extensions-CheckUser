@@ -513,6 +513,7 @@
 	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Foutpositief",
 	"checkuser-suggestedinvestigations-action-investigate": "Gebruikers onderzoeken",
 	"checkuser-suggestedinvestigations-action-investigate-disabled": "Kan maximaal $1 account{{PLURAL:$1||s}} onderzoeken",
+	"checkuser-suggestedinvestigations-action-multilock": "Accounts vergrendelen",
 	"checkuser-suggestedinvestigations-action-change-status": "Status wijzigen",
 	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Sluiten",
 	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Annuleren",
