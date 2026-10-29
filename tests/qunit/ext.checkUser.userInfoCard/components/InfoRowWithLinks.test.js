@@ -1,7 +1,9 @@
 'use strict';
 
+const { nextTick } = require( 'vue' );
 const { shallowMount, mount } = require( 'vue-test-utils' );
 const InfoRowWithLinks = require( 'ext.checkUser.userInfoCard/components/InfoRowWithLinks.vue' );
+const stubInstrument = require( '../stubInstrument.js' );
 
 QUnit.module( 'ext.checkUser.userInfoCard.InfoRowWithLinks', QUnit.newMwEnvironment( {
 	beforeEach: function () {
@@ -173,50 +175,66 @@ QUnit.test( 'renders formatted message using v-html', ( assert ) => {
 	);
 } );
 
-// TODO: T386440 - Fix the test and remove the skip
-// This test fails when running in conjunction with the other test components in this folder.
-// When running this test file alone, this test is passing.
-QUnit.test.skip( 'logs an event when onLinkClick is called', function ( assert ) {
-	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
-	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
-	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
-	const sendStub = this.sandbox.stub().resolves();
-	sendStub.respondImmediately = true;
-	const instrumentStub = { send: sendStub };
-	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
+/**
+ * Mount the component in the document, because the click handlers are found by element ID.
+ *
+ * @param {Object} props
+ * @return {Promise<Object>} The wrapper, after the click handlers are attached
+ */
+function mountComponentInDocument( props ) {
+	const container = document.createElement( 'div' );
+	// Do not follow the links when the test clicks them
+	container.addEventListener( 'click', ( event ) => event.preventDefault() );
+	document.getElementById( 'qunit-fixture' ).appendChild( container );
 
-	const wrapper = mountComponent( {
-		mainLinkLogId: 'main_link_id',
-		username: 'TestUser'
+	const wrapper = mount( InfoRowWithLinks, {
+		propsData: {
+			messageKey: 'checkuser-userinfocard-active-blocks',
+			username: 'TestUser',
+			...props
+		},
+		attachTo: container
 	} );
-	wrapper.vm.onLinkClick( 'main_link_id' );
+	return nextTick().then( () => wrapper );
+}
 
+/**
+ * @param {Object} assert
+ * @param {Object} sendStub
+ * @param {string} expectedSubType
+ */
+function assertLinkClickEvent( assert, sendStub, expectedSubType ) {
 	assert.strictEqual( sendStub.callCount, 1, 'send is called once' );
 	assert.strictEqual(
 		sendStub.firstCall.args[ 0 ],
 		'link_click',
 		'First argument is "link_click"'
 	);
+	/* eslint-disable camelcase */
+	assert.deepEqual(
+		sendStub.firstCall.args[ 1 ],
+		{
+			funnel_entry_token: 'test-session-id',
+			action_subtype: expectedSubType,
+			action_source: 'card_body',
+			action_context: JSON.stringify( { username: 'TestUser' } )
+		},
+		'Interaction data is correct'
+	);
+	/* eslint-enable camelcase */
+}
 
-	const interactionData = sendStub.firstCall.args[ 1 ];
-	assert.strictEqual(
-		interactionData.funnel_entry_token,
-		'test-session-id',
-		'Includes session token in interaction data'
-	);
-	assert.strictEqual(
-		interactionData.action_subtype,
-		'main_link_id',
-		'Includes correct subType in interaction data'
-	);
-	assert.strictEqual(
-		interactionData.action_source,
-		'card_body',
-		'Includes correct source in interaction data'
-	);
-	assert.strictEqual(
-		interactionData.action_context,
-		JSON.stringify( { username: 'TestUser' } ),
-		'Includes username in action_context'
-	);
+QUnit.test( 'logs an event when the main link is clicked', function ( assert ) {
+	const sendStub = stubInstrument( this.sandbox );
+
+	return mountComponentInDocument( {
+		mainValue: 'Test Value',
+		mainLink: 'https://example.com',
+		mainLinkLogId: 'main_link_id'
+	} ).then( ( wrapper ) => {
+		wrapper.find( '#info-row-main_link_id' ).trigger( 'click' );
+
+		assertLinkClickEvent( assert, sendStub, 'main_link_id' );
+		wrapper.unmount();
+	} );
 } );

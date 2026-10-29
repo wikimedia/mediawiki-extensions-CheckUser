@@ -12,6 +12,8 @@ QUnit.module( 'ext.checkUser.userInfoCard.useInstrument', QUnit.newMwEnvironment
 		this.sandbox.stub( mw.user, 'generateRandomSessionId' ).returns( 'test-session-id' );
 		this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
 
+		useInstrument.reset();
+
 		// Create stub for the instrument
 		sendStub = this.sandbox.stub();
 		instrumentStub = { send: sendStub };
@@ -32,10 +34,6 @@ QUnit.module( 'ext.checkUser.userInfoCard.useInstrument', QUnit.newMwEnvironment
 	}
 } ) );
 
-// TODO: T386440 - Fix the other skipped tests and remove this comment
-// This test fails when running in conjunction with the other test components in the
-// folder (currently skipped).
-// When running this test file alone, this test is passing.
 QUnit.test( 'returns empty function when instrumentation is disabled', ( assert ) => {
 	// Set instrumentation to disabled
 	configStub.withArgs( 'wgCheckUserEnableUserInfoCardInstrumentation' ).returns( false );

@@ -42,7 +42,6 @@ const useInstrument = () => {
 			'user-info-card-interaction'
 		);
 	}
-
 	return ( action, data = {} ) => {
 		// Generate a session token for tracking the user's journey
 		const sessionToken = mw.user.generateRandomSessionId();
@@ -70,4 +69,12 @@ const useInstrument = () => {
 	};
 };
 
+/**
+ * Resets the instrumentation object, for use in tests.
+ */
+const reset = () => {
+	instrument = undefined;
+};
+
 module.exports = useInstrument;
+module.exports.reset = reset;

@@ -2,6 +2,7 @@
 
 const { shallowMount } = require( 'vue-test-utils' );
 const UserCardHeader = require( 'ext.checkUser.userInfoCard/components/UserCardHeader.vue' );
+const stubInstrument = require( '../stubInstrument.js' );
 
 const COPY_BUTTON_SELECTOR = '.ext-checkuser-userinfocard-header-copy-button';
 const CLOSE_BUTTON_SELECTOR = '.ext-checkuser-userinfocard-header-close-button';
@@ -241,17 +242,8 @@ QUnit.test( 'shows blocked icon when hasLocalBlockGlobalBlockOrLock is true', ( 
 	);
 } );
 
-// TODO: T386440 - Fix the test and remove the skip
-// This test fails when running in conjunction with the other test components in this folder.
-// When running this test file alone, this test is passing.
-QUnit.test.skip( 'logs an event when onUsernameClick is called', function ( assert ) {
-	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
-	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
-	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
-	const sendStub = this.sandbox.stub();
-	sendStub.respondImmediately = true;
-	const instrumentStub = { send: sendStub };
-	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
+QUnit.test( 'logs an event when onUsernameClick is called', function ( assert ) {
+	const sendStub = stubInstrument( this.sandbox );
 
 	const wrapper = mountComponent();
 	wrapper.vm.onUsernameClick();

@@ -1135,6 +1135,7 @@
 			"tests/qunit/ext.checkUser.tempAccounts/AbuseLog.test.js",
 			"tests/qunit/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
+			"tests/qunit/ext.checkUser.userInfoCard/stubInstrument.js",
 			"tests/qunit/ext.checkUser.userInfoCard/util.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/rest.test.js",
 			"tests/qunit/ext.checkUser.userInfoCard/components/App.test.js",

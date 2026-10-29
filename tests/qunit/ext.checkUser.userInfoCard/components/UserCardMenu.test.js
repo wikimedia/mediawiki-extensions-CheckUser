@@ -2,6 +2,7 @@
 
 const { shallowMount } = require( 'vue-test-utils' );
 const UserCardMenu = require( 'ext.checkUser.userInfoCard/components/UserCardMenu.vue' );
+const stubInstrument = require( '../stubInstrument.js' );
 
 QUnit.module( 'ext.checkUser.userInfoCard.UserCardMenu', QUnit.newMwEnvironment( {
 	beforeEach: function () {
@@ -248,17 +249,8 @@ QUnit.test( 'hides XTools link when not configured', ( assert ) => {
 	assert.strictEqual( xToolsItem, undefined, 'view-xtools item is not present' );
 } );
 
-// TODO: T386440 - Fix the test and remove the skip
-// This test fails when running in conjunction with the other test components in this folder.
-// When running this test file alone, this test is passing.
-QUnit.test.skip( 'logs an event when onMenuSelect is called', function ( assert ) {
-	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
-	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
-	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
-	const sendStub = this.sandbox.stub();
-	sendStub.respondImmediately = true;
-	const instrumentStub = { send: sendStub };
-	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
+QUnit.test( 'logs an event when onMenuSelect is called', function ( assert ) {
+	const sendStub = stubInstrument( this.sandbox );
 
 	const wrapper = mountComponent();
 	// Call with a fake item so it doesn't trigger window navigation

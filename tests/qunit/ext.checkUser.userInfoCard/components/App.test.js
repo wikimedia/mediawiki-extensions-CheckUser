@@ -3,6 +3,7 @@
 const { nextTick } = require( 'vue' );
 const { mount } = require( 'vue-test-utils' );
 const App = require( 'ext.checkUser.userInfoCard/components/App.vue' );
+const stubInstrument = require( '../stubInstrument.js' );
 
 QUnit.module( 'ext.checkUser.userInfoCard.App', QUnit.newMwEnvironment( {
 	beforeEach: function () {
@@ -142,18 +143,8 @@ QUnit.test( 'close method closes the popover', ( assert ) => {
 	} );
 } );
 
-// TODO: T386440 - Fix the test and remove the skip
-// This test fails when running in conjunction with the other test components in this folder.
-// When running this test file alone, this test is passing.
-QUnit.test.skip( 'open & close method logs an event with correct parameters', function ( assert ) {
-	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
-	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
-	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
-	const sendStub = this.sandbox.stub().resolves();
-	sendStub.respondImmediately = true;
-	const instrumentStub = { send: sendStub };
-	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
-
+QUnit.test( 'open & close method logs an event with correct parameters', function ( assert ) {
+	const sendStub = stubInstrument( this.sandbox );
 	const wrapper = mountComponent();
 	const triggerElement = document.createElement( 'button' );
 

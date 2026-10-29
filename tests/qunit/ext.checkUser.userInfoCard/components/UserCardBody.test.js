@@ -2,6 +2,7 @@
 
 const { shallowMount } = require( 'vue-test-utils' );
 const UserCardBody = require( 'ext.checkUser.userInfoCard/components/UserCardBody.vue' );
+const stubInstrument = require( '../stubInstrument.js' );
 
 QUnit.module( 'ext.checkUser.userInfoCard.UserCardBody', QUnit.newMwEnvironment( {
 	beforeEach: function () {
@@ -694,16 +695,8 @@ QUnit.test( 'does not render abuse filter hits row when the count is absent', ( 
 	assert.strictEqual( row, undefined, 'Abuse filter hits row does not exist when count is not provided' );
 } );
 
-// TODO: T386440 - Fix the test and remove the skip
-// This test fails when running in conjunction with the other test components in this folder.
-// When running this test file alone, this test is passing.
-QUnit.test.skip( 'logs an event when onWikiLinkClick is called', function ( assert ) {
-	mw.config.set( 'CheckUserEnableUserInfoCardInstrumentation', true );
-	this.sandbox.stub( mw.user, 'sessionId' ).returns( 'test-session-id' );
-	this.sandbox.stub( mw.user, 'getId' ).returns( 123 );
-	const sendStub = this.sandbox.stub();
-	const instrumentStub = { send: sendStub };
-	this.sandbox.stub( mw.testKitchen, 'getInstrument' ).returns( instrumentStub );
+QUnit.test( 'logs an event when onWikiLinkClick is called', function ( assert ) {
+	const sendStub = stubInstrument( this.sandbox );
 
 	const activeWikisObj = {
 		enwiki: 'https://en.wikipedia.org',
