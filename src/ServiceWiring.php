@@ -231,7 +231,6 @@ return [
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getMainConfig(),
-			$services->getRevisionStore(),
 			$services->get( 'CheckUserApiRequestAggregator' ),
 			$services->getWANObjectCache(),
 			$services->getStatsFactory()

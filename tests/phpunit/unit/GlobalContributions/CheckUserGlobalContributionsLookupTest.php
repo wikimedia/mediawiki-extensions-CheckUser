@@ -13,7 +13,6 @@ use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributio
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
-use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWikiUnitTestCase;
 use Wikimedia\ObjectCache\WANObjectCache;
@@ -42,7 +41,6 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 			$overrides['centralIdLookup'] ?? $this->createMock( CentralIdLookup::class ),
 			$overrides['checkUserLookupUtils'] ?? $this->createMock( CheckUserLookupUtils::class ),
 			$overrides['config'] ?? new HashConfig(),
-			$overrides['revisionStore'] ?? $this->createMock( RevisionStore::class ),
 			$overrides['apiRequestAggregator'] ?? $this->createMock( CheckUserApiRequestAggregator::class ),
 			$overrides['wanCache'] ?? $this->createMock( WANObjectCache::class ),
 			$overrides['statsFactory'] ?? $this->createMock( StatsFactory::class )

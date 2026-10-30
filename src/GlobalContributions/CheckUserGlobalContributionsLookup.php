@@ -14,7 +14,6 @@ use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\Revision\RevisionRecord;
-use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserIdentity;
@@ -49,7 +48,6 @@ class CheckUserGlobalContributionsLookup implements CheckUserQueryInterface {
 		private readonly CentralIdLookup $centralIdLookup,
 		private readonly CheckUserLookupUtils $checkUserLookupUtils,
 		private readonly Config $config,
-		private readonly RevisionStore $revisionStore,
 		private readonly CheckUserApiRequestAggregator $apiRequestAggregator,
 		private readonly WANObjectCache $wanCache,
 		private readonly StatsFactory $statsFactory,

@@ -145,7 +145,6 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			$overrides['centralIdLookup'] ?? $services->get( 'CentralIdLookup' ),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getMainConfig(),
-			$services->getRevisionStore(),
 			$services->get( 'CheckUserApiRequestAggregator' ),
 			$services->getMainWANObjectCache(),
 			$services->getStatsFactory()
@@ -253,7 +252,6 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			$centralIdLookup,
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getMainConfig(),
-			$services->getRevisionStore(),
 			$apiRequestAggregator,
 			$cache,
 			$services->getStatsFactory()
@@ -344,7 +342,6 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 			$centralIdLookup,
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getMainConfig(),
-			$services->getRevisionStore(),
 			$apiRequestAggregator,
 			$services->getMainWANObjectCache(),
 			$services->getStatsFactory()
