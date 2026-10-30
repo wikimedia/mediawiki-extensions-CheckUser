@@ -1294,7 +1294,8 @@
 				"CheckUserSuggestedInvestigationsCaseLookup",
 				"CheckUserMultiLockUrlLookup",
 				"ExtensionRegistry",
-				"TitleFormatter"
+				"TitleFormatter",
+				"ActorStore"
 			]
 		},
 		"CheckUserLog": {

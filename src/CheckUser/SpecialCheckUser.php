@@ -12,6 +12,7 @@ use MediaWiki\Extension\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
+use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Widgets\CIDRCalculator;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
@@ -34,6 +35,7 @@ use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWiki\Title\TitleFormatter;
+use MediaWiki\User\ActorStore;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\Options\UserOptionsLookup;
@@ -97,6 +99,7 @@ class SpecialCheckUser extends SpecialPage {
 		private readonly CheckUserMultiLockUrlLookup $multiLockUrlLookup,
 		private readonly ExtensionRegistry $extensionRegistry,
 		private readonly TitleFormatter $titleFormatter,
+		private readonly ActorStore $actorStore,
 	) {
 		parent::__construct( 'CheckUser' );
 
@@ -249,6 +252,9 @@ class SpecialCheckUser extends SpecialPage {
 
 		$this->showIntroductoryText();
 		$this->showForm( $user, $isIP );
+		if ( !$request->wasPosted() && !$tokenData && $userIdentity ) {
+			$this->showLogExtract( $userIdentity->getName() );
+		}
 
 		// Perform one of the various submit operations...
 		if ( $request->wasPosted() ) {
@@ -327,6 +333,49 @@ class SpecialCheckUser extends SpecialPage {
 			'mediawiki.interface.helpers.styles',
 			'ext.checkUser.styles',
 		] );
+	}
+
+	/**
+	 * Show recent checks of the target
+	 */
+	private function showLogExtract( string $target ): void {
+		if ( !$this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
+			return;
+		}
+
+		$pager = new CheckUserLogPager(
+			$this->getContext(),
+			[ 'target' => $target, 'initiator' => '', 'reason' => '' ],
+			$this->linkBatchFactory,
+			$this->commentStore,
+			$this->commentFormatter,
+			$this->checkUserLogService,
+			$this->userFactory,
+			$this->actorStore
+		);
+		$pager->setLimit( 5 );
+		$pager->setOffset( '' );
+		$pager->mIsBackwards = false;
+		if ( !$pager->getNumRows() ) {
+			return;
+		}
+
+		$html = Html::element( 'h2', [], $this->msg( 'checkuserlog' )->text() ) . $pager->getBody();
+		if ( $pager->getNumRows() > $pager->mLimit ) {
+			$html .= Html::rawElement(
+				'ul',
+				[ 'class' => 'mw-logevent-footer' ],
+				Html::rawElement( 'li', [], $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUserLog', $target ),
+					$this->msg( 'log-fulllog' )->text()
+				) )
+			);
+		}
+		$this->getOutput()->addHTML( Html::rawElement(
+			'div',
+			[ 'class' => 'mw-checkuser-log-extract' ],
+			$html
+		) );
 	}
 
 	protected function showIntroductoryText() {
