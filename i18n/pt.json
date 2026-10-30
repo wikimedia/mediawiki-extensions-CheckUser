@@ -257,6 +257,7 @@
 	"checkuser-userinfocard-thanks": "Agradecimentos recebidos: $1 (dados: $2)",
 	"checkuser-userinfocard-checks": "Verificações: $1 (última verificação: $2)",
 	"checkuser-userinfocard-checks-empty": "Verificações: $1",
+	"checkuser-userinfocard-suggested-investigations": "Casos de investigações sugeridas: $1",
 	"checkuser-userinfocard-has-checkuser-data": "Esteve {{GENDER:$2|ativo|ativa|ativo(a)}} {{PLURAL:$1|no último $1 dia|nos últimos $1 dias}}",
 	"checkuser-userinfocard-global-restrictions-locked": "[[$2|{{GENDER:$1|Travado|Travada|Travado(a)}} globalmente]] desde $3",
 	"checkuser-userinfocard-menu-view-contributions": "Ver contribuições do {{GENDER:$1|utilizador}}",

@@ -76,6 +76,7 @@
 	"checkuser-rest-property-desc-checkuser-last-check": "Waqtiga baaritaankii ugu dambeeyay ee CheckUser lagu sameeyay isticmaalahan",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "Tirada kiisaska baaritaanka la soo jeediyay ee la xiriira isticmaalahan",
 	"checkuser-rest-property-desc-abusefilter-hit-count": "Tirada gelinnada diiwaanka shaandhada xadgudubka ee uu kiciyey isticmaalahani. Waxaa la muujinayaa oo keliya akoonnada ku-meelgaarka ah iyo akoonnada aan si toos ah loo xaqiijin",
+	"checkuser-rest-property-desc-abusereview-flagged-edits": "Tirada wax ka beddelladii ugu dambeeyay ee isticmaalahan ee calan kasta oo AbuseReview ah oo fuliyuhu arki karo. Natiijooyinka been abuurka ah lama tiriyo. Waxa la muujiyaa oo keliya haddii kordhinta WikimediaAntiAbuse la rakibay, fuliyuhuna arki karo ugu yaraan hal calan.",
 	"checkuser-rest-property-desc-has-checkuser-data": "Haddii isticmaaluhu leeyahay wax dhaqdhaqaaq ah oo lagu diiwaangeliyey jadwallada CheckUser ee wiki-gan. Waxaa la muujinayaa oo keliya haddii qofka fulinaya uu leeyahay xuquuqda checkuser",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "Inuu fuliyaha heli karo cinwaannada IP-ga ku meelgaarka ah ee koontada isticmaalaha",
 	"checkuser-rest-property-desc-active-blocks-local": "Tirada xannibaadaha firfircoon ee ku jira wiki-ga maxalliga ah",
