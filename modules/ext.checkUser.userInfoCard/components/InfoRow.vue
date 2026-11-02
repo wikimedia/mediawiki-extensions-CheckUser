@@ -29,7 +29,6 @@ module.exports = exports = {
 p.ext-checkuser-userinfocard-short-paragraph {
 	margin: @spacing-0 @spacing-0 @spacing-25;
 
-	/* stylelint-disable-next-line selector-class-pattern */
 	.cdx-icon {
 		min-width: @size-100;
 		min-height: @size-100;

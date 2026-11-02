@@ -10,7 +10,6 @@
 }
 
 // The "Show more" button is added by JS, so hide the extra items only if we have JS enabled
-// stylelint-disable-next-line selector-class-pattern
 html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 	display: none;
 }
@@ -19,7 +18,6 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 	display: flex;
 	gap: @size-25;
 
-	// stylelint-disable-next-line selector-class-pattern
 	.cdx-button--fake-button--disabled {
 		// Codex doesn't specify any cursor for disabled link-buttons,
 		// but Vector does so for all links, so let's reset it here.
@@ -54,7 +52,6 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 }
 
 // Make the "Filter" button info chip look more like a progressive button to match the design spec
-/* stylelint-disable selector-class-pattern */
 .mw-checkuser-suggestedinvestigations-filter-button {
 	.mw-checkuser-suggestedinvestigations-filter-button-filters-applied-chip {
 		background-color: @background-color-progressive;
@@ -138,4 +135,3 @@ html.client-js .mw-checkuser-suggestedinvestigations-user-defaulthide {
 .mw-checkuser-suggestedinvestigations-queue-views-button-group {
 	display: flex;
 }
-/* stylelint-enable selector-class-pattern */
