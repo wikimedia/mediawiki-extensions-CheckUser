@@ -402,6 +402,7 @@
 	"checkuser-userinfocard-checks-empty": "Hubinno: $1",
 	"checkuser-userinfocard-suggested-investigations": "Kiisaska baaritaanno la soo jeediyay: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Ku dhacyada shaandhada xadgudubka: $1",
+	"checkuser-userinfocard-abusereview-flags": "Calaamadaha AbuseReview (wax-ka-beddelladii ugu dambeeyay, ilaa $2 {{PLURAL:$2|maalin|maalmood}} jir ah): $1",
 	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Wuxuu}} firfircoonaa {{PLURAL:$1|maalintii|$1 maalmood}} ee la soo dhaafay",
 	"checkuser-userinfocard-sharedblocked-button": "Hubi akoonnada la xannibay ee xiriirka leh",
 	"checkuser-userinfocard-sharedblocked-button-tooltip": "Muuji inta akoon ee la xannibay ee isticmaalay cinwaanno IP oo isku mid ah ama noocyo biraawsar oo isku mid ah.",

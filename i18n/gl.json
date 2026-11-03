@@ -408,6 +408,7 @@
 	"checkuser-userinfocard-checks-empty": "Verificacións: $1",
 	"checkuser-userinfocard-suggested-investigations": "Casos de investigación suxeridos: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Deteccións do filtro de abusos: $1",
+	"checkuser-userinfocard-abusereview-flags": "Marcadores da revisión de abusos (últimas edicións, de ata $2 {{PLURAL:$2|día|días}} de antigüidade): $1",
 	"checkuser-userinfocard-has-checkuser-data": "Estivo {{GENDER:$2|activo|activa}} {{PLURAL:$1|no último día|nos últimos $1 días}}",
 	"checkuser-userinfocard-sharedblocked-button": "Verificar se hai contas bloqueadas que están conectadas",
 	"checkuser-userinfocard-sharedblocked-button-tooltip": "Mostrar cantas contas bloqueadas usaron os mesmos enderezos IP ou as mesmas versións do navegador.",

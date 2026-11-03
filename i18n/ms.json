@@ -405,6 +405,7 @@
 	"checkuser-userinfocard-checks-empty": "Pemeriksaan: $1",
 	"checkuser-userinfocard-suggested-investigations": "Kes siasatan yang dicadangkan: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Kenaan penapis salah guna: $1",
+	"checkuser-userinfocard-abusereview-flags": "Penanda AbuseReview (suntingan terkini, sehingga $2 {{PLURAL:$2|hari}} lama): $1",
 	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Telah}} aktif dalam $1 {{PLURAL:$1|hari}} terkini",
 	"checkuser-userinfocard-sharedblocked-button": "Semak akaun-akaun disekat yang berhubung kait",
 	"checkuser-userinfocard-sharedblocked-button-tooltip": "Paparkan bilangan akaun yang disekat yang menggunakan alamat IP yang sama atau versi pelayar yang sama.",

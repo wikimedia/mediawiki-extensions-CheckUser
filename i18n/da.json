@@ -416,6 +416,7 @@
 	"checkuser-userinfocard-checks-empty": "Kontrollerer: $1",
 	"checkuser-userinfocard-suggested-investigations": "Foreslåede undersøgelsessager: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Misbrugsfilter-hits: $1",
+	"checkuser-userinfocard-abusereview-flags": "AbuseReview-flag (seneste redigeringer, op til $2 {{PLURAL:$2|dag|dage}} gamle): $1",
 	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Har}} været aktiv i de sidste $1 {{PLURAL:$1|dag|dage}}",
 	"checkuser-userinfocard-sharedblocked-button": "Tjek for tilknyttede blokerede konti",
 	"checkuser-userinfocard-sharedblocked-button-tooltip": "Vis, hvor mange blokerede konti der brugte de samme IP-adresser eller de samme browserversioner.",

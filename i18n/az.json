@@ -412,6 +412,7 @@
 	"checkuser-userinfocard-checks-empty": "Təftişlər: $1",
 	"checkuser-userinfocard-suggested-investigations": "Təklif olunan araşdırma işləri: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Dəyişiklik süzgəcinə ilişmə: $1",
+	"checkuser-userinfocard-abusereview-flags": "AbuseReview bayraqları (ən son redaktələr, $2 {{PLURAL:$2|gün}} əvvələrə qədər): $1",
 	"checkuser-userinfocard-has-checkuser-data": "Son $1 {{PLURAL:$1|gün}} ərzində aktiv {{GENDER:$2|olub}}",
 	"checkuser-userinfocard-sharedblocked-button": "Əlaqəli bloklanmış hesabları yoxla",
 	"checkuser-userinfocard-sharedblocked-button-tooltip": "Eyni IP ünvanlarından və ya eyni brauzer versiyalarından istifadə edən bloklanmış hesab sayını göstər.",

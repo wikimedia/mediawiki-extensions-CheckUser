@@ -422,6 +422,7 @@
 	"checkuser-userinfocard-checks-empty": "Überprüfungen: $1",
 	"checkuser-userinfocard-suggested-investigations": "Angebotene Untersuchungsfälle: $1",
 	"checkuser-userinfocard-abusefilter-hits": "Missbrauchsfilter-Treffer: $1",
+	"checkuser-userinfocard-abusereview-flags": "Missbrauchs-Hinweise (neueste Bearbeitungen, bis zu $2 {{PLURAL:$2|Tag|Tage}} alt): $1",
 	"checkuser-userinfocard-has-checkuser-data": "{{GENDER:$2|Er/Sie}} war {{PLURAL:$1|war an einem Tag|in den letzten $1 Tagen}} aktiv.",
 	"checkuser-userinfocard-sharedblocked-button": "Prüfen, ob verbundene gesperrte Konten vorhanden sind.",
 	"checkuser-userinfocard-sharedblocked-button-tooltip": "Anzeigen, wie viele gesperrte Konten dieselben IP-Adressen oder dieselben Browserversionen verwendet haben.",
