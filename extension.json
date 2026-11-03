@@ -284,7 +284,9 @@
 			"description": "All the data needed to generate all queue views for Special:SuggestedInvestigations. See SuggestedInvestigationsCasesPager for details on schema formatting. Setting this config will merge the defined queues into this default."
 		},
 		"CheckUserSuggestedInvestigationsEnabledQueueViews": {
-			"value": [ "all" ],
+			"value": [
+				"all"
+			],
 			"description": "Queues that are enabled for Special:SuggestedInvestigations in the order they should be displayed. Setting this config will override this default.",
 			"merge_strategy": "provide_default"
 		}
@@ -959,8 +961,7 @@
 				"mediawiki.Title",
 				"mediawiki.util",
 				"mediawiki.widgets",
-				"mediawiki.widgets.UserInputWidget",
-				"web2017-polyfills"
+				"mediawiki.widgets.UserInputWidget"
 			]
 		},
 		"ext.checkUser.images": {
@@ -1032,8 +1033,7 @@
 				"mediawiki.Title",
 				"mediawiki.user",
 				"mediawiki.util",
-				"mediawiki.widgets",
-				"web2017-polyfills"
+				"mediawiki.widgets"
 			],
 			"messages": [
 				"checkuser-centralauth-multilock",
