@@ -6,7 +6,8 @@
 			"Amjad Khan",
 			"Baloch Khan",
 			"Dreamy Jazz",
-			"شاه زمان پټان"
+			"شاه زمان پټان",
+			"باران"
 		]
 	},
 	"checkuser-desc": "کارنانو ته مناسبه اجازه ورکوي چې د کارنانو وېبپتې او نور مالومات وگوري",
@@ -33,7 +34,7 @@
 	"checkuser-clienthints-name-form-factor": "فورم فکتور",
 	"checkuser-clienthints-name-brand": "سوداگريز نښان",
 	"checkuser-clienthints-name-mobile": "موبايل",
-	"checkuser-clienthints-name-model": "نمونه",
+	"checkuser-clienthints-name-model": "رغبېلگه",
 	"checkuser-clienthints-name-platform": "پلیټ فارم",
 	"checkuser-clienthints-name-platform-version": "پليټ‌فارم بلبڼه",
 	"checkuser-clienthints-value-yes": "هو",
