@@ -79,7 +79,6 @@ class CheckUserInsert {
 		private readonly UserAgentClientHintsManager $userAgentClientHintsManager,
 		private readonly JobQueueGroup $jobQueueGroup,
 		private readonly RecentChangeLookup $recentChangeLookup,
-		private readonly SuggestedInvestigationsSignalMatchService $suggestedInvestigationsSignalMatchService,
 		private readonly SuggestedInvestigationsTrigger $suggestedInvestigationsTrigger,
 		private readonly LoggerInterface $logger,
 	) {

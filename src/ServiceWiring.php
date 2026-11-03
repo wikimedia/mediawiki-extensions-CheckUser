@@ -294,7 +294,6 @@ return [
 			$services->get( 'UserAgentClientHintsManager' ),
 			$services->getJobQueueGroup(),
 			$services->getRecentChangeLookup(),
-			$services->get( 'SuggestedInvestigationsSignalMatchService' ),
 			$services->get( 'SuggestedInvestigationsTrigger' ),
 			$services->get( 'CheckUserLogger' )
 		);

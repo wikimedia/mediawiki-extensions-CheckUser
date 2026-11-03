@@ -379,7 +379,6 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
 			$this->getServiceContainer()->getJobQueueGroup(),
 			$this->getServiceContainer()->getRecentChangeLookup(),
-			$this->getServiceContainer()->get( 'SuggestedInvestigationsSignalMatchService' ),
 			$this->getServiceContainer()->get( 'SuggestedInvestigationsTrigger' ),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
