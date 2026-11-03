@@ -144,6 +144,9 @@ QUnit.test( 'close method closes the popover', ( assert ) => {
 } );
 
 QUnit.test( 'open & close method logs an event with correct parameters', function ( assert ) {
+	// Just in case other tests set these to something else and leak
+	mw.config.set( { wgCanonicalSpecialPageName: false, wgAction: 'view' } );
+
 	const sendStub = stubInstrument( this.sandbox );
 	const wrapper = mountComponent();
 	const triggerElement = document.createElement( 'button' );
