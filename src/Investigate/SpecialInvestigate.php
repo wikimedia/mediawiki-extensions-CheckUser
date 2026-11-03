@@ -25,7 +25,6 @@ use MediaWiki\Parser\ParserOutput;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\FormSpecialPage;
 use MediaWiki\Status\Status;
-use MediaWiki\User\Options\UserOptionsManager;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\Utils\UrlUtils;
@@ -63,7 +62,6 @@ class SpecialInvestigate extends FormSpecialPage {
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		private readonly Language $contentLanguage,
-		private readonly UserOptionsManager $userOptionsManager,
 		private readonly PagerFactory $preliminaryCheckPagerFactory,
 		private readonly PagerFactory $comparePagerFactory,
 		private readonly TimelinePagerFactory $timelinePagerFactory,

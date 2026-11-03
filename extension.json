@@ -1299,7 +1299,6 @@
 			"services": [
 				"LinkRenderer",
 				"ContentLanguage",
-				"UserOptionsManager",
 				"CheckUserPreliminaryCheckPagerFactory",
 				"CheckUserComparePagerFactory",
 				"CheckUserTimelinePagerFactory",
