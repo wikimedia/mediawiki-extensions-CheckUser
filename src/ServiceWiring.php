@@ -254,7 +254,6 @@ return [
 			$services->getCommentFormatter(),
 			$services->getUserFactory(),
 			$services->getTempUserConfig(),
-			$services->getMainConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserGlobalContributionsLookup' ),

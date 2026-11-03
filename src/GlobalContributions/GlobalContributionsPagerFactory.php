@@ -7,7 +7,6 @@ namespace MediaWiki\Extension\CheckUser\GlobalContributions;
 use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\ChangeTags\ChangeTagsStoreFactory;
 use MediaWiki\CommentFormatter\CommentFormatter;
-use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\HookContainer\HookContainer;
@@ -41,7 +40,6 @@ class GlobalContributionsPagerFactory {
 		private readonly CommentFormatter $commentFormatter,
 		private readonly UserFactory $userFactory,
 		private readonly TempUserConfig $tempUserConfig,
-		private readonly Config $config,
 		private readonly CheckUserLookupUtils $lookupUtils,
 		private readonly CentralIdLookup $centralIdLookup,
 		private readonly CheckUserGlobalContributionsLookup $globalContributionsLookup,
