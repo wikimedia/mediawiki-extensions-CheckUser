@@ -13,8 +13,6 @@ use MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserIpUsersResponse
 use MediaWiki\Extension\CheckUser\Api\CheckUser\ApiQueryCheckUserUserIpsResponse;
 use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Logging\LogFormatterFactory;
-use MediaWiki\Revision\ArchivedRevisionLookup;
-use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNameUtils;
@@ -31,8 +29,6 @@ class ApiQueryCheckUserResponseFactory {
 		private readonly CheckUserLookupUtils $checkUserLookupUtils,
 		private readonly UserIdentityLookup $userIdentityLookup,
 		private readonly CommentStore $commentStore,
-		private readonly RevisionStore $revisionStore,
-		private readonly ArchivedRevisionLookup $archivedRevisionLookup,
 		private readonly UserFactory $userFactory,
 		private readonly LogFormatterFactory $logFormatterFactory,
 	) {

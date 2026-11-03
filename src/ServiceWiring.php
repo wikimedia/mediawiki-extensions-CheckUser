@@ -112,8 +112,6 @@ return [
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getUserIdentityLookup(),
 			$services->getCommentStore(),
-			$services->getRevisionStore(),
-			$services->getArchivedRevisionLookup(),
 			$services->getUserFactory(),
 			$services->getLogFormatterFactory()
 		);
