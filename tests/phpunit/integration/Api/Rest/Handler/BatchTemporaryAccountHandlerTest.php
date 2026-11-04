@@ -225,6 +225,122 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	/** @dataProvider provideAutoRevealEnabled */
+	public function testExecuteOnlyLogsRevealedUsers( bool $autoRevealEnabled ): void {
+		$this->enableAutoCreateTempUser();
+
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
+		$actorIds = [ '~12345' => 12345, '~67890' => 67890 ];
+		$actorStore = $this->createMock( ActorStore::class );
+		$actorStore->method( 'findActorIdByName' )
+			->willReturnCallback( static fn ( $name ) => $actorIds[trim( $name )] );
+		$actorStore->method( 'getUserIdentityByName' )
+			->willReturnCallback( static fn ( $name ) => new UserIdentityValue(
+				$actorIds[trim( $name )],
+				trim( $name )
+			) );
+
+		$autoRevealLookup = $this->createMock(
+			CheckUserTemporaryAccountAutoRevealLookup::class
+		);
+		$autoRevealLookup->method( 'isAutoRevealOn' )
+			->willReturn( $autoRevealEnabled );
+
+		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$extensionRegistry->method( 'isLoaded' )
+			->willReturn( false );
+
+		$loggedTargets = [];
+		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$jobQueueGroup->method( 'push' )
+			->willReturnCallback( static function ( $job ) use ( &$loggedTargets ) {
+				$loggedTargets[] = $job->getParams()['target'];
+			} );
+
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->method( 'info' )
+			->willReturnCallback( static function ( $message, $context ) use ( &$loggedTargets ) {
+				if ( isset( $context['target'] ) ) {
+					$loggedTargets[] = $context['target'];
+				}
+			} );
+		$this->setLogger( 'CheckUser', $logger );
+		$this->resetServices();
+
+		$services = $this->getServiceContainer();
+		$handler = $this->getMockBuilder( BatchTemporaryAccountHandler::class )
+			->onlyMethods( [ 'getRevisionsIps', 'getLogIps', 'getActorIps' ] )
+			->setConstructorArgs( [
+				$services->getMainConfig(),
+				$jobQueueGroup,
+				$services->getPermissionManager(),
+				$services->getUserNameUtils(),
+				$services->getConnectionProvider(),
+				$actorStore,
+				$services->getBlockManager(),
+				$services->getRevisionStore(),
+				$checkUserPermissionManager,
+				$autoRevealLookup,
+				$services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
+				$services->getReadOnlyMode(),
+				$extensionRegistry,
+				$services->get( 'CheckUserExpiredIdsLookupService' ),
+			] )
+			->getMock();
+		$handler->method( 'getRevisionsIps' )
+			->with( 12345, [ 1 ] )
+			->willReturn( [ 1 => '1.2.3.4' ] );
+		$handler->method( 'getLogIps' )
+			->with( 12345, [ 1 ] )
+			->willReturn( [ 1 => '5.6.7.8' ] );
+		$handler->method( 'getActorIps' )
+			->with( 12345, 1 )
+			->willReturn( [ '9.8.7.6' ] );
+
+		$data = $this->executeHandlerAndGetBodyData(
+			$handler,
+			new RequestData(),
+			[],
+			[],
+			[],
+			[
+				'users' => [
+					'~12345' => [
+						'revIds' => [ 1 ],
+						'logIds' => [ 1 ],
+						'lastUsedIp' => true,
+					],
+					// No IP data is requested for this user
+					'~67890' => [
+						'lastUsedIp' => false,
+					],
+					// Another form of the name ~12345
+					'~12345 ' => [
+						'lastUsedIp' => true,
+					],
+				],
+			],
+			$this->getTestUser()->getAuthority()
+		);
+
+		$this->assertSame( [ 1 => '1.2.3.4' ], $data['~12345']['revIps'], 'Unexpected revision IPs' );
+		$this->assertSame( [ 1 => '5.6.7.8' ], $data['~12345']['logIps'], 'Unexpected log IPs' );
+		$this->assertSame( '9.8.7.6', $data['~12345']['lastUsedIp'], 'Unexpected last used IP' );
+
+		// Only the user with IP data looked up should be logged, once
+		$this->assertSame( [ '~12345' ], $loggedTargets, 'Unexpected log targets' );
+	}
+
+	public static function provideAutoRevealEnabled(): array {
+		return [
+			'auto-reveal disabled' => [ false ],
+			'auto-reveal enabled' => [ true ],
+		];
+	}
+
 	/** @dataProvider provideExecuteForSpecificTypeOfIds */
 	public function testExecuteForSpecificTypeOfIds(
 		callable $revIdsCallback,
