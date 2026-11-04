@@ -27,6 +27,11 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 	use TempUserTestTrait;
 	use MockAuthorityTrait;
 
+	private const array CHECKUSER_VARIABLES = [
+		'checkuser_user_ip',
+		'checkuser_user_agent',
+	];
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -41,22 +46,27 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testMakesUserUnnamedIpAsAlwaysProtected() {
+	public function testMakesDefinedVariablesAlwaysProtected(): void {
 		// Tests that the hook is called by AbuseFilter and adds the variables to the return
 		// value of the protected variables service.
 		$this->overrideConfigValue( 'AbuseFilterProtectedVariables', [] );
-		$this->assertContains(
-			'user_unnamed_ip',
-			AbuseFilterServices::getProtectedVariablesLookup()->getAllProtectedVariables()
+
+		$actualProtectedVariables = AbuseFilterServices::getProtectedVariablesLookup()->getAllProtectedVariables();
+		$this->assertArrayContains(
+			array_merge( [ 'user_unnamed_ip' ], self::CHECKUSER_VARIABLES ),
+			$actualProtectedVariables
 		);
 	}
 
-	public function testOnAbuseFilterCustomProtectedVariables() {
+	public function testOnAbuseFilterCustomProtectedVariables(): void {
 		// Tests the hook handler works without testing that the AbuseFilter part works, to make
-		// it easier to diagnose issues if ::testMakesUserUnnamedIpAsAlwaysProtected fails.
+		// it easier to diagnose issues if ::testMakesDefinedVariablesAlwaysProtected fails.
 		$variables = [];
 		$this->getHookHandler()->onAbuseFilterCustomProtectedVariables( $variables );
-		$this->assertArrayEquals( [ 'user_unnamed_ip' ], $variables );
+		$this->assertArrayEquals(
+			array_merge( [ 'user_unnamed_ip' ], self::CHECKUSER_VARIABLES ),
+			$variables
+		);
 	}
 
 	public function testProtectedVarsLogGoesToAbuseFilterLogIfVariablesMissingUserUnnamedIp() {
@@ -175,7 +185,7 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testCanViewProtectedVariablesForIPWhenUserLacksRight() {
+	public function testViewingUserUnnamedIPWhenUserLacksIPRevealRight(): void {
 		$this->enableAutoCreateTempUser();
 		$this->mockAllUsersHaveAcceptedIPRevealPreference();
 		// Get a mock test Authority that has the rights and preferences needed to see protected variables,
@@ -192,13 +202,75 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( 'checkuser-temporary-account', $actualStatus->getPermission() );
 	}
 
-	/** @dataProvider provideWhenIPRevealRestrictionsNotApplied */
-	public function testCanViewProtectedVarsWhenIPRevealRestrictionsNotApplied( $temporaryAccountsKnown, $variables ) {
+	/** @dataProvider provideCanViewCheckUserProtectedVariables */
+	public function testCanViewCheckUserProtectedVariables(
+		array $rights,
+		array $variables,
+		?string $expectedMissingPermission
+	): void {
+		$this->enableAutoCreateTempUser();
+		$this->mockAllUsersHaveAcceptedIPRevealPreference();
+
+		$actualStatus = AbuseFilterServices::getPermissionManager()->canViewProtectedVariables(
+			$this->mockRegisteredAuthorityWithPermissions( $rights ),
+			$variables
+		);
+
+		if ( $expectedMissingPermission === null ) {
+			$this->assertStatusGood( $actualStatus );
+		} else {
+			$this->assertStatusNotGood( $actualStatus );
+			$this->assertSame(
+				$expectedMissingPermission,
+				$actualStatus->getPermission(),
+				'Missing permission in the returned status is not as expected'
+			);
+		}
+	}
+
+	public static function provideCanViewCheckUserProtectedVariables(): array {
+		return [
+			'Uses CheckUser protected variable, user lacks checkuser right' => [
+				'rights' => [ 'abusefilter-access-protected-vars' ],
+				'variables' => [ 'checkuser_user_ip' ],
+				'expectedMissingPermission' => 'checkuser',
+			],
+			'Uses CheckUser protected variable, user has checkuser right' => [
+				'rights' => [ 'abusefilter-access-protected-vars', 'checkuser' ],
+				'variables' => [ 'checkuser_user_ip' ],
+				'expectedMissingPermission' => null,
+			],
+			'Uses user_unnamed_ip, has IP reveal right' => [
+				'rights' => [ 'abusefilter-access-protected-vars', 'checkuser-temporary-account' ],
+				'variables' => [ 'user_unnamed_ip' ],
+				'expectedMissingPermission' => null,
+			],
+			'Uses user_unnamed_ip, lacks IP reveal right' => [
+				'rights' => [ 'abusefilter-access-protected-vars' ],
+				'variables' => [ 'user_unnamed_ip' ],
+				'expectedMissingPermission' => 'checkuser-temporary-account',
+			],
+			'Uses user_unnamed_ip and checkuser_user_agent when user has neither needed rights' => [
+				'rights' => [ 'abusefilter-access-protected-vars' ],
+				'variables' => [ 'user_unnamed_ip', 'checkuser_user_agent' ],
+				'expectedMissingPermission' => 'checkuser',
+			],
+			'Uses user_unnamed_ip and checkuser_user_ip when user has checkuser but lacks IP reveal right' => [
+				'rights' => [ 'abusefilter-access-protected-vars', 'checkuser' ],
+				'variables' => [ 'user_unnamed_ip', 'checkuser_user_ip' ],
+				'expectedMissingPermission' => 'checkuser-temporary-account',
+			],
+		];
+	}
+
+	/** @dataProvider provideWhenAdditionalRestrictionsNotApplied */
+	public function testCanViewProtectedVarsWhenNotApplyingAdditionalRestrictions(
+		bool $temporaryAccountsKnown,
+		array $variables
+	): void {
 		$this->disableAutoCreateTempUser( [ 'known' => $temporaryAccountsKnown ] );
 		$this->mockAllUsersHaveAcceptedIPRevealPreference();
 
-		// Test that the hook does not attempt to validate if the user can see Temp account IP addresses
-		// if the temporary accounts feature is not known.
 		$this->setService(
 			'CheckUserPermissionManager',
 			$this->createNoOpMock( CheckUserPermissionManager::class )
@@ -208,14 +280,21 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertStatusGood( $canViewProtectedVariablesStatus );
 	}
 
-	public static function provideWhenIPRevealRestrictionsNotApplied() {
+	public static function provideWhenAdditionalRestrictionsNotApplied(): array {
 		return [
-			'Temporary accounts are not known' => [ false, [ 'user_unnamed_ip' ] ],
-			'Protected filter does not include user_unnamed_ip' => [ true, [ 'some_other_variable' ] ],
+			'Variables include user_unnamed_ip, but temporary accounts are not known' => [
+				'temporaryAccountsKnown' => false,
+				'variables' => [ 'user_unnamed_ip' ],
+			],
+			'Protected filter does not include any variable protected by CheckUser' => [
+				'temporaryAccountsKnown' => true,
+				'variables' => [ 'some_other_variable' ],
+			],
 		];
 	}
 
-	public function testOnAbuseFilterCanViewProtectedVariablesWhenUserBlocked() {
+	/** @dataProvider provideVariablesThatDenyAccessToSitewideBlockedUsers */
+	public function testCanViewProtectedVariablesWhenUserSitewideBlocked( array $variables ): void {
 		$this->enableAutoCreateTempUser();
 
 		// Get an Authority which has all needed permissions to access IP reveal but is sitewide blocked.
@@ -225,17 +304,23 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$testAuthority = $this->mockUserAuthorityWithBlock(
 			$this->mockRegisteredUltimateAuthority()->getUser(),
 			$block,
-			[ 'checkuser-temporary-account-no-preference' ]
+			[ 'checkuser-temporary-account-no-preference', 'checkuser' ]
 		);
 
 		$actualStatus = AbuseFilterPermissionStatus::newGood();
-		$this->getHookHandler()->onAbuseFilterCanViewProtectedVariables(
-			$testAuthority,
-			[ 'user_unnamed_ip' ],
-			$actualStatus
-		);
+		$this->getHookHandler()->onAbuseFilterCanViewProtectedVariables( $testAuthority, $variables, $actualStatus );
 
 		$this->assertStatusNotGood( $actualStatus );
 		$this->assertSame( $block, $actualStatus->getBlock() );
+	}
+
+	public static function provideVariablesThatDenyAccessToSitewideBlockedUsers(): array {
+		return [
+			'Variables include user_unnamed_ip' => [ 'variables' => [ 'user_unnamed_ip' ] ],
+			'Variables include checkuser_user_ip' => [ 'variables' => [ 'checkuser_user_ip' ] ],
+			'Variables include checkuser_user_ip and user_unnamed_ip' => [
+				'variables' => [ 'checkuser_user_ip', 'user_unnamed_ip' ],
+			],
+		];
 	}
 }

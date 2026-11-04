@@ -8,6 +8,7 @@ use MediaWiki\Extension\AbuseFilter\AbuseFilterPermissionStatus;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterCanViewProtectedVariablesHook;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterCustomProtectedVariablesHook;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterProtectedVarsAccessLoggerHook;
+use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\Authority;
@@ -29,13 +30,14 @@ class AbuseFilterHandler implements
 
 	/**
 	 * Because CheckUser wants to define additional restrictions on accessing the
-	 * user_unnamed_ip variable, we should ensure that the variable is always
-	 * protected to allow these restrictions to take effect.
+	 * user_unnamed_ip variable and the CheckUser protected variables, we should ensure
+	 * that these variables are always protected to allow these restrictions to take effect.
 	 *
 	 * @inheritDoc
 	 */
 	public function onAbuseFilterCustomProtectedVariables( array &$variables ) {
 		$variables[] = 'user_unnamed_ip';
+		$variables = array_merge( $variables, $this->getVariables() );
 	}
 
 	/**
@@ -94,9 +96,10 @@ class AbuseFilterHandler implements
 	}
 
 	/**
-	 * Restrict access to seeing filters or logs associated with filters which use the AbuseFilter user_unnamed_ip
-	 * variable to those who have the ability to see Temporary Account IP addresses (if the wiki has temporary accounts
-	 * known or enabled).
+	 * Restrict access to seeing filters or logs associated with filters which use:
+	 * * The user_unnamed_ip variable to those who have the ability to see Temporary Account IP
+	 *   addresses (if the wiki has temporary accounts known or enabled)
+	 * * Any CheckUser protected variable to those who have the `checkuser` right
 	 *
 	 * @inheritDoc
 	 */
@@ -105,13 +108,28 @@ class AbuseFilterHandler implements
 		array $variables,
 		AbuseFilterPermissionStatus $status
 	): void {
-		if ( !in_array( 'user_unnamed_ip', $variables ) || !$this->tempUserConfig->isKnown() ) {
-			return;
+		if ( in_array( 'user_unnamed_ip', $variables ) && $this->tempUserConfig->isKnown() ) {
+			$this->mergeCheckUserPermissionStatus(
+				$status,
+				$this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses( $performer )
+			);
 		}
 
-		$checkUserPermissionStatus = $this->checkUserPermissionManager
-			->canAccessTemporaryAccountIPAddresses( $performer );
+		if ( array_intersect( $this->getVariables(), $variables ) ) {
+			$this->mergeCheckUserPermissionStatus(
+				$status,
+				$this->checkUserPermissionManager->canAccessCheckUserAbuseFilterVariables( $performer )
+			);
+		}
+	}
 
+	/**
+	 * Copies the result of a CheckUser permission check into the given AbuseFilter permission status.
+	 */
+	private function mergeCheckUserPermissionStatus(
+		AbuseFilterPermissionStatus $status,
+		CheckUserPermissionStatus $checkUserPermissionStatus
+	): void {
 		$permission = $checkUserPermissionStatus->getPermission();
 		if ( $permission ) {
 			$status->setPermission( $permission );
@@ -123,5 +141,14 @@ class AbuseFilterHandler implements
 		}
 
 		$status->merge( $checkUserPermissionStatus );
+	}
+
+	/**
+	 * Returns the names of all of the CheckUser protected variables.
+	 *
+	 * @return string[]
+	 */
+	private function getVariables(): array {
+		return [ 'checkuser_user_ip', 'checkuser_user_agent' ];
 	}
 }
