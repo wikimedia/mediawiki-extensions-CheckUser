@@ -45,10 +45,17 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		'checkuser_client_hints_wow64',
 	];
 
+	private const array EDGE_HEADER_VARIABLES = [
+		'checkuser_is_browser',
+		'checkuser_ja3n',
+		'checkuser_ja4h',
+	];
+
 	private const array CHECKUSER_VARIABLES = [
 		'checkuser_user_ip',
 		'checkuser_user_agent',
 		...self::CLIENT_HINTS_VARIABLES,
+		...self::EDGE_HEADER_VARIABLES,
 	];
 
 	protected function setUp(): void {
@@ -58,6 +65,7 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->overrideConfigValues( [
 			'CheckUserAbuseFilterVariablesEnabled' => true,
 			'CheckUserClientHintsEnabled' => true,
+			'CheckUserAbuseFilterEdgeHeaderVariablesEnabled' => true,
 		] );
 	}
 
@@ -428,6 +436,20 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
+	/** @dataProvider provideOnAbuseFilterBuilderWhenEdgeHeaderVariablesDisabled */
+	public function testOnAbuseFilterBuilderWhenEdgeHeaderVariablesDisabled( string $variable ): void {
+		$this->overrideConfigValue( 'CheckUserAbuseFilterEdgeHeaderVariablesEnabled', false );
+
+		$keywordsManager = AbuseFilterServices::getKeywordsManager();
+		$this->assertFalse( $keywordsManager->isVarInUse( $variable ) );
+	}
+
+	public static function provideOnAbuseFilterBuilderWhenEdgeHeaderVariablesDisabled(): iterable {
+		foreach ( self::EDGE_HEADER_VARIABLES as $variable ) {
+			yield "Variable $variable" => [ 'variable' => $variable ];
+		}
+	}
+
 	/** @dataProvider provideCheckUserAbuseFilterVariables */
 	public function testCheckUserAbuseFilterVariables(
 		string $variable,
@@ -435,7 +457,7 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		bool $abuseFilterVariablesEnabled,
 		bool $recentChangeSet,
 		bool $shouldVarBeSet,
-		string|array|bool|null $expectedValue
+		string|array|bool|int|null $expectedValue
 	): void {
 		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', $abuseFilterVariablesEnabled );
 		$this->overrideConfigValue( 'CheckUserClientHintsInEditRequest', true );
@@ -452,8 +474,13 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 			'platform' => 'Windows',
 			'platformVersion' => '15',
 		] ) );
-		$request->setHeader( 'Sec-CH-UA-Form-Factors', 'desktop' );
-		$request->setHeader( 'Sec-CH-UA-WoW64', '?1' );
+		$request->setHeaders( [
+			'Sec-CH-UA-WoW64' => '?1',
+			'Sec-CH-UA-Form-Factors' => 'desktop',
+			'x-is-browser' => '5',
+			'x-ja3n' => 'abc123',
+			'x-ja4h' => 'def456',
+		] );
 		RequestContext::getMain()->setRequest( $request );
 
 		$vars = new VariableHolder();
@@ -530,6 +557,9 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 				'checkuser_client_hints_platform' => 'Windows',
 				'checkuser_client_hints_platform_version' => '15',
 				'checkuser_client_hints_wow64' => true,
+				'checkuser_is_browser' => 5,
+				'checkuser_ja3n' => 'abc123',
+				'checkuser_ja4h' => 'def456',
 			};
 
 			yield from [

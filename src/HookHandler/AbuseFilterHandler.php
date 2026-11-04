@@ -56,6 +56,16 @@ class AbuseFilterHandler implements
 		'checkuser_client_hints_wow64' => 'woW64',
 	];
 
+	/**
+	 * Maps the CheckUser variables for headers set by the WMF CDN to the associated
+	 * {@link ClientHintsData} property
+	 */
+	private const array EDGE_HEADER_VARIABLES = [
+		'checkuser_is_browser' => 'isBrowser',
+		'checkuser_ja3n' => 'ja3n',
+		'checkuser_ja4h' => 'ja4h',
+	];
+
 	public function __construct(
 		private readonly TemporaryAccountLoggerFactory $loggerFactory,
 		private readonly CheckUserPermissionManager $checkUserPermissionManager,
@@ -190,6 +200,9 @@ class AbuseFilterHandler implements
 			// * abusefilter-edit-builder-vars-checkuser-user-ip
 			// * abusefilter-edit-builder-vars-checkuser-user-agent
 			// * abusefilter-edit-builder-vars-checkuser-client-hints-*
+			// * abusefilter-edit-builder-vars-checkuser-is-browser
+			// * abusefilter-edit-builder-vars-checkuser-ja3n
+			// * abusefilter-edit-builder-vars-checkuser-ja4h
 			$realValues['vars'][$variable] = $this->getMethodForVariable( $variable );
 		}
 	}
@@ -264,7 +277,7 @@ class AbuseFilterHandler implements
 			'checkuser_user_ip' => $request->getIP(),
 			'checkuser_user_agent' => $userAgent ? mb_scrub( $userAgent ) : null,
 			default => $this->getClientHintsValue(
-				self::CLIENT_HINTS_VARIABLES[$variable],
+				( self::CLIENT_HINTS_VARIABLES + self::EDGE_HEADER_VARIABLES )[$variable],
 				$request
 			),
 		};
@@ -280,7 +293,8 @@ class AbuseFilterHandler implements
 	private function getVariables(): array {
 		return array_merge(
 			[ 'checkuser_user_ip', 'checkuser_user_agent' ],
-			array_keys( self::CLIENT_HINTS_VARIABLES )
+			array_keys( self::CLIENT_HINTS_VARIABLES ),
+			array_keys( self::EDGE_HEADER_VARIABLES )
 		);
 	}
 
@@ -298,6 +312,10 @@ class AbuseFilterHandler implements
 
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			$variables = array_merge( $variables, array_keys( self::CLIENT_HINTS_VARIABLES ) );
+		}
+
+		if ( $this->config->get( 'CheckUserAbuseFilterEdgeHeaderVariablesEnabled' ) ) {
+			$variables = array_merge( $variables, array_keys( self::EDGE_HEADER_VARIABLES ) );
 		}
 
 		return $variables;

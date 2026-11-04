@@ -293,6 +293,10 @@
 		"CheckUserAbuseFilterVariablesEnabled": {
 			"value": false,
 			"description": "Whether the CheckUser AbuseFilter variables are enabled. Setting this to false after filters use these variables causes those filters to fail, as the variables become unknown to AbuseFilter."
+		},
+		"CheckUserAbuseFilterEdgeHeaderVariablesEnabled": {
+			"value": false,
+			"description": "Whether to add the CheckUser AbuseFilter variables for headers that the WMF CDN sets (x-is-browser, x-ja3n and x-ja4h). Third-party wikis should only set this to true if your CDN sets these headers. Setting this to false after filters use these variables causes the filters to fail validation, so only do that after removing the variables from any filter."
 		}
 	},
 	"DefaultUserOptions": {
