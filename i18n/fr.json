@@ -507,6 +507,7 @@
 	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "État",
 	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "Activité du compte",
 	"checkuser-suggestedinvestigations-filter-dialog-show-cases-with-edits-shared-pages": "Afficher les cas où des comptes ont des modifications sur des pages partagées",
+	"checkuser-suggestedinvestigations-filter-dialog-no-edit-block-filter": "Non requis",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-header": "Afficher les cas mis à jour pour la dernière fois",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Aujourd’hui",
 	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "Les 3 derniers jours",
