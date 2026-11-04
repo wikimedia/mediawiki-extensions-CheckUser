@@ -242,7 +242,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function testExecuteSkipsNonExistentUsers() {
+	/** @dataProvider provideAutoRevealEnabled */
+	public function testExecuteSkipsNonExistentUsers( bool $autoRevealEnabled ) {
 		$this->enableAutoCreateTempUser();
 
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
@@ -253,11 +254,11 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$actorStore = $this->createMock( ActorStore::class );
 		$actorStore->method( 'findActorIdByName' )
 			->willReturnCallback( static function ( $name ) {
-				return $name === '~12345' ? 12345 : null;
+				return trim( $name ) === '~12345' ? 12345 : null;
 			} );
 		$actorStore->method( 'getUserIdentityByName' )
 			->willReturnCallback( static function ( $name ) {
-				return $name === '~12345'
+				return trim( $name ) === '~12345'
 					? new UserIdentityValue( 12345, '~12345' )
 					: null;
 			} );
@@ -265,14 +266,28 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$autoRevealLookup = $this->createMock(
 			CheckUserTemporaryAccountAutoRevealLookup::class
 		);
+		$autoRevealLookup->method( 'isAutoRevealOn' )
+			->willReturn( $autoRevealEnabled );
 
 		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
 		$extensionRegistry->method( 'isLoaded' )
 			->willReturn( false );
 
+		$loggedTargets = [];
 		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$jobQueueGroup->method( 'push' )
+			->willReturnCallback( static function ( $job ) use ( &$loggedTargets ) {
+				$loggedTargets[] = $job->getParams()['target'];
+			} );
 
-		$this->setLogger( 'CheckUser', $this->createNoOpMock( LoggerInterface::class ) );
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->method( 'info' )
+			->willReturnCallback( static function ( $message, $context ) use ( &$loggedTargets ) {
+				if ( isset( $context['target'] ) ) {
+					$loggedTargets[] = $context['target'];
+				}
+			} );
+		$this->setLogger( 'CheckUser', $logger );
 		$this->resetServices();
 
 		$services = $this->getServiceContainer();
@@ -323,17 +338,38 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 						'logIds' => [ 2 ],
 						'lastUsedIp' => true,
 					],
+					'NamedUser' => [
+						'revIds' => [ 3 ],
+						'logIds' => [ 3 ],
+						'lastUsedIp' => true,
+					],
+					// Another form of the name ~12345
+					'~12345 ' => [
+						'lastUsedIp' => true,
+					],
 				],
 			],
 			$this->getTestUser()->getAuthority()
 		);
 
-		// ~99999 should be silently skipped, only ~12345 should be in the result
+		// ~99999 (no such account) and NamedUser (not a temporary account) should both
+		// be silently skipped
 		$this->assertArrayHasKey( '~12345', $data );
 		$this->assertArrayNotHasKey( '~99999', $data );
+		$this->assertArrayNotHasKey( 'NamedUser', $data );
 		$this->assertSame( [ 1 => '1.2.3.4' ], $data['~12345']['revIps'] );
 		$this->assertSame( [ 1 => '5.6.7.8' ], $data['~12345']['logIps'] );
 		$this->assertSame( '9.8.7.6', $data['~12345']['lastUsedIp'] );
+
+		// Only the lookup for the existing user should be logged, once
+		$this->assertSame( [ '~12345' ], $loggedTargets );
+	}
+
+	public static function provideAutoRevealEnabled() {
+		return [
+			'auto-reveal disabled' => [ false ],
+			'auto-reveal enabled' => [ true ],
+		];
 	}
 
 	/** @dataProvider provideExecuteForSpecificTypeOfIds */
@@ -598,6 +634,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$userNameUtils = $this->createMock( UserNameUtils::class );
 		$userNameUtils->method( 'isTemp' )
 			->willReturn( true );
+		$userNameUtils->method( 'getCanonical' )
+			->willReturnArgument( 0 );
 
 		$actorStore = $this->createMock( ActorStore::class );
 		$actorStore->method( 'findActorIdByName' )
