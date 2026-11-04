@@ -289,6 +289,10 @@
 			],
 			"description": "Queues that are enabled for Special:SuggestedInvestigations in the order they should be displayed. Setting this config will override this default.",
 			"merge_strategy": "provide_default"
+		},
+		"CheckUserAbuseFilterVariablesEnabled": {
+			"value": false,
+			"description": "Whether the CheckUser AbuseFilter variables are enabled. Setting this to false after filters use these variables causes those filters to fail, as the variables become unknown to AbuseFilter."
 		}
 	},
 	"DefaultUserOptions": {
@@ -512,7 +516,8 @@
 			"services": [
 				"CheckUserTemporaryAccountLoggerFactory",
 				"CheckUserPermissionManager",
-				"TempUserConfig"
+				"TempUserConfig",
+				"MainConfig"
 			]
 		},
 		"UserInfoCardVariablesHandler": {
@@ -613,7 +618,11 @@
 		}
 	},
 	"Hooks": {
+		"AbuseFilter-builder": "AbuseFilterHandler",
+		"AbuseFilter-generateUserVars": "AbuseFilterHandler",
+		"AbuseFilter-interceptVariable": "AbuseFilterHandler",
 		"AbuseFilterCustomProtectedVariables": "AbuseFilterHandler",
+		"AbuseFilterGenerateAccountCreationVars": "AbuseFilterHandler",
 		"AbuseFilterLogProtectedVariableValueAccess": "AbuseFilterHandler",
 		"AbuseFilterCanViewProtectedVariables": "AbuseFilterHandler",
 		"AuthManagerLoginAuthenticateAudit": "CheckUserEvents",

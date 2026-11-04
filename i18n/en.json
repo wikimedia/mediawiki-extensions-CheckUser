@@ -586,5 +586,7 @@
 	"checkuser-si-related-cases-info": "The target account is linked to {{PLURAL:$1|$1 account|$1 accounts}} across [$3 {{PLURAL:$2|$2 suggested investigation|$2 suggested investigations}}]",
 	"checkuser-suggestedinvestigations-queue-view-all": "All",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "All (edited)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filters"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filters",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "IP address used to perform the action, for all types of account ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent string of the request used to perform the action ($1)"
 }

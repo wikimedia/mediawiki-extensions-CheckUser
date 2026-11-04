@@ -5,14 +5,18 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Block\Block;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterPermissionStatus;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
 use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
+use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Extension\CheckUser\HookHandler\AbuseFilterHandler;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Logging\DatabaseLogEntry;
+use MediaWiki\RecentChanges\RecentChange;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\Options\StaticUserOptionsLookup;
@@ -36,13 +40,15 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		parent::setUp();
 
 		$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
+		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', true );
 	}
 
 	private function getHookHandler(): AbuseFilterHandler {
 		return new AbuseFilterHandler(
 			$this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig()
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getMainConfig()
 		);
 	}
 
@@ -322,5 +328,166 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 				'variables' => [ 'checkuser_user_ip', 'user_unnamed_ip' ],
 			],
 		];
+	}
+
+	/** @dataProvider provideCheckUserProtectedVariables */
+	public function testCanViewCheckUserProtectedVariablesWhenDisabled( string $variable ): void {
+		// Filters which use the variables must stay restricted if the variables are later disabled
+		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', false );
+
+		$actualStatus = AbuseFilterServices::getPermissionManager()->canViewProtectedVariables(
+			$this->mockRegisteredAuthorityWithPermissions( [ 'abusefilter-access-protected-vars' ] ),
+			[ $variable ]
+		);
+
+		$this->assertStatusNotGood( $actualStatus );
+		$this->assertSame(
+			'checkuser',
+			$actualStatus->getPermission(),
+			'Missing permission in the returned status is not as expected'
+		);
+	}
+
+	public static function provideCheckUserProtectedVariables(): iterable {
+		foreach ( self::CHECKUSER_VARIABLES as $variable ) {
+			yield "Variable $variable" => [
+				'variable' => $variable,
+			];
+		}
+	}
+
+	/** @dataProvider provideCheckUserProtectedVariables */
+	public function testOnAbuseFilterBuilder( string $variable ): void {
+		$keywordsManager = AbuseFilterServices::getKeywordsManager();
+		$this->assertTrue(
+			$keywordsManager->isVarInUse( $variable ),
+			"$variable should be a valid AbuseFilter variable"
+		);
+		$this->assertSame(
+			'abusefilter-edit-builder-vars-' . str_replace( '_', '-', $variable ),
+			$keywordsManager->getMessageKeyForVar( $variable ),
+			"Message key for $variable is not as expected"
+		);
+	}
+
+	/** @dataProvider provideCheckUserProtectedVariables */
+	public function testOnAbuseFilterBuilderWhenVariablesDisabled( string $variable ): void {
+		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', false );
+
+		$keywordsManager = AbuseFilterServices::getKeywordsManager();
+		$this->assertFalse(
+			$keywordsManager->isVarInUse( $variable ),
+			"$variable should not be a valid AbuseFilter variable"
+		);
+	}
+
+	/** @dataProvider provideCheckUserAbuseFilterVariables */
+	public function testCheckUserAbuseFilterVariables(
+		string $variable,
+		bool $isAccountCreation,
+		bool $abuseFilterVariablesEnabled,
+		bool $recentChangeSet,
+		bool $shouldVarBeSet,
+		?string $expectedValue
+	): void {
+		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', $abuseFilterVariablesEnabled );
+
+		$request = new FauxRequest();
+		$request->setIP( '1.2.3.4' );
+		$request->setHeader( 'User-Agent', 'Mozilla/5.0' );
+		RequestContext::getMain()->setRequest( $request );
+
+		$vars = new VariableHolder();
+		$user = $this->getTestUser()->getUser();
+		if ( $isAccountCreation ) {
+			$this->getHookHandler()->onAbuseFilterGenerateAccountCreationVars(
+				$vars,
+				$this->getTestSysop()->getUserIdentity(),
+				$user,
+				false,
+				$recentChangeSet ? new RecentChange() : null
+			);
+		} else {
+			$this->getHookHandler()->onAbuseFilter_generateUserVars(
+				$vars,
+				$user,
+				$recentChangeSet ? new RecentChange() : null
+			);
+		}
+
+		if ( $shouldVarBeSet ) {
+			$this->assertSame(
+				$expectedValue,
+				AbuseFilterServices::getVariablesManager()->getVar( $vars, $variable )->toNative()
+			);
+		} else {
+			$this->assertFalse( $vars->varIsSet( $variable ) );
+		}
+	}
+
+	public static function provideCheckUserAbuseFilterVariables(): iterable {
+		foreach ( self::CHECKUSER_VARIABLES as $variable ) {
+			$expectedValue = match ( $variable ) {
+				'checkuser_user_ip' => '1.2.3.4',
+				'checkuser_user_agent' => 'Mozilla/5.0',
+			};
+
+			yield from [
+				"$variable when filtering current account creation" => [
+					'variable' => $variable,
+					'isAccountCreation' => true,
+					'abuseFilterVariablesEnabled' => true,
+					'recentChangeSet' => false,
+					'shouldVarBeSet' => true,
+					'expectedValue' => $expectedValue,
+				],
+				"$variable when filtering current action" => [
+					'variable' => $variable,
+					'isAccountCreation' => false,
+					'abuseFilterVariablesEnabled' => true,
+					'recentChangeSet' => false,
+					'shouldVarBeSet' => true,
+					'expectedValue' => $expectedValue,
+				],
+				"$variable when filtering previous account creation" => [
+					'variable' => $variable,
+					'isAccountCreation' => true,
+					'abuseFilterVariablesEnabled' => true,
+					'recentChangeSet' => true,
+					'shouldVarBeSet' => true,
+					'expectedValue' => null,
+				],
+				"$variable when filtering previous action" => [
+					'variable' => $variable,
+					'isAccountCreation' => false,
+					'abuseFilterVariablesEnabled' => true,
+					'recentChangeSet' => true,
+					'shouldVarBeSet' => true,
+					'expectedValue' => null,
+				],
+				"$variable when CheckUserAbuseFilterVariablesEnabled is false" => [
+					'variable' => $variable,
+					'isAccountCreation' => true,
+					'abuseFilterVariablesEnabled' => false,
+					'recentChangeSet' => false,
+					'shouldVarBeSet' => false,
+					'expectedValue' => null,
+				],
+			];
+		}
+	}
+
+	public function testOnAbuseFilterInterceptVariableForUnrelatedMethod(): void {
+		$result = 'unchanged';
+		$this->assertTrue(
+			$this->getHookHandler()->onAbuseFilter_interceptVariable(
+				'user-unnamed-ip',
+				new VariableHolder(),
+				[ 'rc' => null ],
+				$result
+			),
+			'The hook should not abort for methods not defined by CheckUser'
+		);
+		$this->assertSame( 'unchanged', $result, 'The result should not be modified' );
 	}
 }
