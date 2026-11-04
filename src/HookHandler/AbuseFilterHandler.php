@@ -16,13 +16,16 @@ use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterInterceptVariableHook;
 use MediaWiki\Extension\AbuseFilter\Hooks\AbuseFilterProtectedVarsAccessLoggerHook;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\RecentChanges\RecentChange;
+use MediaWiki\Request\WebRequest;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
+use TypeError;
 
 // phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
 // For onAbuseFilter_builder, onAbuseFilter_generateUserVars and onAbuseFilter_interceptVariable
@@ -36,6 +39,22 @@ class AbuseFilterHandler implements
 	AbuseFilterGenerateAccountCreationVarsHook,
 	AbuseFilterInterceptVariableHook
 	{
+
+	/**
+	 * Maps the Client Hints CheckUser variables to the associated {@link ClientHintsData} property
+	 */
+	private const array CLIENT_HINTS_VARIABLES = [
+		'checkuser_client_hints_architecture' => 'architecture',
+		'checkuser_client_hints_bitness' => 'bitness',
+		'checkuser_client_hints_brands' => 'brands',
+		'checkuser_client_hints_form_factors' => 'formFactor',
+		'checkuser_client_hints_full_version_list' => 'fullVersionList',
+		'checkuser_client_hints_mobile' => 'mobile',
+		'checkuser_client_hints_model' => 'model',
+		'checkuser_client_hints_platform' => 'platform',
+		'checkuser_client_hints_platform_version' => 'platformVersion',
+		'checkuser_client_hints_wow64' => 'woW64',
+	];
 
 	public function __construct(
 		private readonly TemporaryAccountLoggerFactory $loggerFactory,
@@ -166,14 +185,11 @@ class AbuseFilterHandler implements
 	 * @inheritDoc
 	 */
 	public function onAbuseFilter_builder( array &$realValues ): void {
-		if ( !$this->config->get( 'CheckUserAbuseFilterVariablesEnabled' ) ) {
-			return;
-		}
-
-		foreach ( $this->getVariables() as $variable ) {
+		foreach ( $this->getEnabledVariables() as $variable ) {
 			// Uses:
 			// * abusefilter-edit-builder-vars-checkuser-user-ip
 			// * abusefilter-edit-builder-vars-checkuser-user-agent
+			// * abusefilter-edit-builder-vars-checkuser-client-hints-*
 			$realValues['vars'][$variable] = $this->getMethodForVariable( $variable );
 		}
 	}
@@ -207,11 +223,7 @@ class AbuseFilterHandler implements
 	 * Lazy loads the CheckUser protected variables, to avoid computing them when no filter uses them.
 	 */
 	private function setCheckUserProtectedVariables( VariableHolder $vars, ?RecentChange $rc ): void {
-		if ( !$this->config->get( 'CheckUserAbuseFilterVariablesEnabled' ) ) {
-			return;
-		}
-
-		foreach ( $this->getVariables() as $variable ) {
+		foreach ( $this->getEnabledVariables() as $variable ) {
 			if ( !$vars->varIsSet( $variable ) ) {
 				$vars->setLazyLoadVar(
 					$variable,
@@ -251,18 +263,44 @@ class AbuseFilterHandler implements
 		$result = match ( $variable ) {
 			'checkuser_user_ip' => $request->getIP(),
 			'checkuser_user_agent' => $userAgent ? mb_scrub( $userAgent ) : null,
+			default => $this->getClientHintsValue(
+				self::CLIENT_HINTS_VARIABLES[$variable],
+				$request
+			),
 		};
 
 		return false;
 	}
 
 	/**
-	 * Returns the names of all of the CheckUser protected variables.
+	 * Returns the names of all of the CheckUser protected variables, regardless of whether they are enabled
 	 *
 	 * @return string[]
 	 */
 	private function getVariables(): array {
-		return [ 'checkuser_user_ip', 'checkuser_user_agent' ];
+		return array_merge(
+			[ 'checkuser_user_ip', 'checkuser_user_agent' ],
+			array_keys( self::CLIENT_HINTS_VARIABLES )
+		);
+	}
+
+	/**
+	 * Returns the names of the CheckUser AbuseFilter variables which filters can use, based on config
+	 *
+	 * @return string[]
+	 */
+	private function getEnabledVariables(): array {
+		if ( !$this->config->get( 'CheckUserAbuseFilterVariablesEnabled' ) ) {
+			return [];
+		}
+
+		$variables = [ 'checkuser_user_ip', 'checkuser_user_agent' ];
+
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			$variables = array_merge( $variables, array_keys( self::CLIENT_HINTS_VARIABLES ) );
+		}
+
+		return $variables;
 	}
 
 	/**
@@ -279,5 +317,48 @@ class AbuseFilterHandler implements
 	private function getVariableForMethod( string $method ): ?string {
 		$variable = str_replace( '-', '_', $method );
 		return in_array( $variable, $this->getVariables(), true ) ? $variable : null;
+	}
+
+	/**
+	 * Gets the value of a Client Hints property. Data which client side code sent with the
+	 * request is preferred over the HTTP headers, as it may hold high entropy data.
+	 *
+	 * @return string|string[]|bool|int|null
+	 */
+	private function getClientHintsValue( string $property, WebRequest $request ): array|bool|int|string|null {
+		$sources = [];
+		if ( $this->config->get( 'CheckUserClientHintsInEditRequest' ) && $request->wasPosted() ) {
+			$sources[] = ClientHintsData::newFromRequestField( $request );
+		}
+		try {
+			$sources[] = ClientHintsData::newFromRequestHeaders( $request, [ $property ] );
+		} catch ( TypeError ) {
+			// Ignore invalid header data, as CheckUser does when it stores Client Hints data
+		}
+
+		foreach ( array_filter( $sources ) as $clientHintsData ) {
+			$value = $clientHintsData->jsonSerialize()[$property];
+
+			// Treat empty values as undefined (so null if no source has it), but allow false as some properties
+			// are booleans
+			if ( $value === null || $value === '' || $value === [] ) {
+				continue;
+			}
+
+			if ( is_array( $value ) ) {
+				// brands and fullVersionList store their values as multi-dimensional arrays with keys,
+				// which AbuseFilter doesn't support. Instead represent as a flat array of values as shown
+				// in Special:CheckUser.
+				$rows = array_filter(
+					$clientHintsData->toDatabaseRows(),
+					static fn ( array $row ) => $row['uach_name'] === $property
+				);
+				return array_map( mb_scrub( ... ), array_values( array_column( $rows, 'uach_value' ) ) );
+			}
+
+			return is_string( $value ) ? mb_scrub( $value ) : $value;
+		}
+
+		return null;
 	}
 }

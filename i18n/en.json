@@ -588,5 +588,15 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "All (edited)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filters",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "IP address used to perform the action, for all types of account ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent string of the request used to perform the action ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent string of the request used to perform the action ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "Client Hints: CPU architecture ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "Client Hints: CPU bitness ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "Client Hints: browser brands and major versions ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "Client Hints: device form factors ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "Client Hints: browser brands and full versions ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "Client Hints: whether the browser is on a mobile device ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "Client Hints: device model ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "Client Hints: operating system ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "Client Hints: operating system version ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "Client Hints: whether the browser is a 32-bit binary on 64-bit Windows ($1)"
 }

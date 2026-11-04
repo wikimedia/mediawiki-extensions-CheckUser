@@ -11,6 +11,7 @@ use MediaWiki\Extension\AbuseFilter\AbuseFilterPermissionStatus;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
 use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
 use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
+use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\HookHandler\AbuseFilterHandler;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
@@ -31,16 +32,33 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 	use TempUserTestTrait;
 	use MockAuthorityTrait;
 
+	private const array CLIENT_HINTS_VARIABLES = [
+		'checkuser_client_hints_architecture',
+		'checkuser_client_hints_bitness',
+		'checkuser_client_hints_brands',
+		'checkuser_client_hints_form_factors',
+		'checkuser_client_hints_full_version_list',
+		'checkuser_client_hints_mobile',
+		'checkuser_client_hints_model',
+		'checkuser_client_hints_platform',
+		'checkuser_client_hints_platform_version',
+		'checkuser_client_hints_wow64',
+	];
+
 	private const array CHECKUSER_VARIABLES = [
 		'checkuser_user_ip',
 		'checkuser_user_agent',
+		...self::CLIENT_HINTS_VARIABLES,
 	];
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
-		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', true );
+		$this->overrideConfigValues( [
+			'CheckUserAbuseFilterVariablesEnabled' => true,
+			'CheckUserClientHintsEnabled' => true,
+		] );
 	}
 
 	private function getHookHandler(): AbuseFilterHandler {
@@ -333,7 +351,10 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideCheckUserProtectedVariables */
 	public function testCanViewCheckUserProtectedVariablesWhenDisabled( string $variable ): void {
 		// Filters which use the variables must stay restricted if the variables are later disabled
-		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', false );
+		$this->overrideConfigValues( [
+			'CheckUserAbuseFilterVariablesEnabled' => false,
+			'CheckUserClientHintsEnabled' => false,
+		] );
 
 		$actualStatus = AbuseFilterServices::getPermissionManager()->canViewProtectedVariables(
 			$this->mockRegisteredAuthorityWithPermissions( [ 'abusefilter-access-protected-vars' ] ),
@@ -381,6 +402,32 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	/** @dataProvider provideOnAbuseFilterBuilderWhenClientHintsDisabled */
+	public function testOnAbuseFilterBuilderWhenClientHintsDisabled( string $variable, bool $shouldVarBeSet ): void {
+		$this->overrideConfigValue( 'CheckUserClientHintsEnabled', false );
+
+		$keywordsManager = AbuseFilterServices::getKeywordsManager();
+		$this->assertSame(
+			$shouldVarBeSet,
+			$keywordsManager->isVarInUse( $variable )
+		);
+	}
+
+	public static function provideOnAbuseFilterBuilderWhenClientHintsDisabled(): iterable {
+		foreach ( self::CLIENT_HINTS_VARIABLES as $variable ) {
+			yield "Variable $variable" => [
+				'variable' => $variable,
+				'shouldVarBeSet' => false,
+			];
+		}
+		foreach ( array_diff( self::CHECKUSER_VARIABLES, self::CLIENT_HINTS_VARIABLES ) as $variable ) {
+			yield "Variable $variable" => [
+				'variable' => $variable,
+				'shouldVarBeSet' => true,
+			];
+		}
+	}
+
 	/** @dataProvider provideCheckUserAbuseFilterVariables */
 	public function testCheckUserAbuseFilterVariables(
 		string $variable,
@@ -388,13 +435,25 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		bool $abuseFilterVariablesEnabled,
 		bool $recentChangeSet,
 		bool $shouldVarBeSet,
-		?string $expectedValue
+		string|array|bool|null $expectedValue
 	): void {
 		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', $abuseFilterVariablesEnabled );
+		$this->overrideConfigValue( 'CheckUserClientHintsInEditRequest', true );
 
-		$request = new FauxRequest();
+		$request = new FauxRequest( [], true );
 		$request->setIP( '1.2.3.4' );
 		$request->setHeader( 'User-Agent', 'Mozilla/5.0' );
+		$request->setVal( ClientHintsData::REQUEST_FIELD, json_encode( [
+			'architecture' => 'arm',
+			'brands' => [ [ 'brand' => 'Chrome', 'version' => '128' ] ],
+			'fullVersionList' => [ [ 'brand' => 'Chrome', 'version' => '128.0.1.1' ] ],
+			'mobile' => false,
+			'model' => 'ABC-123',
+			'platform' => 'Windows',
+			'platformVersion' => '15',
+		] ) );
+		$request->setHeader( 'Sec-CH-UA-Form-Factors', 'desktop' );
+		$request->setHeader( 'Sec-CH-UA-WoW64', '?1' );
 		RequestContext::getMain()->setRequest( $request );
 
 		$vars = new VariableHolder();
@@ -426,29 +485,10 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public static function provideCheckUserAbuseFilterVariables(): iterable {
-		foreach ( self::CHECKUSER_VARIABLES as $variable ) {
-			$expectedValue = match ( $variable ) {
-				'checkuser_user_ip' => '1.2.3.4',
-				'checkuser_user_agent' => 'Mozilla/5.0',
-			};
-
+		// To reduce the number of test cases, only test the disabled handling for the first three variables,
+		// as they are all handled the same way.
+		foreach ( array_slice( self::CHECKUSER_VARIABLES, 0, 3 ) as $variable ) {
 			yield from [
-				"$variable when filtering current account creation" => [
-					'variable' => $variable,
-					'isAccountCreation' => true,
-					'abuseFilterVariablesEnabled' => true,
-					'recentChangeSet' => false,
-					'shouldVarBeSet' => true,
-					'expectedValue' => $expectedValue,
-				],
-				"$variable when filtering current action" => [
-					'variable' => $variable,
-					'isAccountCreation' => false,
-					'abuseFilterVariablesEnabled' => true,
-					'recentChangeSet' => false,
-					'shouldVarBeSet' => true,
-					'expectedValue' => $expectedValue,
-				],
 				"$variable when filtering previous account creation" => [
 					'variable' => $variable,
 					'isAccountCreation' => true,
@@ -475,6 +515,42 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 				],
 			];
 		}
+
+		foreach ( self::CHECKUSER_VARIABLES as $variable ) {
+			$expectedValue = match ( $variable ) {
+				'checkuser_user_ip' => '1.2.3.4',
+				'checkuser_user_agent' => 'Mozilla/5.0',
+				'checkuser_client_hints_architecture' => 'arm',
+				'checkuser_client_hints_bitness' => null,
+				'checkuser_client_hints_brands' => [ 'Chrome 128' ],
+				'checkuser_client_hints_form_factors' => [ 'desktop' ],
+				'checkuser_client_hints_full_version_list' => [ 'Chrome 128.0.1.1' ],
+				'checkuser_client_hints_mobile' => false,
+				'checkuser_client_hints_model' => 'ABC-123',
+				'checkuser_client_hints_platform' => 'Windows',
+				'checkuser_client_hints_platform_version' => '15',
+				'checkuser_client_hints_wow64' => true,
+			};
+
+			yield from [
+				"$variable when filtering current account creation" => [
+					'variable' => $variable,
+					'isAccountCreation' => true,
+					'abuseFilterVariablesEnabled' => true,
+					'recentChangeSet' => false,
+					'shouldVarBeSet' => true,
+					'expectedValue' => $expectedValue,
+				],
+				"$variable when filtering current action" => [
+					'variable' => $variable,
+					'isAccountCreation' => false,
+					'abuseFilterVariablesEnabled' => true,
+					'recentChangeSet' => false,
+					'shouldVarBeSet' => true,
+					'expectedValue' => $expectedValue,
+				],
+			];
+		}
 	}
 
 	public function testOnAbuseFilterInterceptVariableForUnrelatedMethod(): void {
@@ -489,5 +565,24 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 			'The hook should not abort for methods not defined by CheckUser'
 		);
 		$this->assertSame( 'unchanged', $result, 'The result should not be modified' );
+	}
+
+	public function testOnAbuseFilterInterceptVariableForBadHeaderValue(): void {
+		$this->overrideConfigValue( 'CheckUserAbuseFilterVariablesEnabled', true );
+
+		$request = new FauxRequest( [], true );
+		$request->setIP( '1.2.3.4' );
+		$request->setHeader( 'User-Agent', 'Mozilla/5.0' );
+		$request->setHeader( 'Sec-CH-UA', '"abc",;v=' );
+		RequestContext::getMain()->setRequest( $request );
+
+		$vars = new VariableHolder();
+		$user = $this->getTestUser()->getUser();
+		$this->getHookHandler()->onAbuseFilter_generateUserVars( $vars, $user, null );
+
+		$this->assertSame(
+			null,
+			AbuseFilterServices::getVariablesManager()->getVar( $vars, 'checkuser_client_hints_brands' )->toNative()
+		);
 	}
 }
