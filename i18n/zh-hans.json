@@ -462,6 +462,7 @@
 	"checkuser-userinfocard-checks-empty": "被查核次数：$1",
 	"checkuser-userinfocard-suggested-investigations": "建议调查案例数：$1",
 	"checkuser-userinfocard-abusefilter-hits": "滥用过滤器触发次数：$1",
+	"checkuser-userinfocard-abusereview-flags": "滥用审核标记（最近编辑，最多$2{{PLURAL:$2|天}}前）：$1",
 	"checkuser-userinfocard-has-checkuser-data": "在过去$1{{PLURAL:$1|天}}内{{GENDER:$2|活跃}}",
 	"checkuser-userinfocard-sharedblocked-button": "检查连接的已封禁账号",
 	"checkuser-userinfocard-sharedblocked-button-tooltip": "显示有多少已封禁账号使用了相同的IP地址或浏览器版本。",
