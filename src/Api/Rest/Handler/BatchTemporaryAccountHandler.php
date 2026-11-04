@@ -31,6 +31,13 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	use TemporaryAccountRevisionTrait;
 	use TemporaryAccountLogTrait;
 
+	/**
+	 * Users that IP data was looked up for. The keys are the canonical names.
+	 *
+	 * @var array<string,true>
+	 */
+	private array $revealedUsers = [];
+
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
@@ -71,13 +78,11 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	 * @inheritDoc
 	 */
 	public function makeLog( $identifier ) {
-		$users = $this->getValidatedBody()['users'] ?? [];
-
 		if ( $this->autoRevealLookup->isAutoRevealOn( $this->getAuthority() ) ) {
 			$logger = $this->loggerFactory->getLogger();
 			$performerName = $this->getAuthority()->getUser()->getName();
 
-			foreach ( $users as $username => $params ) {
+			foreach ( array_keys( $this->revealedUsers ) as $username ) {
 				$logger->logViewIPsWithAutoReveal(
 					$performerName,
 					$username
@@ -86,7 +91,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 			return;
 		}
 
-		foreach ( $users as $username => $params ) {
+		foreach ( array_keys( $this->revealedUsers ) as $username ) {
 			$this->jobQueueGroup->push(
 				LogTemporaryAccountAccessJob::newSpec(
 					$this->getAuthority()->getUser(),
@@ -127,6 +132,10 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 			if ( $this->extensionRegistry->isLoaded( 'Abuse Filter' ) ) {
 				$identifier['abuseLogIds'] = $params['abuseLogIds'] ?? [];
 			}
+			if ( $this->hasRequestedIdentifiers( $identifier ) ) {
+				$canonicalName = $this->userNameUtils->getCanonical( (string)$username );
+				$this->revealedUsers[$canonicalName] = true;
+			}
 			$results[$username] = $this->getData( $identifier, $dbr );
 		}
 
@@ -137,6 +146,18 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		}
 
 		return $results;
+	}
+
+	/**
+	 * Returns whether any IP data was looked up for the given identifiers.
+	 *
+	 * @param array<string,mixed> $identifier Lists of IDs, as built by {@link self::getResults}.
+	 */
+	private function hasRequestedIdentifiers( array $identifier ): bool {
+		return $identifier['lastUsedIp'] ||
+			count( $identifier['revIds'] ) > 0 ||
+			count( $identifier['logIds'] ) > 0 ||
+			count( $identifier['abuseLogIds'] ?? [] ) > 0;
 	}
 
 	/**
