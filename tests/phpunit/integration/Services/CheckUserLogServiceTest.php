@@ -439,6 +439,84 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
+	/** @dataProvider provideHasLogEntrySince */
+	public function testHasLogEntrySince(
+		string $logType,
+		string $target,
+		int $sinceOffset,
+		bool $expected
+	): void {
+		ConvertibleTimestamp::setFakeTime( '20250101000000' );
+		$performer = $this->getTestUser( 'checkuser' )->getUserIdentity();
+		$object = $this->setUpObject();
+		$object->addLogEntry( $performer, 'af-view-protected-var-value', 'user', 'Target', '' );
+		DeferredUpdates::doUpdates();
+
+		$this->assertSame(
+			$expected,
+			$object->hasLogEntrySince(
+				$performer,
+				$logType,
+				$target,
+				ConvertibleTimestamp::time() + $sinceOffset
+			),
+			'::hasLogEntrySince returned an unexpected value'
+		);
+	}
+
+	public static function provideHasLogEntrySince(): iterable {
+		return [
+			'Matching entry after the timestamp' => [
+				'logType' => 'af-view-protected-var-value',
+				'target' => 'Target',
+				'sinceOffset' => -60,
+				'expected' => true,
+			],
+			'Matching entry before the timestamp' => [
+				'logType' => 'af-view-protected-var-value',
+				'target' => 'Target',
+				'sinceOffset' => 60,
+				'expected' => false,
+			],
+			'Different log type' => [
+				'logType' => 'investigate',
+				'target' => 'Target',
+				'sinceOffset' => -60,
+				'expected' => false,
+			],
+			'Different target' => [
+				'logType' => 'af-view-protected-var-value',
+				'target' => 'OtherTarget',
+				'sinceOffset' => -60,
+				'expected' => false,
+			],
+		];
+	}
+
+	public function testHasLogEntrySinceForDifferentPerformer(): void {
+		$object = $this->setUpObject();
+		$performer = $this->getTestUser( 'checkuser' )->getUserIdentity();
+		$object->addLogEntry( $performer, 'investigate', 'user', 'Target', '' );
+		DeferredUpdates::doUpdates();
+
+		$this->assertFalse(
+			$object->hasLogEntrySince( $this->getTestSysop()->getUserIdentity(), 'investigate', 'Target', 0 ),
+			'Entries by other performers should be ignored'
+		);
+	}
+
+	public function testHasLogEntrySinceForPerformerWithoutActor(): void {
+		$this->assertFalse(
+			$this->setUpObject()->hasLogEntrySince(
+				UserIdentityValue::newRegistered( 123456, 'NonExistingTestUser1234' ),
+				'investigate',
+				'Target',
+				0
+			),
+			'Performers without an actor ID should have no entries'
+		);
+	}
+
 	public function testVerifyTargetUser() {
 		$object = $this->setUpObject();
 		// Existing user

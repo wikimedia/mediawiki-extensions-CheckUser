@@ -128,6 +128,42 @@ class CheckUserLogService {
 	}
 
 	/**
+	 * Returns whether the performer has a log entry of the given type for the given target which
+	 * was created after the given timestamp. Used to debounce log entries.
+	 *
+	 * @param UserIdentity $performer
+	 * @param string $logType
+	 * @param string $target
+	 * @param int $timestamp UNIX timestamp
+	 * @return bool
+	 */
+	public function hasLogEntrySince(
+		UserIdentity $performer,
+		string $logType,
+		string $target,
+		int $timestamp
+	): bool {
+		// Read from the primary DB to find entries inserted earlier in the same request
+		$dbw = $this->dbProvider->getPrimaryDatabase();
+		$actorId = $this->actorStore->findActorId( $performer, $dbw );
+		if ( !$actorId ) {
+			return false;
+		}
+
+		return (bool)$dbw->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cu_log' )
+			->where( [
+				'cul_actor' => $actorId,
+				'cul_type' => $logType,
+				'cul_target_text' => trim( $target ),
+				$dbw->expr( 'cul_timestamp', '>', $dbw->timestamp( $timestamp ) ),
+			] )
+			->caller( __METHOD__ )
+			->fetchField();
+	}
+
+	/**
 	 * Get the plaintext reason
 	 *
 	 * @param string $reason
