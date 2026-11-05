@@ -451,7 +451,7 @@
 			},
 			{
 				"name": "cul_type",
-				"comment": "String indicating the type of query, may be: 'useredits', 'userips', 'ipedits', 'ipusers', 'ipedits-xff', 'ipusers-xff' or 'investigate' if the check was performed from Special:Investigate",
+				"comment": "String indicating the type of query, may be: 'useredits', 'userips', 'ipedits', 'ipusers', 'ipedits-xff', 'ipusers-xff', 'investigate' if the check was performed from Special:Investigate or 'af-view-protected-var-value' if the user viewed CheckUser AbuseFilter variable values",
 				"type": "binary",
 				"options": { "notnull": true, "length": 30 }
 			},

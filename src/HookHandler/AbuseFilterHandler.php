@@ -19,6 +19,7 @@ use MediaWiki\Extension\AbuseFilter\Variables\VariableHolder;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLoggerFactory;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\RecentChanges\RecentChange;
@@ -26,7 +27,9 @@ use MediaWiki\Request\WebRequest;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use TypeError;
+use Wikimedia\IPUtils;
 
 // phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
 // For onAbuseFilter_builder, onAbuseFilter_generateUserVars and onAbuseFilter_interceptVariable
@@ -68,11 +71,19 @@ class AbuseFilterHandler implements
 		'checkuser_ja4h' => 'ja4h',
 	];
 
+	/**
+	 * The number of seconds after which a duplicate Special:CheckUserLog entry can be
+	 * created for a debounced log. Matches the AbuseFilter default.
+	 */
+	private const int LOG_DEBOUNCE_DELAY = 24 * 60 * 60;
+
 	public function __construct(
 		private readonly TemporaryAccountLoggerFactory $loggerFactory,
 		private readonly CheckUserPermissionManager $checkUserPermissionManager,
 		private readonly TempUserConfig $tempUserConfig,
 		private readonly Config $config,
+		private readonly CheckUserLogService $checkUserLogService,
+		private readonly UserIdentityLookup $userIdentityLookup,
 	) {
 	}
 
@@ -99,9 +110,12 @@ class AbuseFilterHandler implements
 	}
 
 	/**
-	 * Whenever AbuseFilter logs access to the user_unnamed_ip protected variable, this should instead
-	 * be logged to CheckUser in order to centralize IP view logs. Abort the hook
-	 * afterwards so that the event is not double-logged.
+	 * Diverts access logs for protected variables which CheckUser handles away from the AbuseFilter log:
+	 * * user_unnamed_ip goes to the temporary account log, to centralise IP view logs
+	 * * The CheckUser protected variables go to Special:CheckUserLog, to centralise logs of access
+	 *   to CheckUser data
+	 *
+	 * The handled variables are removed from the parameters, so that AbuseFilter only logs the others.
 	 *
 	 * @inheritDoc
 	 */
@@ -117,40 +131,71 @@ class AbuseFilterHandler implements
 			return true;
 		}
 
-		$handledVariables = [ 'user_unnamed_ip' ];
-		$variablesOfInterest = array_intersect( $handledVariables, $params['variables'] );
-
-		if ( count( $variablesOfInterest ) === 0 ) {
-			// No variables of interest, continue with the default logging
-			return true;
-		}
-
-		// Use the AbuseFilter specific log action as a message key along
-		// with an indicator that it's being sourced from AbuseFilter so that
-		// it's clearer that this is an external log.
+		// Use the AbuseFilter specific log action with an "af-" prefix, so that it is
+		// clear that the log entry is sourced from AbuseFilter.
 		// Possible values:
 		//  - af-view-protected-var-value
-		$action = 'af-' . $action;
+		$externalAction = 'af-' . $action;
 
-		// Copy the parameters but with only the subset of variables that we're interested in
-		$newParams = $params;
-		$newParams['variables'] = $variablesOfInterest;
+		$temporaryAccountVariables = array_values( array_intersect( $params['variables'], [ 'user_unnamed_ip' ] ) );
+		if ( $temporaryAccountVariables ) {
+			$this->loggerFactory->getLogger()->logFromExternal(
+				$performer,
+				$target,
+				$externalAction,
+				[ 'variables' => $temporaryAccountVariables ] + $params,
+				$shouldDebounce,
+				$timestamp
+			);
+		}
 
-		// Keep only the unhandled variables in the log entry handled by AbuseFilter
-		$params['variables'] = array_diff( $params['variables'], $handledVariables );
+		$checkUserVariables = array_values( array_intersect( $params['variables'], $this->getVariables() ) );
+		if ( $checkUserVariables ) {
+			$this->logCheckUserVariablesAccess( $performer, $target, $externalAction, $shouldDebounce, $timestamp );
+		}
 
-		$logger = $this->loggerFactory->getLogger();
-		$logger->logFromExternal(
-			$performer,
-			$target,
-			$action,
-			$newParams,
-			$shouldDebounce,
-			$timestamp
+		$params['variables'] = array_diff(
+			$params['variables'],
+			$temporaryAccountVariables,
+			$checkUserVariables
 		);
 
 		// Allow AbuseFilter to continue logging if there are remaining variables
 		return true;
+	}
+
+	/**
+	 * Adds a Special:CheckUserLog entry for a view of CheckUser protected variable values.
+	 */
+	private function logCheckUserVariablesAccess(
+		UserIdentity $performer,
+		string $target,
+		string $logType,
+		bool $shouldDebounce,
+		int $timestamp
+	): void {
+		if (
+			$shouldDebounce &&
+			$this->checkUserLogService->hasLogEntrySince(
+				$performer,
+				$logType,
+				$target,
+				$timestamp - self::LOG_DEBOUNCE_DELAY
+			)
+		) {
+			return;
+		}
+
+		if ( IPUtils::isIPAddress( $target ) ) {
+			$targetType = 'ip';
+			$targetId = 0;
+		} else {
+			// The target can be an account which does not exist, such as a blocked account creation
+			$targetType = 'user';
+			$targetId = $this->userIdentityLookup->getUserIdentityByName( $target )?->getId() ?? 0;
+		}
+
+		$this->checkUserLogService->addLogEntry( $performer, $logType, $targetType, $target, '', $targetId );
 	}
 
 	/**

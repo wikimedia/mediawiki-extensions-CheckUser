@@ -521,7 +521,9 @@
 				"CheckUserTemporaryAccountLoggerFactory",
 				"CheckUserPermissionManager",
 				"TempUserConfig",
-				"MainConfig"
+				"MainConfig",
+				"CheckUserLogService",
+				"UserIdentityLookup"
 			]
 		},
 		"UserInfoCardVariablesHandler": {

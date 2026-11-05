@@ -204,6 +204,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		// * checkuser-log-entry-ipusers-xff
 		// * checkuser-log-entry-useractions
 		// * checkuser-log-entry-investigate
+		// * checkuser-log-entry-af-view-protected-var-value
 		$cul_type = match ( $row->cul_type ) {
 			'ipedits' => 'ipactions',
 			'ipedits-xff' => 'ipactions-xff',

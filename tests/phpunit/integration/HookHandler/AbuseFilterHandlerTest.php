@@ -21,6 +21,7 @@ use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\Options\StaticUserOptionsLookup;
+use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -74,7 +75,9 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getMainConfig()
+			$this->getServiceContainer()->getMainConfig(),
+			$this->getServiceContainer()->get( 'CheckUserLogService' ),
+			$this->getServiceContainer()->getUserIdentityLookup()
 		);
 	}
 
@@ -147,14 +150,12 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function testProtectedVarsLogSplitIfVariablesContainUserUnnamedIp() {
 		$performer = $this->getTestSysop();
-		$protectedVarsAccessLogger = AbuseFilterServices::getAbuseLoggerFactory()->getProtectedVarsAccessLogger();
-		$protectedVarsAccessLogger->logViewProtectedVariableValue(
+		$this->logViewProtectedVariableValue(
 			$performer->getUserIdentity(),
 			'~2024-01',
 			[ 'user_unnamed_ip', 'other_protected_var' ],
 			(int)wfTimestamp()
 		);
-		DeferredUpdates::doUpdates();
 
 		// Assert that the log was created by AbuseFilter and did not go in full to CheckUser, as CheckUser
 		// is only interested in user_unnamed_ip variable.
@@ -188,18 +189,16 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testProtectedVarsAccessDebouncedLogging() {
 		// Run the same action twice
 		$performer = $this->getTestSysop();
-		$protectedVarsAccessLogger = AbuseFilterServices::getAbuseLoggerFactory()->getProtectedVarsAccessLogger();
-		$protectedVarsAccessLogger->logViewProtectedVariableValue(
+		$this->logViewProtectedVariableValue(
 			$performer->getUserIdentity(),
 			'~2024-01',
 			[ 'user_unnamed_ip' ]
 		);
-		$protectedVarsAccessLogger->logViewProtectedVariableValue(
+		$this->logViewProtectedVariableValue(
 			$performer->getUserIdentity(),
 			'~2024-01',
 			[ 'user_unnamed_ip' ]
 		);
-		DeferredUpdates::doUpdates();
 
 		// Assert that the action only inserted once into CheckUsers' temp account logging table
 		$this->newSelectQueryBuilder()
@@ -219,6 +218,134 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 				'log_action' => 'view-protected-var-value',
 				'log_type' => ProtectedVarsAccessLogger::LOG_TYPE,
 			] )
+			->assertFieldValue( 0 );
+	}
+
+	/**
+	 * Calls {@link ProtectedVarsAccessLogger::logViewProtectedVariableValue} and runs deferred updates
+	 * to create the log entry.
+	 */
+	private function logViewProtectedVariableValue(
+		UserIdentity $performer,
+		string $target,
+		array $variables,
+		?int $timestamp = null
+	): void {
+		AbuseFilterServices::getAbuseLoggerFactory()->getProtectedVarsAccessLogger()
+			->logViewProtectedVariableValue( $performer, $target, $variables, $timestamp );
+		DeferredUpdates::doUpdates();
+	}
+
+	public function testCheckUserVariablesLogForIPTarget(): void {
+		$this->logViewProtectedVariableValue(
+			$this->getTestSysop()->getUserIdentity(),
+			'1.2.3.4',
+			[ 'checkuser_user_ip' ]
+		);
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'cul_type', 'cul_target_id', 'cul_target_text', 'cul_target_hex' ] )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ 'af-view-protected-var-value', 0, '1.2.3.4', '01020304' ] );
+	}
+
+	public function testCheckUserVariablesLogForNonExistingUserTarget(): void {
+		$this->logViewProtectedVariableValue(
+			$this->getTestSysop()->getUserIdentity(),
+			'NonExistingTestUser1234',
+			[ 'checkuser_user_ip' ]
+		);
+
+		$this->newSelectQueryBuilder()
+			->select( [ 'cul_type', 'cul_target_id', 'cul_target_text' ] )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ 'af-view-protected-var-value', 0, 'NonExistingTestUser1234' ] );
+	}
+
+	public function testProtectedVarsLogSplitBetweenAllLogs(): void {
+		$this->logViewProtectedVariableValue(
+			$this->getTestSysop()->getUserIdentity(),
+			'~2024-01',
+			[ 'user_unnamed_ip', 'checkuser_user_ip', 'other_protected_var' ]
+		);
+
+		$cuLogs = DatabaseLogEntry::newSelectQueryBuilder( $this->getDb() )
+			->where( [
+				'log_action' => 'af-view-protected-var-value',
+				'log_type' => TemporaryAccountLogger::LOG_TYPE,
+			] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+		$this->assertSame( 1, $cuLogs->numRows(), 'One temporary account log entry should be created' );
+		$this->assertSame(
+			[ 'user_unnamed_ip' ],
+			DatabaseLogEntry::newFromRow( $cuLogs->current() )->getParameters()['variables'],
+			'Temporary account log entry should only contain user_unnamed_ip'
+		);
+
+		$this->newSelectQueryBuilder()
+			->select( 'cul_type' )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
+			->assertFieldValue( 'af-view-protected-var-value' );
+
+		$logRows = DatabaseLogEntry::newSelectQueryBuilder( $this->getDb() )
+			->where( [
+				'log_action' => 'view-protected-var-value',
+				'log_type' => ProtectedVarsAccessLogger::LOG_TYPE,
+			] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+		$this->assertSame( 1, $logRows->numRows(), 'One AbuseFilter log entry should be created' );
+		$this->assertSame(
+			[ 'other_protected_var' ],
+			DatabaseLogEntry::newFromRow( $logRows->current() )->getParameters()['variables'],
+			'AbuseFilter log entry should only contain the variables not handled by CheckUser'
+		);
+	}
+
+	public function testCheckUserVariablesLogIsDebounced(): void {
+		$performer = $this->getTestSysop()->getUserIdentity();
+		$this->logViewProtectedVariableValue( $performer, '~2024-01', [ 'checkuser_user_ip' ] );
+		$this->logViewProtectedVariableValue( $performer, '~2024-01', [ 'checkuser_user_agent' ] );
+
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
+			->assertFieldValue( 1 );
+
+		// A different target should still create a log entry
+		$this->logViewProtectedVariableValue( $performer, '~2024-02', [ 'checkuser_user_ip' ] );
+
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
+			->assertFieldValue( 2 );
+	}
+
+	public function testProtectedVarsLogWithoutVariablesParam(): void {
+		$params = [];
+		$this->assertTrue(
+			$this->getHookHandler()->onAbuseFilterLogProtectedVariableValueAccess(
+				$this->getTestSysop()->getUserIdentity(),
+				'~2024-01',
+				ProtectedVarsAccessLogger::ACTION_VIEW_PROTECTED_VARIABLE_VALUE,
+				true,
+				(int)wfTimestamp(),
+				$params
+			),
+			'Hook handler should not abort the hook'
+		);
+		DeferredUpdates::doUpdates();
+
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
 			->assertFieldValue( 0 );
 	}
 

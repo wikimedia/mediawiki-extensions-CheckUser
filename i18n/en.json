@@ -139,6 +139,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|got}} users for XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useractions": "$3, $1 {{GENDER:$6|got}} actions performed {{GENDER:$7|by}} $2",
 	"checkuser-log-entry-investigate": "$3, $1 {{GENDER:$6|looked up}} information {{GENDER:$7|for}} $2",
+	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|viewed}} the values of CheckUser AbuseFilter variables {{GENDER:$7|for}} $2",
 	"checkuser-userlinks-ip": "(<span class=\"plainlinks\">[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS]</span>)",
 	"checkuser-toollinks": "<span class=\"plainlinks\">[[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS] ·\n[https://www.ip2location.com/$1 Geolocate]]</span>",
 	"checkuser-token-fail": "Session failure. Please try again.",
