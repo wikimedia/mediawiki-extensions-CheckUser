@@ -6,7 +6,8 @@
 			"Amjad Khan",
 			"Baloch Khan",
 			"Dreamy Jazz",
-			"شاه زمان پټان"
+			"شاه زمان پټان",
+			"باران"
 		]
 	},
 	"checkuser-desc": "کارنانو ته مناسبه اجازه ورکوي چې د کارنانو وېبپتې او نور مالومات وگوري",
@@ -41,7 +42,7 @@
 	"checkuser-clienthints-name-form-factor": "فورم فکتور",
 	"checkuser-clienthints-name-brand": "سوداگريز نښان",
 	"checkuser-clienthints-name-mobile": "موبايل",
-	"checkuser-clienthints-name-model": "نمونه",
+	"checkuser-clienthints-name-model": "رغبېلگه",
 	"checkuser-clienthints-name-platform": "پلیټ فارم",
 	"checkuser-clienthints-name-platform-version": "پليټ‌فارم بلبڼه",
 	"checkuser-clienthints-value-yes": "هو",
@@ -130,7 +131,7 @@
 	"group-checkuser.css": "/* دلته ځای پرځای شوی سي‌اېس‌اېس کوډ به يوازې سم‌کتونکي کارنان اغېزمن کړي*/",
 	"group-checkuser.js": "/* دلته ځای پرځای شوی جاواسکريپټ کوډ به يوازې سم‌کتونکي کارنان اغېزمن کړي*/",
 	"checkuser-temporary-accounts-onboarding-dialog-title": "د لنډمهاله گڼونونو وړاندې‌کول",
-	"checkuser-temporary-accounts-onboarding-dialog-skip-all": "ټول پړدرېښودل",
+	"checkuser-temporary-accounts-onboarding-dialog-skip-all": "ټول پرېښودل",
 	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 د $2",
 	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "مخکنی",
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "راتلونکی",
