@@ -482,12 +482,16 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		}
 
 		if ( $metadataMessages ) {
-			$pipedMetadata = $this->getLanguage()->pipeList( $metadataMessages );
+			$metadataList = '';
+
+			foreach ( $metadataMessages as $metadata ) {
+				$metadataList .= Html::rawElement( 'li', [], $metadata );
+			}
 
 			$metadataLine = Html::rawElement(
-				'div',
+				'ul',
 				[ 'class' => 'mw-checkuser-suggestedinvestigations-metadata' ],
-				$this->msg( 'parentheses' )->rawParams( $pipedMetadata )->parse()
+				$metadataList
 			);
 		}
 
