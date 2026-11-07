@@ -10,6 +10,7 @@ use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
@@ -215,6 +216,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 		$this->commonVerifyFormFieldsPresent( $doc );
 		$this->verifyCidrFormExists( $doc );
+		$this->assertLogExtractNotShown( $html );
 
 		// Assert that the normal subtitle links are present (those without a specific target)
 		$this->assertStringContainsString( '(checkuser-showlog', $html );
@@ -493,6 +495,115 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			'(checkuser-ip-results-suggestedinvestigations-notice-link',
 			$html
 		);
+	}
+
+	private function assertLogExtractNotShown( string $html ): void {
+		$this->assertCount(
+			0,
+			DOMCompat::querySelectorAll( DOMUtils::parseHTML( $html ), '.mw-checkuser-log-extract' ),
+			'The log extract should not be shown'
+		);
+	}
+
+	public function testLogExtractShownForTargetWithCheck(): void {
+		$performer = $this->getTestCheckUser();
+
+		/** @var CheckUserLogService $checkUserLogService */
+		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
+		$checkUserLogService->addLogEntry(
+			$performer,
+			'userips',
+			'user',
+			self::$usernameTarget->getName(),
+			'Prior check',
+			self::$usernameTarget->getId(),
+		);
+		$this->runDeferredUpdates();
+
+		[ $html ] = $this->executeSpecialPage( self::$usernameTarget->getName(), performer: $performer );
+
+		$extractHtml = $this->assertSelectorMatchesOneElementInNode(
+			DOMUtils::parseHTML( $html ),
+			'.mw-checkuser-log-extract',
+			true
+		);
+		$this->assertStringContainsString(
+			'(checkuserlog)',
+			$extractHtml,
+			'The log extract should have a heading'
+		);
+		$this->assertStringContainsString(
+			'Prior check',
+			$extractHtml,
+			'The log extract should contain the prior check'
+		);
+		$this->assertStringNotContainsString(
+			'(log-fulllog)',
+			$extractHtml,
+			'The link to the full log should not be shown when all entries are shown'
+		);
+	}
+
+	public function testLogExtractFullLogLink(): void {
+		/** @var CheckUserLogService $checkUserLogService */
+		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
+		$performer = $this->getTestUser( [ 'checkuser' ] )->getUser();
+
+		for ( $i = 0; $i < 6; $i++ ) {
+			$checkUserLogService->addLogEntry(
+				$performer,
+				'ipedits',
+				'ip',
+				'1.2.3.4',
+				"Prior check $i"
+			);
+		}
+		$this->runDeferredUpdates();
+
+		[ $html ] = $this->executeSpecialPage( '1.2.3.4', performer: $performer );
+		$doc = DOMUtils::parseHTML( $html );
+
+		$this->assertCount(
+			5,
+			DOMCompat::querySelectorAll( $doc, '.mw-checkuser-log-extract li[data-mw-culogid]' ),
+			'The log extract should show no more than 5 entries'
+		);
+
+		$footers = DOMCompat::querySelectorAll( $doc, '.mw-checkuser-log-extract .mw-logevent-footer' );
+		$this->assertCount( 1, $footers, 'The link to the full log should be shown' );
+		$footerHtml = DOMCompat::getOuterHTML( $footers[0] );
+		$this->assertStringContainsString(
+			'(log-fulllog)',
+			$footerHtml,
+			'The link to the full log should have the expected text'
+		);
+		$this->assertStringContainsString(
+			SpecialPage::getTitleFor( 'CheckUserLog', '1.2.3.4' )->getLocalURL(),
+			$footerHtml,
+			'The link to the full log should link to Special:CheckUserLog for the target'
+		);
+	}
+
+	public function testLogExtractNotShownWithoutCheckUserLogRight(): void {
+		$this->setGroupPermissions( [
+			'checkuser-without-log' => [ 'checkuser' => true, 'read' => true ],
+		] );
+		$performer = $this->getTestUser( [ 'checkuser-without-log' ] )->getUser();
+
+		/** @var CheckUserLogService $checkUserLogService */
+		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
+		$checkUserLogService->addLogEntry(
+			$performer,
+			'userips',
+			'user',
+			self::$usernameTarget->getName(),
+			'Prior check',
+			self::$usernameTarget->getId(),
+		);
+		$this->runDeferredUpdates();
+
+		[ $html ] = $this->executeSpecialPage( self::$usernameTarget->getName(), performer: $performer );
+		$this->assertLogExtractNotShown( $html );
 	}
 
 	/**
