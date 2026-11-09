@@ -4,13 +4,20 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\Services;
 
+use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\Profiler\Profiler;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
+use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use Wikimedia\Rdbms\DBError;
+use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -25,6 +32,10 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserTempUserTestTrait;
+
+	protected function tearDown(): void {
+		Profiler::instance()->getTransactionProfiler()->resetExpectations();
+	}
 
 	protected function setUpObject(): CheckUserLogService {
 		return $this->getServiceContainer()->get( 'CheckUserLogService' );
@@ -209,6 +220,74 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 			$expectedPlaintextReason,
 			$row->cul_reason_plaintext_text,
 			'The plaintext reason saved was not correctly saved.'
+		);
+	}
+
+	public function testAddLogEntryWhenInsertCommentThrows(): void {
+		// Avoid logging the DBError in the exception channel, as this fails the test in CI if logged there
+		// by the DeferredUpdates handler
+		$this->setLogger( 'exception', new NullLogger() );
+
+		$mockCommentStore = $this->createMock( CommentStore::class );
+		$mockCommentStore->method( 'insert' )
+			->willThrowException( new DBError( $this->getDb(), 'test' ) );
+		$this->setService( 'CommentStore', $mockCommentStore );
+
+		$mockLogger = $this->createMock( LoggerInterface::class );
+		$mockLogger->expects( $this->once() )
+			->method( 'critical' )
+			->with(
+				'CheckUserLog entry was not recorded. This means checks can occur without being auditable. ' .
+				'Immediate fix required.'
+			);
+		$this->setLogger( 'CheckUser', $mockLogger );
+
+		$this->expectException( DBError::class );
+		$this->setUpObject()->addLogEntry(
+			$this->getTestUser( 'checkuser' )->getUser(),
+			'ipusers',
+			'ip',
+			'1.2.3.4',
+			'testing'
+		);
+	}
+
+	public function testAddLogEntryWhenSilencingReplicaOnlyExpectations(): void {
+		Profiler::instance()->getTransactionProfiler()->setExpectation(
+			'writes',
+			0,
+			__METHOD__
+		);
+
+		$checkuser = $this->getTestUser( 'checkuser' )->getUser();
+
+		$realCommentStore = $this->getServiceContainer()->getCommentStore();
+		$mockCommentStore = $this->createMock( CommentStore::class );
+		$mockCommentStore->expects( $this->atLeastOnce() )
+			->method( 'insert' )
+			->willReturnCallback( function ( IDatabase $dbw, $key, $text ) use ( $realCommentStore ) {
+				$this->assertTrue( Profiler::instance()->getTransactionProfiler()->isSilenced( 'writes' ) );
+				return $realCommentStore->insert( $dbw, $key, $text );
+			} );
+		$this->setService( 'CommentStore', $mockCommentStore );
+
+		$realActorStore = $this->getServiceContainer()->getActorStore();
+		$mockActorStore = $this->createMock( ActorStore::class );
+		$mockActorStore->expects( $this->atLeastOnce() )
+			->method( 'acquireActorId' )
+			->willReturnCallback( function ( UserIdentity $user, IDatabase $dbw ) use ( $realActorStore ) {
+				$this->assertTrue( Profiler::instance()->getTransactionProfiler()->isSilenced( 'writes' ) );
+				return $realActorStore->acquireActorId( $user, $dbw );
+			} );
+		$this->setService( 'ActorStore', $mockActorStore );
+
+		$this->setUpObject()->addLogEntry(
+			$checkuser,
+			'ipusers',
+			'ip',
+			'1.2.3.4',
+			'testing',
+			silenceReplicasOnlyExpectations: true
 		);
 	}
 

@@ -195,7 +195,7 @@ class AbuseFilterHandler implements
 			$targetId = $this->userIdentityLookup->getUserIdentityByName( $target )?->getId() ?? 0;
 		}
 
-		$this->checkUserLogService->addLogEntry( $performer, $logType, $targetType, $target, '', $targetId );
+		$this->checkUserLogService->addLogEntry( $performer, $logType, $targetType, $target, '', $targetId, true );
 	}
 
 	/**
