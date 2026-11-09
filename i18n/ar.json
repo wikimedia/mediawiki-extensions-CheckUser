@@ -551,5 +551,7 @@
 	"rangecalculator-summary": "تتيح لك هذه الأداة حساب النطاق المشترك بين قائمة عناوين IP. وتحسب هذه الأداة حاليًا نطاقًا مشتركًا واحدًا فقط، ولا يمكنك استخدام عناوين IPv4 وIPv6 معًا.",
 	"checkuser-suggestedinvestigations-queue-view-all": "الجميع",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "الكل (محرر)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "مرشحات"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "مرشحات",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "عنوان IP المستخدم لتنفيذ الإجراء، لجميع أنواع الحسابات ( $1 )",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "سلسلة وكيل المستخدم للطلب المستخدم لتنفيذ الإجراء ( $1 )"
 }

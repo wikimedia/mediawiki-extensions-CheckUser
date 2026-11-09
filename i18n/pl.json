@@ -573,5 +573,7 @@
 	"checkuser-si-related-cases-info": "Konto docelowe jest powiązane z {{PLURAL:$1|$1 kontem|$1 kontami}} w ramach [$3 {{PLURAL:$2|$2 sugestii sprawdzeń}}]",
 	"checkuser-suggestedinvestigations-queue-view-all": "Wszystkie",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Wszystkie (edytowane)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtry"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtry",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "Adres IP użyty przy wykonaniu akcji, bez względu na rodzaj konta ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent używany podczas wykonania akcji ($1)"
 }

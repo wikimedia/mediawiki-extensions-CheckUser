@@ -566,5 +566,7 @@
 	"checkuser-si-related-cases-info": "Målkontoen er knyttet til {{PLURAL:$1|$1 konto|$1 konti}} på tværs af [$3 {{PLURAL:$2|$2 foreslået undersøgelse|$2 foreslåede undersøgelser}}]",
 	"checkuser-suggestedinvestigations-queue-view-all": "Alle",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Alle (redigeret)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtre"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtre",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "IP-adresse brugt til at udføre handlingen, for alle kontotyper ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Brugeragentstrengen for den anmodning, der blev brugt til at udføre handlingen ($1)"
 }

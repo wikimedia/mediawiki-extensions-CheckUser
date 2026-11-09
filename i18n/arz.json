@@ -28,7 +28,7 @@
 	"checkuser-month": "الـ30 يوم اللى فاتو",
 	"checkuser-all": "الكل",
 	"checkuser-cidr-label": "لاقى النطاق المشترك و العنواين المتأثره لليستة الايبيهات.",
-	"checkuser-cidr-res": "CIDR مشترك:",
+	"checkuser-cidr-res": "النطاق الشائع:",
 	"checkuser-empty": "مافيش حاجة فى السجل.",
 	"checkuser-nomatch": "مافيش اى حاجة متطابقة",
 	"checkuser-nomatch-edits": "لا تطابق تم العثور عليه.\nآخر تعديل كان فى $1 الساعة $2.",

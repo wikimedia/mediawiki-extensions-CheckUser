@@ -561,5 +561,7 @@
 	"checkuser-si-related-cases-info": "Hədəf hesabı [$3 {{PLURAL:$2|$2 təklif olunan araşdırma}}] üzrə {{PLURAL:$1|$1 hesabla}} əlaqələndirilib.",
 	"checkuser-suggestedinvestigations-queue-view-all": "Hamısı",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Hamısı (redaktə olunmuş)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtrlər"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtrlər",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "Bütün hesab növləri üçün əməliyyatı yerinə yetirmək üçün istifadə edilən IP ünvanı ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Əməliyyatı yerinə yetirmək üçün istifadə edilən sorğunun User-Agent sətri ($1)"
 }

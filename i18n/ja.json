@@ -447,6 +447,10 @@
 	"checkuser-userinfocard-suggested-investigations": "推奨調査ケース数: $1",
 	"checkuser-userinfocard-abusefilter-hits": "不正利用フィルター発動数: $1",
 	"checkuser-userinfocard-has-checkuser-data": "直近 $1 {{PLURAL:$1|日}}に活動歴{{GENDER:$2|あり}}",
+	"checkuser-userinfocard-sharedblocked-button": "関連するブロック済みアカウントを確認",
+	"checkuser-userinfocard-sharedblocked-button-tooltip": "同一の IP またはブラウザバージョンを使用しているブロック済みアカウントの数を表示",
+	"checkuser-userinfocard-sharedblocked-ip": "同一の IP を使用しているブロック済みアカウント数: $1",
+	"checkuser-userinfocard-sharedblocked-browser-version": "同一のブラウザバージョンを使用しているブロック済みアカウント数: $1",
 	"checkuser-userinfocard-global-restrictions-locked": "$3より[[$2|グローバル{{GENDER:$1|ロック}}]]中",
 	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|グローバル{{GENDER:$1|ロック}}]]中",
 	"checkuser-userinfocard-global-restrictions-blocked": "$3より[[$2|グローバル{{GENDER:$1|ブロック}}]]中",
@@ -589,5 +593,7 @@
 	"checkuser-si-related-cases-info": "対象のアカウントは [$3 {{PLURAL:$2|$2 件の推奨調査}}]から {{PLURAL:$1|$1 アカウント}}にリンクしています",
 	"checkuser-suggestedinvestigations-queue-view-all": "全て",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "全て（絞り込みあり）",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "絞り込み設定"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "絞り込み設定",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "操作の実行に使用された IP アドレス (全てのアカウント種別に対応) ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "操作の実行に使用されたリクエストのユーザーエージェント ($1)"
 }

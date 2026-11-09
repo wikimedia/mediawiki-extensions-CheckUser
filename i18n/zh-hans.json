@@ -611,5 +611,7 @@
 	"checkuser-si-related-cases-info": "目标账号与涉及[$3 {{PLURAL:$2|$2项调查建议}}]的{{PLURAL:$1|$1个账号}}关联",
 	"checkuser-suggestedinvestigations-queue-view-all": "全部",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "全部（已编辑）",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "过滤器"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "过滤器",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "用于执行该操作的IP地址，适用于所有类型的账号（$1）",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "用于执行该操作的请求的用户代理字符串（$1）"
 }

@@ -556,5 +556,7 @@
 	"checkuser-si-related-cases-info": "Akoonka bartilmaameedka ah wuxuu ku xiran yahay {{PLURAL:$1|$1 akoon|$1 akoonnada}} ee ku kala baahsan [$3 {{PLURAL:$2|$2 baaritaan la soo jeediyay|$2 baaritaanno la soo jeediyay}}]",
 	"checkuser-suggestedinvestigations-queue-view-all": "Dhammaan",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Dhammaan (tafatiray)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Shaandho"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Shaandho",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "Cinwaanka IP-ga loo adeegsaday fulinta ficilka, dhammaan noocyada akoonnada ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Xarigga User-Agent ee codsiga loo adeegsaday fulinta ficilka ($1)"
 }

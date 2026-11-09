@@ -554,5 +554,7 @@
 	"checkuser-si-related-cases-info": "Akaun sasaran dipautkan ke {{PLURAL:$1|$1 akaun}} yang merentasi [$3 {{PLURAL:$2|$2 siasatan yang dicadangkan}}]",
 	"checkuser-suggestedinvestigations-queue-view-all": "Semua",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Semua (telah disunting)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Penapis"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Penapis",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "Alamat IP yang digunakan untuk melaksanakan tindakan tersebut, untuk semua jenis akaun ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Rentetan Ejen-Pengguna bagi permintaan yang digunakan untuk melaksanakan tindakan ($1)"
 }

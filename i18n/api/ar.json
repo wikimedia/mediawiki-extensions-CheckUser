@@ -84,6 +84,7 @@
 	"checkuser-rest-property-desc-checkuser-last-check": "الطابع الزمني لآخر عملية فحص للمستخدم (CheckUser) التي تم إجراؤها على هذا المستخدم",
 	"checkuser-rest-property-desc-suggested-investigations-cases": "عدد حالات التحقيق المقترحة المرتبطة بهذا المستخدم",
 	"checkuser-rest-property-desc-abusefilter-hit-count": "عدد سجلات فلترة إساءة الاستخدام التي تم تشغيلها بواسطة هذا المستخدم. يظهر هذا الإحصاء فقط للحسابات المؤقتة والحسابات التي لم يتم تأكيدها تلقائيًا.",
+	"checkuser-rest-property-desc-abusereview-flagged-edits": "عدد التعديلات الأخيرة لهذا المستخدم لكل علامة من علامات AbuseReview التي يمكن للمنفذ رؤيتها. لا يتم احتساب النتائج الإيجابية الخاطئة. يظهر هذا فقط في حال تثبيت إضافة WikimediaAntiAbuse وكان بإمكان المنفذ رؤية علامة واحدة على الأقل.",
 	"checkuser-rest-property-desc-has-checkuser-data": "ما إذا كان للمستخدم أي نشاط مسجل في جداول CheckUser على هذه الويكي. يظهر هذا الخيار فقط إذا كان لدى المستخدم صلاحية التحقق من المستخدم.",
 	"checkuser-rest-property-desc-can-access-temp-account-ip": "ما إذا كان بإمكان المؤدي الوصول إلى عناوين IP المؤقتة لحساب المستخدم",
 	"checkuser-rest-property-desc-active-blocks-local": "عدد الكتل النشطة على ويكي المحلي",

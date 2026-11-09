@@ -570,5 +570,7 @@
 	"checkuser-si-related-cases-info": "Das Zielkonto ist mit {{PLURAL:$1|$1 Konto|$1 Konten}} über [$3 {{PLURAL:$2|$2 vorgeschlagene Untersuchung|$2 vorgeschlagene Untersuchungen}}] verknüpft.",
 	"checkuser-suggestedinvestigations-queue-view-all": "Alle",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Alle (bearbeitet)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filter"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filter",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "IP-Adresse, über die die Aktion ausgeführt wurde, für alle Kontotypen ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent-Zeichenfolge der Anfrage, mit der die Aktion ausgeführt wurde ($1)"
 }

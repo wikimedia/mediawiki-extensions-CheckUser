@@ -558,5 +558,7 @@
 	"checkuser-si-related-cases-info": "A conta obxectivo está ligada a {{PLURAL:$1|unha conta|$1 contas}} a través [$3 {{PLURAL:$2|dunha investigación suxerida|de $2 investigacións suxeridas}}]",
 	"checkuser-suggestedinvestigations-queue-view-all": "Todas",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Todas (editada)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtros"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtros",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "Enderezo IP empregado para realizar a acción, para todos os tipos de conta ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Cadea de axente de usuario da solicitude empregada para realizar a acción ($1)"
 }
