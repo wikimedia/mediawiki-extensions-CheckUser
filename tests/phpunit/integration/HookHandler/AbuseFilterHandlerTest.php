@@ -23,6 +23,7 @@ use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\Options\StaticUserOptionsLookup;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\Extension\CheckUser\HookHandler\AbuseFilterHandler
@@ -264,6 +265,20 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 			->assertRowValue( [ 'af-view-protected-var-value', 0, 'NonExistingTestUser1234' ] );
 	}
 
+	public function testCheckUserVariablesLogForExistingUserTarget(): void {
+		$target = $this->getTestUser()->getUserIdentity();
+		$this->logViewProtectedVariableValue(
+			$this->getTestSysop()->getUserIdentity(),
+			$target->getName(),
+			[ 'checkuser_user_ip' ]
+		);
+		$this->newSelectQueryBuilder()
+			->select( [ 'cul_type', 'cul_target_id', 'cul_target_text' ] )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
+			->assertRowValue( [ 'af-view-protected-var-value', $target->getId(), $target->getName() ] );
+	}
+
 	public function testProtectedVarsLogSplitBetweenAllLogs(): void {
 		$this->logViewProtectedVariableValue(
 			$this->getTestSysop()->getUserIdentity(),
@@ -320,6 +335,28 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		// A different target should still create a log entry
 		$this->logViewProtectedVariableValue( $performer, '~2024-02', [ 'checkuser_user_ip' ] );
 
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
+			->assertFieldValue( 2 );
+	}
+
+	public function testCheckUserVariablesLogIsNotDebouncedAfterOneDay(): void {
+		$performer = $this->getTestSysop()->getUserIdentity();
+		ConvertibleTimestamp::setFakeTime( '20260101000000' );
+		$this->logViewProtectedVariableValue( $performer, '~2024-01', [ 'checkuser_user_ip' ] );
+
+		ConvertibleTimestamp::setFakeTime( '20260101235959' );
+		$this->logViewProtectedVariableValue( $performer, '~2024-01', [ 'checkuser_user_ip' ] );
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cu_log' )
+			->caller( __METHOD__ )
+			->assertFieldValue( 1 );
+
+		ConvertibleTimestamp::setFakeTime( '20260102000001' );
+		$this->logViewProtectedVariableValue( $performer, '~2024-01', [ 'checkuser_user_ip' ] );
 		$this->newSelectQueryBuilder()
 			->select( 'COUNT(*)' )
 			->from( 'cu_log' )

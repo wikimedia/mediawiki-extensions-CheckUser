@@ -10,6 +10,7 @@ use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Parser\Sanitizer;
+use MediaWiki\Profiler\Profiler;
 use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentity;
@@ -18,6 +19,8 @@ use Psr\Log\LoggerInterface;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\DBError;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\TransactionProfiler;
+use Wikimedia\ScopedCallback;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -51,6 +54,8 @@ class CheckUserLogService {
 	 * @param string $target
 	 * @param string $reason
 	 * @param int $targetID
+	 * @param bool $silenceReplicasOnlyExpectations Whether to silence {@link TransactionProfiler} warnings
+	 *    about making writes or accessing primary DB connections. Default this is not silenced.
 	 * @return void
 	 */
 	public function addLogEntry(
@@ -59,7 +64,8 @@ class CheckUserLogService {
 		string $targetType,
 		string $target,
 		string $reason,
-		int $targetID = 0
+		int $targetID = 0,
+		bool $silenceReplicasOnlyExpectations = false
 	) {
 		if ( $targetType == 'ip' ) {
 			[ $rangeStart, $rangeEnd ] = IPUtils::parseRange( $target );
@@ -75,6 +81,13 @@ class CheckUserLogService {
 		}
 
 		$timestamp = ConvertibleTimestamp::now();
+
+		$transactionProfilerScope = null;
+		if ( $silenceReplicasOnlyExpectations ) {
+			$transactionProfilerScope = Profiler::instance()->getTransactionProfiler()->silenceForScope(
+				TransactionProfiler::EXPECTATION_REPLICAS_ONLY
+			);
+		}
 		$dbw = $this->dbProvider->getPrimaryDatabase();
 
 		$data = [
@@ -89,6 +102,8 @@ class CheckUserLogService {
 
 		$plaintextReason = $this->getPlaintextReason( $reason );
 
+		ScopedCallback::consume( $transactionProfilerScope );
+
 		$fname = __METHOD__;
 		$commentStore = $this->commentStore;
 		$logger = $this->logger;
@@ -102,9 +117,16 @@ class CheckUserLogService {
 				$fname,
 				$dbw,
 				$commentStore,
-				$logger
+				$logger,
+				$silenceReplicasOnlyExpectations
 			) {
 				try {
+					$transactionProfilerScope = null;
+					if ( $silenceReplicasOnlyExpectations ) {
+						$transactionProfilerScope = Profiler::instance()->getTransactionProfiler()->silenceForScope(
+							TransactionProfiler::EXPECTATION_REPLICAS_ONLY
+						);
+					}
 					$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
 					$data += $commentStore->insert( $dbw, 'cul_reason_plaintext', $plaintextReason );
 					$dbw->newInsertQueryBuilder()
@@ -116,6 +138,7 @@ class CheckUserLogService {
 						)
 						->caller( $fname )
 						->execute();
+					ScopedCallback::consume( $transactionProfilerScope );
 				} catch ( DBError $e ) {
 					$logger->critical(
 						'CheckUserLog entry was not recorded. This means checks can occur without being auditable. ' .
