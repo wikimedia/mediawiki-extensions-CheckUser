@@ -15,6 +15,7 @@ class SuggestedInvestigationsTrigger {
 
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserSuggestedInvestigationsRequestHeaders',
+		'CheckUserSuggestedInvestigationsEnabled',
 	];
 
 	public function __construct(
@@ -28,6 +29,8 @@ class SuggestedInvestigationsTrigger {
 	/**
 	 * Matches signals against the provided event in a job
 	 *
+	 * This method skips creating the job if Suggested Investigations is disabled.
+	 *
 	 * @param UserIdentity $userIdentity
 	 * @param string $eventType One of the `SuggestedInvestigationsSignalMatchService::EVENT_*` constants
 	 * @param array $extraData An array of extra data to include with the event. This method automatically adds
@@ -38,6 +41,10 @@ class SuggestedInvestigationsTrigger {
 		string $eventType,
 		array $extraData = [],
 	): void {
+		if ( !$this->options->get( 'CheckUserSuggestedInvestigationsEnabled' ) ) {
+			return;
+		}
+
 		$extraData['headers'] = $this->getRequestHeaders();
 		$spec = SuggestedInvestigationsMatchSignalsAgainstUserJob::newSpec( $userIdentity, $eventType, $extraData );
 		// Only enqueue the job once the triggering transaction has committed. We don't want to create

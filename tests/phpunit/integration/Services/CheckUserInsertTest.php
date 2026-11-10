@@ -16,6 +16,7 @@ use MediaWiki\Extension\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsSignalMatchService;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserCommonTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
 use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Language\Language;
@@ -41,6 +42,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserCommonTestTrait;
 	use CheckUserTempUserTestTrait;
+	use SuggestedInvestigationsTestTrait;
 
 	private function setUpObject(): CheckUserInsert {
 		return $this->getServiceContainer()->get( 'CheckUserInsert' );
@@ -624,7 +626,8 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function testInsertIntoCuPrivateEventTableForSuggestedInvestigationsSignalMatch() {
+	public function testInsertIntoCuPrivateEventTableForSuggestedInvestigationsSignalMatch(): void {
+		$this->enableSuggestedInvestigations();
 		$performer = $this->getTestUser()->getUserIdentity();
 
 		$actualJob = null;

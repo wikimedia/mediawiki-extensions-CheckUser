@@ -13,6 +13,7 @@ use MediaWiki\JobQueue\IJobSpecification;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
+use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
@@ -42,6 +43,7 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
 				[
 					'CheckUserSuggestedInvestigationsRequestHeaders' => $configuredHeaders,
+					'CheckUserSuggestedInvestigationsEnabled' => true,
 				]
 			),
 			$this->newImmediateConnectionProvider()
@@ -98,6 +100,7 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
 				[
 					'CheckUserSuggestedInvestigationsRequestHeaders' => [ 'User-Agent' ],
+					'CheckUserSuggestedInvestigationsEnabled' => true,
 				]
 			),
 			$this->newImmediateConnectionProvider()
@@ -135,7 +138,10 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 			$mockJobQueueGroup,
 			new ServiceOptions(
 				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
-				[ 'CheckUserSuggestedInvestigationsRequestHeaders' => [] ]
+				[
+					'CheckUserSuggestedInvestigationsRequestHeaders' => [],
+					'CheckUserSuggestedInvestigationsEnabled' => true,
+				]
 			),
 			$connectionProvider
 		);
@@ -150,6 +156,29 @@ class SuggestedInvestigationsTriggerTest extends MediaWikiIntegrationTestCase {
 
 		// Simulate the transaction committing.
 		( $capturedCallback )();
+	}
+
+	public function testJobIsNotEnqueuedWhenDisabled(): void {
+		$mockJobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$mockJobQueueGroup->expects( $this->never() )
+			->method( 'lazyPush' );
+
+		$trigger = new SuggestedInvestigationsTrigger(
+			$mockJobQueueGroup,
+			new ServiceOptions(
+				SuggestedInvestigationsTrigger::CONSTRUCTOR_OPTIONS,
+				[
+					'CheckUserSuggestedInvestigationsRequestHeaders' => [],
+					'CheckUserSuggestedInvestigationsEnabled' => false,
+				]
+			),
+			$this->newImmediateConnectionProvider()
+		);
+
+		$trigger->matchSignalsAgainstUserInJob(
+			$this->createMock( UserIdentity::class ),
+			SuggestedInvestigationsSignalMatchService::EVENT_CREATE_ACCOUNT
+		);
 	}
 
 	/**
