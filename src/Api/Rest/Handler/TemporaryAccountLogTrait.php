@@ -75,6 +75,8 @@ trait TemporaryAccountLogTrait {
 					'log_id' => $logIds,
 					'log_actor' => $actorId,
 					'ls_field' => 'associated_rev_id',
+					// Avoid costly query by allowing cu_changes join to use cuc_actor_ip_hex_time index (T444186)
+					'cuc_actor' => $actorId,
 				] )
 				->caller( __METHOD__ )
 				->orderBy( 'cuc_timestamp' )
