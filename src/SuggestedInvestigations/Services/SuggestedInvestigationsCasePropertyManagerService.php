@@ -38,11 +38,11 @@ class SuggestedInvestigationsCasePropertyManagerService {
 		array $caseIds,
 		array $properties
 	): void {
-		$this->caseLookupService->assertCasesExist( $caseIds );
+		$this->caseLookupService->assertCasesExist( $caseIds, true );
 
 		$userIdsInCases = [];
 		foreach ( $caseIds as $caseId ) {
-			$userIdsInCase = $this->caseLookupService->getUsersInCase( $caseId );
+			$userIdsInCase = $this->caseLookupService->getUsersInCase( $caseId, true );
 			$userIdsInCases[ $caseId ] = $userIdsInCase;
 		}
 
@@ -85,7 +85,6 @@ class SuggestedInvestigationsCasePropertyManagerService {
 	 * @param int[] $caseIds
 	 */
 	public function updateEditRelatedPropertiesForCases( array $caseIds ): void {
-		$this->caseLookupService->assertCasesExist( $caseIds );
 		$this->updatePropertiesForCases( $caseIds, [ self::PROPERTY_SHARED_PAGE_EDITS_COUNT ] );
 	}
 

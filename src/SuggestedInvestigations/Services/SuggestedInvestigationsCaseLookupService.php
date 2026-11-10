@@ -173,13 +173,17 @@ class SuggestedInvestigationsCaseLookupService {
 	/**
 	 * Fetches the list of local wiki user IDs of users listed in a given case
 	 *
+	 * @param int $caseId
+	 * @param bool $usePrimary Whether or not to use the primary database.
+	 *             This should generally be false, but set to true if you need rows in
+	 *             a transaction or if you see replication lag issues. See T444117.
 	 * @return int[]
 	 * @throws RuntimeException if SuggestedInvestigations is not enabled.
 	 */
-	public function getUserIdsInCase( int $caseId ): array {
+	public function getUserIdsInCase( int $caseId, bool $usePrimary = false ): array {
 		$this->assertSuggestedInvestigationsEnabled();
 
-		$dbr = $this->getDatabase();
+		$dbr = $this->getDatabase( $usePrimary );
 
 		$userIds = $dbr->newSelectQueryBuilder()
 			->select( 'siu_user_id' )
@@ -195,11 +199,14 @@ class SuggestedInvestigationsCaseLookupService {
 	 * Gets a list of all users in a given case, using the cusi_user table as the data source
 	 *
 	 * @since 1.47
+	 * @param int $caseId
+	 * @param bool $usePrimary Whether or not to use the primary database.
+	 *             This should generally be false, but set to true if you need rows in
+	 *             a transaction or if you see replication lag issues. See T444117.
 	 * @return UserIdentity[]
 	 */
-	public function getUsersInCase( int $caseId ): array {
-		$dbr = $this->getDatabase();
-		$userIds = $this->getUserIdsInCase( $caseId );
+	public function getUsersInCase( int $caseId, bool $usePrimary = false ): array {
+		$userIds = $this->getUserIdsInCase( $caseId, $usePrimary );
 
 		return array_filter( array_map(
 			$this->userIdentityLookup->getUserIdentityByUserId( ... ),
@@ -418,13 +425,15 @@ class SuggestedInvestigationsCaseLookupService {
 	 *
 	 * @since 1.47
 	 * @param int[] $caseIds IDs for the cases to test for.
-	 *
+	 * @param bool $usePrimary Whether or not to use the primary database for the assertion
+	 *             check. This should generally be false, but set to true if you need rows in
+	 *             a transaction or if you see replication lag issues. See T444117.
 	 * @throws CaseNotFoundException if any ID does not match an existing case
 	 */
-	public function assertCasesExist( array $caseIds ): void {
+	public function assertCasesExist( array $caseIds, bool $usePrimary = false ): void {
 		$existingIds = array_map(
 			'intval',
-			$this->getDatabase()->newSelectQueryBuilder()
+			$this->getDatabase( $usePrimary )->newSelectQueryBuilder()
 				->select( 'sic_id' )
 				->from( 'cusi_case' )
 				->where( [ 'sic_id' => $caseIds ] )
