@@ -152,6 +152,7 @@
 	"checkuser-log-entry-ipusers-xff": "$1 {{GENDER:$6|rief}} am $3 die Benutzer für XFF <bdi>$2</bdi> ab",
 	"checkuser-log-entry-useractions": "$3, $1 {{GENDER:$6|rief}} {{GENDER:$7|von}} $2 ausgeführte Aktionen ab",
 	"checkuser-log-entry-investigate": "$3, $1 hat Informationen {{GENDER:$6|nachgeschlagen}} {{GENDER:$7|für}} $2",
+	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|sah}} die Werte der CheckUser-Missbrauchs-Variablen {{GENDER:$7|für}} $2",
 	"checkuser-token-fail": "Sitzungsfehler. Bitte erneut versuchen.",
 	"prefs-checkuser": "Checkuser",
 	"checkuser-helper-table-collapse-by-default-preference": "Mindestanzahl von Zeilen zum Einklappen der {{#special:CheckUser}}-Zusammenfassungstabelle beim Laden:",
@@ -572,5 +573,18 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Alle (bearbeitet)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filter",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "IP-Adresse, über die die Aktion ausgeführt wurde, für alle Kontotypen ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent-Zeichenfolge der Anfrage, mit der die Aktion ausgeführt wurde ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent-Zeichenfolge der Anfrage, mit der die Aktion ausgeführt wurde ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "Client-Hinweise: CPU-Architektur ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "Client-Hinweise: CPU-Bit-Architektur ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "Client-Hinweise: Browser-Hersteller und Hauptversionen ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "Client-Hinweise: Gerätformfaktoren ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "Client-Hinweise: Browser-Hersteller und volle Versionen ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "Client-Hinweise: ob der Browser auf einem Mobilgerät installiert ist ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "Client-Hinweise: Gerätemodell ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "Client-Hinweise: Betriebssystem ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "Client-Hinweise: Betriebssystemversion ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "Client-Hinweise: Gibt an, ob es sich bei dem Browser um eine 32-Bit-Binärdatei unter 64-Bit-Windows handelt ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "Bewertung der Wahrscheinlichkeit, dass die Aktion von einem Browser ausgeführt wurde ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "JA3N TLS-Fingerabdruck ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "JA4H HTTP-Fingerabdruck ($1)"
 }

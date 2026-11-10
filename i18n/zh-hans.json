@@ -190,6 +190,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3，$1{{GENDER:$6|获取}}了XFF <bdi>$2</bdi>的用户信息",
 	"checkuser-log-entry-useractions": "$3，{{GENDER:$6|$1}}取得由{{GENDER:$7|$2}}执行的操作",
 	"checkuser-log-entry-investigate": "$3，{{GENDER:$6|$1}}查找了{{GENDER:$7|$2}}的信息",
+	"checkuser-log-entry-af-view-protected-var-value": "$3，$1{{GENDER:$6|查看了}}{{GENDER:$7|针对}}$2的用户查核滥用过滤器变量的值",
 	"checkuser-token-fail": "会话故障。请重新尝试。",
 	"prefs-checkuser": "用户查核",
 	"checkuser-helper-table-collapse-by-default-preference": "加载时折叠{{#special:CheckUser}}摘要表的最小行数：",
@@ -613,5 +614,18 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "全部（已编辑）",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "过滤器",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "用于执行该操作的IP地址，适用于所有类型的账号（$1）",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "用于执行该操作的请求的用户代理字符串（$1）"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "用于执行该操作的请求的用户代理字符串（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "客户端提示：CPU架构（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "客户端提示：CPU位数（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "客户端提示：浏览器品牌和主要版本（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "客户端提示：设备外形规格（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "客户端提示：浏览器品牌和完整版本（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "客户端提示：浏览器是否运行在移动设备上（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "客户端提示：设备型号（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "客户端提示：操作系统（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "客户端提示：操作系统版本（$1）",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "客户端提示：浏览器是否为运行在64位Windows上的32位二进制版本（$1）",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "操作由浏览器执行的可能性得分（$1）",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "JA3N TLS指纹（$1）",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "JA4H HTTP指纹（$1）"
 }

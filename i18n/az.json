@@ -563,5 +563,8 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Hamısı (redaktə olunmuş)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtrlər",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "Bütün hesab növləri üçün əməliyyatı yerinə yetirmək üçün istifadə edilən IP ünvanı ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "Əməliyyatı yerinə yetirmək üçün istifadə edilən sorğunun User-Agent sətri ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Əməliyyatı yerinə yetirmək üçün istifadə edilən sorğunun User-Agent sətri ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "Client Hints: CPU arxitekturası ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "Client Hins: CPU bit sıxlığı ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "Client Hints: brauzer brendləri və əsas versiyaları ($1)"
 }

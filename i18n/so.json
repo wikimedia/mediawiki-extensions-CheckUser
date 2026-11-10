@@ -129,6 +129,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|helay}} isticmaalayaal ee XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useractions": "$3, $1 {{GENDER:$6|helay}} ficillo la sameeyay {{GENDER:$7|ee}} $2",
 	"checkuser-log-entry-investigate": "$3, $1 {{GENDER:$6|raadiyay}} xogta {{GENDER:$7|ee}} $2",
+	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|eegay}} qiimayaasha doorsoomayaasha AbuseFilter ee CheckUser {{GENDER:$7|ee loogu talagalay}} $2",
 	"checkuser-token-fail": "Fadhiga wuu fashilmay. Fadlan mar kale isku day.",
 	"prefs-checkuser": "HubiIsticmaalaha",
 	"checkuser-helper-table-collapse-by-default-preference": "Tirada ugu yar ee safafka lagu burburinayo miiska soo koobidda {{#special:CheckUser}} marka la furo:",
@@ -558,5 +559,18 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Dhammaan (tafatiray)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Shaandho",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "Cinwaanka IP-ga loo adeegsaday fulinta ficilka, dhammaan noocyada akoonnada ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "Xarigga User-Agent ee codsiga loo adeegsaday fulinta ficilka ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Xarigga User-Agent ee codsiga loo adeegsaday fulinta ficilka ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "Tilmaamaha Macmiilka: Qaab dhismeedka CPU-ga ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "Tilmaamaha Macmiilka: Ballaca bit-yada CPU-ga ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "Tilmaamaha Macmiilka: Summadaha biraawsarka iyo noocyadooda waaweyn ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "Tilmaamaha Macmiilka: Noocyada qalabka ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "Tilmaamaha Macmiilka: Summadaha biraawsarka iyo noocyadooda oo dhammaystiran ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "Tilmaamaha Macmiilka: In biraawsarku ku jiro qalab moobil ah iyo in kale ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "Tilmaamaha Macmiilka: Moodeelka qalabka ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "Tilmaamaha Macmiilka: Nidaamka hawlgalka ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "Tilmaamaha Macmiilka: Nooca nidaamka hawlgalka ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "Tilmaamaha Macmiilka: In biraawsarku yahay barnaamij 32-bit ah oo ku shaqeeya Windows 64-bit ah iyo in kale ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "Dhibcaha muujinaya suurtagalnimada in ficilka uu sameeyay biraawsar ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "Faraha aqoonsiga JA3N TLS ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "Faraha aqoonsiga JA4H HTTP ($1)"
 }
