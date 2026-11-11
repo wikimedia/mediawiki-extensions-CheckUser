@@ -383,7 +383,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @return string[][] With three keys to arrays for tables, fields and joins.
 	 */
 	public function getQueryInfoForReasonSearch( string $reason ): array {
-		$queryInfo = [ 'tables' => [], 'fields' => [], 'join_conds' => [] ];
+		$queryInfo = [ 'tables' => [], 'fields' => [], 'conds' => [], 'join_conds' => [] ];
 		$plaintextReason = $this->checkUserLogService->getPlaintextReason( $reason );
 
 		if ( $plaintextReason == '' ) {
