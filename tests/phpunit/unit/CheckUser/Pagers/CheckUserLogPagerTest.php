@@ -165,7 +165,7 @@ class CheckUserLogPagerTest extends MediaWikiUnitTestCase {
 			'Empty plaintext reason' => [
 				'',
 				[ 'tables' => [], 'fields' => [], 'joins' => [] ],
-				[ 'tables' => [], 'fields' => [], 'join_conds' => [] ],
+				[ 'tables' => [], 'fields' => [], 'conds' => [], 'join_conds' => [] ],
 			],
 			'Non-empty plaintext reason' => [
 				'spam',
