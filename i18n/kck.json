@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"MthulisiNcube"
+		]
+	},
+	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|viewed}} the values of CheckUser AbuseFilter variables {{GENDER:$7|for}} $2",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "Bhudililo inolakidza kuti kwakabva mubrawuza ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "JA4H HTTP finga printi ($1)"
+}
