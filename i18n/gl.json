@@ -136,6 +136,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|obtivo}} os usuarios de XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useractions": "$3, $1 {{GENDER:$6|obtivo}} as accións realizadas {{GENDER:$7|por}} $2",
 	"checkuser-log-entry-investigate": "$3, $1 {{GENDER:$6|consultou}} a información {{GENDER:$7|de}} $2",
+	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|viu}} os valores das variables do filtro de abusos dos verificadores de usuarios {{GENDER:$7|para}} $2",
 	"checkuser-token-fail": "Fallo na sesión. Proba de novo.",
 	"prefs-checkuser": "Verificación de usuarios",
 	"checkuser-helper-table-collapse-by-default-preference": "Número mínimo de filas para encartar a táboa de resumo de {{#special:CheckUser}} ao cargar:",
@@ -560,5 +561,18 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Todas (editada)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtros",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "Enderezo IP empregado para realizar a acción, para todos os tipos de conta ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "Cadea de axente de usuario da solicitude empregada para realizar a acción ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Cadea de axente de usuario da solicitude empregada para realizar a acción ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "Detalles do cliente: arquitectura da CPU ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "Detalles do cliente: bits da CPU ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "Detalles do cliente: marcas de navegadores e versións principais ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "Detalles do cliente: factores de forma do dispositivo ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "Detalles do cliente: marcas de navegadores e versións completas ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "Detalles do cliente: se o navegador está nun dispositivo móbil ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "Detalles do cliente: modelo do dispositivo ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "Detalles do cliente: sistema operativo ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "Detalles do cliente: versión do sistema operativo ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "Detalles do cliente: se o navegador é un binario de 32 bits nun sistema Windows de 64 bits ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "Puntuación da probabilidade de que a acción fose realizada por un navegador ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "Pegada dixital TLS JA3N ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "Pegada dixital HTTP JA4H ($1)"
 }

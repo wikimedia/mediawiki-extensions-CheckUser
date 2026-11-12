@@ -133,6 +133,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3 , $1 telah {{GENDER:$6|mendapat}} maklumat pengguna untuk XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useractions": "$3 , $1 telah {{GENDER:$6|mendapat}} maklumat tindakan yang dilakukan {{GENDER:$7|oleh}} $2",
 	"checkuser-log-entry-investigate": "$3, $1 telah {{GENDER:$6|mencari maklumat}} {{GENDER:$7|untuk}} $2",
+	"checkuser-log-entry-af-view-protected-var-value": "$3 , $1 {{GENDER:$6|telah melihat}} nilai pembolehubah CheckUser AbuseFilter {{GENDER:$7|untuk}} $2",
 	"checkuser-token-fail": "Kegagalan sesi. Sila cuba lagi.",
 	"prefs-checkuser": "Pemeriksa",
 	"checkuser-helper-table-collapse-by-default-preference": "Bilangan minimum baris untuk sorokkan jadual ringkasan {{#special:CheckUser}} semasa dimuatkan:",
@@ -556,5 +557,18 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Semua (telah disunting)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Penapis",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "Alamat IP yang digunakan untuk melaksanakan tindakan tersebut, untuk semua jenis akaun ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "Rentetan Ejen-Pengguna bagi permintaan yang digunakan untuk melaksanakan tindakan ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Rentetan Ejen-Pengguna bagi permintaan yang digunakan untuk melaksanakan tindakan ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "Petunjuk Pelanggan: Seni bina CPU ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "Petunjuk Pelanggan: Keamatan bit CPU ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "Petunjuk Pelanggan: jenama pelayar dan versi utama ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "Petunjuk Pelanggan: faktor bentuk peranti ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "Petunjuk Pelanggan: jenama pelayar dan versi penuh ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "Petunjuk Pelanggan: sama ada pelayar berada pada peranti mudah alih ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "Petunjuk Pelanggan: model peranti ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "Petunjuk Pelanggan: sistem pengendalian ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "Petunjuk Pelanggan: versi sistem pengendalian ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "Petunjuk Pelanggan: sama ada pelayar tersebut merupakan binari 32-bit pada Windows 64-bit ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "Markah untuk kemungkinan tindakan itu dilakukan oleh pelayar ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "Cap jari JA3N TLS ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "Cap jari HTTP JA4H ($1)"
 }
