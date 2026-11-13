@@ -216,10 +216,7 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->commonVerifyFormFieldsPresent( $doc );
 		$this->verifyCidrFormExists( $doc );
 
-		// Assert that the "Try out Special:Investigate" link is present
-		$this->assertStringContainsString( '(checkuser-link-investigate-label', $html );
 		// Assert that the normal subtitle links are present (those without a specific target)
-		$this->assertStringContainsString( '(checkuser-show-investigate', $html );
 		$this->assertStringContainsString( '(checkuser-showlog', $html );
 		// Verify that the summary text is present
 		$this->assertStringContainsString( '(checkuser-summary', $html );

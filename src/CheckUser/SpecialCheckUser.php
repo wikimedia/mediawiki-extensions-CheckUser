@@ -46,7 +46,6 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
-use OOUI\IconWidget;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
@@ -184,27 +183,19 @@ class SpecialCheckUser extends SpecialPage {
 		$out = $this->getOutput();
 		$links = [];
 		$out->enableOOUI();
-		$out->addModuleStyles( 'oojs-ui.styles.icons-interactions' );
-		$icon = new IconWidget( [ 'icon' => 'lightbulb' ] );
-		$investigateLink = $this->getLinkRenderer()->makeKnownLink(
-			SpecialPage::getTitleFor( 'Investigate' ),
-			$this->msg( 'checkuser-link-investigate-label' )->text()
-		);
-		$out->setIndicators( [ 'investigate-link' => $icon . $investigateLink ] );
-		$query = [];
-		if ( $user !== '' ) {
-			$query['targets'] = $user;
-		}
-		$links[] = Html::rawElement(
-			'span',
-			[],
-			$this->getLinkRenderer()->makeKnownLink(
-				SpecialPage::getTitleFor( 'Investigate' ),
-				$this->msg( $user ? 'checkuser-investigate-this-user' : 'checkuser-show-investigate' )->text(),
+		if (
+			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
+			!$this->getConfig()->get( 'CheckUserSuggestedInvestigationsHidden' )
+		) {
+			$links[] = Html::rawElement(
+				'span',
 				[],
-				$query
-			)
-		);
+				$this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
+					$this->msg( 'checkuser-show-suggestedinvestigations' )->text()
+				)
+			);
+		}
 		if ( $this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
 			$links[] = Html::rawElement(
 				'span',
@@ -224,19 +215,6 @@ class SpecialCheckUser extends SpecialPage {
 					)
 				);
 			}
-		}
-		if (
-			$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
-			!$this->getConfig()->get( 'CheckUserSuggestedInvestigationsHidden' )
-		) {
-			$links[] = Html::rawElement(
-				'span',
-				[],
-				$this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
-					$this->msg( 'checkuser-show-suggestedinvestigations' )->text()
-				)
-			);
 		}
 
 		$html = '';

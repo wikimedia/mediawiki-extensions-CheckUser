@@ -369,7 +369,6 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 	private function getNavigationLinks(): array {
 		$links = [
 			'checkuser' => 'CheckUser',
-			'checkuser-investigate' => 'Investigate',
 		];
 
 		if ( $this->getUser()->isAllowed( 'checkuser-log' ) ) {

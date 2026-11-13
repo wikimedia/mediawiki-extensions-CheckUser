@@ -17,6 +17,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use TestUser;
 use Wikimedia\IPUtils;
+use Wikimedia\Parsoid\Ext\DOMUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -140,10 +141,16 @@ class SpecialCheckUserLogTest extends SpecialPageTestBase {
 			$this->assertStringContainsString( "Check $i", $html );
 		}
 		// Verify that the subtitle links were correctly generated
-		$this->assertStringContainsString( '(checkuser-showmain', $html );
-		$this->assertStringContainsString( '(checkuser-show-investigate', $html );
+		$checkUserLink = $this->assertSelectorMatchesOneElementInNode(
+			DOMUtils::parseHTML( $html ),
+			'.mw-checkuser-links-no-parentheses a[title="Special:CheckUser"]'
+		);
+		$this->assertSame(
+			'(checkuser)',
+			$checkUserLink->textContent,
+			'Subtitle link to Special:CheckUser has the wrong label'
+		);
 		$this->assertStringNotContainsString( '(checkuser-check-this-user', $html );
-		$this->assertStringNotContainsString( '(checkuser-investigate-this-user', $html );
 	}
 
 	public function testLoadSpecialPageWithTargetAndInitiatorFilter() {

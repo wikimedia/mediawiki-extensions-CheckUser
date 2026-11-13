@@ -147,31 +147,7 @@ class SpecialCheckUserLog extends SpecialPage {
 	 */
 	private function addSubtitle(): void {
 		if ( $this->permissionManager->userHasRight( $this->getUser(), 'checkuser' ) ) {
-			$links = [
-				$this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUser' ),
-					$this->msg( 'checkuser-showmain' )->text()
-				),
-				$this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'Investigate' ),
-					$this->msg( 'checkuser-show-investigate' )->text()
-				),
-			];
-
-			if ( $this->opts['target'] ) {
-				$links[] = $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUser', $this->opts['target'] ),
-					$this->msg( 'checkuser-check-this-user' )->text()
-				);
-
-				$links[] = $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'Investigate' ),
-					$this->msg( 'checkuser-investigate-this-user' )->text(),
-					[],
-					[ 'targets' => $this->opts['target'] ]
-				);
-			}
-
+			$links = [];
 			if (
 				$this->getConfig()->get( 'CheckUserSuggestedInvestigationsEnabled' ) &&
 				!$this->getConfig()->get( 'CheckUserSuggestedInvestigationsHidden' )
@@ -179,6 +155,18 @@ class SpecialCheckUserLog extends SpecialPage {
 				$links[] = $this->getLinkRenderer()->makeKnownLink(
 					SpecialPage::getTitleFor( 'SuggestedInvestigations' ),
 					$this->msg( 'checkuser-show-suggestedinvestigations' )->text()
+				);
+			}
+
+			$links[] = $this->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'CheckUser' ),
+				$this->msg( 'checkuser' )->text()
+			);
+
+			if ( $this->opts['target'] ) {
+				$links[] = $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUser', $this->opts['target'] ),
+					$this->msg( 'checkuser-check-this-user' )->text()
 				);
 			}
 
