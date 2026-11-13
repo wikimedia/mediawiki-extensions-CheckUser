@@ -553,5 +553,20 @@
 	"checkuser-si-related-cases-info": "Целната сметка е поврзана со {{PLURAL:$1|$1 сметка|$1 сметки}} на [$3 {{PLURAL:$2|$2 предложено иследување|$2 предложени иследувања}}]",
 	"checkuser-suggestedinvestigations-queue-view-all": "Сите",
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Сите (изменето)",
-	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Филтри"
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Филтри",
+	"abusefilter-edit-builder-vars-checkuser-user-ip": "Од која IP-адреса се врши дејството, за сите видови сметки ($1)",
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Низа Корисник-Агент на побараното со кои ќе се врши дејството ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "Клиентски совети: CPU-архитектура ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "Клиентски совети: CPU-битност ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "Клиентски совети: марки на прелистувачи и главни верзии ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "Клиентски совети: облици на уреди ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "Клиентски совети: марки на прелистувачи и полни верзии ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "Клиентски совети: дали прелистувачот е на мобилен уред ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "Клиентски совети: модел на уредот ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "Клиентски совети: оперативен систем ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "Клиентски совети: верзија на оперативен систем ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "Клиентски совети: дали прелистувачот е 32-битен бинарен или 64-битен за Windows ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "Оцена колку е веројатно дејството да го извршил прелистувач ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "JA3N TLS-отпечаток ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "JA4H HTTP-отпечаток ($1)"
 }
