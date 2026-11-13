@@ -4,12 +4,16 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services;
 
+use MediaWiki\ChangeTags\ChangeTagsStore;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\AbuseFilter\AbuseLogLookup;
 use MediaWiki\Extension\CentralAuth\CentralAuthEditCounter;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Extension\WikimediaAntiAbuse\Hooks\Handlers\ChangeTagsHandler;
+use MediaWiki\Extension\WikimediaAntiAbuse\Services\AbuseReviewEnabledTagsProvider;
+use MediaWiki\Extension\WikimediaAntiAbuse\Services\FlaggedEditCounter;
 use MediaWiki\Html\Html;
 use MediaWiki\Language\MessageLocalizer;
 use MediaWiki\Linker\LinkRenderer;
@@ -41,6 +45,12 @@ class SuggestedInvestigationsUserLinkRenderer {
 	/** @var array<int,int> Maps local user ID to the number of AbuseFilter hits for the user */
 	private array $abuseFilterHitCountsByUserId = [];
 
+	/** @var array<int,int> Maps local user ID to the number of non-false positive AbuseReview hits for the user */
+	private array $userAbuseReviewHits = [];
+
+	/** @var string[]|null Lists what AbuseReview flags the authority may view */
+	private ?array $allowedAbuseReviewFlags = null;
+
 	/**
 	 * @var array<int, array{reverted: int, total: int}>
 	 * Maps local user ID to the number of reverted and total revisions
@@ -69,6 +79,9 @@ class SuggestedInvestigationsUserLinkRenderer {
 		private readonly ServiceOptions $options,
 		private readonly ?AbuseLogLookup $abuseLogLookup,
 		private readonly SuggestedInvestigationsUserRevisionLookup $userRevisionLookup,
+		private readonly ChangeTagsStore $changeTagsStore,
+		private readonly ?AbuseReviewEnabledTagsProvider $abuseReviewEnabledTagsProvider,
+		private readonly ?FlaggedEditCounter $flaggedEditCounter
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->useGlobalContribs = $this->centralAuthEditCounter !== null &&
@@ -107,6 +120,7 @@ class SuggestedInvestigationsUserLinkRenderer {
 
 		$userToolLinks = [
 			$this->makeContributionsLink( $user, $context, $viewingAuthority ),
+			$this->makeAbuseReviewHitsLink( $user, $context, $viewingAuthority ),
 			$this->makePastChecksLink( $user, $context, $viewingAuthority ),
 			$this->makeCheckUserLink(
 				$user,
@@ -176,6 +190,44 @@ class SuggestedInvestigationsUserLinkRenderer {
 			SpecialPage::getTitleFor( $contributionsSpecialPage, $user->getName() ),
 			$linkText,
 			[ 'class' => $linkClass ]
+		);
+	}
+
+	/**
+	 * Renders a link to AbuseReview for the given user if they have any hits
+	 */
+	private function makeAbuseReviewHitsLink(
+		UserIdentity $user,
+		MessageLocalizer $localizer,
+		Authority $viewingAuthority
+	): ?string {
+		if ( !$this->abuseReviewEnabledTagsProvider || !$this->flaggedEditCounter ) {
+			return null;
+		}
+
+		$abuseReviewHits = $this->getAbuseReviewHitsForUser( $user, $viewingAuthority );
+		if ( $abuseReviewHits < 1 ) {
+			return null;
+		}
+
+		$linkText = $localizer->msg( 'checkuser-suggestedinvestigations-abuse-review-hits-link-text' )
+			->params( $abuseReviewHits )
+			->text();
+		$linkParams = [
+			'username' => $user->getName(),
+			'wpShowHandledRevisions' => 1,
+		];
+
+		if ( in_array( ChangeTagsHandler::VANDALISM_TAG, $this->allowedAbuseReviewFlags ) ) {
+			// show mw-private-vandalism tab by default if the viewing authority can access it
+			$linkParams['tab'] = ChangeTagsHandler::VANDALISM_TAG;
+		}
+
+		return $this->linkRenderer->makeKnownLink(
+			SpecialPage::getTitleFor( 'AbuseReview' ),
+			$linkText,
+			[ 'class' => 'mw-usertoollinks-abusereview-hits' ],
+			$linkParams
 		);
 	}
 
@@ -306,6 +358,16 @@ class SuggestedInvestigationsUserLinkRenderer {
 		return !$this->hiddenUsersCache[$user->getId()];
 	}
 
+	/**
+	 * Gets the preloaded AbuseReview hits for the user if possible, or loads the necessary data.
+	 */
+	private function getAbuseReviewHitsForUser( UserIdentity $user, Authority $viewingAuthority ): int {
+		if ( !isset( $this->userAbuseReviewHits[$user->getId()] ) ) {
+			$this->preloadNonEditingData( [ $user ], $viewingAuthority );
+		}
+		return $this->userAbuseReviewHits[$user->getId()];
+	}
+
 	private function getCaseCountForUser( UserIdentity $user, Authority $viewingAuthority ): int {
 		if ( !isset( $this->caseCountsByUser[$user->getId()] ) ) {
 			$this->preloadNonEditingData( [ $user ], $viewingAuthority );
@@ -384,6 +446,18 @@ class SuggestedInvestigationsUserLinkRenderer {
 		foreach ( $this->queryPastChecks( $userIds ) as $userId => $wasChecked ) {
 			$this->pastChecksCache[$userId] = $wasChecked;
 		}
+		if ( $this->abuseReviewEnabledTagsProvider && $this->flaggedEditCounter ) {
+			if ( $this->allowedAbuseReviewFlags === null ) {
+				$this->allowedAbuseReviewFlags = $this->changeTagsStore->filterViewableTags(
+					$this->abuseReviewEnabledTagsProvider->getEnabledReviewableTags(),
+					$authority
+				);
+			}
+			foreach ( $this->queryAbuseReviewHits( $authority, $users, $userIds ) as $userId => $abuseReviewHits ) {
+				$this->userAbuseReviewHits[$userId] = $abuseReviewHits;
+			}
+		}
+
 		// $hitCounts may have some entries missing (primarily due to missing permissions); fill these with zeros
 		$hitCounts = $this->abuseLogLookup?->getHitCountsForUsers( $authority, $users ) ?? [];
 		foreach ( $users as $user ) {
@@ -462,6 +536,35 @@ class SuggestedInvestigationsUserLinkRenderer {
 				$result[$userId] = true;
 			}
 		}
+		return $result;
+	}
+
+	/**
+	 * Gets the number of AbuseReview hits for the given user, based on the flags the authority may see
+	 *
+	 * @param Authority $authority
+	 * @param UserIdentity[] $users
+	 * @param int[] $userIds
+	 * @return array<int,int>
+	 */
+	private function queryAbuseReviewHits( Authority $authority, array $users, array $userIds ): array {
+		$result = array_fill_keys( $userIds, 0 );
+
+		if ( count( $this->allowedAbuseReviewFlags ) === 0 ) {
+			return $result;
+		}
+
+		foreach ( $users as $user ) {
+			// TODO: we should have a batch query function for this
+			$flaggedEdits = $this->flaggedEditCounter->getFlaggedEditCountsSince(
+				$authority,
+				$user,
+				$this->allowedAbuseReviewFlags,
+				null
+			);
+			$result[$user->getId()] = array_sum( $flaggedEdits );
+		}
+
 		return $result;
 	}
 }

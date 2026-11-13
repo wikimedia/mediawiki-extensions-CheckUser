@@ -546,13 +546,20 @@ return [
 	'CheckUserSuggestedInvestigationsUserLinkRenderer' => static function (
 		MediaWikiServices $services
 	): SuggestedInvestigationsUserLinkRenderer {
+		$extensionRegistry = $services->getExtensionRegistry();
 		$centralAuthEditCounter = null;
-		if ( $services->getExtensionRegistry()->isLoaded( 'CentralAuth' ) ) {
+		if ( $extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$centralAuthEditCounter = CentralAuthServices::getEditCounter( $services );
 		}
 		$abuseLogLookup = null;
-		if ( $services->getExtensionRegistry()->isLoaded( 'Abuse Filter' ) ) {
+		if ( $extensionRegistry->isLoaded( 'Abuse Filter' ) ) {
 			$abuseLogLookup = AbuseFilterServices::getAbuseLogLookup( $services );
+		}
+		$abuseReviewEnabledTagsProvider = null;
+		$flaggedEditCounter = null;
+		if ( $extensionRegistry->isLoaded( 'WikimediaAntiAbuse' ) ) {
+			$abuseReviewEnabledTagsProvider = $services->get( 'WikimediaAntiAbuseAbuseReviewEnabledTagsProvider' );
+			$flaggedEditCounter = $services->get( 'WikimediaAntiAbuseFlaggedEditCounter' );
 		}
 		return new SuggestedInvestigationsUserLinkRenderer(
 			$services->getLinkRenderer(),
@@ -567,6 +574,9 @@ return [
 			),
 			$abuseLogLookup,
 			$services->get( 'CheckUserSuggestedInvestigationsUserRevisionLookup' ),
+			$services->getChangeTagsStore(),
+			$abuseReviewEnabledTagsProvider,
+			$flaggedEditCounter
 		);
 	},
 	'CheckUserSuggestedInvestigationsUserRevisionLookup' => static function (

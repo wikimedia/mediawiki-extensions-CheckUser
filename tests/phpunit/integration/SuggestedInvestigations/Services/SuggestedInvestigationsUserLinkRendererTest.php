@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\Services;
 
+use MediaWiki\ChangeTags\ChangeTagsStore;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\AbuseFilter\AbuseLogLookup;
@@ -14,6 +15,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
 use MediaWiki\Extension\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Extension\CheckUser\Tests\Integration\SuggestedInvestigations\SuggestedInvestigationsTestTrait;
+use MediaWiki\Extension\WikimediaAntiAbuse\Services\FlaggedEditCounter;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -61,7 +63,8 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 			]
 		);
 
-		// Expected status: There's a 'contribs' link and 'check user' link; no 'past checks' or 'X SI cases'
+		// Expected status: There's a 'contribs' link and 'check user' link;
+		// no 'past checks', 'X SI cases', or 'X AbuseReview hits'
 
 		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-user:', $html );
 		$this->assertStringContainsString( $user->getName(), $html );
@@ -81,6 +84,7 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 
 		$this->assertStringNotContainsString( 'checkuser-suggestedinvestigations-user-past-checks-link-text', $html );
 		$this->assertStringNotContainsString( 'mw-usertoollinks-suggestedinvestigations-cases', $html );
+		$this->assertStringNotContainsString( 'mw-usertoollinks-abusereview-hits', $html );
 	}
 
 	/** @dataProvider provideUserEditCount */
@@ -435,6 +439,76 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 
 		$this->assertStringContainsString( $user->getName(), $html );
 		$this->assertStringNotContainsString( '(rev-deleted-user)', $html );
+	}
+
+	/** @dataProvider provideAbuseReviewHitCount */
+	public function testAbuseReviewHitsLinkShownForUserWithHits(
+		int $numHits,
+		bool $showLink,
+		array $allowedFlags,
+		?string $expectedTab
+	): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'WikimediaAntiAbuse' );
+
+		$user = $this->getMutableTestUser()->getUser();
+
+		$changeTagsStore = $this->createPartialMock( ChangeTagsStore::class, [ 'filterViewableTags' ] );
+		$changeTagsStore->method( 'filterViewableTags' )
+			->willReturn( $allowedFlags );
+		$this->setService( 'ChangeTagsStore', $changeTagsStore );
+		$flaggedEditCounter = $this->createMock( FlaggedEditCounter::class );
+		$flaggedEditCounter->method( 'getFlaggedEditCountsSince' )
+			->willReturn( [ $numHits ] );
+		$this->setService( 'WikimediaAntiAbuseFlaggedEditCounter', $flaggedEditCounter );
+
+		$authority = $this->mockRegisteredUltimateAuthority();
+		$context = $this->makeQqxContext();
+		$html = $this->getRenderer()->makeUserLinkLine( $user, $authority, $context );
+
+		if ( $showLink ) {
+			$this->assertStringContainsString( 'mw-usertoollinks-abusereview-hits', $html );
+			$this->assertStringContainsString( 'Special:AbuseReview', $html );
+			$this->assertStringContainsString(
+				'username=' . urlencode( $user->getName() ),
+				$html
+			);
+			if ( $expectedTab ) {
+				$this->assertStringContainsString(
+					'tab=' . urlencode( $expectedTab ),
+					$html
+				);
+			}
+			$this->assertStringContainsString( 'wpShowHandledRevisions=1', $html );
+			$this->assertStringContainsString(
+				"(checkuser-suggestedinvestigations-abuse-review-hits-link-text: $numHits)",
+				$html,
+			);
+		} else {
+			$this->assertStringNotContainsString( 'mw-usertoollinks-abusereview-hits', $html );
+		}
+	}
+
+	public static function provideAbuseReviewHitCount(): array {
+		return [
+			'Has no hits' => [
+				'numHits' => 0,
+				'showLink' => false,
+				'allowedFlags' => [ 'mw-private-link-spam', 'mw-private-vandalism' ],
+				'expectedTab' => 'mw-private-vandalism',
+			],
+			'Has 5 hits' => [
+				'numHits' => 5,
+				'showLink' => true,
+				'allowedFlags' => [ 'mw-private-link-spam', 'mw-private-vandalism' ],
+				'expectedTab' => 'mw-private-vandalism',
+			],
+			'Has hits but no permissions to see mw-private-vandalism' => [
+				'numHits' => 5,
+				'showLink' => true,
+				'allowedFlags' => [ 'mw-private-link-spam' ],
+				'expectedTab' => null,
+			],
+		];
 	}
 
 	/** @dataProvider provideAbuseFilterHitCount */
