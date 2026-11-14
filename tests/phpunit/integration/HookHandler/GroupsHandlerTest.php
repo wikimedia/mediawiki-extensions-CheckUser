@@ -21,9 +21,14 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 class GroupsHandlerTest extends MediaWikiIntegrationTestCase {
 	private static string $timestampNow = '20230406060708';
 
+	/** @before */
+	protected function fakeTimestampSetUp() {
+		parent::fakeTimestampSetUp();
+		ConvertibleTimestamp::setFakeTime( self::$timestampNow );
+	}
+
 	protected function setUp(): void {
 		parent::setUp();
-		ConvertibleTimestamp::setFakeTime( self::$timestampNow );
 
 		// We don't want to specifically test the CentralAuth implementation of the CentralIdLookup. As such, force it
 		// to be the local provider.

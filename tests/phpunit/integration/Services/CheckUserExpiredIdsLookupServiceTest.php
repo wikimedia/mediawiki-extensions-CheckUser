@@ -51,9 +51,9 @@ class CheckUserExpiredIdsLookupServiceTest extends MediaWikiIntegrationTestCase 
 
 	private WikiPage $wikiPage;
 
-	public function setUp(): void {
-		parent::setUp();
-
+	/** @before */
+	protected function fakeTimestampSetUp() {
+		parent::fakeTimestampSetUp();
 		ConvertibleTimestamp::setFakeTime( self::CURRENT_TIMESTAMP );
 	}
 

@@ -201,6 +201,8 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			array_map( 'strval', [ self::$sysop->getId(), self::$tempUser1->getId(), self::$tempUser2->getId() ] ),
 			$idsInTable
 		);
+
+		ConvertibleTimestamp::setFakeTime( false );
 	}
 
 	/**

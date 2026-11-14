@@ -21,15 +21,19 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class TokenManagerTest extends MediaWikiIntegrationTestCase {
 
+	/** @before */
+	protected function fakeTimestampSetUp() {
+		parent::fakeTimestampSetUp();
+		ConvertibleTimestamp::setFakeTime( 0 );
+	}
+
 	public function setUp(): void {
 		parent::setUp();
-		ConvertibleTimestamp::setFakeTime( 0 );
 		JWT::$timestamp = 60;
 	}
 
 	public function tearDown(): void {
 		parent::tearDown();
-		ConvertibleTimestamp::setFakeTime( null );
 		JWT::$timestamp = null;
 	}
 

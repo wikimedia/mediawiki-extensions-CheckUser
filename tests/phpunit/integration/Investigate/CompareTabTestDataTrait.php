@@ -201,5 +201,7 @@ trait CompareTabTestDataTrait {
 			->insertInto( 'cu_private_event' )
 			->rows( $testDataForCuPrivateEvent )
 			->execute();
+
+		ConvertibleTimestamp::setFakeTime( false );
 	}
 }

@@ -29,10 +29,16 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 		return PurgeOldData::class;
 	}
 
+	/** @before */
+	protected function fakeTimestampSetUp() {
+		parent::fakeTimestampSetUp();
+		// Fix the current time so that we can assert against pre-defined timestamp values
+		ConvertibleTimestamp::setFakeTime( '20230405060708' );
+	}
+
 	protected function setUp(): void {
 		parent::setUp();
-		// Fix the current time and CUDMaxAge so that we can assert against pre-defined timestamp values
-		ConvertibleTimestamp::setFakeTime( '20230405060708' );
+		// Fix CUDMaxAge so that we can assert against pre-defined timestamp values
 		$this->overrideConfigValue( 'CUDMaxAge', 30 );
 	}
 
