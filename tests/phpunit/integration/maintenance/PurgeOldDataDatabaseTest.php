@@ -76,7 +76,8 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 		if ( $shouldPurgeRecentChanges ) {
 			$expectedOutputRegex .= "Purging data from recentchanges[\s\S]*";
 		}
-		$expectedOutputRegex .= "Pruning unused rows from cu_useragent[\s\S]*Done/";
+		$expectedOutputRegex .= "Pruning unused rows from cu_useragent[\s\S]*" .
+			"Pruning unused rows from cu_useragent_clienthints[\s\S]*Done/";
 		return $expectedOutputRegex;
 	}
 
@@ -132,7 +133,11 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 		];
 	}
 
-	public function testExecuteForUserAgentTablePurging() {
+	/**
+	 * Mock all the purging of the script except the pruning of unused rows, and turn off
+	 * purgeRecentChanges.php and the central index.
+	 */
+	private function setUpForUnusedRowPruning(): void {
 		$this->overrideConfigValues( [
 			'CheckUserWriteToCentralIndex' => false,
 			MainConfigNames::PutIPinRC => false,
@@ -151,9 +156,11 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 		$this->setService( 'UserAgentClientHintsManager', $mockUserAgentClientHintsManager );
 
 		// Mock all local CheckUser data purging but the cu_useragent table purge
-		$mockCheckUserDataPurger = new SemiMockedCheckUserDataPurger();
-		$this->setService( 'CheckUserDataPurger', $mockCheckUserDataPurger );
+		$this->setService( 'CheckUserDataPurger', new SemiMockedCheckUserDataPurger() );
+	}
 
+	public function testExecuteForUserAgentTablePurging() {
+		$this->setUpForUnusedRowPruning();
 		$this->addTestingRowsForPurgeTest();
 
 		$this->maintenance->execute();
@@ -172,6 +179,50 @@ class PurgeOldDataDatabaseTest extends MaintenanceBaseTestCase {
 			->from( 'cu_useragent' )
 			->caller( __METHOD__ )
 			->assertFieldValues( [ 'test2', 'test3', 'test5', 'test6', 'test8' ] );
+	}
+
+	public function testExecuteForClientHintsTablePurging() {
+		$this->setUpForUnusedRowPruning();
+
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_useragent_clienthints' )
+			->rows( [
+				[ 'uach_name' => 'apiUserAgent', 'uach_value' => 'Unused/1.0' ],
+				[ 'uach_name' => 'platform', 'uach_value' => 'In use' ],
+				[ 'uach_name' => 'platform', 'uach_value' => 'Unused' ],
+				[ 'uach_name' => 'apiUserAgent', 'uach_value' => 'Unused/2.0' ],
+				[ 'uach_name' => 'apiUserAgent', 'uach_value' => 'Unused but newest' ],
+			] )
+			->caller( __METHOD__ )
+			->execute();
+		$inUseId = $this->newSelectQueryBuilder()
+			->select( 'uach_id' )
+			->from( 'cu_useragent_clienthints' )
+			->where( [ 'uach_value' => 'In use' ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_useragent_clienthints_map' )
+			->row( [
+				'uachm_uach_id' => $inUseId,
+				'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+				'uachm_reference_id' => 1,
+			] )
+			->caller( __METHOD__ )
+			->execute();
+
+		$this->maintenance->execute();
+
+		$this->expectOutputRegex( '/Pruned 3 unused rows from cu_useragent_clienthints/' );
+
+		// The rows that stay are the one that an action uses and the newest one, which is
+		// within the 1% of rows that are not touched.
+		$this->newSelectQueryBuilder()
+			->select( 'uach_value' )
+			->from( 'cu_useragent_clienthints' )
+			->orderBy( 'uach_id' )
+			->caller( __METHOD__ )
+			->assertFieldValues( [ 'In use', 'Unused but newest' ] );
 	}
 
 	private function addTestingRowsForPurgeTest(): void {

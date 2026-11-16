@@ -12,6 +12,7 @@ use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Maintenance\Maintenance;
 use PurgeRecentChanges;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 // @codeCoverageIgnoreStart
@@ -83,6 +84,7 @@ class PurgeOldData extends Maintenance {
 
 		if ( $scopedLock ) {
 			$this->pruneUserAgentTable();
+			$this->pruneClientHintsTable();
 		}
 
 		$this->output( "Done.\n" );
@@ -125,39 +127,79 @@ class PurgeOldData extends Maintenance {
 	private function pruneUserAgentTable(): void {
 		$this->output( "Pruning unused rows from cu_useragent...\n" );
 
-		// To avoid race conditions of newly added cu_useragent rows being deleted
+		// All cu_useragent rows that are not referenced in any CheckUser result table
+		$rowsDeleted = $this->pruneUnusedRows(
+			'cu_useragent',
+			'cuua_id',
+			$this->getReplicaDB()->newSelectQueryBuilder()
+				->select( 'cuua_id' )
+				->from( 'cu_useragent' )
+				->leftJoin( 'cu_changes', null, 'cuua_id = cuc_agent_id' )
+				->leftJoin( 'cu_log_event', null, 'cuua_id = cule_agent_id' )
+				->leftJoin( 'cu_private_event', null, 'cuua_id = cupe_agent_id' )
+				->where( [
+					'cuc_agent_id' => null,
+					'cule_agent_id' => null,
+					'cupe_agent_id' => null,
+				] )
+		);
+
+		$this->output( "Pruned $rowsDeleted unused rows from the cu_useragent.\n" );
+	}
+
+	/**
+	 * Deletes the rows of cu_useragent_clienthints that no action uses any more.
+	 *
+	 * Some values, such as an Api-User-Agent, are free text that can name a user, and values
+	 * such as old browser versions are never used again.
+	 */
+	private function pruneClientHintsTable(): void {
+		$this->output( "Pruning unused rows from cu_useragent_clienthints...\n" );
+
+		$rowsDeleted = $this->pruneUnusedRows(
+			'cu_useragent_clienthints',
+			'uach_id',
+			$this->getReplicaDB()->newSelectQueryBuilder()
+				->select( 'uach_id' )
+				->from( 'cu_useragent_clienthints' )
+				->leftJoin( 'cu_useragent_clienthints_map', null, 'uachm_uach_id = uach_id' )
+				->where( [ 'uachm_uach_id' => null ] )
+		);
+
+		$this->output( "Pruned $rowsDeleted unused rows from cu_useragent_clienthints.\n" );
+	}
+
+	/**
+	 * Deletes, in batches, the rows of $table that $unusedIdsQueryBuilder selects.
+	 *
+	 * @param string $table
+	 * @param string $idField The primary key of $table
+	 * @param SelectQueryBuilder $unusedIdsQueryBuilder Selects $idField for the rows that are unused
+	 * @return int The number of rows deleted
+	 */
+	private function pruneUnusedRows(
+		string $table,
+		string $idField,
+		SelectQueryBuilder $unusedIdsQueryBuilder
+	): int {
+		// To avoid race conditions of newly added rows being deleted
 		// before they are used, ignore rows that are in the 1% of newest rows
 		// in the table.
 		$dbw = $this->getPrimaryDB();
 		$dbr = $this->getReplicaDB();
-		$maxUserAgentId = (int)$dbr->newSelectQueryBuilder()
-			->select( 'MAX(cuua_id)' )
-			->from( 'cu_useragent' )
+		$maxId = (int)$dbr->newSelectQueryBuilder()
+			->select( "MAX($idField)" )
+			->from( $table )
 			->caller( __METHOD__ )
 			->fetchField();
-		$maxUaId = min( [ $maxUserAgentId - 1, (int)( $maxUserAgentId * 0.99 ) ] );
-
-		// Get a base SelectQueryBuilder which provides all cu_useragent rows that
-		// are not referenced in any CheckUser result table
-		$unusedIdsQueryBuilder = $dbr->newSelectQueryBuilder()
-			->select( 'cuua_id' )
-			->from( 'cu_useragent' )
-			->leftJoin( 'cu_changes', null, 'cuua_id = cuc_agent_id' )
-			->leftJoin( 'cu_log_event', null, 'cuua_id = cule_agent_id' )
-			->leftJoin( 'cu_private_event', null, 'cuua_id = cupe_agent_id' )
-			->where( [
-				'cuc_agent_id' => null,
-				'cule_agent_id' => null,
-				'cupe_agent_id' => null,
-			] );
+		$maxIdToDelete = min( [ $maxId - 1, (int)( $maxId * 0.99 ) ] );
 
 		$rowsDeleted = 0;
 		while ( true ) {
-			// Get a batch of IDs from the cu_useragent table that are not referenced
-			// in any CheckUser result table.
+			// Get a batch of IDs of unused rows.
 			$idsToDelete = $dbr->newSelectQueryBuilder()
 				->merge( $unusedIdsQueryBuilder )
-				->where( $dbr->expr( 'cuua_id', '<=', $maxUaId ) )
+				->where( $dbr->expr( $idField, '<=', $maxIdToDelete ) )
 				->limit( $this->getBatchSize() )
 				->caller( __METHOD__ )
 				->fetchFieldValues();
@@ -167,17 +209,17 @@ class PurgeOldData extends Maintenance {
 
 			// Double check that these rows are unused using a primary DB connection
 			// and if they are then perform the delete straight after.
-			// This is to avoid issues if the replica DB is behind and a new result row
-			// is referencing any selected cu_useragent table row.
+			// This is to avoid issues if the replica DB is behind and a new row
+			// is referencing any of the selected rows.
 			$idsToDelete = $dbw->newSelectQueryBuilder()
 				->merge( $unusedIdsQueryBuilder )
-				->where( [ 'cuua_id' => $idsToDelete ] )
+				->where( [ $idField => $idsToDelete ] )
 				->caller( __METHOD__ )
 				->fetchFieldValues();
 			if ( $idsToDelete ) {
 				$dbw->newDeleteQueryBuilder()
-					->deleteFrom( 'cu_useragent' )
-					->where( [ 'cuua_id' => $idsToDelete ] )
+					->deleteFrom( $table )
+					->where( [ $idField => $idsToDelete ] )
 					->caller( __METHOD__ )
 					->execute();
 				$rowsDeleted += $dbw->affectedRows();
@@ -186,7 +228,7 @@ class PurgeOldData extends Maintenance {
 			$this->waitForReplication();
 		}
 
-		$this->output( "Pruned $rowsDeleted unused rows from the cu_useragent.\n" );
+		return $rowsDeleted;
 	}
 }
 
