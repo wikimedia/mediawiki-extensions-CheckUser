@@ -70,6 +70,7 @@ CREATE TABLE /*_*/cu_private_event (
   INDEX cupe_actor_ip_hex_time (
     cupe_actor, cupe_ip_hex, cupe_timestamp
   ),
+  INDEX cupe_agent_id_time (cupe_agent_id, cupe_timestamp),
   PRIMARY KEY (cupe_id)
 ) /*$wgDBTableOptions*/;
 

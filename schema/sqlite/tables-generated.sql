@@ -84,6 +84,8 @@ CREATE INDEX cupe_actor_ip_hex_time ON /*_*/cu_private_event (
   cupe_actor, cupe_ip_hex, cupe_timestamp
 );
 
+CREATE INDEX cupe_agent_id_time ON /*_*/cu_private_event (cupe_agent_id, cupe_timestamp);
+
 
 CREATE TABLE /*_*/cu_useragent (
   cuua_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

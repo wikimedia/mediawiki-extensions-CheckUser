@@ -87,6 +87,8 @@ CREATE INDEX cupe_actor_ip_hex_time ON cu_private_event (
   cupe_actor, cupe_ip_hex, cupe_timestamp
 );
 
+CREATE INDEX cupe_agent_id_time ON cu_private_event (cupe_agent_id, cupe_timestamp);
+
 
 CREATE TABLE cu_useragent (
   cuua_id BIGSERIAL NOT NULL,
