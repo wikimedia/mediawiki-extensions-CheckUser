@@ -192,6 +192,12 @@
 				"name": "cule_actor_ip_hex_time",
 				"columns": [ "cule_actor", "cule_ip_hex", "cule_timestamp" ],
 				"unique": false
+			},
+			{
+				"name": "cule_agent_id_time",
+				"columns": [ "cule_agent_id", "cule_timestamp" ],
+				"unique": false,
+				"comment": "Used to allow searching in Special:CheckUser by exact matches of User agent string"
 			}
 		],
 		"pk": [ "cule_id" ]

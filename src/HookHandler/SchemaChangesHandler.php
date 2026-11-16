@@ -260,6 +260,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'cuc_agent_id_time',
 			"$base/$dbType/patch-cu_changes-add-index-cuc_agent_id_time.sql"
 		);
+		$updater->addExtensionIndex(
+			'cu_log_event',
+			'cule_agent_id_time',
+			"$base/$dbType/patch-cu_log_event-add-index-cule_agent_id_time.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.

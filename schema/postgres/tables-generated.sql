@@ -56,6 +56,8 @@ CREATE INDEX cule_actor_ip_hex_time ON cu_log_event (
   cule_actor, cule_ip_hex, cule_timestamp
 );
 
+CREATE INDEX cule_agent_id_time ON cu_log_event (cule_agent_id, cule_timestamp);
+
 
 CREATE TABLE cu_private_event (
   cupe_id BIGSERIAL NOT NULL,

@@ -44,6 +44,7 @@ CREATE TABLE /*_*/cu_log_event (
   INDEX cule_actor_ip_hex_time (
     cule_actor, cule_ip_hex, cule_timestamp
   ),
+  INDEX cule_agent_id_time (cule_agent_id, cule_timestamp),
   PRIMARY KEY (cule_id)
 ) /*$wgDBTableOptions*/;
 
