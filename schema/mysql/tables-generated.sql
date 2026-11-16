@@ -24,6 +24,7 @@ CREATE TABLE /*_*/cu_changes (
   INDEX cuc_actor_ip_hex_time (
     cuc_actor, cuc_ip_hex, cuc_timestamp
   ),
+  INDEX cuc_agent_id_time (cuc_agent_id, cuc_timestamp),
   PRIMARY KEY (cuc_id)
 ) /*$wgDBTableOptions*/;
 
