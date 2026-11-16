@@ -47,15 +47,10 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		'list' => 'checkuser',
 	];
 
-	/** @before */
-	protected function fakeTimestampSetUp() {
-		parent::fakeTimestampSetUp();
-		// Set a fake time to avoid the tests breaking due to 'cutimecond' being a relative time.
-		ConvertibleTimestamp::setFakeTime( '20230406060708' );
-	}
-
 	protected function setUp(): void {
 		parent::setUp();
+		// Set a fake time to avoid the tests breaking due to 'cutimecond' being a relative time.
+		ConvertibleTimestamp::setFakeTime( '20230406060708' );
 		// Make the API be enabled for these tests so that they work.
 		$this->overrideConfigValue( 'CheckUserDisableCheckUserAPI', false );
 	}
@@ -725,8 +720,5 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 			'1.2.3.5',
 			$firstTestUser
 		);
-
-		// Reset the fake time to avoid any issues with other test classes.
-		ConvertibleTimestamp::setFakeTime( false );
 	}
 }

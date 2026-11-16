@@ -15,9 +15,8 @@ use MediaWikiIntegrationTestCase;
  */
 class DurationManagerTest extends MediaWikiIntegrationTestCase {
 
-	/** @before */
-	protected function fakeTimestampSetUp() {
-		parent::fakeTimestampSetUp();
+	protected function setUp(): void {
+		parent::setUp();
 		MWTimestamp::setFakeTime( 0 );
 	}
 

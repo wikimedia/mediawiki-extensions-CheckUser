@@ -564,9 +564,6 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 			$firstTestUser->getName()
 		);
 
-		// Reset the fake time to avoid any issues with other test classes.
-		ConvertibleTimestamp::setFakeTime( false );
-
 		// Store some testing users for the tests to use to avoid them needing to call ::getTestUser and then
 		// potentially causing the users table to be truncated.
 		self::$testCheckUser = $this->getTestUser( [ 'checkuser', 'sysop' ] )->getUser();

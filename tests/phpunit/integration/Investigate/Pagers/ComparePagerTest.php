@@ -40,9 +40,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 
 	private static User $hiddenUser;
 
-	/** @before */
-	protected function fakeTimestampSetUp() {
-		parent::fakeTimestampSetUp();
+	protected function setUp(): void {
 		// Pin time to avoid failure when next second starts - T317411
 		ConvertibleTimestamp::setFakeTime( '20220904094043' );
 	}
