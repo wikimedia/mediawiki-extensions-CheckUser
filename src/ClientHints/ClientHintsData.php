@@ -31,6 +31,7 @@ class ClientHintsData implements JsonSerializable {
 		"x-is-browser" => "isBrowser",
 		"x-ja3n" => "ja3n",
 		"x-ja4h" => "ja4h",
+		"Api-User-Agent" => "apiUserAgent",
 	];
 
 	/**
@@ -47,6 +48,7 @@ class ClientHintsData implements JsonSerializable {
 	 * @param int|null $isBrowser
 	 * @param string|null $ja3n
 	 * @param string|null $ja4h
+	 * @param string|null $apiUserAgent
 	 */
 	public function __construct(
 		private readonly ?string $architecture,
@@ -62,6 +64,7 @@ class ClientHintsData implements JsonSerializable {
 		private readonly ?int $isBrowser,
 		private readonly ?string $ja3n,
 		private readonly ?string $ja4h,
+		private readonly ?string $apiUserAgent,
 	) {
 	}
 
@@ -90,7 +93,8 @@ class ClientHintsData implements JsonSerializable {
 			$data['woW64'],
 			$data['isBrowser'] ?? null,
 			$data['ja3n'] ?? null,
-			$data['ja4h'] ?? null
+			$data['ja4h'] ?? null,
+			$data['apiUserAgent'] ?? null
 		);
 	}
 
@@ -137,6 +141,7 @@ class ClientHintsData implements JsonSerializable {
 			$data['model'] ?? null,
 			$data['platform'] ?? null,
 			$data['platformVersion'] ?? null,
+			null,
 			null,
 			null,
 			null,
@@ -187,6 +192,12 @@ class ClientHintsData implements JsonSerializable {
 		}
 
 		foreach ( $headers as $header => $propertyName ) {
+			if ( $propertyName === 'apiUserAgent' ) {
+				// The value names a script, so it is kept as sent: a value such as "?1" or one
+				// in quotation marks is not changed as for the Client Hints headers below.
+				$data[$propertyName] = self::getApiUserAgentToStore( $request );
+				continue;
+			}
 			$headerValue = $request->getHeader( $header );
 			if ( !$headerValue ) {
 				$headerValue = null;
@@ -253,8 +264,28 @@ class ClientHintsData implements JsonSerializable {
 			$data['woW64'] ?? null,
 			$data['isBrowser'] ?? null,
 			$data['ja3n'] ?? null,
-			$data['ja4h'] ?? null
+			$data['ja4h'] ?? null,
+			$data['apiUserAgent'] ?? null
 		);
+	}
+
+	/**
+	 * Get the Api-User-Agent header, with which a script in a browser names itself, or null
+	 * when it says nothing more than the User-Agent that CheckUser already stores.
+	 */
+	private static function getApiUserAgentToStore( WebRequest $request ): ?string {
+		// The client chooses these values, so they can hold bytes that are not valid UTF-8.
+		$header = static fn ( string $name ) => trim( mb_scrub( (string)$request->getHeader( $name ) ) );
+		$apiUserAgent = $header( 'Api-User-Agent' );
+		if (
+			$apiUserAgent === '' ||
+			$apiUserAgent === $header( 'User-Agent' ) ||
+			// The default of mw.Api, which is on most API requests from a browser
+			$apiUserAgent === 'MediaWiki-JS/' . MW_VERSION
+		) {
+			return null;
+		}
+		return $apiUserAgent;
 	}
 
 	/**
@@ -319,14 +350,17 @@ class ClientHintsData implements JsonSerializable {
 			$data['woW64'] ?? null,
 			$data['isBrowser'] ?? null,
 			$data['ja3n'] ?? null,
-			$data['ja4h'] ?? null
+			$data['ja4h'] ?? null,
+			$data['apiUserAgent'] ?? null
 		);
 	}
 
 	/**
 	 * @return array[]
 	 *  An array of arrays containing maps of uach_name => uach_value items
-	 *  to insert into the cu_useragent_clienthints table.
+	 *  to insert into the cu_useragent_clienthints table. The client chooses the values, so
+	 *  bytes that are not valid UTF-8 are replaced. The values are not cut to the length of
+	 *  the column: {@link UserAgentClientHintsManager::insertClientHintValues} does that.
 	 */
 	public function toDatabaseRows(): array {
 		$rows = [];
@@ -338,7 +372,7 @@ class ClientHintsData implements JsonSerializable {
 				if ( is_bool( $value ) ) {
 					$value = $value ? "1" : "0";
 				}
-				$value = trim( (string)$value );
+				$value = mb_scrub( trim( (string)$value ) );
 				$rows[] = [ 'uach_name' => $key, 'uach_value' => $value ];
 			} else {
 				// Some values are arrays, for example:
@@ -355,14 +389,14 @@ class ClientHintsData implements JsonSerializable {
 						// Trim the data to remove leading and trailing spaces.
 						$item = array_map( trim( ... ), $item );
 						// Convert arrays to a string by imploding
-						$itemsAsString[] = implode( ' ', $item );
+						$itemsAsString[] = mb_scrub( implode( ' ', $item ) );
 					} elseif ( is_string( $item ) || is_numeric( $item ) ) {
 						// Allow integers, floats and strings to be stored
 						// as their string representation.
 						//
 						// Trim the data to remove leading and trailing spaces.
 						$item = strval( $item );
-						$itemsAsString[] = trim( $item );
+						$itemsAsString[] = mb_scrub( trim( $item ) );
 					}
 				}
 				// Remove any duplicates
@@ -408,6 +442,7 @@ class ClientHintsData implements JsonSerializable {
 			'isBrowser' => $this->isBrowser,
 			'ja3n' => $this->ja3n,
 			'ja4h' => $this->ja4h,
+			'apiUserAgent' => $this->apiUserAgent,
 		];
 	}
 }

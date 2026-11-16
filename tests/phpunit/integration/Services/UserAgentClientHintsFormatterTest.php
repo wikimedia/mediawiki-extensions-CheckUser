@@ -37,6 +37,7 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 				"isBrowser",
 				"ja3n",
 				"ja4h",
+				"apiUserAgent",
 			],
 			'CheckUserClientHintsValuesToHide' => [
 				"architecture" => [ "x86" ],
@@ -81,6 +82,7 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 					false,
 					null,
 					null,
+					null,
 					null
 				),
 				'Brand: Not.A/Brand 99.0.0.0, Brand: Google Chrome 115.0.5790.171, Brand: Chromium 115.0.5790.171, ' .
@@ -97,6 +99,7 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 					null,
 					"Android",
 					"14.0.0",
+					null,
 					null,
 					null,
 					null,
@@ -126,11 +129,13 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 					false,
 					30,
 					'abc',
-					'def'
+					'def',
+					'TestScript/0.1 (+https://example.org)'
 				),
 				'Model: SM-G965U, Brand: Not/A)Brand 99.0.0.0, Brand: Google Chrome 115.0.5790.171, Brand: ' .
 				'Chromium 115.0.5790.171, Platform: Android 10.0.0, Mobile: Yes, Bitness: 32, ' .
-				'x-is-browser: Indeterminate, x-ja3n: abc, x-ja4h: def',
+				'x-is-browser: Indeterminate, x-ja3n: abc, x-ja4h: def, ' .
+				'Api-User-Agent: TestScript/0.1 (+https://example.org)',
 			],
 			'x-is-browser is less than 20' => [
 				new ClientHintsData(
@@ -146,6 +151,7 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 					false,
 					18,
 					'abc',
+					null,
 					null
 				),
 				'Mobile: Yes, x-is-browser: Likely bot, x-ja3n: abc',
@@ -163,6 +169,7 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 					null,
 					false,
 					84,
+					null,
 					null,
 					null
 				),

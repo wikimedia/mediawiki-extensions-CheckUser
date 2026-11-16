@@ -874,7 +874,8 @@ return [
 				UserAgentClientHintsManager::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->get( 'CheckUserLogger' )
+			$services->get( 'CheckUserLogger' ),
+			$services->getContentLanguage()
 		);
 	},
 	'_CheckUserBlockChecks' => static function ( MediaWikiServices $services ): array {

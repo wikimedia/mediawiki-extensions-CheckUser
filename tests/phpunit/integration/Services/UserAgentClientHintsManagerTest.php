@@ -477,4 +477,41 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			->caller( __METHOD__ )
 			->assertFieldValue( $preExistingEntryId );
 	}
+
+	public function testInsertClientHintValuesCutsValuesToFitTheColumn(): void {
+		$this->setContentLang( 'en' );
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
+		$status = $userAgentClientHintsManager->insertClientHintValues(
+			ClientHintsData::newFromJsApi( [
+				// 254 bytes and then a 2 byte character, which does not fit in 255 bytes.
+				'model' => str_repeat( 'a', 254 ) . 'é',
+				// These two only differ after 255 bytes, so they are the same once cut.
+				'brands' => [
+					[ 'brand' => str_repeat( 'b', 300 ), 'version' => '1' ],
+					[ 'brand' => str_repeat( 'b', 300 ), 'version' => '2' ],
+				],
+			] ),
+			1,
+			'revision'
+		);
+		$this->assertStatusGood( $status );
+
+		// The value is cut to 252 bytes, to leave room for the ellipsis, "..." in English.
+		$this->newSelectQueryBuilder()
+			->select( [ 'uach_name', 'uach_value' ] )
+			->from( 'cu_useragent_clienthints' )
+			->orderBy( 'uach_name' )
+			->caller( __METHOD__ )
+			->assertResultSet( [
+				[ 'brands', str_repeat( 'b', 252 ) . '...' ],
+				[ 'model', str_repeat( 'a', 252 ) . '...' ],
+			] );
+		$this->assertRowCount(
+			2,
+			'cu_useragent_clienthints_map',
+			'*',
+			'Values that are the same once cut should have one map row.'
+		);
+	}
 }

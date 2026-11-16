@@ -897,6 +897,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			false,
 			null,
 			null,
+			null,
 			null
 		);
 		$this->userAgentsToClientHintsMap[
@@ -921,6 +922,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"Windows",
 			"15.0.0",
 			false,
+			null,
 			null,
 			null,
 			null
@@ -949,6 +951,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			false,
 			null,
 			null,
+			null,
 			null
 		);
 		$this->userAgentsToClientHintsMap[
@@ -971,7 +974,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			null,
 			30,
 			'abc',
-			'def'
+			'def',
+			null
 		);
 	}
 

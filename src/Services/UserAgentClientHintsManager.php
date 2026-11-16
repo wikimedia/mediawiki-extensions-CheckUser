@@ -8,6 +8,7 @@ use LogicException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\Language\Language;
 use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Revision\RevisionLookup;
@@ -58,13 +59,18 @@ class UserAgentClientHintsManager {
 		'isBrowser',
 		'ja3n',
 		'ja4h',
+		'apiUserAgent',
 	];
+
+	/** The number of bytes that fit in the uach_value column. */
+	private const VALUE_FIELD_LENGTH = 255;
 
 	public function __construct(
 		private readonly IConnectionProvider $dbProvider,
 		private readonly RevisionLookup $revisionLookup,
 		private readonly ServiceOptions $options,
 		private readonly LoggerInterface $logger,
+		private readonly Language $contentLanguage,
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 	}
@@ -88,7 +94,16 @@ class UserAgentClientHintsManager {
 		bool $usePrimary = false
 	): StatusValue {
 		// Check if there are rows to insert to the map table.
-		$rows = $clientHintsData->toDatabaseRows();
+		$rows = array_map(
+			fn ( array $row ) => [
+				'uach_name' => $row['uach_name'],
+				'uach_value' => $this->contentLanguage->truncateForDatabase(
+					$row['uach_value'],
+					self::VALUE_FIELD_LENGTH
+				),
+			],
+			$clientHintsData->toDatabaseRows()
+		);
 		if ( !count( $rows ) ) {
 			// Nothing to insert, so return early.
 			// Having nothing to insert isn't considered "bad", so return a new good

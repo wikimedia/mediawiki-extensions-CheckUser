@@ -36,6 +36,7 @@ class UserAgentClientHintsFormatter {
 		"isBrowser" => "checkuser-clienthints-name-is-browser",
 		"ja3n" => "checkuser-clienthints-name-ja3n",
 		"ja4h" => "checkuser-clienthints-name-ja4h",
+		"apiUserAgent" => "checkuser-clienthints-name-api-user-agent",
 	];
 
 	private array $msgCache;

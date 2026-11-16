@@ -222,6 +222,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 						false,
 						null,
 						null,
+						null,
 						null
 					),
 			] ],

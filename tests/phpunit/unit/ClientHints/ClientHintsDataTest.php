@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Unit\ClientHints;
 
 use MediaWiki\Extension\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\Extension\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CheckUser\Tests\CheckUserClientHintsCommonTestTrait;
 use MediaWiki\Request\FauxRequest;
 use MediaWikiUnitTestCase;
@@ -137,6 +138,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => null,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 			'Example Windows device using Chrome' => [
@@ -181,6 +183,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => null,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 			'Example Windows device using Chrome with duplicated data' => [
@@ -233,6 +236,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => null,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 			'Client Hints data contains deprecated uaFullVersion' => [
@@ -251,6 +255,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => null,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 			'Client Hints data contains deprecated uaFullVersion and empty array fullVersionList' => [
@@ -269,6 +274,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => null,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 			'Client Hints data contains deprecated uaFullVersion and a fullVersionList that is not a list' => [
@@ -287,6 +293,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => null,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 		];
@@ -329,6 +336,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => null,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 			'Example Windows device using Chrome' => [
@@ -389,6 +397,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => 30,
 					'ja3n' => 'testing',
 					'ja4h' => 'testing2',
+					'apiUserAgent' => null,
 				],
 			],
 			'Example Android device using Chrome' => [
@@ -447,6 +456,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => 123,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 			'Example device sending more than one form factor' => [
@@ -468,6 +478,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => null,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 			'Example Windows device using Chrome when only collecting some headers' => [
@@ -515,9 +526,85 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'isBrowser' => 30,
 					'ja3n' => null,
 					'ja4h' => null,
+					'apiUserAgent' => null,
 				],
 			],
 		];
+	}
+
+	/** @dataProvider provideApiUserAgentFromRequestHeaders */
+	public function testApiUserAgentFromRequestHeaders(
+		array $requestHeaders,
+		array $collectOnly,
+		?string $expected
+	): void {
+		$request = new FauxRequest();
+		$request->setHeaders( $requestHeaders );
+		$objectToTest = ClientHintsData::newFromRequestHeaders( $request, $collectOnly );
+		$this->assertSame( $expected, $objectToTest->jsonSerialize()['apiUserAgent'] );
+	}
+
+	public static function provideApiUserAgentFromRequestHeaders(): array {
+		$userAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0';
+		return [
+			'No Api-User-Agent' => [ [ 'User-Agent' => $userAgent ], [], null ],
+			'Empty Api-User-Agent' => [ [ 'User-Agent' => $userAgent, 'Api-User-Agent' => ' ' ], [], null ],
+			'Api-User-Agent set by a script' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => ' TestScript/0.1 (+https://example.org) ' ],
+				[],
+				'TestScript/0.1 (+https://example.org)',
+			],
+			'Api-User-Agent in quotation marks' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => '"TestScript/0.1"' ],
+				[],
+				'"TestScript/0.1"',
+			],
+			'Api-User-Agent without a User-Agent' => [
+				[ 'Api-User-Agent' => 'TestScript/0.1' ], [], 'TestScript/0.1',
+			],
+			'Api-User-Agent same as User-Agent' => [
+				[ 'User-Agent' => 'TestBot/1.0', 'Api-User-Agent' => 'TestBot/1.0' ], [], null,
+			],
+			'Api-User-Agent same as User-Agent, with bytes that are not valid UTF-8' => [
+				[ 'User-Agent' => "TestBot\xff/1.0", 'Api-User-Agent' => "TestBot\xff/1.0" ], [], null,
+			],
+			'Api-User-Agent is the mw.Api default' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => 'MediaWiki-JS/' . MW_VERSION ], [], null,
+			],
+			'Api-User-Agent starts with the mw.Api default' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => 'MediaWiki-JS/' . MW_VERSION . ' TestScript/0.1' ],
+				[],
+				'MediaWiki-JS/' . MW_VERSION . ' TestScript/0.1',
+			],
+			'Api-User-Agent is the mw.Api default of another version' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => 'MediaWiki-JS/1.0.0' ], [], 'MediaWiki-JS/1.0.0',
+			],
+			'Api-User-Agent names a tool after the mw.Api default' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => 'MediaWiki-JS/ToolName' ],
+				[],
+				'MediaWiki-JS/ToolName',
+			],
+			'Api-User-Agent with bytes that are not valid UTF-8' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => "TestScript\xff/0.1" ], [], 'TestScript?/0.1',
+			],
+			'Api-User-Agent in the format of a Client Hints boolean' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => '?1' ], [], '?1',
+			],
+			'Api-User-Agent when collecting the header-only data' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => 'TestScript/0.1' ],
+				UserAgentClientHintsManager::HEADER_ONLY_CLIENT_HINTS_DATA,
+				'TestScript/0.1',
+			],
+			'Api-User-Agent when collecting other data only' => [
+				[ 'User-Agent' => $userAgent, 'Api-User-Agent' => 'TestScript/0.1' ], [ 'bitness' ], null,
+			],
+		];
+	}
+
+	public function testApiUserAgentNotSetByJsApi(): void {
+		$this->assertNull(
+			ClientHintsData::newFromJsApi( [ 'apiUserAgent' => 'TestScript/0.1' ] )->jsonSerialize()['apiUserAgent']
+		);
 	}
 
 	public function testNewFromRequestHeadersOnInvalidFullVersionListHeader() {
@@ -541,6 +628,10 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 	public static function provideToDatabaseRows() {
 		$exampleJsApiData = self::getExampleJsApiData();
 		return [
+			'Bytes that are not valid UTF-8 are replaced' => [
+				[ 'model' => "Bad\xff model" ],
+				[ [ 'uach_name' => 'model', 'uach_value' => 'Bad? model' ] ],
+			],
 			'No client hint data' => [
 				$exampleJsApiData['No client hint data'],
 				[],

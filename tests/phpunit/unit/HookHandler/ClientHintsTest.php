@@ -558,6 +558,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			'x-is-browser' => '30',
 			'x-ja3n' => 'testingabc',
 			'x-ja4h' => 'abc',
+			'Api-User-Agent' => 'TestScript/0.1',
 			'architecture' => 'should-be-ignored',
 		] );
 
@@ -581,6 +582,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 				'isBrowser' => 30,
 				'ja3n' => 'testingabc',
 				'ja4h' => 'abc',
+				'apiUserAgent' => 'TestScript/0.1',
 				'bitness' => null,
 				'brands' => null,
 				'formFactor' => null,
@@ -628,6 +630,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 						'x-is-browser' => '30',
 						'x-ja3n' => 'testingabc',
 						'x-ja4h' => 'abc',
+						'Api-User-Agent' => 'TestScript/0.1',
 					],
 					'exception' => $typeError,
 				]
@@ -637,6 +640,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			'x-is-browser' => '30',
 			'x-ja3n' => 'testingabc',
 			'x-ja4h' => 'abc',
+			'Api-User-Agent' => 'TestScript/0.1',
 			'architecture' => 'should-be-ignored',
 		] );
 
