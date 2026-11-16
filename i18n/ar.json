@@ -553,5 +553,18 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "الكل (محرر)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "مرشحات",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "عنوان IP المستخدم لتنفيذ الإجراء، لجميع أنواع الحسابات ( $1 )",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "سلسلة وكيل المستخدم للطلب المستخدم لتنفيذ الإجراء ( $1 )"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "سلسلة وكيل المستخدم للطلب المستخدم لتنفيذ الإجراء ( $1 )",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "إشارات العميل: معماريات المعالجة المركزية ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "تلميحات العميل: معدل معدل عملات المحركات المركزية ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "نصائح العميل: علامات تجارية ومصادر رئيسية ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "تلميحات العميل: عوامل نموذج الجهاز ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "نصائح العميل: علامات تجارية للمصفحات والإصدارات الكاملة ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "تلميحات العميل: ما إذا كان المتصفح على جهاز محمول ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "تلميحات العميل: نموذج الجهاز ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "النصائح العملية: نظام التشغيل ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "النصائح العملية: إصدار نظام التشغيل ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "تلميحات العميل: ما إذا كان المتصفح ثنائي 32 بت على Windows 64 بت ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "درجة من احتمال أن يكون المصفح قد قام بالعمل ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "بصمة الأصابع JA3N TLS ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "JA4H بصمة اصبع HTTP ($1)"
 }
