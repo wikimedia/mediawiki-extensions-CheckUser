@@ -45,7 +45,6 @@
 	"checkuser-search-submit": "搵",
 	"checkuser-ipeditcount": "~響全部用戶度搵到$1",
 	"checkuser-showmain": "轉去{{#special:CheckUser}}",
-	"checkuser-show-investigate": "轉去{{#special:Investigate}}",
 	"checkuser-helper-user": "用戶",
 	"checkuser-helper-ips": "IP",
 	"logentry-checkuser-private-event-autocreate-account": "已經自動開咗",

@@ -67,7 +67,6 @@
 	"checkuser-showmain": "Canvia al formulari principal de verificador de comptes d'usuari",
 	"logentry-checkuser-private-event-autocreate-account": "fou automàticament creat",
 	"logentry-checkuser-private-event-create-account": "va ser creat",
-	"checkuser-link-investigate-label": "Provi la nova eina CheckUser",
 	"checkuser-investigateblock-warning-confirmaction": "Si esteu segur que voleu fer-ho, marqueu el camp «{{int:checkuser-investigateblock-confirm-blocks-label}}» a la part inferior.",
 	"checkuser-investigate-preliminary-table-header-name": "Nom d'usuari",
 	"checkuser-investigate-compare-table-header-username": "Nom d'usuari",
