@@ -499,6 +499,7 @@
 	"checkuser-userinfocard-ip-revealed-count": "IP地址显示次数：$1（上次显示于$2）",
 	"checkuser-userinfocard-ip-revealed-never": "IP地址显示次数：$1",
 	"checkuser-suggestedinvestigations": "调查建议",
+	"checkuser-suggestedinvestigations-abuse-review-hits-link-text": "$1次滥用审查{{PLURAL:$1|触发}}",
 	"checkuser-suggestedinvestigations-autoclose-reason": "由于所有账号均已被封禁或锁定，已自动关闭。",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}：案例#$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}：未找到案例",

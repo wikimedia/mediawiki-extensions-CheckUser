@@ -152,6 +152,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|otrzymał|otrzymała|otrzymał(a)}} listę użytkowników dla XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useractions": "$3, $1 {{GENDER:$6|sprawdził|sprawdziła|sprawdził(a)}} akcje wykonane {{GENDER:$7|przez}} $2",
 	"checkuser-log-entry-investigate": "$3, $1 {{GENDER:$6|sprawdził|sprawdziła|sprawdził(a)}} informacje {{GENDER:$7|o}} $2",
+	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|wyświetlił|wyświetliła}} wartości zmiennych filtra nadużyć CheckUserów {{GENDER:$7|o}} $2",
 	"checkuser-token-fail": "Awaria sesji. Spróbuj jeszcze raz.",
 	"prefs-checkuser": "Narzędzia checkuserskie",
 	"checkuser-helper-table-collapse-by-default-preference": "Minimalna liczba wierszy wymagana do zwinięcia tabeli podsumowującej na stronie {{#special:CheckUser}} podczas ładowania:",
@@ -572,5 +573,6 @@
 	"checkuser-suggestedinvestigations-queue-view-all-edited": "Wszystkie (edytowane)",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Filtry",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "Adres IP użyty przy wykonaniu akcji, bez względu na rodzaj konta ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent używany podczas wykonania akcji ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "User-Agent używany podczas wykonania akcji ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "Wskaźnik prawdopodobieństwa wykonania działania przy użyciu przeglądarki ($1)"
 }
