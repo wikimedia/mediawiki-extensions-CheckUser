@@ -421,6 +421,7 @@
 	"checkuser-related-tas-specialblock-accounts-list": "$1 {{PLURAL:$1|привремени налог|привремених налога}} је {{PLURAL:$1|индентификован|индентификовано}} да {{PLURAL:$2|користи}} $2 {{PLURAL:$2|IP адресу|IP адресе}} {{PLURAL:$2|повезану|повезаних}} са $3 у последњих $4 дана: $5.",
 	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Сви доприноси са ових налога]",
 	"checkuser-related-tas-specialblock-confirm": "Биће {{PLURAL:$1|блокиран|блокирано}} $1 {{PLURAL:$1|налог|налога}}. Блокирањем потврђујете да сте предходно обавили истрагу.",
+	"rangecalculator": "Израчунавање IP опсега",
 	"checkuser-suggestedinvestigations-queue-view-all": "Све",
 	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Филтери"
 }
