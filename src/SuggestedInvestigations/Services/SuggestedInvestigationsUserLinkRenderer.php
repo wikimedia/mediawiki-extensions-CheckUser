@@ -554,15 +554,14 @@ class SuggestedInvestigationsUserLinkRenderer {
 			return $result;
 		}
 
-		foreach ( $users as $user ) {
-			// TODO: we should have a batch query function for this
-			$flaggedEdits = $this->flaggedEditCounter->getFlaggedEditCountsSince(
-				$authority,
-				$user,
-				$this->allowedAbuseReviewFlags,
-				null
-			);
-			$result[$user->getId()] = array_sum( $flaggedEdits );
+		$flaggedEditsByUser = $this->flaggedEditCounter->getFlaggedEditCountsByUsersSince(
+			$authority,
+			$users,
+			$this->allowedAbuseReviewFlags,
+			null
+		);
+		foreach ( $flaggedEditsByUser as $userId => $flaggedEdits ) {
+			$result[$userId] = array_sum( $flaggedEdits );
 		}
 
 		return $result;

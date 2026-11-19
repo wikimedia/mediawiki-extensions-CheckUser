@@ -457,8 +457,8 @@ class SuggestedInvestigationsUserLinkRendererTest extends MediaWikiIntegrationTe
 			->willReturn( $allowedFlags );
 		$this->setService( 'ChangeTagsStore', $changeTagsStore );
 		$flaggedEditCounter = $this->createMock( FlaggedEditCounter::class );
-		$flaggedEditCounter->method( 'getFlaggedEditCountsSince' )
-			->willReturn( [ $numHits ] );
+		$flaggedEditCounter->method( 'getFlaggedEditCountsByUsersSince' )
+			->willReturn( [ $user->getId() => [ $numHits ] ] );
 		$this->setService( 'WikimediaAntiAbuseFlaggedEditCounter', $flaggedEditCounter );
 
 		$authority = $this->mockRegisteredUltimateAuthority();
