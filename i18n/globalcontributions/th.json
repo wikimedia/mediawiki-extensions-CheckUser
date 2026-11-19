@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aefgh39622",
+			"Dreamy Jazz",
+			"Ekminarin",
+			"Geonuch",
+			"Harley Hartwell",
+			"Horus",
+			"Just Sayori",
+			"Mopza",
+			"Octahedron80",
+			"Patsagorn Y.",
+			"RidJasper",
+			"Woraponboonkerd"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>ไม่พบผลลัพธ์ที่ตรงกับการค้นหา</strong> ผู้ใช้ \"$1\" ยังไม่ได้ลงทะเบียน",
+	"checkuser-global-contributions-link": "ส่วนร่วมข้ามโครงการ",
+	"checkuser-global-contributions-link-sidebar": "การมีส่วนร่วมข้ามโครงการ",
+	"checkuser-global-contributions": "ค้นหาสำหรับส่วนร่วมข้ามโครงการ",
+	"checkuser-global-contributions-subtitle": "แสดงผลลัพธ์จาก $1 {{PLURAL:$1|วัน}}ล่าสุด สำหรับทุกวิกิที่คุณมีสิทธิดูการมีส่วนร่วม จำกัดที่ $2 {{PLURAL:$2|ผลลัพธ์}}ต่อวิกิ",
+	"checkuser-global-contributions-target-label": "ชื่อผู้ใช้ ที่อยู่ไอพี หรือช่วงไอพี:",
+	"checkuser-global-contributions-target-placeholder": "ชื่อผู้ใช้ ที่อยู่ไอพี หรือช่วงไอพี:",
+	"checkuser-global-contributions-search-form-wrapper": "ค้นหาสำหรับส่วนร่วมข้ามโครงการ",
+	"checkuser-global-contributions-results-title": "ส่วนร่วมข้ามโครงการสำหรับ $1",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>ไม่พบผลลัพธ์ที่ตรงกับการค้นหา</strong> คุณอาจไม่มีสิทธิในการดูที่อยู่ไอพีที่ใช้โดยบัญชีชั่วคราว",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>ไม่พบผลลัพธ์ที่ตรงกับการค้นหา</strong> ผลลัพธ์เหล่านี้อาจไม่ครบถ้วนเพราะคุณจำเป็นต้องยอมรับข้อตกลงใน[$1 การตั้งค่าส่วนกลางของคุณ]",
+	"checkuser-global-contributions-api-lookup-error": "เกิดข้อผิดพลาดในการโหลดข้อมูลจากวิกิบางแห่ง ผลลัพธ์เหล่านี้ยังไม่สมบูรณ์ <strong>อาจช่วยได้หากลองอีกครั้ง</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>ไม่พบผลลัพธ์ที่ตรงกับการค้นหา</strong> ผู้ใช้ \"$1\" ไม่มีส่วนร่วมที่เห็นได้"
+}

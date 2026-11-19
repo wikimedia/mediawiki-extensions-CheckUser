@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"IJzeren Jan"
+		]
+	},
+	"checkuser-ip-contributions": "Iskanje vklada od IP-adresa",
+	"checkuser-ip-contributions-search-form-wrapper": "Iskanje vklada od IP-adresa",
+	"prefs-checkuser-tempaccount": "Razkrytje IP-adresov začasnyh kont",
+	"checkuser-tempaccount-enable-preference": "Vključiti možnost izobraženja IP-adresov začasnyh kont",
+	"checkuser-tempaccount-reveal-blocked-header": "Razkrytje IP-adresov začasnyh kont jest izključeno"
+}

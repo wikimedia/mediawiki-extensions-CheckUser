@@ -1,0 +1,26 @@
+{
+	"@metadata": {
+		"authors": [
+			"Yupik"
+		]
+	},
+	"group-temporary-account-viewer": "kõskkpoddsaž tobdldõõǥǥi IP-addrõõzzi täʹrǩsteei",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|kõskkpoddsaž tobdldõõǥǥi IP-addrõõzzi täʹrǩsteei}}",
+	"right-checkuser-temporary-account": "Vueiʹnned kõskkpoddsaž tobdldõõǥǥi IP-addrõõzzid",
+	"action-checkuser-temporary-account": "vueiʹnned kõskkpoddsaž tobdldõõǥǥi IP-addrõõzzid",
+	"action-checkuser-temporary-account-no-preference": "vueiʹnned kõskkpoddsaž tobdldõõǥǥi IP-addrõõzzid",
+	"grouppage-temporary-account-viewer": "{{ns:project}}:Kõskkpoddsaž tobdldõõǥǥi IP-addrõõzzi täʹrǩsteei",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Piij ǩidd",
+	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Ruõkk asetõõzzid",
+	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Ruõkk riâžldõkveiddsõs asetõõzzid",
+	"checkuser-ip-contributions-target-label": "IP-addrõs leʹbe IP-addrõõzzi ärvvjoukk:",
+	"checkuser-ip-contributions-tab-label-contributions": "Muttâz",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Jaukkuum muttâz",
+	"checkuser-ip-contributions-deleted-contributions-link": "õõʹnni jaukkuum muttâz",
+	"checkuser-ip-contributions-contributions-link": "muttâz",
+	"checkuser-ip-contributions-special-ip-contributions-button": "Kõskkpoddsaž õõʹnnʼji IP-muttâz",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Jõõsk",
+	"checkuser-tempaccount-reveal-ip-button-label": "Čuäʹjet IP-addrõõzz",
+	"checkuser-tempaccount-reveal-ip-error": "vââʹǩǩ",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Čiõǥǥ"
+}

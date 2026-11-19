@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Seipinne",
+			"Yupik"
+		]
+	},
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Toopâ",
+	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Vuorkkii asâttâsâid",
+	"checkuser-ip-auto-reveal-link-sidebar": "IP automaatlâš čäittim",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Jooskâ",
+	"checkuser-tempaccount-reveal-ip-button-label": "Čääiti IP"
+}

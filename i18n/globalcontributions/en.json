@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Tim Starling",
+			"Aaron Schulz",
+			"John Du Hart",
+			"Dreamy Jazz",
+			"Msz2001",
+			"Pskyechology"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>No results matching the query</strong>. User \"$1\" is not registered.",
+	"checkuser-global-contributions-link": "global contributions",
+	"checkuser-global-contributions-link-sidebar": "Global contributions",
+	"checkuser-global-contributions-summary": "Get edits made by a user across all wiki projects from the last $1 {{PLURAL:$1|day|days}}.",
+	"checkuser-global-contributions": "Search for global contributions",
+	"checkuser-global-contributions-anon-tools": "",
+	"checkuser-global-contributions-ip-range-tools": "",
+	"checkuser-global-contributions-registered-user-tools": "",
+	"checkuser-global-contributions-permission-error-title": "Permission error",
+	"checkuser-global-contributions-permission-error-description": "To view global contributions, please accept the agreement in [[Special:GlobalPreferences|your global preferences]].",
+	"checkuser-global-contributions-subtitle": "Showing results from the last $1 {{PLURAL:$1|day|days}}, for all wikis where you have the right to view contributions. Limited to $2 {{PLURAL:$2|result|results}} per wiki.",
+	"checkuser-global-contributions-subtitle-account": "Showing results from the last $1 {{PLURAL:$1|day|days}}, for all wikis. Limited to $2 {{PLURAL:$2|result|results}} per wiki.",
+	"checkuser-global-contributions-target-label": "Username, IP address or range:",
+	"checkuser-global-contributions-target-placeholder": "Username, IP address or range",
+	"checkuser-global-contributions-search-form-wrapper": "Search for global contributions",
+	"checkuser-global-contributions-results-title": "Global contributions for $1",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>No results matching the query.</strong> You may not have permission to view IP addresses used by temporary accounts.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>No results matching the query.</strong> These results may be incomplete because you need to accept the agreement in [$1 your global preferences].",
+	"checkuser-global-contributions-no-global-preference": "These results may be incomplete because you need to accept the agreement in [$1 your global preferences].",
+	"checkuser-global-contributions-api-lookup-error": "Error loading data from some wikis. These results are incomplete. <strong>It may help to try again.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>No results matching the query.</strong> User \"$1\" has no visible contributions.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>No results matching the query.</strong> You may find contributions if you change your search parameters.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Namespace[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "View global contributions",
+	"checkuser-ipinfo-global-contributions-label": "Global Contributions",
+	"checkuser-ipinfo-global-contributions-tooltip": "The number of cross-wiki edits made from this IP address.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global edit|$1 global edits|0=No global edits}}",
+	"tooltip-t-global-contributions": "A list of contributions across all wikis by {{GENDER:$1|this user}}"
+}

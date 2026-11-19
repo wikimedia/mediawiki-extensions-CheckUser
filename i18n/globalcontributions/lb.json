@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dreamy Jazz",
+			"Les Meloures",
+			"Robby",
+			"Soued031",
+			"Volvox"
+		]
+	},
+	"checkuser-global-contributions-link": "global Kontributiounen",
+	"checkuser-global-contributions-link-sidebar": "Global Kontributiounen",
+	"checkuser-global-contributions": "No globale Kontributioune sichen",
+	"checkuser-global-contributions-target-label": "Benotzernumm, IP-Adress oder -Adressberäich:",
+	"checkuser-global-contributions-target-placeholder": "Benotzernumm, IP-Adress oder -Adressberäich",
+	"checkuser-global-contributions-search-form-wrapper": "No globale Kontributioune sichen",
+	"checkuser-global-contributions-results-title": "Kontributioune fir $1",
+	"checkuser-global-contributions-api-lookup-error": "Feeler beim Luede vun den Donnéeë vu verschiddene Wikien. Dës Resultater sinn net komplett. <strong>Et kéint hëllefen et nach eng Kéier ze probéieren.</strong>",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Nummraum[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Global Kontributioune weisen",
+	"checkuser-ipinfo-global-contributions-label": "Global Kontributiounen",
+	"checkuser-ipinfo-global-contributions-tooltip": "D'Zuel vun Ännerungen, déi vun dëser IP-Adress iwwer all Wikie gemaach gouf.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 global Ännerung|$1 global Ännerungen|0=Keng global Ännerungen}}",
+	"tooltip-t-global-contributions": "Eng Lëscht vun de Kontributiounen op alle Wikie vun {{GENDER:$1|dësem Benotzer|dëser Benotzerin}}"
+}

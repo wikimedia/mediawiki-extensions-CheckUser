@@ -1,0 +1,28 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dreamy Jazz",
+			"Michaello",
+			"Milicevic01",
+			"Жељко Тодоровић",
+			"Михајло Анђелковић",
+			"Сербијана"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Nema rezultata za traženi termin.</strong> Korisnik „$1” nije registrovan.",
+	"checkuser-global-contributions-link": "globalni doprinosi",
+	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
+	"checkuser-global-contributions": "Pretraga globalnih doprinosa",
+	"checkuser-global-contributions-permission-error-title": "Greška u dozvolama",
+	"checkuser-global-contributions-permission-error-description": "Da vidite globalne doprinose, molimo prihvatite ugovor u [[Special:GlobalPreferences|Vašim globalnim podešavanjima]].",
+	"checkuser-global-contributions-subtitle": "Prikazivanje rezultata za prethodnih $1 {{PLURAL:$1|dan|dana}}, za sve vikije gde imate pravo videti doprinose. Najviše $2 {{PLURAL:$2|rezultata}} po vikiju.",
+	"checkuser-global-contributions-target-label": "Korisničko ime, IP adresa ili opseg:",
+	"checkuser-global-contributions-target-placeholder": "Korisničko ime, IP adresa ili opseg",
+	"checkuser-global-contributions-search-form-wrapper": "Pretraga globalnih doprinosa",
+	"checkuser-global-contributions-results-title": "Globalni doprinosi za $1",
+	"checkuser-global-contributions-api-lookup-error": "Došlo je do greške pri učitavanju podataka sa nekih vikija. Rezultati nisu kompletni. <strong>Možete pokušati ponovo.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Nema rezultata za traženi termin.</strong> Korisnik „$1” nema vidljivih doprinosa.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Nema rezultata za dati upit.</strong> Možete pronaći doprinose ako promenite parametre pretrage.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Imenski prostor[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Globalni doprinosi"
+}

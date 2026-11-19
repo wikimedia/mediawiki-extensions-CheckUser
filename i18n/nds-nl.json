@@ -45,7 +45,6 @@
 	"checkuser-toollink-check": "kontroleren",
 	"checkuser-check-this-user": "Disse gebruker kontroleren",
 	"checkuser-ip-results-suggestedinvestigations-notice-link": "Gevallen bekyken",
-	"checkuser-si-cases-link": "SI-gevallen",
 	"checkuser-log-checks-by": "kontroles uutvoord döär",
 	"checkuser-log-checks-on": "kontroles van",
 	"checkuser-log-link-text": "logbook",
@@ -63,15 +62,5 @@
 	"checkuser-helper-copy-failed": "Kunde neet kopieren.",
 	"checkuser-helper-user": "Gebruker",
 	"checkuser-helper-ips": "IP-adressen",
-	"checkuser-helper-uas": "Gebrukersagenten",
-	"checkuser-temporary-accounts-onboarding-dialog-title": "Invoring van tydelike kontos",
-	"checkuser-temporary-accounts-onboarding-dialog-skip-all": "Alles oaverslån",
-	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "Vöärige",
-	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Volgende",
-	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Sluten",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Wat is en tydelike konto?",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content": "Üm de eigenruumde van gebrukers te beskarmen löt {{SITENAME}} de IP-adressen van neet-anmeldede bewarkers neet meyr oapenbår seen.\n\nIn plaats dårvan kryget neet-anmeldede bewarkers automatisk genereerde gebrukersnamen dee koppeld wördet an <strong>[https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Temporary_accounts tydelike kontos]</strong> en bint höär IP-adressen enkeld zichtbår vöär vertrouwde leaden van de gemeynskap dee se nöädig hebbet üm vandalisme en misbruuk an te pakken.\n\nAs en tydelike konto anmaked wördt vöär en neet-anmeldede bewarker, wördt der en kuky plaatsd in de webkyker van dee bewarker. De tydelike konto wördt vervolgens an alle volgende bewarkingen koppeld, ouk as et IP-adres van dee bewarker verandert.",
-	"checkuser-temporary-accounts-onboarding-dialog-preference-success": "Vöärköären bywarked",
-	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Vöärköären seakeren",
-	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Globale vöärköären seakeren"
+	"checkuser-helper-uas": "Gebrukersagenten"
 }

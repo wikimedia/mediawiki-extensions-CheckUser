@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ajiniyaz Nurniyazov",
+			"Janabaevazizbek",
+			"Nurlan"
+		]
+	},
+	"group-temporary-account-viewer": "Waqıtsha esap IP kóriwshileri",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|waqtınsha esap IP kóriwshisi}}"
+}

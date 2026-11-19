@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bada Kaji",
+			"Bhawani Gautam",
+			"Bhawani Gautam Rhk",
+			"NehalDaveND",
+			"Nirajan pant",
+			"Pratik11",
+			"पर्वत सुबेदी",
+			"बडा काजी",
+			"बिप्लब आनन्द"
+		]
+	},
+	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "अघिल्लो",
+	"checkuser-temporary-accounts-onboarding-dialog-next-label": "अर्को",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "बन्द गर्नुहोस्",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "अस्थायी खाता भनेको के हो?",
+	"checkuser-ip-contributions-tab-label-contributions": "योगदानहरू",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "मेटाइएका योगदानहरू",
+	"checkuser-ip-contributions-search-form-wrapper": "आईपी योगदानहरूका लागि खोज्नुहोस्",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "रद्द गर्नुहोस्",
+	"checkuser-ip-auto-reveal-on-dialog-select-label": "अवधि:",
+	"checkuser-ip-auto-reveal-on-dialog-select-default": "एउटा विकल्प छान्नुहोस्",
+	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+१० मिनेट",
+	"checkuser-ip-auto-reveal-off-dialog-off-action": "बन्द गर्नुहोस्",
+	"checkuser-tempaccount-reveal-ip-button-label": "आइपी देखाउनुहोस्",
+	"checkuser-tempaccount-reveal-ip-missing": "उपलब्ध छैन",
+	"checkuser-tempaccount-reveal-ip-expired": "अब उपलब्ध छैन",
+	"checkuser-tempaccount-reveal-ip-error": "त्रुटि"
+}

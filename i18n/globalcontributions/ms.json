@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Anakmalaysia",
+			"Aviator",
+			"Dreamy Jazz",
+			"Hakimi97",
+			"Izzudin",
+			"Kurniasan",
+			"Tofeiku"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Tiada hasil yang berpadanan dengan pertanyaan</strong>. Pengguna \"$1\" tidak berdaftar.",
+	"checkuser-global-contributions-link": "sumbangan sejagat",
+	"checkuser-global-contributions-link-sidebar": "Sumbangan sejagat",
+	"checkuser-global-contributions-summary": "Dapatkan suntingan yang dibuat oleh pengguna merentasi semua projek wiki sejak $1 {{PLURAL:$1|hari}} lalu.",
+	"checkuser-global-contributions": "Cari sumbangan sejagat",
+	"checkuser-global-contributions-permission-error-title": "Ralat kebenaran",
+	"checkuser-global-contributions-permission-error-description": "Untuk melihat sumbangan sejagat, sila terima perjanjian dalam [[Special:GlobalPreferences|keutamaan sejagat anda]].",
+	"checkuser-global-contributions-subtitle": "Menunjukkan hasil daripada $1 {{PLURAL:$1|hari}} terkini, untuk semua wiki yang anda berhak untuk melihat sumbangan. Terhad kepada $2 {{PLURAL:$2|hasil}} setiap wiki.",
+	"checkuser-global-contributions-subtitle-account": "Menunjukkan hasil daripada $1 {{PLURAL:$1|hari}} terkini, untuk semua wiki. Terhad kepada $2 {{PLURAL:$2|hasil}} setiap wiki.",
+	"checkuser-global-contributions-target-label": "Nama pengguna, alamat atau julat IP:",
+	"checkuser-global-contributions-target-placeholder": "Nama pengguna, alamat atau julat IP",
+	"checkuser-global-contributions-search-form-wrapper": "Cari sumbangan sejagat",
+	"checkuser-global-contributions-results-title": "Sumbangan sejagat untuk $1",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>Tiada hasil yang berpadanan dengan pertanyaan.</strong> Anda mungkin tidak mempunyai kebenaran untuk melihat alamat IP yang digunakan oleh akaun sementara.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Tiada hasil yang berpadanan dengan pertanyaan.</strong> Keputusan ini mungkin tidak lengkap kerana anda perlu menerima perjanjian dalam [$1 keutamaan sejagat anda].",
+	"checkuser-global-contributions-no-global-preference": "Keputusan ini mungkin tidak lengkap kerana anda perlu menerima perjanjian dalam [$1 keutamaan sejagat anda].",
+	"checkuser-global-contributions-api-lookup-error": "Ralat memuatkan data daripada beberapa wiki. Keputusan ini tidak lengkap. <strong>Mungkin lebih baik cuba lagi.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Tiada hasil yang berpadanan dengan pertanyaan.</strong> Pengguna \"$1\" tidak mempunyai sumbangan yang kelihatan.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Tiada hasil yang berpadanan dengan pertanyaan.</strong> Anda mungkin dapat cari sumbangan jika anda menukar parameter carian anda.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Ruang nama[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Lihat sumbangan sejagat",
+	"checkuser-ipinfo-global-contributions-label": "Sumbangan Sejagat",
+	"checkuser-ipinfo-global-contributions-tooltip": "Bilangan suntingan rentas wiki yang dibuat daripada alamat IP ini.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 suntingan sejagat|0=Tiada suntingan sejagat}}",
+	"tooltip-t-global-contributions": "Senarai sumbangan merentas semua wiki oleh {{GENDER:$1|pengguna ini}}"
+}

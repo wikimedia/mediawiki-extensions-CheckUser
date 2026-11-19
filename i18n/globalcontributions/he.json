@@ -1,0 +1,43 @@
+{
+	"@metadata": {
+		"authors": [
+			"Amire80",
+			"Guycn2",
+			"Neriah",
+			"Rotem Liss",
+			"Rotemliss",
+			"Steeve815",
+			"YaronSh",
+			"Yona b",
+			"דגש",
+			"דגש חזק",
+			"לואיקה",
+			"מקף"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>אין תוצאות תואמות לשאילתה</strong>. המשתמש \"$1\" אינו רשום.",
+	"checkuser-global-contributions-link": "תרומות גלובליות",
+	"checkuser-global-contributions-link-sidebar": "תרומות גלובליות",
+	"checkuser-global-contributions-summary": "קבלת עריכות שנעשו על־ידי משתמש בכל מיזמי הוויקי במהלך {{PLURAL:$1|היום האחרון|היומיים האחרונים|$1 הימים האחרונים}}.",
+	"checkuser-global-contributions": "חיפוש תרומות גלובליות",
+	"checkuser-global-contributions-permission-error-title": "שגיאת הרשאה",
+	"checkuser-global-contributions-permission-error-description": "כדי לצפות בתרומות גלובליות, יש לקבל את ההסכם ב[[Special:GlobalPreferences|העדפות הגלובליות שלך]].",
+	"checkuser-global-contributions-subtitle": "הצגת תוצאות {{PLURAL:$1|מהיום האחרון|מהיומיים האחרונים|מ־$1 הימים האחרונים}} עבור כל אתרי הוויקי שיש לך בהם הרשאה לצפות בתרומות. מוגבל {{PLURAL:$2|לתוצאה אחת|לשתי תוצאות}} לוויקי.",
+	"checkuser-global-contributions-subtitle-account": "הצגת תוצאות {{PLURAL:$1|מהיום האחרון|מהיומיים האחרונים|מ־$1 הימים האחרונים}}, עבור כל אתרי הוויקי. מוגבל {{PLURAL:$2|לתוצאה אחת|ל־$2 תוצאות}} לוויקי.",
+	"checkuser-global-contributions-target-label": "שם משתמש, כתובת IP או טווח:",
+	"checkuser-global-contributions-target-placeholder": "שם משתמש, כתובת IP או טווח",
+	"checkuser-global-contributions-search-form-wrapper": "חיפוש תרומות גלובליות",
+	"checkuser-global-contributions-results-title": "תרומות גלובליות של $1",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>אין תוצאות שתואמות לשאילתה.</strong> ייתכן שאין לך הרשאה להציג כתובות IP שמשמשות חשבונות חולפים.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>אין תוצאות שתואמות לשאילתה.</strong> ייתכן שהתוצאות האלו אינן שלמות מכיוון שעליך לאשר את ההסכם ב[$1 העדפות הגלובליות שלך].",
+	"checkuser-global-contributions-no-global-preference": "ייתכן שהתוצאות האלו אינן שלמות מכיוון שעליך לאשר את ההסכם ב[$1 העדפות הגלובליות שלך].",
+	"checkuser-global-contributions-api-lookup-error": "שגיאה בטעינת נתונים מכמה אתרי ויקי. התוצאות האלו אינן שלמות. <strong>אולי זה יעזור לנסות שוב.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>אין תוצאות תואמות לשאילתה.</strong> {{GENDER:$1|למשתמש|למשתמשת}} \"$1\" אין תרומות שאפשר לצפות בהן.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>אין תוצאות שתואמות לשאילתה.</strong> ייתכן {{GENDER:|שתמצא|שתמצאי}} תרומות אם תשנה את הפרמטרים של החיפוש שלך.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "מרחב שם[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "הצגת תרומות גלובליות",
+	"checkuser-ipinfo-global-contributions-label": "תרומות גלובליות",
+	"checkuser-ipinfo-global-contributions-tooltip": "מספר העריכות חוצות הוויקי שנעשו מכתובת ה־IP הזאת.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|עריכה גלובלית אחת|$1 עריכות גלובליות|0=אין עריכות גלובליות}}",
+	"tooltip-t-global-contributions": "רשימת תרומות מכל אתרי הוויקי {{GENDER:$1|המשתמש הזה|המשתמשת הזאת}}"
+}

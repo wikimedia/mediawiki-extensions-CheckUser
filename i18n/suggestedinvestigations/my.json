@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dr Lotus Black",
+			"Ninjastrikers",
+			"Teitei Para"
+		]
+	},
+	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "အခြေအနေ",
+	"checkuser-suggestedinvestigations-filter-dialog-account-activity-header": "အကောင့်လုပ်ဆောင်ချက်",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "ယနေ့",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "ပြီးခဲ့တဲ့ ၃ ရက်",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days": "ပြီးခဲ့တဲ့ ၇ ရက်",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last90days": "ပြီးခဲ့တဲ့ ရက် ၉၀",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-all-time": "တချိန်လုံး",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "အကောင့်",
+	"checkuser-suggestedinvestigations-header-users": "အကောင့်များ"
+}

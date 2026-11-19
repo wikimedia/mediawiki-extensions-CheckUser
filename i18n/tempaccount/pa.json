@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Cabal",
+			"Kuldeepburjbhalaike"
+		]
+	},
+	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "ਪਿਛਲਾ",
+	"checkuser-temporary-accounts-onboarding-dialog-next-label": "ਅਗਲਾ",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "ਬੰਦ ਕਰੋ",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "ਆਰਜ਼ੀ ਖਾਤਾ ਕੀ ਏ?",
+	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "ਤਰਜੀਹਾਂ ਸੰਭਾਲੋ",
+	"checkuser-ip-contributions": "IP ਯੋਗਦਾਨਾਂ ਦੀ ਖੋਜ ਕਰੋ",
+	"checkuser-ip-contributions-permission-error-title": "ਮਨਜ਼ੂਰੀ ਦੀ ਗਲਤੀ",
+	"checkuser-ip-contributions-tab-label-contributions": "ਯੋਗਦਾਨ",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "ਮਿਟਾਏ ਗਏ ਯੋਗਦਾਨ",
+	"checkuser-ip-contributions-deleted-contributions-link": "ਮਿਟਾਏ ਹੋਏ ਵਰਤੋਂਕਾਰ ਯੋਗਦਾਨ",
+	"checkuser-ip-contributions-contributions-link": "ਯੋਗਦਾਨ",
+	"checkuser-ip-contributions-special-ip-contributions-button": "ਆਰਜ਼ੀ ਵਰਤੋਂਕਾਰ IP ਸੋਧਾਂ",
+	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "ਆਰਜ਼ੀ ਵਰਤੋਂਕਾਰ IP ਸੋਧਾਂ",
+	"checkuser-ip-contributions-special-contributions-button": "ਵਿਰਸੇ ਦੀ IP ਸੋਧਾਂ",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "ਰੱਦ ਕਰੋ",
+	"checkuser-ip-auto-reveal-on-dialog-primary-action": "ਚਾਲੂ ਕਰੋ",
+	"checkuser-ip-auto-reveal-on-dialog-select-label": "ਮਿਆਦ:",
+	"checkuser-ip-auto-reveal-on-dialog-select-default": "ਇੱਕ ਚੋਣ ਚੁਣੋ",
+	"checkuser-ip-auto-reveal-off-dialog-extend-action": "+10 ਮਿੰਟ",
+	"checkuser-ip-auto-reveal-off-dialog-off-action": "ਬੰਦ ਕਰੋ",
+	"prefs-checkuser-tempaccount": "ਆਰਜ਼ੀ ਖਾਤੇ ਦਾ IP ਖੁਲਾਸਾ",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP ਵਿਖਾਓ",
+	"checkuser-tempaccount-reveal-ip-error": "ਗਲਤੀ",
+	"log-action-filter-checkuser-temporary-account": "ਕਾਰਵਾਈ ਦੀ ਕਿਸਮː",
+	"log-action-filter-checkuser-temporary-account-change-access": "ਪਹੁੰਚ ਬਦਲੋ"
+}

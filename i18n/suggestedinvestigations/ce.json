@@ -1,0 +1,43 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dreamy Jazz",
+			"Sasan700",
+			"Исмаил Садуев",
+			"Умар"
+		]
+	},
+	"checkuser-suggestedinvestigations": "Кховдийна талламаш",
+	"checkuser-suggestedinvestigations-summary": "ХӀокху агӀонан тӀехь йу авто шеконе йу аьлла билгалйаьхна аккаунташ, декъашхошна таллам бан.",
+	"checkuser-suggestedinvestigations-table-caption": "Кховдийна талламийн таблица",
+	"checkuser-suggestedinvestigations-header-users": "Аккаунташ",
+	"checkuser-suggestedinvestigations-header-signals": "Кхераме сигналаш",
+	"checkuser-suggestedinvestigations-header-status": "Статус",
+	"checkuser-suggestedinvestigations-header-notes": "Билгалдахарш",
+	"checkuser-suggestedinvestigations-header-actions": "Ардамаш",
+	"checkuser-suggestedinvestigations-user-showmore": "Гайта +$1 {{PLURAL:$1|аккаунташ}}",
+	"checkuser-suggestedinvestigations-user-showless": "ТӀаьххьара $1 {{PLURAL:$1|аккаунташ}} къайлайаха",
+	"checkuser-suggestedinvestigations-status-open": "Йиллина",
+	"checkuser-suggestedinvestigations-status-resolved": "ДӀакъевлина",
+	"checkuser-suggestedinvestigations-status-invalid": "Бакъдоцург",
+	"checkuser-suggestedinvestigations-status-description-invalid": "ХӀара вариант схьахаржа, харц дика агӀонаш билгалйаха",
+	"checkuser-suggestedinvestigations-status-reason-default-invalid": "Харц дика",
+	"checkuser-suggestedinvestigations-action-investigate": "Таллам бе декъашхошна",
+	"checkuser-suggestedinvestigations-action-investigate-disabled": "$1 {{PLURAL:$1|аккаунт}} тӀе кхаччалц бен таллам бан йиш йац",
+	"checkuser-suggestedinvestigations-action-change-status": "Хийца статус",
+	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "ДӀачӀагӀа",
+	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Йухайаккхар",
+	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "ТӀечӀагӀдан",
+	"checkuser-suggestedinvestigations-change-status-dialog-title": "Хийца статус",
+	"checkuser-suggestedinvestigations-change-status-dialog-text": "ХӀокху талламна керла статус схьахаржа",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Статус",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-reason-header": "ТӀетоха билгалдаккхар",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-description-resolved": "Цхьа а ардам бина хиллехь гайта",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-description-invalid": "Нагахь санна цхьа а билгалдаккхар тӀетоьхна дацахь, «{{int:checkuser-suggestedinvestigations-status-reason-default-invalid}}» дешнаш гойтур ду",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-resolved": "масала, бина ардам: блоктоьхна декъашхой",
+	"checkuser-suggestedinvestigations-change-status-dialog-reason-placeholder-invalid": "масала, хӀорш шеконе аккаунташ йац",
+	"checkuser-suggestedinvestigations-risk-signals-popover-title": "Кхераме сигналаш",
+	"checkuser-suggestedinvestigations-risk-signals-popover-body-intro": "ХӀара сигналаш вон неха хила тарлучу жигараллин индикаторш йу.",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "ДӀачӀагӀа",
+	"checkuser-suggestedinvestigations-risk-signals-popover-open-label": "Кхерамечу сигналех лаьцна кхин а хаамаш каро йиш йу информацин корехь."
+}

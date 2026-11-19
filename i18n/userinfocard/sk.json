@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dreamy Jazz",
+			"Helix84",
+			"KormiSK",
+			"Luky001",
+			"Martin Kozák",
+			"Spider 001757",
+			"Sudo77(new)",
+			"Teslaton",
+			"Vlad5250",
+			"Wizzard"
+		]
+	},
+	"checkuser-userinfocard-sharedblocked-button": "Skontrolovať prepojené zablokované účty",
+	"checkuser-userinfocard-sharedblocked-button-tooltip": "Zobraziť, koľko zablokovaných účtov používalo rovnaké IP adresy alebo rovnaké verzie prehliadača.",
+	"checkuser-userinfocard-sharedblocked-ip": "Zablokované účty na rovnakých IP adresách: $1",
+	"checkuser-userinfocard-sharedblocked-browser-version": "Zablokované účty s rovnakými verziami prehliadača: $1"
+}

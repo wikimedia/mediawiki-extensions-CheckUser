@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"AK",
+			"Assassingr",
+			"Consta",
+			"Crazymadlover",
+			"Dogogos123",
+			"Dreamy Jazz",
+			"Geraki",
+			"Giorgos456",
+			"Glavkos",
+			"Jimkats",
+			"K sal 15",
+			"Konsnos",
+			"Norhorn",
+			"Omnipaedista",
+			"PrinceAzuka134",
+			"Protnet",
+			"Warudo",
+			"ZaDiak",
+			"Απεργός"
+		]
+	},
+	"checkuser-global-contributions-link": "καθολικές συνεισφορές χρήστη",
+	"checkuser-global-contributions-link-sidebar": "Καθολικές συνεισφορές",
+	"checkuser-ipinfo-global-contributions-url-text": "Προβολή καθολικών συνεισφορών",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 καθολική επεξεργασία|$1 καθολικές επεξεργασίες|0=Καμία καθολική επεξεργασία}}",
+	"tooltip-t-global-contributions": "Μια λίστα συνεισφορών σε όλα τα wiki από {{GENDER:$1|αυτόν τον χρήστη|αυτήν τη χρήστρια}}"
+}

@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aca",
+			"BadDog",
+			"Winston Sung"
+		]
+	},
+	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
+	"tooltip-t-global-contributions": "Lista doprinosa {{GENDER:$1|ovoga korisnika|ove korisnice|ovoga korisnika ili korisnice}} sa svih projekata"
+}

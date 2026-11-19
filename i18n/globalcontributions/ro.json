@@ -1,0 +1,27 @@
+{
+	"@metadata": {
+		"authors": [
+			"AdiJapan",
+			"Andrei Stroe",
+			"Dreamy Jazz",
+			"Emily",
+			"Firilacroco",
+			"KlaudiuMihaila",
+			"Memo18",
+			"Mihai",
+			"Minisarm",
+			"NGC 54",
+			"Paloi Sciurala",
+			"SalinaTheTranslator",
+			"Trotinel Iftode",
+			"Valentin JJ.",
+			"Vellion Eagle"
+		]
+	},
+	"checkuser-global-contributions-link": "contribuții globale",
+	"checkuser-global-contributions-link-sidebar": "Contribuții globale",
+	"checkuser-ipinfo-global-contributions-url-text": "Vezi contribuțiile globale",
+	"checkuser-ipinfo-global-contributions-label": "Contribuții globale",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modificare globală|$1 modificări globale|0=Nicio modificare globală}}",
+	"tooltip-t-global-contributions": "O listă a contribuțiilor de pe toate wiki-urile de către {{GENDER:$1|acest utilizator|această utilizatoare}}"
+}

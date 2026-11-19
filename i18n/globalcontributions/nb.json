@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Audun",
+			"Danmichaelo",
+			"Dreamy Jazz",
+			"EdoAug",
+			"Finnrind",
+			"Jon Harald Søby",
+			"Laaknor",
+			"McDutchie",
+			"Nghtwlkr"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Ingen resultater samsvarer med søket.</strong> Brukeren «$1» er ikke registrert.",
+	"checkuser-global-contributions-link": "bidrag globalt",
+	"checkuser-global-contributions-link-sidebar": "Bidrag globalt",
+	"checkuser-global-contributions-summary": "Hent redigeringer gjort av en bruker på tvers av alle wikiprosjekter fra {{PLURAL:$1|det siste døgnet|de siste $1 dagene}}.",
+	"checkuser-global-contributions": "Søk etter bidrag globalt",
+	"checkuser-global-contributions-permission-error-title": "Rettighetsfeil",
+	"checkuser-global-contributions-permission-error-description": "Godta avtalen i [[Special:GlobalPreferences|de globale innstillingene dine]] for å se bidrag globalt.",
+	"checkuser-global-contributions-subtitle": "Viser resultater fra {{PLURAL:$1|det siste døgnet|de siste $1 dagene}}, for alle wikier der du har rettighet til å se bidragene. Begrenses til $2 {{PLURAL:$2|resultat|resultater}} per wiki.",
+	"checkuser-global-contributions-subtitle-account": "Viser resultater fra {{PLURAL:$1|det siste døgnet|de siste $1 dagene}}, for alle wikier. Dette er begrenset til $2 {{PLURAL:$2|resultat|resultater}} per wiki.",
+	"checkuser-global-contributions-target-label": "Brukernavn, IP-adresse eller -intervall:",
+	"checkuser-global-contributions-target-placeholder": "Brukernavn, IP-adresse eller -intervall",
+	"checkuser-global-contributions-search-form-wrapper": "Søk etter bidrag globalt",
+	"checkuser-global-contributions-results-title": "{{GRAMMAR:genitive|$1}} bidrag globalt",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>Ingen resultater samsvarer med søket.</strong> Du har muligens ikke tillatelse til å vise IP-adresser som er brukt av midlertidige kontoer.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Ingen resultater samsvarer med søket.</strong> Disse resultatene kan være ufullstendige fordi du må godta avtalen i [$1 de globale innstillingene dine].",
+	"checkuser-global-contributions-no-global-preference": "Disse resultatene kan være ufullstendige fordi du må godta avtalen i [$1 de globale innstillingene dine].",
+	"checkuser-global-contributions-api-lookup-error": "Feil under innlasting av data fra noen wikier. Disse resultatene er ufullstendige. <strong>Det kan hjelpe å prøve igjen.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Ingen resultater samsvarer med søket.</strong> Brukeren «$1» har ingen synlige bidrag.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Ingen resultater samsvarer med søket.</strong> Du kan finne bidrag hvis du endrer søkeparameterne.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Navnerom[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Vis bidrag globalt",
+	"checkuser-ipinfo-global-contributions-label": "Bidrag globalt",
+	"checkuser-ipinfo-global-contributions-tooltip": "Antall redigeringer på tvers av wikier gjort med denne IP-adressen.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 redigering globalt|$1 redigeringer globalt|0=Ingen redigeringer globalt}}",
+	"tooltip-t-global-contributions": "En liste over bidrag fra denne {{GENDER:$1|brukeren}} på tvers av alle wikier"
+}

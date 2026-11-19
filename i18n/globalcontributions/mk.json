@@ -1,0 +1,36 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjankuloski06",
+			"Brest",
+			"McDutchie",
+			"Misos",
+			"Vlad5250"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Не најдов ништо што одговара на барањето</strong>. Корисникот „$1“ не е заведен.",
+	"checkuser-global-contributions-link": "глобални придонеси",
+	"checkuser-global-contributions-link-sidebar": "Глобални придонеси",
+	"checkuser-global-contributions-summary": "Дај уредувања направени од корисник низ сите википроекти во {{PLURAL:$1|изминатиов ден|изминативе $1 дена}}.",
+	"checkuser-global-contributions": "Пребарај глобални придонеси",
+	"checkuser-global-contributions-permission-error-title": "Грешка со дозволата",
+	"checkuser-global-contributions-permission-error-description": "За да ги видите глобалните придонеси, прифатете ја согласноста во [[Special:GlobalPreferences|вашите глобални нагодувања]].",
+	"checkuser-global-contributions-subtitle": "Прикажувам исходни ставки од {{PLURAL:$1|изминатиов ден|изминатите $1 дена}} за сите викија на кои имате право да гледате придонеси. Ограничено на $2 {{PLURAL:$2|ставка|ставки}} по вики.",
+	"checkuser-global-contributions-subtitle-account": "Прикажувам исход од {{PLURAL:$1|последниов ден|последниве $1 дена}}, за сите викија. Ограничено на $2 {{PLURAL:$2|ставка|ставки}} по вики.",
+	"checkuser-global-contributions-target-label": "Корисничко име, IP-адреса или опсег:",
+	"checkuser-global-contributions-target-placeholder": "Корисничко име, IP-адреса или опсег",
+	"checkuser-global-contributions-search-form-wrapper": "Пребарај глобални придонеси",
+	"checkuser-global-contributions-results-title": "Глобални придонеси на $1",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>Нема исходни ставки што одговараат на бараното.</strong> Немате дозвола да гледате IP-адреси што се користат од привремени сметки.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Нема исходни ставки што одговараат на бараното.</strong> Овој исход може да е непотполн бидејќи треба да дадете согласност во [$1 вашите глобални нагодувања].",
+	"checkuser-global-contributions-no-global-preference": "Овој исход може да е непотполн бидејќи треба да дадете согласност во [$1 вашите глобални нагодувања].",
+	"checkuser-global-contributions-api-lookup-error": "Грешка при вчитувањето на податоците од некои викија. Овој исход е нецелосен. <strong>Обидете се повторно, може да помогне.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Не најдов ништо што одговара на бараното.</strong> Корисникот „$1“ нема видливи придонеси.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Не најдов ништо што одговара на бараото.</strong> Можеби ќе најдете придонеси ако ги смените параметрите на пребарувањето.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Именски простор[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Глобални придонеси",
+	"checkuser-ipinfo-global-contributions-label": "Глобални придонеси",
+	"checkuser-ipinfo-global-contributions-tooltip": "Број на уредувања на сите викија направени од оваа IP-адреса.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобално уредување|$1 глобални уредувања|0=Нема глобални уредувања}}",
+	"tooltip-t-global-contributions": "Список на придонеси на сите викија од {{GENDER:$1|овој корисник}}"
+}

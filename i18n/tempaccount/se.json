@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kimberli Mäkäräinen (WMNO)",
+			"Yupik"
+		]
+	},
+	"group-temporary-account-viewer": "Geavaheaddjit, geat sáhttet oaidnit gaskaboddosaš dovddaldagaid IP-čujuhusaid",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|geavaheaddji, gii sáhttá oaidnit gaskaboddosaš dovddaldagaid IP-čujuhusaid}}",
+	"right-checkuser-temporary-account": "Oaidnit IP-čujuhusaid, maid gaskaboddosaš geavaheaddjidovddaldagat geavahit",
+	"grouppage-temporary-account-viewer": "{{ns:project}}:Geavaheaddji, gii sáhttá oaidnit gaskaboddosaš dovddaldagaid IP-čujuhusaid",
+	"checkuser-temporary-accounts-onboarding-dialog-skip-all": "Njuike buot badjel",
+	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Čuovvovaš",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Gidde",
+	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "Vurke ásahusaid",
+	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "Vurke vuogádatviidosaš ásahusaid",
+	"checkuser-ip-contributions-target-label": "IP-čujuhus dahje IP-čujuhusráidu:",
+	"checkuser-ip-contributions-tab-label-contributions": "Rievdadusat",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Sihkkojuvvon rievdadusat",
+	"checkuser-ip-contributions-search-form-wrapper": "Oza rievdadusaid IP-čujuhusas",
+	"checkuser-ip-contributions-results-title": "Gaskaboddosaš geavaheddjiid rievdadusat IP-čujuhusas $1",
+	"checkuser-ip-contributions-archive-results-title": "Gaskaboddosaš geavaheddjiid sihkkojuvvon rievdadusat IP-čujuhusas $1",
+	"checkuser-ip-contributions-deleted-contributions-link": "sihkkojuvvon rievdadusat",
+	"checkuser-ip-contributions-contributions-link": "rievdadusat",
+	"checkuser-ip-contributions-special-ip-contributions-button": "Gaskaboddosaš geavaheaddji rievdadusat IP-čujuhusas",
+	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Gaskaboddosaš geavaheaddji IP-rievdadusat",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Gaskkalduhte",
+	"checkuser-ip-auto-reveal-on-dialog-select-label": "Bistu:",
+	"checkuser-tempaccount-reveal-ip-button-label": "Čájet IP-čujuhusa",
+	"checkuser-tempaccount-reveal-ip-error": "meattáhus"
+}

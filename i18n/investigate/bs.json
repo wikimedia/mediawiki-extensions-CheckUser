@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"CERminator",
+			"Dreamy Jazz",
+			"KWiki",
+			"Semso98",
+			"Srdjan m",
+			"Srđan"
+		]
+	},
+	"checkuser-investigateblock-warning-confirmaction": "Ako ste sigurni da želite nastaviti, kliknite na \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" polje na dnu stranice.",
+	"checkuser-investigate-compare-table-header-activity": "Vremenski opseg"
+}

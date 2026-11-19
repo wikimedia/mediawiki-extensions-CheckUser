@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dbc334",
+			"Dreamy Jazz",
+			"Eleassar",
+			"Janezdrilc",
+			"MrJaroslavik",
+			"Upwinxp"
+		]
+	},
+	"checkuser-global-contributions-link": "globalni prispevki",
+	"checkuser-global-contributions-link-sidebar": "Globalni prispevki",
+	"checkuser-global-contributions": "Iskanje globalnih prispevkov",
+	"checkuser-global-contributions-permission-error-title": "Napaka dovoljenja",
+	"checkuser-global-contributions-permission-error-description": "Za ogled globalnih prispevkov sprejmite sporazum v [[Special:GlobalPreferences|svojih globalnih nastavitvah]].",
+	"checkuser-global-contributions-subtitle": "Prikaz zadetkov za {{PLURAL:$1|zadnji dan|zadnja $1 dneva|zadnje $1 dneve|zadnjih $1 dni}} za vse vikije, v katerih imate pravico za ogled prispevkov. Omejeno na $2 {{PLURAL:$2|zadetek|zadetka|zadetke|zadetkov}} na viki.",
+	"checkuser-global-contributions-subtitle-account": "Prikaz zadetkov za {{PLURAL:$1|zadnji dan|zadnja $1 dneva|zadnje $1 dneve|zadnjih $1 dni}} za vse vikije. Omejeno na $2 {{PLURAL:$2|zadetek|zadetka|zadetke|zadetkov}} na viki.",
+	"checkuser-global-contributions-target-label": "Uporabniško ime, IP-naslov ali razpon:",
+	"checkuser-global-contributions-target-placeholder": "Uporabniško ime, IP-naslov ali razpon",
+	"checkuser-global-contributions-search-form-wrapper": "Iskanje globalnih prispevkov",
+	"checkuser-global-contributions-results-title": "Globalni prispevki $1",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globalno urejanje|$1 globalni urejanji|$1 globalna urejanja|$1 globalnih urejanj|0=Brez globalnih urejanj}}"
+}

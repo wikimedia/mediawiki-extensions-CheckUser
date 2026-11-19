@@ -1,0 +1,26 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bugoslav",
+			"Dalibor Bosits",
+			"Dreamy Jazz",
+			"Ex13",
+			"Excaliboor",
+			"MaGa",
+			"Neptune, the Mystic",
+			"Ponor",
+			"SpeedyGonsales",
+			"Tivek"
+		]
+	},
+	"checkuser-global-contributions-link": "globalni doprinosi",
+	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
+	"checkuser-global-contributions-summary": "Zatražite izmjene koje je suradnik napravio na svim projektima {{PLURAL:$1|1=od jučer|u posljednji $1 dan|u posljednja $1 dana|u posljednjih $1 dana}}.",
+	"checkuser-global-contributions": "Pretraživanje globalnih doprinosa",
+	"checkuser-global-contributions-subtitle": "Prikazuju se doprinosi {{PLURAL:$1|u posljednji $1 dan|u posljednja $1 dana|u posljednjih $1 dana}} na svim wikijima na kojima imate pravo pregledavanja doprinosa. Ograničenje je $2 {{PLURAL:$2|rezultat|rezultata}} po wikiju.",
+	"checkuser-global-contributions-subtitle-account": "Prikazuju se doprinosi {{PLURAL:$1|u posljednji $1 dan|u posljednja $1 dana|u posljednjih $1 dana}} na svim wikijima. Ograničenje je $2 {{PLURAL:$2|rezultat|rezultata}} po wikiju.",
+	"checkuser-global-contributions-target-label": "Suradničko ime, IP adresa ili raspon adresa:",
+	"checkuser-global-contributions-target-placeholder": "Suradničko ime, IP adresa ili raspon adresa",
+	"checkuser-ipinfo-global-contributions-url-text": "Prikaži globalne doprinose",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globalno uređivanje|$1 globalna uređivanja|$1 globalnih uređivanja|0=Nema globalnih uređivanja}}"
+}

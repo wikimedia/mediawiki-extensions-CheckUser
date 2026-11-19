@@ -1,0 +1,36 @@
+{
+	"@metadata": {
+		"authors": [
+			"CERminator",
+			"Dreamy Jazz",
+			"KWiki",
+			"Semso98",
+			"Srdjan m",
+			"Srđan"
+		]
+	},
+	"checkuser-userinfocard-joined": "{{GENDER:$3|Datum registracije}}: $1 ($2)",
+	"checkuser-userinfocard-active-wikis-label": "Aktivnost na wikijima",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Aktivne blokade na svim wikijima: $1",
+	"checkuser-userinfocard-past-blocks": "Prijašnje blokade: $1",
+	"checkuser-userinfocard-global-edits": "Globalne izmjene: $1",
+	"checkuser-userinfocard-local-edits": "Lokalne izmjene: $1 (vraćeno: $2)",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "Lokalne izmjene: $1",
+	"checkuser-userinfocard-new-articles": "Novi članci: $1",
+	"checkuser-userinfocard-thanks": "Primljeno zahvala: $1 (poslano: $2)",
+	"checkuser-userinfocard-global-restrictions-locked": "[[$2|Globalno {{GENDER:$1|zaključan|zaključana}}]] od $3",
+	"checkuser-userinfocard-global-restrictions-locked-no-date": "[[$2|Globalno {{GENDER:$1|zaključan|zaključana}}]]",
+	"checkuser-userinfocard-global-restrictions-blocked": "[[$2|Globalno {{GENDER:$1|blokiran|blokirana}}]] od $3",
+	"checkuser-userinfocard-global-restrictions-blocked-disabled": "[[$2|Globalno {{GENDER:$1|blokiran|blokirana}}]] od $3 (lokalno onemogućeno)",
+	"checkuser-userinfocard-menu-view-contributions": "Prikaži {{GENDER:$1|korisničke}} doprinose",
+	"checkuser-userinfocard-menu-view-global-account": "Prikaži informacije o {{GENDER:$1|globalnom računu}}",
+	"checkuser-userinfocard-menu-add-to-watchlist": "Dodaj {{GENDER:$1|korisničku stranicu}} na spisak praćenja",
+	"checkuser-userinfocard-menu-block-user": "Blokiraj {{GENDER:$1|korisnika|korisnicu}}",
+	"checkuser-userinfocard-menu-provide-feedback": "Povratne informacije",
+	"checkuser-userinfocard-menu-turn-off": "Isključi mogućnost",
+	"checkuser-userinfocard-menu-view-xtools": "Prikaži u XTools-u",
+	"checkuser-userinfocard-enable-preference-description": "Uključi [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|korisničku info-karticu]]",
+	"checkuser-userinfocard-enable-preference-help": "Prikazuje dugme pored korisničkih imena koje otvara prozorčić s informacijama o računu.",
+	"checkuser-userinfocard-activity-chart-label": "Uređivačka aktivnost u posljednjih 60 dana ({{PLURAL:$1|$1 izmjena|$1 izmjene|$1 izmjena|0=Nema izmjena}})",
+	"checkuser-userinfocard-last-edit-timestamp-label": "Posljednja izmjena: $1"
+}

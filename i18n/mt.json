@@ -52,8 +52,5 @@
 	"checkuser-ipeditcount": "~$1 mill-utenti kollha",
 	"checkuser-showmain": "Dur għall-formola prinċipali tal-Kontroll tal-utenti",
 	"logentry-checkuser-private-event-autocreate-account": "ġie maħluq awtomatikament",
-	"logentry-checkuser-private-event-create-account": "ġie maħluq",
-	"checkuser-investigateblock-reason": "Raġuni",
-	"checkuser-investigate-duration-option-30d": "L-aħħar 30 jum",
-	"checkuser-investigate-reason-label": "Raġuni"
+	"logentry-checkuser-private-event-create-account": "ġie maħluq"
 }

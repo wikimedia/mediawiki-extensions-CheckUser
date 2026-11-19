@@ -14,8 +14,6 @@
 	"checkuser": "Erabiltzailea egiaztatu",
 	"group-checkuser": "Erabiltzaileak egiaztatu",
 	"group-checkuser-member": "{{GENDER:$1|erabiltzaile egiaztatzailea}}",
-	"right-checkuser-temporary-account": "Ikusi aldi baterako kontuek erabiltzen dituzten IP helbideak",
-	"action-checkuser-temporary-account": "ikusi aldi baterako kontuek erabiltzen dituzten IP helbideak",
 	"grouppage-checkuser": "{{ns:project}}:Lankidea egiaztatu",
 	"checkuser-reason": "Arrazoia:",
 	"checkuser-reason-api": "API: $1",
@@ -43,7 +41,5 @@
 	"checkuser-helper-copy-success": "Kopiatua",
 	"checkuser-helper-user": "Lankide",
 	"logentry-checkuser-private-event-autocreate-account": "automatikoki sortua izan da",
-	"logentry-checkuser-private-event-create-account": "sortu zen",
-	"checkuser-investigate-compare-notice-no-results-filters": "Filtratzeko irizpide hauek erabilita ez dago emaitzarik. Saiatu filtro batzuk ezabatzen bilaketa orokor baterako",
-	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Erabiltzaile honen IPak erakutsi"
+	"logentry-checkuser-private-event-create-account": "sortu zen"
 }

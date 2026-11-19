@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dreamy Jazz",
+			"Gunnernett",
+			"Harald Khan",
+			"Jon Harald Søby",
+			"Njardarlogar"
+		]
+	},
+	"checkuser-temporary-accounts-onboarding-dialog-title": "Innføring av mellombels kontoar",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Kva er ein mellombels konto?",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "Vising av IP-informasjon",
+	"prefs-checkuser-tempaccount": "Vising av IP-adressa til mellombels kontoar",
+	"checkuser-contributions-temporary-account-bucketcount": "Mellombelskontoar frå alle tilknytte IP-adresser: $1."
+}

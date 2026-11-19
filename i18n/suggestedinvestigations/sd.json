@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Indus Asia",
+			"Mehtab ahmed",
+			"Tweety"
+		]
+	},
+	"right-checkuser-suggested-investigations": "وارپرائيندڙ چڪاسڪار لاءِ [[Special:SuggestedInvestigations|ڏسيل تحقيقن]] تي عمل ڪريو",
+	"action-checkuser-suggested-investigations": "واپرائيندڙ چڪاس لاءِ ڏسل تحقيقن تي عمل ڪريو",
+	"checkuser-suggestedinvestigations-filter-button": "ڇاڻي",
+	"checkuser-suggestedinvestigations-filter-dialog-close-button": "بند ڪريو",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "کاتو",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "ڇاڻيون"
+}

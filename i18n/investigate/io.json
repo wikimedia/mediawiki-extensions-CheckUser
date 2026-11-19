@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Joao Xavier",
+			"Malafaya",
+			"Robin van der Vliet"
+		]
+	},
+	"checkuser-investigate-subtitle-cancel-button-label": "Nuligez",
+	"checkuser-investigate-subtitle-continue-button-label": "Durar",
+	"checkuser-investigate-tab-preliminary-check": "Informo pri la konto",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Montrez omna IP-adresi de ca uzero",
+	"checkuser-investigate-compare-table-button-add-user-targets-label": "Montrez omna uzeri en ca IP"
+}

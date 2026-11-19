@@ -53,12 +53,5 @@
 	"checkuser-time-range": "$1–$2",
 	"checkuser-showmain": "Byt til hovudskjemaet for CheckUser",
 	"logentry-checkuser-private-event-autocreate-account": "vart automatisk oppretta",
-	"logentry-checkuser-private-event-create-account": "vart oppretta",
-	"checkuser-temporary-accounts-onboarding-dialog-title": "Innføring av mellombels kontoar",
-	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Kva er ein mellombels konto?",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "Vising av IP-informasjon",
-	"checkuser-investigate-preliminary-table-header-editcount": "Endringar",
-	"prefs-checkuser-tempaccount": "Vising av IP-adressa til mellombels kontoar",
-	"checkuser-userinfocard-temporary-account-bucketcount": "Mellombelskontoar frå alle tilknytte IP-adresser: $1",
-	"checkuser-contributions-temporary-account-bucketcount": "Mellombelskontoar frå alle tilknytte IP-adresser: $1."
+	"logentry-checkuser-private-event-create-account": "vart oppretta"
 }

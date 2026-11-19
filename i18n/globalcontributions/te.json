@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"Chaduvari",
+			"Dreamy Jazz",
+			"Kiranmayee",
+			"Mpradeep",
+			"Rajadvamshi",
+			"Ravichandra",
+			"Veeven",
+			"వైజాసత్య"
+		]
+	},
+	"checkuser-global-contributions-link": "సార్వత్రిక తోడ్పాట్లు",
+	"checkuser-global-contributions-link-sidebar": "సార్వత్రిక తోడ్పాట్లు",
+	"checkuser-ipinfo-global-contributions-label": "సార్వత్రిక తోడ్పాట్లు",
+	"checkuser-ipinfo-global-contributions-tooltip": "ఈ ఐపీ అడ్రసు నుండి చేసిన క్రాస్-వికీ దిద్దుబాట్ల సంఖ్య.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 సార్వత్రిక దిద్దుబాటు|$1 సార్వత్రిక దిద్దుబాట్లు|0=సార్వత్రిక దిద్దుబాట్లేమీ లేవు}}",
+	"tooltip-t-global-contributions": "వికీలన్నిటి లోనూ {{GENDER:$1|ఈ వాడుకరి}} చేసిన దిద్దుబాట్ల జాబితా"
+}

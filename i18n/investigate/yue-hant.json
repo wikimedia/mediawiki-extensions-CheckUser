@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"H78c67c",
+			"JeffreyKim",
+			"Ktchankt",
+			"Winston Sung",
+			"Yueman"
+		]
+	},
+	"checkuser-investigateblock-target": "用戶名同IP地址",
+	"checkuser-investigate-subtitle-cancel-button-label": "取消",
+	"checkuser-investigate-subtitle-continue-button-label": "繼續",
+	"checkuser-investigate-targets-label": "用戶名同IP地址：",
+	"checkuser-investigate-duration-option-all": "全部",
+	"checkuser-investigate-compare-table-button-contribs-label": "貢獻",
+	"checkuser-investigate-compare-table-header-ip": "IP"
+}

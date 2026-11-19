@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"AdiJapan",
+			"Andrei Stroe",
+			"Dreamy Jazz",
+			"Emily",
+			"Firilacroco",
+			"KlaudiuMihaila",
+			"Memo18",
+			"Mihai",
+			"Minisarm",
+			"NGC 54",
+			"Paloi Sciurala",
+			"SalinaTheTranslator",
+			"Trotinel Iftode",
+			"Valentin JJ.",
+			"Vellion Eagle"
+		]
+	},
+	"group-temporary-account-viewer": "Vizualizatori de IP-uri ale conturilor temporare",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|vizualizator de IP-uri ale conturilor temporare|vizualizatoare de IP-uri ale conturilor temporare}}",
+	"right-checkuser-temporary-account": "vezi adresele IP utilizate de conturile temporare",
+	"right-checkuser-temporary-account-no-preference": "Vezi adresele IP utilizate de conturile temporare fără a fi nevoie să activezi preferința",
+	"right-checkuser-temporary-account-log": "Vezi jurnalul de acces la adresele IP ale conturilor temporare",
+	"right-checkuser-temporary-account-auto-reveal": "Dezvăluie automat adresele IP utilizate de conturile temporare",
+	"checkuser-ip-contributions-subtitle": "Se afișează rezultate din {{PLURAL:$1|ultima zi|ultimele $1 zile|ultimele $1 de zile}}.",
+	"checkuser-ip-auto-reveal-link-sidebar": "Auto-dezvăluire IP",
+	"checkuser-ip-auto-reveal-notification-on": "<strong>Auto-dezvăluirea IP este pornită.</strong>",
+	"checkuser-ip-auto-reveal-notification-off": "<strong>Auto-dezvăluirea IP este oprită.</strong>",
+	"prefs-checkuser-tempaccount": "Dezvăluirea adresei IP a contului temporar",
+	"checkuser-tempaccount-reveal-ip-button-label": "Arată IP-ul",
+	"checkuser-tempaccount-reveal-ip-missing": "indisponibil",
+	"checkuser-tempaccount-reveal-ip-error": "eroare",
+	"checkuser-tempaccount-reveal-blocked-loading": "Se încarcă detaliile blocării",
+	"checkuser-tempaccount-reveal-blocked-title": "Vezi detaliile blocării",
+	"checkuser-contributions-temporary-account-bucketcount": "Conturi temporare de pe toate IP-urile asociate: $1"
+}

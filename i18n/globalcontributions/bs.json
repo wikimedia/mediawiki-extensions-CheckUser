@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"CERminator",
+			"Dreamy Jazz",
+			"KWiki",
+			"Semso98",
+			"Srdjan m",
+			"Srđan"
+		]
+	},
+	"checkuser-global-contributions-link": "globalni doprinosi",
+	"checkuser-global-contributions-link-sidebar": "Globalni doprinosi",
+	"checkuser-ipinfo-global-contributions-url-text": "Prikaži globalne doprinose",
+	"checkuser-ipinfo-global-contributions-label": "Globalni doprinosi",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globalna izmjena|$1 globalne izmjene|$1 globalnih izmjena|0=Nema globalnih izmjena}}",
+	"tooltip-t-global-contributions": "Spisak doprinosa sa svih wikija {{GENDER:$1|ovog korisnika|ove korisnice}}"
+}

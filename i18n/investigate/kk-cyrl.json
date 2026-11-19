@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Arystanbek",
+			"Dreamy Jazz",
+			"U.ayaao.p"
+		]
+	},
+	"checkuser-investigateblock-warning-confirmaction": "Егер сіз шынымен оны істеуді қаласаңыз, төмендегі жолақтан «{{int:checkuser-investigateblock-confirm-blocks-label}}» дегенді белгілеңіз.",
+	"checkuser-investigate-compare-copy-button-label-hide": "Уикимәтінді жасыру"
+}

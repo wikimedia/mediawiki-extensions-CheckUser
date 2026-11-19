@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Avjoska",
+			"Dreamy Jazz",
+			"Pikne",
+			"Rivoz",
+			"SaldırganSincap",
+			"WikedKentaur"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Päringule vastavad tulemused puuduvad.</strong> Kasutaja \"$1\" pole registreeritud.",
+	"checkuser-global-contributions-link": "globaalne kaastöö",
+	"checkuser-global-contributions-link-sidebar": "Globaalne kaastöö",
+	"checkuser-global-contributions-summary": "Hangi muudatused, mille kasutaja on teinud kõigi projektide lõikes viimase $1 {{PLURAL:$1|päeva}} jooksul.",
+	"checkuser-global-contributions": "Globaalse kaastöö otsimine",
+	"checkuser-global-contributions-subtitle": "Näidatakse viimase $1 {{PLURAL:$1|päeva}} tulemusi kõigist vikidest, kus sul on õigus kaastöid vaadata. Piiratud $2 {{PLURAL:$2|tulemusele}} viki kohta.",
+	"checkuser-global-contributions-subtitle-account": "Näidatakse viimase $1 {{PLURAL:$1|päeva}} tulemusi kõigist vikidest. Piiratud $2 {{PLURAL:$2|tulemusele}} viki kohta.",
+	"checkuser-global-contributions-target-label": "Kasutajanimi, IP-aadress või -vahemik:",
+	"checkuser-global-contributions-target-placeholder": "Kasutajanimi, IP-aadress või -vahemik",
+	"checkuser-global-contributions-search-form-wrapper": "Globaalse kaastöö otsimine",
+	"checkuser-global-contributions-results-title": "Kasutaja $1 globaalne kaastöö",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Päringule vastavad tulemused puuduvad.</strong> Need tulemused võivad olla ebatäielikud, sest pead [$1 enda globaalsetes eelistustes] nõusoleku kinnitama.",
+	"checkuser-global-contributions-api-lookup-error": "Tõrge andmete laadimisel mõnest vikist. Need tulemused on ebatäielikud. <strong>Abi võib olla sellest, kui proovid uuesti.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Päringule vastavad tulemused puuduvad.</strong> Kasutajal \"$1\" pole nähtavaid kaastöid.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Päringule vastavad tulemused puuduvad.</strong> Võid kaastööd leida, kui muudad otsiparameetreid.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "nimeruum[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Vaata globaalset kaastööd",
+	"checkuser-ipinfo-global-contributions-label": "Globaalne kaastöö",
+	"checkuser-ipinfo-global-contributions-tooltip": "Kõigis vikides sellelt IP-aadressilt tehtud muudatuste arv.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 globaalne muudatus|$1 globaalset muudatust|0=Globaalsed muudatused puuduvad}}",
+	"tooltip-t-global-contributions": "Loend selle {{GENDER:$1|kasutaja}} kaastööst kõigis vikides"
+}

@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dreamy Jazz",
+			"Ernác",
+			"Iltever",
+			"Къарачайлы"
+		]
+	},
+	"checkuser-investigateblock-warning-confirmaction": "Буну кертиден этерге излегенигизге ишексиз эсегиз, тилейбиз, эм тюбюндеги \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" тиекни белгилегиз."
+}

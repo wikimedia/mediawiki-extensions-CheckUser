@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Borislav",
+			"DCLXVI",
+			"Dreamy Jazz",
+			"Spiritia",
+			"StanProg",
+			"Ted Masters",
+			"Termininja",
+			"Turin",
+			"Vlad5250",
+			"Vodnokon4e"
+		]
+	},
+	"checkuser-global-contributions-link": "глобални приноси",
+	"checkuser-global-contributions-link-sidebar": "Глобални приноси",
+	"checkuser-global-contributions-summary": "Показва редакции, направени от потребител във всеки уики проект $1 през {{PLURAL:$1| последния ден|последните $1 дни}}.",
+	"checkuser-global-contributions": "Търсене на глобални приноси",
+	"checkuser-global-contributions-permission-error-title": "Грешка в правата за достъп",
+	"checkuser-global-contributions-subtitle": "Показване на резултати от {{PLURAL:$1|последния ден|последните $1 дни}} от всички уикита, в които имате права за преглед на приноси. Ограничено до $2 {{PLURAL:$2|резултат|резултата}} на уики.",
+	"checkuser-global-contributions-subtitle-account": "Показване на резултати от {{PLURAL:$1|последния ден|последните $1 дни}} за всички уикита. Ограничено до $2 {{PLURAL:$2|резултат|резултата}} на уики.",
+	"checkuser-global-contributions-target-label": "Потребителско име, IP адрес или IP диапазон:",
+	"checkuser-global-contributions-target-placeholder": "Потребителско име, IP адрес или IP диапазон",
+	"checkuser-global-contributions-search-form-wrapper": "Търсене на глобални приноси",
+	"checkuser-global-contributions-results-title": "Глобални приноси на $1",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Няма резултати, съответстващи на заявката.</strong> Потребителят „$1“ няма видими приноси.",
+	"checkuser-ipinfo-global-contributions-url-text": "Преглед на глобалните приноси",
+	"checkuser-ipinfo-global-contributions-label": "Глобални приноси",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобална редакция|$1 глобални редакции|0=Няма глобална редакции}}"
+}

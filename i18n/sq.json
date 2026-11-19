@@ -15,12 +15,5 @@
 	"checkuser-clienthints-value-is-browser-likely-browser": "Me shumë gjasa prej shfletuesit",
 	"checkuser-reason": "Arsyeja:",
 	"checkuser-blocked": "Bllokuar",
-	"checkuser-wasblocked": "Bllokuar më parë",
-	"checkuser-global-contributions-link": "kontributet globale",
-	"checkuser-global-contributions-link-sidebar": "Kontributet globale",
-	"checkuser-global-contributions-permission-error-title": "Gabime lejeje",
-	"checkuser-global-contributions-results-title": "Kontributet globale për $1",
-	"checkuser-ipinfo-global-contributions-url-text": "Shih kontributet globale",
-	"checkuser-userinfocard-menu-view-contributions": "Shih kontributet e përdoruesit",
-	"checkuser-ipinfo-global-contributions-label": "Kontributet Globale"
+	"checkuser-wasblocked": "Bllokuar më parë"
 }

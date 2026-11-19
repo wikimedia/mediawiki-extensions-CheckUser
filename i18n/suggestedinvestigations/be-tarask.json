@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"Artsiom91",
+			"Dreamy Jazz",
+			"EugeneZelenko",
+			"Jim-by",
+			"Red Winged Duck",
+			"Renessaince",
+			"Ucukor",
+			"Vlad5250",
+			"Wizardist"
+		]
+	},
+	"checkuser-suggestedinvestigations-filter-button": "Фільтар",
+	"checkuser-suggestedinvestigations-filter-dialog-status-filter-header": "Статус",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Рахунак",
+	"checkuser-suggestedinvestigations-header-status": "Статус",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Статус"
+}

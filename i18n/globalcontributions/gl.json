@@ -1,0 +1,41 @@
+{
+	"@metadata": {
+		"authors": [
+			"Alma",
+			"Banjo",
+			"Dreamy Jazz",
+			"Elisardojm",
+			"Fisterraeomar",
+			"Macofe",
+			"McDutchie",
+			"Toliño",
+			"Xosecalvo",
+			"Xosé"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Non hai ningún resultado que coincida coa consulta.</strong> O usuario «$1» non está rexistrado.",
+	"checkuser-global-contributions-link": "contribucións globais",
+	"checkuser-global-contributions-link-sidebar": "Contribucións globais",
+	"checkuser-global-contributions-summary": "Obter as edicións feitas por un usuario en todos os proxectos wiki {{PLURAL:$1|no último día|nos últimos $1 días}}.",
+	"checkuser-global-contributions": "Procura de contribucións globais",
+	"checkuser-global-contributions-permission-error-title": "Erro de permisos",
+	"checkuser-global-contributions-permission-error-description": "Para ver as contribucións globais, acepta o acordo [[Special:GlobalPreferences|nas túas preferencias globais]].",
+	"checkuser-global-contributions-subtitle": "Mostrando os resultados {{PLURAL:$1|do último día|dos últimos $1 días}}, para todos os wikis onde tes dereito a consultar as contribucións. Limitado a $2 {{PLURAL:$2|resultado|resultados}} por wiki.",
+	"checkuser-global-contributions-subtitle-account": "Mostrando os resultados {{PLURAL:$1|do último día|dos últimos $1 días}}, para todos os wikis. Limitado a $2 {{PLURAL:$2|resultado|resultados}} por wiki.",
+	"checkuser-global-contributions-target-label": "Nome de usuario, enderezo IP ou rango de enderezos IP:",
+	"checkuser-global-contributions-target-placeholder": "Nome de usuario, enderezo IP ou rango de enderezos IP",
+	"checkuser-global-contributions-search-form-wrapper": "Procura de contribucións globais",
+	"checkuser-global-contributions-results-title": "Contribucións globais de $1",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>Non se atoparon resultados que coincidan coa consulta.</strong> É posible que non teñas permiso para ver os enderezos IP empregados polas contas temporais.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Non se atoparon resultados que coincidan coa consulta.</strong> Estes resultados poden estar incompletos porque debes aceptar o acordo [$1 nas túas preferencias globais].",
+	"checkuser-global-contributions-no-global-preference": "Estes resultados poden estar incompletos porque debes aceptar o acordo [$1 nas túas preferencias globais].",
+	"checkuser-global-contributions-api-lookup-error": "Produciuse un erro ao cargar os datos dalgúns wikis. Estes resultados están incompletos. <strong>Se cadra, podes intentalo de novo.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Non hai ningún resultado que coincida coa consulta.</strong> O usuario «$1» non ten contribucións visibles.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Non se atoparon resultados que coincidan coa consulta.</strong> Se cadra, podes atopar contribucións se cambias os parámetros de busca.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Espazo de nomes[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Ver as contribucións globais",
+	"checkuser-ipinfo-global-contributions-label": "Contribucións globais",
+	"checkuser-ipinfo-global-contributions-tooltip": "O número de edicións en todos os wiki feitas desde este enderezo IP.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 edición global|$1 edicións globais|0=Sen edicións globais}}",
+	"tooltip-t-global-contributions": "Unha lista das contribucións en todos os wikis feitas por {{GENDER:$1|este usuario|esta usuaria}}"
+}

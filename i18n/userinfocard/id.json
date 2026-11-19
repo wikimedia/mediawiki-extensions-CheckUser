@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Agam Riyandana",
+			"Akmaie Ajam",
+			"Arief",
+			"Bennylin",
+			"Borgx",
+			"DARMAS BUDI SANTOSO",
+			"Daud I.F. Argana",
+			"Dreamy Jazz",
+			"Farras",
+			"Hidayatsrf",
+			"Irwangatot",
+			"IvanLanin",
+			"Iwan Novirion",
+			"Kenrick95",
+			"Leapofod",
+			"McDutchie",
+			"Penyuwangi",
+			"Rachmat.Wahidi",
+			"Rachmat04",
+			"Rebeccayoga",
+			"Rex",
+			"Sumbukompor",
+			"Veracious"
+		]
+	},
+	"checkuser-userinfocard-enable-preference-description": "Aktifkan [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|kartu info pengguna]]",
+	"checkuser-userinfocard-enable-preference-help": "Tampilkan tombol di samping nama pengguna untuk membuka jendela pop-up dengan informasi tentang akun tersebut."
+}

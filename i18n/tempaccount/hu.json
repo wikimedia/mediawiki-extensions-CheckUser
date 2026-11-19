@@ -1,0 +1,32 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bean49",
+			"Bencemac",
+			"Bináris",
+			"Csega",
+			"Csigabi",
+			"Dani",
+			"Dj",
+			"Dorgan",
+			"Dreamy Jazz",
+			"Eukarióta",
+			"FoBe",
+			"Glanthor Reviol",
+			"Grin",
+			"Hanna Tardos",
+			"Hunyadym",
+			"KossuthRad",
+			"Tacsipacsi",
+			"Terik",
+			"Tgr",
+			"Wolf Rex",
+			"Zalán Hári"
+		]
+	},
+	"group-temporary-account-viewer": "ideiglenes fiókok IP-címeinek megtekintői",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|ideiglenes fiókok IP-címeinek megtekintője}}",
+	"right-checkuser-temporary-account": "Az ideiglenes fiókok által használt IP-címek megtekintése",
+	"right-checkuser-temporary-account-no-preference": "az ideiglenes fiókok által használt IP-címek megtekintése beállítás bekapcsolása nélkül",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP megjelenítése"
+}

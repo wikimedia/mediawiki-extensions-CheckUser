@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"BukhariSaeed",
+			"Muhammad Shuaib",
+			"පසිඳු කාවින්ද"
+		]
+	},
+	"checkuser-investigateblock-target": "صارف نام اور آئی پی پتے:",
+	"checkuser-investigate-legend": "صارف نام، آئی پتے یا آئی پی رینج تلاش کریں",
+	"checkuser-investigate-targets-label": "صارف نام اور آئی پی پتے:",
+	"checkuser-investigate-targets-placeholder": "صارف نام یا 1.1.1.1",
+	"checkuser-investigate-preliminary-table-header-groups": "گروہ",
+	"checkuser-investigate-preliminary-table-header-name": "صارف نام",
+	"checkuser-investigate-compare-table-header-username": "صارف نام"
+}

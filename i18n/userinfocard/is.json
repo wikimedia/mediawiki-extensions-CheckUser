@@ -1,0 +1,29 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjarki S",
+			"S.Örvarr.S",
+			"Snævar",
+			"Spacebirdy",
+			"Stefán Örvar Sigmundsson",
+			"Sveinn í Felli",
+			"පසිඳු කාවින්ද"
+		]
+	},
+	"checkuser-userinfocard-toggle-button-aria-label": "Opna {{GENDER:$1|notendaupplýsinga}} kort",
+	"checkuser-userinfocard-close-button-aria-label": "Loka",
+	"checkuser-userinfocard-open-menu-aria-label": "Opna {{GENDER:$1|notendaupplýsinga}} valmynd",
+	"checkuser-userinfocard-joined": "{{GENDER:$3|Skráði sig}}: $1 ($2)",
+	"checkuser-userinfocard-active-wikis-label": "Virk/ur á wiki",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "Núverandi bönn á öllum wiki-vefsvæðum: $1",
+	"checkuser-userinfocard-past-blocks": "Fyrri bönn: $1",
+	"checkuser-userinfocard-global-edits": "Altækar breytingar: $1",
+	"checkuser-userinfocard-local-edits": "Staðbundnar breytingar: $1 (teknar aftur: $2)",
+	"checkuser-userinfocard-new-articles": "Nýjar greinar: $1",
+	"checkuser-userinfocard-thanks": "Þakkir mótteknar: $1 (gefnar: $2)",
+	"checkuser-userinfocard-checks": "Athuganir: $1 (síðast athugaður: $2)",
+	"checkuser-userinfocard-checks-empty": "Athuganir: $1",
+	"checkuser-userinfocard-enable-preference-description": "Virkja [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|notendaupplýsinga kortið]]",
+	"checkuser-userinfocard-enable-preference-help": "Sýna takka við hliðiná notendanafni til að opna sprettiglugga með upplýsingum um aðgang",
+	"checkuser-userinfocard-activity-chart-label": "Breytingatíðni síðustu 60 daga ({{PLURAL:$1|$1 breyting|$1 breytingar|0=Engar breytingar}})"
+}

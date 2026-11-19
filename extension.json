@@ -717,7 +717,12 @@
 	"MessagesDirs": {
 		"CheckUser": [
 			"i18n",
-			"i18n/api"
+			"i18n/api",
+			"i18n/globalcontributions",
+			"i18n/investigate",
+			"i18n/suggestedinvestigations",
+			"i18n/tempaccount",
+			"i18n/userinfocard"
 		]
 	},
 	"ResourceModules": {

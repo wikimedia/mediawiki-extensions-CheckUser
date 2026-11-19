@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kimberli Mäkäräinen (WMNO)",
+			"Yupik"
+		]
+	},
+	"checkuser-global-contributions-link": "vuogádatviidosaš rievdadusat",
+	"checkuser-global-contributions-link-sidebar": "Vuogádatviidosaš rievdadusat",
+	"checkuser-global-contributions": "Oza vuogádatviidosaš rievdadusaid",
+	"checkuser-global-contributions-target-label": "Geavaheaddjinamma, IP-čujuhus dahje IP-čujuhusráidu:",
+	"checkuser-global-contributions-target-placeholder": "Geavaheaddjinamma, IP-čujuhus dahje IP-čujuhusráidu:",
+	"checkuser-global-contributions-search-form-wrapper": "Oza vuogádatviidosaš rievdadusaid",
+	"checkuser-global-contributions-results-title": "Geavaheaddji $1 vuogádatviidosaš rievdadusat",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Nammagomuvuohta[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Čájet vuogádatviidosaš rievdadusaid",
+	"checkuser-ipinfo-global-contributions-label": "Vuogádatviidosaš rievdadusat"
+}

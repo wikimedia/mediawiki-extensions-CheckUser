@@ -3,7 +3,5 @@
 		"authors": [
 			"Zetareyy"
 		]
-	},
-	"checkuser-investigateblock-newblock-label": "Dugangan pa manga bluk naaawn",
-	"checkuser-investigateblock-failure-multi": "Way manga user na'block. Pagdugang sin block dugaing pa manga block naaawn, tandinga: \"{{int:checkuser-investigateblock-newblock-label}}\"."
+	}
 }

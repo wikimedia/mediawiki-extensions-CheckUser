@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Yupik"
+		]
+	},
+	"checkuser-userinfocard-close-button-aria-label": "Piij ǩidd",
+	"checkuser-userinfocard-menu-view-contributions": "Čuäʹjet {{GENDER:$1|õõʹnni}} muttsid",
+	"checkuser-userinfocard-menu-check-ip": "Taʹrǩǩed {{GENDER:$1|õõʹnni}} IP-addrõõzzid"
+}

@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"ऐक्टिवेटेड्"
+		]
+	},
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "अस्थायी खाता का होव है ?",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title": "आइपि जानकारी देखल",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "आइपि जानकारी सक्षम करथिन",
+	"checkuser-temporary-accounts-onboarding-dialog-preference-success": "प्राथमिकता अद्यतित भेलै",
+	"checkuser-temporary-accounts-onboarding-dialog-preference-warning": "कृपया आगे बढ़ेसे पहिले \"$1\" पर क्लिक करथिन",
+	"checkuser-temporary-accounts-onboarding-dialog-save-preference": "प्राथमिकता सहेजथिन",
+	"checkuser-temporary-accounts-onboarding-dialog-save-global-preference": "वैश्विक प्राथमिकता सहेजथिन",
+	"checkuser-ip-contributions": "आइपि योगदान खोजथिन",
+	"checkuser-ip-contributions-permission-error-title": "अनुमति त्रुटि",
+	"checkuser-ip-contributions-subtitle": "पिछलका $1 {{PLURAL:$1|दिन}}से परिणाम दर्शावैत",
+	"checkuser-ip-contributions-target-label": "आइपि पता वा परिसीमा:",
+	"checkuser-ip-contributions-target-error-no-ip": "मान्य आइपि पता वा आइपि परिसीमा डालथिन",
+	"checkuser-ip-contributions-target-error-no-ip-banner": "अपनेके खोज पूरा न कैल जा सकलै । कृपया मान्य आइपि पता वा आइपि परिसीमा डालथिन । [[Special:Contributions/$1|अथवा प्रयोगकर्तानाम द्वारा खोजथिन]] ।",
+	"checkuser-ip-contributions-tab-label-contributions": "योगदान",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "हटावल योगदान",
+	"checkuser-ip-contributions-search-form-wrapper": "आइपि योगदान खोजथिन",
+	"checkuser-ip-contributions-results-title": "$1 लागि अस्थायी प्रयोगकर्ता योगदान",
+	"checkuser-ip-contributions-archive-results-title": "$1 लागि अस्थायी प्रयोगकर्ताके हटावल आइपि योगदान",
+	"checkuser-ip-contributions-deleted-contributions-link": "हटावल प्रयोगकर्ता योगदान",
+	"checkuser-ip-contributions-contributions-link": "योगदान",
+	"checkuser-ip-contributions-special-ip-contributions-button": "अस्थायी प्रयोगकर्ता आइपि योगदान",
+	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "अस्थायी प्रयोगकर्ता आइपि योगदान",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "निरस्त करथिन"
+}

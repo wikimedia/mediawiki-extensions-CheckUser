@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"Borislav",
+			"DCLXVI",
+			"Dreamy Jazz",
+			"Spiritia",
+			"StanProg",
+			"Ted Masters",
+			"Termininja",
+			"Turin",
+			"Vlad5250",
+			"Vodnokon4e"
+		]
+	},
+	"checkuser-suggestedinvestigations-header-users": "Сметки",
+	"checkuser-suggestedinvestigations-header-status": "Статус",
+	"checkuser-suggestedinvestigations-header-notes": "Бележки",
+	"checkuser-suggestedinvestigations-header-actions": "Действия"
+}

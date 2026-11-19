@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"AK",
+			"Assassingr",
+			"Consta",
+			"Crazymadlover",
+			"Dogogos123",
+			"Dreamy Jazz",
+			"Geraki",
+			"Giorgos456",
+			"Glavkos",
+			"Jimkats",
+			"K sal 15",
+			"Konsnos",
+			"Norhorn",
+			"Omnipaedista",
+			"PrinceAzuka134",
+			"Protnet",
+			"Warudo",
+			"ZaDiak",
+			"Απεργός"
+		]
+	},
+	"checkuser-suggestedinvestigations-autoclose-reason": "Αυτόματα κλείνει καθώς όλοι οι λογαριασμοί είναι μπλοκαρισμένοι ή κλειδωμένοι",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Σήμερα",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last3days": "Τελευταίες 3 ημέρες",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last7days": "Τελευταίες 7 ημέρες",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-last90days": "Τελευταίες 90 ημέρες"
+}

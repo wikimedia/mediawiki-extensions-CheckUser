@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Artsiom91",
+			"Dreamy Jazz",
+			"EugeneZelenko",
+			"Jim-by",
+			"Red Winged Duck",
+			"Renessaince",
+			"Ucukor",
+			"Vlad5250",
+			"Wizardist"
+		]
+	},
+	"checkuser-userinfocard-enable-preference-description": "Уключыць [[mw:Trust_and_Safety_Product/Anti-abuse_signals/User_Info|картку з інфармацыяй пра карыстальніка]]",
+	"checkuser-userinfocard-enable-preference-help": "Паказваць побач зь імёнамі карыстальнікаў кнопку, якая адкрые выплыўнае вакенца з інфармацыяй пра рахунак."
+}

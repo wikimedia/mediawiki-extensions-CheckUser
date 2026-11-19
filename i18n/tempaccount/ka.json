@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"BRUTE",
+			"David1010",
+			"Dawid Deutschland",
+			"Dreamy Jazz",
+			"Malafaya",
+			"Mehman97",
+			"Otogi",
+			"გიორგიმელა"
+		]
+	},
+	"group-temporary-account-viewer": "დროებითი ანგარიშის IP მისამართის შემმოწმებელი",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|დროებითი ანგარიშის IP მისამართის შემმოწმებელი}}",
+	"checkuser-ip-contributions": "მოძებნეთ IP-ის წვლილი",
+	"checkuser-ip-contributions-deleted-contributions-link": "მომხმარებლის წაშლილი წვლილი",
+	"checkuser-ip-auto-reveal-link-sidebar": "IP ავტომატური ჩვენება",
+	"checkuser-ip-auto-reveal-link-sidebar-on": "IP ავტო-ჩვენება (ჩართულია)",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP-ის ჩვენება"
+}

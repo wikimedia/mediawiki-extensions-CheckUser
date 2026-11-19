@@ -37,6 +37,5 @@
 	"checkuser-search": "Tafuta",
 	"checkuser-search-submit": "Tafuta",
 	"checkuser-ipeditcount": "~$1 kutoka kwa watumiaji wote",
-	"logentry-checkuser-private-event-create-account": "iliumbwa",
-	"checkuser-tempaccount-reveal-ip-missing": "haipatikani"
+	"logentry-checkuser-private-event-create-account": "iliumbwa"
 }

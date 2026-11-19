@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dbc334",
+			"Dreamy Jazz",
+			"Eleassar",
+			"Janezdrilc",
+			"MrJaroslavik",
+			"Upwinxp"
+		]
+	},
+	"checkuser-suggestedinvestigations-abuse-review-hits-link-text": "$1 AbuseReview {{PLURAL:$1|zadetek|zadetka|zadetki|zadetkov}}",
+	"checkuser-suggestedinvestigations-change-status-dialog-text": "Izberite novo stanje za to preiskavo"
+}

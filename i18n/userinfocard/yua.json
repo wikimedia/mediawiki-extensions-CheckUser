@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Anettechan03",
+			"Cesia Tun",
+			"Geom",
+			"Jmaniyuc"
+		]
+	},
+	"checkuser-userinfocard-joined-unknowndate": "{{GENDER:$1|Joined}}: kaachi' 2005",
+	"checkuser-userinfocard-ip-revealed-count": "IP ku ye'esik: $1 (ts'ook verificación $2)",
+	"checkuser-userinfocard-ip-revealed-never": "IP ku ye'esik: $1"
+}

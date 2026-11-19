@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Adriendelucca",
+			"Dreamy Jazz",
+			"Fohanno",
+			"Fulup",
+			"Huñvreüs",
+			"SaldırganSincap",
+			"Troer56",
+			"Y-M D"
+		]
+	},
+	"checkuser-suggestedinvestigations": "Enklaskoù kinniget",
+	"checkuser-suggestedinvestigations-filter-button": "Sil",
+	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Serriñ",
+	"checkuser-suggestedinvestigations-filter-dialog-show-results-button": "Diskouez an disoc'hoù",
+	"checkuser-suggestedinvestigations-queue-view-all-filter-dialog-title": "Siloù"
+}

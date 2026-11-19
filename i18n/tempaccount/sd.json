@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Indus Asia",
+			"Mehtab ahmed",
+			"Tweety"
+		]
+	},
+	"group-temporary-account-viewer": "عارضي کاتن جي آئپي ڏسندڙ",
+	"group-temporary-account-viewer-member": "{{GENDER:$1| عارضي کاتن جي IP ڏسندڙ}}",
+	"right-checkuser-temporary-account": "عارضي کاتن پاران استعمال ٿيندڙ آئپي پتا ڏسو",
+	"right-checkuser-temporary-account-no-preference": "ترجيح کي آن ڪرڻ جي ضرورت کان سواءِ عارضي کاتن پاران استعمال ٿيندڙ IP پتا ڏسو",
+	"right-checkuser-temporary-account-log": "عارضي کاتن جي IP پتن تائين رسائي جو لاگ ڏسو.",
+	"right-checkuser-temporary-account-auto-reveal": "عارضي کاتن پاران استعمال ٿيندڙ IP پتا خودڪار طريقي سان ظاهر ڪريو",
+	"grant-checkuser-temporary-account": "عارضي کاتن لاءِ واپرائيندڙ چڪاسڪار ڊيٽا تائين رسائي وٺو",
+	"action-checkuser-temporary-account": "عارضي کاتن پاران استعمال ٿيندڙ آئپي پتا ڏسو",
+	"action-checkuser-temporary-account-no-preference": "عارضي کاتن پاران استعمال ٿيندڙ IP پتا ڏسو",
+	"action-checkuser-temporary-account-log": "عارضي کاتن جي IP پتن تائين رسائي جو لاگ ڏسو",
+	"action-checkuser-temporary-account-auto-reveal": "عارضي کاتن پاران استعمال ٿيندڙ IP پتا خودڪار طريقي سان ظاهر ڪريو",
+	"grouppage-temporary-account-viewer": "{{ns:project}}:عارضي کاتن جي IP ڏسندڙ",
+	"checkuser-temporary-accounts-onboarding-dialog-title": "عارضي کاتا متعارف ڪرايا پيا وڃن",
+	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "پويون",
+	"prefs-checkuser-tempaccount": "عارضي کاتن جون آئپي ظاھر ڪريو",
+	"checkuser-tempaccount-enable-preference": "عارضي کاتن جي آئپي پتن کي ظاھر ڪرڻ کي فعال ڪريو"
+}

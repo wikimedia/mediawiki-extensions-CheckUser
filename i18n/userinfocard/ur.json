@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"BukhariSaeed",
+			"Muhammad Shuaib",
+			"පසිඳු කාවින්ද"
+		]
+	},
+	"checkuser-userinfocard-joined": "{{GENDER:$3|شمولیت}}: $1 ($2)",
+	"checkuser-userinfocard-active-wikis-label": "صارف ان ویکیوں پر فعال ہے",
+	"checkuser-userinfocard-active-blocks-from-all-wikis": "تمام ویکیوں سے نافذ پابندیاں: $1",
+	"checkuser-userinfocard-global-edits": "عالمی شراکتیں: $1",
+	"checkuser-userinfocard-local-edits": "مقامی شراکتیں: $1 (مسترد شدہ: $2)",
+	"checkuser-userinfocard-local-edits-reverts-unknown": "مقامی شراکتیں: $1",
+	"checkuser-userinfocard-new-articles": "نئے مضامین: $1",
+	"checkuser-userinfocard-thanks": "موصولہ تشکر: $1 (اظہار تشکر: $2)",
+	"checkuser-userinfocard-activity-chart-label": "گزشتہ 60 دنوں کی ترمیمی سرگرمی ({{PLURAL:$1|$1 ترمیم|$1 ترامیم|0=کوئی ترمیم نہیں}})",
+	"checkuser-userinfocard-last-edit-timestamp-label": "تازہ ترین ترمیم: $1",
+	"checkuser-userinfocard-groups": "<strong>گروہ</strong>: $1",
+	"checkuser-userinfocard-global-groups": "<strong>عالمی گروہ</strong>: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount": "متعلقہ تمام آئی پی پتوں سے عارضی کھاتے: $1",
+	"checkuser-userinfocard-temporary-account-bucketcount-tooltip": "اس کھاتے سے منسلک تمام آئی پی پتوں کے تمام عارضی کھاتوں کی مجموعی تعداد"
+}

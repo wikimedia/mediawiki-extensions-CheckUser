@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Joao Xavier",
+			"Malafaya",
+			"Robin van der Vliet"
+		]
+	},
+	"group-temporary-account-viewer": "Personi qui povas vidar IP de tempala konti",
+	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "Antea",
+	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Sequanta",
+	"prefs-checkuser-tempaccount": "Montrar IP-adresi de tempala konti",
+	"checkuser-tempaccount-enable-preference": "Kapabligar la montro di adresi IP por tempala konti"
+}

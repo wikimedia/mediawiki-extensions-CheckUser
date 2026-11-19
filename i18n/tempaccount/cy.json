@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Afalau",
+			"Ceirios",
+			"Dreamy Jazz",
+			"Lloffiwr",
+			"Robin Owain"
+		]
+	},
+	"checkuser-ip-contributions-tab-label-contributions": "Cyfraniadau",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Cyfraniadau wedi'u dileu",
+	"checkuser-ip-contributions-contributions-link": "cyfraniadau",
+	"checkuser-tempaccount-reveal-ip-button-label": "Dangos IP",
+	"checkuser-tempaccount-reveal-ip-missing": "ddim ar gael"
+}

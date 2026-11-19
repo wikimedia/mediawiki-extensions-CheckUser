@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Saraiki",
+			"Umar Shahid"
+		]
+	},
+	"checkuser-userinfocard-close-button-aria-label": "بند کرو",
+	"checkuser-userinfocard-sharedblocked-count-incomplete": "$1+"
+}

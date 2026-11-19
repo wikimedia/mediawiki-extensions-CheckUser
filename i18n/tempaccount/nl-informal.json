@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jeroen N",
+			"McDutchie",
+			"Siebrand"
+		]
+	},
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 van $2"
+}

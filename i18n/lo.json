@@ -7,8 +7,6 @@
 	},
 	"checkuser": "ກວດຜູ້ໃຊ້",
 	"checkuserlog": "ບັນທຶກການກວດຜູ້ໃຊ້",
-	"right-checkuser-temporary-account": "ເບິ່ງທີ່ຢູ່ IP ທີ່ໃຊ້ໂດຍບັນຊີຊົ່ວຄາວ",
-	"action-checkuser-temporary-account": "ເບິ່ງທີ່ຢູ່ IP ທີ່ໃຊ້ໂດຍບັນຊີຊົ່ວຄາວ",
 	"checkuser-reason": "ເຫດຜົນ:",
 	"checkuser-showlog": "ສະແດງບັນທຶກ",
 	"checkuser-target": "ທີ່ຢູ່ IP ຫຼື ຊື່ຜູ້ໃຊ້:",

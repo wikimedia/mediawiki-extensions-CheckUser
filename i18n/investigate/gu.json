@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"CptViraj",
+			"Dsvyas",
+			"KartikMistry"
+		]
+	},
+	"checkuser-investigate-reason-label": "કારણ",
+	"checkuser-investigate-preliminary-table-header-name": "સભ્યનામ",
+	"checkuser-investigate-compare-table-header-username": "સભ્યનામ"
+}

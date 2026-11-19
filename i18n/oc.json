@@ -50,8 +50,5 @@
 	"checkuser-ipeditcount": "~$1 per totes los utilizaires",
 	"checkuser-showmain": "Bascuolar cap al formulari principal del verificator d'utilizaire",
 	"logentry-checkuser-private-event-autocreate-account": "es estat creat automaticament",
-	"logentry-checkuser-private-event-create-account": "es estat creat",
-	"checkuser-investigate-subtitle-cancel-button-label": "Anullar",
-	"checkuser-investigate-subtitle-continue-button-label": "Contunhar",
-	"checkuser-suggestedinvestigations-related-cases-summary": "$1 liat a {{PLURAL:$1| cas|cas}}"
+	"logentry-checkuser-private-event-create-account": "es estat creat"
 }

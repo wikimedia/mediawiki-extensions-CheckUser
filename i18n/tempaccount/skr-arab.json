@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Saraiki",
+			"Umar Shahid"
+		]
+	},
+	"checkuser-temporary-accounts-onboarding-dialog-skip-all": "سارے چھوڑو",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$2 وچوں $1 واں",
+	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "پچھلا",
+	"checkuser-temporary-accounts-onboarding-dialog-next-label": "اڳلا",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "بند کرو",
+	"checkuser-ip-contributions": "آئی پی ونگاراں",
+	"checkuser-ip-contributions-permission-error-title": "اجازت وچ خرابی",
+	"checkuser-ip-contributions-tab-label-contributions": "ونگاراں",
+	"checkuser-ip-contributions-deleted-contributions-link": "ورتݨ آلے دے کم مٹا ݙتے ڳئے",
+	"checkuser-ip-contributions-contributions-link": "ونگاراں",
+	"checkuser-tempaccount-reveal-ip-button-label": "آئی پی ݙکھاؤ",
+	"checkuser-tempaccount-reveal-ip-missing": "دستیاب کائنی",
+	"checkuser-tempaccount-reveal-ip-error": "خرابی",
+	"log-action-filter-checkuser-temporary-account": "عمل دی قسم:"
+}

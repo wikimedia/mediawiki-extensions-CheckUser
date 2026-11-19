@@ -1,0 +1,37 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bluetpp",
+			"Băng Tỏa",
+			"Chaiwan2009",
+			"Dreamy Jazz",
+			"Hide on Rosé",
+			"Leducthn",
+			"Minh Nguyen",
+			"Msz2001",
+			"NguoiDungKhongDinhDanh",
+			"NguyenHung",
+			"Nguyenphutrong2",
+			"Nguyễn Mạnh An",
+			"Noeruchan",
+			"Nvdtn19",
+			"Veritas Sapientiae",
+			"Vinhtantran"
+		]
+	},
+	"checkuser-suggestedinvestigations": "Kiểm tra được gợi ý",
+	"checkuser-suggestedinvestigations-summary": "Trang này chứa các tài khoản được tự động đánh dấu là có thể khả nghi để các kiểm định viên điều tra.",
+	"checkuser-suggestedinvestigations-table-caption": "Các tài khoản được tự động đánh dấu là khả nghi",
+	"checkuser-suggestedinvestigations-header-users": "Tài khoản",
+	"checkuser-suggestedinvestigations-header-signals": "Các tín hiệu rủi ro",
+	"checkuser-suggestedinvestigations-header-status": "Trạng thái",
+	"checkuser-suggestedinvestigations-header-notes": "Ghi chú",
+	"checkuser-suggestedinvestigations-header-actions": "Tác vụ",
+	"checkuser-suggestedinvestigations-status-invalid": "Không hợp lệ",
+	"checkuser-suggestedinvestigations-action-change-status": "Thay đổi trạng thái",
+	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Hủy bỏ",
+	"checkuser-suggestedinvestigations-change-status-dialog-submit-btn": "Gửi",
+	"checkuser-suggestedinvestigations-change-status-dialog-title": "Thay đổi trạng thái",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "Trạng thái",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Đóng"
+}

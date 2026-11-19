@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Merrahtar"
+		]
+	},
+	"checkuser-global-contributions-link": "пугк проэктэнҍ воа̄йхэз",
+	"checkuser-global-contributions-link-sidebar": "Пугк проэктэнҍ воа̄йхэз",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 глобальнэ воа̄йхэсс|$1 глобальнэ воа̄йхэз|$1 глобальнэ воа̄йхэссэ|0=Евла глобальнэ воа̄йхэз}}"
+}

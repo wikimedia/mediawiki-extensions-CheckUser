@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"ऐक्टिवेटेड्"
+		]
+	},
+	"checkuser-global-contributions-link": "वैश्विक योगदान",
+	"checkuser-global-contributions-link-sidebar": "वैश्विक योगदान",
+	"checkuser-global-contributions-summary": "पिछलका $1 {{PLURAL:$1|दिन}}मे कौनो प्रयोगकर्ताद्वारा सब विकि परियोजना पर कैल सम्पादन प्राप्त करथिन ।",
+	"checkuser-global-contributions": "वैश्विक योगदान खोजथिन",
+	"checkuser-global-contributions-permission-error-title": "अनुमति त्रुटि",
+	"checkuser-global-contributions-target-label": "प्रयोगकर्तानाम, आइपि पता अथवा परिसीमा",
+	"checkuser-global-contributions-target-placeholder": "प्रयोगकर्तानाम, आइपि पता अथवा परिसीमा",
+	"checkuser-global-contributions-search-form-wrapper": "वैश्विक योगदान खोजथिन",
+	"checkuser-global-contributions-results-title": "$1 लागि वैश्विक योगदान",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "नामस्थान[$1]:$2"
+}

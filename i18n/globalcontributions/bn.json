@@ -1,0 +1,43 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aftab1995",
+			"Aftabuzzaman",
+			"Aishik Rehman",
+			"Bellayet",
+			"Dreamy Jazz",
+			"MdsShakil",
+			"Nasir8891",
+			"Nokib Sarkar",
+			"San1joy23",
+			"Sibabrata Banerjee",
+			"Sourav Halder",
+			"Wikitanvir",
+			"Zaheen",
+			"আজিজ",
+			"আফতাবুজ্জামান"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই</strong>। ব্যবহারকারী \"$1\" নিবন্ধিত নয়।",
+	"checkuser-global-contributions-link": "বৈশ্বিক অবদান",
+	"checkuser-global-contributions-link-sidebar": "বৈশ্বিক অবদান",
+	"checkuser-global-contributions": "বৈশ্বিক অবদানের জন্য অনুসন্ধান করুন",
+	"checkuser-global-contributions-permission-error-title": "অনুমতি ত্রুটি",
+	"checkuser-global-contributions-permission-error-description": "বৈশ্বিক অবদানগুলি দেখতে, অনুগ্রহ করে [[Special:GlobalPreferences|আপনার বৈশ্বিক পছন্দে]] চুক্তিটি গ্রহণ করুন।",
+	"checkuser-global-contributions-subtitle": "আপনার অবদান দেখার অধিকার আছে এমন সমস্ত উইকির গত $1 {{PLURAL:$1|দিনের}} ফলাফল দেখানো হচ্ছে। প্রতি উইকি $2টি {{PLURAL:$2|ফলাফলের}} মধ্যে সীমাবদ্ধ।",
+	"checkuser-global-contributions-subtitle-account": "সকল উইকি থেকে গত $1 {{PLURAL:$1|দিনের}} ফলাফল দেখানো হচ্ছে। উইকি প্রতি $2টি {{PLURAL:$2|ফলাফলে}} সীমাবদ্ধ।",
+	"checkuser-global-contributions-target-label": "ব্যবহারকারী নাম, আইপি ঠিকানা, বা আইপি পরিসীমা:",
+	"checkuser-global-contributions-target-placeholder": "ব্যবহারকারী নাম, আইপি ঠিকানা বা পরিসীমা",
+	"checkuser-global-contributions-search-form-wrapper": "বৈশ্বিক অবদানের জন্য অনুসন্ধান করুন",
+	"checkuser-global-contributions-results-title": "$1-এর বৈশ্বিক অবদান",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> আপনার হয়ত অস্থায়ী অ্যাকাউন্ট দ্বারা ব্যবহৃত আইপি ঠিকানা দেখার অনুমতি নেই।",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> এই ফলাফলগুলি অসম্পূর্ণ হতে পারে কারণ আপনাকে প্রথমে [$1 আপনার বৈশ্বিক পছন্দসমূহে] চুক্তিটি গ্রহণ করতে হবে।",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> ব্যবহারকারী \"$1\"-এর কোনো দৃশ্যমান অবদান নেই।",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>কোয়েরির সাথে মেলে এমন কোনো ফলাফল নেই।</strong> আপনি আপনার অনুসন্ধানের প্যারামিটার পরিবর্তন করলে হয়ত অবদান খুঁজে পেতে পারেন।",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "নামস্থান[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "বৈশ্বিক অবদান দেখুন",
+	"checkuser-ipinfo-global-contributions-label": "বৈশ্বিক অবদান",
+	"checkuser-ipinfo-global-contributions-tooltip": "এই আইপি ঠিকানা থেকে করা ক্রস-উইকি সম্পাদনার সংখ্যা।",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1টি বৈশ্বিক সম্পাদনা|0=কোনও বৈশ্বিক সম্পাদনা নেই}}",
+	"tooltip-t-global-contributions": "সকল উইকিতে {{GENDER:$1|এই ব্যবহারকারীর}} অবদানের তালিকা"
+}

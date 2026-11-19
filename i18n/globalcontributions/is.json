@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjarki S",
+			"S.Örvarr.S",
+			"Snævar",
+			"Spacebirdy",
+			"Stefán Örvar Sigmundsson",
+			"Sveinn í Felli",
+			"පසිඳු කාවින්ද"
+		]
+	},
+	"checkuser-global-contributions-link": "altæk framlög",
+	"checkuser-global-contributions": "Leita eftir altækum framlögum",
+	"checkuser-global-contributions-permission-error-title": "Aðgangsvilla",
+	"checkuser-global-contributions-permission-error-description": "Til að skoða altæk framlög, vinsamlegast staðfestu samkomulagið í [[Special:GlobalPreferences|stillingunum þínum]].",
+	"checkuser-global-contributions-subtitle": "Sýni niðurstöður {{PLURAL:$1|síðasta $1 dag|síðustu $1 daga}}, fyrir öll wiki vefsvæði sem þú hefur rétt til að skoða breytingar. Takmarkað við $2 {{PLURAL:$2|niðurstöðu|niðurstöður}} á hverjum wiki.",
+	"checkuser-global-contributions-target-label": "Notandanafn, vistfang eða röð vistfanga:",
+	"checkuser-global-contributions-search-form-wrapper": "Leita eftir altækum framlögum",
+	"checkuser-global-contributions-results-title": "Altæk framlög $1"
+}

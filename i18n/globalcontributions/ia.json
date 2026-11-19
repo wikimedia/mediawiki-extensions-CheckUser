@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Karmwiki",
+			"McDutchie"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Necun resultato corresponde al consulta.</strong> Le usator “$1” non es registrate.",
+	"checkuser-global-contributions-link": "contributiones global",
+	"checkuser-global-contributions-link-sidebar": "Contributiones global",
+	"checkuser-global-contributions-summary": "Obtener modificationes facite per un usator in tote le projectos wiki durante le ultime $1 die{{PLURAL:$1||s}}.",
+	"checkuser-global-contributions": "Cercar contributiones global",
+	"checkuser-global-contributions-permission-error-title": "Error de permission",
+	"checkuser-global-contributions-permission-error-description": "Pro vider contributiones global, per favor accepta le accordo in [[Special:GlobalPreferences|tu preferentias global]].",
+	"checkuser-global-contributions-subtitle": "Es presentate le resultatos del ultime $1 die{{PLURAL:$1||s}}, pro tote le wikis ubi tu ha le derecto de vider contributiones. Es limitate a $2 resultato{{PLURAL:$2||s}} per wiki.",
+	"checkuser-global-contributions-subtitle-account": "Ecce le resultatos del ultime {{PLURAL:$1|die|$1 dies}}, pro tote le wikis. Limitate a $2 resultato{{PLURAL:$2||s}} per wiki.",
+	"checkuser-global-contributions-target-label": "Nomine de usator, adresse IP o intervallo IP:",
+	"checkuser-global-contributions-target-placeholder": "Nomine de usator, adresse IP o intervallo IP",
+	"checkuser-global-contributions-search-form-wrapper": "Cercar contributiones global",
+	"checkuser-global-contributions-results-title": "Contributiones global de $1",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>Le consulta non ha producite resultatos.</strong> Es possibile que tu non ha le permission de vider le adresses IP usate per contos temporari.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Le consulta non ha producite resultatos.</strong> Iste resultatos pote esser incomplete perque tu debe acceptar le accordo in [$1 tu preferentias global].",
+	"checkuser-global-contributions-no-global-preference": "Iste resultatos pote esser incomplete perque tu debe acceptar le accordo in [$1 tu preferentias global].",
+	"checkuser-global-contributions-api-lookup-error": "Error durante le cargamento del datos de certe wikis. Iste resultatos es incomplete. <strong>Pote esser utile tentar lo de novo.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Necun resultato corresponde al consulta.</strong> Le usator “$1” non ha contributiones visibile.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Le consulta non ha producite resultatos.</strong> Pote esser que tu trovara contributiones si tu cambia le parametros de tu recerca.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Spatio de nomines[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Vider contributiones global",
+	"checkuser-ipinfo-global-contributions-label": "Contributiones global",
+	"checkuser-ipinfo-global-contributions-tooltip": "Le numero de modificationes apportate sur tote le wikis a partir de iste adresse IP.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 modification|$1 modificationes|0=Nulle modification}} global",
+	"tooltip-t-global-contributions": "Un lista del contributiones de iste usat{{GENDER:$1|or|rice}} sur tote le wikis"
+}

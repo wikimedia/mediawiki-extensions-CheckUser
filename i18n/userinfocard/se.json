@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kimberli Mäkäräinen (WMNO)",
+			"Yupik"
+		]
+	},
+	"checkuser-userinfocard-close-button-aria-label": "Gidde",
+	"checkuser-userinfocard-joined": "{{GENDER:$3|Searvvai}} $1 ($2)",
+	"checkuser-userinfocard-global-edits": "Vuogádatviidosaš rievdadusat: $1",
+	"checkuser-userinfocard-new-articles": "Ođđa artihkkalat: $1",
+	"checkuser-userinfocard-menu-view-contributions": "Čájet {{GENDER:$1|geavaheaddji}} rievdadusaid",
+	"checkuser-userinfocard-error-title": "Meattáhus iđii",
+	"checkuser-userinfocard-error-generic": "Juoga šattai boastut. Geahččal fas maŋŋel."
+}

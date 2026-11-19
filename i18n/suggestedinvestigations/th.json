@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aefgh39622",
+			"Dreamy Jazz",
+			"Ekminarin",
+			"Geonuch",
+			"Harley Hartwell",
+			"Horus",
+			"Just Sayori",
+			"Mopza",
+			"Octahedron80",
+			"Patsagorn Y.",
+			"RidJasper",
+			"Woraponboonkerd"
+		]
+	},
+	"checkuser-suggestedinvestigations-filter-dialog-revert-button": "ย้อน",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "บัญชี",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-placeholder": "พิมพ์ชื่อบัญชี...",
+	"checkuser-suggestedinvestigations-header-status": "สถานะ",
+	"checkuser-suggestedinvestigations-change-status-dialog-status-list-header": "สถานะ",
+	"checkuser-suggestedinvestigations-queue-view-all": "ทั้งหมด"
+}

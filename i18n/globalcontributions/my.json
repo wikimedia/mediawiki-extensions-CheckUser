@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dr Lotus Black",
+			"Ninjastrikers",
+			"Teitei Para"
+		]
+	},
+	"checkuser-global-contributions-link": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများ",
+	"checkuser-global-contributions-link-sidebar": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများ",
+	"checkuser-global-contributions": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများကို ရှာဖွေပါ",
+	"checkuser-global-contributions-permission-error-description": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများကို ကြည့်ရှုရန်အတွက် [[Special:GlobalPreferences|သင့်ကမ္ဘာလုံးဆိုင်ရာ ဦးစားပေးမှုများ]] ရှိ သဘောတူညီချက်ကို လက်ခံပါ။",
+	"checkuser-global-contributions-search-form-wrapper": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများကို ရှာဖွေပါ",
+	"checkuser-global-contributions-results-title": " $1 အတွက် ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများ",
+	"checkuser-ipinfo-global-contributions-url-text": "ကမ္ဘာလုံးဆိုင်ရာ ပံ့ပိုးကူညီမှုများကို ကြည့်ရှုပါ",
+	"checkuser-ipinfo-global-contributions-label": "ဂလိုဘယ် ပံ့ပိုးမှုများ",
+	"checkuser-ipinfo-global-contributions-tooltip": "ဤအိုင်ပီလိပ်စာမှ ပြုလုပ်ခဲ့သော ဝီကီများအနှံ့ တည်းဖြတ်မှုများ အရေအတွက်။"
+}

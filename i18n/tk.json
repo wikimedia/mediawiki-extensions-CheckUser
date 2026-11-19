@@ -15,7 +15,6 @@
 	"group-checkuser-member": "Ulanyjy barlaýjysy",
 	"right-checkuser": "Ulanyjylaryň IP adreslerini we baş maglumatlaryny barla",
 	"right-checkuser-log": "Ulanyjy barlaýjysy gündeligini görkez",
-	"right-checkuser-temporary-account": "Wagtlaýyn hasaplar tarapyndan ulanylýan IP adresleri görüň",
 	"grouppage-checkuser": "{{ns:project}}:Ulanyjy barlaýjysy",
 	"checkuser-reason": "Sebäp:",
 	"checkuser-showlog": "Gündeligi görkez",
@@ -47,6 +46,5 @@
 	"checkuser-helper-copy-success": "Göçürildi",
 	"checkuser-helper-copy-failed": "Göçürip bolmady",
 	"checkuser-helper-user": "Ulanyjy",
-	"logentry-checkuser-private-event-autocreate-account": "awtomatik döredildi",
-	"checkuser-tempaccount-reveal-ip-missing": "elýeterli däl"
+	"logentry-checkuser-private-event-autocreate-account": "awtomatik döredildi"
 }

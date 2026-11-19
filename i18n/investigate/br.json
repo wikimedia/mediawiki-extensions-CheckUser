@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Adriendelucca",
+			"Dreamy Jazz",
+			"Fohanno",
+			"Fulup",
+			"Huñvreüs",
+			"SaldırganSincap",
+			"Troer56",
+			"Y-M D"
+		]
+	},
+	"checkuser-investigateblock": "Stankañ implijerien",
+	"checkuser-investigateblock-target": "Anvioù implijer ha chomlec'hioù IP",
+	"checkuser-investigateblock-actions": "Oberoù da stankañ",
+	"checkuser-investigateblock-reason": "Abeg",
+	"checkuser-investigateblock-options": "Dibarzhioù ouzhpenn",
+	"checkuser-investigateblock-email-label": "Mirout da gas posteloù",
+	"checkuser-investigateblock-usertalk-label": "Mirout da gemmañ e bajenn gaozeal pa vez stanket",
+	"checkuser-investigateblock-confirm-blocks-label": "Kadarnaat ar stankadennoù",
+	"checkuser-investigateblock-warning-confirmaction": "A'z oc'h sur e fell deoc'h ober an dra-se evit gwir, askit ar vaezienn \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" en traoñ.",
+	"checkuser-investigate-subtitle-block-accounts-button-label": "Stankañ kontoù",
+	"checkuser-investigate-subtitle-block-ips-button-label": "Stankañ IPoù",
+	"checkuser-investigate-subtitle-cancel-button-label": "Nullañ",
+	"checkuser-investigate-subtitle-continue-button-label": "Kenderc'hel",
+	"checkuser-investigate-indicator-logs": "Marilhoù",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "N'eo ket bet kavet ar wiki",
+	"checkuser-investigate-filters-exclude-temp-accounts-label": "Silañ ar c'hontoù berrbad",
+	"checkuser-investigate-compare-notice-no-results": "N'eus disoc'h ebet : an implijerien pe IPoù-se n'o deus graet kemm ebet e-kerzh an $1 deiz diwezhañ.",
+	"checkuser-investigate-compare-notice-no-results-filters": "Disoc'h ebet ne glot gant an dezverkoù silañ-mañ. Dilamit siloù zo evit ledanaat ar c'hlask.",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl IPoù an implijer-mañ"
+}

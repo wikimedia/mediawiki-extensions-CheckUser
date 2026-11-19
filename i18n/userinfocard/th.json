@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aefgh39622",
+			"Dreamy Jazz",
+			"Ekminarin",
+			"Geonuch",
+			"Harley Hartwell",
+			"Horus",
+			"Just Sayori",
+			"Mopza",
+			"Octahedron80",
+			"Patsagorn Y.",
+			"RidJasper",
+			"Woraponboonkerd"
+		]
+	},
+	"checkuser-userinfocard-close-button-aria-label": "ปิด",
+	"checkuser-userinfocard-copy-username-button-aria-label": "คัดลอกชื่อผู้ใช้",
+	"checkuser-userinfocard-copy-username-copied": "คัดลอกแล้ว",
+	"checkuser-userinfocard-menu-view-xtools": "ดู XTools",
+	"checkuser-userinfocard-loading-label": "กำลังโหลดข้อมูลผู้ใช้"
+}

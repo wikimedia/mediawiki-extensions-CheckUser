@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"AhmedG612",
+			"Maax"
+		]
+	},
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Natiijooyin la jaanqaadaya weydiinta lama helin</strong>. Isticmaalaha \"$1\" ma aha mid diiwaangashan.",
+	"checkuser-global-contributions-link": "Wax ku darsiyada caalamiga ah",
+	"checkuser-global-contributions-link-sidebar": "Wax ku darsiyada caalamiga ah",
+	"checkuser-global-contributions-summary": "Hel wax ka beddellada uu isticmaale sameeyay dhammaan mashaariicda wiki-ga muddada $1 {{PLURAL:$1|maalin|maalmo}} ee u dambeysay.",
+	"checkuser-global-contributions": "Raadi wax ku darsiyada caalamiga ah",
+	"checkuser-global-contributions-permission-error-title": "Qalad ogolaashada",
+	"checkuser-global-contributions-permission-error-description": "Si aad u aragto wax ku darsiyada caalamiga ah, fadlan aqbal heshiiska ku jira [[Special:GlobalPreferences|dookhyadaada caalamiga ah]].",
+	"checkuser-global-contributions-subtitle": "Muujinta natiijooyinka $1 {{PLURAL:$1|maalin|maalmo}} ee u dambeysay, dhammaan wiki-yada aad xaq u leedahay inaad aragto wax ku darsiyada. Waxaa lagu xaddiday $2 {{PLURAL:$2|natiijo|natiijooyin}} wiki kasta.",
+	"checkuser-global-contributions-subtitle-account": "Muujinta natiijooyinka $1 {{PLURAL:$1|maalin|maalmo}} ee u dambeysay, dhammaan wiki-yada. Waxaa lagu xaddiday $2 {{PLURAL:$2|natiijo|natiijooyin}} wiki kasta.",
+	"checkuser-global-contributions-target-label": "Magaca isticmaale, ciwaanka IP ama kala-duwanaansho:",
+	"checkuser-global-contributions-target-placeholder": "Magaca isticmaale, ciwaanka IP ama kala duwanaansho",
+	"checkuser-global-contributions-search-form-wrapper": "Raadi wax ku darsiyada caalamiga ah",
+	"checkuser-global-contributions-results-title": "Wax ku darsiyada caalamiga ah ee $1",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>Natiijooyin la jaanqaadaya weydiinta lama helin.</strong> Waxaa laga yaabaa inaadan haysan oggolaansho aad ku aragto ciwaannada IP ee ay adeegsadeen xisaabaadka ku-meelgaarka ah.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Natiijooyin la jaanqaadaya weydiinta lama helin.</strong> Natiijooyinkan waxaa laga yaabaa inay dhammaystirnayn sababtoo ah waxaad u baahan tahay inaad aqbasho heshiiska ku jira [$1 dookhyadaada caalamiga ah].",
+	"checkuser-global-contributions-no-global-preference": "Natiijooyinkan waxaa laga yaabaa inay dhammaystirnayn sababtoo ah waxaad u baahan tahay inaad aqbasho heshiiska ku jira [$1 dookhyadaada caalamiga ah].",
+	"checkuser-global-contributions-api-lookup-error": "Khalad ayaa ka dhacay soo gelinta xogta qaar ka mid ah wikiyada. Natiijooyinkan ma dhammaystirna. <strong>Waxaa laga yaabaa in ay caawiso in mar kale la isku dayo.</strong>",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Natiijooyin la mid ah weydiinta lama helin.</strong> Isticmaalaha \"$1\" ma laha wax ku darsiyo muuqda.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Natiijooyin la mid ah weydiinta lama helin.</strong> Waxaad heli kartaa wax ku darsiyo haddii aad beddesho xuduudaha raadinta.",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Magac-qayb[$1]:$2",
+	"checkuser-ipinfo-global-contributions-url-text": "Eeg wax ku darka caalamiga ah",
+	"checkuser-ipinfo-global-contributions-label": "Wax ku dar caalami ah",
+	"checkuser-ipinfo-global-contributions-tooltip": "Tirada wax ka beddelka iskutallaabta wiki ee laga sameeyay cinwaankan IP.",
+	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 wax ka beddel caalami ah|$1 wax ka beddello caalami ah|0=Ma jiro wax ka beddel caalami ah}}",
+	"tooltip-t-global-contributions": "Liis ka kooban wax-ku darsiyada dhammaan wiki-yada ee {{GENDER:$1|isticmaalahani}}"
+}

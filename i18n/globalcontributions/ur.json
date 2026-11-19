@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"BukhariSaeed",
+			"Muhammad Shuaib",
+			"පසිඳු කාවින්ද"
+		]
+	},
+	"checkuser-global-contributions-link": "عالمی شراکتیں",
+	"checkuser-global-contributions-link-sidebar": "عالمی شراکتیں",
+	"checkuser-global-contributions": "عالمی شراکتوں میں تلاش",
+	"checkuser-global-contributions-target-label": "صارف نام، آئی پی پتا یا آئی پی رینج:",
+	"checkuser-global-contributions-target-placeholder": "صارف نام، آئی پی پتا یا آئی پی رینج:",
+	"checkuser-global-contributions-results-title": "$1 کی عالمی شراکتیں",
+	"checkuser-ipinfo-global-contributions-url-text": "عالمی شراکتیں دیکھیں",
+	"checkuser-ipinfo-global-contributions-label": "عالمی شراکتیں"
+}

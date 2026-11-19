@@ -15,9 +15,5 @@
 	"checkuser-check-this-user": "Бул колдонуучуну текшерүү",
 	"checkuser-blocked": "Бөгөттөлгөн",
 	"checkuser-search-submit": "Издөө",
-	"checkuser-log-search-reason": "Себеп:",
-	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Жабуу",
-	"checkuser-investigate-subtitle-cancel-button-label": "Жокко чыгаруу",
-	"checkuser-investigate-subtitle-continue-button-label": "Улантуу",
-	"checkuser-global-contributions": "Глобалдуу салымды издөө"
+	"checkuser-log-search-reason": "Себеп:"
 }

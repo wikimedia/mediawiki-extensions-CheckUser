@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kareyac",
+			"Togaed",
+			"Սերգեյ Սաֆարյան"
+		]
+	},
+	"checkuser-tempaccount-reveal-ip-button-label": "Ցույց տալ IP-ն",
+	"checkuser-tempaccount-reveal-ip-missing": "անհասանելի",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-show": "Ցուցադրել բոլոր հաշիվները",
+	"checkuser-contributions-temporary-accounts-related-list-toggle-hide": "Թաքցնել"
+}

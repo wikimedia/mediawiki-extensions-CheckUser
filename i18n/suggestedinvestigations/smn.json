@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Seipinne",
+			"Yupik"
+		]
+	},
+	"checkuser-suggestedinvestigations-filter-dialog-close-button": "Toopâ",
+	"checkuser-suggestedinvestigations-filter-dialog-last-updated-today": "Onne",
+	"checkuser-suggestedinvestigations-filter-dialog-username-filter-header": "Kevtteetubdâldâh",
+	"checkuser-suggestedinvestigations-header-users": "Kevtteetubdâlduvah",
+	"checkuser-suggestedinvestigations-status-resolved": "Toppum",
+	"checkuser-suggestedinvestigations-change-status-dialog-close-label": "Toopâ",
+	"checkuser-suggestedinvestigations-change-status-dialog-cancel-btn": "Jooskâ",
+	"checkuser-suggestedinvestigations-risk-signals-popover-close-label": "Toopâ"
+}
