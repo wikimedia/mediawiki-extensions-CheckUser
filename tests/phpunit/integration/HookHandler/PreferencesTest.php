@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace MediaWiki\Extension\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLogger;
@@ -195,6 +196,34 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 			'Site config set to true' => [ true, '(checkuser-helper-table-collapse-by-default-preference-always)' ],
 			'Site config set to 200' => [ 200, '200' ],
 		];
+	}
+
+	/** @dataProvider provideDefaultCheckTypePreferences */
+	public function testDefaultCheckTypePreferences( bool $hasRight ): void {
+		$this->permissionManager->method( 'userHasRight' )
+			->willReturnCallback( static fn ( $user, $right ) => $hasRight && $right === 'checkuser' );
+		$prefs = [];
+		$this->sut->onGetPreferences( $this->user, $prefs );
+		$ips = SpecialCheckUser::SUBTYPE_GET_IPS;
+		$actions = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
+		$users = SpecialCheckUser::SUBTYPE_GET_USERS;
+		foreach ( [
+			Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_USERS => [ $ips, $actions ],
+			Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_IPS => [ $actions, $users ],
+			Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_EMPTY => [ $ips, $actions, $users ],
+		] as $name => $options ) {
+			if ( !$hasRight ) {
+				$this->assertArrayNotHasKey( $name, $prefs );
+				continue;
+			}
+			$this->assertSame( 'select', $prefs[$name]['type'] );
+			$this->assertSame( 'rc/checkuser', $prefs[$name]['section'] );
+			$this->assertSame( $options, array_values( $prefs[$name]['options-messages'] ) );
+		}
+	}
+
+	public static function provideDefaultCheckTypePreferences(): array {
+		return [ 'CheckUser' => [ true ], 'Without CheckUser permission' => [ false ] ];
 	}
 
 	/** @dataProvider provideOnGetPreferencesForAutoRevealPreference */

@@ -6,6 +6,7 @@ namespace MediaWiki\Extension\CheckUser\HookHandler;
 
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Extension\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Extension\CheckUser\Services\CheckUserTemporaryAccountAutoRevealLookup;
@@ -19,6 +20,15 @@ use MediaWiki\User\UserIdentity;
 use StatusValue;
 
 class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
+
+	/** @var string User option storing the default check type for a username target. */
+	public const CHECKUSER_DEFAULT_CHECK_TYPE_USERS = 'checkuser-default-check-type-users';
+
+	/** @var string User option storing the default check type for an IP or range target */
+	public const CHECKUSER_DEFAULT_CHECK_TYPE_IPS = 'checkuser-default-check-type-ips';
+
+	/** @var string User option storing the default check type for an empty target. */
+	public const CHECKUSER_DEFAULT_CHECK_TYPE_EMPTY = 'checkuser-default-check-type-empty';
 
 	/**
 	 * @var string The name for the hidden preference used to note if a user has seen the
@@ -132,6 +142,35 @@ class Preferences implements GetPreferencesHook, UserGetDefaultOptionsHook {
 		}
 
 		if ( $this->permissionManager->userHasRight( $user, 'checkuser' ) ) {
+			$preferences[self::CHECKUSER_DEFAULT_CHECK_TYPE_USERS] = [
+				'type' => 'select',
+				'label-message' => 'checkuser-preference-default-checktype-users',
+				'options-messages' => [
+					'checkuser-ips' => SpecialCheckUser::SUBTYPE_GET_IPS,
+					'checkuser-actions' => SpecialCheckUser::SUBTYPE_GET_ACTIONS,
+				],
+				'section' => 'rc/checkuser',
+			];
+			$preferences[self::CHECKUSER_DEFAULT_CHECK_TYPE_IPS] = [
+				'type' => 'select',
+				'label-message' => 'checkuser-preference-default-checktype-ips',
+				'options-messages' => [
+					'checkuser-actions' => SpecialCheckUser::SUBTYPE_GET_ACTIONS,
+					'checkuser-users' => SpecialCheckUser::SUBTYPE_GET_USERS,
+				],
+				'section' => 'rc/checkuser',
+			];
+			$preferences[self::CHECKUSER_DEFAULT_CHECK_TYPE_EMPTY] = [
+				'type' => 'select',
+				'label-message' => 'checkuser-preference-default-checktype-empty',
+				'options-messages' => [
+					'checkuser-ips' => SpecialCheckUser::SUBTYPE_GET_IPS,
+					'checkuser-actions' => SpecialCheckUser::SUBTYPE_GET_ACTIONS,
+					'checkuser-users' => SpecialCheckUser::SUBTYPE_GET_USERS,
+				],
+				'section' => 'rc/checkuser',
+			];
+
 			$collapseByDefaultSiteConfig = $this->config->get( 'CheckUserCollapseCheckUserHelperByDefault' );
 
 			$defaultPreferenceMessage = $messageLocalizer

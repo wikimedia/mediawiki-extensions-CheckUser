@@ -305,6 +305,9 @@
 		}
 	},
 	"DefaultUserOptions": {
+		"checkuser-default-check-type-users": "subuserips",
+		"checkuser-default-check-type-ips": "subactions",
+		"checkuser-default-check-type-empty": "subuserips",
 		"checkuser-temporary-account-enable": false
 	},
 	"APIListModules": {

@@ -10,6 +10,7 @@ use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\Extension\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInvestigationsCaseManagerService;
 use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Signals\SuggestedInvestigationsSignalMatchResult;
@@ -232,6 +233,53 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$this->assertStringNotContainsString( '(checkuser-recent-checks', $html );
 		// Verify that the summary text is present
 		$this->assertStringContainsString( '(checkuser-summary', $html );
+	}
+
+	/** @dataProvider provideDefaultCheckType */
+	public function testDefaultCheckType(
+		string $target,
+		?string $preferredType,
+		string $requestedType,
+		string $expectedType
+	): void {
+		$user = $this->getTestCheckUser();
+		$preference = $target === '' ? Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_EMPTY :
+			( $target === 'Example' ? Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_USERS :
+				Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_IPS );
+		$this->getServiceContainer()->getUserOptionsManager()->setOption( $user, $preference, $preferredType );
+		[ $html ] = $this->executeSpecialPage(
+			$target,
+			new FauxRequest( [ 'checktype' => $requestedType ] ),
+			null,
+			$user
+		);
+		$this->assertSelectorMatchesOneElement(
+			$html,
+			'input[name="checktype"][value="' . $expectedType . '"][checked]'
+		);
+	}
+
+	public static function provideDefaultCheckType(): array {
+		$ips = SpecialCheckUser::SUBTYPE_GET_IPS;
+		$actions = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
+		$users = SpecialCheckUser::SUBTYPE_GET_USERS;
+		return [
+			'Empty target, unchanged default' => [ '', null, '', $ips ],
+			'Username, unchanged default' => [ 'Example', null, '', $ips ],
+			'IP, unchanged default' => [ '192.0.2.1', null, '', $actions ],
+			'Empty target, actions preferred' => [ '', $actions, '', $actions ],
+			'Empty target, users preferred' => [ '', $users, '', $users ],
+			'Username, actions preferred' => [ 'Example', $actions, '', $actions ],
+			'IP, users preferred' => [ '192.0.2.1', $users, '', $users ],
+			'IPv4 range, users preferred' => [ '192.0.2.0/24', $users, '', $users ],
+			'IPv6 range, users preferred' => [ '2001:db8::/32', $users, '', $users ],
+			'Explicit IPs override preference' => [ 'Example', $actions, $ips, $ips ],
+			'Explicit actions override preference' => [ '192.0.2.1', $users, $actions, $actions ],
+			'Invalid preference falls back' => [ 'Example', 'invalid', '', $ips ],
+			'Invalid IP preference falls back' => [ '192.0.2.1', 'invalid', '', $actions ],
+			'Incompatible username preference falls back' => [ 'Example', $users, '', $ips ],
+			'Incompatible IP preference falls back' => [ '192.0.2.1', $ips, '', $actions ],
+		];
 	}
 
 	public function testSubmitFormForGetIPsCheckWithResults() {

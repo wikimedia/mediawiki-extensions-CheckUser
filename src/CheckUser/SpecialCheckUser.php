@@ -15,6 +15,7 @@ use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\Extension\CheckUser\CheckUser\Widgets\CIDRCalculator;
 use MediaWiki\Extension\CheckUser\Hook\HookRunner;
+use MediaWiki\Extension\CheckUser\HookHandler\Preferences;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Extension\CheckUser\Services\CheckUserMultiLockUrlLookup;
@@ -408,7 +409,15 @@ class SpecialCheckUser extends SpecialPage {
 		// Fill in requested type if it makes sense
 		$ipAllowed = true;
 		$checktype = $this->opts->getValue( 'checktype' );
-		if ( $checktype == self::SUBTYPE_GET_USERS && $isIP ) {
+		if ( $checktype === '' ) {
+			$preference = match ( true ) {
+				$isIP => Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_IPS,
+				$user !== '' => Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_USERS,
+				default => Preferences::CHECKUSER_DEFAULT_CHECK_TYPE_EMPTY,
+			};
+			$checktype = $this->userOptionsLookup->getOption( $this->getUser(), $preference );
+		}
+		if ( $checktype == self::SUBTYPE_GET_USERS && ( $isIP || $user === '' ) ) {
 			$checkTypeValidated = $checktype;
 			$ipAllowed = false;
 		} elseif ( $checktype == self::SUBTYPE_GET_IPS && !$isIP ) {
