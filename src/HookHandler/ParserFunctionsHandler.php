@@ -103,7 +103,7 @@ class ParserFunctionsHandler implements ParserFirstCallInitHook {
 	 * @return list<string> Names of the users for whom {{#uic:}} was invoked
 	 */
 	public static function getRecordedUserInfoCardTargets(): array {
-		return array_keys( self::$recordedTargets );
+		return array_map( 'strval', array_keys( self::$recordedTargets ) );
 	}
 
 	/**

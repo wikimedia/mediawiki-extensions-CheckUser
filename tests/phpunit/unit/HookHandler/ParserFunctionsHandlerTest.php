@@ -56,14 +56,15 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 		$this->getHandler()->onParserFirstCallInit( $parser );
 	}
 
-	public function testRenderReturnsRawHtmlForValidUsername(): void {
+	/** @dataProvider provideValidUsernames */
+	public function testRenderReturnsRawHtmlForValidUsername( string $providedName, string $canonicalName ): void {
 		$this->userNameUtils->method( 'getCanonical' )
-			->with( 'Foo', UserRigorOptions::RIGOR_VALID )
-			->willReturn( 'Foo' );
+			->with( trim( $providedName ), UserRigorOptions::RIGOR_VALID )
+			->willReturn( $canonicalName );
 		$this->buttonRenderer->expects( $this->once() )
 			->method( 'render' )
 			->with(
-				'Foo',
+				$canonicalName,
 				// Never the blocked variant, and always hidden
 				'userAvatar',
 				$this->anything(),
@@ -71,7 +72,7 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 			)
 			->willReturn( '<button>button</button>' );
 
-		$result = $this->getHandler()->renderUserInfoCardButton( $this->parser, 'Foo' );
+		$result = $this->getHandler()->renderUserInfoCardButton( $this->parser, $providedName );
 
 		$this->assertSame( [ '<button>button</button>', 'isHTML' => true ], $result );
 		$this->assertContains(
@@ -79,26 +80,24 @@ class ParserFunctionsHandlerTest extends MediaWikiUnitTestCase {
 			$this->parserOutput->getModuleStyles()
 		);
 		// Interface messages lose the parser output, so the target is recorded here as well
-		$this->assertSame( [ 'Foo' ], ParserFunctionsHandler::getRecordedUserInfoCardTargets() );
+		$this->assertSame( [ $canonicalName ], ParserFunctionsHandler::getRecordedUserInfoCardTargets() );
 	}
 
-	public function testRenderUsesTheCanonicalUsername(): void {
-		$this->userNameUtils->method( 'getCanonical' )
-			->with( 'user:foo_bar', UserRigorOptions::RIGOR_VALID )
-			->willReturn( 'Foo bar' );
-		$this->buttonRenderer->expects( $this->once() )
-			->method( 'render' )
-			->with(
-				'Foo bar',
-				'userAvatar',
-				$this->anything(),
-				true
-			)
-			->willReturn( '<button>button</button>' );
-
-		// Also covers the surrounding whitespace that template expansion tends to leave behind.
-		$this->getHandler()->renderUserInfoCardButton( $this->parser, "  user:foo_bar\n" );
-		$this->assertSame( [ 'Foo bar' ], ParserFunctionsHandler::getRecordedUserInfoCardTargets() );
+	public static function provideValidUsernames(): array {
+		return [
+			'Normal username' => [
+				'providedName' => 'Foo',
+				'canonicalName' => 'Foo',
+			],
+			'Non-canonical username' => [
+				'providedName' => "  user:foo_bar\n",
+				'canonicalName' => 'Foo bar',
+			],
+			'Numeric username' => [
+				'providedName' => '123',
+				'canonicalName' => '123',
+			],
+		];
 	}
 
 	/** @dataProvider provideInvalidUsernames */
