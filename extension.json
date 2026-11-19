@@ -298,6 +298,10 @@
 		"CheckUserAbuseFilterEdgeHeaderVariablesEnabled": {
 			"value": false,
 			"description": "Whether to add the CheckUser AbuseFilter variables for headers that the WMF CDN sets (x-is-browser, x-ja3n and x-ja4h). Third-party wikis should only set this to true if your CDN sets these headers. Setting this to false after filters use these variables causes the filters to fail validation, so only do that after removing the variables from any filter."
+		},
+		"CheckUserUserAgentSearchEnabled": {
+			"value": false,
+			"description": "Temporary feature flag. Whether searching by User-Agent string is enabled in Special:CheckUser. This will be removed once the feature is complete."
 		}
 	},
 	"DefaultUserOptions": {
