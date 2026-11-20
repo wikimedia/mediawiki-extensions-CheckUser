@@ -225,7 +225,7 @@
 	"checkuser-investigateblock-warning-confirmaction": "اگر از انجام این کار مطمئن هستید، لطفاً گزینهٔ «{{int:checkuser-investigateblock-confirm-blocks-label}}» را در پایین این فرم فعال کنید.",
 	"checkuser-investigateblock-warning-users-truncated": "تعداد کاربرانی که قرار است بسته شوند از محدودیت $1 کاربر بیشتر است. تنها {{PLURAL:$1|کاربر|$1 کاربر}} اول در فیلد کاربران گنجانده {{PLURAL:$1|شده است|شده‌اند}}.",
 	"checkuser-investigate": "وارسی",
-	"checkuser-investigate-page-subtitle": "وارسی‌های فعلی برای $1",
+	"checkuser-investigate-page-subtitle": "وارسی‌های کنونی برای $1",
 	"checkuser-investigate-subtitle-block-accounts-button-label": "قطع دسترسی حساب‌ها",
 	"checkuser-investigate-subtitle-block-ips-button-label": "قطع دسترسی آی‌پی‌ها",
 	"checkuser-investigate-subtitle-cancel-button-label": "لغو",

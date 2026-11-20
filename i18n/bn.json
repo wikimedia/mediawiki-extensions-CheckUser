@@ -195,7 +195,7 @@
 	"checkuser-investigate-preliminary-table-cell-blocked": "বাধাপ্রাপ্ত",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1টি {{PLURAL:$1|সম্পাদনা}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "বাধাপ্রাপ্ত নয়",
-	"checkuser-investigate-preliminary-table-header-blocked": "অবস্থা",
+	"checkuser-investigate-preliminary-table-header-blocked": "স্থিতি",
 	"checkuser-investigate-preliminary-table-header-editcount": "সম্পাদনা",
 	"checkuser-investigate-preliminary-table-header-groups": "দল",
 	"checkuser-investigate-preliminary-table-header-name": "ব্যবহারকারী নাম",
