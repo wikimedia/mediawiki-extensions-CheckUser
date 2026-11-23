@@ -137,7 +137,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|otrzymał|otrzymała|otrzymał(a)}} listę użytkowników dla XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useractions": "$3, $1 {{GENDER:$6|sprawdził|sprawdziła|sprawdził(a)}} akcje wykonane {{GENDER:$7|przez}} $2",
 	"checkuser-log-entry-investigate": "$3, $1 {{GENDER:$6|sprawdził|sprawdziła|sprawdził(a)}} informacje {{GENDER:$7|o}} $2",
-	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|wyświetlił|wyświetliła}} wartości zmiennych filtra nadużyć CheckUserów {{GENDER:$7|o}} $2",
+	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|wyświetlił|wyświetliła}} wartości zmiennych filtra nadużyć checkuserów {{GENDER:$7|o}} $2",
 	"checkuser-token-fail": "Awaria sesji. Spróbuj jeszcze raz.",
 	"prefs-checkuser": "Narzędzia checkuserskie",
 	"checkuser-helper-table-collapse-by-default-preference": "Minimalna liczba wierszy wymagana do zwinięcia tabeli podsumowującej na stronie {{#special:CheckUser}} podczas ładowania:",

@@ -23,6 +23,7 @@
 	"action-checkuser-suggested-investigations": "proces tjekbruger foreslåede undersøgelser",
 	"checkuser-si-cases-link": "SI-sager",
 	"checkuser-suggestedinvestigations": "Foreslåede undersøgelser",
+	"checkuser-suggestedinvestigations-abuse-review-hits-link-text": "$1 Misbrugsanmeldelse {{PLURAL:$1|hit|hits}}",
 	"checkuser-suggestedinvestigations-autoclose-reason": "Automatisk lukket, da alle konti er blokeret eller låst",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: sag #$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: sag ikke fundet",

@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kallmemel"
+		]
+	},
+	"checkuser-ip-auto-reveal-link-sidebar": "Outo-revelashon di IP",
+	"checkuser-ip-auto-reveal-link-sidebar-on": "Outo-revelashon di IP (aktivá)",
+	"checkuser-ip-auto-reveal-notification-off": "<strong>Outo-revelashon di IP ta pagá</strong>",
+	"checkuser-ip-auto-reveal-on-dialog-title": "Aktivá outo-revelashon di IP",
+	"checkuser-ip-auto-reveal-on-dialog-text": "Aktivá e funshon aki lo outomátikamente revelá temporalmente tur kuentanan temporario ku IP adrès. [https://www.mediawiki.org/wiki/Special:MyLanguage/Trust_and_Safety_Product/Temporary_Accounts/Access_to_IP#Automatically_showing_IPs_for_temporary_accounts Lesa mas]",
+	"checkuser-ip-auto-reveal-on-dialog-default-action": "Kanselá",
+	"checkuser-ip-auto-reveal-on-dialog-primary-action": "Aktivá",
+	"checkuser-ip-auto-reveal-on-dialog-select-label": "Durashon:",
+	"checkuser-ip-auto-reveal-on-dialog-select-default": "Skohe un opshon",
+	"checkuser-ip-auto-reveal-off-dialog-title": "Outo-revelashon di IP ta akitvá",
+	"checkuser-ip-auto-reveal-off-dialog-off-action": "Paga",
+	"checkuser-tempaccount-reveal-ip-error": "Eror"
+}

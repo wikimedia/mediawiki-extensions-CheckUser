@@ -35,6 +35,7 @@
 	"action-checkuser-suggested-investigations": "rozpatrywania automatycznie zaproponowanych dochodzeń checkuser",
 	"checkuser-si-cases-link": "sug. spr.",
 	"checkuser-suggestedinvestigations": "Sugestie sprawdzeń",
+	"checkuser-suggestedinvestigations-abuse-review-hits-link-text": "$1 {{PLURAL:$1|wykrycie|wykrycia|wykryć}} przez AbuseReview",
 	"checkuser-suggestedinvestigations-autoclose-reason": "Zamknięto automatycznie jako że wszystkie konta są zablokowane lub wyłączone.",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: przypadek nr $1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: nie znaleziono przypadku",

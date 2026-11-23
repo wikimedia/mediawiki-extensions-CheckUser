@@ -151,5 +151,9 @@
 	"checkuser-contributions-temporary-accounts-related-list-copy-copied": "Danh sách tài khoản đã được sao chép vào khay nhớ tạm",
 	"checkuser-contributions-temporary-accounts-related-list-copy-error": "Không thể sao chép danh sách tài khoản",
 	"checkuser-related-tas-specialblock-checkbox-label": "Cấm tất cả các tài khoản tạm thời liên quan",
-	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Xem tất cả đóng góp từ các tài khoản này]"
+	"checkuser-related-tas-specialblock-accounts-list": "$1 {{PLURAL:$1|tài khoản}} tạm thời đã sử dụng $2 địa chỉ IP cùng với $3 trong $4 ngày qua: $5.",
+	"checkuser-related-tas-specialblock-contribs-link": "[{{fullurl:Special:Contributions/$1|showRelatedTemporaryAccounts=1}} Xem tất cả đóng góp từ các tài khoản này]",
+	"checkuser-related-tas-specialblock-accounts-list-error": "Đã xảy ra lỗi khi cố gắng xác định các tài khoản tạm thời đã sử dụng địa chỉ IP liên quan đến $1. {{GENDER:$2|Bạn}} có thể tiếp tục thực hiện lệnh cấm đối với $1, hoặc thử tìm kiếm lại để xác định các tài khoản liên quan.",
+	"checkuser-related-tas-specialblock-confirm": "Thao tác này sẽ áp dụng lệnh cấm đối với $1 {{PLURAL:$1|tài khoản}}. Việc tiếp tục cấm xác nhận rằng bạn đã điều tra kỹ trước khi thực hiện.",
+	"checkuser-related-tas-specialblock-limit-exceeded-error": "Có quá nhiều tài khoản tạm thời liên quan để thêm vào lệnh cấm này. Chỉ được phép cấm tối đa $1 {{PLURAL:$1|tài khoản}} cùng lúc."
 }

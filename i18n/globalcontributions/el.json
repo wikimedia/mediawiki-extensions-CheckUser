@@ -24,6 +24,7 @@
 	},
 	"checkuser-global-contributions-link": "καθολικές συνεισφορές χρήστη",
 	"checkuser-global-contributions-link-sidebar": "Καθολικές συνεισφορές",
+	"checkuser-global-contributions-subtitle-account": "Εμφανίζονται αποτελέσματα από {{PLURAL:$1|την τελευταία $1 ημέρα|τις τελευταίες $1 ημέρες}}, για όλα τα wiki. Είναι {{PLURAL:$2|περιορισμένο σε $2 αποτέλεσμα|περιορισμένα σε $2 αποτελέσματα}} ανά wiki.",
 	"checkuser-ipinfo-global-contributions-url-text": "Προβολή καθολικών συνεισφορών",
 	"checkuser-ipinfo-global-contributions-value": "{{PLURAL:$1|$1 καθολική επεξεργασία|$1 καθολικές επεξεργασίες|0=Καμία καθολική επεξεργασία}}",
 	"tooltip-t-global-contributions": "Μια λίστα συνεισφορών σε όλα τα wiki από {{GENDER:$1|αυτόν τον χρήστη|αυτήν τη χρήστρια}}"

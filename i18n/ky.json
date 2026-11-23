@@ -5,6 +5,9 @@
 			"Growingup"
 		]
 	},
+	"checkuser-clienthints-name-platform": "Платформа",
+	"checkuser-clienthints-value-yes": "Ооба",
+	"checkuser-clienthints-value-no": "Жок",
 	"checkuser-reason": "Себеп:",
 	"checkuser-week-2": "соңку эки апта",
 	"checkuser-month": "соңку 30 күн",
@@ -13,6 +16,8 @@
 	"checkuser-check": "Текшерүү",
 	"checkuser-toollink-check": "текшерүү",
 	"checkuser-check-this-user": "Бул колдонуучуну текшерүү",
+	"checkuser-log-link-text": "журнал",
+	"checkuser-logs-link-text": "журналдар",
 	"checkuser-blocked": "Бөгөттөлгөн",
 	"checkuser-search-submit": "Издөө",
 	"checkuser-log-search-reason": "Себеп:"

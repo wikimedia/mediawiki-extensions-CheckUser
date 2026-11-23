@@ -14,6 +14,7 @@
 	"action-checkuser-suggested-investigations": "memproses penyiasatan cadangan pemeriksa",
 	"checkuser-si-cases-link": "Kes SI",
 	"checkuser-suggestedinvestigations": "Siasatan cadangan",
+	"checkuser-suggestedinvestigations-abuse-review-hits-link-text": "$1 {{PLURAL:$1|kenaan}} AbuseReview",
 	"checkuser-suggestedinvestigations-autoclose-reason": "Ditutup secara automatik kerana semua akaun disekat atau dikunci",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: kes #$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: kes tidak ditemui",

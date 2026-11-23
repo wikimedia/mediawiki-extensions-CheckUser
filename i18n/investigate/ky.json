@@ -6,5 +6,8 @@
 		]
 	},
 	"checkuser-investigate-subtitle-cancel-button-label": "Жокко чыгаруу",
-	"checkuser-investigate-subtitle-continue-button-label": "Улантуу"
+	"checkuser-investigate-subtitle-continue-button-label": "Улантуу",
+	"checkuser-investigate-preliminary-table-header-wiki": "Вики",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Вики табылган жок",
+	"checkuser-investigate-filters-legend": "Чыпкалар"
 }

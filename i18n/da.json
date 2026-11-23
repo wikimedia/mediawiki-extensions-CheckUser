@@ -127,6 +127,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|hentede}} brugere til XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useractions": "$3, $1 {{GENDER:$6|hentede}} handlinger udført {{GENDER:$7|af}} $2",
 	"checkuser-log-entry-investigate": "$3, $1 {{GENDER:$6|slog}} oplysninger op {{GENDER:$7|for}} $2",
+	"checkuser-log-entry-af-view-protected-var-value": "$3, $1 {{GENDER:$6|så}} værdierne af CheckUser AbuseFilter-variablerne {{GENDER:$7|for}} $2",
 	"checkuser-token-fail": "Sessionsfejl. Prøv venligst igen.",
 	"prefs-checkuser": "Tjek Bruger",
 	"checkuser-helper-table-collapse-by-default-preference": "Minimum antal rækker for at skjule oversigtstabellen {{#special:CheckUser}} ved indlæsning:",
@@ -160,5 +161,18 @@
 	"rangecalculator": "IP-intervalberegner",
 	"rangecalculator-summary": "Dette værktøj giver dig mulighed for at beregne det fælles område mellem en liste af IP-adresser. Værktøjet beregner i øjeblikket kun ét fælles område, og du kan ikke blande IPv4- og IPv6-adresser.",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "IP-adresse brugt til at udføre handlingen, for alle kontotyper ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "Brugeragentstrengen for den anmodning, der blev brugt til at udføre handlingen ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "Brugeragentstrengen for den anmodning, der blev brugt til at udføre handlingen ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "Klienttips: CPU-arkitektur ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "Klienttips: CPU-bithed ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "Klienttips: browsermærker og større versioner ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "Klienttips: enhedens formfaktorer ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "Klienttips: browsermærker og fulde versioner ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "Klienttips: om browseren er på en mobilenhed ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "Klienttips: enhedsmodel ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "Klienttips: operativsystem ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "Klienttips: operativsystemversion ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "Klienttips: om browseren er en 32-bit binær fil på 64-bit Windows ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "Score for hvor sandsynligt handlingen blev udført af en browser ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "JA3N TLS-fingeraftryk ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "JA4H HTTP-fingeraftryk ($1)"
 }

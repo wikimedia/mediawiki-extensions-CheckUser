@@ -34,5 +34,8 @@
 	"checkuser-tempaccount-reveal-ip-error": "eroare",
 	"checkuser-tempaccount-reveal-blocked-loading": "Se încarcă detaliile blocării",
 	"checkuser-tempaccount-reveal-blocked-title": "Vezi detaliile blocării",
-	"checkuser-contributions-temporary-account-bucketcount": "Conturi temporare de pe toate IP-urile asociate: $1"
+	"checkuser-contributions-temporary-accounts-show-related": "Vezi toate contribuțiile acestor conturi",
+	"checkuser-contributions-temporary-accounts-hide-related": "Ascunde contribuțiile conturilor temporare aferente",
+	"checkuser-contributions-temporary-account-bucketcount": "Conturi temporare de pe toate IP-urile asociate: $1",
+	"checkuser-contributions-temporary-accounts-related-list-copy-button": "Copiază lista de conturi"
 }
