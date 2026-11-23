@@ -948,13 +948,20 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			iterator_to_array( $userIdentities )
 		);
 
-		// If there are user IDs, then join on the query.
+		// If there are user IDs, then only include cases which have at least one of the users.
+		// This uses EXISTS instead of a JOIN, because a JOIN returns a case once for each of
+		// the users in the filter that are in the case (T444118).
 		// If none of the usernames equate to user IDs, then make the query return nothing
 		// to indicate these usernames are not in any case.
 		if ( $userIds ) {
-			$queryInfo['tables'][] = 'cusi_user';
-			$queryInfo['join_conds']['cusi_user'] = [ 'JOIN', 'sic_id = siu_sic_id' ];
-			$queryInfo['conds']['siu_user_id'] = $userIds;
+			$usernameFilterSubquerySql = $this->getDatabase()->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'cusi_user' )
+				->where( [ 'siu_user_id' => $userIds, 'sic_id = siu_sic_id' ] )
+				->caller( __METHOD__ )
+				->getSQL();
+
+			$queryInfo['conds'][] = "EXISTS ($usernameFilterSubquerySql)";
 		} else {
 			$queryInfo['conds'][] = '1=0';
 		}

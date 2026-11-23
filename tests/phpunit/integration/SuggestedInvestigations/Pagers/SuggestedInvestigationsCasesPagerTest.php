@@ -1252,6 +1252,42 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringContainsString( 'data-case-id="' . $secondCaseId . '"', $html );
 	}
 
+	public function testWhenUsernameFilterMatchesSeveralUsersInOneCase(): void {
+		// Create one case with two users
+		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
+			self::SIGNAL,
+			'Test value',
+			false
+		);
+		$firstUser = $this->getMutableTestUser()->getUserIdentity();
+		$secondUser = $this->getMutableTestUser()->getUserIdentity();
+
+		foreach ( [ $firstUser, $secondUser ] as $user ) {
+			$this->setUserEditCount( $user, 1 );
+		}
+
+		$caseId = $this->getCaseManager()->createCase( [ $firstUser, $secondUser ], [ $signal ] );
+
+		// Filter by one of the users, and then by both of them
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'username', $firstUser->getName() );
+		$htmlForOneUser = $this->getPager( $context )->getBody();
+
+		$context = $this->makeQqxContext();
+		$context->getRequest()->setVal( 'username', [ $firstUser->getName(), $secondUser->getName() ] );
+		$htmlForBothUsers = $this->getPager( $context )->getBody();
+
+		// Expect that the case is shown once in both cases, so it is not repeated for
+		// each user in the filter that is in the case (T444118)
+		$caseIdAttribute = 'data-case-id="' . $caseId . '"';
+		$this->assertStringContainsString( $caseIdAttribute, $htmlForOneUser );
+		$this->assertSame(
+			substr_count( $htmlForOneUser, $caseIdAttribute ),
+			substr_count( $htmlForBothUsers, $caseIdAttribute ),
+			'The case should be listed once, however many of its users are in the filter'
+		);
+	}
+
 	/** @dataProvider provideLimitValues */
 	public function testWhenEditAndBlockFilterIsSetForLocalEditsOnly( int $limit ) {
 		$this->overrideConfigValue( 'CheckUserSuggestedInvestigationsUseGlobalContributionsLink', false );
