@@ -78,7 +78,7 @@ class CheckUserEventsHandlerTest extends MediaWikiUnitTestCase {
 
 	public function testOnEmailUserNoSaveForSelfEmail() {
 		$handler = $this->getObjectUnderTestForNoCheckUserInsertCalls( [
-			'config' => new HashConfig( [ 'SecretKey' => 'secret' ] ),
+			'config' => new HashConfig( [ MainConfigNames::SecretKey => 'secret' ] ),
 		] );
 		// Call the method under test, with $to and $from having the same email and name.
 		$to = new MailAddress( 'test@test.com', 'Test' );
@@ -94,7 +94,7 @@ class CheckUserEventsHandlerTest extends MediaWikiUnitTestCase {
 	public function testOnEmailUserForNoSecretKey() {
 		// Mock that wgSecretKey is set to null.
 		$handler = $this->getObjectUnderTestForNoCheckUserInsertCalls( [
-			'config' => new HashConfig( [ 'SecretKey' => null ] ),
+			'config' => new HashConfig( [ MainConfigNames::SecretKey => null ] ),
 		] );
 		// Call the method under test
 		$to = new MailAddress( 'test@test.com', 'Test' );
@@ -113,7 +113,7 @@ class CheckUserEventsHandlerTest extends MediaWikiUnitTestCase {
 		$mockReadOnlyMode->method( 'isReadOnly' )->willReturn( true );
 		$handler = $this->getObjectUnderTestForNoCheckUserInsertCalls( [
 			'readOnlyMode' => $mockReadOnlyMode,
-			'config' => new HashConfig( [ 'SecretKey' => 'test' ] ),
+			'config' => new HashConfig( [ MainConfigNames::SecretKey => 'test' ] ),
 		] );
 		// Call the method under test
 		$to = new MailAddress( 'test@test.com', 'Test' );

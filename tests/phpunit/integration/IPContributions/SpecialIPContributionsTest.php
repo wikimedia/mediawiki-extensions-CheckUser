@@ -183,7 +183,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		// Ensure the range restriction comes from $wgRangeContributionsCIDRLimit,
 		// not $wgCheckUserCIDRLimit
 		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 1, 'IPv6' => 1 ] );
-		$this->overrideConfigValue( 'RangeContributionsCIDRLimit', [ 'IPv4' => 17, 'IPv6' => 20 ] );
+		$this->overrideConfigValue( MainConfigNames::RangeContributionsCIDRLimit, [ 'IPv4' => 17, 'IPv6' => 20 ] );
 
 		[ $html ] = $this->executeSpecialPage(
 			'127.0.0.1/1',

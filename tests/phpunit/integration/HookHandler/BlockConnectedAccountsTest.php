@@ -10,6 +10,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\Extension\CheckUser\HookHandler\BlockConnectedAccounts;
 use MediaWiki\Extension\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Api\ApiTestCase;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
@@ -26,7 +27,7 @@ class BlockConnectedAccountsTest extends ApiTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->enableAutoCreateTempUser();
-		$this->overrideConfigValue( 'EnableMultiBlocks', true );
+		$this->overrideConfigValue( MainConfigNames::EnableMultiBlocks, true );
 
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
@@ -82,7 +83,7 @@ class BlockConnectedAccountsTest extends ApiTestCase {
 		bool $hasPermission,
 		string $targetName
 	) {
-		$this->overrideConfigValue( 'EnableMultiBlocks', $multiBlocksEnabled );
+		$this->overrideConfigValue( MainConfigNames::EnableMultiBlocks, $multiBlocksEnabled );
 
 		$this->setTemporaryHook( 'APIGetAllowedParams', static function ( $module, &$params, $flags ) {
 			$params['blockConnectedTempAccounts'] = true;

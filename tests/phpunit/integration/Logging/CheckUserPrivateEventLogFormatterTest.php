@@ -4,6 +4,7 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\CheckUser\Test\Integration\Logging;
 
+use MediaWiki\Api\ApiResult;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Tests\Logging\LogFormatterTestCase;
@@ -229,8 +230,8 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 		);
 
 		$api = $formatter->formatParametersForApi();
-		unset( $api['_element'] );
-		unset( $api['_type'] );
+		unset( $api[ApiResult::META_INDEXED_TAG_NAME] );
+		unset( $api[ApiResult::META_TYPE] );
 		$this->assertSame(
 			[
 				'target' => $expectedName,

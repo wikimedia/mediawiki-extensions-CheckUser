@@ -11,6 +11,7 @@ use MediaWiki\Extension\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\Extension\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\Extension\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -104,7 +105,7 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiUnitTestCase {
 		$activeWikis = [ 'testwiki' ];
 
 		$config = new HashConfig( [
-			'RangeContributionsCIDRLimit' => [
+			MainConfigNames::RangeContributionsCIDRLimit => [
 				'IPv4' => 16,
 				'IPv6' => 16,
 			],

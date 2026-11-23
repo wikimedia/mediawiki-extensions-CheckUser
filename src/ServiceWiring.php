@@ -76,6 +76,7 @@ use MediaWiki\Extension\CheckUser\SuggestedInvestigations\Services\SuggestedInve
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Language\LazyLocalizationContext;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\WikiMap\WikiMap;
 use Psr\Log\LoggerInterface;
@@ -671,7 +672,7 @@ return [
 	},
 	'CheckUserTokenManager' => static function ( MediaWikiServices $services ): TokenManager {
 		return new TokenManager(
-			$services->getMainConfig()->get( 'SecretKey' )
+			$services->getMainConfig()->get( MainConfigNames::SecretKey )
 		);
 	},
 	'CheckUserTokenQueryManager' => static function ( MediaWikiServices $services ): TokenQueryManager {
@@ -815,7 +816,7 @@ return [
 	): CheckUserUtilityService {
 		return new CheckUserUtilityService(
 			$services->getProxyLookup(),
-			$services->getMainConfig()->get( 'UsePrivateIPs' )
+			$services->getMainConfig()->get( MainConfigNames::UsePrivateIPs )
 		);
 	},
 	'SuggestedInvestigationsSignalMatchService' => static function (
