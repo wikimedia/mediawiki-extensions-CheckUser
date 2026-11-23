@@ -22,6 +22,7 @@ use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 
 class TimelinePager extends ReverseChronologicalPager {
 	/** @var string */
@@ -98,15 +99,54 @@ class TimelinePager extends ReverseChronologicalPager {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @param string $offset The offset of the page, passed on so that each query in the UNION
+	 *   is paged too (T444115). See ::buildQueryInfo.
+	 * @param bool $order One of the self::QUERY_* constants
 	 */
-	public function getQueryInfo() {
+	public function getQueryInfo( string $offset = '', bool $order = self::QUERY_DESCENDING ) {
 		return $this->timelineService->getQueryInfo(
 			$this->filteredTargets,
 			$this->excludeTargets,
 			$this->excludeTempAccounts,
 			$this->start,
-			$this->mLimit
+			$this->mLimit,
+			$offset,
+			$order === self::QUERY_ASCENDING ? SelectQueryBuilder::SORT_ASC : SelectQueryBuilder::SORT_DESC,
+			$this->mIncludeOffset
 		);
+	}
+
+	/**
+	 * Builds the query information. This is the same code as in IndexPager::buildQueryInfo
+	 * and ReverseChronologicalPager::buildQueryInfo, but passes the offset and the order
+	 * to ::getQueryInfo, like AbstractCheckUserPager::buildQueryInfo does.
+	 *
+	 * @inheritDoc
+	 */
+	protected function buildQueryInfo( $offset, $limit, $order ) {
+		// Copied, with modification, from IndexPager::buildQueryInfo
+		$fname = __METHOD__ . ' (' . $this->getSqlComment() . ')';
+		$info = $this->getQueryInfo( (string)$offset, $order );
+		$tables = $info['tables'];
+		$fields = $info['fields'];
+		$conds = $info['conds'] ?? [];
+		$options = $info['options'] ?? [];
+		$join_conds = $info['join_conds'] ?? [];
+
+		[ $offsetConds, $sortOptions ] = $this->getOffsetCondsAndSortOptions( $offset, $limit, $order );
+		if ( !is_array( $offsetConds ) ) {
+			$offsetConds = [ $offsetConds ];
+		}
+		$conds = array_merge( $conds, $offsetConds );
+		$options = array_merge( $options, $sortOptions );
+
+		// Copied from ReverseChronologicalPager::buildQueryInfo
+		if ( $this->endOffset ) {
+			$conds[] = $this->mDb->expr( $this->getTimestampField(), '<', $this->endOffset );
+		}
+
+		return [ $tables, $fields, $conds, $fname, $options, $join_conds ];
 	}
 
 	/**

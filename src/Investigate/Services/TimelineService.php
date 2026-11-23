@@ -20,6 +20,12 @@ class TimelineService extends ChangeService {
 	 * @param bool $excludeTempAccounts Whether to ignore temporary accounts targets
 	 * @param string $start The start offset
 	 * @param int $limit The limit for the check
+	 * @param string $offset The offset of the pager, in the format "timestamp|id" used by
+	 *   TimelinePager, or an empty string for the first page
+	 * @param string $sortDirection The order the pager reads the rows in, SelectQueryBuilder::SORT_ASC
+	 *   (when going to a previous page) or SelectQueryBuilder::SORT_DESC
+	 * @param bool $includeOffset Whether the row at the offset itself is included, which the pager
+	 *   uses to check whether there is a newer or older page
 	 * @return array
 	 */
 	public function getQueryInfo(
@@ -27,7 +33,10 @@ class TimelineService extends ChangeService {
 		array $excludeTargets,
 		bool $excludeTempAccounts,
 		string $start,
-		int $limit
+		int $limit,
+		string $offset = '',
+		string $sortDirection = SelectQueryBuilder::SORT_DESC,
+		bool $includeOffset = false
 	): array {
 		// Split the targets into users and IP addresses, so that two queries can be made (one for the users and one
 		// for the IPs) and then unioned together.
@@ -49,7 +58,10 @@ class TimelineService extends ChangeService {
 					true,
 					$excludeTargets,
 					$start,
-					$limit
+					$limit,
+					$offset,
+					$sortDirection,
+					$includeOffset
 				);
 				if ( $ipTargetsQuery !== null ) {
 					if ( $excludeTempAccounts ) {
@@ -75,7 +87,10 @@ class TimelineService extends ChangeService {
 					false,
 					$excludeTargets,
 					$start,
-					$limit
+					$limit,
+					$offset,
+					$sortDirection,
+					$includeOffset
 				);
 				if ( $userTargetsQuery !== null ) {
 					$unionQueryBuilder->add( $userTargetsQuery );
@@ -171,6 +186,9 @@ class TimelineService extends ChangeService {
 	 * @param array $excludeTargets See ::getQueryInfo
 	 * @param string $start See ::getQueryInfo
 	 * @param int $limit See ::getQueryInfo
+	 * @param string $offset See ::getQueryInfo
+	 * @param string $sortDirection See ::getQueryInfo
+	 * @param bool $includeOffset See ::getQueryInfo
 	 * @return SelectQueryBuilder|null The query builder specific to the table, or null if no valid query builder could
 	 *    be generated.
 	 */
@@ -180,17 +198,20 @@ class TimelineService extends ChangeService {
 		bool $targetsAreIPs,
 		array $excludeTargets,
 		string $start,
-		int $limit
+		int $limit,
+		string $offset,
+		string $sortDirection,
+		bool $includeOffset
 	): ?SelectQueryBuilder {
 		// Get the query builder for the table which has all table-specific information added but needs the
 		// table non-specific information added.
 		$queryBuilder = null;
 		if ( $table === self::CHANGES_TABLE ) {
-			$queryBuilder = $this->getPartialQueryBuilderForCuChanges( $targets );
+			$queryBuilder = $this->getPartialQueryBuilderForCuChanges( $targets, $sortDirection );
 		} elseif ( $table === self::LOG_EVENT_TABLE ) {
-			$queryBuilder = $this->getPartialQueryBuilderForCuLogEvent( $targets );
+			$queryBuilder = $this->getPartialQueryBuilderForCuLogEvent( $targets, $sortDirection );
 		} elseif ( $table === self::PRIVATE_LOG_EVENT_TABLE ) {
-			$queryBuilder = $this->getPartialQueryBuilderForCuPrivateEvent( $targets, $targetsAreIPs );
+			$queryBuilder = $this->getPartialQueryBuilderForCuPrivateEvent( $targets, $targetsAreIPs, $sortDirection );
 		}
 		// Don't attempt to add any table-independent conditions if the query builder is null.
 		if ( $queryBuilder === null ) {
@@ -205,6 +226,12 @@ class TimelineService extends ChangeService {
 		$startExpr = $this->buildStartExpr( $start, $table );
 		if ( $startExpr !== null ) {
 			$queryBuilder->where( $startExpr );
+		}
+		// Apply the offset of the pager to this query as well. Otherwise the LIMIT below
+		// selects the rows from the start of the results, which the pager then removes
+		// because they are before its offset, so later pages miss rows (T444115).
+		if ( $offset !== '' ) {
+			$queryBuilder->where( $this->buildOffsetCond( $offset, $sortDirection, $includeOffset, $table ) );
 		}
 		// FORCE INDEX is needed to avoid slow queries for users with very high action counts in the result tables.
 		$queryBuilder->useIndex( [
@@ -222,10 +249,11 @@ class TimelineService extends ChangeService {
 	 * Get the SelectQueryBuilder which can be used to query cu_changes for results.
 	 *
 	 * @param array $targets See ::getQueryInfo
+	 * @param string $sortDirection See ::getQueryInfo
 	 * @return ?SelectQueryBuilder The query builder specific to cu_changes, or null if no valid query builder could
 	 *   be generated.
 	 */
-	private function getPartialQueryBuilderForCuChanges( array $targets ): ?SelectQueryBuilder {
+	private function getPartialQueryBuilderForCuChanges( array $targets, string $sortDirection ): ?SelectQueryBuilder {
 		$targetsExpr = $this->buildTargetExprMultiple( $targets, self::CHANGES_TABLE );
 		// Don't run the query if no targets are valid.
 		if ( $targetsExpr === null ) {
@@ -267,7 +295,7 @@ class TimelineService extends ChangeService {
 			->caller( __METHOD__ );
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cuc_id to the ORDER BY clause to ensure unique ordering.
-			$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC );
+			$queryBuilder->orderBy( 'cuc_timestamp', $sortDirection );
 		}
 		return $queryBuilder;
 	}
@@ -276,10 +304,11 @@ class TimelineService extends ChangeService {
 	 * Get the SelectQueryBuilder which can be used to query cu_log_event for results.
 	 *
 	 * @param array $targets See ::getQueryInfo
+	 * @param string $sortDirection See ::getQueryInfo
 	 * @return ?SelectQueryBuilder The query builder specific to cu_log_event, or null if no valid query builder could
 	 *   be generated.
 	 */
-	private function getPartialQueryBuilderForCuLogEvent( array $targets ): ?SelectQueryBuilder {
+	private function getPartialQueryBuilderForCuLogEvent( array $targets, string $sortDirection ): ?SelectQueryBuilder {
 		$targetsExpr = $this->buildTargetExprMultiple( $targets, self::LOG_EVENT_TABLE );
 		// Don't run the query if no targets are valid.
 		if ( $targetsExpr === null ) {
@@ -322,7 +351,7 @@ class TimelineService extends ChangeService {
 			->caller( __METHOD__ );
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cule_id to the ORDER BY clause to ensure unique ordering.
-			$queryBuilder->orderBy( 'cule_timestamp', SelectQueryBuilder::SORT_DESC );
+			$queryBuilder->orderBy( 'cule_timestamp', $sortDirection );
 		}
 		return $queryBuilder;
 	}
@@ -332,12 +361,14 @@ class TimelineService extends ChangeService {
 	 *
 	 * @param array $targets See ::getQueryInfo
 	 * @param bool $targetsAreIPs Whether the targets in $targets are all IP addresses (false is for all accounts).
+	 * @param string $sortDirection See ::getQueryInfo
 	 * @return ?SelectQueryBuilder The query builder specific to cu_private_event, or null if no valid query builder
 	 *   could be generated.
 	 */
 	private function getPartialQueryBuilderForCuPrivateEvent(
 		array $targets,
-		bool $targetsAreIPs
+		bool $targetsAreIPs,
+		string $sortDirection
 	): ?SelectQueryBuilder {
 		$targetsExpr = $this->buildTargetExprMultiple( $targets, self::PRIVATE_LOG_EVENT_TABLE );
 		// Don't run the query if no targets are valid.
@@ -392,9 +423,34 @@ class TimelineService extends ChangeService {
 		}
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cupe_id to the ORDER BY clause to ensure unique ordering.
-			$queryBuilder->orderBy( 'cupe_timestamp', SelectQueryBuilder::SORT_DESC );
+			$queryBuilder->orderBy( 'cupe_timestamp', $sortDirection );
 		}
 		return $queryBuilder;
+	}
+
+	/**
+	 * Build the condition that applies the offset of the pager to the query for one table.
+	 *
+	 * @param string $offset See ::getQueryInfo
+	 * @param string $sortDirection See ::getQueryInfo
+	 * @param bool $includeOffset See ::getQueryInfo
+	 * @param string $table One of the tables in {@link CheckUserQueryInterface::RESULT_TABLES}
+	 * @return string SQL condition
+	 */
+	private function buildOffsetCond(
+		string $offset,
+		string $sortDirection,
+		bool $includeOffset,
+		string $table
+	): string {
+		// The offset holds the values of the pager's index fields "timestamp" and "id".
+		$prefix = self::RESULT_TABLE_TO_PREFIX[$table];
+		$offsets = explode( '|', $offset, 2 );
+		$columns = array_slice( [ $prefix . 'timestamp', $prefix . 'id' ], 0, count( $offsets ) );
+		return $this->dbProvider->getReplicaDatabase()->buildComparison(
+			( $sortDirection === SelectQueryBuilder::SORT_ASC ? '>' : '<' ) . ( $includeOffset ? '=' : '' ),
+			array_combine( $columns, $offsets )
+		);
 	}
 
 	/**

@@ -342,6 +342,80 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	/** @dataProvider provideReallyDoQueryWithSmallLimit */
+	public function testReallyDoQueryWithSmallLimit(
+		array $offsetParts,
+		bool $order,
+		array $filteredTargets,
+		array $expectedRows
+	) {
+		// Use a limit that is smaller than the number of rows for the target, so that the
+		// queries in the UNION have to apply the offset to return the right rows (T444115).
+		$objectUnderTest = $this->getObjectUnderTest();
+		$objectUnderTest->setLimit( 1 );
+		$objectUnderTest->filteredTargets = $filteredTargets;
+		$offsetParts['timestamp'] = $this->getDb()->timestamp( $offsetParts['timestamp'] );
+		$actualRows = iterator_to_array(
+			$objectUnderTest->reallyDoQuery( implode( '|', $offsetParts ), 2, $order )
+		);
+		$actualRows = array_map( static function ( $row ) {
+			return [ $row->timestamp, $row->id ];
+		}, $actualRows );
+		$expectedRows = array_map( function ( $row ) {
+			return [ $this->getDb()->timestamp( $row[0] ), $row[1] ];
+		}, $expectedRows );
+		$this->assertSame( $expectedRows, $actualRows );
+	}
+
+	public static function provideReallyDoQueryWithSmallLimit() {
+		return [
+			'Next page, order DESC, InvestigateTestUser1 as target' => [
+				'offsetParts' => [ 'timestamp' => '20230405060710', 'id' => '2' ],
+				'order' => IndexPager::QUERY_DESCENDING,
+				'filteredTargets' => [ 'InvestigateTestUser1' ],
+				'expectedRows' => [ [ '20230405060708', '1' ] ],
+			],
+			'Previous page, order ASC, 1.2.3.4 as target' => [
+				'offsetParts' => [ 'timestamp' => '20230405060708', 'id' => '1' ],
+				'order' => IndexPager::QUERY_ASCENDING,
+				'filteredTargets' => [ '1.2.3.4' ],
+				'expectedRows' => [ [ '20230405060710', '2' ], [ '20230405060710', '3' ] ],
+			],
+		];
+	}
+
+	/** @dataProvider provideReallyDoQueryWithIncludeOffset */
+	public function testReallyDoQueryWithIncludeOffset( array $offsetParts, bool $order, array $expectedRow ) {
+		// IndexPager::isFirst sets mIncludeOffset to look for the row at the offset itself.
+		$objectUnderTest = $this->getObjectUnderTest();
+		$objectUnderTest->setLimit( 1 );
+		$objectUnderTest->filteredTargets = [ 'InvestigateTestUser1' ];
+		$objectUnderTest->mIncludeOffset = true;
+		$offsetParts['timestamp'] = $this->getDb()->timestamp( $offsetParts['timestamp'] );
+		$actualRows = iterator_to_array(
+			$objectUnderTest->reallyDoQuery( implode( '|', $offsetParts ), 1, $order )
+		);
+		$actualRows = array_map( static function ( $row ) {
+			return [ $row->timestamp, $row->id ];
+		}, $actualRows );
+		$this->assertSame( [ [ $this->getDb()->timestamp( $expectedRow[0] ), $expectedRow[1] ] ], $actualRows );
+	}
+
+	public static function provideReallyDoQueryWithIncludeOffset() {
+		return [
+			'Oldest row, order DESC' => [
+				'offsetParts' => [ 'timestamp' => '20230405060708', 'id' => '1' ],
+				'order' => IndexPager::QUERY_DESCENDING,
+				'expectedRow' => [ '20230405060708', '1' ],
+			],
+			'Newest row, order ASC' => [
+				'offsetParts' => [ 'timestamp' => '20230405060721', 'id' => '2' ],
+				'order' => IndexPager::QUERY_ASCENDING,
+				'expectedRow' => [ '20230405060721', '2' ],
+			],
+		];
+	}
+
 	public function testDoBatchLookups(): void {
 		$mockLinkBatch = $this->createMock( LinkBatch::class );
 
