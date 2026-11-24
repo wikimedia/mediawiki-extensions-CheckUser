@@ -375,6 +375,8 @@ class SpecialSuggestedInvestigations extends SpecialPage {
 			$links['checkuser-showlog'] = 'CheckUserLog';
 		}
 
+		$links['checkuser-investigate'] = 'Investigate';
+
 		if ( $this->isInDetailedView ) {
 			$links['checkuser-suggestedinvestigations-back-to-main-page'] = 'SuggestedInvestigations';
 		}

@@ -220,6 +220,16 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 
 		// Assert that the normal subtitle links are present (those without a specific target)
 		$this->assertStringContainsString( '(checkuser-showlog', $html );
+		$investigateLink = $this->assertSelectorMatchesOneElementInNode(
+			$doc,
+			'.mw-checkuser-links-no-parentheses a[title="Special:Investigate"]'
+		);
+		$this->assertSame(
+			'(checkuser-investigate)',
+			$investigateLink->textContent,
+			'Subtitle link to Special:Investigate has the wrong label'
+		);
+		$this->assertStringNotContainsString( '(checkuser-recent-checks', $html );
 		// Verify that the summary text is present
 		$this->assertStringContainsString( '(checkuser-summary', $html );
 	}

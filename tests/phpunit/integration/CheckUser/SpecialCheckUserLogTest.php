@@ -141,14 +141,24 @@ class SpecialCheckUserLogTest extends SpecialPageTestBase {
 			$this->assertStringContainsString( "Check $i", $html );
 		}
 		// Verify that the subtitle links were correctly generated
+		$doc = DOMUtils::parseHTML( $html );
 		$checkUserLink = $this->assertSelectorMatchesOneElementInNode(
-			DOMUtils::parseHTML( $html ),
+			$doc,
 			'.mw-checkuser-links-no-parentheses a[title="Special:CheckUser"]'
 		);
 		$this->assertSame(
 			'(checkuser)',
 			$checkUserLink->textContent,
 			'Subtitle link to Special:CheckUser has the wrong label'
+		);
+		$investigateLink = $this->assertSelectorMatchesOneElementInNode(
+			$doc,
+			'.mw-checkuser-links-no-parentheses a[title="Special:Investigate"]'
+		);
+		$this->assertSame(
+			'(checkuser-investigate)',
+			$investigateLink->textContent,
+			'Subtitle link to Special:Investigate has the wrong label'
 		);
 		$this->assertStringNotContainsString( '(checkuser-check-this-user', $html );
 	}

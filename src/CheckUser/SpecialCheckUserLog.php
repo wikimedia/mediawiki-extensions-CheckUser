@@ -170,6 +170,11 @@ class SpecialCheckUserLog extends SpecialPage {
 				);
 			}
 
+			$links[] = $this->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Investigate' ),
+				$this->msg( 'checkuser-investigate' )->text()
+			);
+
 			$html = '';
 			foreach ( $links as $link ) {
 				$html .= Html::rawElement( 'span', [], $link );

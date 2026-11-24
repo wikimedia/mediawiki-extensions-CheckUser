@@ -907,7 +907,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		$links = [
 			$this->getLinkRenderer()->makeLink(
 				self::getTitleValueFor( 'CheckUser' ),
-				$this->msg( 'checkuser-showmain' )->text()
+				$this->msg( 'checkuser' )->text()
 			),
 		];
 
@@ -918,6 +918,13 @@ class SpecialInvestigate extends FormSpecialPage {
 			$links[] = $this->getLinkRenderer()->makeKnownLink(
 				self::getTitleValueFor( 'SuggestedInvestigations' ),
 				$this->msg( 'checkuser-show-suggestedinvestigations' )->text()
+			);
+		}
+
+		if ( $this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
+			$links[] = $this->getLinkRenderer()->makeKnownLink(
+				self::getTitleValueFor( 'CheckUserLog' ),
+				$this->msg( 'checkuser-showlog' )->text()
 			);
 		}
 

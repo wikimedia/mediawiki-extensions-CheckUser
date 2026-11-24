@@ -219,6 +219,14 @@ class SpecialCheckUser extends SpecialPage {
 				);
 			}
 		}
+		$links[] = Html::rawElement(
+			'span',
+			[],
+			$this->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Investigate' ),
+				$this->msg( 'checkuser-investigate' )->text()
+			)
+		);
 
 		$html = '';
 		foreach ( $links as $link ) {
