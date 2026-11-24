@@ -1253,28 +1253,15 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testWhenUsernameFilterMatchesSeveralUsersInOneCase(): void {
-		// Create one case with two users
-		$signal = SuggestedInvestigationsSignalMatchResult::newPositiveResult(
-			self::SIGNAL,
-			'Test value',
-			false
-		);
-		$firstUser = $this->getMutableTestUser()->getUserIdentity();
-		$secondUser = $this->getMutableTestUser()->getUserIdentity();
-
-		foreach ( [ $firstUser, $secondUser ] as $user ) {
-			$this->setUserEditCount( $user, 1 );
-		}
-
-		$caseId = $this->getCaseManager()->createCase( [ $firstUser, $secondUser ], [ $signal ] );
+		$caseId = $this->addCaseWithTwoUsers();
 
 		// Filter by one of the users, and then by both of them
 		$context = $this->makeQqxContext();
-		$context->getRequest()->setVal( 'username', $firstUser->getName() );
+		$context->getRequest()->setVal( 'username', self::$testUser1->getName() );
 		$htmlForOneUser = $this->getPager( $context )->getBody();
 
 		$context = $this->makeQqxContext();
-		$context->getRequest()->setVal( 'username', [ $firstUser->getName(), $secondUser->getName() ] );
+		$context->getRequest()->setVal( 'username', [ self::$testUser1->getName(), self::$testUser2->getName() ] );
 		$htmlForBothUsers = $this->getPager( $context )->getBody();
 
 		// Expect that the case is shown once in both cases, so it is not repeated for
