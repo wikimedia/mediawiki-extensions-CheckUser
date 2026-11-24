@@ -33,6 +33,7 @@
 	"checkuser-rest-request-property-desc-log-id-item": "يادښت پېژند",
 	"checkuser-rest-endpoint-summary-userinfo-blocked": "دننه‌نی کاريال‌مخبڼې‌بهير: د کارن بنديز دريځ ترلاسه کړئ",
 	"checkuser-rest-endpoint-summary-temp-account-ip": "وېبپتې لپاره لنډمهاله گڼونونه ترلاسه‌کول",
+	"checkuser-rest-endpoint-summary-batch-temp-account": "د لنډمهاله ډله‌ييزو گڼونو لپاره وېبپتې ترلاسه کړئ",
 	"checkuser-rest-endpoint-summary-connected-temp-accounts": "لنډمهاله گڼونونه ونښلوئ",
 	"checkuser-rest-endpoint-summary-clienthints": "د کارن پلاوي غوښتندوی پېښېدنې جوړول"
 }

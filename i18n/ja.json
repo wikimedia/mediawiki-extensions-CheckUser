@@ -157,6 +157,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3 $1 は XFF <bdi>$2</bdi> から編集を行った利用者を{{GENDER:$6|取得}}",
 	"checkuser-log-entry-useractions": "$3 $1 は $2 {{GENDER:$7|が}}行った操作を{{GENDER:$6|取得}}",
 	"checkuser-log-entry-investigate": "$3 $1 は $2 {{GENDER:$7|の}}情報を{{GENDER:$6|調査}}",
+	"checkuser-log-entry-af-view-protected-var-value": "$3 $1 は $2 {{GENDER:$7|の}}チェックユーザー不正利用フィルターの変数を{{GENDER:$6|閲覧}}",
 	"checkuser-token-fail": "セッションの有効期限が切れています。もう一度お試しください。",
 	"prefs-checkuser": "チェックユーザー",
 	"checkuser-helper-table-collapse-by-default-preference": "読み込み時に {{#special:CheckUser}} 要約テーブルを折りたたむ最小行数:",
@@ -190,5 +191,18 @@
 	"rangecalculator": "IPレンジ計算ツール",
 	"rangecalculator-summary": "このツールを使用すると、IPアドレスのリスト間で共通するレンジを計算できます。ただし、このツールは現在、共通レンジを1つしか計算できず、IPv4アドレスとIPv6アドレスを混在させることはできません。",
 	"abusefilter-edit-builder-vars-checkuser-user-ip": "操作の実行に使用された IP アドレス (全てのアカウント種別に対応) ($1)",
-	"abusefilter-edit-builder-vars-checkuser-user-agent": "操作の実行に使用されたリクエストのユーザーエージェント ($1)"
+	"abusefilter-edit-builder-vars-checkuser-user-agent": "操作の実行に使用されたリクエストのユーザーエージェント ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-architecture": "クライアントヒント: CPU アーキテクチャ ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-bitness": "クライアントヒント: CPU のビット数 ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-brands": "クライアントヒント: ブラウザのブランド名および主要バージョン ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-form-factors": "クライアントヒント: デバイスのフォームファクタ ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-full-version-list": "クライアントヒント: ブラウザのブランド名および完全なバージョン ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-mobile": "クライアントヒント: モバイルデバイスか否か ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-model": "クライアントヒント: デバイスのモデル ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform": "クライアントヒント: オペレーティングシステム ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-platform-version": "クライアントヒント: オペレーティングシステムのバージョン ($1)",
+	"abusefilter-edit-builder-vars-checkuser-client-hints-wow64": "クライアントヒント: 64 ビット版 Windows の 32 ビットブラウザか否か ($1)",
+	"abusefilter-edit-builder-vars-checkuser-is-browser": "ブラウザによる操作である可能性のスコア ($1)",
+	"abusefilter-edit-builder-vars-checkuser-ja3n": "JA3N TLS フィンガープリント（$1）",
+	"abusefilter-edit-builder-vars-checkuser-ja4h": "JA4H HTTP フィンガープリント（$1）"
 }

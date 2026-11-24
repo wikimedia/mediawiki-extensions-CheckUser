@@ -36,5 +36,11 @@
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Uporabnik $1 ni avtor redakcije $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Preslikave namigov strank za $1 $2 že obstajajo",
 	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 je prestar, da bi omogočal beleženje podatkov o nasvetih strank",
-	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} zbira podatke o namigih odjemalcev uporabniških agentov za pomoč pri moderiranju vandalizma in zlorab. Za več podrobnosti glejte https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints."
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} zbira podatke o namigih odjemalcev uporabniških agentov za pomoč pri moderiranju vandalizma in zlorab. Za več podrobnosti glejte https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints.",
+	"checkuser-rest-property-desc-active-local-blocks-all": "Skupno število aktivnih blokiranj v vseh vikijih",
+	"checkuser-rest-property-desc-past-blocks-local": "Število preteklih blokiranj v lokalnem vikiju",
+	"checkuser-rest-param-desc-temp-account-name": "Ime začasnega računa za poizvedbo",
+	"checkuser-rest-property-desc-temp-account-name-item": "Ime začasnega računa",
+	"checkuser-rest-request-property-desc-user-params": "Parametri za pridobitev IP-jev določenega začasnega uporabnika",
+	"checkuser-rest-response-desc-connected-temp-accounts": "Odgovor, ki vsebuje začsne račune, ki so urejali z istih IP-naslovov kot ciljni začasni račun"
 }
