@@ -4,7 +4,8 @@
 			"Amire80",
 			"Guycn2",
 			"Neriah",
-			"YaronSh"
+			"YaronSh",
+			"A100Star"
 		]
 	},
 	"apihelp-query+checkuser-summary": "בדיקה אילו כתובות IP משמשות שם משתמש מסוים או אילו שמות משתמש משמשות כתובת IP מסוימת.",
@@ -53,5 +54,5 @@
 	"checkuser-ip-auto-reveal-missing-permission": "אין לך את ההרשאה הנדרשת לשימוש בחשיפת IP אוטומטית.",
 	"checkuser-suggestedinvestigations-case-update-case-not-found": "מזהה תיק החקירה שסופק אינו קיים",
 	"checkuser-suggestedinvestigations-case-update-feature-not-enabled": "אפשרות החקירות המוצעות אינה מופעלת",
-	"rest-module-checkuser.v0-desc": "ממשק REST API עבור כלי CheckUser. ר' [תיעוד הרחבת CheckUser](https://www.mediawiki.org/wiki/Extension:CheckUser)."
+	"rest-module-checkuser.v0-desc": "ממשק REST API עבור כלי CheckUser. **כל ממשקי ה־REST API האלה אינם יציבים, וחלקם מיועדים לשימוש פנימי בלבד. לכן, אין לקרוא להם מתוך קוד שמחוץ להרחבת CheckUser.** למידע נוסף, ניתן לעיין ב[תיעוד הרחבת CheckUser](https://www.mediawiki.org/wiki/Help:Extension:CheckUser#APIs)."
 }
