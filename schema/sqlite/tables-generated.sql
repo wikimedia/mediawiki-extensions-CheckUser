@@ -125,7 +125,8 @@ CREATE TABLE /*_*/cu_log (
   cul_result_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_result_plaintext_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_type BLOB NOT NULL, cul_target_id INTEGER UNSIGNED DEFAULT 0 NOT NULL,
-  cul_target_text BLOB NOT NULL, cul_target_hex BLOB DEFAULT '' NOT NULL,
+  cul_target_text BLOB NOT NULL, cul_user_agent BLOB DEFAULT NULL,
+  cul_target_hex BLOB DEFAULT '' NOT NULL,
   cul_range_start BLOB DEFAULT '' NOT NULL,
   cul_range_end BLOB DEFAULT '' NOT NULL
 );
@@ -133,6 +134,8 @@ CREATE TABLE /*_*/cu_log (
 CREATE INDEX cul_actor_time ON /*_*/cu_log (cul_actor, cul_timestamp);
 
 CREATE INDEX cul_target ON /*_*/cu_log (cul_target_id, cul_timestamp);
+
+CREATE INDEX cul_user_agent_time ON /*_*/cu_log (cul_user_agent, cul_timestamp);
 
 CREATE INDEX cul_target_hex ON /*_*/cu_log (cul_target_hex, cul_timestamp);
 

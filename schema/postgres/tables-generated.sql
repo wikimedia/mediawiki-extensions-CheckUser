@@ -133,6 +133,7 @@ CREATE TABLE cu_log (
   cul_type TEXT NOT NULL,
   cul_target_id INT DEFAULT 0 NOT NULL,
   cul_target_text TEXT NOT NULL,
+  cul_user_agent TEXT DEFAULT NULL,
   cul_target_hex TEXT DEFAULT '' NOT NULL,
   cul_range_start TEXT DEFAULT '' NOT NULL,
   cul_range_end TEXT DEFAULT '' NOT NULL,
@@ -142,6 +143,8 @@ CREATE TABLE cu_log (
 CREATE INDEX cul_actor_time ON cu_log (cul_actor, cul_timestamp);
 
 CREATE INDEX cul_target ON cu_log (cul_target_id, cul_timestamp);
+
+CREATE INDEX cul_user_agent_time ON cu_log (cul_user_agent, cul_timestamp);
 
 CREATE INDEX cul_target_hex ON cu_log (cul_target_hex, cul_timestamp);
 
