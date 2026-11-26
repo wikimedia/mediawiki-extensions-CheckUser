@@ -123,7 +123,6 @@
 	"checkuser-ipeditcount": "noin $1 muokkausta kaikilta käyttäjiltä",
 	"checkuser-ipeditcount-64": "noin $1 muokkausta tämän /64-aliverkon kaikilta käyttäjiltä",
 	"checkuser-time-range": "$1 – $2",
-	"checkuser-showmain": "Siirry sivulle {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|haki}} käyttäjän {{GENDER:$7|$2}} IP-osoitteet",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|haki}} IP-osoitteen <bdi>$2</bdi> suorittamat toiminnot",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|haki}} IP-osoitteen <bdi>$2</bdi> käyttäjät",

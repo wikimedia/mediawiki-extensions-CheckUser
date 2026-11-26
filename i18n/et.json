@@ -84,7 +84,6 @@
 	"checkuser-log-search-reason-help": "Filtreeri logikanded, millel on see põhjus.",
 	"checkuser-ipeditcount": "~$1 kõigilt kasutajatelt",
 	"checkuser-time-range": "$1 – $2",
-	"checkuser-showmain": "Mine leheküljele {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|hankis}} {{GENDER:$7|kasutaja}} $2 IP-aadressid",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|hankis}} IP-aadressi <bdi>$2</bdi> sooritatud toimingud",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|hankis}} IP-aadressi <bdi>$2</bdi> kasutajad",

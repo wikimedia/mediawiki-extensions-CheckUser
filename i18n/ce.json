@@ -97,7 +97,6 @@
 	"checkuser-log-search-reason-help": "И бахьана долу журналан дӀайздаршна фильтр йе.",
 	"checkuser-ipeditcount": "~$1 массо декъашхошкара",
 	"checkuser-ipeditcount-64": "~$1 массо а декъашхочух хӀокху тӀехь /64",
-	"checkuser-showmain": "{{#special:CheckUser}} тӀе гӀо",
 	"checkuser-log-entry-userips": "{{GENDER:$7|кхуьн}} $3, $1 {{GENDER:$6|кхаьчна}} $2 IP-адресаш.",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|кхаьчна}} ардамаш кхочушдина <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3 $1 {{GENDER:$6|кхаьчна}} <bdi>$2</bdi> -на аккаунташ",

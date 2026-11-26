@@ -64,7 +64,6 @@
 	"checkuser-search-submit": "Chwilio",
 	"checkuser-log-search-target": "Targed:",
 	"checkuser-ipeditcount": "~$1 gan holl ddefnyddwyr y cyfeiriad IP",
-	"checkuser-showmain": "Mynd at brif ffurflen Archwilio Defnyddwyr",
 	"checkuser-log-entry-userips": "$3, gwelodd $1 gyfeiriadau IP $2",
 	"checkuser-log-entry-ipusers": "$3, gwelodd $1 ddefnyddwyr <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, gwelodd $1 ddefnyddwyr ar gyfer XFF <bdi>$2</bdi>",

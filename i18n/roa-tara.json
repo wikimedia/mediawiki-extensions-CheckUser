@@ -53,7 +53,6 @@
 	"checkuser-search-submit": "Cirche",
 	"checkuser-log-search-target": "Destinazione:",
 	"checkuser-ipeditcount": "~$1 da tutte l'utinde",
-	"checkuser-showmain": "Veje sus a 'u module prengepàle de CheckUser",
 	"checkuser-log-entry-userips": "$3, $1 ha pigghiate le indirizze IP pe $2",
 	"checkuser-log-entry-ipusers": "$3, $1 ha pigghiate le utinde pe <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 ha pigghiate le utinde pe XFF <bdi>$2</bdi>",

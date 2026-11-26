@@ -107,7 +107,6 @@
 	"checkuser-log-search-initiator": "Инициатор:",
 	"checkuser-log-search-reason": "Разлог:",
 	"checkuser-ipeditcount": "~$1 од свих корисника",
-	"checkuser-showmain": "Пребаци ме на {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 је {{GENDER:$6|добавио|добавила}} IP адресе {{GENDER:$7|за}} $2",
 	"checkuser-log-entry-ipactions": "$3, $1 је {{GENDER:$6|добавио|добавила}} радње извршене од стране <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 је {{GENDER:$6|добавио|добавила}} кориснике за <bdi>$2</bdi>",

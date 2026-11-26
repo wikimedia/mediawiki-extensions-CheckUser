@@ -103,7 +103,6 @@
 	"checkuser-log-search-reason-help": "Cercar le entratas de registro que ha iste motivo.",
 	"checkuser-ipeditcount": "~$1 de tote le usatores",
 	"checkuser-ipeditcount-64": "circa $1 de tote le usatores sur iste /64",
-	"checkuser-showmain": "Cambiar a {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 ha obtenite le adresses IP pro $2{{GENDER:$6|}}{{GENDER:$7|}}",
 	"checkuser-log-entry-ipactions": "$3, $1 ha obtenite actiones effectuate per <bdi>$2</bdi>{{GENDER:$6|}}",
 	"checkuser-log-entry-ipusers": "$3, $1 ha obtenite le usatores pro <bdi>$2</bdi>{{GENDER:$6|}}",

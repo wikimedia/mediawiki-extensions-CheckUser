@@ -109,7 +109,6 @@
 	"checkuser-log-search-reason-help": "Filtrar as entradas de registo que têm este motivo.",
 	"checkuser-ipeditcount": "~$1 de todos os utilizadores",
 	"checkuser-ipeditcount-64": "~$1 de todos os utilizadores deste /64",
-	"checkuser-showmain": "Mudar para {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 obteve endereços IP de $2",
 	"checkuser-log-entry-ipactions": "$3, $1 obteve as operações realizadas por <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 obteve utilizadores de <bdi>$2</bdi>",

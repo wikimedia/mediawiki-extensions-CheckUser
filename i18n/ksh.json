@@ -48,7 +48,6 @@
 	"checkuser-search": "Söhk em Logbohch vum Metmaacher-Övverwaache",
 	"checkuser-search-submit": "Lohß jonn!",
 	"checkuser-ipeditcount": "~$1 Änderonge fun alle Metmaacher",
-	"checkuser-showmain": "Zerök zom Houpfommolaa vum „Metmaacher Övverprööfe“",
 	"checkuser-log-entry-userips": "{{GENDER:$1|Dä|Dat|Dä Metmaacher|De|Dat}} „$1“ hät aam $4 öm $5 de <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräße för $2 jehollt.",
 	"checkuser-log-entry-ipusers": "{{GENDER:$1|Dä|Dat|Dä Metmaacher|De|Dat}} „$1“ hät aam $4 öm $5 de Metmaacher för <bdi>$2</bdi> jehollt.",
 	"checkuser-log-entry-ipusers-xff": "{{GENDER:$1|Dä|Dat|Dä Metmaacher|De|Dat}} „$1“ hät aam $4 öm $5 de Metmaacher för <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"X-Forwarded-For\">XFF</i> <bdi>$2</bdi> jehollt.",

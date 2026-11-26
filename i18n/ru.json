@@ -150,7 +150,6 @@
 	"checkuser-ipeditcount": "~$1 от всех участников",
 	"checkuser-ipeditcount-64": "~$1 от всех участников из этого диапазона /64",
 	"checkuser-time-range": "$1 — $2",
-	"checkuser-showmain": "Перейти к {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3 $1 {{GENDER:$6|выявил|выявила}} IP-адреса {{GENDER:$7|для}} $2",
 	"checkuser-log-entry-ipactions": "$3 $1 {{GENDER:$6|выявил|выявила}} действия, выполненные с <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3 $1 {{GENDER:$6|выявил|выявила}} учётные записи для <bdi>$2</bdi>",

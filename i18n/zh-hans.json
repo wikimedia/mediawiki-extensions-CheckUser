@@ -165,7 +165,6 @@
 	"checkuser-log-search-reason-help": "过滤具有此原因的日志项。",
 	"checkuser-ipeditcount": "~在全部用户中$1",
 	"checkuser-ipeditcount-64": "~ 来自此 /64 上的所有用户共 $1 位",
-	"checkuser-showmain": "切换到{{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3，{{GENDER:$6|$1}}取得了{{GENDER:$7|$2}}的IP地址",
 	"checkuser-log-entry-ipactions": "$3，$1{{GENDER:$6|获取}}了<bdi>$2</bdi>执行的操作",
 	"checkuser-log-entry-ipusers": "$3，$1{{GENDER:$6|获取}}了<bdi>$2</bdi>的用户信息",

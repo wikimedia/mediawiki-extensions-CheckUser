@@ -53,7 +53,6 @@
 	"checkuser-search-submit": "Zeuk",
 	"checkuser-log-search-target": "Doel:",
 	"checkuser-ipeditcount": "~$1 van alle gebroekers",
-	"checkuser-showmain": "Gank nao 't huidformeleer van CheckUser",
 	"checkuser-log-entry-userips": "$3, $1 haet IP-adresse opgevraog veur $2",
 	"checkuser-log-entry-ipusers": "$3, $1 haet gebroekers opgevraog veur <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 haet gebroekers opgevraog veur XFF <bdi>$2</bdi>",

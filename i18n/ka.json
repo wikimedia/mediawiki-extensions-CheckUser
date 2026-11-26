@@ -51,7 +51,6 @@
 	"checkuser-search": "ძიება",
 	"checkuser-search-submit": "ძიება",
 	"checkuser-ipeditcount": "~$1 ყველა მომხმარებლისგან",
-	"checkuser-showmain": "მომხმარებელთა შემოწმების გვერდზე გადასვლა",
 	"checkuser-token-fail": "სესია შეწყდა. გთხოვთ, თავიდან სცადოთ.",
 	"logentry-checkuser-private-event-autocreate-account": "ავტომატურად შეიქმნა",
 	"logentry-checkuser-private-event-create-account": "შეიქმნა"

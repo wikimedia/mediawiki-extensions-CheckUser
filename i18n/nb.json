@@ -109,7 +109,6 @@
 	"checkuser-ipeditcount": "~$1 fra alle brukere",
 	"checkuser-ipeditcount-64": "~$1 fra alle brukere i denne /64-en",
 	"checkuser-time-range": "$1–$2",
-	"checkuser-showmain": "Bytt til {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|hentet}} IP-adresser {{GENDER:$7|for}} $2",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|hentet}} handlinger utført av <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|hentet}} brukere for <bdi>$2</bdi>",

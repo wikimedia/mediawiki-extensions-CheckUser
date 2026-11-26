@@ -51,7 +51,6 @@
 	"checkuser-search-submit": "Soek",
 	"checkuser-log-search-reason": "Rede:",
 	"checkuser-ipeditcount": "~$1 van alle gebruikers",
-	"checkuser-showmain": "Terug na Check User belangrikste vorm",
 	"logentry-checkuser-private-event-autocreate-account": "is outomaties geskep",
 	"logentry-checkuser-private-event-create-account": "is geskep"
 }

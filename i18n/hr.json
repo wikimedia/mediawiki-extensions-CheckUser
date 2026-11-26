@@ -57,7 +57,6 @@
 	"checkuser-search": "Traži",
 	"checkuser-search-submit": "Traži",
 	"checkuser-ipeditcount": "~$1 od svih suradnika",
-	"checkuser-showmain": "Vrati se na stranicu za provjeru",
 	"logentry-checkuser-private-event-autocreate-account": "je automatski stvoren",
 	"logentry-checkuser-private-event-create-account": "je napravljen"
 }

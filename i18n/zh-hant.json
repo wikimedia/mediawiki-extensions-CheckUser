@@ -138,7 +138,6 @@
 	"checkuser-log-search-reason-help": "篩選具有此原因的日誌項目。",
 	"checkuser-ipeditcount": "~從全部使用者中$1",
 	"checkuser-ipeditcount-64": "~來自此/64範圍上的所有使用者共$1位",
-	"checkuser-showmain": "切換到{{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3，{{GENDER:$6|$1}}取得了{{GENDER:$7|$2}}的IP位址",
 	"checkuser-log-entry-ipactions": "$3，{{GENDER:$6|$1}}取得由<bdi>$2</bdi>執行的操作",
 	"checkuser-log-entry-ipusers": "$3，{{GENDER:$6|$1}}取得了<bdi>$2</bdi>的使用者資訊",

@@ -92,7 +92,6 @@
 	"checkuser-log-search-reason-help": "Filtrovať položky v záznamoch s týmto dôvodom.",
 	"checkuser-ipeditcount": "asi $1 zo všetkých používateľov",
 	"checkuser-ipeditcount-64": "asi $1 zo všetkých používateľov na tomto /64 rozsahu",
-	"checkuser-showmain": "Prepnúť na {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|získal|získala}} IP adresy {{GENDER:$7|používateľa|používateľky}} $2",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|získal|získala}} používateľov pre <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|získal|získala}} používateľov pre XFF <bdi>$2</bdi>",

@@ -49,7 +49,6 @@
 	"checkuser-search": "Maghanap",
 	"checkuser-search-submit": "Hanapin",
 	"checkuser-ipeditcount": "~$1 mula sa lahat ng mga tagagamit",
-	"checkuser-showmain": "Lumipat sa pangunahing pormularyo ng Suriin ang Tagagamit",
 	"logentry-checkuser-private-event-autocreate-account": "ay kusang nalikha",
 	"logentry-checkuser-private-event-create-account": "ay nalikha na",
 	"group-checkuser.css": "/* Ang inilagay na Mga Pilas ng Estilong Lumalagaslas (Cascading Style Sheets) dito ay makakaapekto lamang sa pagsisiyasat ng tagagamit */",

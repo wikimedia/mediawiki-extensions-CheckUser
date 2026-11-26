@@ -64,7 +64,6 @@
 	"checkuser-search": "Cerca les entrades de registre de comprovació d'usuari",
 	"checkuser-search-submit": "Cerca",
 	"checkuser-ipeditcount": "~$1 de tots els usuaris",
-	"checkuser-showmain": "Canvia al formulari principal de verificador de comptes d'usuari",
 	"logentry-checkuser-private-event-autocreate-account": "fou automàticament creat",
 	"logentry-checkuser-private-event-create-account": "va ser creat"
 }

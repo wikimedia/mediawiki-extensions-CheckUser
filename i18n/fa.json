@@ -123,7 +123,6 @@
 	"checkuser-ipeditcount": "~$1 از همهٔ کاربران",
 	"checkuser-ipeditcount-64": "حدود $1 کاربر از تمام کاربران در این بازهٔ /64",
 	"checkuser-time-range": "$1 -- $2",
-	"checkuser-showmain": "تغییر به {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3، $1 نشانی‌های آی‌پی $2 {{GENDER:$7|را}} {{GENDER:$6|گرفت}}",
 	"checkuser-log-entry-ipactions": "$3، $1 عمل‌های اجرا شده توسط <bdi>$2</bdi> را {{GENDER:$6|دریافت کرد}}",
 	"checkuser-log-entry-ipusers": "$3، $1 کاربرهای <bdi>$2</bdi> را {{GENDER:$6|گرفت}}",

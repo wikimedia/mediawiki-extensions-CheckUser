@@ -125,7 +125,6 @@
 	"checkuser-log-search-reason-help": "이 이유를 가진 로그 항목을 필터링합니다.",
 	"checkuser-ipeditcount": "모든 사용자로부터 편집 $1개",
 	"checkuser-ipeditcount-64": "이 /64에 있는 모든 사용자로부터 편집 $1개",
-	"checkuser-showmain": "{{#special:CheckUser}}로 전환",
 	"checkuser-log-entry-userips": "$3, $1님이 $2의 IP {{GENDER:$7|주소를}} {{GENDER:$6|조회했습니다}}",
 	"checkuser-log-entry-ipactions": "$3, $1님이 <bdi>$2</bdi> 이(가) 수행한 작업을 {{GENDER:$6|조회}}했습니다",
 	"checkuser-log-entry-ipusers": "$3, $1님이 <bdi>$2</bdi> IP를 사용한 계정을 {{GENDER:$6|조회}}했습니다",

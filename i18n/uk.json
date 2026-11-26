@@ -124,7 +124,6 @@
 	"checkuser-log-search-reason-help": "Фільтрує журнальні дії в яких вказана ця причина.",
 	"checkuser-ipeditcount": "~$1 від усіх користувачів",
 	"checkuser-ipeditcount-64": "~$1 від усіх користувачів на цьому /64",
-	"checkuser-showmain": "Перейти до {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|отримав|отримала}} IP-адреси {{GENDER:$7|для}} $2",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|отримав|отримала}} дії, здійснені <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|отримав|отримала}} користувачів для <bdi>$2</bdi>",

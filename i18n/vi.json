@@ -112,7 +112,6 @@
 	"checkuser-log-search-reason-help": "Lọc các mục nhật trình có lý do này.",
 	"checkuser-ipeditcount": "~$1 trong tất cả các thành viên",
 	"checkuser-ipeditcount-64": "~$1 từ tất cả người dùng trên /64 này",
-	"checkuser-showmain": "Chuyển sang {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|}}đã kiểm tra địa chỉ IP {{GENDER:$7|}}của $2",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|}}đã kiểm tra tác vụ thực hiện bởi <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|}}đã kiểm tra người dùng của <bdi>$2</bdi>",

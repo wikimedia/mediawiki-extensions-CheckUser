@@ -65,7 +65,6 @@
 	"checkuser-log-search-reason": "Priežastis:",
 	"checkuser-log-search-reason-help": "Filtruoti žurnalo įrašus, turinčius šią priežastį.",
 	"checkuser-ipeditcount": "~$1 iš visų vartotojų",
-	"checkuser-showmain": "Perjungti į {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 gauti $2 IP adresai",
 	"checkuser-log-entry-ipusers": "$3, $1 gavo <bdi>$2</bdi> vartotojus",
 	"checkuser-token-fail": "Sesijos klaida. Prašome bandyti dar kartą.",

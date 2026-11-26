@@ -107,7 +107,6 @@
 	"checkuser-log-search-reason": "Důvod:",
 	"checkuser-ipeditcount": "asi $1 od všech uživatelů",
 	"checkuser-ipeditcount-64": "~$1 ze všech uživatelů na tomto /64",
-	"checkuser-showmain": "Přepnout na {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 zjišťuje IP adresy uživatele $2",
 	"checkuser-log-entry-ipusers": "$3, $1 zjišťuje uživatele z <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 zjišťuje uživatele s XFF <bdi>$2</bdi>",

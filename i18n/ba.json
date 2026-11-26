@@ -57,7 +57,6 @@
 	"checkuser-search-submit": "Эҙләү",
 	"checkuser-log-search-target": "Маҡсат:",
 	"checkuser-ipeditcount": "барлыҡ ҡатнашыусыларҙан ~$1",
-	"checkuser-showmain": "{{#special:Ҡатнашыусыларҙы тикшереү битенә}} күсергә",
 	"checkuser-log-entry-userips": "$2 өсөн $3 $1 IP-адрестар алған",
 	"checkuser-log-entry-ipusers": "<bdi>$2</bdi> өсөн $3 $1 иҫәп яҙмаһы алды",
 	"checkuser-log-entry-ipusers-xff": "XFF <bdi>$2</bdi> өсөн $3 $1 иҫәп яҙмаһы алды",

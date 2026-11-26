@@ -122,7 +122,6 @@
 	"checkuser-log-search-reason-help": "Filteren op logboekvermeldingen die deze reden hebben.",
 	"checkuser-ipeditcount": "~$1 van alle gebruikers",
 	"checkuser-ipeditcount-64": "~$1 van alle gebruikers op deze /64",
-	"checkuser-showmain": "Overschakelen naar {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 heeft IP-adressen opgevraagd voor $2{{GENDER:$6|}}{{GENDER:$7|}}",
 	"checkuser-log-entry-ipactions": "$3, $1 heeft de via <bdi>$2</bdi> verrichte handelingen opgevraagd{{GENDER:$6|}}",
 	"checkuser-log-entry-ipusers": "$3, $1 heeft gebruikers opgevraagd voor <bdi>$2</bdi>{{GENDER:$6|}}",

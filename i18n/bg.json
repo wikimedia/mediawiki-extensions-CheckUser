@@ -86,7 +86,6 @@
 	"checkuser-log-search-reason": "Причина:",
 	"checkuser-log-search-reason-help": "Филтриране за записи в дневника, които имат тази причина.",
 	"checkuser-ipeditcount": "~$1 от всички потребители",
-	"checkuser-showmain": "Преминаване към {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|получи}} IP адреси {{GENDER:$7|за}} $2",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|получи}} потребители за <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$6|получи}} потребители за XFF <bdi>$2</bdi>",

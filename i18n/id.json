@@ -74,7 +74,6 @@
 	"checkuser-search-submit": "Cari",
 	"checkuser-log-search-target": "Target",
 	"checkuser-ipeditcount": "~$1 dari semua pengguna",
-	"checkuser-showmain": "Beralih ke bentuk utama Pemeriksa",
 	"checkuser-log-entry-userips": "$3, $1 mendapatkan alamat IP untuk $2",
 	"checkuser-log-entry-ipusers": "$3, $1 mendapatkan pengguna untuk <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 mendapatkan pengguna untuk XFF <bdi>$2</bdi>",

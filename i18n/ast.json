@@ -60,7 +60,6 @@
 	"checkuser-search-submit": "Buscar",
 	"checkuser-log-search-target": "Oxetivu:",
 	"checkuser-ipeditcount": "~$1 de tolos usuarios",
-	"checkuser-showmain": "Cambiar al formulariu principal del comprobador d'usuarios",
 	"checkuser-log-entry-userips": "$3, $1 recibió les direiciones IP de $2",
 	"checkuser-log-entry-ipusers": "$3, $1 recibió los usuarios de <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 recibió los usuarios de XFF <bdi>$2</bdi>",

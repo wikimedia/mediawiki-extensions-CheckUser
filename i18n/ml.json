@@ -51,7 +51,6 @@
 	"checkuser-search": "തിരയൂ",
 	"checkuser-search-submit": "തിരയൂ",
 	"checkuser-ipeditcount": "~$1എല്ലാ ഉപയോക്താക്കളിൽ നിന്നും",
-	"checkuser-showmain": "ചെക്ക് യൂസറിന്റെ പ്രധാന ഫോമിലേക്ക് മാറുക",
 	"logentry-checkuser-private-event-autocreate-account": "സ്വയം സൃഷ്ടിച്ചതാണ്",
 	"logentry-checkuser-private-event-create-account": "സൃഷ്ടിച്ചിരിക്കുന്നു"
 }

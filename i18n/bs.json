@@ -50,7 +50,6 @@
 	"checkuser-search": "Pretraži unose u zapisniku provjeravača",
 	"checkuser-search-submit": "Traži",
 	"checkuser-ipeditcount": "~$1 od svih korisnika",
-	"checkuser-showmain": "Prebaci na glavni obrazac provjeravača",
 	"logentry-checkuser-private-event-autocreate-account": "je automatski napravljen",
 	"logentry-checkuser-private-event-create-account": "je napravljen"
 }

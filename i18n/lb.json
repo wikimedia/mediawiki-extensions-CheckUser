@@ -95,7 +95,6 @@
 	"checkuser-log-search-target": "Zil:",
 	"checkuser-log-search-reason": "Grond:",
 	"checkuser-ipeditcount": "~$1 vun alle Benotzer",
-	"checkuser-showmain": "Op {{#special:CheckUser}} wiesselen",
 	"checkuser-log-entry-userips": "$3, $1 huet d'IP-Adresse fir $2 kritt",
 	"checkuser-log-entry-ipusers": "$3, $1 huet d'Benotzer fir <bdi>$2</bdi> kritt",
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert wgl. nach eng Kéier.",

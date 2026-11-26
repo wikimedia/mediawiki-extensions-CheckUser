@@ -122,7 +122,6 @@
 	"checkuser-log-search-reason-help": "Filtrera loggposter som har denna anledning.",
 	"checkuser-ipeditcount": "~$1 från alla användare",
 	"checkuser-ipeditcount-64": "~$1 från alla användare på denna /64",
-	"checkuser-showmain": "Växla till {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|fick}} IP-adresser {{GENDER:$7| för}} $2",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|fick}} åtgärder utförda av<bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|fick}} användare för<bdi>$2</bdi>",

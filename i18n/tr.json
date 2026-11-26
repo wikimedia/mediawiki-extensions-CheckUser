@@ -120,7 +120,6 @@
 	"checkuser-log-search-reason-help": "Bu nedenle olan günlük girişlerini filtreleyin.",
 	"checkuser-ipeditcount": "tüm kullanıcılardan ~$1",
 	"checkuser-ipeditcount-64": "/64'teki tüm kullanıcılardan ~$1",
-	"checkuser-showmain": "{{#special:CheckUser}} sayfasına geç",
 	"checkuser-log-entry-userips": "$3, $1 IP adreslerini {{GENDER:$6|aldı}}: {{GENDER:$7|$2}}",
 	"checkuser-log-entry-ipactions": "$3, $1 <bdi>$2</bdi> tarafından {{GENDER:$6|gerçekleştirilen}} işlemleri aldı",
 	"checkuser-log-entry-ipusers": "$3, $1 kullanıcı isimlerini {{GENDER:$6|aldı}}: <bdi>$2</bdi>",

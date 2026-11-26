@@ -104,7 +104,6 @@
 	"checkuser-log-search-reason-help": "Sifee diiwaannada leh sababtan.",
 	"checkuser-ipeditcount": "~$1 dhammaan isticmaalayaasha",
 	"checkuser-ipeditcount-64": "~$1 dhammaan isticmaalayaasha ku jira /64",
-	"checkuser-showmain": "U beddel {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|helay}} ciwaannada IP-ga {{GENDER:$7|ee}} $2",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|helay}} ficillo uu sameeyay <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|helay}} isticmaalayaal ee <bdi>$2</bdi>",

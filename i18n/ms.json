@@ -108,7 +108,6 @@
 	"checkuser-log-search-reason-help": "Tapis entri log yang mempunyai sebab ini.",
 	"checkuser-ipeditcount": "~$1 daripada semua pengguna",
 	"checkuser-ipeditcount-64": "~$1 daripada semua pengguna pada julat IP /64 ini",
-	"checkuser-showmain": "Tukar kepada {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3 , $1 telah {{GENDER:$6|mendapat}} maklumat alamat IP {{GENDER:$7|untuk}} $2",
 	"checkuser-log-entry-ipactions": "$3 , $1 telah {{GENDER:$6|mendapat}} maklumat tindakan yang dilakukan oleh <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3 , $1 telah {{GENDER:$6|mendapat}} maklumat pengguna untuk <bdi>$2</bdi>",

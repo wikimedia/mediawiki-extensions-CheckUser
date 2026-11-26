@@ -162,7 +162,6 @@
 	"checkuser-ipeditcount": "~$1 par tous les utilisateurs",
 	"checkuser-ipeditcount-64": "environ $1 de tous les utilisateurs sur ce bloc /64",
 	"checkuser-time-range": "$1 -- $2",
-	"checkuser-showmain": "Basculer vers {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 a {{GENDER:$6|obtenu}} des adresses IP {{GENDER:$7|pour}} $2",
 	"checkuser-log-entry-ipactions": "$3, $1 a {{GENDER:$6|obtenu}} les actions effectuées par <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 a {{GENDER:$6|obtenu}} des utilisateurs pour <bdi>$2</bdi>",

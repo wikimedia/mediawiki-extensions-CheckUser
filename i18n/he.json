@@ -113,7 +113,6 @@
 	"checkuser-log-search-reason-help": "סינון פריטי יומן עם הסיבה הזאת.",
 	"checkuser-ipeditcount": "בערך $1 מכל המשתמשים",
 	"checkuser-ipeditcount-64": "בערך $1 מכל המשתמשים ב־‎/64 הזה",
-	"checkuser-showmain": "מעבר לדף {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, {{GENDER:$6|משתמש $1 קיבל|משתמשת $1 קיבלה}} כתובות IP {{GENDER:$7|עבור}} $2",
 	"checkuser-log-entry-ipactions": "$3, {{GENDER:$6|משתמש $1 קיבל|משתמשת $1 קיבלה}} פעולות שבוצעו על־ידי <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, {{GENDER:$6|משתמש $1 קיבל|משתמשת $1 קיבלה}} משתמשים עבור <bdi>$2</bdi>",

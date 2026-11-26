@@ -46,7 +46,6 @@
 	"checkuser-search": "ស្វែងរក",
 	"checkuser-search-submit": "ស្វែងរក",
 	"checkuser-ipeditcount": "~$1 ពីគ្រប់អ្នកប្រើប្រាស់ទាំងអស់",
-	"checkuser-showmain": "ត្រឡប់ទៅកាន់បែបបទដើមនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់",
 	"logentry-checkuser-private-event-autocreate-account": "ត្រូវបានបង្កើតដោយស្វ័យប្រវត្តិ",
 	"logentry-checkuser-private-event-create-account": "បានបង្កើត"
 }

@@ -127,7 +127,6 @@
 	"checkuser-log-search-reason-help": "Filtert nach Logbucheinträgen, die diesen Grund haben.",
 	"checkuser-ipeditcount": "~ $1 von allen Benutzern",
 	"checkuser-ipeditcount-64": "~ $1 von allen Benutzern auf diesem /64",
-	"checkuser-showmain": "Zu {{#special:CheckUser}} wechseln",
 	"checkuser-log-entry-userips": "$1 {{GENDER:$6|rief}} am $3 die IP-Adressen für {{GENDER:$7|$2}} ab",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|rief}} von <bdi>$2</bdi> ausgeführte Aktionen ab",
 	"checkuser-log-entry-ipusers": "$1 {{GENDER:$6|rief}} am $3 die Benutzer für <bdi>$2</bdi> ab",

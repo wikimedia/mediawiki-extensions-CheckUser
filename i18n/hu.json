@@ -88,7 +88,6 @@
 	"checkuser-log-search-target": "Cél:",
 	"checkuser-ipeditcount": "~$1 az összes szerkesztő által",
 	"checkuser-time-range": "$1 – $2",
-	"checkuser-showmain": "Váltás a fő IP-ellenőri űrlapra",
 	"checkuser-log-entry-userips": "$3; {{GENDER:$6|$1}} lekérte {{GENDER:$7|$2}} IP-címeit",
 	"checkuser-log-entry-ipusers": "$3; $1 {{GENDER:$6|lekérte}} a(z) <bdi>$2</bdi> IP-címet használók neveit",
 	"checkuser-log-entry-ipusers-xff": "$3; $1 {{GENDER:$6|lekérte}} az XFF <bdi>$2</bdi> IP-címet használók neveit",

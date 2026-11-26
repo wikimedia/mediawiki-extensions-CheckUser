@@ -111,7 +111,6 @@
 	"checkuser-log-search-reason-help": "Filtrar as entradas do rexistro que teñan este motivo.",
 	"checkuser-ipeditcount": "~$1 de todos os usuarios",
 	"checkuser-ipeditcount-64": "~$1 de todos os usuarios neste /64",
-	"checkuser-showmain": "Cambiar a {{#special:CheckUser}}",
 	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$6|obtivo}} os enderezos IP {{GENDER:$7|de}} $2",
 	"checkuser-log-entry-ipactions": "$3, $1 {{GENDER:$6|obtivo}} as accións realizadas por <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$6|obtivo}} os usuarios de <bdi>$2</bdi>",

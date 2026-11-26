@@ -149,7 +149,6 @@
 	"checkuser-log-search-reason-help": "この理由と合致する記録項目に絞り込み",
 	"checkuser-ipeditcount": "全利用者による編集 ～$1回",
 	"checkuser-ipeditcount-64": "/64レンジの全利用者による編集 ～$1回",
-	"checkuser-showmain": "{{#special:CheckUser}}に切り替え",
 	"checkuser-log-entry-userips": "$3 $1 は $2 が{{GENDER:$7|使用した}}IPアドレスを{{GENDER:$6|取得}}",
 	"checkuser-log-entry-ipactions": "$3 $1 は <bdi>$2</bdi> が行った操作を{{GENDER:$6|取得}}",
 	"checkuser-log-entry-ipusers": "$3 $1 は <bdi>$2</bdi> から編集を行った利用者を{{GENDER:$6|取得}}",

@@ -78,7 +78,6 @@
 	"checkuser-log-search-target": "เป้าหมาย:",
 	"checkuser-log-search-reason": "เหตุผล:",
 	"checkuser-ipeditcount": "~$1 จากผู้ใช้ทั้งหมด",
-	"checkuser-showmain": "สลับไปยัง{{#special:ตรวจสอบผู้ใช้}}",
 	"checkuser-log-entry-userips": "$3, $1 ได้รับหมายเลขไอพีจาก $2",
 	"checkuser-log-entry-ipusers": "$3, $1 ได้รับชื่อผู้ใช้จาก <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 ได้รับรายชื่อผู้ใช้จาก XFF <bdi>$2</bdi>",

@@ -48,7 +48,6 @@
 	"checkuser-search": "Recercar las entradas de jornal de verificacion utilizaire",
 	"checkuser-search-submit": "Recercar",
 	"checkuser-ipeditcount": "~$1 per totes los utilizaires",
-	"checkuser-showmain": "Bascuolar cap al formulari principal del verificator d'utilizaire",
 	"logentry-checkuser-private-event-autocreate-account": "es estat creat automaticament",
 	"logentry-checkuser-private-event-create-account": "es estat creat"
 }

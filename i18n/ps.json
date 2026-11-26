@@ -94,7 +94,6 @@
 	"checkuser-log-search-reason": "لامل:",
 	"checkuser-log-search-reason-help": "د دې لامل لرونکو ننوتنو يادښت لپاره چاڼگر.",
 	"checkuser-ipeditcount": "~$1 د ټولو کارنانو نه",
-	"checkuser-showmain": "{{#special:CheckUser}} ته ورتلل",
 	"prefs-checkuser": "سم‌کتونکی‌کارن",
 	"checkuser-helper-label": "پايلې په لښتيال کې وگورئ",
 	"checkuser-helper-copy-success": "ولمېسل‌شو",

@@ -44,7 +44,6 @@
 	"checkuser-search-submit": "Serchar",
 	"checkuser-log-search-target": "Cible:",
 	"checkuser-ipeditcount": "~$1 de omni usatores",
-	"checkuser-showmain": "Comutar por formul principal de Verification de usatores",
 	"checkuser-log-entry-userips": "$3, $1 obtenet adresses de IP por $2",
 	"checkuser-log-entry-ipusers": "$3, $1 obtenet usatores por <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 obtenet usatores por XFF <bdi>$2</bdi>",

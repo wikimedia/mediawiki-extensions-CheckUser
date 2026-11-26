@@ -61,7 +61,6 @@
 	"checkuser-search": "Caută înregistrări din jurnalul check user",
 	"checkuser-search-submit": "Caută",
 	"checkuser-ipeditcount": "~$1 de la toți utilizatorii",
-	"checkuser-showmain": "Comută la {{#special:CheckUser}}",
 	"logentry-checkuser-private-event-autocreate-account": "a fost creat automat",
 	"logentry-checkuser-private-event-create-account": "a fost creat"
 }

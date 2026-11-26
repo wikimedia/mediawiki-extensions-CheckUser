@@ -71,7 +71,6 @@
 	"checkuser-search": "Klask en enmontoù marilh gwiriañ implijerien",
 	"checkuser-search-submit": "Klask",
 	"checkuser-ipeditcount": "~$1 gant an holl implijerien",
-	"checkuser-showmain": "Mont da {{#special:CheckUser}}",
 	"logentry-checkuser-private-event-autocreate-account": "zo bet krouet ent emgefre",
 	"logentry-checkuser-private-event-create-account": "zo bet krouet",
 	"checkuser-rest-access-denied": "N'hoc'h ket aotreet da seveniñ an ober",

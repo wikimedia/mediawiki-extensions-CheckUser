@@ -43,7 +43,6 @@
 	"checkuser-search": "تدوير",
 	"checkuser-search-submit": "تدوير",
 	"checkuser-ipeditcount": "~$1 من كل اليوزرز",
-	"checkuser-showmain": "التبديل إلى {{#special:CheckUser}}",
 	"logentry-checkuser-private-event-autocreate-account": "ابتدا اوتوماتيكى",
 	"logentry-checkuser-private-event-create-account": "أنشأ"
 }
