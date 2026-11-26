@@ -15,6 +15,7 @@
 	"checkuser-suggestedinvestigations": "Suggested investigations",
 	"checkuser-suggestedinvestigations-abuse-review-hits-link-text": "$1 AbuseReview {{PLURAL:$1|hit|hits}}",
 	"checkuser-suggestedinvestigations-autoclose-reason": "Automatically closed as all accounts are blocked or locked",
+	"checkuser-suggestedinvestigations-date-created": "Created: $1",
 	"checkuser-suggestedinvestigations-detail-view": "{{int:checkuser-suggestedinvestigations}}: case #$1",
 	"checkuser-suggestedinvestigations-detail-view-not-found": "{{int:checkuser-suggestedinvestigations}}: case not found",
 	"checkuser-suggestedinvestigations-detail-view-not-found-page-text": "No case could be found with the URL identifier \"$1\".",

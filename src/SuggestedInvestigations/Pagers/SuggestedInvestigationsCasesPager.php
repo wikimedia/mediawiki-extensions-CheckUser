@@ -462,6 +462,14 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 
 		$signalsHtml = Html::rawElement( 'strong', [], $this->getLanguage()->commaList( $signalLabels ) );
 
+		$createdDateHtml = Html::rawElement(
+			'div',
+			[ 'class' => 'mw-checkuser-suggestedinvestigations-created-date' ],
+			$this->msg( 'checkuser-suggestedinvestigations-date-created' )
+				->params( $this->createUserReadableTimestamp( $this->mCurrentRow->sic_created_timestamp ) )
+				->parse()
+		);
+
 		$metadataLine = '';
 		/** @var SuggestedInvestigationsCaseMetadata[] $metadata */
 		$metadata = $this->mCurrentRow->metadata;
@@ -498,7 +506,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 		// In the detail view (when the case ID filter is set),
 		// don't show the link as it would point to the current page.
 		if ( $this->caseIdFilter ) {
-			return $signalsHtml . $metadataLine;
+			return $signalsHtml . $createdDateHtml . $metadataLine;
 		}
 
 		$detailViewLink = Html::rawElement(
@@ -510,7 +518,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			)
 		);
 
-		return $signalsHtml . $metadataLine . $detailViewLink;
+		return $signalsHtml . $createdDateHtml . $metadataLine . $detailViewLink;
 	}
 
 	private function getSignalDisplayNameForSignal( string $signal ): string {
@@ -524,6 +532,10 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 	}
 
 	private function formatTimestampCell( string $timestamp ): string {
+		return $this->createUserReadableTimestamp( $timestamp );
+	}
+
+	private function createUserReadableTimestamp( string $timestamp ): string {
 		$lang = $this->getLanguage();
 		$user = $this->getContext()->getUser();
 
@@ -888,6 +900,7 @@ class SuggestedInvestigationsCasesPager extends CodexTablePager {
 			'fields' => [
 				'sic_id',
 				'sic_status',
+				'sic_created_timestamp',
 				'sic_updated_timestamp',
 				'sic_status_reason',
 				'sic_url_identifier',

@@ -72,6 +72,7 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 	}
 
 	public function testQuery(): void {
+		ConvertibleTimestamp::setFakeTime( '20250403020100' );
 		$caseId = $this->addCaseWithTwoUsers();
 		$pager = $this->getPager( RequestContext::getMain() );
 
@@ -94,6 +95,8 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			[ self::SIGNAL ],
 			$row->signals,
 		);
+		$this->assertSame( '20250403020100', $row->sic_created_timestamp );
+		$this->assertSame( '20250403020100', $row->sic_updated_timestamp );
 	}
 
 	/** @dataProvider provideFormatStatusReasonCellPerformerLink */
@@ -222,6 +225,18 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertEquals( 'open', $changeStatusButton->getAttribute( 'data-case-status' ) );
 		$this->assertSame( '', $changeStatusButton->getAttribute( 'data-case-status-reason' ) );
 		$this->assertEquals( self::SIGNAL, $changeStatusButton->getAttribute( 'data-case-signals' ) );
+
+		$createdDateCell = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'.mw-checkuser-suggestedinvestigations-created-date',
+			true
+		);
+		$this->assertStringContainsString( '(checkuser-suggestedinvestigations-date-created:', $createdDateCell );
+		$this->assertStringContainsString(
+			$context->getLanguage()->userTimeAndDate( '20250403020100', $context->getUser() ),
+			$createdDateCell,
+			'The case creation timestamp is not present in the table row for the case'
+		);
 
 		// Validate the "View case details" link is shown in the signals cell and points to the detail view
 		$urlIdentifier = $this->getCaseURLIdentifier( $caseId );
@@ -525,6 +540,17 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 			$data->sic_created_timestamp,
 			$data->sic_updated_timestamp,
 		);
+		// Validate the created date in the signals cell still shows the created date and not the update date
+		$createdDateCell = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'.mw-checkuser-suggestedinvestigations-created-date',
+			true
+		);
+		$this->assertStringContainsString(
+			$context->getLanguage()->userTimeAndDate( '20250403020100', $context->getUser() ),
+			$createdDateCell,
+			'The case creation timestamp is not present in the table row for the case'
+		);
 	}
 
 	/** @dataProvider provideSignalNameForVaryingSignalsArray */
@@ -598,13 +624,31 @@ class SuggestedInvestigationsCasesPagerTest extends MediaWikiIntegrationTestCase
 		$this->assertStringNotContainsString( 'cdx-table__table__cell--has-sort', $html );
 
 		// No link to the detail view should be present when on that detail view page, but the
-		// case creation timestamp should still be shown
+		// case creation and update timestamp should still be shown
 		$this->assertStringNotContainsString( 'Special:SuggestedInvestigations/detail/', $html );
 
 		$context = RequestContext::getMain();
+		$htmlDoc = DOMUtils::parseHTML( $html );
+		// Case update timestamp
+		$updatedDateCell = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'tbody .cdx-table-pager__col--sic_updated_timestamp',
+			true
+		);
 		$this->assertStringContainsString(
 			$context->getLanguage()->userTimeAndDate( '20250403020100', $context->getUser() ),
-			$html,
+			$updatedDateCell,
+			'The case update timestamp is not present in the table row for the case'
+		);
+		// Case creation timestamp
+		$createdDateCell = $this->assertSelectorMatchesOneElementInNode(
+			$htmlDoc,
+			'.mw-checkuser-suggestedinvestigations-created-date',
+			true
+		);
+		$this->assertStringContainsString(
+			$context->getLanguage()->userTimeAndDate( '20250403020100', $context->getUser() ),
+			$createdDateCell,
 			'The case creation timestamp is not present in the table row for the case'
 		);
 
