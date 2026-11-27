@@ -95,7 +95,7 @@
 	"checkuser-ip-contributions-tab-label-archive-contributions": "已刪除的貢獻",
 	"checkuser-ip-contributions-search-form-wrapper": "搜尋 IP 貢獻",
 	"checkuser-ip-contributions-results-title": "$1的臨時使用者IP貢獻",
-	"checkuser-ip-contributions-archive-results-title": "刪除$1的臨時使用者IP貢獻",
+	"checkuser-ip-contributions-archive-results-title": "$1的已刪除臨時使用者IP貢獻",
 	"checkuser-ip-contributions-deleted-contributions-link": "已刪除使用者貢獻",
 	"checkuser-ip-contributions-contributions-link": "貢獻",
 	"checkuser-ip-contributions-special-ip-contributions-button": "臨時使用者IP編輯",
